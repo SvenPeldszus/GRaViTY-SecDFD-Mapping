@@ -1,0 +1,1414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activities="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//activities" xmlns:callExpressions="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//calls/callExpressions" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:expressions="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//expressions" xmlns:org.moflon.tgg.language="platform:/plugin/org.moflon.tgg.language/model/Language.ecore" xmlns:patternExpressions="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns/patternExpressions" name="secdfd" nsURI="platform:/plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore" nsPrefix="org.gravity.mapping.secdfd">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+    <details key="basePackage" value="org.gravity.mapping"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="Type2GraphAsset">
+    <eSuperTypes href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1">
+      <eType xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TAbstractType"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1">
+      <eType xsi:type="ecore:EClass" href="platform:/resource/Graph/model/graph.ecore#//GraphAsset"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Method2Node">
+    <eSuperTypes href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1">
+      <eType xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TMethod"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1">
+      <eType xsi:type="ecore:EClass" href="platform:/resource/Graph/model/graph.ecore#//Node"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TypeGraph2Graph">
+    <eSuperTypes href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1">
+      <eType xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TypeGraph"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1">
+      <eType xsi:type="ecore:EClass" href="platform:/resource/Graph/model/graph.ecore#//Graph"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Defintion2Node">
+    <eSuperTypes href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1">
+      <eType xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TMethodDefinition"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1">
+      <eType xsi:type="ecore:EClass" href="platform:/resource/Graph/model/graph.ecore#//Node"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eSubpackages name="Rules" nsURI="platform:/plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore#//Rules" nsPrefix="Rules">
+    <eClassifiers xsi:type="ecore:EClass" name="TypeGraph2Graph">
+      <eSuperTypes href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractRule"/>
+      <eOperations xsi:type="activities:MoflonEOperation" name="isAppropriate_FWD">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eParameters name="match">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+        </eParameters>
+        <eParameters name="pm">
+          <eType xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TypeGraph"/>
+        </eParameters>
+        <activity>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.5" target="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.0" guard="SUCCESS"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.1" target="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.3"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.4" target="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.7"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.7" target="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.5"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.0" target="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.6"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.2" target="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.4"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.5" target="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.8" guard="FAILURE"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.6" target="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.1"/>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="collect elements to be translated" outgoing="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityEdge.4" incoming="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityEdge.0">
+            <storyPattern>
+              <objectVariable name="match" outgoingLink="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.0/@storyPattern/@linkVariable.0" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+              </objectVariable>
+              <objectVariable name="pm" incomingLink="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.0/@storyPattern/@linkVariable.0" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TypeGraph"/>
+              </objectVariable>
+              <linkVariable name="toBeTranslatedNodes" target="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.1" source="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.0" bindingOperator="CREATE"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StatementNode" name="register objects to match" outgoing="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityEdge.1" incoming="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityEdge.7">
+            <statementExpression xsi:type="callExpressions:MethodCallExpression" callee="//Rules/TypeGraph2Graph/registerObjectsToMatch_FWD">
+              <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/registerObjectsToMatch_FWD/match">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.1"/>
+              </ownedParameterBindings>
+              <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/registerObjectsToMatch_FWD/pm">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.2"/>
+              </ownedParameterBindings>
+              <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.0"/>
+            </statementExpression>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StartNode" outgoing="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityEdge.5"/>
+          <ownedActivityNode xsi:type="activities:StopNode" incoming="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityEdge.1">
+            <returnValue xsi:type="expressions:LiteralExpression" value="true"/>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="initial bindings" outgoing="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityEdge.2" incoming="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityEdge.5">
+            <storyPattern>
+              <objectVariable type="//Rules/TypeGraph2Graph" name="this" bindingState="BOUND"/>
+              <objectVariable name="match" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+              </objectVariable>
+              <objectVariable name="pm" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TypeGraph"/>
+              </objectVariable>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StatementNode" name="Check CSP" outgoing="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityEdge.0 //Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityEdge.6" incoming="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityEdge.3">
+            <statementExpression xsi:type="callExpressions:MethodCallExpression" callee="//Rules/TypeGraph2Graph/isAppropriate_checkCsp_FWD">
+              <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/isAppropriate_checkCsp_FWD/csp">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.7/@storyPattern/@objectVariable.0"/>
+              </ownedParameterBindings>
+              <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.0"/>
+            </statementExpression>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="collect context elements" outgoing="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityEdge.7" incoming="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityEdge.4">
+            <storyPattern>
+              <objectVariable name="match" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+              </objectVariable>
+              <objectVariable name="pm" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TypeGraph"/>
+              </objectVariable>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="Solve CSP" outgoing="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityEdge.3" incoming="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityEdge.2">
+            <storyPattern>
+              <objectVariable name="csp" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp/CSP"/>
+                <bindingExpression xsi:type="callExpressions:MethodCallExpression" callee="//Rules/TypeGraph2Graph/isAppropriate_solveCsp_FWD">
+                  <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/isAppropriate_solveCsp_FWD/match">
+                    <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.1"/>
+                  </ownedParameterBindings>
+                  <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/isAppropriate_solveCsp_FWD/pm">
+                    <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.2"/>
+                  </ownedParameterBindings>
+                  <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.0"/>
+                </bindingExpression>
+              </objectVariable>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StopNode" incoming="//Rules/TypeGraph2Graph/isAppropriate_FWD/@activity/@ownedActivityEdge.6">
+            <returnValue xsi:type="expressions:LiteralExpression" value="false"/>
+          </ownedActivityNode>
+        </activity>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="perform_FWD">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//PerformRuleResult"/>
+        <eParameters name="isApplicableMatch">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//IsApplicableMatch"/>
+        </eParameters>
+        <activity>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.2" target="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.0"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.3" target="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.6"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.6" target="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.5"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.1" target="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.2"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.5" target="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4" target="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.1"/>
+          <ownedActivityNode xsi:type="activities:StopNode" incoming="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityEdge.0">
+            <returnValue xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.0"/>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StatementNode" name="perform postprocessing" outgoing="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityEdge.3" incoming="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityEdge.5">
+            <statementExpression xsi:type="expressions:LiteralExpression" value="// No post processing method found"/>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StatementNode" name="register objects" outgoing="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityEdge.0" incoming="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityEdge.3">
+            <statementExpression xsi:type="callExpressions:MethodCallExpression" callee="//Rules/TypeGraph2Graph/registerObjects_FWD">
+              <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/registerObjects_FWD/ruleresult">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.0"/>
+              </ownedParameterBindings>
+              <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/registerObjects_FWD/graph">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.1"/>
+              </ownedParameterBindings>
+              <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/registerObjects_FWD/pm2Graph">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.2"/>
+              </ownedParameterBindings>
+              <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/registerObjects_FWD/pm">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.3"/>
+              </ownedParameterBindings>
+              <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.4"/>
+            </statementExpression>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StartNode" outgoing="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityEdge.1"/>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="bookkeeping for edges" outgoing="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityEdge.5" incoming="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityEdge.4">
+            <storyPattern>
+              <objectVariable name="ruleresult" outgoingLink="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.2 //Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.5" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//PerformRuleResult"/>
+                <attributeAssignment>
+                  <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;TypeGraph2Graph&quot;"/>
+                  <attribute href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//TGGRuleMorphism/ruleName"/>
+                </attributeAssignment>
+              </objectVariable>
+              <objectVariable name="graph" incomingLink="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.4" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+              </objectVariable>
+              <objectVariable name="pm2Graph" incomingLink="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.0 //Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.3" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+              </objectVariable>
+              <objectVariable name="pm" incomingLink="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.1" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+              </objectVariable>
+              <objectVariable name="pm2Graph__pm____source" incomingLink="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.2" outgoingLink="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.0 //Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.1" bindingOperator="CREATE">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//EMoflonEdge"/>
+                <attributeAssignment>
+                  <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;source&quot;"/>
+                  <attribute href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//EMoflonEdge/name"/>
+                </attributeAssignment>
+              </objectVariable>
+              <objectVariable name="pm2Graph__graph____target" incomingLink="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.5" outgoingLink="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.3 //Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.4" bindingOperator="CREATE">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//EMoflonEdge"/>
+                <attributeAssignment>
+                  <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;target&quot;"/>
+                  <attribute href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//EMoflonEdge/name"/>
+                </attributeAssignment>
+              </objectVariable>
+              <linkVariable name="src" target="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.2" source="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.4" bindingOperator="CREATE"/>
+              <linkVariable name="trg" target="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.3" source="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.4" bindingOperator="CREATE"/>
+              <linkVariable name="createdEdges" target="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.4" source="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.0" bindingOperator="CREATE"/>
+              <linkVariable name="src" target="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.2" source="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.5" bindingOperator="CREATE"/>
+              <linkVariable name="trg" target="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.1" source="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.5" bindingOperator="CREATE"/>
+              <linkVariable name="createdEdges" target="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.5" source="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.0" bindingOperator="CREATE"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="collect translated elements" outgoing="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityEdge.4" incoming="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityEdge.2">
+            <storyPattern>
+              <objectVariable name="ruleresult" outgoingLink="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.5/@storyPattern/@linkVariable.0 //Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.5/@storyPattern/@linkVariable.1 //Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.5/@storyPattern/@linkVariable.2" bindingOperator="CREATE">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//PerformRuleResult"/>
+              </objectVariable>
+              <objectVariable name="graph" incomingLink="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.5/@storyPattern/@linkVariable.0" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/resource/Graph/model/graph.ecore#//Graph"/>
+              </objectVariable>
+              <objectVariable type="//TypeGraph2Graph" name="pm2Graph" incomingLink="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.5/@storyPattern/@linkVariable.1" bindingState="BOUND"/>
+              <objectVariable name="pm" incomingLink="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.5/@storyPattern/@linkVariable.2" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TypeGraph"/>
+              </objectVariable>
+              <linkVariable name="createdElements" target="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.1" source="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.0" bindingOperator="CREATE"/>
+              <linkVariable name="createdLinkElements" target="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.2" source="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.0" bindingOperator="CREATE"/>
+              <linkVariable name="translatedElements" target="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.3" source="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.0" bindingOperator="CREATE"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="perform transformation" outgoing="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityEdge.2" incoming="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityEdge.1">
+            <storyPattern xsi:type="org.moflon.tgg.language:TGGRule" name="TypeGraph2Graph">
+              <objectVariable xsi:type="org.moflon.tgg.language:TGGObjectVariable" name="graph" incomingLink="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.1" bindingOperator="CREATE">
+                <type xsi:type="ecore:EClass" href="platform:/resource/Graph/model/graph.ecore#//Graph"/>
+                <domain href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.0"/>
+              </objectVariable>
+              <objectVariable xsi:type="org.moflon.tgg.language:TGGObjectVariable" type="//TypeGraph2Graph" name="pm2Graph" outgoingLink="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.0 //Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.1" bindingOperator="CREATE">
+                <domain href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.2"/>
+              </objectVariable>
+              <objectVariable xsi:type="org.moflon.tgg.language:TGGObjectVariable" name="pm" incomingLink="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.0" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TypeGraph"/>
+                <bindingExpression xsi:type="callExpressions:MethodCallExpression">
+                  <ownedParameterBindings>
+                    <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;pm&quot;"/>
+                    <parameter href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//TGGRuleMorphism/getObject/name"/>
+                  </ownedParameterBindings>
+                  <callee href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//TGGRuleMorphism/getObject"/>
+                  <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.5"/>
+                </bindingExpression>
+                <domain href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.1"/>
+              </objectVariable>
+              <objectVariable name="csp" incomingLink="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.2">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp/CSP"/>
+              </objectVariable>
+              <objectVariable type="//Rules/TypeGraph2Graph" name="this" bindingState="BOUND"/>
+              <objectVariable name="isApplicableMatch" outgoingLink="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.2" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//IsApplicableMatch"/>
+              </objectVariable>
+              <linkVariable xsi:type="org.moflon.tgg.language:TGGLinkVariable" name="source" target="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.2" source="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.1" bindingOperator="CREATE">
+                <domain href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.2"/>
+              </linkVariable>
+              <linkVariable xsi:type="org.moflon.tgg.language:TGGLinkVariable" name="target" target="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.0" source="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.1" bindingOperator="CREATE">
+                <domain href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.2"/>
+              </linkVariable>
+              <linkVariable name="attributeInfo" target="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.3" source="//Rules/TypeGraph2Graph/perform_FWD/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.5"/>
+              <correspondence href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.2"/>
+              <source href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.1"/>
+              <csp>
+                <forward/>
+                <simultaneous/>
+                <backward/>
+                <source/>
+                <target/>
+              </csp>
+              <target href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.0"/>
+            </storyPattern>
+          </ownedActivityNode>
+        </activity>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="isApplicable_FWD">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//IsApplicableRuleResult"/>
+        <eParameters name="match">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+        </eParameters>
+        <activity>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.1" target="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.5"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.3" target="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.2" guard="SUCCESS"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.7" target="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.4" guard="END"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.4" target="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.7" guard="EACH_TIME"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.7" target="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.0" guard="EACH_TIME"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.3" target="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.7" guard="FAILURE"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.4" target="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.6" guard="END"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.0" target="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.3"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.5" target="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.4"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.2" target="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.7"/>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="solve CSP" outgoing="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityEdge.7" incoming="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityEdge.4">
+            <storyPattern>
+              <objectVariable name="csp" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp/CSP"/>
+                <bindingExpression xsi:type="callExpressions:MethodCallExpression" callee="//Rules/TypeGraph2Graph/isApplicable_solveCsp_FWD">
+                  <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/isApplicable_solveCsp_FWD/isApplicableMatch">
+                    <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.7/@storyPattern/@objectVariable.1"/>
+                  </ownedParameterBindings>
+                  <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/isApplicable_solveCsp_FWD/pm">
+                    <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.7/@storyPattern/@objectVariable.0"/>
+                  </ownedParameterBindings>
+                  <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.2"/>
+                </bindingExpression>
+              </objectVariable>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StartNode" outgoing="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityEdge.0"/>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="add match to rule result" outgoing="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityEdge.9" incoming="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityEdge.1">
+            <storyPattern>
+              <objectVariable name="ruleresult" outgoingLink="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.0" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//IsApplicableRuleResult"/>
+                <attributeAssignment>
+                  <valueExpression xsi:type="expressions:LiteralExpression" value="true"/>
+                  <attribute href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//RuleResult/success"/>
+                </attributeAssignment>
+              </objectVariable>
+              <objectVariable name="isApplicableMatch" incomingLink="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.0" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//IsApplicableMatch"/>
+                <attributeAssignment>
+                  <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;TypeGraph2Graph&quot;"/>
+                  <attribute href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//TGGRuleMorphism/ruleName"/>
+                </attributeAssignment>
+              </objectVariable>
+              <linkVariable name="isApplicableMatch" target="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.1" source="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.0" bindingOperator="CREATE"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StatementNode" name="check CSP" outgoing="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityEdge.1 //Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityEdge.5" incoming="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityEdge.7">
+            <statementExpression xsi:type="callExpressions:MethodCallExpression" callee="//Rules/TypeGraph2Graph/isApplicable_checkCsp_FWD">
+              <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/isApplicable_checkCsp_FWD/csp">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.0"/>
+              </ownedParameterBindings>
+              <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.2"/>
+            </statementExpression>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="core match" outgoing="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityEdge.3 //Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityEdge.6" incoming="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityEdge.2 //Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityEdge.8" forEach="true">
+            <storyPattern xsi:type="org.moflon.tgg.language:TGGRule" name="TypeGraph2Graph">
+              <objectVariable xsi:type="org.moflon.tgg.language:TGGObjectVariable" name="pm" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TypeGraph"/>
+                <bindingExpression xsi:type="callExpressions:MethodCallExpression">
+                  <ownedParameterBindings>
+                    <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;pm&quot;"/>
+                    <parameter href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//TGGRuleMorphism/getObject/name"/>
+                  </ownedParameterBindings>
+                  <callee href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//TGGRuleMorphism/getObject"/>
+                  <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.1"/>
+                </bindingExpression>
+                <domain href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.1"/>
+              </objectVariable>
+              <objectVariable name="match" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+              </objectVariable>
+              <correspondence href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.2"/>
+              <source href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.1"/>
+              <csp/>
+              <target href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.0"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="prepare return value" outgoing="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityEdge.8" incoming="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityEdge.0">
+            <storyPattern>
+              <objectVariable name="performOperation" incomingLink="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.5/@storyPattern/@linkVariable.0 //Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.5/@storyPattern/@linkVariable.1">
+                <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+                <constraint>
+                  <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                    <rightExpression xsi:type="expressions:LiteralExpression" value="&quot;perform_FWD&quot;"/>
+                    <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.0">
+                      <attribute href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+                    </leftExpression>
+                  </constraintExpression>
+                </constraint>
+              </objectVariable>
+              <objectVariable name="eClass" outgoingLink="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.5/@storyPattern/@linkVariable.1" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+                <bindingExpression xsi:type="callExpressions:MethodCallExpression">
+                  <callee href="http://www.eclipse.org/emf/2002/Ecore#//EObject/eClass"/>
+                  <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.2"/>
+                </bindingExpression>
+              </objectVariable>
+              <objectVariable type="//Rules/TypeGraph2Graph" name="this" bindingState="BOUND"/>
+              <objectVariable name="ruleresult" outgoingLink="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.5/@storyPattern/@linkVariable.0" bindingOperator="CREATE">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//IsApplicableRuleResult"/>
+                <attributeAssignment>
+                  <valueExpression xsi:type="expressions:LiteralExpression" value="false"/>
+                  <attribute href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//RuleResult/success"/>
+                </attributeAssignment>
+                <attributeAssignment>
+                  <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;TypeGraph2Graph&quot;"/>
+                  <attribute href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//RuleResult/rule"/>
+                </attributeAssignment>
+              </objectVariable>
+              <linkVariable name="performOperation" target="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.0" source="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.3" bindingOperator="CREATE"/>
+              <linkVariable name="eOperations" target="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.0" source="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.1"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StopNode" incoming="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityEdge.6">
+            <returnValue xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.3"/>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="find context" outgoing="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityEdge.2 //Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityEdge.4" incoming="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityEdge.5 //Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityEdge.3 //Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityEdge.9" forEach="true">
+            <storyPattern xsi:type="org.moflon.tgg.language:TGGRule" name="TypeGraph2Graph">
+              <objectVariable xsi:type="org.moflon.tgg.language:TGGObjectVariable" name="pm" incomingLink="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.7/@storyPattern/@linkVariable.0" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TypeGraph"/>
+                <domain href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.1"/>
+              </objectVariable>
+              <objectVariable name="isApplicableMatch" outgoingLink="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.7/@storyPattern/@linkVariable.0" bindingOperator="CREATE">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//IsApplicableMatch"/>
+              </objectVariable>
+              <linkVariable name="allContextElements" target="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.7/@storyPattern/@objectVariable.0" source="//Rules/TypeGraph2Graph/isApplicable_FWD/@activity/@ownedActivityNode.7/@storyPattern/@objectVariable.1" bindingOperator="CREATE"/>
+              <correspondence href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.2"/>
+              <source href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.1"/>
+              <csp/>
+              <target href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.0"/>
+            </storyPattern>
+          </ownedActivityNode>
+        </activity>
+      </eOperations>
+      <eOperations name="registerObjectsToMatch_FWD">
+        <eParameters name="match">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+        </eParameters>
+        <eParameters name="pm">
+          <eType xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TypeGraph"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="isAppropriate_solveCsp_FWD">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp/CSP"/>
+        <eParameters name="match">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+        </eParameters>
+        <eParameters name="pm">
+          <eType xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TypeGraph"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="isAppropriate_checkCsp_FWD">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eParameters name="csp">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp/CSP"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="isApplicable_solveCsp_FWD">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp/CSP"/>
+        <eParameters name="isApplicableMatch">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//IsApplicableMatch"/>
+        </eParameters>
+        <eParameters name="pm">
+          <eType xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TypeGraph"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="isApplicable_checkCsp_FWD">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eParameters name="csp">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp/CSP"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="registerObjects_FWD">
+        <eParameters name="ruleresult">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//PerformRuleResult"/>
+        </eParameters>
+        <eParameters name="graph">
+          <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+        </eParameters>
+        <eParameters name="pm2Graph">
+          <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+        </eParameters>
+        <eParameters name="pm">
+          <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+        </eParameters>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="checkTypes_FWD">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eParameters name="match">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+        </eParameters>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="isAppropriate_BWD">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eParameters name="match">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+        </eParameters>
+        <eParameters name="graph">
+          <eType xsi:type="ecore:EClass" href="platform:/resource/Graph/model/graph.ecore#//Graph"/>
+        </eParameters>
+        <activity>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.5" target="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.0" guard="SUCCESS"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.1" target="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.3"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.4" target="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.7"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.7" target="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.5"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.0" target="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.6"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.2" target="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.4"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.5" target="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.8" guard="FAILURE"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.6" target="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.1"/>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="collect elements to be translated" outgoing="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityEdge.4" incoming="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityEdge.0">
+            <storyPattern>
+              <objectVariable name="match" outgoingLink="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.0/@storyPattern/@linkVariable.0" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+              </objectVariable>
+              <objectVariable name="graph" incomingLink="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.0/@storyPattern/@linkVariable.0" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/resource/Graph/model/graph.ecore#//Graph"/>
+              </objectVariable>
+              <linkVariable name="toBeTranslatedNodes" target="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.1" source="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.0" bindingOperator="CREATE"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StatementNode" name="register objects to match" outgoing="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityEdge.1" incoming="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityEdge.7">
+            <statementExpression xsi:type="callExpressions:MethodCallExpression" callee="//Rules/TypeGraph2Graph/registerObjectsToMatch_BWD">
+              <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/registerObjectsToMatch_BWD/match">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.1"/>
+              </ownedParameterBindings>
+              <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/registerObjectsToMatch_BWD/graph">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.2"/>
+              </ownedParameterBindings>
+              <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.0"/>
+            </statementExpression>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StartNode" outgoing="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityEdge.5"/>
+          <ownedActivityNode xsi:type="activities:StopNode" incoming="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityEdge.1">
+            <returnValue xsi:type="expressions:LiteralExpression" value="true"/>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="initial bindings" outgoing="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityEdge.2" incoming="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityEdge.5">
+            <storyPattern>
+              <objectVariable type="//Rules/TypeGraph2Graph" name="this" bindingState="BOUND"/>
+              <objectVariable name="match" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+              </objectVariable>
+              <objectVariable name="graph" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/resource/Graph/model/graph.ecore#//Graph"/>
+              </objectVariable>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StatementNode" name="Check CSP" outgoing="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityEdge.0 //Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityEdge.6" incoming="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityEdge.3">
+            <statementExpression xsi:type="callExpressions:MethodCallExpression" callee="//Rules/TypeGraph2Graph/isAppropriate_checkCsp_BWD">
+              <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/isAppropriate_checkCsp_BWD/csp">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.7/@storyPattern/@objectVariable.0"/>
+              </ownedParameterBindings>
+              <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.0"/>
+            </statementExpression>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="collect context elements" outgoing="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityEdge.7" incoming="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityEdge.4">
+            <storyPattern>
+              <objectVariable name="match" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+              </objectVariable>
+              <objectVariable name="graph" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/resource/Graph/model/graph.ecore#//Graph"/>
+              </objectVariable>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="Solve CSP" outgoing="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityEdge.3" incoming="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityEdge.2">
+            <storyPattern>
+              <objectVariable name="csp" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp/CSP"/>
+                <bindingExpression xsi:type="callExpressions:MethodCallExpression" callee="//Rules/TypeGraph2Graph/isAppropriate_solveCsp_BWD">
+                  <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/isAppropriate_solveCsp_BWD/match">
+                    <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.1"/>
+                  </ownedParameterBindings>
+                  <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/isAppropriate_solveCsp_BWD/graph">
+                    <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.2"/>
+                  </ownedParameterBindings>
+                  <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.0"/>
+                </bindingExpression>
+              </objectVariable>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StopNode" incoming="//Rules/TypeGraph2Graph/isAppropriate_BWD/@activity/@ownedActivityEdge.6">
+            <returnValue xsi:type="expressions:LiteralExpression" value="false"/>
+          </ownedActivityNode>
+        </activity>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="perform_BWD">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//PerformRuleResult"/>
+        <eParameters name="isApplicableMatch">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//IsApplicableMatch"/>
+        </eParameters>
+        <activity>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.2" target="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.0"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.3" target="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.6"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.6" target="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.5"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.1" target="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.2"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.5" target="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4" target="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.1"/>
+          <ownedActivityNode xsi:type="activities:StopNode" incoming="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityEdge.0">
+            <returnValue xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.0"/>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StatementNode" name="perform postprocessing" outgoing="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityEdge.3" incoming="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityEdge.5">
+            <statementExpression xsi:type="expressions:LiteralExpression" value="// No post processing method found"/>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StatementNode" name="register objects" outgoing="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityEdge.0" incoming="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityEdge.3">
+            <statementExpression xsi:type="callExpressions:MethodCallExpression" callee="//Rules/TypeGraph2Graph/registerObjects_BWD">
+              <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/registerObjects_BWD/ruleresult">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.0"/>
+              </ownedParameterBindings>
+              <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/registerObjects_BWD/graph">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.1"/>
+              </ownedParameterBindings>
+              <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/registerObjects_BWD/pm2Graph">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.2"/>
+              </ownedParameterBindings>
+              <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/registerObjects_BWD/pm">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.3"/>
+              </ownedParameterBindings>
+              <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.4"/>
+            </statementExpression>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StartNode" outgoing="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityEdge.1"/>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="bookkeeping for edges" outgoing="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityEdge.5" incoming="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityEdge.4">
+            <storyPattern>
+              <objectVariable name="ruleresult" outgoingLink="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.2 //Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.5" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//PerformRuleResult"/>
+                <attributeAssignment>
+                  <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;TypeGraph2Graph&quot;"/>
+                  <attribute href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//TGGRuleMorphism/ruleName"/>
+                </attributeAssignment>
+              </objectVariable>
+              <objectVariable name="graph" incomingLink="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.4" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+              </objectVariable>
+              <objectVariable name="pm2Graph" incomingLink="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.0 //Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.3" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+              </objectVariable>
+              <objectVariable name="pm" incomingLink="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.1" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+              </objectVariable>
+              <objectVariable name="pm2Graph__pm____source" incomingLink="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.2" outgoingLink="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.0 //Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.1" bindingOperator="CREATE">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//EMoflonEdge"/>
+                <attributeAssignment>
+                  <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;source&quot;"/>
+                  <attribute href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//EMoflonEdge/name"/>
+                </attributeAssignment>
+              </objectVariable>
+              <objectVariable name="pm2Graph__graph____target" incomingLink="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.5" outgoingLink="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.3 //Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.4" bindingOperator="CREATE">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//EMoflonEdge"/>
+                <attributeAssignment>
+                  <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;target&quot;"/>
+                  <attribute href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//EMoflonEdge/name"/>
+                </attributeAssignment>
+              </objectVariable>
+              <linkVariable name="src" target="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.2" source="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.4" bindingOperator="CREATE"/>
+              <linkVariable name="trg" target="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.3" source="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.4" bindingOperator="CREATE"/>
+              <linkVariable name="createdEdges" target="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.4" source="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.0" bindingOperator="CREATE"/>
+              <linkVariable name="src" target="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.2" source="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.5" bindingOperator="CREATE"/>
+              <linkVariable name="trg" target="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.1" source="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.5" bindingOperator="CREATE"/>
+              <linkVariable name="createdEdges" target="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.5" source="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.0" bindingOperator="CREATE"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="collect translated elements" outgoing="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityEdge.4" incoming="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityEdge.2">
+            <storyPattern>
+              <objectVariable name="ruleresult" outgoingLink="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.5/@storyPattern/@linkVariable.0 //Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.5/@storyPattern/@linkVariable.1 //Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.5/@storyPattern/@linkVariable.2" bindingOperator="CREATE">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//PerformRuleResult"/>
+              </objectVariable>
+              <objectVariable name="graph" incomingLink="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.5/@storyPattern/@linkVariable.0" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/resource/Graph/model/graph.ecore#//Graph"/>
+              </objectVariable>
+              <objectVariable type="//TypeGraph2Graph" name="pm2Graph" incomingLink="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.5/@storyPattern/@linkVariable.1" bindingState="BOUND"/>
+              <objectVariable name="pm" incomingLink="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.5/@storyPattern/@linkVariable.2" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TypeGraph"/>
+              </objectVariable>
+              <linkVariable name="translatedElements" target="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.1" source="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.0" bindingOperator="CREATE"/>
+              <linkVariable name="createdLinkElements" target="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.2" source="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.0" bindingOperator="CREATE"/>
+              <linkVariable name="createdElements" target="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.3" source="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.0" bindingOperator="CREATE"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="perform transformation" outgoing="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityEdge.2" incoming="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityEdge.1">
+            <storyPattern xsi:type="org.moflon.tgg.language:TGGRule" name="TypeGraph2Graph">
+              <objectVariable xsi:type="org.moflon.tgg.language:TGGObjectVariable" name="graph" incomingLink="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.1" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/resource/Graph/model/graph.ecore#//Graph"/>
+                <bindingExpression xsi:type="callExpressions:MethodCallExpression">
+                  <ownedParameterBindings>
+                    <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;graph&quot;"/>
+                    <parameter href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//TGGRuleMorphism/getObject/name"/>
+                  </ownedParameterBindings>
+                  <callee href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//TGGRuleMorphism/getObject"/>
+                  <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.5"/>
+                </bindingExpression>
+                <domain href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.0"/>
+              </objectVariable>
+              <objectVariable xsi:type="org.moflon.tgg.language:TGGObjectVariable" type="//TypeGraph2Graph" name="pm2Graph" outgoingLink="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.0 //Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.1" bindingOperator="CREATE">
+                <domain href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.2"/>
+              </objectVariable>
+              <objectVariable xsi:type="org.moflon.tgg.language:TGGObjectVariable" name="pm" incomingLink="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.0" bindingOperator="CREATE">
+                <type xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TypeGraph"/>
+                <domain href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.1"/>
+              </objectVariable>
+              <objectVariable name="csp" incomingLink="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.2">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp/CSP"/>
+              </objectVariable>
+              <objectVariable type="//Rules/TypeGraph2Graph" name="this" bindingState="BOUND"/>
+              <objectVariable name="isApplicableMatch" outgoingLink="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.2" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//IsApplicableMatch"/>
+              </objectVariable>
+              <linkVariable xsi:type="org.moflon.tgg.language:TGGLinkVariable" name="source" target="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.2" source="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.1" bindingOperator="CREATE">
+                <domain href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.2"/>
+              </linkVariable>
+              <linkVariable xsi:type="org.moflon.tgg.language:TGGLinkVariable" name="target" target="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.0" source="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.1" bindingOperator="CREATE">
+                <domain href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.2"/>
+              </linkVariable>
+              <linkVariable name="attributeInfo" target="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.3" source="//Rules/TypeGraph2Graph/perform_BWD/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.5"/>
+              <correspondence href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.2"/>
+              <source href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.1"/>
+              <csp>
+                <forward/>
+                <simultaneous/>
+                <backward/>
+                <source/>
+                <target/>
+              </csp>
+              <target href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.0"/>
+            </storyPattern>
+          </ownedActivityNode>
+        </activity>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="isApplicable_BWD">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//IsApplicableRuleResult"/>
+        <eParameters name="match">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+        </eParameters>
+        <activity>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.1" target="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.5"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.3" target="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.2" guard="SUCCESS"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.7" target="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.4" guard="END"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.4" target="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.7" guard="EACH_TIME"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.7" target="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.0" guard="EACH_TIME"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.3" target="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.7" guard="FAILURE"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.4" target="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.6" guard="END"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.0" target="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.3"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.5" target="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.4"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.2" target="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.7"/>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="solve CSP" outgoing="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityEdge.7" incoming="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityEdge.4">
+            <storyPattern>
+              <objectVariable name="csp" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp/CSP"/>
+                <bindingExpression xsi:type="callExpressions:MethodCallExpression" callee="//Rules/TypeGraph2Graph/isApplicable_solveCsp_BWD">
+                  <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/isApplicable_solveCsp_BWD/isApplicableMatch">
+                    <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.7/@storyPattern/@objectVariable.1"/>
+                  </ownedParameterBindings>
+                  <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/isApplicable_solveCsp_BWD/graph">
+                    <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.7/@storyPattern/@objectVariable.0"/>
+                  </ownedParameterBindings>
+                  <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.2"/>
+                </bindingExpression>
+              </objectVariable>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StartNode" outgoing="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityEdge.0"/>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="add match to rule result" outgoing="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityEdge.9" incoming="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityEdge.1">
+            <storyPattern>
+              <objectVariable name="ruleresult" outgoingLink="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.0" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//IsApplicableRuleResult"/>
+                <attributeAssignment>
+                  <valueExpression xsi:type="expressions:LiteralExpression" value="true"/>
+                  <attribute href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//RuleResult/success"/>
+                </attributeAssignment>
+              </objectVariable>
+              <objectVariable name="isApplicableMatch" incomingLink="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.0" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//IsApplicableMatch"/>
+                <attributeAssignment>
+                  <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;TypeGraph2Graph&quot;"/>
+                  <attribute href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//TGGRuleMorphism/ruleName"/>
+                </attributeAssignment>
+              </objectVariable>
+              <linkVariable name="isApplicableMatch" target="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.1" source="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.0" bindingOperator="CREATE"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StatementNode" name="check CSP" outgoing="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityEdge.1 //Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityEdge.5" incoming="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityEdge.7">
+            <statementExpression xsi:type="callExpressions:MethodCallExpression" callee="//Rules/TypeGraph2Graph/isApplicable_checkCsp_BWD">
+              <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/isApplicable_checkCsp_BWD/csp">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.0"/>
+              </ownedParameterBindings>
+              <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.2"/>
+            </statementExpression>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="core match" outgoing="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityEdge.3 //Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityEdge.6" incoming="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityEdge.2 //Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityEdge.8" forEach="true">
+            <storyPattern xsi:type="org.moflon.tgg.language:TGGRule" name="TypeGraph2Graph">
+              <objectVariable xsi:type="org.moflon.tgg.language:TGGObjectVariable" name="graph" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/resource/Graph/model/graph.ecore#//Graph"/>
+                <bindingExpression xsi:type="callExpressions:MethodCallExpression">
+                  <ownedParameterBindings>
+                    <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;graph&quot;"/>
+                    <parameter href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//TGGRuleMorphism/getObject/name"/>
+                  </ownedParameterBindings>
+                  <callee href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//TGGRuleMorphism/getObject"/>
+                  <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.1"/>
+                </bindingExpression>
+                <domain href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.0"/>
+              </objectVariable>
+              <objectVariable name="match" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+              </objectVariable>
+              <correspondence href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.2"/>
+              <source href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.1"/>
+              <csp/>
+              <target href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.0"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="prepare return value" outgoing="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityEdge.8" incoming="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityEdge.0">
+            <storyPattern>
+              <objectVariable name="performOperation" incomingLink="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.5/@storyPattern/@linkVariable.0 //Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.5/@storyPattern/@linkVariable.1">
+                <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+                <constraint>
+                  <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                    <rightExpression xsi:type="expressions:LiteralExpression" value="&quot;perform_BWD&quot;"/>
+                    <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.0">
+                      <attribute href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+                    </leftExpression>
+                  </constraintExpression>
+                </constraint>
+              </objectVariable>
+              <objectVariable name="eClass" outgoingLink="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.5/@storyPattern/@linkVariable.1" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+                <bindingExpression xsi:type="callExpressions:MethodCallExpression">
+                  <callee href="http://www.eclipse.org/emf/2002/Ecore#//EObject/eClass"/>
+                  <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.2"/>
+                </bindingExpression>
+              </objectVariable>
+              <objectVariable type="//Rules/TypeGraph2Graph" name="this" bindingState="BOUND"/>
+              <objectVariable name="ruleresult" outgoingLink="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.5/@storyPattern/@linkVariable.0" bindingOperator="CREATE">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//IsApplicableRuleResult"/>
+                <attributeAssignment>
+                  <valueExpression xsi:type="expressions:LiteralExpression" value="false"/>
+                  <attribute href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//RuleResult/success"/>
+                </attributeAssignment>
+                <attributeAssignment>
+                  <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;TypeGraph2Graph&quot;"/>
+                  <attribute href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//RuleResult/rule"/>
+                </attributeAssignment>
+              </objectVariable>
+              <linkVariable name="performOperation" target="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.0" source="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.3" bindingOperator="CREATE"/>
+              <linkVariable name="eOperations" target="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.0" source="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.1"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StopNode" incoming="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityEdge.6">
+            <returnValue xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.3"/>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="find context" outgoing="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityEdge.2 //Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityEdge.4" incoming="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityEdge.5 //Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityEdge.3 //Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityEdge.9" forEach="true">
+            <storyPattern xsi:type="org.moflon.tgg.language:TGGRule" name="TypeGraph2Graph">
+              <objectVariable xsi:type="org.moflon.tgg.language:TGGObjectVariable" name="graph" incomingLink="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.7/@storyPattern/@linkVariable.0" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/resource/Graph/model/graph.ecore#//Graph"/>
+                <domain href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.0"/>
+              </objectVariable>
+              <objectVariable name="isApplicableMatch" outgoingLink="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.7/@storyPattern/@linkVariable.0" bindingOperator="CREATE">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//IsApplicableMatch"/>
+              </objectVariable>
+              <linkVariable name="allContextElements" target="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.7/@storyPattern/@objectVariable.0" source="//Rules/TypeGraph2Graph/isApplicable_BWD/@activity/@ownedActivityNode.7/@storyPattern/@objectVariable.1" bindingOperator="CREATE"/>
+              <correspondence href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.2"/>
+              <source href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.1"/>
+              <csp/>
+              <target href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.0"/>
+            </storyPattern>
+          </ownedActivityNode>
+        </activity>
+      </eOperations>
+      <eOperations name="registerObjectsToMatch_BWD">
+        <eParameters name="match">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+        </eParameters>
+        <eParameters name="graph">
+          <eType xsi:type="ecore:EClass" href="platform:/resource/Graph/model/graph.ecore#//Graph"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="isAppropriate_solveCsp_BWD">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp/CSP"/>
+        <eParameters name="match">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+        </eParameters>
+        <eParameters name="graph">
+          <eType xsi:type="ecore:EClass" href="platform:/resource/Graph/model/graph.ecore#//Graph"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="isAppropriate_checkCsp_BWD">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eParameters name="csp">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp/CSP"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="isApplicable_solveCsp_BWD">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp/CSP"/>
+        <eParameters name="isApplicableMatch">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//IsApplicableMatch"/>
+        </eParameters>
+        <eParameters name="graph">
+          <eType xsi:type="ecore:EClass" href="platform:/resource/Graph/model/graph.ecore#//Graph"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="isApplicable_checkCsp_BWD">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eParameters name="csp">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp/CSP"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="registerObjects_BWD">
+        <eParameters name="ruleresult">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//PerformRuleResult"/>
+        </eParameters>
+        <eParameters name="graph">
+          <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+        </eParameters>
+        <eParameters name="pm2Graph">
+          <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+        </eParameters>
+        <eParameters name="pm">
+          <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+        </eParameters>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="checkTypes_BWD">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eParameters name="match">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+        </eParameters>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="isAppropriate_BWD_Graph_1">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//EObjectContainer"/>
+        <eParameters name="graph">
+          <eType xsi:type="ecore:EClass" href="platform:/resource/Graph/model/graph.ecore#//Graph"/>
+        </eParameters>
+        <activity>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.3" target="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.1" guard="EACH_TIME"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.3" target="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.4" guard="END"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.0" target="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.2"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.2" target="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.3"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.1" target="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.5" guard="SUCCESS"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.6" target="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.3"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.5" target="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.3" guard="FAILURE"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.5" target="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.6" guard="SUCCESS"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.1" target="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.3" guard="FAILURE"/>
+          <ownedActivityNode xsi:type="activities:StartNode" outgoing="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityEdge.2"/>
+          <ownedActivityNode xsi:type="activities:StatementNode" name="bookkeeping with generic isAppropriate method" outgoing="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityEdge.4 //Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityEdge.8" incoming="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityEdge.0">
+            <statementExpression xsi:type="callExpressions:MethodCallExpression" callee="//Rules/TypeGraph2Graph/isAppropriate_BWD">
+              <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/isAppropriate_BWD/match">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.1"/>
+              </ownedParameterBindings>
+              <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/isAppropriate_BWD/graph">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.0"/>
+              </ownedParameterBindings>
+              <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.2"/>
+            </statementExpression>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="prepare return value" outgoing="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityEdge.3" incoming="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityEdge.2">
+            <storyPattern>
+              <objectVariable name="__performOperation" incomingLink="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.0">
+                <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+                <constraint>
+                  <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                    <rightExpression xsi:type="expressions:LiteralExpression" value="&quot;isApplicable_BWD&quot;"/>
+                    <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.0">
+                      <attribute href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+                    </leftExpression>
+                  </constraintExpression>
+                </constraint>
+              </objectVariable>
+              <objectVariable name="__eClass" outgoingLink="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.0 //Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.1" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+                <bindingExpression xsi:type="callExpressions:MethodCallExpression">
+                  <callee href="http://www.eclipse.org/emf/2002/Ecore#//EObject/eClass"/>
+                  <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.2"/>
+                </bindingExpression>
+              </objectVariable>
+              <objectVariable type="//Rules/TypeGraph2Graph" name="this" bindingState="BOUND"/>
+              <objectVariable name="__result" bindingOperator="CREATE">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//EObjectContainer"/>
+              </objectVariable>
+              <objectVariable name="isApplicableCC" incomingLink="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.1">
+                <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+                <constraint>
+                  <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                    <rightExpression xsi:type="expressions:LiteralExpression" value="&quot;isApplicable_CC&quot;"/>
+                    <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.4">
+                      <attribute href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+                    </leftExpression>
+                  </constraintExpression>
+                </constraint>
+              </objectVariable>
+              <linkVariable name="eOperations" target="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.0" source="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.1"/>
+              <linkVariable name="eOperations" target="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.4" source="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.1"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="test core match and DECs" outgoing="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityEdge.1 //Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityEdge.0" incoming="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityEdge.3 //Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityEdge.5 //Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityEdge.6 //Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityEdge.8" forEach="true">
+            <storyPattern xsi:type="org.moflon.tgg.language:TGGRule" name="TypeGraph2Graph">
+              <objectVariable xsi:type="org.moflon.tgg.language:TGGObjectVariable" name="graph" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/resource/Graph/model/graph.ecore#//Graph"/>
+                <domain href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.0"/>
+              </objectVariable>
+              <objectVariable name="match" bindingOperator="CREATE">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+                <attributeAssignment>
+                  <valueExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.1">
+                    <attribute href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+                  </valueExpression>
+                  <attribute href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//TGGRuleMorphism/ruleName"/>
+                </attributeAssignment>
+              </objectVariable>
+              <correspondence href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.2"/>
+              <source href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.1"/>
+              <csp/>
+              <target href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.0"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StopNode" incoming="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityEdge.1">
+            <returnValue xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.3"/>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StatementNode" name="Ensure that the correct types of elements are matched" outgoing="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityEdge.6 //Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityEdge.7" incoming="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityEdge.4">
+            <statementExpression xsi:type="callExpressions:MethodCallExpression" callee="//Rules/TypeGraph2Graph/checkTypes_BWD">
+              <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/checkTypes_BWD/match">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.1"/>
+              </ownedParameterBindings>
+              <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.2"/>
+            </statementExpression>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="Add match to rule result" outgoing="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityEdge.5" incoming="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityEdge.7">
+            <storyPattern>
+              <objectVariable name="match" incomingLink="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.0" outgoingLink="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.1 //Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.2" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+              </objectVariable>
+              <objectVariable name="__performOperation" incomingLink="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.1" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+              </objectVariable>
+              <objectVariable name="__result" outgoingLink="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.0" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//EObjectContainer"/>
+              </objectVariable>
+              <objectVariable name="isApplicableCC" incomingLink="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.2" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+              </objectVariable>
+              <linkVariable name="contents" target="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.0" source="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.2" bindingOperator="CREATE"/>
+              <linkVariable name="isApplicableOperation" target="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.1" source="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.0" bindingOperator="CREATE"/>
+              <linkVariable name="isApplicableCCOperation" target="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.3" source="//Rules/TypeGraph2Graph/isAppropriate_BWD_Graph_1/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.0" bindingOperator="CREATE"/>
+            </storyPattern>
+          </ownedActivityNode>
+        </activity>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="isAppropriate_FWD_TypeGraph_1">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//EObjectContainer"/>
+        <eParameters name="pm">
+          <eType xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TypeGraph"/>
+        </eParameters>
+        <activity>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.3" target="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.1" guard="EACH_TIME"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.3" target="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.4" guard="END"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.0" target="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.2"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.2" target="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.3"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.1" target="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.5" guard="SUCCESS"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.6" target="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.3"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.5" target="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.3" guard="FAILURE"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.5" target="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.6" guard="SUCCESS"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.1" target="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.3" guard="FAILURE"/>
+          <ownedActivityNode xsi:type="activities:StartNode" outgoing="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityEdge.2"/>
+          <ownedActivityNode xsi:type="activities:StatementNode" name="bookkeeping with generic isAppropriate method" outgoing="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityEdge.4 //Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityEdge.8" incoming="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityEdge.0">
+            <statementExpression xsi:type="callExpressions:MethodCallExpression" callee="//Rules/TypeGraph2Graph/isAppropriate_FWD">
+              <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/isAppropriate_FWD/match">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.1"/>
+              </ownedParameterBindings>
+              <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/isAppropriate_FWD/pm">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.0"/>
+              </ownedParameterBindings>
+              <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.2"/>
+            </statementExpression>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="prepare return value" outgoing="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityEdge.3" incoming="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityEdge.2">
+            <storyPattern>
+              <objectVariable name="__performOperation" incomingLink="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.0">
+                <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+                <constraint>
+                  <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                    <rightExpression xsi:type="expressions:LiteralExpression" value="&quot;isApplicable_FWD&quot;"/>
+                    <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.0">
+                      <attribute href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+                    </leftExpression>
+                  </constraintExpression>
+                </constraint>
+              </objectVariable>
+              <objectVariable name="__eClass" outgoingLink="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.0 //Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.1" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+                <bindingExpression xsi:type="callExpressions:MethodCallExpression">
+                  <callee href="http://www.eclipse.org/emf/2002/Ecore#//EObject/eClass"/>
+                  <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.2"/>
+                </bindingExpression>
+              </objectVariable>
+              <objectVariable type="//Rules/TypeGraph2Graph" name="this" bindingState="BOUND"/>
+              <objectVariable name="__result" bindingOperator="CREATE">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//EObjectContainer"/>
+              </objectVariable>
+              <objectVariable name="isApplicableCC" incomingLink="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.1">
+                <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+                <constraint>
+                  <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                    <rightExpression xsi:type="expressions:LiteralExpression" value="&quot;isApplicable_CC&quot;"/>
+                    <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.4">
+                      <attribute href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+                    </leftExpression>
+                  </constraintExpression>
+                </constraint>
+              </objectVariable>
+              <linkVariable name="eOperations" target="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.0" source="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.1"/>
+              <linkVariable name="eOperations" target="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.4" source="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.1"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="test core match and DECs" outgoing="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityEdge.1 //Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityEdge.0" incoming="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityEdge.3 //Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityEdge.5 //Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityEdge.6 //Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityEdge.8" forEach="true">
+            <storyPattern xsi:type="org.moflon.tgg.language:TGGRule" name="TypeGraph2Graph">
+              <objectVariable xsi:type="org.moflon.tgg.language:TGGObjectVariable" name="pm" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TypeGraph"/>
+                <domain href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.1"/>
+              </objectVariable>
+              <objectVariable name="match" bindingOperator="CREATE">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+                <attributeAssignment>
+                  <valueExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.1">
+                    <attribute href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+                  </valueExpression>
+                  <attribute href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//TGGRuleMorphism/ruleName"/>
+                </attributeAssignment>
+              </objectVariable>
+              <correspondence href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.2"/>
+              <source href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.1"/>
+              <csp/>
+              <target href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.0"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StopNode" incoming="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityEdge.1">
+            <returnValue xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.3"/>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StatementNode" name="Ensure that the correct types of elements are matched" outgoing="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityEdge.6 //Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityEdge.7" incoming="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityEdge.4">
+            <statementExpression xsi:type="callExpressions:MethodCallExpression" callee="//Rules/TypeGraph2Graph/checkTypes_FWD">
+              <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/checkTypes_FWD/match">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.1"/>
+              </ownedParameterBindings>
+              <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.2"/>
+            </statementExpression>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="Add match to rule result" outgoing="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityEdge.5" incoming="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityEdge.7">
+            <storyPattern>
+              <objectVariable name="match" incomingLink="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.0" outgoingLink="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.1 //Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.2" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+              </objectVariable>
+              <objectVariable name="__performOperation" incomingLink="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.1" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+              </objectVariable>
+              <objectVariable name="__result" outgoingLink="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.0" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//EObjectContainer"/>
+              </objectVariable>
+              <objectVariable name="isApplicableCC" incomingLink="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.2" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+              </objectVariable>
+              <linkVariable name="contents" target="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.0" source="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.2" bindingOperator="CREATE"/>
+              <linkVariable name="isApplicableOperation" target="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.1" source="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.0" bindingOperator="CREATE"/>
+              <linkVariable name="isApplicableCCOperation" target="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.3" source="//Rules/TypeGraph2Graph/isAppropriate_FWD_TypeGraph_1/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.0" bindingOperator="CREATE"/>
+            </storyPattern>
+          </ownedActivityNode>
+        </activity>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="checkAttributes_FWD">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AttributeConstraintsRuleResult"/>
+        <eParameters name="__tripleMatch">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//TripleMatch"/>
+        </eParameters>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="checkAttributes_BWD">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AttributeConstraintsRuleResult"/>
+        <eParameters name="__tripleMatch">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//TripleMatch"/>
+        </eParameters>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="isApplicable_CC">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//IsApplicableRuleResult"/>
+        <eParameters name="sourceMatch">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+        </eParameters>
+        <eParameters name="targetMatch">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+        </eParameters>
+        <activity>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.0" target="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.2"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.1" target="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.5" guard="FAILURE"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.4" target="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.7"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.3" target="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.5" guard="END"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.2" target="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.3"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.1" target="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.3" guard="SUCCESS"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.6" target="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.1"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.8" target="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.6"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.3" target="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.0" guard="EACH_TIME"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.7" target="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.8"/>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="create correspondence" outgoing="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityEdge.0" incoming="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityEdge.8">
+            <storyPattern xsi:type="org.moflon.tgg.language:TGGRule" name="TypeGraph2Graph">
+              <objectVariable xsi:type="org.moflon.tgg.language:TGGObjectVariable" name="graph" incomingLink="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.0/@storyPattern/@linkVariable.1" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/resource/Graph/model/graph.ecore#//Graph"/>
+                <domain href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.0"/>
+              </objectVariable>
+              <objectVariable xsi:type="org.moflon.tgg.language:TGGObjectVariable" type="//TypeGraph2Graph" name="pm2Graph" incomingLink="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.0/@storyPattern/@linkVariable.2" outgoingLink="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.0/@storyPattern/@linkVariable.0 //Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.0/@storyPattern/@linkVariable.1" bindingOperator="CREATE">
+                <domain href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.2"/>
+              </objectVariable>
+              <objectVariable xsi:type="org.moflon.tgg.language:TGGObjectVariable" name="pm" incomingLink="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.0/@storyPattern/@linkVariable.0" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TypeGraph"/>
+                <domain href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.1"/>
+              </objectVariable>
+              <objectVariable name="ccMatch" outgoingLink="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.0/@storyPattern/@linkVariable.2" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//CCMatch"/>
+              </objectVariable>
+              <linkVariable xsi:type="org.moflon.tgg.language:TGGLinkVariable" name="source" target="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.2" source="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.1" bindingOperator="CREATE">
+                <domain href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.2"/>
+              </linkVariable>
+              <linkVariable xsi:type="org.moflon.tgg.language:TGGLinkVariable" name="target" target="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.0" source="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.1" bindingOperator="CREATE">
+                <domain href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.2"/>
+              </linkVariable>
+              <linkVariable name="createCorr" target="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.1" source="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.3" bindingOperator="CREATE"/>
+              <correspondence href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.2"/>
+              <source href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.1"/>
+              <csp/>
+              <target href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.0"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StatementNode" name="check CSP" outgoing="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityEdge.1 //Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityEdge.5" incoming="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityEdge.6">
+            <statementExpression xsi:type="callExpressions:MethodCallExpression">
+              <callee href="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp/CSP/check"/>
+              <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.0"/>
+            </statementExpression>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="add to returned result" outgoing="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityEdge.4" incoming="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityEdge.0">
+            <storyPattern>
+              <objectVariable name="result" outgoingLink="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.0" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//IsApplicableRuleResult"/>
+                <attributeAssignment>
+                  <valueExpression xsi:type="expressions:LiteralExpression" value="true"/>
+                  <attribute href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//RuleResult/success"/>
+                </attributeAssignment>
+              </objectVariable>
+              <objectVariable name="ccMatch" incomingLink="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.0" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//CCMatch"/>
+                <attributeAssignment>
+                  <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;TypeGraph2Graph&quot;"/>
+                  <attribute href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//TGGRuleMorphism/ruleName"/>
+                </attributeAssignment>
+              </objectVariable>
+              <linkVariable name="isApplicableMatch" target="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.1" source="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.0" bindingOperator="CREATE"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="match corr context" outgoing="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityEdge.8 //Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityEdge.3" incoming="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityEdge.4 //Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityEdge.5" forEach="true">
+            <storyPattern xsi:type="org.moflon.tgg.language:TGGRule" name="TypeGraph2Graph">
+              <objectVariable name="sourceMatch" incomingLink="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.3/@storyPattern/@linkVariable.0" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+              </objectVariable>
+              <objectVariable name="targetMatch" incomingLink="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.3/@storyPattern/@linkVariable.1" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+              </objectVariable>
+              <objectVariable name="ccMatch" outgoingLink="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.3/@storyPattern/@linkVariable.0 //Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.3/@storyPattern/@linkVariable.1" bindingOperator="CREATE">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//CCMatch"/>
+                <attributeAssignment>
+                  <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;TypeGraph2Graph&quot;"/>
+                  <attribute href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//TGGRuleMorphism/ruleName"/>
+                </attributeAssignment>
+              </objectVariable>
+              <linkVariable name="sourceMatch" target="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.0" source="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.2" bindingOperator="CREATE"/>
+              <linkVariable name="targetMatch" target="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.1" source="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.2" bindingOperator="CREATE"/>
+              <correspondence href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.2"/>
+              <source href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.1"/>
+              <csp/>
+              <target href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.0"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StartNode" outgoing="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityEdge.2"/>
+          <ownedActivityNode xsi:type="activities:StopNode" incoming="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityEdge.1 //Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityEdge.3">
+            <returnValue xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.7/@storyPattern/@objectVariable.0"/>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="solve csp" outgoing="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityEdge.6" incoming="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityEdge.7">
+            <storyPattern>
+              <objectVariable name="csp" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp/CSP"/>
+                <bindingExpression xsi:type="callExpressions:MethodCallExpression" callee="//Rules/TypeGraph2Graph/isApplicable_solveCsp_CC">
+                  <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/isApplicable_solveCsp_CC/graph">
+                    <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.8/@storyPattern/@objectVariable.0"/>
+                  </ownedParameterBindings>
+                  <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/isApplicable_solveCsp_CC/pm">
+                    <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.8/@storyPattern/@objectVariable.1"/>
+                  </ownedParameterBindings>
+                  <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/isApplicable_solveCsp_CC/sourceMatch">
+                    <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.8/@storyPattern/@objectVariable.2"/>
+                  </ownedParameterBindings>
+                  <ownedParameterBindings parameter="//Rules/TypeGraph2Graph/isApplicable_solveCsp_CC/targetMatch">
+                    <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.8/@storyPattern/@objectVariable.3"/>
+                  </ownedParameterBindings>
+                  <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.7/@storyPattern/@objectVariable.1"/>
+                </bindingExpression>
+              </objectVariable>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="prepare" outgoing="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityEdge.9" incoming="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityEdge.2">
+            <storyPattern>
+              <objectVariable name="result" bindingOperator="CREATE">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//IsApplicableRuleResult"/>
+              </objectVariable>
+              <objectVariable type="//Rules/TypeGraph2Graph" name="this" bindingState="BOUND"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="match src trg context" outgoing="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityEdge.7" incoming="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityEdge.9">
+            <storyPattern xsi:type="org.moflon.tgg.language:TGGRule" name="TypeGraph2Graph">
+              <objectVariable xsi:type="org.moflon.tgg.language:TGGObjectVariable" name="graph" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/resource/Graph/model/graph.ecore#//Graph"/>
+                <bindingExpression xsi:type="callExpressions:MethodCallExpression">
+                  <ownedParameterBindings>
+                    <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;graph&quot;"/>
+                    <parameter href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//TGGRuleMorphism/getObject/name"/>
+                  </ownedParameterBindings>
+                  <callee href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//TGGRuleMorphism/getObject"/>
+                  <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.8/@storyPattern/@objectVariable.3"/>
+                </bindingExpression>
+                <domain href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.0"/>
+              </objectVariable>
+              <objectVariable xsi:type="org.moflon.tgg.language:TGGObjectVariable" name="pm" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TypeGraph"/>
+                <bindingExpression xsi:type="callExpressions:MethodCallExpression">
+                  <ownedParameterBindings>
+                    <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;pm&quot;"/>
+                    <parameter href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//TGGRuleMorphism/getObject/name"/>
+                  </ownedParameterBindings>
+                  <callee href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//TGGRuleMorphism/getObject"/>
+                  <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Rules/TypeGraph2Graph/isApplicable_CC/@activity/@ownedActivityNode.8/@storyPattern/@objectVariable.2"/>
+                </bindingExpression>
+                <domain href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.1"/>
+              </objectVariable>
+              <objectVariable name="sourceMatch" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+              </objectVariable>
+              <objectVariable name="targetMatch" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+              </objectVariable>
+              <correspondence href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.2"/>
+              <source href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.1"/>
+              <csp/>
+              <target href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.0"/>
+            </storyPattern>
+          </ownedActivityNode>
+        </activity>
+      </eOperations>
+      <eOperations name="isApplicable_solveCsp_CC">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp/CSP"/>
+        <eParameters name="graph">
+          <eType xsi:type="ecore:EClass" href="platform:/resource/Graph/model/graph.ecore#//Graph"/>
+        </eParameters>
+        <eParameters name="pm">
+          <eType xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TypeGraph"/>
+        </eParameters>
+        <eParameters name="sourceMatch">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+        </eParameters>
+        <eParameters name="targetMatch">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//Match"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="isApplicable_checkCsp_CC">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eParameters name="csp">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp/CSP"/>
+        </eParameters>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="checkDEC_FWD">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eParameters name="pm">
+          <eType xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TypeGraph"/>
+        </eParameters>
+        <activity>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/checkDEC_FWD/@activity/@ownedActivityNode.3" target="//Rules/TypeGraph2Graph/checkDEC_FWD/@activity/@ownedActivityNode.2"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/checkDEC_FWD/@activity/@ownedActivityNode.2" target="//Rules/TypeGraph2Graph/checkDEC_FWD/@activity/@ownedActivityNode.0" guard="SUCCESS"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/checkDEC_FWD/@activity/@ownedActivityNode.2" target="//Rules/TypeGraph2Graph/checkDEC_FWD/@activity/@ownedActivityNode.1" guard="FAILURE"/>
+          <ownedActivityNode xsi:type="activities:StopNode" incoming="//Rules/TypeGraph2Graph/checkDEC_FWD/@activity/@ownedActivityEdge.1">
+            <returnValue xsi:type="expressions:LiteralExpression" value="true"/>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StopNode" incoming="//Rules/TypeGraph2Graph/checkDEC_FWD/@activity/@ownedActivityEdge.2">
+            <returnValue xsi:type="expressions:LiteralExpression" value="false"/>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="match tgg pattern" outgoing="//Rules/TypeGraph2Graph/checkDEC_FWD/@activity/@ownedActivityEdge.2 //Rules/TypeGraph2Graph/checkDEC_FWD/@activity/@ownedActivityEdge.1" incoming="//Rules/TypeGraph2Graph/checkDEC_FWD/@activity/@ownedActivityEdge.0">
+            <storyPattern xsi:type="org.moflon.tgg.language:TGGRule" name="TypeGraph2Graph">
+              <objectVariable xsi:type="org.moflon.tgg.language:TGGObjectVariable" name="pm" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TypeGraph"/>
+                <domain href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.1"/>
+              </objectVariable>
+              <correspondence href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.2"/>
+              <source href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.1"/>
+              <csp/>
+              <target href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.0"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StartNode" outgoing="//Rules/TypeGraph2Graph/checkDEC_FWD/@activity/@ownedActivityEdge.0"/>
+        </activity>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="checkDEC_BWD">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eParameters name="graph">
+          <eType xsi:type="ecore:EClass" href="platform:/resource/Graph/model/graph.ecore#//Graph"/>
+        </eParameters>
+        <activity>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/checkDEC_BWD/@activity/@ownedActivityNode.3" target="//Rules/TypeGraph2Graph/checkDEC_BWD/@activity/@ownedActivityNode.2"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/checkDEC_BWD/@activity/@ownedActivityNode.2" target="//Rules/TypeGraph2Graph/checkDEC_BWD/@activity/@ownedActivityNode.0" guard="SUCCESS"/>
+          <ownedActivityEdge source="//Rules/TypeGraph2Graph/checkDEC_BWD/@activity/@ownedActivityNode.2" target="//Rules/TypeGraph2Graph/checkDEC_BWD/@activity/@ownedActivityNode.1" guard="FAILURE"/>
+          <ownedActivityNode xsi:type="activities:StopNode" incoming="//Rules/TypeGraph2Graph/checkDEC_BWD/@activity/@ownedActivityEdge.1">
+            <returnValue xsi:type="expressions:LiteralExpression" value="true"/>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StopNode" incoming="//Rules/TypeGraph2Graph/checkDEC_BWD/@activity/@ownedActivityEdge.2">
+            <returnValue xsi:type="expressions:LiteralExpression" value="false"/>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="match tgg pattern" outgoing="//Rules/TypeGraph2Graph/checkDEC_BWD/@activity/@ownedActivityEdge.2 //Rules/TypeGraph2Graph/checkDEC_BWD/@activity/@ownedActivityEdge.1" incoming="//Rules/TypeGraph2Graph/checkDEC_BWD/@activity/@ownedActivityEdge.0">
+            <storyPattern xsi:type="org.moflon.tgg.language:TGGRule" name="TypeGraph2Graph">
+              <objectVariable xsi:type="org.moflon.tgg.language:TGGObjectVariable" name="graph" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/resource/Graph/model/graph.ecore#//Graph"/>
+                <domain href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.0"/>
+              </objectVariable>
+              <correspondence href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.2"/>
+              <source href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.1"/>
+              <csp/>
+              <target href="platform:/resource/org.gravity.mapping.secdfd/model/Secdfd.tgg.xmi#//@domain.0"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StartNode" outgoing="//Rules/TypeGraph2Graph/checkDEC_BWD/@activity/@ownedActivityEdge.0"/>
+        </activity>
+      </eOperations>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>
