@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graph:Graph
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:graph="http://www.example.org/graph">
+  <subgraphs>
+    <nodes name="Alice">
+      <outedges
+          ID="send"
+          number="1"
+          target="//@subgraphs.0/@nodes.6"
+          source="//@subgraphs.0/@nodes.0"
+          EdgeLabel="1"
+          graphassets="Email"
+          visited="true"/>
+    </nodes>
+    <nodes name="PolicyDS">
+      <outedges
+          ID="readPolicy1"
+          number="2"
+          target="//@subgraphs.0/@nodes.6"
+          source="//@subgraphs.0/@nodes.1"
+          EdgeLabel="0"
+          graphassets="Policy"
+          visited="true"/>
+      <outedges
+          ID="readPolicy2"
+          number="8"
+          target="//@subgraphs.0/@nodes.4"
+          source="//@subgraphs.0/@nodes.1"
+          EdgeLabel="0"
+          graphassets="Policy"
+          visited="true"/>
+      <outedges
+          ID="readPublicKey"
+          number="4"
+          target="//@subgraphs.0/@nodes.3"
+          source="//@subgraphs.0/@nodes.1"
+          EdgeLabel="0"
+          graphassets="PublicKey"
+          visited="true"/>
+    </nodes>
+    <nodes name="SMTPServer"
+        AttackerObservation="1"
+        inedges="send"
+        Attacker="true">
+      <outedges
+          ID="send"
+          number="6"
+          target="//@subgraphs.0/@nodes.8"
+          source="//@subgraphs.0/@nodes.2"
+          EdgeLabel="0"
+          graphassets="EncryptedBody EmailHeader"
+          visited="true"/>
+      <responsibility
+          ID="SMTPServer[Forward][eDFDFlowTracking.impl.AssetImpl@d7da0ae (name: EncryptedBody, number: 0), eDFDFlowTracking.impl.AssetImpl@267a3722 (name: EmailHeader, number: 0)]"
+          outgoingassets="EncryptedBody EmailHeader"
+          incomingassets="EncryptedBody EmailHeader">
+        <operation>Forward</operation>
+      </responsibility>
+    </nodes>
+    <nodes name="Encrypt"
+        inedges="sendSplitAssets4Encryption readPublicKey">
+      <outedges
+          ID="send"
+          number="5"
+          target="//@subgraphs.0/@nodes.2"
+          source="//@subgraphs.0/@nodes.3"
+          EdgeLabel="0"
+          graphassets="EncryptedBody EmailHeader"
+          visited="true"/>
+      <responsibility
+          ID="EncryptBody[Authoriser][eDFDFlowTracking.impl.AssetImpl@646a9907 (name: Policy, number: 0)]"
+          incomingassets="Policy">
+        <operation>Authoriser</operation>
+      </responsibility>
+      <responsibility
+          ID="EncryptBody[EncryptOrHash][eDFDFlowTracking.impl.AssetImpl@16cb470a (name: EmailBody, number: 0), eDFDFlowTracking.impl.AssetImpl@41bbdb8d (name: BobPublicKey, number: 0)]"
+          outgoingassets="EncryptedBody"
+          incomingassets="EmailBody PublicKey">
+        <operation>EncryptOrHash</operation>
+      </responsibility>
+      <responsibility
+          ID="EncryptBody[Forward][eDFDFlowTracking.impl.AssetImpl@267a3722 (name: EmailHeader, number: 0)]"
+          outgoingassets="EmailHeader"
+          incomingassets="EmailHeader">
+        <operation>Forward</operation>
+      </responsibility>
+    </nodes>
+    <nodes name="Decrypt"
+        inedges="provideHeaderAndEncrBody readPolicy2 readPrivateKey">
+      <outedges
+          ID="provideHeaderAndBody"
+          number="10"
+          target="//@subgraphs.0/@nodes.7"
+          source="//@subgraphs.0/@nodes.4"
+          EdgeLabel="0"
+          graphassets="EmailBody EmailHeader"
+          visited="true"/>
+      <responsibility
+          ID="DecryptBody[Authoriser][eDFDFlowTracking.impl.AssetImpl@646a9907 (name: Policy, number: 0)]"
+          incomingassets="Policy">
+        <operation>Authoriser</operation>
+      </responsibility>
+      <responsibility
+          ID="DecryptBody[Forward][eDFDFlowTracking.impl.AssetImpl@267a3722 (name: EmailHeader, number: 0)]"
+          outgoingassets="EmailHeader"
+          incomingassets="EmailHeader">
+        <operation>Forward</operation>
+      </responsibility>
+      <responsibility
+          ID="DecryptBody[Decrypt][eDFDFlowTracking.impl.AssetImpl@d7da0ae (name: EncryptedBody, number: 0), eDFDFlowTracking.impl.AssetImpl@ae4fa3f (name: BobPrivateKey, number: 0)]"
+          outgoingassets="EmailBody"
+          incomingassets="EncryptedBody PrivateKey">
+        <operation>Decrypt</operation>
+      </responsibility>
+    </nodes>
+    <nodes name="BobDS">
+      <outedges
+          ID="readPrivateKey"
+          number="9"
+          target="//@subgraphs.0/@nodes.4"
+          source="//@subgraphs.0/@nodes.5"
+          EdgeLabel="1"
+          graphassets="PrivateKey"
+          visited="true"/>
+    </nodes>
+    <nodes name="ReclassifyBodyAndHeader"
+        inedges="send readPolicy1">
+      <outedges
+          ID="sendSplitAssets4Encryption"
+          number="3"
+          target="//@subgraphs.0/@nodes.3"
+          source="//@subgraphs.0/@nodes.6"
+          EdgeLabel="1"
+          graphassets="EmailBody EmailHeader"
+          visited="true"/>
+      <responsibility
+          ID="ReclassifyBodyAndHeader[Splitter][eDFDFlowTracking.impl.AssetImpl@51dc7140 (name: EmailBodyAndHeader, number: 0)]"
+          outgoingassets="EmailBody EmailHeader"
+          incomingassets="Email">
+        <operation>Splitter</operation>
+      </responsibility>
+      <responsibility
+          ID="ReclassifyBodyAndHeader[Authoriser][eDFDFlowTracking.impl.AssetImpl@646a9907 (name: Policy, number: 0)]"
+          incomingassets="Policy">
+        <operation>Authoriser</operation>
+      </responsibility>
+    </nodes>
+    <nodes name="Bob"
+        inedges="provideHeaderAndBody"/>
+    <nodes name="POP3Server"
+        AttackerObservation="1"
+        inedges="provideHeaderAndBody"
+        Attacker="true">
+      <outedges
+          ID="provideHeaderAndEncrBody"
+          number="7"
+          target="//@subgraphs.0/@nodes.4"
+          source="//@subgraphs.0/@nodes.8"
+          EdgeLabel="0"
+          graphassets="EncryptedBody EmailHeader"
+          visited="true"/>
+      <responsibility
+          ID="POP3Server[Copier][eDFDFlowTracking.impl.AssetImpl@d7da0ae (name: EncryptedBody, number: 0), eDFDFlowTracking.impl.AssetImpl@267a3722 (name: EmailHeader, number: 0)]"
+          outgoingassets="EncryptedBody EmailHeader"
+          incomingassets="EncryptedBody EmailHeader">
+        <operation>Copier</operation>
+      </responsibility>
+      <responsibility
+          ID="POP3Server[Store][eDFDFlowTracking.impl.AssetImpl@d7da0ae (name: EncryptedBody, number: 0), eDFDFlowTracking.impl.AssetImpl@267a3722 (name: EmailHeader, number: 0)]"
+          incomingassets="EncryptedBody EmailHeader">
+        <operation>Store</operation>
+      </responsibility>
+    </nodes>
+    <assets
+        ID="PrivateKey"
+        Label="1"
+        source="//@subgraphs.0/@nodes.5"
+        targets="//@subgraphs.0/@nodes.4"/>
+    <assets
+        ID="Policy"
+        Label="0"
+        source="//@subgraphs.0/@nodes.1"
+        targets="//@subgraphs.0/@nodes.6 //@subgraphs.0/@nodes.4"/>
+    <assets
+        ID="EmailBody"
+        Label="1"
+        source="//@subgraphs.0/@nodes.6"
+        targets="//@subgraphs.0/@nodes.3 //@subgraphs.0/@nodes.7"/>
+    <assets
+        ID="PublicKey"
+        Label="0"
+        source="//@subgraphs.0/@nodes.1"
+        targets="//@subgraphs.0/@nodes.3"/>
+    <assets
+        ID="EncryptedBody"
+        Label="0"
+        source="//@subgraphs.0/@nodes.3"
+        targets="//@subgraphs.0/@nodes.4"/>
+    <assets
+        ID="EmailHeader"
+        Label="0"
+        source="//@subgraphs.0/@nodes.6"
+        targets="//@subgraphs.0/@nodes.2 //@subgraphs.0/@nodes.8 //@subgraphs.0/@nodes.7"/>
+    <assets
+        ID="Email"
+        Label="1"
+        source="//@subgraphs.0/@nodes.0"
+        targets="//@subgraphs.0/@nodes.6"/>
+  </subgraphs>
+</graph:Graph>

@@ -1,0 +1,36 @@
+// Add imports here
+#import "http://www.gravity.org/typegraph/basic"
+#import "platform:/resource/Graph/model/graph.ecore"
+
+#schema org.gravity.mapping.secdfd
+
+#source {
+	basic
+ }
+
+#target {
+	graph
+}
+
+#correspondence {
+	TypeGraph2Graph {
+		#src-> TypeGraph
+		#trg-> Graph
+	}
+	
+	Method2Node {
+		#src->TMethod
+		#trg->Node	
+	}
+	
+	Defintion2Node {
+		#src->TMethodDefinition
+		#trg->Node
+	}
+	
+	Type2GraphAsset {
+		#src->TAbstractType
+		#trg->GraphAsset
+	}
+	
+}

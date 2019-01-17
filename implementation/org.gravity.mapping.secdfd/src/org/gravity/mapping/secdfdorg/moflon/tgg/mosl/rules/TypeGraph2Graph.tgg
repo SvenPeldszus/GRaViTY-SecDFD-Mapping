@@ -1,0 +1,23 @@
+#using org.gravity.mapping.secdfd.*
+#using AttrCondDefLibrary.*
+
+#rule TypeGraph2Graph #with org.gravity.mapping.secdfd
+
+#source {
+	++ pm :TypeGraph
+}
+
+#target {
+	++ graph : Graph
+}
+
+#correspondence {
+	++ pm2Graph : TypeGraph2Graph {
+		#src->pm
+		#trg->graph
+	}
+}
+
+#attributeConditions {
+
+}

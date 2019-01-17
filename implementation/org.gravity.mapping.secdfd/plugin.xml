@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated Secdfd -->
+      <package
+            uri="platform:/plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore"
+            class="org.gravity.mapping.secdfd.SecdfdPackage"
+            genModel="model/Secdfd.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated Secdfd -->
+      <package
+            uri="platform:/plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore#//Rules"
+            class="org.gravity.mapping.secdfd.Rules.RulesPackage"
+            genModel="model/Secdfd.genmodel"/>
+   </extension>
+
+</plugin>
