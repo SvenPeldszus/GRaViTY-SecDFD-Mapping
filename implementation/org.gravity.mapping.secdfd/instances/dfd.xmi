@@ -50,12 +50,12 @@
           target="//@subgraphs.0/@nodes.8"
           source="//@subgraphs.0/@nodes.2"
           EdgeLabel="0"
-          graphassets="EncryptedBody EmailHeader"
+          graphassets="EncryptedBody MimeHeader"
           visited="true"/>
       <responsibility
           ID="SMTPServer[Forward][eDFDFlowTracking.impl.AssetImpl@d7da0ae (name: EncryptedBody, number: 0), eDFDFlowTracking.impl.AssetImpl@267a3722 (name: EmailHeader, number: 0)]"
-          outgoingassets="EncryptedBody EmailHeader"
-          incomingassets="EncryptedBody EmailHeader">
+          outgoingassets="EncryptedBody MimeHeader"
+          incomingassets="EncryptedBody MimeHeader">
         <operation>Forward</operation>
       </responsibility>
     </nodes>
@@ -67,7 +67,7 @@
           target="//@subgraphs.0/@nodes.2"
           source="//@subgraphs.0/@nodes.3"
           EdgeLabel="0"
-          graphassets="EncryptedBody EmailHeader"
+          graphassets="EncryptedBody MimeHeader"
           visited="true"/>
       <responsibility
           ID="EncryptBody[Authoriser][eDFDFlowTracking.impl.AssetImpl@646a9907 (name: Policy, number: 0)]"
@@ -77,13 +77,13 @@
       <responsibility
           ID="EncryptBody[EncryptOrHash][eDFDFlowTracking.impl.AssetImpl@16cb470a (name: EmailBody, number: 0), eDFDFlowTracking.impl.AssetImpl@41bbdb8d (name: BobPublicKey, number: 0)]"
           outgoingassets="EncryptedBody"
-          incomingassets="EmailBody PublicKey">
+          incomingassets="MimeBody PublicKey">
         <operation>EncryptOrHash</operation>
       </responsibility>
       <responsibility
           ID="EncryptBody[Forward][eDFDFlowTracking.impl.AssetImpl@267a3722 (name: EmailHeader, number: 0)]"
-          outgoingassets="EmailHeader"
-          incomingassets="EmailHeader">
+          outgoingassets="MimeHeader"
+          incomingassets="MimeHeader">
         <operation>Forward</operation>
       </responsibility>
     </nodes>
@@ -95,7 +95,7 @@
           target="//@subgraphs.0/@nodes.7"
           source="//@subgraphs.0/@nodes.4"
           EdgeLabel="0"
-          graphassets="EmailBody EmailHeader"
+          graphassets="MimeBody MimeHeader"
           visited="true"/>
       <responsibility
           ID="DecryptBody[Authoriser][eDFDFlowTracking.impl.AssetImpl@646a9907 (name: Policy, number: 0)]"
@@ -104,13 +104,13 @@
       </responsibility>
       <responsibility
           ID="DecryptBody[Forward][eDFDFlowTracking.impl.AssetImpl@267a3722 (name: EmailHeader, number: 0)]"
-          outgoingassets="EmailHeader"
-          incomingassets="EmailHeader">
+          outgoingassets="MimeHeader"
+          incomingassets="MimeHeader">
         <operation>Forward</operation>
       </responsibility>
       <responsibility
           ID="DecryptBody[Decrypt][eDFDFlowTracking.impl.AssetImpl@d7da0ae (name: EncryptedBody, number: 0), eDFDFlowTracking.impl.AssetImpl@ae4fa3f (name: BobPrivateKey, number: 0)]"
-          outgoingassets="EmailBody"
+          outgoingassets="MimeBody"
           incomingassets="EncryptedBody PrivateKey">
         <operation>Decrypt</operation>
       </responsibility>
@@ -133,11 +133,11 @@
           target="//@subgraphs.0/@nodes.3"
           source="//@subgraphs.0/@nodes.6"
           EdgeLabel="1"
-          graphassets="EmailBody EmailHeader"
+          graphassets="MimeBody MimeHeader"
           visited="true"/>
       <responsibility
           ID="ReclassifyBodyAndHeader[Splitter][eDFDFlowTracking.impl.AssetImpl@51dc7140 (name: EmailBodyAndHeader, number: 0)]"
-          outgoingassets="EmailBody EmailHeader"
+          outgoingassets="MimeBody MimeHeader"
           incomingassets="Email">
         <operation>Splitter</operation>
       </responsibility>
@@ -159,17 +159,17 @@
           target="//@subgraphs.0/@nodes.4"
           source="//@subgraphs.0/@nodes.8"
           EdgeLabel="0"
-          graphassets="EncryptedBody EmailHeader"
+          graphassets="EncryptedBody MimeHeader"
           visited="true"/>
       <responsibility
           ID="POP3Server[Copier][eDFDFlowTracking.impl.AssetImpl@d7da0ae (name: EncryptedBody, number: 0), eDFDFlowTracking.impl.AssetImpl@267a3722 (name: EmailHeader, number: 0)]"
-          outgoingassets="EncryptedBody EmailHeader"
-          incomingassets="EncryptedBody EmailHeader">
+          outgoingassets="EncryptedBody MimeHeader"
+          incomingassets="EncryptedBody MimeHeader">
         <operation>Copier</operation>
       </responsibility>
       <responsibility
           ID="POP3Server[Store][eDFDFlowTracking.impl.AssetImpl@d7da0ae (name: EncryptedBody, number: 0), eDFDFlowTracking.impl.AssetImpl@267a3722 (name: EmailHeader, number: 0)]"
-          incomingassets="EncryptedBody EmailHeader">
+          incomingassets="EncryptedBody MimeHeader">
         <operation>Store</operation>
       </responsibility>
     </nodes>
@@ -184,7 +184,7 @@
         source="//@subgraphs.0/@nodes.1"
         targets="//@subgraphs.0/@nodes.6 //@subgraphs.0/@nodes.4"/>
     <assets
-        ID="EmailBody"
+        ID="MimeBody"
         Label="1"
         source="//@subgraphs.0/@nodes.6"
         targets="//@subgraphs.0/@nodes.3 //@subgraphs.0/@nodes.7"/>
@@ -199,7 +199,7 @@
         source="//@subgraphs.0/@nodes.3"
         targets="//@subgraphs.0/@nodes.4"/>
     <assets
-        ID="EmailHeader"
+        ID="MimeHeader"
         Label="0"
         source="//@subgraphs.0/@nodes.6"
         targets="//@subgraphs.0/@nodes.2 //@subgraphs.0/@nodes.8 //@subgraphs.0/@nodes.7"/>

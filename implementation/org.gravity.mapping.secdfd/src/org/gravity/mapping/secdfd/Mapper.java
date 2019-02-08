@@ -5,6 +5,7 @@ package org.gravity.mapping.secdfd;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -18,8 +19,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.gravity.mapping.StringCompare;
 import org.gravity.typegraph.basic.BasicPackage;
 import org.gravity.typegraph.basic.TAbstractType;
+import org.gravity.typegraph.basic.TClass;
 import org.gravity.typegraph.basic.TMethod;
 import org.gravity.typegraph.basic.TypeGraph;
 import org.moflon.tgg.runtime.CorrespondenceModel;
@@ -79,7 +82,7 @@ public class Mapper {
 
 	private CorrespondenceModel map(TypeGraph pm, Graph dfd) {
 		// Save types and methods from the program model in fields as they are accessed very often
-		types = pm.getOwnedTypes();
+		types = pm.getOwnedTypes().parallelStream().filter(t -> t.isDeclared()).collect(Collectors.toList());
 		methods = pm.getMethods();
 		
 		// Create a correspondence model between the two models
@@ -114,7 +117,7 @@ public class Mapper {
 	 * @return A stream of correspondences
 	 */
 	private Stream<Method2Node> find(Node node) {
-		return methods.parallelStream().filter(m -> node.getName().equalsIgnoreCase(m.getTName()))
+		return methods.parallelStream().filter(m -> StringCompare.compare(node.getName(), m.getTName()))
 				.map(m -> createCorrespondence(node, m));
 	}
 
@@ -125,7 +128,7 @@ public class Mapper {
 	 * @return A stream of correspondences
 	 */
 	private Stream<Type2GraphAsset> find(GraphAsset asset) {
-		return types.parallelStream().filter(t -> asset.getID().equalsIgnoreCase(t.getTName()))
+		return types.parallelStream().filter(t -> StringCompare.compare(asset.getID(),t.getTName()))
 				.map(t -> createCorrespondence(asset, t));
 
 	}

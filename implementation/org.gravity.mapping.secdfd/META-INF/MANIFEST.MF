@@ -10,6 +10,9 @@ Require-Bundle: org.eclipse.emf.ecore.xmi,
  SDMLanguage;visibility:=reexport,
  org.moflon.tgg.language;visibility:=reexport,
  org.moflon.tgg.runtime;visibility:=reexport,
+ Traceability;visibility:=reexport,
+ org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
  org.gravity.typegraph.basic;bundle-version="1.0.0";visibility:=reexport,
  Graph;bundle-version="0.1.0"
 Bundle-ManifestVersion: 2
