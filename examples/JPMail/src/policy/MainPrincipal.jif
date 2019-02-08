@@ -1,0 +1,31 @@
+package policy;
+
+import java.security.PublicKey;
+import java.security.PrivateKey;
+
+// special principal for bootstrapping the runtime environment and setting up a delegation with the native principal, user
+public class MainPrincipal extends KeyPrincipal {
+
+public MainPrincipal(String{this} name) {
+    super(name);
+}
+
+public MainPrincipal(String{this} name, PublicKey{} pubKey)
+{
+	super(name,pubKey);
+}
+
+public MainPrincipal{}(String{this} name, PublicKey{} pubKey, char{user:}[]{user:} pwd, principal{} user) where caller(user)
+{
+	super(name,pubKey,pwd,user);
+}
+
+// should only delegate to the user--we could make this a special closure if we had to
+// however, since delegations only happen in our trusted Policy code, we can ensure this there
+public boolean{authPrf; closure; lb; this} isAuthorized(Object authPrf, Closure[this,lb] closure, label lb)
+where authority(this) {
+    return ((closure instanceof policy.AddDelClosureL[this,lb])
+);
+}
+}
+

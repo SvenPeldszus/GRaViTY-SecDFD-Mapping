@@ -1,0 +1,100 @@
+using new (Jif 2.0) mechanism for implementing trusted declassification
+Jif 2.0 mechanism is more general
+used to leverage PH to encode "trust" of declassifiers
+now use new declassification policy as auth-Proof for Closures in Jif
+
+adding new hierarchy to judgements for external policy of what principal 
+       trusts what declassifiers (function hierarchy)
+object calculus
+       parameterized?
+       no state
+       termination song and dance
+       we have implicit flows (mention this)
+       some reasonable, small example in calculus
+
+Examples
+-- Email client
+   -- incoming declassification (text->label conversion)
+   -- outgoing declassification (encryption, filtering, etc.)
+
+what involved with incorporating two hierarchies?
+where is attacker in relation to second hierarchy?
+  
+labeled program without declassification statements
+can you automatically generate declassify statements?
+
+lattice 
+
+alternative to manual declassification statements
+more sell-able
+
+could you write an equivalent program to get desired effect in Jif
+do we genuinely subsume Jif?
+Yes!
+
+***formal logic for specifying external policy
+  this is a key point
+  can we describe the policy and automatically generate the declassifiers?
+  we will use the Jif 2.0 authorize mechanism for declassification
+  how interesting can the policies be?
+  can they involve other constraints, like key > 16bits or loan > $20,000 or a time
+      constraint--happens after 3pm?
+
+labels *restrict* how data may be used
+functional requirements specify how data may be *used/leaked*
+opposites
+seeking to compute the intersection of these policies
+
+find weakest policy
+
+Tax Preparer example -- where is the declassification?
+
+------------
+we can automatically generate this simple declassification consisting of 
+1) Closure:
+public class DeclassMailLabelClosure[principal P] implements Closure[P,{}] { 
+    // local variables serve as parameters to the eventual function call
+    // in this case, we're going to declassify to a String to public
+    String{P:} data;
+    public DeclassMailLabelClosure(String{P:} data) 
+    {
+	this.data = data;
+    }
+    
+    public Object{this} invoke{}() where caller (P) {
+	return declassify(data,{this});
+    }
+}
+
+
+2) Method call (uses closure and Principal.authorize() which should take a capability, 
+   	       drawn from a policy check--here it takes a password)
+    public static String{} declassStringLabel{}(principal{} owner, String{owner:} stringLabel)
+    {
+	final DeclassMailLabelClosure[owner]{} declClosure = 
+		         new DeclassMailLabelClosure[owner](stringLabel);
+
+	String{} declStringLabel = null;
+
+	try {
+	    // Here, a password is used for the check.
+	    // In our system, a check is made to an external policy
+	    // Need to encode the result to send as authPrf
+	    // In this case, the policy check could be public info
+	    // after all, the lack of response will reveal the result of the
+	    // check anyway, if it's not authorized
+	    String{} pw = "myPassword";
+	    declStringLabel = (String)PrincipalUtil.authorize(owner, pw, declClosure, 
+							      new label {}).invoke();
+	}
+	catch (NullPointerException e) { /* means authorization failed */ }
+	catch (ClassCastException impossible) {}
+	return declStringLabel;
+    }
+
+--------------------
+***A note of methodology for building Jif programs.***
+For mail messages, I wanted to be able to store Principals at the level of the Manager and then
+declassify them arbitrarily when retrieving them from the Store.  I was having a hard time
+conceiving of this and so I began to draw a picture (figures/PrincipalStorePrototype.graffle)
+and that helped to conceive of when the declassification needed to take place.

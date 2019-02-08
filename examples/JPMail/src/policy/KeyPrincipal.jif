@@ -1,0 +1,95 @@
+package policy;
+// Key principal, contains public key (and possibly a private key)
+// equality is based on name equality and public key equality
+
+import java.security.PublicKey;
+import java.security.PrivateKey;
+
+public class KeyPrincipal extends AbstractPrincipal {
+	private final PublicKey{} publicKey;
+	private final char{this:}[]{this:} keystorePwd;
+	final String{this} keystoreFilename; 
+	final String{this} trustedCAfilename;
+	
+    public KeyPrincipal(String{this} name) {
+    		this.publicKey = null;
+    		this.keystorePwd = null;
+    		this.keystoreFilename = null;
+    		this.trustedCAfilename = null;
+    		super(name);
+    }
+
+    public KeyPrincipal(String{this} name, PublicKey{} pubKey) {
+    		this.publicKey = pubKey;
+    		this.keystorePwd = null;
+    		this.keystoreFilename = null;
+    		this.trustedCAfilename = null;
+    		super(name);
+    }
+
+    public KeyPrincipal{this:}(String{this} name, PublicKey{} pubKey, char{user:}[]{user:} pwd, principal{} user) where caller(user) {
+    		this.publicKey = pubKey;
+    		char{user:}[]{this:} _pwd = declassify(pwd,{this:});
+    		int{this:} len = _pwd != null ? declassify(_pwd.length,{this:}) : 0;
+    		this.keystoreFilename = "certs/.keystore";  // temporary solution; eventually pass this in
+    		this.trustedCAfilename = "certs/cacert.pem";
+    		this.keystorePwd = new char[len];
+    		try {
+	    		for (int i = 0; i < len; i++)
+	    			this.keystorePwd[i] = declassify(_pwd[i],{this:});
+    		} catch (ArrayIndexOutOfBoundsException e) {
+    		} catch (NullPointerException e) {} // due to array accesses
+    		super(name);
+    }
+
+    public PublicKey{} getPublicKey() {
+    		return publicKey;
+    	}
+    	
+    	public PrivateKey{this:} getPrivateKey{this:}() throws (SecurityException){
+		final jif.runtime.Runtime[this] runtime = jif.runtime.Runtime[this].getRuntime(this.keystoreFilename, this.keystorePwd, this.trustedCAfilename);
+		return runtime != null ? runtime.getPrivateKey() : null;
+    	}
+    	
+    public boolean{this;o} equals(Object o) {
+        if (o == null) return false;
+        if (o instanceof KeyPrincipal) {
+            return equals((KeyPrincipal)o);
+        }
+        return false;
+    }
+    
+    public char{this:}[]{this:} getKeystorePwd()
+    {
+    		return this.keystorePwd;
+    	}
+    	
+    	public String{this} getKeystoreFilename()
+    	{
+    		return this.keystoreFilename;
+    	}
+    	
+    	public String{this} getTrustedCAfilename()
+    	{
+    		return this.trustedCAfilename;
+    	}
+    	
+    public boolean{this;p} equals(KeyPrincipal p) {
+    		if (p == null) return false;
+    		else {
+/*    			try {
+    				byte[] pubKeybits1 = this.publicKey.getEncoded();
+    				byte[] pubKeybits2 = this.publicKey.getEncoded();
+    				if (pubKeybits1.length != pubKeybits2.length) return false;
+    				for (int i = 0; i < pubKeybits1.length; i++)
+    					if (pubKeybits1[i] != pubKeybits2[i]) return false;
+*/
+    				return ((AbstractPrincipal)p).equals(this);
+/*    			} catch (NullPointerException e) {
+    				return false;
+    			} catch (ArrayIndexOutOfBoundsException impossible) {
+    				return false;
+    			}
+*/    		}        
+    }
+}

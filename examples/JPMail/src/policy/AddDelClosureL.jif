@@ -1,0 +1,23 @@
+package policy;
+
+public class AddDelClosureL[principal P, label L] implements Closure[P,L] { 
+    final principal{L} del;
+    public AddDelClosureL(principal{L} del) {
+	this.del = del;
+	//	super();
+    }
+    
+    public Object{this} invoke{L}() where caller (P) {
+	final Principal{L} p = P;
+	if (p instanceof AbstractPrincipal) {
+	    try {
+		final AbstractPrincipal{L} tp = (AbstractPrincipal)p;
+		if (L <= new label{tp:}) {
+		    tp.addDelegatesTo(del);
+		}
+	    }
+	    catch (ClassCastException impossbile) {}
+	}
+	return null;
+    }
+}

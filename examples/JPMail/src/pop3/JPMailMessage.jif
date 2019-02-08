@@ -1,0 +1,249 @@
+/**
+ * 
+ */
+package pop3;
+
+import java.io.PrintStream;
+import crypto.Ciphertext;
+import crypto.DES;
+import crypto.DESClosure;
+import crypto.AES;
+import crypto.AESClosure;
+import crypto.RSAClosure;
+
+import smtp.EmailDisclaimerClosure;
+
+import java.security.Key;
+import java.security.PublicKey;
+import java.security.NoSuchAlgorithmException;
+
+import policy.KeyPrincipal;
+/**
+ * @author phicks
+ *
+ */
+
+public class JPMailMessage{
+    /*== Data Fields ================================================*/
+	protected final MimeHeader{this} header;
+	protected final principal{this} rcptP;  // owner
+    public final label{this} rcptLbl;    // owner:readers needs to be accessible so it can be checked
+    protected final String{this} originalBody; // this is labeled uniformly; it will be transformed into a body marked for the recipient
+    protected final String{*rcptLbl} body;
+
+    /*== Constructors ===============================================*/
+//     public MailHeader() 
+//     {
+// 	// do nothing
+//     }
+
+    /**
+     * intuitively, *lbl should be higher than {this}, so it should be fine to
+     * have the function-label set at *rcptLbl
+     */ 
+    public JPMailMessage{this}(String{this} toAddress, String{this} fromAddress, 
+    							 String{this} sendDate, String{this} subject, 
+    							 String{this} rcptLblStr, 
+    							 principal{this} p,
+    							 label{this} lbl,
+    							 String{this} originalBody,
+    							 String{*lbl} body)
+    {
+    		header = new MimeHeader(toAddress,fromAddress,sendDate,subject,rcptLblStr,null);  // no crypto, so null
+    		this.rcptP        = p;  // should hold that lbl <= {rcptP:} or we have problems
+		this.rcptLbl      = lbl;
+		this.originalBody = originalBody;
+		this.body         = body;
+    }
+
+    public JPMailMessage{this}(MimeHeader{this} mh, 
+    							 String{this} rcptLblStr, 
+    							 principal{this} p,
+    							 label{this} lbl,
+    							 String{this} originalBody,
+    							 String{*lbl} body)
+    {
+    		header = mh;
+    		this.rcptP        = p;  // should hold that lbl <= {rcptP:} or we have problems
+		this.rcptLbl      = lbl;
+		this.originalBody = originalBody;
+		this.body         = body;
+    }
+
+    public String{this} getToAddress() {
+    		return header == null ? null : header.getToAddress();
+    	}
+    	
+    public String{this} getFromAddress() {
+    		return header == null ? null : header.getFromAddress();
+	}
+
+    public String{this} getSubject() {
+    		return header == null ? null : header.getSubject();
+    	}
+    	
+    	public String{this} getSendDate() {
+    		return header == null ? null : header.getSendDate();
+    	}
+    	
+    public label{this} getRcptLbl() {
+    		return this.rcptLbl;
+    	}
+
+    public principal{this} getRcptP() {
+    		return this.rcptP;
+    	}
+
+    public String{this} getRcptLblStr()
+    {
+    		return header == null ? null : header.getLabelStr();
+    	}
+    	
+    	public String{this} getOriginalBody()
+    	{
+    		return this.originalBody;
+    	}
+    	
+    public String{*rcptLbl} getBody() {
+		return this.body;
+	}
+
+    /** converts a JPMailMessage to MailMessage by encrypting the body
+     *  everything should be at the level of {this} when we finish
+     *  then {this} can be converted by some other means
+     *  maybe rcptP should be a member of the class? -- it is now
+     * BAD: not sure if we really want the {} side-effect label!
+     * @param rcptP is a principal that can authorize the declassifying encryption of the body (i.e. rcptLbl <= {rcptP:})
+     * @param lbl is the level at which to output this message
+     * @return Newly constructed MimeMailMessage which contains the body text encrypted along with the key and IV and the header
+     */
+    public MimeMailMessage{*lbl} toMimeMailMessage{}(label{*lbl} lbl,PrintStream[{user:}]{user:} debug, principal{} user)
+    {
+    		if (debug != null) debug.println("ENTERING toMimeMailMessage...");
+		MimeMailMessage mmm = null;
+
+    	// need to get the principal(s) out of rcptLbl
+    		if (lbl <= new label{user:})
+    		if (lbl <= rcptLbl) // otherwise, we don't need to declassify/encrypt the body
+    		if (rcptLbl <= new label{rcptP:}) {
+    			boolean success = true; // presume it will work, but, if not, set flag
+
+    			String{*lbl} disclaimerBody = "";
+    			EmailDisclaimerClosure[rcptP,lbl]{*lbl} edc = new EmailDisclaimerClosure[rcptP,lbl](getBody());
+    			try {
+    				disclaimerBody = (String)principalUtil.authorize(rcptP,null,edc,lbl).invoke();
+    			} catch (ClassCastException ignore) {
+    			} catch (NullPointerException e) { success = false; } // failed to authorize
+
+    			if (success) {
+    				final MimePart{*lbl}[]{*lbl} parts = new MimePart[1];
+
+	    			try {
+	    				parts[0] = MimePart.make7bitPart(disclaimerBody,true,header,lbl);
+	    				mmm = new MimeMailMessage(header,parts,1);
+		    		} catch (NullPointerException ignore) { 
+		    		} catch (ArrayIndexOutOfBoundsException ignore) { // shouldn't happen
+		    		} catch (ArrayStoreException ignore) {} // not sure what this is
+    			} else {
+    				if (debug != null) debug.println("Trying encryption.");
+    				// common for all encryption types
+    				String{*lbl} crypto = "none";  // presume no encryption
+				Key{rcptP:} key = null;
+	    			Ciphertext{*lbl} encBody = null;
+	    			// upgrade and copy the body so that it can be sent to DESClosure
+	    			final String{rcptP:} bodyStr = getBody(); // upgrade the label on the String
+	    			final byte{rcptP:}[]{rcptP:} bodyBytes = bodyStr == null ? null : bodyStr.getBytes();
+
+	    		// ---try AES---
+	    			success = true;
+	    			crypto = "AES";
+				try {
+					key = AES[{rcptP:}].getNewKey();
+				} catch (NoSuchAlgorithmException impossible) {
+				} catch (NullPointerException impossible) {}
+
+				if (debug != null) debug.println("Trying AES...");
+	    			AESClosure[rcptP,lbl]{*lbl} ac = new AESClosure[rcptP,lbl](key,bodyBytes);    			
+	    			try {
+	    				encBody = (Ciphertext)principalUtil.authorize(rcptP,null,ac,lbl).invoke();
+	    			} catch (ClassCastException ignore) {
+	    			} catch (NullPointerException ignore) { success = false; } // means we didn't get authorization
+	    			if (!success) {
+	    		// ---try DES---
+	    				success = true;
+	    				crypto = "DES";
+					try {
+						key = DES[{rcptP:}].getNewKey();
+					} catch (NoSuchAlgorithmException impossible) {
+					} catch (NullPointerException impossible) {}
+
+					if (debug != null) debug.println("Trying DES...");
+		    			DESClosure[rcptP,lbl]{*lbl} dc = new DESClosure[rcptP,lbl](key,bodyBytes);    			
+		    			try {
+		    				encBody = (Ciphertext)principalUtil.authorize(rcptP,null,dc,lbl).invoke();
+		    			} catch (ClassCastException ignore) {
+		    			} catch (NullPointerException ignore) { success = false; } // means we didn't get authorization
+	    			}	    				
+
+	    			if (!success) {
+	    				crypto = "failed";
+					final MimeHeader{*lbl} cryptoHeader = header != null ? header.addCrypto(crypto) : null;   // add whatever crypto we used.
+		    			final MimePart{*lbl}[]{*lbl} parts = new MimePart[1];
+		    			try {
+		    				parts[0] = MimePart.make7bitPart("<CANNOT DISCLOSE BODY>",true,cryptoHeader,lbl);
+			    		} catch (NullPointerException ignore) { // caused by key.getEncoded or encBody.*
+			    		} catch (ArrayIndexOutOfBoundsException ignore) { // shouldn't happen
+			    		} catch (ArrayStoreException ignore) {} // not sure what this is
+		    			mmm = new MimeMailMessage(cryptoHeader,parts,3);
+	    			} else { // able to encrypt in some way so package up the key and IV with the ciphertext in the MimeBody
+					byte{rcptP:}[]{rcptP:} keyBits1 = null;
+			
+					try {
+						keyBits1 = key.getEncoded();
+					} catch (NullPointerException ignore) {}
+			
+			// encrypt and add key to MimeMailMessage
+
+			// we only need to declassify because we didn't encrypt yet -- should be removed eventually -- DONE
+//					DeclassKeyClosure[rcptP,lbl]{*lbl} dkc = new DeclassKeyClosure[rcptP,lbl](keyBits1);
+					PublicKey rcptKey = null;
+					if (rcptP instanceof KeyPrincipal) {
+						rcptKey = ((KeyPrincipal)rcptP).getPublicKey();
+					}
+					
+					RSAClosure[rcptP,lbl]{*lbl} rsaClo = new RSAClosure[rcptP,lbl](rcptKey,keyBits1);
+					byte{*lbl}[]{*lbl} keyBits = null;
+					
+					try {
+						keyBits = ((Ciphertext)principalUtil.authorize(rcptP,null,rsaClo,lbl).invoke()).encText;
+					} catch (NullPointerException ignore) {  // would mean the authorization failed
+					} catch (ClassCastException ignore) {} 
+	    	
+	    	// create the Message
+			
+					final MimeHeader{*lbl} cryptoHeader = header != null ? header.addCrypto(crypto) : null;   // add whatever crypto we used.
+		    			final MimePart{*lbl}[]{*lbl} parts = new MimePart[3];
+		
+		    			try {
+			    			parts[0] = MimePart.makeBase64Attachment("key",keyBits,false,cryptoHeader,lbl);
+			    			//if (parts != null && parts[0] != null && outS != null) outS.println("Made the first part -- KEY"); 
+			    			// add IV to MimeMailMessage
+			    			parts[1] = MimePart.makeBase64Attachment("iv",encBody.iv,false,cryptoHeader,lbl);
+			    			//if (parts != null && parts[1] != null && outS != null) outS.println("Made the second part -- IV"); 
+			    			// add encrypted body to MimeMailMessage
+			    			parts[2] = MimePart.makeBase64Attachment("body",encBody.encText,true,cryptoHeader,lbl);
+			    			mmm = new MimeMailMessage(cryptoHeader,parts,3);
+			    		} catch (NullPointerException ignore) { // caused by key.getEncoded or encBody.*
+			    		} catch (ArrayIndexOutOfBoundsException ignore) { // shouldn't happen
+			    		} catch (ArrayStoreException ignore) {} // not sure what this is
+			    	}
+		    	}
+    		}
+    		return mmm;
+    }
+    
+// 	public void setBody(String body) {
+// 		this.body = body;
+// 	}
+
+}

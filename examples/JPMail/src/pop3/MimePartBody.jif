@@ -1,0 +1,33 @@
+/**
+ * 
+ */
+package pop3;
+
+import java.io.BufferedReader;
+
+/**
+ * @author phicks
+ *
+ */
+
+public abstract class MimePartBody {
+	final boolean{this} isLast;
+
+	public MimePartBody(boolean{this} isLast)
+	{
+		this.isLast = isLast;
+	}
+	
+	public String{this} toString{this}()
+	{
+		return "NOT INSTANTIATED.\n";
+	}
+	
+ 	/**
+ 	 * When part ends with "--" + boundary + "--" it is the last one.  Need to notify the caller of this
+ 	 * this method should return true in that case
+ 	 */
+    public boolean{this} isLast() {
+    		return isLast;
+    	}
+}

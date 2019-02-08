@@ -1,0 +1,28 @@
+package crypto;
+
+import java.security.Key;
+import policy.KeyPrincipal;
+
+// this should be the public key, so we could mark it as public
+// not sure if that will just complicate things.  It will need to be declassified anyway
+public class RSASelfClosure[principal P,label L] implements Closure[P,{P:}] { 
+    final byte{P:}[]{P:} plaintext; // should this be a String?
+    //final String{P:} plaintext;
+    final KeyPrincipal{P:} keyP;
+
+    public RSASelfClosure(KeyPrincipal{P:} keyP, byte{P:}[]{P:} plaintext) {
+    		this.plaintext = plaintext;
+    		this.keyP = keyP;
+    		//super();
+    }
+
+    // This returns a Ciphertext
+    public Object{this} invoke{P:}() where caller (P) {
+    		Object o = null;
+    		if (keyP != null) {
+	    		final principal kp = keyP;
+	    		if (P actsfor kp) o = RSA[{P:}].encrypt(keyP.getPublicKey(),plaintext);
+	    	}
+    		return declassify(o,{this});
+    }
+}

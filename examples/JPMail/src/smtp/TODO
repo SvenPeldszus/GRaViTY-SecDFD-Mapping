@@ -1,0 +1,10 @@
+TODO for SMTP class MailSender
+Goal: We want to make a MailSender class which builds on the functionality of Transport/Session/MimeMessage, etc.
+	1. Establish SMTP connection (see javax.mail.Transport)
+	   Basically need to implement the SMTPTransport.class
+	2. Need to understand what javax.mail.Session,etc. and decide whether to replace them with secure versions
+	3. Build functionality into Message to send? or send through MailSender class (send it a pre-baked message)
+	4. add declassifiers (encrypt message body, e.g.)
+	5. add attachments, mime types, etc. (see javax.mail.MimeMessage)
+	6. Add field to indicate what kind of crypto is used.
+one more thing

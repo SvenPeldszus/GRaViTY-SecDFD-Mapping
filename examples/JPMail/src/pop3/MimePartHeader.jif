@@ -1,0 +1,146 @@
+/**
+ * Data structure to store the pertinent mail message header info
+ */
+package pop3;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.FileInputStream;
+import java.io.PrintStream;
+
+
+/**
+ * @author Boniface Hicks
+ *
+ */
+public class MimePartHeader {
+    /*== Data Fields ================================================*/
+	protected final String{this} contentTransferEncoding;
+    protected final ContentType{this} contentType;
+    protected final ContentDisposition{this} contentDisposition;
+    protected final MimeHeader{this} mimeHeader;
+    
+    /*== Constructors ===============================================*/
+    /**
+     * Use this constructor for creating new incoming messages
+     * which could then be filled in with getField(), etc.
+     */
+     public MimePartHeader{this}(String{this} contentTransferEncoding, ContentType{this} contentType,
+    		 						ContentDisposition{this} contentDisposition, MimeHeader{this} mimeHeader)
+    {
+    	 	this.contentTransferEncoding = contentTransferEncoding;
+   		this.contentType = contentType;
+    		this.contentDisposition = contentDisposition;
+    		this.mimeHeader = mimeHeader;  // needed for boundary, mimeVersion, label?, etc.
+    }
+
+    public String{this} getContentTransferEncoding() {
+		return this.contentTransferEncoding;
+	}
+
+    public ContentType{this} getContentType() {
+ 		return this.contentType;
+ 	}
+
+    public ContentDisposition{this} getContentDisposition() {
+		return contentDisposition;
+	}
+
+    public MimeHeader{this} getMimeHeader() {
+    		return this.mimeHeader;
+    	}
+    	
+    	public String{this} getBoundary() {
+    		if (mimeHeader == null) return null;
+    		else return mimeHeader.getBoundary();
+    	}
+    	
+    	/**
+    	 * puts out a header, followed by CRLF
+    	 */
+    	public String{this} toString() {
+		String out = "";
+		
+		out += "Content-Transfer-Encoding: " + this.getContentTransferEncoding() + "\n";
+		if (this.contentType != null) out += this.contentType.toString();
+		if (this.contentDisposition != null) out += this.contentDisposition.toString();
+
+		out += "\n";  // a blank line to end the header: should be CRLF, I think
+    		return out;
+    	}
+    	
+    	/**
+    	 * Should start on the first line of the MimePart (i.e. the begin-boundary has already been read in)
+    	 */
+ 	public static MimePartHeader{*lbl} getMimePartHeader{*lbl}(BufferedReader[{*lbl}]{*lbl} in, label{*lbl} lbl, MimeHeader{*lbl} mimeHeader)
+ 	{
+ 		if (in == null) return null;
+ 		
+ 		String{*lbl} contentTransferEncoding = null;
+ 		ContentType{*lbl} contentType = null;
+ 		ContentDisposition{*lbl} contentDisposition = null;
+
+  		String response = null;
+	    boolean header = true;
+	    while (header) {
+		    try {
+		    		response = in.readLine();
+		    }
+		    catch (IOException e) {}
+		    
+		    try {
+			    if (response == null) header = false;		
+			    else if (response.compareTo("") == 0) header = false;  // end header
+			    else if (response.startsWith("Content-Transfer-Encoding: ")) contentTransferEncoding = response.substring("Content-Transfer-Encoding: ".length()); // remove "To: " and store in a variable
+			    else if (response.startsWith("Content-Type: ")) contentType = ContentType.getContentType(response,in,lbl);
+			    else if (response.startsWith("Content-Disposition: ")) contentDisposition = ContentDisposition.getContentDisposition(response,in,lbl);
+		    } catch (NullPointerException ignore)  { // response shouldn't be null
+		    } catch (StringIndexOutOfBoundsException ignore) {} // shouldn't happen
+	    }	
+	    
+	    return new MimePartHeader(contentTransferEncoding,contentType,contentDisposition,mimeHeader);
+    } 	
+    
+ 	public static void main{}(principal{} user, String[] args) where caller(user)
+	{
+		jif.runtime.Runtime[user] runtime = null;
+	
+		try {
+		    runtime = jif.runtime.Runtime[user].getRuntime();
+		} catch (SecurityException e) {}
+			
+		PrintStream[{user:}]{user:} outS = null;
+	 	try{
+	 	    outS = runtime.stdout(new label{user:});
+	 	}
+	 	catch (SecurityException ex) {} // should do something here
+		catch (NullPointerException e) {}
+		// open a file
+	
+		BufferedReader[{user:}]{user:} in = null;
+		
+		try {
+			in = new BufferedReader[{user:}](new InputStreamReader[{user:}](runtime.openFileRead("mime-part-header-test-email.txt",new label{user:})));
+		} catch (IOException ignore) {
+		} catch (SecurityException ignore) {
+		} catch (NullPointerException ignore) {}
+
+		final MimePartHeader mh = MimePartHeader.getMimePartHeader(in,new label{user:},null);
+		
+		if (outS != null && mh != null) {
+			outS.println("Content-Transfer-Encoding: " + mh.getContentTransferEncoding());
+			try {
+				outS.println("contentType: " + mh.getContentType().getContentType());
+				outS.println("subype: " + mh.getContentType().getContentSubtype());
+				outS.println("charset: " + mh.getContentType().getCharset());
+				outS.println("name: " + mh.getContentType().getName());
+				outS.println("format: " + mh.getContentType().getFormat());
+
+				outS.println("Content-Disposition: " + mh.getContentDisposition().getDisposition());
+				outS.println("filename: " + mh.getContentDisposition().getFilename());
+			} catch (NullPointerException ignore) {}
+		}
+	}
+    
+ }

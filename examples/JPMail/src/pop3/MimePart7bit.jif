@@ -1,0 +1,108 @@
+/**
+ * 
+ */
+package pop3;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.FileInputStream;
+import java.io.PrintStream;
+
+/**
+ * @author phicks
+ *
+ */
+
+public class MimePart7bit extends MimePartBody {
+	final String{this} body;
+	
+	public MimePart7bit{this}(boolean{this} isLast, String{this} body)
+	{
+		this.body = body;
+		super(isLast);
+	}
+	
+	public String{this} getBody() {
+		return this.body;
+	}
+	
+	/** 
+	 * should print exactly the String of the body's bytes and the blank line afterwards
+	 */
+    public String{this} toString{this}()
+    {
+    		String out = "";
+    		out += this.getBody() + "\n";
+    		
+    		out += "\n";  // ends with a blank line; should be CRLF
+    		return out;
+    	}
+    		
+ 	/**
+ 	 * Stream should be ready to read the first line of the body (i.e., the blank line has been read in)
+ 	 * ends with "" (blank line) followed by --boundary
+ 	 */
+    public static MimePart7bit{*lbl} getMimePart7bit{*lbl}(BufferedReader[{*lbl}]{*lbl} in, label{*lbl} lbl, String{*lbl} boundary)
+    {
+ 		if (in == null) return null;
+ 		
+ 		String{*lbl} body = "";
+ 		boolean{*lbl} isLast = false;
+
+  		String response = null;
+	    boolean inBody = true;
+	    while (inBody) {
+		    try {
+		    		response = in.readLine();
+		    }
+		    catch (IOException e) {}
+		    
+		    try {
+			    if (response == null) inBody = false;		
+			    else if (response.startsWith("--" + boundary)) {
+			    		inBody = false;  // end body
+			    		if (response.startsWith("--" + boundary + "--")) isLast = true;  // last body
+			    	}
+			    else body += response + "\n";
+		    } catch (NullPointerException ignore)  {} // response shouldn't be null
+	    }	
+	    
+	    return new MimePart7bit(isLast,body);
+    } 	
+    
+ 	public static void main{}(principal{} user, String[] args) where caller(user)
+	{
+		jif.runtime.Runtime[user] runtime = null;
+	
+		try {
+		    runtime = jif.runtime.Runtime[user].getRuntime();
+		} catch (SecurityException e) {}
+			
+		PrintStream[{user:}]{user:} outS = null;
+	 	try{
+	 	    outS = runtime.stdout(new label{user:});
+	 	}
+	 	catch (SecurityException ex) {} // should do something here
+		catch (NullPointerException e) {}
+		// open a file
+	
+		BufferedReader[{user:}]{user:} in = null;
+		
+		try {
+			in = new BufferedReader[{user:}](new InputStreamReader[{user:}](runtime.openFileRead("mail.txt",new label{user:})));
+		} catch (IOException ignore) {
+		} catch (SecurityException ignore) {
+		} catch (NullPointerException ignore) {}
+
+		final MimePart7bit mt = MimePart7bit.getMimePart7bit(in,new label{user:},"Apple-Mail-31--552966314");
+		
+		if (outS != null && mt != null) {
+			outS.println("body: ");
+			outS.println(mt.getBody());
+			if (mt.isLast()) outS.println("Last one");
+			else outS.println("more bodies to come.");
+		}
+	}
+    		
+}

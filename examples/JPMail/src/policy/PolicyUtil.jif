@@ -1,0 +1,47 @@
+package policy;
+
+public class PolicyUtil
+{      
+
+    // helper function just to get the job done
+    // to be careful, need to check whether authorization works.
+    // it always works in this case, because the password for our
+    // principals is presumed to be null
+    // the label here is the label on the principals and is pushed through to authorize and invoke()
+    // currently, it is necessary that {p1:} <= lb
+    /**
+     * @param p1 principal who is delegating
+     * @param p2 principal being delegated to
+     * @param lb upper-bound on level of principals and determines side-effects 
+     *           for the whole thing.  This must hold: {p1:} <= lb
+     */          
+    public static void delegate{*lb}(principal{*lb} p1, principal{*lb} p2, label{} lb)
+    {
+	if (new label{p1:} <= lb) {
+	    final AddDelClosureL[p1,lb] authClosure = new AddDelClosureL[p1,lb](p2);
+	    try {
+		PrincipalUtil.authorize(p1, null, authClosure, lb).invoke();
+	    }
+	    catch (NullPointerException impossible) {}
+	}
+    }
+
+    /**
+     * @param p1 principal who is delegating
+     * @param p2 principal being delegated to
+     * @param password a password to authorize for p1; it must be readable by {p1:}
+     * @param lb upper-bound on level of principals and determines side-effects 
+     *           for the whole thing.  This must hold: {p1:} <= lb
+     *           It would be sensible that this would normally be {p1:}
+     */          
+    public static void delegate{*lb}(principal{*lb} p1, principal{*lb} p2, String{p1:} password, label{} lb)
+    {
+	if (new label{p1:} <= lb) {
+	    final AddDelClosureL[p1,lb] authClosure = new AddDelClosureL[p1,lb](p2);
+	    try {
+		PrincipalUtil.authorize(p1, password, authClosure, lb).invoke();
+	    }
+	    catch (NullPointerException impossible) {}
+	}
+    }
+}

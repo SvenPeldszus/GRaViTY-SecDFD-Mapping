@@ -1,0 +1,235 @@
+/**
+ * Data structure to store the pertinent mail message header info
+ */
+package pop3;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.FileInputStream;
+import java.io.PrintStream;
+
+
+/**
+ * @author Boniface Hicks
+ *
+ */
+public class MimeHeader {
+    /*== Data Fields ================================================*/
+	protected final String{this} toAddress;
+    protected final String{this} fromAddress;
+    protected final String{this} sendDate;
+    protected final String{this} subject;
+    protected final ContentType{this} contentType;
+    protected final String{this} mimeVersion;
+    protected final String{this} mailLblStr;
+    protected final String{this} crypto;
+    
+    /*== Constructors ===============================================*/
+    /**
+     * Use this constructor for creating new incoming messages
+     * which could then be filled in with getField(), etc.
+     */
+     public MimeHeader{this}(String{this} toAddress, String{this} fromAddress,
+	              String{this} sendDate, String{this} subject, String{this} mailLblStr, String{this} crypto,
+	              ContentType{this} contentType, String{this} mimeVersion)
+    {
+    	 	this.toAddress    = toAddress;
+		this.fromAddress  = fromAddress;
+		this.sendDate     = sendDate;
+		this.subject      = subject;
+		this.mailLblStr   = mailLblStr;
+		this.crypto = crypto;
+   		this.mimeVersion  = mimeVersion;
+    		this.contentType  = contentType;
+    }
+
+     /**
+      * Use this constructor to create new OutGoing messages
+      */
+     public MimeHeader{this}(String{this} toAddress, String{this} fromAddress,
+	              String{this} sendDate, String{this} subject, String{this} mailLblStr, String{this} crypto)
+    {
+   		this.mimeVersion = "1.0";
+    		this.contentType = new ContentType("multipart","mixed","JPII-Mail-99--9999999999");
+    		this.toAddress = toAddress;
+		this.fromAddress  = fromAddress;
+		this.sendDate     = sendDate;
+		this.subject      = subject;
+		this.mailLblStr   = mailLblStr;
+		this.crypto = crypto;
+    }
+
+    public String{this} getToAddress() {
+		return toAddress;
+	}
+
+    public String{this} getFromAddress() {
+		return fromAddress;
+	}
+
+    public String{this} getSendDate() {
+ 		return this.sendDate;
+ 	}
+
+    public String{this} getSubject() {
+		return subject;
+	}
+
+    public String{this} getLabelStr() {
+		return mailLblStr;
+	}
+
+    public String{this} getMimeVersion() {
+		return this.mimeVersion;
+	}
+
+    public ContentType{this} getContentType() {
+		return contentType;
+	}
+
+    public String{this} getCrypto() {
+		return this.crypto;
+	}
+
+    public String{this} getBoundary() {
+		if (contentType != null)
+			return contentType.getBoundary();
+		else return null;
+	}
+
+    public String{this} getMailLblStr() {
+    		return mailLblStr;
+    	}
+    	
+    /**
+     * This appears at the beginning of each multipart
+     */
+    public String{this} getBeginBoundary() {
+		return "--" + this.getBoundary();
+	}
+
+    /**
+     * This appears at the end of the whole body
+     * No more MultiParts after this
+     */
+    public String{this} getEndBoundary() {
+		return "--" + this.getBoundary() + "--";
+	}
+
+    // adds crypto string to an existing MimeHeader and returns the new MimeHeader
+ 	public MimeHeader{this} addCrypto{this}(String{this} crypto)
+ 	{
+ 		return new MimeHeader(this.toAddress,this.fromAddress,this.sendDate,this.subject,this.mailLblStr,
+ 							 crypto,
+ 							 this.contentType,this.mimeVersion);
+ 	}
+
+ 	public static MimeHeader{*lbl} getMimeHeader{*lbl}(BufferedReader[{*lbl}]{*lbl} in, label{*lbl} lbl)
+ 	{
+ 		if (in == null) return null;
+ 		
+ 		String{*lbl} toAddress = null;
+ 		String{*lbl} fromAddress = null;
+ 		String{*lbl} sendDate = null;
+ 		String{*lbl} subject = null;
+ 		String{*lbl} mailLblStr = null;
+ 		String{*lbl} crypto = null;
+ 		ContentType{*lbl} contentType = null;
+ 		String{*lbl} boundary = null;
+ 		String{*lbl} mimeVersion = null;
+ 		
+ 		String response = null;
+	    boolean header = true;
+	    boolean first = true;
+	    while (header) {
+	    		try {
+	    			if (first) {
+	    				do {
+	    					response = in.readLine();
+	    				} while (!response.startsWith("Return-Path:"));
+	    				first = false; 
+	    			} else response = in.readLine();
+		    }
+		    catch (IOException e) {}
+		    catch (NullPointerException ignore) {}
+		    
+		    try {
+			    if (response == null) header = false;		
+			    else if (response.compareTo("") == 0) header = false;  // end header
+			    else if (response.compareTo(".") == 0) header = false; // end of data??? Not sure if this is needed
+			    else if (response.startsWith("To: ")) toAddress = response.substring("To: ".length()); // remove "To: " and store in a variable
+			    else if (response.startsWith("From: ")) fromAddress = response.substring("From: ".length()); // remove "From: " and store in field
+			    else if (response.startsWith("Subject: ")) subject = response.substring("Subject: ".length());
+			    else if (response.startsWith("Date: ")) sendDate = response.substring("Date: ".length()); 
+			    else if (response.startsWith("X-Jif-Label: ")) mailLblStr = response.substring("X-Jif-Label: ".length());
+			    else if (response.startsWith("X-Crypto:")) crypto = response.substring("X-Crypto: ".length());
+			    else if (response.startsWith("Content-Type: ")) contentType = ContentType.getContentType(response,in,lbl);
+			    	else if (response.startsWith("Mime-Version: ")) mimeVersion = response.substring("Mime-Version: ".length());
+		    } catch (NullPointerException ignore)  { // response shouldn't be null
+		    } catch (StringIndexOutOfBoundsException ignore) {} // shouldn't happen
+	    }	
+	    
+	    return new MimeHeader(toAddress,fromAddress,sendDate,subject,mailLblStr,crypto,contentType,mimeVersion);
+    } 	
+
+ 	public String{this} toString()
+ 	{
+ 		String out = "";
+		out += "Mime-Version: " + this.getMimeVersion() + "\n";
+		if (this.contentType != null)
+			out += this.contentType.toString(); // automatically adds "\n" already
+		out += "To: " + this.getToAddress() + "\n";
+		out += "From: " + this.getFromAddress() + "\n";
+		out += "Date: " + this.getSendDate() + "\n";
+		out += "X-Jif-Label: " + this.getMailLblStr() + "\n";
+		if (this.crypto != null) out += "X-Crypto: " + this.getCrypto() + "\n";
+		out += "Subject: " + this.getSubject() + "\n";
+		out += "\n";  // end with blank line -- should be CRLF
+		return out;
+	}
+	
+    	public static void main{}(principal{} user, String[] args) where caller(user)
+	{
+		jif.runtime.Runtime[user] runtime = null;
+	
+		try {
+		    runtime = jif.runtime.Runtime[user].getRuntime();
+		} catch (SecurityException e) {}
+			
+		PrintStream[{user:}]{user:} outS = null;
+	 	try{
+	 	    outS = runtime.stdout(new label{user:});
+	 	}
+	 	catch (SecurityException ex) {} // should do something here
+		catch (NullPointerException e) {}
+		// open a file
+	
+		BufferedReader[{user:}]{user:} in = null;
+		
+		try {
+			in = new BufferedReader[{user:}](new InputStreamReader[{user:}](runtime.openFileRead("mail.txt",new label{user:})));
+		} catch (IOException ignore) {
+		} catch (SecurityException ignore) {
+		} catch (NullPointerException ignore) {}
+
+// read in key			
+		//final label{} lbl = new label{user:};
+
+		final MimeHeader mh = MimeHeader.getMimeHeader(in,new label{user:});
+		
+		if (outS != null && mh != null) {
+			outS.println("mimeVersion: " + mh.getMimeVersion());
+			try {
+				outS.println("contentType: " + mh.getContentType().getContentType());
+				outS.println("subype: " + mh.getContentType().getContentSubtype());
+			} catch (NullPointerException ignore) {}
+			outS.println("boundary: " + mh.getBoundary());
+			outS.println("toAddress: " + mh.getToAddress());
+			outS.println("fromAddress: " + mh.getFromAddress());
+			outS.println("sendDate: " + mh.getSendDate());
+			outS.println("subject: " + mh.getSubject());
+			outS.println("mailLblStr: " + mh.getMailLblStr());
+		}
+	}
+}

@@ -1,0 +1,51 @@
+package smtp;
+
+//this declassifier in disuse
+
+import policy.PolicyStore;
+import crypto.RSASelfClosure;
+import pop3.JPMailMessage;
+
+public class EmailRSAClosure[principal P,label L] implements Closure[P,L] { 
+    final String{P:} toAddress;
+    final String{P:} fromAddress;
+    final String{P:} subject;
+    final String{P:} sendDate;
+    final String{P:} rcptLblStr;
+    final String{} body;
+    
+    public EmailRSAClosure(JPMailMessage{P:} msg, PolicyStore{} policy) {
+
+    		String{P:} msgBodyWithInternalDisclaimer = msg == null ? null : msg.getBody() + 
+    			"---Private Intradepartmental Mail---\n" +
+    			"This email and any files transmitted with it are confidential and intended solely for the use of the " +
+    			"individual or entity to whom they are addressed. If you have received this email in error please notify " +
+    			"the system manager.";
+    		this.toAddress = msg !=null?msg.getToAddress() : null;
+    		this.fromAddress = msg != null?msg.getFromAddress() : null;
+    		this.sendDate = msg != null ?msg.getSendDate() : null;
+    		this.subject = msg != null ? msg.getSubject() : null;
+    		this.rcptLblStr = msg != null ? msg.getRcptLblStr() : null;
+    		Principal rcptP = policy == null ? null : policy.getPrincipalSec(msg.getRcptLblStr(),new label{P:});
+    		RSASelfClosure[P,{}]{} rsa = new RSASelfClosure[P,{}](msgBodyWithInternalDisclaimer,rcptP);
+    		String{} bodyCiphertext = null;
+    		try {
+    			bodyCiphertext = PrincipalUtil.authorize(rcptP,null,rsa,new label{}).invoke();
+    		} catch (NullPointerException failedAuthorization) {}
+    		this.body = bodyCiphertext;
+    }
+
+    // encrypt with public key and declassify iff rcptP <= P
+    public Object{this} invoke{L}() where caller (P) {
+    		JPMailMessage{P:} msg = new JPMailMessage(declassify(toAddress,{this}), // to
+												 declassify(fromAddress,{this}), // from)
+				 								 declassify(sendDate,{this}), // date
+				 								 declassify(subject,{this}), // subject
+				 								 declassify(rcptLblStr,{this}),  // label string
+				 								 P, 
+				 								 new label{},  
+				 								 null,  
+				 								 body); 
+		return declassify(msg,{this});
+    }
+}

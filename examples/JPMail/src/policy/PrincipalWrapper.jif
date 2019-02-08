@@ -1,0 +1,68 @@
+package policy;
+
+public class PrincipalWrapper implements JifObject[{}]
+{
+	public final label{} l;  // need to be able to access it directly
+    final Principal{*l} p;
+    final String{} name;
+
+    // name and p.name() must be equal -- not sure how to enforce this
+    public PrincipalWrapper{p1:}(Principal{*l1} p1, String{} name, label{} l1)
+    {
+    		this.l = l1;
+    		this.p = p1;
+    		this.name = name;
+    }
+
+    // It may make sense to store its original label and restore it at this point.
+    public Principal{*l} getPrincipal()
+    {
+    		return this.p;
+    }
+
+    public String{} getName()
+    {
+    		return this.name;
+    	}
+    	
+    	public label{} getLabel()
+    	{
+    		return this.l;
+    	}
+    	
+    /*
+     * Since the information that is returned by the equals() method
+     * will depend on information both from the comparison object
+     * <code>obj</code> and the fields of a class, this interface
+     * is parameterized on a label.
+     */
+    public boolean{*lbl; lbl; obj} equals(label lbl, IDComparable[lbl] obj)
+    {
+        if (obj == null) return false;
+        if (obj instanceof PrincipalWrapper) {
+            try {            		
+	            return this.getName().compareTo( ((PrincipalWrapper)obj).getName()) == 0;
+		    } catch (ClassCastException impossible) {
+		    } catch (NullPointerException e) { return false; }
+        }
+        return false;
+    }
+
+    public boolean{o} equals(IDComparable[{}] o)
+    {
+    		//	final label lbl = new label{L}; // not sure what label should be on lbl
+    		return this.equals(new label{}, o);
+    }
+	
+    public int{} hashCode()
+    {
+		int hash = -382389;
+		return hash;
+    }
+
+    public String{} toString()
+    {
+    		return name;
+    }
+}
+	

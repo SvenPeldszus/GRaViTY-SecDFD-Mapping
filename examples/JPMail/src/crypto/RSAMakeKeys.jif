@@ -1,0 +1,85 @@
+package crypto;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.Key; 
+import java.security.KeyPair;
+import java.security.NoSuchAlgorithmException;
+
+// for testing purposes
+import java.io.PrintStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+
+public class RSAMakeKeys
+{
+    static public void main{}(principal{} user, String[]{user:} args) where caller(user)
+    {
+		jif.runtime.Runtime[user] runtime = null;
+	
+		try {
+		    runtime = jif.runtime.Runtime[user].getRuntime();
+		} catch (SecurityException e) {}
+		
+		BufferedReader[{user:}]{user:} inS = null; 
+		PrintStream[{user:}]{user:} outS = null;
+	 	try{
+	 	    outS = runtime.stdout(new label{user:});
+	 	}
+	 	catch (SecurityException ex) {/* should do something here*/}
+		catch (NullPointerException e) {}
+
+ 		try {
+ 			inS = new BufferedReader[{user:}](new InputStreamReader[{user:}](runtime.stdin(new label{user:})));
+ 		}
+ 		catch (SecurityException ex) {}//if (outS != null) outS.println("Security exception thrown when opening input stream!");}
+ 		catch (NullPointerException e) {}
+
+ 		KeyPair{user:} keyPair = null;
+ 		try {
+ 			keyPair = RSA[{user:}].generateKeyPair();
+ 		} catch (NoSuchAlgorithmException ignore) {}
+ 		
+ 		// create keys and save them to files
+ 		if (outS != null) outS.println("Creating keys and writing to files.");
+ 		
+ 		String principalName = "failed";
+ 		try {
+ 			principalName = args != null ? args[0] : "default";
+ 		} catch (ArrayIndexOutOfBoundsException impossible) {}
+ 		
+ 		String pubKeyFile = "keys/" + principalName + ".pubkey";
+ 		String privKeyFile = "keys/" + principalName + ".privkey";
+	
+		// write out public key
+		FileOutputStream[{user:}]{user:} out = null;
+		try {
+			out = runtime.openFileWrite(pubKeyFile,false, new label{user:});
+		} catch (IOException ignore) {
+		} catch (SecurityException ignore) {
+		} catch (NullPointerException ignore) {}
+
+		try {
+			out.write(keyPair.getPublic().getEncoded());
+			out.close();
+		} catch (IOException e) {
+		} catch(NullPointerException ignore) {} // thrown if out == null
+
+		// write out private key
+		try {
+			out = runtime.openFileWrite(privKeyFile,false, new label{user:});
+		} catch (IOException ignore) {
+		} catch (SecurityException ignore) {
+		} catch (NullPointerException ignore) {}
+
+		try {
+			out.write(keyPair.getPrivate().getEncoded());
+			out.close();
+		} catch (IOException e) {
+		} catch (NullPointerException ignore) {} // thrown if out == null or keyPair == null
+	 }
+}

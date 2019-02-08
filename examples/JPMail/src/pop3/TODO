@@ -1,0 +1,57 @@
+1) expand to use SSL
+2) label EMails
+   option a) use TO: field and append label to username 
+   	     -- not clear whether all mail servers can handle this
+	     -- may get filtered out by SPAM filters
+	     -- requires appending label to each address for bulk EMail
+	     ++ more clearly visible to server (don't need to grep thru header)
+	        it goes into the envelope, rather than message address 
+		(like Bcc: addresses)
+	     ++ easier to add field with normal EMail clients
+	     ++ allows more fine-grained labels for bulk EMail 
+	     	(each recipient may be treated differently)
+
+   option b) add a x-jif-label: field with the label
+   	     ++ more universally handled by mailservers
+	     ++ label is on the message, not the address, 
+	     	which would seem to make more sense
+	     
+   challenges:
+     how to read in an EMail with label {mike:phicks} and just write 
+     	 it to a channel?
+     this should be legal, but it requires returning the message from 
+     	  getMessage and it's not clear what the labels should be for that.
+     this a good spot for a declassification point
+     the EMail gets labeled in a certain way
+     the owner of the EMail should have a policy to allow it to be 
+     	 declassified in a certain way
+     this will allow it to be < L and thus be returned from getMessage
+
+3) How to convert String label to Label label?
+   simple conversion using NativePrincipal
+   NativePrincipal takes a String and makes a new principal
+   supposed to correspond with operating system names
+
+   ***This is accomplished with MailPrincipalHierarchy***
+
+   future: ultimately, we should do this with public keys in some way
+   	   public key used for RT role, principal hierarchy entry or whatever
+
+
+4) Make MailPrincipalHierarchy more realistic
+   should be able to parameterize as a manager
+   only a manager (with password authorization) can modify the principal hierarchy
+   each principal can add their own delegations (with an authorization)??
+   	this is currently problematic, because each principal is labeled 
+	as being owned by the manager at the moment.  This would have to 
+	change, I think.
+
+5) A high-level policy:
+   The MailReader should be parameterized with (see EmailClientBasic.graffle)
+   a) the MailServer-Principal (which also goes on the Socket)
+   b) the PrincipalHierarchy-Principal (manager)
+   c) the Account-Owner-Principal (user)
+   
+   Declassifiers are needed for
+   a) Server --> PrincipalHierarchy
+   b) PrincipalHierarchy --> Account-Owner
