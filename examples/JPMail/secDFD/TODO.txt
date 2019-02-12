@@ -1,0 +1,25 @@
+# detail the model (not to much)
+- Reclassify
+- Encrypt
+- SMTP server subprocesses (more logic)
+- POP3 subprocesses (more logic)
+
+# extend the first SecDFD to include the above
+
+# scenario 1
+- add EE Bono
+- add scenario when Bono tries to read Alices mail that is sent to Bob
+
+# scenario 2
+- setting up the certificates for one user (Alice)
+
+# scenario 3
+- mails with/without attachement
+
+
+-same names but not the same granularity;
+-bring to the same string
+-keep a log of what you are matching from code to model
+
+ 
+

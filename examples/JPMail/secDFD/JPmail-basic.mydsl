@@ -1,0 +1,92 @@
+EDFD JPMail[
+	assets: 
+		Asset EmailBodyAndHeader values: [M I], [H C], [L Av]
+			source: Alice
+			targets: ReclassifyBodyAndHeader,
+		Asset EmailBody values: [M I], [H C], [L Av]
+			source: ReclassifyBodyAndHeader
+			targets: EncryptBody, Bob,
+		Asset EncryptedBody values: [L Av]
+			source: EncryptBody
+			targets: DecryptBody,
+		Asset EmailHeader values: [M I], [M Av]
+			source: ReclassifyBodyAndHeader
+			targets: SMTPServer, POP3Server, Bob,
+		Asset BobPublicKey values: [M I], [L Av]
+			source: PolicyDS
+			targets: EncryptBody,
+		Asset BobPrivateKey values: [M I], [H C], [M Av]
+			source: BobDS
+			targets: DecryptBody,
+		Asset Policy values: [H I], [L Av]
+			source: PolicyDS
+			targets: ReclassifyBodyAndHeader, DecryptBody
+	elements:
+		ExternalEntity Alice[
+			assets: EmailBodyAndHeader
+			//no incoming flows
+			outgoing flows: sendOutEmail [num: 1 assets: EmailBodyAndHeader targets: ReclassifyBodyAndHeader]
+			attacker: true
+		],
+		ExternalEntity Bob[
+			assets: EmailBody, EmailHeader
+			incoming flows: "DecryptBody.provideHeaderAndBody"
+			//no outgoing flows
+		],
+		DataStore PolicyDS[
+			assets: Policy, BobPublicKey
+			//no incoming flows
+			outgoing flows: readPolicy1 [num: 2 assets: Policy targets: ReclassifyBodyAndHeader],
+							readPolicy2 [num: 8 assets: Policy targets: DecryptBody],
+							readPublicKey [num: 4 assets: BobPublicKey source: PolicyDS targets: EncryptBody]
+		],
+		DataStore BobDS[
+			assets: BobPrivateKey
+			//no incoming flows
+			outgoing flows: readPrivateKey [num: 9 assets: BobPrivateKey targets: DecryptBody]
+		],
+		Process ReclassifyBodyAndHeader[
+			responsibilities: [Policy Authoriser::], 
+							  [EmailBodyAndHeader Splitter::EmailBody,EmailHeader]
+			assets: EmailBodyAndHeader, EmailBody, EmailHeader, Policy
+			incoming flows: "Alice.sendOutEmail", "PolicyDS.readPolicy1"
+			outgoing flows: sendSplitAssets4Encryption [num: 3 assets: EmailBody, EmailHeader targets: EncryptBody]
+		],
+		Process EncryptBody[
+			responsibilities: [Policy Authoriser::], 
+							  [EmailBody,BobPublicKey EncryptOrHash::EncryptedBody], 
+							  [EmailHeader Forward::EmailHeader]
+			assets: Policy, BobPublicKey, EmailBody, EncryptedBody
+			incoming flows: "ReclassifyBodyAndHeader.sendSplitAssets4Encryption", "PolicyDS.readPublicKey"
+			outgoing flows: sendHeaderAndEncrBodySMTP [num: 5 assets: EncryptedBody, EmailHeader targets: SMTPServer]
+		],
+		Process SMTPServer[
+			responsibilities: [EncryptedBody,EmailHeader Forward:: EncryptedBody,EmailHeader]
+			assets: EncryptedBody,EmailHeader
+			incoming flows: "EncryptBody.sendHeaderAndEncrBodySMTP"
+			outgoing flows: sendHeaderAndEncrBodyPOP3 [num: 6 assets: EncryptedBody, EmailHeader targets: POP3Server]
+		],
+		Process POP3Server[
+			responsibilities: [EncryptedBody,EmailHeader Copier:: EncryptedBody,EmailHeader],
+							  [EncryptedBody,EmailHeader Store::]
+			assets: EncryptedBody,EmailHeader
+			incoming flows: "DecryptBody.provideHeaderAndBody"
+			outgoing flows: provideHeaderAndEncrBody [num: 7 assets: EncryptedBody, EmailHeader targets: DecryptBody]
+		],
+		Process DecryptBody[
+			responsibilities: [Policy Authoriser::],
+							  [EncryptedBody, BobPrivateKey Decrypt:: EmailBody],
+							  [EmailHeader Forward::EmailHeader]
+			assets: Policy, EncryptedBody, BobPrivateKey, EmailBody, EmailHeader
+			incoming flows: "POP3Server.provideHeaderAndEncrBody", "PolicyDS.readPolicy2", "BobDS.readPrivateKey"
+			outgoing flows: provideHeaderAndBody [num: 10 assets: EmailBody, EmailHeader targets: Bob]
+		]
+	attack zones:
+		OpenNetworkZone[
+			attacker profiles:
+				ExternalHacker [
+					observation: 1
+				]
+			elements: SMTPServer, POP3Server
+		]
+]
