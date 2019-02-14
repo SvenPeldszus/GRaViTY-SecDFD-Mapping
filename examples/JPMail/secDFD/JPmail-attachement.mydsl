@@ -1,0 +1,120 @@
+EDFD JPMail[
+	assets: 
+		// TODO: change that its part of the body so they encrypt it also...
+		// every asset has a type - we find it in code; additionally we can find where it's stored in the code
+		// new asset; attachment is not encrypted with JPMail?
+		Asset Attachment values: [H C], [H I]
+			source: Alice
+			targets: POP3Server, Bob,
+		Asset EmailBodyAndHeader values: [M I], [H C], [L Av]
+			source: Alice
+			targets: toMimeMessage,
+		// src/pop3/JPMailMessage.java
+		Asset Body values: [M I], [H C], [L Av]
+			source: toMimeMessage
+			targets: EncryptBody, Bob,
+		// src/pop3/JPMailMessage.java
+		Asset EncBody values: [L Av]
+			source: EncryptBody
+			targets: decrypt,
+		// src/pop3/JPMailMessage.java
+		Asset Header values: [M I], [M Av]
+			source: toMimeMessage
+			targets: SMTPServer, POP3Server, Bob,
+		Asset BobPublicKey values: [M I], [L Av]
+			source: PolicyStore
+			targets: EncryptBody,
+		Asset BobPrivateKey values: [M I], [H C], [M Av]
+			source: KeyStore
+			targets: decrypt,
+		// src/policy/PolicyStore.java `Principal user'
+		Asset Principal values: [H I], [L Av]
+			source: PolicyStore
+			targets: toMimeMessage, decrypt
+	elements:
+		ExternalEntity Alice[
+			assets: EmailBodyAndHeader, Attachment
+			//no incoming flows
+			// init MailSenderCrypto with her policy, principal name, email address, user name, password
+			// then she writes the emailbodyandheader and specifies the path to the file Attachment
+			// then she sends it, but first it undergoes reclassification in toMimeMessage
+			outgoing flows: sendOutEmail [num: 1 assets: EmailBodyAndHeader, Attachment targets: toMimeMessage]
+			attacker: true
+		],
+		ExternalEntity Bob[
+			assets: Body, Header, Attachment
+			incoming flows: "decrypt.provideHeaderAndBody","POP3Server.pop3DownloadAttachment"
+			//no outgoing flows
+		],
+		// src/policy/PolicyStore.java
+		DataStore PolicyStore[
+			assets: Principal, BobPublicKey
+			//no incoming flows
+			outgoing flows: getPrincipal [num: 2 assets: Principal targets: toMimeMessage],
+							hasPrincipal [num: 9 assets: Principal targets: decrypt],
+							// src/policy/KeyPrincipal.java
+							getPublicKey [num: 5 assets: BobPublicKey source: PolicyStore targets: EncryptBody]
+		],
+		DataStore KeyStore[
+			assets: BobPrivateKey
+			//no incoming flows
+			// src/policy/KeyPrincipal.java
+			outgoing flows: getPrivateKey [num: 10 assets: BobPrivateKey targets: decrypt]
+		],
+		// src/pop3/JPMailMessage.java
+		// declassification of mail body and header
+		Process toMimeMessage[
+			responsibilities: [Principal Authoriser::], 
+							  [EmailBodyAndHeader Splitter::Body,Header],
+							  [Attachment Forward::Attachment]
+			assets: EmailBodyAndHeader, Body, Header, Principal, Attachment
+			incoming flows: "Alice.sendOutEmail", "PolicyStore.getPrincipal"
+			// due to src/pop3/JPMailMessage.java in the toMimeMailMessage encryption happens
+			outgoing flows: JPMailMessage [num: 3 assets: Body, Header targets: EncryptBody],
+							forwardAttachment [num: 4 assets: Attachment targets: SMTPServer]
+		],
+		// encrypt actually happens at the same time as the declassification in the toMimeMessage....
+		Process EncryptBody[
+			responsibilities: [Principal Authoriser::], 
+							  [Body,BobPublicKey EncryptOrHash::EncBody], 
+							  [Header Forward::Header]
+			assets: Principal, BobPublicKey, Body, EncBody
+			incoming flows: "toMimeMessage.JPMailMessage", "PolicyStore.getPublicKey"
+			// due to src/smtp/MeilSenderCrypto.java call smtp.sendMessage(mmm) line 820
+			// we could also interpret it to link ti to: src/smtp/MailSenderCrypto.java line 490 call this.sendText(msg.toString());
+			outgoing flows: sendMessage [num: 6 assets: EncBody, Header targets: SMTPServer]
+		],
+		Process SMTPServer[
+			responsibilities: [EncBody,Header,Attachment Forward:: EncBody,Header,Attachment]
+			assets: EncBody,Header,Attachment
+			incoming flows: "EncryptBody.sendMessage", "toMimeMessage.forwardAttachment"
+			// server side functionality not part of the code base
+			outgoing flows: smtpForwardsEmail [num: 7 assets: EncBody, Header, Attachment targets: POP3Server]
+		],
+		Process POP3Server[
+			responsibilities: [EncBody,Header,Attachment Copier:: EncBody,Header,Attachment],
+							  [EncBody,Header,Attachment Store::]
+			assets: EncBody,Header,Attachment
+			incoming flows: "SMTPServer.smtpForwardsEmail"
+			// server side functionality not part of the code base
+			outgoing flows: pop3ForwardsEmail [num: 8 assets: EncBody, Header targets: decrypt],
+							pop3DownloadAttachment [num: 12  assets: Attachment targets: Bob]
+		],
+		// due to src/pop3/MailReaderCrypto.java line 381
+		Process decrypt[
+			responsibilities: [Principal Authoriser::],
+							  [EncBody, BobPrivateKey Decrypt:: Body],
+							  [Header Forward::Header]
+			assets: Principal, EncBody, BobPrivateKey, Body, Header
+			incoming flows: "POP3Server.pop3ForwardsEmail", "PolicyStore.hasPrincipal", "KeyStore.getPrivateKey"
+			outgoing flows: provideHeaderAndBody [num: 11 assets: Body, Header targets: Bob]
+		]
+	attack zones:
+		OpenNetworkZone[
+			attacker profiles:
+				ExternalHacker [
+					observation: 1
+				]
+			elements: SMTPServer, POP3Server
+		]
+]
