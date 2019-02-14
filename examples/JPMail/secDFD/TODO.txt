@@ -1,25 +1,41 @@
-# detail the model (not to much)
-- Reclassify
-- Encrypt
-- SMTP server subprocesses (more logic)
-- POP3 subprocesses (more logic)
+TODO:
+-scenario 2; not sure if that is so interesting for us anymore. jpmail-full-0.3.1/demo/addnewuser.sh 
+			; seems like adding new user is standard certificate issuing by a trusted CA -> they are using the Java keytool certificate management utility. 
+			; Will we even reverse engineer that?
+-changes to model analysis to support more than one principle (Bono)
 
-# extend the first SecDFD to include the above
+-Q: detail the model with subprocesses?
+
+-more scenarios; 
+	what if there are two recipients?
+	model spoofing - someone manipulating the header `from'
+
+
+
+
+
+
+
+DONE:
+-same naming if elements vis-a-vis source code
+-keep a log of what you are matching from code to model;
+	there are references to the source code method calls in comments
+-scenario 1: JPmail-bono.mydsl	
+-scenario 3: JPmail-attachment.mysdl
+	
+	
+----------- notes -----------
+# detail the model (not to much); more subprocesses
 
 # scenario 1
 - add EE Bono
 - add scenario when Bono tries to read Alices mail that is sent to Bob
+- requires changing the label propagation to propagate according to the right principles (access control)
 
 # scenario 2
 - setting up the certificates for one user (Alice)
 
 # scenario 3
-- mails with/without attachement
-
-
--same names but not the same granularity;
--bring to the same string
--keep a log of what you are matching from code to model
-
+- mails with attachment
  
 
