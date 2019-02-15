@@ -1,0 +1,138 @@
+EDFD JPMail[
+	assets: 
+		Asset EmailBodyAndHeader values: [M I], [H C], [L Av]
+			source: Alice
+			targets: toMimeMessage,
+		// src/pop3/JPMailMessage.java
+		Asset Body values: [M I], [H C], [L Av]
+			source: toMimeMessage
+			targets: EncryptBody, Bob,
+		// src/pop3/JPMailMessage.java
+		Asset EncBody values: [L Av]
+			source: EncryptBody
+			targets: decrypt,
+		// src/pop3/JPMailMessage.java
+		Asset Header values: [M I], [M Av]
+			source: toMimeMessage
+			targets: SMTPServer, POP3Server, Bob,
+		Asset BobPublicKey values: [M I], [L Av]
+			source: PolicyStore
+			targets: EncryptBody,
+		Asset BobPrivateKey values: [M I], [H C], [M Av]
+			source: KeyStore
+			targets: decrypt,
+		Asset BonoPublicKey values: [M I], [L Av]
+			source: PolicyStore
+			targets: EncryptBody,
+		Asset BonoPrivateKey values: [M I], [H C], [M Av]
+			source: KeyStoreBono
+			targets: Eavesdrop,
+		// src/policy/PolicyStore.java `Principal user'
+		Asset Principal values: [H I], [L Av]
+			source: PolicyStore
+			targets: toMimeMessage, decrypt
+	elements:
+		ExternalEntity Alice[
+			assets: EmailBodyAndHeader
+			//no incoming flows
+			// init MailSenderCrypto with her policy, principal name, email address, user name, password
+			// then she writes the emailbodyandheader
+			// then she sends it, but first it undergoes reclassification in toMimeMessage
+			outgoing flows: sendOutEmail [num: 1 assets: EmailBodyAndHeader targets: toMimeMessage]
+			attacker: true
+		],
+		ExternalEntity Bob[
+			assets: Body, Header
+			incoming flows: "decrypt.provideHeaderAndBody"
+			//no outgoing flows
+		],
+		ExternalEntity Bono[
+			incoming flows: "Eavesdrop.ForwardInvalidKeyException"
+			//no outgoing flows
+		],
+		// src/policy/PolicyStore.java
+		DataStore PolicyStore[
+			assets: Principal, BobPublicKey, BonoPublicKey
+			//no incoming flows
+			outgoing flows: getPrincipal [num: 2 assets: Principal targets: toMimeMessage],
+							hasPrincipalBob [num: 8 assets: Principal targets: decrypt],
+							hasPrincipalBono [num: 12 assets: Principal targets: Eavesdrop],
+							// src/policy/KeyPrincipal.java but added `Bob' and `Bono' to distinguish two different reads
+							getPublicKeyBob [num: 4 assets: BobPublicKey source: PolicyStore targets: EncryptBody]
+		],
+		DataStore KeyStore[
+			assets: BobPrivateKey
+			//no incoming flows
+			// src/policy/KeyPrincipal.java
+			outgoing flows: getPrivateKeyBob [num: 9 assets: BobPrivateKey targets: decrypt]
+		],
+		DataStore KeyStoreBono[
+			assets: BonoPrivateKey
+			//no incoming flows
+			// src/policy/KeyPrincipal.java
+			outgoing flows: getPrivateKeyBono [num: 13 assets: BonoPrivateKey targets: Eavesdrop]
+		],
+		// src/pop3/JPMailMessage.java
+		// declassification of mail body and header
+		Process toMimeMessage[
+			responsibilities: [Principal Authoriser::], 
+							  [EmailBodyAndHeader Splitter::Body,Header]
+			assets: EmailBodyAndHeader, Body, Header, Principal
+			incoming flows: "Alice.sendOutEmail", "PolicyStore.getPrincipal"
+			// due to src/pop3/JPMailMessage.java in the toMimeMailMessage encryption happens
+			outgoing flows: JPMailMessage [num: 3 assets: Body, Header targets: EncryptBody]
+		],
+		// encrypt actually happens at the same time as the declassification in the toMimeMessage....
+		Process EncryptBody[
+			responsibilities: [Principal Authoriser::], 
+							  [Body,BobPublicKey EncryptOrHash::EncBody], 
+							  [Header Forward::Header]
+			assets: Principal, BobPublicKey, Body, EncBody
+			incoming flows: "toMimeMessage.JPMailMessage", "PolicyStore.getPublicKeyBob"
+			// due to src/smtp/MeilSenderCrypto.java call smtp.sendMessage(mmm) line 820
+			// we could also interpret it to link ti to: src/smtp/MailSenderCrypto.java line 490 call this.sendText(msg.toString());
+			outgoing flows: sendMessage [num: 5 assets: EncBody, Header targets: SMTPServer]
+		],
+		Process SMTPServer[
+			responsibilities: [EncBody,Header Forward:: EncBody,Header]
+			assets: EncBody,Header
+			incoming flows: "EncryptBody.sendMessage"
+			// server side functionality not part of the code base
+			outgoing flows: smtpForwardsEmail [num: 6 assets: EncBody, Header targets: POP3Server]
+		],
+		Process POP3Server[
+			responsibilities: [EncBody,Header Copier:: EncBody,Header],
+							  [EncBody,Header Store::]
+			assets: EncBody,Header
+			incoming flows: "SMTPServer.smtpForwardsEmail"
+			// server side functionality not part of the code base
+			outgoing flows: pop3ForwardsEmail [num: 7 assets: EncBody, Header targets: decrypt],
+							pop3ForwardsToBono [num: 11 assets: EncBody, Header targets: Eavesdrop]
+		],
+		// due to src/pop3/MailReaderCrypto.java line 381
+		Process decrypt[
+			responsibilities: [Principal Authoriser::],
+							  [EncBody, BobPrivateKey Decrypt:: Body],
+							  [Header Forward::Header]
+			assets: Principal, EncBody, BobPrivateKey, Body, Header
+			incoming flows: "POP3Server.pop3ForwardsEmail", "PolicyStore.hasPrincipalBob", "KeyStore.getPrivateKeyBob"
+			outgoing flows: provideHeaderAndBody [num: 10 assets: Body, Header targets: Bob]
+		],
+		Process Eavesdrop[
+			responsibilities: [Principal Authoriser::],
+							  [EncBody, BonoPrivateKey Decrypt:: ] // the decrypt operation is not successful due to the false private key!
+			assets: Principal, EncBody, BonoPrivateKey, Header
+			incoming flows: "POP3Server.pop3ForwardsToBono", "PolicyStore.hasPrincipalBono", "KeyStoreBono.getPrivateKeyBono"
+			// due to src/crypto/RSA.java line 183 decrypt throws InvalidKeyException
+			outgoing flows: ForwardInvalidKeyException [num: 14 targets: Bono]
+		]
+	attack zones:
+	// we assume an external attacker is able to observe traffic over the internet
+		OpenNetworkZone[
+			attacker profiles:
+				ExternalHacker [
+					observation: 1
+				]
+			elements: SMTPServer, POP3Server
+		]
+]

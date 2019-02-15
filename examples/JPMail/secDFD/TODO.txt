@@ -1,19 +1,21 @@
 TODO:
+-changes to model analysis to support more than one principle (Bono)
+-mail Sven et al. for Neda projects
+
+-more scenarios; 
+	what if there are two recipients? - encrypt with both public keys; everyone gets something they can decrypt
+	model spoofing - someone manipulating the header `from' - look at it but dont focus....its not possible anyway...
+	split it in two scenarios sending + receiving 
+	authentification phase more details (one scenario!)
+-------
+body -> mimepart body
+
+
+
+REMOVED:
 -scenario 2; not sure if that is so interesting for us anymore. jpmail-full-0.3.1/demo/addnewuser.sh 
 			; seems like adding new user is standard certificate issuing by a trusted CA -> they are using the Java keytool certificate management utility. 
 			; Will we even reverse engineer that?
--changes to model analysis to support more than one principle (Bono)
-
--Q: detail the model with subprocesses?
-
--more scenarios; 
-	what if there are two recipients?
-	model spoofing - someone manipulating the header `from'
-
-
-
-
-
 
 
 DONE:
@@ -37,5 +39,9 @@ DONE:
 
 # scenario 3
 - mails with attachment
+
+
+
+
  
 
