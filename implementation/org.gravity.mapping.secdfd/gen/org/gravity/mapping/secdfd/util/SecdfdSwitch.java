@@ -68,31 +68,31 @@ public class SecdfdSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case SecdfdPackage.TYPE2_GRAPH_ASSET: {
-				Type2GraphAsset type2GraphAsset = (Type2GraphAsset)theEObject;
-				T result = caseType2GraphAsset(type2GraphAsset);
-				if (result == null) result = caseAbstractCorrespondence(type2GraphAsset);
+			case SecdfdPackage.TYPE_GRAPH2_EDFD: {
+				TypeGraph2EDFD typeGraph2EDFD = (TypeGraph2EDFD)theEObject;
+				T result = caseTypeGraph2EDFD(typeGraph2EDFD);
+				if (result == null) result = caseAbstractCorrespondence(typeGraph2EDFD);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SecdfdPackage.METHOD2_NODE: {
-				Method2Node method2Node = (Method2Node)theEObject;
-				T result = caseMethod2Node(method2Node);
-				if (result == null) result = caseAbstractCorrespondence(method2Node);
+			case SecdfdPackage.TYPE2_ASSET: {
+				Type2Asset type2Asset = (Type2Asset)theEObject;
+				T result = caseType2Asset(type2Asset);
+				if (result == null) result = caseAbstractCorrespondence(type2Asset);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SecdfdPackage.TYPE_GRAPH2_GRAPH: {
-				TypeGraph2Graph typeGraph2Graph = (TypeGraph2Graph)theEObject;
-				T result = caseTypeGraph2Graph(typeGraph2Graph);
-				if (result == null) result = caseAbstractCorrespondence(typeGraph2Graph);
+			case SecdfdPackage.DEFINTION2_ELEMENT: {
+				Defintion2Element defintion2Element = (Defintion2Element)theEObject;
+				T result = caseDefintion2Element(defintion2Element);
+				if (result == null) result = caseAbstractCorrespondence(defintion2Element);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SecdfdPackage.DEFINTION2_NODE: {
-				Defintion2Node defintion2Node = (Defintion2Node)theEObject;
-				T result = caseDefintion2Node(defintion2Node);
-				if (result == null) result = caseAbstractCorrespondence(defintion2Node);
+			case SecdfdPackage.METHOD2_ELEMENT: {
+				Method2Element method2Element = (Method2Element)theEObject;
+				T result = caseMethod2Element(method2Element);
+				if (result == null) result = caseAbstractCorrespondence(method2Element);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -101,62 +101,62 @@ public class SecdfdSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Type2 Graph Asset</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Type Graph2 EDFD</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Type2 Graph Asset</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Type Graph2 EDFD</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseType2GraphAsset(Type2GraphAsset object) {
+	public T caseTypeGraph2EDFD(TypeGraph2EDFD object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Method2 Node</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Type2 Asset</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Method2 Node</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Type2 Asset</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseMethod2Node(Method2Node object) {
+	public T caseType2Asset(Type2Asset object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Type Graph2 Graph</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Defintion2 Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Type Graph2 Graph</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Defintion2 Element</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseTypeGraph2Graph(TypeGraph2Graph object) {
+	public T caseDefintion2Element(Defintion2Element object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Defintion2 Node</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Method2 Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Defintion2 Node</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Method2 Element</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseDefintion2Node(Defintion2Node object) {
+	public T caseMethod2Element(Method2Element object) {
 		return null;
 	}
 

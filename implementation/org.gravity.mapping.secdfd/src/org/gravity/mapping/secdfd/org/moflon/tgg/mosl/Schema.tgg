@@ -1,6 +1,6 @@
 // Add imports here
 #import "http://www.gravity.org/typegraph/basic"
-#import "platform:/resource/Graph/model/graph.ecore"
+#import "platform:/resource/eDFDFlowTracking1/model/eDFDFlowTracking1.ecore"
 
 #schema org.gravity.mapping.secdfd
 
@@ -9,28 +9,28 @@
  }
 
 #target {
-	graph
+	eDFDFlowTracking
 }
 
 #correspondence {
-	TypeGraph2Graph {
+	TypeGraph2EDFD {
 		#src-> TypeGraph
-		#trg-> Graph
+		#trg-> EDFD
 	}
 	
-	Method2Node {
+	Method2Element{
 		#src->TMethod
-		#trg->Node	
+		#trg->Element	
 	}
 	
-	Defintion2Node {
+	Defintion2Element {
 		#src->TMethodDefinition
-		#trg->Node
+		#trg->Element
 	}
 	
-	Type2GraphAsset {
+	Type2Asset {
 		#src->TAbstractType
-		#trg->GraphAsset
+		#trg->Asset
 	}
 	
 }

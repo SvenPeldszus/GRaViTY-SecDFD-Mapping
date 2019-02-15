@@ -22,13 +22,13 @@ public interface RulesFactory extends EFactory {
 	RulesFactory eINSTANCE = org.gravity.mapping.secdfd.Rules.impl.RulesFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Type Graph2 Graph</em>'.
+	 * Returns a new object of class '<em>Type Graph2 EDFD</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Type Graph2 Graph</em>'.
+	 * @return a new object of class '<em>Type Graph2 EDFD</em>'.
 	 * @generated
 	 */
-	TypeGraph2Graph createTypeGraph2Graph();
+	TypeGraph2EDFD createTypeGraph2EDFD();
 
 	/**
 	 * Returns the package supported by this factory.

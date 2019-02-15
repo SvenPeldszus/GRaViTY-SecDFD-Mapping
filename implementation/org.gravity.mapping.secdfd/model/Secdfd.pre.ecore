@@ -5,32 +5,32 @@
   <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
     <details key="basePackage" value="org.gravity.mapping"/>
   </eAnnotations>
-  <eClassifiers xsi:type="ecore:EClass" name="Type2GraphAsset" eSuperTypes="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence">
+  <eClassifiers xsi:type="ecore:EClass" name="TypeGraph2EDFD" eSuperTypes="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
-        eType="ecore:EClass http://www.gravity.org/typegraph/basic#//TAbstractType"/>
+        eType="ecore:EClass ../../org.gravity.typegraph.basic/model/Basic.ecore#//TypeGraph"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
-        eType="ecore:EClass platform:/resource/Graph/model/graph.ecore#//GraphAsset"/>
+        eType="ecore:EClass ../../eDFDFlowTracking1/model/eDFDFlowTracking1.ecore#//EDFD"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Method2Node" eSuperTypes="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence">
+  <eClassifiers xsi:type="ecore:EClass" name="Type2Asset" eSuperTypes="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
-        eType="ecore:EClass http://www.gravity.org/typegraph/basic#//TMethod"/>
+        eType="ecore:EClass ../../org.gravity.typegraph.basic/model/Basic.ecore#//TAbstractType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
-        eType="ecore:EClass platform:/resource/Graph/model/graph.ecore#//Node"/>
+        eType="ecore:EClass ../../eDFDFlowTracking1/model/eDFDFlowTracking1.ecore#//Asset"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="TypeGraph2Graph" eSuperTypes="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence">
+  <eClassifiers xsi:type="ecore:EClass" name="Defintion2Element" eSuperTypes="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
-        eType="ecore:EClass http://www.gravity.org/typegraph/basic#//TypeGraph"/>
+        eType="ecore:EClass ../../org.gravity.typegraph.basic/model/Basic.ecore#//TMethodDefinition"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
-        eType="ecore:EClass platform:/resource/Graph/model/graph.ecore#//Graph"/>
+        eType="ecore:EClass ../../eDFDFlowTracking1/model/eDFDFlowTracking1.ecore#//Element"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Defintion2Node" eSuperTypes="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence">
+  <eClassifiers xsi:type="ecore:EClass" name="Method2Element" eSuperTypes="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
-        eType="ecore:EClass http://www.gravity.org/typegraph/basic#//TMethodDefinition"/>
+        eType="ecore:EClass ../../org.gravity.typegraph.basic/model/Basic.ecore#//TMethod"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
-        eType="ecore:EClass platform:/resource/Graph/model/graph.ecore#//Node"/>
+        eType="ecore:EClass ../../eDFDFlowTracking1/model/eDFDFlowTracking1.ecore#//Element"/>
   </eClassifiers>
   <eSubpackages name="Rules" nsURI="platform:/plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore#//Rules"
       nsPrefix="Rules">
-    <eClassifiers xsi:type="ecore:EClass" name="TypeGraph2Graph" eSuperTypes="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractRule"/>
+    <eClassifiers xsi:type="ecore:EClass" name="TypeGraph2EDFD" eSuperTypes="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractRule"/>
   </eSubpackages>
 </ecore:EPackage>

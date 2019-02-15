@@ -59,14 +59,14 @@ public interface SecdfdPackage extends EPackage {
 	SecdfdPackage eINSTANCE = org.gravity.mapping.secdfd.impl.SecdfdPackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link org.gravity.mapping.secdfd.impl.Type2GraphAssetImpl <em>Type2 Graph Asset</em>}' class.
+	 * The meta object id for the '{@link org.gravity.mapping.secdfd.impl.TypeGraph2EDFDImpl <em>Type Graph2 EDFD</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.gravity.mapping.secdfd.impl.Type2GraphAssetImpl
-	 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getType2GraphAsset()
+	 * @see org.gravity.mapping.secdfd.impl.TypeGraph2EDFDImpl
+	 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getTypeGraph2EDFD()
 	 * @generated
 	 */
-	int TYPE2_GRAPH_ASSET = 0;
+	int TYPE_GRAPH2_EDFD = 0;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
@@ -75,7 +75,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE2_GRAPH_ASSET__SOURCE = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 0;
+	int TYPE_GRAPH2_EDFD__SOURCE = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -84,35 +84,35 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE2_GRAPH_ASSET__TARGET = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 1;
+	int TYPE_GRAPH2_EDFD__TARGET = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Type2 Graph Asset</em>' class.
+	 * The number of structural features of the '<em>Type Graph2 EDFD</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE2_GRAPH_ASSET_FEATURE_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 2;
+	int TYPE_GRAPH2_EDFD_FEATURE_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of operations of the '<em>Type2 Graph Asset</em>' class.
+	 * The number of operations of the '<em>Type Graph2 EDFD</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE2_GRAPH_ASSET_OPERATION_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
+	int TYPE_GRAPH2_EDFD_OPERATION_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.gravity.mapping.secdfd.impl.Method2NodeImpl <em>Method2 Node</em>}' class.
+	 * The meta object id for the '{@link org.gravity.mapping.secdfd.impl.Type2AssetImpl <em>Type2 Asset</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.gravity.mapping.secdfd.impl.Method2NodeImpl
-	 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getMethod2Node()
+	 * @see org.gravity.mapping.secdfd.impl.Type2AssetImpl
+	 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getType2Asset()
 	 * @generated
 	 */
-	int METHOD2_NODE = 1;
+	int TYPE2_ASSET = 1;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
@@ -121,7 +121,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METHOD2_NODE__SOURCE = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 0;
+	int TYPE2_ASSET__SOURCE = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -130,35 +130,35 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METHOD2_NODE__TARGET = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 1;
+	int TYPE2_ASSET__TARGET = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Method2 Node</em>' class.
+	 * The number of structural features of the '<em>Type2 Asset</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int METHOD2_NODE_FEATURE_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 2;
+	int TYPE2_ASSET_FEATURE_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of operations of the '<em>Method2 Node</em>' class.
+	 * The number of operations of the '<em>Type2 Asset</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int METHOD2_NODE_OPERATION_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
+	int TYPE2_ASSET_OPERATION_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.gravity.mapping.secdfd.impl.TypeGraph2GraphImpl <em>Type Graph2 Graph</em>}' class.
+	 * The meta object id for the '{@link org.gravity.mapping.secdfd.impl.Defintion2ElementImpl <em>Defintion2 Element</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.gravity.mapping.secdfd.impl.TypeGraph2GraphImpl
-	 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getTypeGraph2Graph()
+	 * @see org.gravity.mapping.secdfd.impl.Defintion2ElementImpl
+	 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getDefintion2Element()
 	 * @generated
 	 */
-	int TYPE_GRAPH2_GRAPH = 2;
+	int DEFINTION2_ELEMENT = 2;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
@@ -167,7 +167,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_GRAPH2_GRAPH__SOURCE = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 0;
+	int DEFINTION2_ELEMENT__SOURCE = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -176,35 +176,35 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_GRAPH2_GRAPH__TARGET = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 1;
+	int DEFINTION2_ELEMENT__TARGET = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Type Graph2 Graph</em>' class.
+	 * The number of structural features of the '<em>Defintion2 Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_GRAPH2_GRAPH_FEATURE_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 2;
+	int DEFINTION2_ELEMENT_FEATURE_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of operations of the '<em>Type Graph2 Graph</em>' class.
+	 * The number of operations of the '<em>Defintion2 Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_GRAPH2_GRAPH_OPERATION_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
+	int DEFINTION2_ELEMENT_OPERATION_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.gravity.mapping.secdfd.impl.Defintion2NodeImpl <em>Defintion2 Node</em>}' class.
+	 * The meta object id for the '{@link org.gravity.mapping.secdfd.impl.Method2ElementImpl <em>Method2 Element</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.gravity.mapping.secdfd.impl.Defintion2NodeImpl
-	 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getDefintion2Node()
+	 * @see org.gravity.mapping.secdfd.impl.Method2ElementImpl
+	 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getMethod2Element()
 	 * @generated
 	 */
-	int DEFINTION2_NODE = 3;
+	int METHOD2_ELEMENT = 3;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
@@ -213,7 +213,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DEFINTION2_NODE__SOURCE = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 0;
+	int METHOD2_ELEMENT__SOURCE = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -222,154 +222,154 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DEFINTION2_NODE__TARGET = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 1;
+	int METHOD2_ELEMENT__TARGET = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Defintion2 Node</em>' class.
+	 * The number of structural features of the '<em>Method2 Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DEFINTION2_NODE_FEATURE_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 2;
+	int METHOD2_ELEMENT_FEATURE_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of operations of the '<em>Defintion2 Node</em>' class.
+	 * The number of operations of the '<em>Method2 Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DEFINTION2_NODE_OPERATION_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
+	int METHOD2_ELEMENT_OPERATION_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
 
 
 	/**
-	 * Returns the meta object for class '{@link org.gravity.mapping.secdfd.Type2GraphAsset <em>Type2 Graph Asset</em>}'.
+	 * Returns the meta object for class '{@link org.gravity.mapping.secdfd.TypeGraph2EDFD <em>Type Graph2 EDFD</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Type2 Graph Asset</em>'.
-	 * @see org.gravity.mapping.secdfd.Type2GraphAsset
+	 * @return the meta object for class '<em>Type Graph2 EDFD</em>'.
+	 * @see org.gravity.mapping.secdfd.TypeGraph2EDFD
 	 * @generated
 	 */
-	EClass getType2GraphAsset();
+	EClass getTypeGraph2EDFD();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.gravity.mapping.secdfd.Type2GraphAsset#getSource <em>Source</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Source</em>'.
-	 * @see org.gravity.mapping.secdfd.Type2GraphAsset#getSource()
-	 * @see #getType2GraphAsset()
-	 * @generated
-	 */
-	EReference getType2GraphAsset_Source();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.gravity.mapping.secdfd.Type2GraphAsset#getTarget <em>Target</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Target</em>'.
-	 * @see org.gravity.mapping.secdfd.Type2GraphAsset#getTarget()
-	 * @see #getType2GraphAsset()
-	 * @generated
-	 */
-	EReference getType2GraphAsset_Target();
-
-	/**
-	 * Returns the meta object for class '{@link org.gravity.mapping.secdfd.Method2Node <em>Method2 Node</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Method2 Node</em>'.
-	 * @see org.gravity.mapping.secdfd.Method2Node
-	 * @generated
-	 */
-	EClass getMethod2Node();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.gravity.mapping.secdfd.Method2Node#getSource <em>Source</em>}'.
+	 * Returns the meta object for the reference '{@link org.gravity.mapping.secdfd.TypeGraph2EDFD#getSource <em>Source</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Source</em>'.
-	 * @see org.gravity.mapping.secdfd.Method2Node#getSource()
-	 * @see #getMethod2Node()
+	 * @see org.gravity.mapping.secdfd.TypeGraph2EDFD#getSource()
+	 * @see #getTypeGraph2EDFD()
 	 * @generated
 	 */
-	EReference getMethod2Node_Source();
+	EReference getTypeGraph2EDFD_Source();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.gravity.mapping.secdfd.Method2Node#getTarget <em>Target</em>}'.
+	 * Returns the meta object for the reference '{@link org.gravity.mapping.secdfd.TypeGraph2EDFD#getTarget <em>Target</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Target</em>'.
-	 * @see org.gravity.mapping.secdfd.Method2Node#getTarget()
-	 * @see #getMethod2Node()
+	 * @see org.gravity.mapping.secdfd.TypeGraph2EDFD#getTarget()
+	 * @see #getTypeGraph2EDFD()
 	 * @generated
 	 */
-	EReference getMethod2Node_Target();
+	EReference getTypeGraph2EDFD_Target();
 
 	/**
-	 * Returns the meta object for class '{@link org.gravity.mapping.secdfd.TypeGraph2Graph <em>Type Graph2 Graph</em>}'.
+	 * Returns the meta object for class '{@link org.gravity.mapping.secdfd.Type2Asset <em>Type2 Asset</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Type Graph2 Graph</em>'.
-	 * @see org.gravity.mapping.secdfd.TypeGraph2Graph
+	 * @return the meta object for class '<em>Type2 Asset</em>'.
+	 * @see org.gravity.mapping.secdfd.Type2Asset
 	 * @generated
 	 */
-	EClass getTypeGraph2Graph();
+	EClass getType2Asset();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.gravity.mapping.secdfd.TypeGraph2Graph#getSource <em>Source</em>}'.
+	 * Returns the meta object for the reference '{@link org.gravity.mapping.secdfd.Type2Asset#getSource <em>Source</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Source</em>'.
-	 * @see org.gravity.mapping.secdfd.TypeGraph2Graph#getSource()
-	 * @see #getTypeGraph2Graph()
+	 * @see org.gravity.mapping.secdfd.Type2Asset#getSource()
+	 * @see #getType2Asset()
 	 * @generated
 	 */
-	EReference getTypeGraph2Graph_Source();
+	EReference getType2Asset_Source();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.gravity.mapping.secdfd.TypeGraph2Graph#getTarget <em>Target</em>}'.
+	 * Returns the meta object for the reference '{@link org.gravity.mapping.secdfd.Type2Asset#getTarget <em>Target</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Target</em>'.
-	 * @see org.gravity.mapping.secdfd.TypeGraph2Graph#getTarget()
-	 * @see #getTypeGraph2Graph()
+	 * @see org.gravity.mapping.secdfd.Type2Asset#getTarget()
+	 * @see #getType2Asset()
 	 * @generated
 	 */
-	EReference getTypeGraph2Graph_Target();
+	EReference getType2Asset_Target();
 
 	/**
-	 * Returns the meta object for class '{@link org.gravity.mapping.secdfd.Defintion2Node <em>Defintion2 Node</em>}'.
+	 * Returns the meta object for class '{@link org.gravity.mapping.secdfd.Defintion2Element <em>Defintion2 Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Defintion2 Node</em>'.
-	 * @see org.gravity.mapping.secdfd.Defintion2Node
+	 * @return the meta object for class '<em>Defintion2 Element</em>'.
+	 * @see org.gravity.mapping.secdfd.Defintion2Element
 	 * @generated
 	 */
-	EClass getDefintion2Node();
+	EClass getDefintion2Element();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.gravity.mapping.secdfd.Defintion2Node#getSource <em>Source</em>}'.
+	 * Returns the meta object for the reference '{@link org.gravity.mapping.secdfd.Defintion2Element#getSource <em>Source</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Source</em>'.
-	 * @see org.gravity.mapping.secdfd.Defintion2Node#getSource()
-	 * @see #getDefintion2Node()
+	 * @see org.gravity.mapping.secdfd.Defintion2Element#getSource()
+	 * @see #getDefintion2Element()
 	 * @generated
 	 */
-	EReference getDefintion2Node_Source();
+	EReference getDefintion2Element_Source();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.gravity.mapping.secdfd.Defintion2Node#getTarget <em>Target</em>}'.
+	 * Returns the meta object for the reference '{@link org.gravity.mapping.secdfd.Defintion2Element#getTarget <em>Target</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Target</em>'.
-	 * @see org.gravity.mapping.secdfd.Defintion2Node#getTarget()
-	 * @see #getDefintion2Node()
+	 * @see org.gravity.mapping.secdfd.Defintion2Element#getTarget()
+	 * @see #getDefintion2Element()
 	 * @generated
 	 */
-	EReference getDefintion2Node_Target();
+	EReference getDefintion2Element_Target();
+
+	/**
+	 * Returns the meta object for class '{@link org.gravity.mapping.secdfd.Method2Element <em>Method2 Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Method2 Element</em>'.
+	 * @see org.gravity.mapping.secdfd.Method2Element
+	 * @generated
+	 */
+	EClass getMethod2Element();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.gravity.mapping.secdfd.Method2Element#getSource <em>Source</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Source</em>'.
+	 * @see org.gravity.mapping.secdfd.Method2Element#getSource()
+	 * @see #getMethod2Element()
+	 * @generated
+	 */
+	EReference getMethod2Element_Source();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.gravity.mapping.secdfd.Method2Element#getTarget <em>Target</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Target</em>'.
+	 * @see org.gravity.mapping.secdfd.Method2Element#getTarget()
+	 * @see #getMethod2Element()
+	 * @generated
+	 */
+	EReference getMethod2Element_Target();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -395,14 +395,14 @@ public interface SecdfdPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link org.gravity.mapping.secdfd.impl.Type2GraphAssetImpl <em>Type2 Graph Asset</em>}' class.
+		 * The meta object literal for the '{@link org.gravity.mapping.secdfd.impl.TypeGraph2EDFDImpl <em>Type Graph2 EDFD</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.gravity.mapping.secdfd.impl.Type2GraphAssetImpl
-		 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getType2GraphAsset()
+		 * @see org.gravity.mapping.secdfd.impl.TypeGraph2EDFDImpl
+		 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getTypeGraph2EDFD()
 		 * @generated
 		 */
-		EClass TYPE2_GRAPH_ASSET = eINSTANCE.getType2GraphAsset();
+		EClass TYPE_GRAPH2_EDFD = eINSTANCE.getTypeGraph2EDFD();
 
 		/**
 		 * The meta object literal for the '<em><b>Source</b></em>' reference feature.
@@ -410,7 +410,7 @@ public interface SecdfdPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference TYPE2_GRAPH_ASSET__SOURCE = eINSTANCE.getType2GraphAsset_Source();
+		EReference TYPE_GRAPH2_EDFD__SOURCE = eINSTANCE.getTypeGraph2EDFD_Source();
 
 		/**
 		 * The meta object literal for the '<em><b>Target</b></em>' reference feature.
@@ -418,17 +418,17 @@ public interface SecdfdPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference TYPE2_GRAPH_ASSET__TARGET = eINSTANCE.getType2GraphAsset_Target();
+		EReference TYPE_GRAPH2_EDFD__TARGET = eINSTANCE.getTypeGraph2EDFD_Target();
 
 		/**
-		 * The meta object literal for the '{@link org.gravity.mapping.secdfd.impl.Method2NodeImpl <em>Method2 Node</em>}' class.
+		 * The meta object literal for the '{@link org.gravity.mapping.secdfd.impl.Type2AssetImpl <em>Type2 Asset</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.gravity.mapping.secdfd.impl.Method2NodeImpl
-		 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getMethod2Node()
+		 * @see org.gravity.mapping.secdfd.impl.Type2AssetImpl
+		 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getType2Asset()
 		 * @generated
 		 */
-		EClass METHOD2_NODE = eINSTANCE.getMethod2Node();
+		EClass TYPE2_ASSET = eINSTANCE.getType2Asset();
 
 		/**
 		 * The meta object literal for the '<em><b>Source</b></em>' reference feature.
@@ -436,7 +436,7 @@ public interface SecdfdPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference METHOD2_NODE__SOURCE = eINSTANCE.getMethod2Node_Source();
+		EReference TYPE2_ASSET__SOURCE = eINSTANCE.getType2Asset_Source();
 
 		/**
 		 * The meta object literal for the '<em><b>Target</b></em>' reference feature.
@@ -444,17 +444,17 @@ public interface SecdfdPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference METHOD2_NODE__TARGET = eINSTANCE.getMethod2Node_Target();
+		EReference TYPE2_ASSET__TARGET = eINSTANCE.getType2Asset_Target();
 
 		/**
-		 * The meta object literal for the '{@link org.gravity.mapping.secdfd.impl.TypeGraph2GraphImpl <em>Type Graph2 Graph</em>}' class.
+		 * The meta object literal for the '{@link org.gravity.mapping.secdfd.impl.Defintion2ElementImpl <em>Defintion2 Element</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.gravity.mapping.secdfd.impl.TypeGraph2GraphImpl
-		 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getTypeGraph2Graph()
+		 * @see org.gravity.mapping.secdfd.impl.Defintion2ElementImpl
+		 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getDefintion2Element()
 		 * @generated
 		 */
-		EClass TYPE_GRAPH2_GRAPH = eINSTANCE.getTypeGraph2Graph();
+		EClass DEFINTION2_ELEMENT = eINSTANCE.getDefintion2Element();
 
 		/**
 		 * The meta object literal for the '<em><b>Source</b></em>' reference feature.
@@ -462,7 +462,7 @@ public interface SecdfdPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference TYPE_GRAPH2_GRAPH__SOURCE = eINSTANCE.getTypeGraph2Graph_Source();
+		EReference DEFINTION2_ELEMENT__SOURCE = eINSTANCE.getDefintion2Element_Source();
 
 		/**
 		 * The meta object literal for the '<em><b>Target</b></em>' reference feature.
@@ -470,17 +470,17 @@ public interface SecdfdPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference TYPE_GRAPH2_GRAPH__TARGET = eINSTANCE.getTypeGraph2Graph_Target();
+		EReference DEFINTION2_ELEMENT__TARGET = eINSTANCE.getDefintion2Element_Target();
 
 		/**
-		 * The meta object literal for the '{@link org.gravity.mapping.secdfd.impl.Defintion2NodeImpl <em>Defintion2 Node</em>}' class.
+		 * The meta object literal for the '{@link org.gravity.mapping.secdfd.impl.Method2ElementImpl <em>Method2 Element</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.gravity.mapping.secdfd.impl.Defintion2NodeImpl
-		 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getDefintion2Node()
+		 * @see org.gravity.mapping.secdfd.impl.Method2ElementImpl
+		 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getMethod2Element()
 		 * @generated
 		 */
-		EClass DEFINTION2_NODE = eINSTANCE.getDefintion2Node();
+		EClass METHOD2_ELEMENT = eINSTANCE.getMethod2Element();
 
 		/**
 		 * The meta object literal for the '<em><b>Source</b></em>' reference feature.
@@ -488,7 +488,7 @@ public interface SecdfdPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference DEFINTION2_NODE__SOURCE = eINSTANCE.getDefintion2Node_Source();
+		EReference METHOD2_ELEMENT__SOURCE = eINSTANCE.getMethod2Element_Source();
 
 		/**
 		 * The meta object literal for the '<em><b>Target</b></em>' reference feature.
@@ -496,7 +496,7 @@ public interface SecdfdPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference DEFINTION2_NODE__TARGET = eINSTANCE.getDefintion2Node_Target();
+		EReference METHOD2_ELEMENT__TARGET = eINSTANCE.getMethod2Element_Target();
 
 	}
 

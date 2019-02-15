@@ -56,10 +56,10 @@ public class SecdfdFactoryImpl extends EFactoryImpl implements SecdfdFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case SecdfdPackage.TYPE2_GRAPH_ASSET: return createType2GraphAsset();
-			case SecdfdPackage.METHOD2_NODE: return createMethod2Node();
-			case SecdfdPackage.TYPE_GRAPH2_GRAPH: return createTypeGraph2Graph();
-			case SecdfdPackage.DEFINTION2_NODE: return createDefintion2Node();
+			case SecdfdPackage.TYPE_GRAPH2_EDFD: return createTypeGraph2EDFD();
+			case SecdfdPackage.TYPE2_ASSET: return createType2Asset();
+			case SecdfdPackage.DEFINTION2_ELEMENT: return createDefintion2Element();
+			case SecdfdPackage.METHOD2_ELEMENT: return createMethod2Element();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -70,9 +70,9 @@ public class SecdfdFactoryImpl extends EFactoryImpl implements SecdfdFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Type2GraphAsset createType2GraphAsset() {
-		Type2GraphAssetImpl type2GraphAsset = new Type2GraphAssetImpl();
-		return type2GraphAsset;
+	public TypeGraph2EDFD createTypeGraph2EDFD() {
+		TypeGraph2EDFDImpl typeGraph2EDFD = new TypeGraph2EDFDImpl();
+		return typeGraph2EDFD;
 	}
 
 	/**
@@ -80,9 +80,9 @@ public class SecdfdFactoryImpl extends EFactoryImpl implements SecdfdFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Method2Node createMethod2Node() {
-		Method2NodeImpl method2Node = new Method2NodeImpl();
-		return method2Node;
+	public Type2Asset createType2Asset() {
+		Type2AssetImpl type2Asset = new Type2AssetImpl();
+		return type2Asset;
 	}
 
 	/**
@@ -90,9 +90,9 @@ public class SecdfdFactoryImpl extends EFactoryImpl implements SecdfdFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TypeGraph2Graph createTypeGraph2Graph() {
-		TypeGraph2GraphImpl typeGraph2Graph = new TypeGraph2GraphImpl();
-		return typeGraph2Graph;
+	public Defintion2Element createDefintion2Element() {
+		Defintion2ElementImpl defintion2Element = new Defintion2ElementImpl();
+		return defintion2Element;
 	}
 
 	/**
@@ -100,9 +100,9 @@ public class SecdfdFactoryImpl extends EFactoryImpl implements SecdfdFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Defintion2Node createDefintion2Node() {
-		Defintion2NodeImpl defintion2Node = new Defintion2NodeImpl();
-		return defintion2Node;
+	public Method2Element createMethod2Element() {
+		Method2ElementImpl method2Element = new Method2ElementImpl();
+		return method2Element;
 	}
 
 	/**

@@ -70,20 +70,20 @@ public class SecdfdAdapterFactory extends AdapterFactoryImpl {
 	protected SecdfdSwitch<Adapter> modelSwitch =
 		new SecdfdSwitch<Adapter>() {
 			@Override
-			public Adapter caseType2GraphAsset(Type2GraphAsset object) {
-				return createType2GraphAssetAdapter();
+			public Adapter caseTypeGraph2EDFD(TypeGraph2EDFD object) {
+				return createTypeGraph2EDFDAdapter();
 			}
 			@Override
-			public Adapter caseMethod2Node(Method2Node object) {
-				return createMethod2NodeAdapter();
+			public Adapter caseType2Asset(Type2Asset object) {
+				return createType2AssetAdapter();
 			}
 			@Override
-			public Adapter caseTypeGraph2Graph(TypeGraph2Graph object) {
-				return createTypeGraph2GraphAdapter();
+			public Adapter caseDefintion2Element(Defintion2Element object) {
+				return createDefintion2ElementAdapter();
 			}
 			@Override
-			public Adapter caseDefintion2Node(Defintion2Node object) {
-				return createDefintion2NodeAdapter();
+			public Adapter caseMethod2Element(Method2Element object) {
+				return createMethod2ElementAdapter();
 			}
 			@Override
 			public Adapter caseAbstractCorrespondence(AbstractCorrespondence object) {
@@ -110,58 +110,58 @@ public class SecdfdAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.gravity.mapping.secdfd.Type2GraphAsset <em>Type2 Graph Asset</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.gravity.mapping.secdfd.TypeGraph2EDFD <em>Type Graph2 EDFD</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.gravity.mapping.secdfd.Type2GraphAsset
+	 * @see org.gravity.mapping.secdfd.TypeGraph2EDFD
 	 * @generated
 	 */
-	public Adapter createType2GraphAssetAdapter() {
+	public Adapter createTypeGraph2EDFDAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.gravity.mapping.secdfd.Method2Node <em>Method2 Node</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.gravity.mapping.secdfd.Type2Asset <em>Type2 Asset</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.gravity.mapping.secdfd.Method2Node
+	 * @see org.gravity.mapping.secdfd.Type2Asset
 	 * @generated
 	 */
-	public Adapter createMethod2NodeAdapter() {
+	public Adapter createType2AssetAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.gravity.mapping.secdfd.TypeGraph2Graph <em>Type Graph2 Graph</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.gravity.mapping.secdfd.Defintion2Element <em>Defintion2 Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.gravity.mapping.secdfd.TypeGraph2Graph
+	 * @see org.gravity.mapping.secdfd.Defintion2Element
 	 * @generated
 	 */
-	public Adapter createTypeGraph2GraphAdapter() {
+	public Adapter createDefintion2ElementAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.gravity.mapping.secdfd.Defintion2Node <em>Defintion2 Node</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.gravity.mapping.secdfd.Method2Element <em>Method2 Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.gravity.mapping.secdfd.Defintion2Node
+	 * @see org.gravity.mapping.secdfd.Method2Element
 	 * @generated
 	 */
-	public Adapter createDefintion2NodeAdapter() {
+	public Adapter createMethod2ElementAdapter() {
 		return null;
 	}
 

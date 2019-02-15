@@ -2,7 +2,7 @@
  */
 package org.gravity.mapping.secdfd.impl;
 
-import graph.Graph;
+import eDFDFlowTracking.Element;
 
 import org.eclipse.emf.common.notify.Notification;
 
@@ -11,28 +11,28 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.gravity.mapping.secdfd.Defintion2Element;
 import org.gravity.mapping.secdfd.SecdfdPackage;
-import org.gravity.mapping.secdfd.TypeGraph2Graph;
 
-import org.gravity.typegraph.basic.TypeGraph;
+import org.gravity.typegraph.basic.TMethodDefinition;
 
 import org.moflon.tgg.runtime.impl.AbstractCorrespondenceImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Type Graph2 Graph</b></em>'.
+ * An implementation of the model object '<em><b>Defintion2 Element</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.gravity.mapping.secdfd.impl.TypeGraph2GraphImpl#getSource <em>Source</em>}</li>
- *   <li>{@link org.gravity.mapping.secdfd.impl.TypeGraph2GraphImpl#getTarget <em>Target</em>}</li>
+ *   <li>{@link org.gravity.mapping.secdfd.impl.Defintion2ElementImpl#getSource <em>Source</em>}</li>
+ *   <li>{@link org.gravity.mapping.secdfd.impl.Defintion2ElementImpl#getTarget <em>Target</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class TypeGraph2GraphImpl extends AbstractCorrespondenceImpl implements TypeGraph2Graph {
+public class Defintion2ElementImpl extends AbstractCorrespondenceImpl implements Defintion2Element {
 	/**
 	 * The cached value of the '{@link #getSource() <em>Source</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -41,7 +41,7 @@ public class TypeGraph2GraphImpl extends AbstractCorrespondenceImpl implements T
 	 * @generated
 	 * @ordered
 	 */
-	protected TypeGraph source;
+	protected TMethodDefinition source;
 
 	/**
 	 * The cached value of the '{@link #getTarget() <em>Target</em>}' reference.
@@ -51,14 +51,14 @@ public class TypeGraph2GraphImpl extends AbstractCorrespondenceImpl implements T
 	 * @generated
 	 * @ordered
 	 */
-	protected Graph target;
+	protected Element target;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected TypeGraph2GraphImpl() {
+	protected Defintion2ElementImpl() {
 		super();
 	}
 
@@ -69,7 +69,7 @@ public class TypeGraph2GraphImpl extends AbstractCorrespondenceImpl implements T
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return SecdfdPackage.Literals.TYPE_GRAPH2_GRAPH;
+		return SecdfdPackage.Literals.DEFINTION2_ELEMENT;
 	}
 
 	/**
@@ -77,13 +77,13 @@ public class TypeGraph2GraphImpl extends AbstractCorrespondenceImpl implements T
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TypeGraph getSource() {
+	public TMethodDefinition getSource() {
 		if (source != null && source.eIsProxy()) {
 			InternalEObject oldSource = (InternalEObject)source;
-			source = (TypeGraph)eResolveProxy(oldSource);
+			source = (TMethodDefinition)eResolveProxy(oldSource);
 			if (source != oldSource) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SecdfdPackage.TYPE_GRAPH2_GRAPH__SOURCE, oldSource, source));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SecdfdPackage.DEFINTION2_ELEMENT__SOURCE, oldSource, source));
 			}
 		}
 		return source;
@@ -94,7 +94,7 @@ public class TypeGraph2GraphImpl extends AbstractCorrespondenceImpl implements T
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TypeGraph basicGetSource() {
+	public TMethodDefinition basicGetSource() {
 		return source;
 	}
 
@@ -103,11 +103,11 @@ public class TypeGraph2GraphImpl extends AbstractCorrespondenceImpl implements T
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setSource(TypeGraph newSource) {
-		TypeGraph oldSource = source;
+	public void setSource(TMethodDefinition newSource) {
+		TMethodDefinition oldSource = source;
 		source = newSource;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SecdfdPackage.TYPE_GRAPH2_GRAPH__SOURCE, oldSource, source));
+			eNotify(new ENotificationImpl(this, Notification.SET, SecdfdPackage.DEFINTION2_ELEMENT__SOURCE, oldSource, source));
 	}
 
 	/**
@@ -115,13 +115,13 @@ public class TypeGraph2GraphImpl extends AbstractCorrespondenceImpl implements T
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Graph getTarget() {
+	public Element getTarget() {
 		if (target != null && target.eIsProxy()) {
 			InternalEObject oldTarget = (InternalEObject)target;
-			target = (Graph)eResolveProxy(oldTarget);
+			target = (Element)eResolveProxy(oldTarget);
 			if (target != oldTarget) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SecdfdPackage.TYPE_GRAPH2_GRAPH__TARGET, oldTarget, target));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SecdfdPackage.DEFINTION2_ELEMENT__TARGET, oldTarget, target));
 			}
 		}
 		return target;
@@ -132,7 +132,7 @@ public class TypeGraph2GraphImpl extends AbstractCorrespondenceImpl implements T
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Graph basicGetTarget() {
+	public Element basicGetTarget() {
 		return target;
 	}
 
@@ -141,11 +141,11 @@ public class TypeGraph2GraphImpl extends AbstractCorrespondenceImpl implements T
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setTarget(Graph newTarget) {
-		Graph oldTarget = target;
+	public void setTarget(Element newTarget) {
+		Element oldTarget = target;
 		target = newTarget;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SecdfdPackage.TYPE_GRAPH2_GRAPH__TARGET, oldTarget, target));
+			eNotify(new ENotificationImpl(this, Notification.SET, SecdfdPackage.DEFINTION2_ELEMENT__TARGET, oldTarget, target));
 	}
 
 	/**
@@ -156,10 +156,10 @@ public class TypeGraph2GraphImpl extends AbstractCorrespondenceImpl implements T
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case SecdfdPackage.TYPE_GRAPH2_GRAPH__SOURCE:
+			case SecdfdPackage.DEFINTION2_ELEMENT__SOURCE:
 				if (resolve) return getSource();
 				return basicGetSource();
-			case SecdfdPackage.TYPE_GRAPH2_GRAPH__TARGET:
+			case SecdfdPackage.DEFINTION2_ELEMENT__TARGET:
 				if (resolve) return getTarget();
 				return basicGetTarget();
 		}
@@ -174,11 +174,11 @@ public class TypeGraph2GraphImpl extends AbstractCorrespondenceImpl implements T
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case SecdfdPackage.TYPE_GRAPH2_GRAPH__SOURCE:
-				setSource((TypeGraph)newValue);
+			case SecdfdPackage.DEFINTION2_ELEMENT__SOURCE:
+				setSource((TMethodDefinition)newValue);
 				return;
-			case SecdfdPackage.TYPE_GRAPH2_GRAPH__TARGET:
-				setTarget((Graph)newValue);
+			case SecdfdPackage.DEFINTION2_ELEMENT__TARGET:
+				setTarget((Element)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -192,11 +192,11 @@ public class TypeGraph2GraphImpl extends AbstractCorrespondenceImpl implements T
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case SecdfdPackage.TYPE_GRAPH2_GRAPH__SOURCE:
-				setSource((TypeGraph)null);
+			case SecdfdPackage.DEFINTION2_ELEMENT__SOURCE:
+				setSource((TMethodDefinition)null);
 				return;
-			case SecdfdPackage.TYPE_GRAPH2_GRAPH__TARGET:
-				setTarget((Graph)null);
+			case SecdfdPackage.DEFINTION2_ELEMENT__TARGET:
+				setTarget((Element)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -210,12 +210,12 @@ public class TypeGraph2GraphImpl extends AbstractCorrespondenceImpl implements T
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case SecdfdPackage.TYPE_GRAPH2_GRAPH__SOURCE:
+			case SecdfdPackage.DEFINTION2_ELEMENT__SOURCE:
 				return source != null;
-			case SecdfdPackage.TYPE_GRAPH2_GRAPH__TARGET:
+			case SecdfdPackage.DEFINTION2_ELEMENT__TARGET:
 				return target != null;
 		}
 		return super.eIsSet(featureID);
 	}
 
-} //TypeGraph2GraphImpl
+} //Defintion2ElementImpl

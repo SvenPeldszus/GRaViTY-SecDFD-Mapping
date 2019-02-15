@@ -68,10 +68,10 @@ public class RulesSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case RulesPackage.TYPE_GRAPH2_GRAPH: {
-				TypeGraph2Graph typeGraph2Graph = (TypeGraph2Graph)theEObject;
-				T result = caseTypeGraph2Graph(typeGraph2Graph);
-				if (result == null) result = caseAbstractRule(typeGraph2Graph);
+			case RulesPackage.TYPE_GRAPH2_EDFD: {
+				TypeGraph2EDFD typeGraph2EDFD = (TypeGraph2EDFD)theEObject;
+				T result = caseTypeGraph2EDFD(typeGraph2EDFD);
+				if (result == null) result = caseAbstractRule(typeGraph2EDFD);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -80,17 +80,17 @@ public class RulesSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Type Graph2 Graph</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Type Graph2 EDFD</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Type Graph2 Graph</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Type Graph2 EDFD</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseTypeGraph2Graph(TypeGraph2Graph object) {
+	public T caseTypeGraph2EDFD(TypeGraph2EDFD object) {
 		return null;
 	}
 

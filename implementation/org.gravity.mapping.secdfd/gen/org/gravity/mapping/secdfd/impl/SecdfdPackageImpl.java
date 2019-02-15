@@ -2,29 +2,7 @@
  */
 package org.gravity.mapping.secdfd.impl;
 
-import MocaTree.MocaTreePackage;
-
-import SDMLanguage.SDMLanguagePackage;
-
-import SDMLanguage.activities.ActivitiesPackage;
-
-import SDMLanguage.calls.CallsPackage;
-
-import SDMLanguage.calls.callExpressions.CallExpressionsPackage;
-
-import SDMLanguage.expressions.ExpressionsPackage;
-
-import SDMLanguage.patterns.AttributeConstraints.AttributeConstraintsPackage;
-
-import SDMLanguage.patterns.PatternsPackage;
-
-import SDMLanguage.patterns.patternExpressions.PatternExpressionsPackage;
-
-import SDMLanguage.sdmUtil.SdmUtilPackage;
-
-import eDFDFlowTracking.EDFDFlowTrackingPackage;
-
-import graph.GraphPackage;
+import eDFDFlowTracking.EDFDFlowTracking1Package;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -32,8 +10,8 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
-import org.gravity.mapping.secdfd.Defintion2Node;
-import org.gravity.mapping.secdfd.Method2Node;
+import org.gravity.mapping.secdfd.Defintion2Element;
+import org.gravity.mapping.secdfd.Method2Element;
 
 import org.gravity.mapping.secdfd.Rules.RulesPackage;
 
@@ -41,12 +19,10 @@ import org.gravity.mapping.secdfd.Rules.impl.RulesPackageImpl;
 
 import org.gravity.mapping.secdfd.SecdfdFactory;
 import org.gravity.mapping.secdfd.SecdfdPackage;
-import org.gravity.mapping.secdfd.Type2GraphAsset;
-import org.gravity.mapping.secdfd.TypeGraph2Graph;
+import org.gravity.mapping.secdfd.Type2Asset;
+import org.gravity.mapping.secdfd.TypeGraph2EDFD;
 
 import org.gravity.typegraph.basic.BasicPackage;
-
-import org.moflon.tgg.language.LanguagePackage;
 
 import org.moflon.tgg.runtime.RuntimePackage;
 
@@ -62,28 +38,28 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass type2GraphAssetEClass = null;
+	private EClass typeGraph2EDFDEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass method2NodeEClass = null;
+	private EClass type2AssetEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass typeGraph2GraphEClass = null;
+	private EClass defintion2ElementEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass defintion2NodeEClass = null;
+	private EClass method2ElementEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -134,20 +110,8 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 
 		// Initialize simple dependencies
 		BasicPackage.eINSTANCE.eClass();
-		LanguagePackage.eINSTANCE.eClass();
+		EDFDFlowTracking1Package.eINSTANCE.eClass();
 		RuntimePackage.eINSTANCE.eClass();
-		EDFDFlowTrackingPackage.eINSTANCE.eClass();
-		GraphPackage.eINSTANCE.eClass();
-		PatternsPackage.eINSTANCE.eClass();
-		SDMLanguagePackage.eINSTANCE.eClass();
-		ActivitiesPackage.eINSTANCE.eClass();
-		MocaTreePackage.eINSTANCE.eClass();
-		ExpressionsPackage.eINSTANCE.eClass();
-		CallExpressionsPackage.eINSTANCE.eClass();
-		SdmUtilPackage.eINSTANCE.eClass();
-		AttributeConstraintsPackage.eINSTANCE.eClass();
-		PatternExpressionsPackage.eINSTANCE.eClass();
-		CallsPackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
 		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(RulesPackage.eNS_URI);
@@ -174,8 +138,8 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getType2GraphAsset() {
-		return type2GraphAssetEClass;
+	public EClass getTypeGraph2EDFD() {
+		return typeGraph2EDFDEClass;
 	}
 
 	/**
@@ -183,8 +147,8 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getType2GraphAsset_Source() {
-		return (EReference)type2GraphAssetEClass.getEStructuralFeatures().get(0);
+	public EReference getTypeGraph2EDFD_Source() {
+		return (EReference)typeGraph2EDFDEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -192,8 +156,8 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getType2GraphAsset_Target() {
-		return (EReference)type2GraphAssetEClass.getEStructuralFeatures().get(1);
+	public EReference getTypeGraph2EDFD_Target() {
+		return (EReference)typeGraph2EDFDEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -201,8 +165,8 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getMethod2Node() {
-		return method2NodeEClass;
+	public EClass getType2Asset() {
+		return type2AssetEClass;
 	}
 
 	/**
@@ -210,8 +174,8 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getMethod2Node_Source() {
-		return (EReference)method2NodeEClass.getEStructuralFeatures().get(0);
+	public EReference getType2Asset_Source() {
+		return (EReference)type2AssetEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -219,8 +183,8 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getMethod2Node_Target() {
-		return (EReference)method2NodeEClass.getEStructuralFeatures().get(1);
+	public EReference getType2Asset_Target() {
+		return (EReference)type2AssetEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -228,8 +192,8 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getTypeGraph2Graph() {
-		return typeGraph2GraphEClass;
+	public EClass getDefintion2Element() {
+		return defintion2ElementEClass;
 	}
 
 	/**
@@ -237,8 +201,8 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTypeGraph2Graph_Source() {
-		return (EReference)typeGraph2GraphEClass.getEStructuralFeatures().get(0);
+	public EReference getDefintion2Element_Source() {
+		return (EReference)defintion2ElementEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -246,8 +210,8 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTypeGraph2Graph_Target() {
-		return (EReference)typeGraph2GraphEClass.getEStructuralFeatures().get(1);
+	public EReference getDefintion2Element_Target() {
+		return (EReference)defintion2ElementEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -255,8 +219,8 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getDefintion2Node() {
-		return defintion2NodeEClass;
+	public EClass getMethod2Element() {
+		return method2ElementEClass;
 	}
 
 	/**
@@ -264,8 +228,8 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getDefintion2Node_Source() {
-		return (EReference)defintion2NodeEClass.getEStructuralFeatures().get(0);
+	public EReference getMethod2Element_Source() {
+		return (EReference)method2ElementEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -273,8 +237,8 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getDefintion2Node_Target() {
-		return (EReference)defintion2NodeEClass.getEStructuralFeatures().get(1);
+	public EReference getMethod2Element_Target() {
+		return (EReference)method2ElementEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -305,21 +269,21 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 		isCreated = true;
 
 		// Create classes and their features
-		type2GraphAssetEClass = createEClass(TYPE2_GRAPH_ASSET);
-		createEReference(type2GraphAssetEClass, TYPE2_GRAPH_ASSET__SOURCE);
-		createEReference(type2GraphAssetEClass, TYPE2_GRAPH_ASSET__TARGET);
+		typeGraph2EDFDEClass = createEClass(TYPE_GRAPH2_EDFD);
+		createEReference(typeGraph2EDFDEClass, TYPE_GRAPH2_EDFD__SOURCE);
+		createEReference(typeGraph2EDFDEClass, TYPE_GRAPH2_EDFD__TARGET);
 
-		method2NodeEClass = createEClass(METHOD2_NODE);
-		createEReference(method2NodeEClass, METHOD2_NODE__SOURCE);
-		createEReference(method2NodeEClass, METHOD2_NODE__TARGET);
+		type2AssetEClass = createEClass(TYPE2_ASSET);
+		createEReference(type2AssetEClass, TYPE2_ASSET__SOURCE);
+		createEReference(type2AssetEClass, TYPE2_ASSET__TARGET);
 
-		typeGraph2GraphEClass = createEClass(TYPE_GRAPH2_GRAPH);
-		createEReference(typeGraph2GraphEClass, TYPE_GRAPH2_GRAPH__SOURCE);
-		createEReference(typeGraph2GraphEClass, TYPE_GRAPH2_GRAPH__TARGET);
+		defintion2ElementEClass = createEClass(DEFINTION2_ELEMENT);
+		createEReference(defintion2ElementEClass, DEFINTION2_ELEMENT__SOURCE);
+		createEReference(defintion2ElementEClass, DEFINTION2_ELEMENT__TARGET);
 
-		defintion2NodeEClass = createEClass(DEFINTION2_NODE);
-		createEReference(defintion2NodeEClass, DEFINTION2_NODE__SOURCE);
-		createEReference(defintion2NodeEClass, DEFINTION2_NODE__TARGET);
+		method2ElementEClass = createEClass(METHOD2_ELEMENT);
+		createEReference(method2ElementEClass, METHOD2_ELEMENT__SOURCE);
+		createEReference(method2ElementEClass, METHOD2_ELEMENT__TARGET);
 	}
 
 	/**
@@ -349,7 +313,7 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 		RulesPackage theRulesPackage = (RulesPackage)EPackage.Registry.INSTANCE.getEPackage(RulesPackage.eNS_URI);
 		RuntimePackage theRuntimePackage = (RuntimePackage)EPackage.Registry.INSTANCE.getEPackage(RuntimePackage.eNS_URI);
 		BasicPackage theBasicPackage = (BasicPackage)EPackage.Registry.INSTANCE.getEPackage(BasicPackage.eNS_URI);
-		GraphPackage theGraphPackage = (GraphPackage)EPackage.Registry.INSTANCE.getEPackage(GraphPackage.eNS_URI);
+		EDFDFlowTracking1Package theEDFDFlowTracking1Package = (EDFDFlowTracking1Package)EPackage.Registry.INSTANCE.getEPackage(EDFDFlowTracking1Package.eNS_URI);
 
 		// Add subpackages
 		getESubpackages().add(theRulesPackage);
@@ -359,27 +323,27 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		type2GraphAssetEClass.getESuperTypes().add(theRuntimePackage.getAbstractCorrespondence());
-		method2NodeEClass.getESuperTypes().add(theRuntimePackage.getAbstractCorrespondence());
-		typeGraph2GraphEClass.getESuperTypes().add(theRuntimePackage.getAbstractCorrespondence());
-		defintion2NodeEClass.getESuperTypes().add(theRuntimePackage.getAbstractCorrespondence());
+		typeGraph2EDFDEClass.getESuperTypes().add(theRuntimePackage.getAbstractCorrespondence());
+		type2AssetEClass.getESuperTypes().add(theRuntimePackage.getAbstractCorrespondence());
+		defintion2ElementEClass.getESuperTypes().add(theRuntimePackage.getAbstractCorrespondence());
+		method2ElementEClass.getESuperTypes().add(theRuntimePackage.getAbstractCorrespondence());
 
 		// Initialize classes, features, and operations; add parameters
-		initEClass(type2GraphAssetEClass, Type2GraphAsset.class, "Type2GraphAsset", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getType2GraphAsset_Source(), theBasicPackage.getTAbstractType(), null, "source", null, 1, 1, Type2GraphAsset.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getType2GraphAsset_Target(), theGraphPackage.getGraphAsset(), null, "target", null, 1, 1, Type2GraphAsset.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(typeGraph2EDFDEClass, TypeGraph2EDFD.class, "TypeGraph2EDFD", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getTypeGraph2EDFD_Source(), theBasicPackage.getTypeGraph(), null, "source", null, 1, 1, TypeGraph2EDFD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTypeGraph2EDFD_Target(), theEDFDFlowTracking1Package.getEDFD(), null, "target", null, 1, 1, TypeGraph2EDFD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(method2NodeEClass, Method2Node.class, "Method2Node", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMethod2Node_Source(), theBasicPackage.getTMethod(), null, "source", null, 1, 1, Method2Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getMethod2Node_Target(), theGraphPackage.getNode(), null, "target", null, 1, 1, Method2Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(type2AssetEClass, Type2Asset.class, "Type2Asset", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getType2Asset_Source(), theBasicPackage.getTAbstractType(), null, "source", null, 1, 1, Type2Asset.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getType2Asset_Target(), theEDFDFlowTracking1Package.getAsset(), null, "target", null, 1, 1, Type2Asset.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(typeGraph2GraphEClass, TypeGraph2Graph.class, "TypeGraph2Graph", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getTypeGraph2Graph_Source(), theBasicPackage.getTypeGraph(), null, "source", null, 1, 1, TypeGraph2Graph.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTypeGraph2Graph_Target(), theGraphPackage.getGraph(), null, "target", null, 1, 1, TypeGraph2Graph.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(defintion2ElementEClass, Defintion2Element.class, "Defintion2Element", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getDefintion2Element_Source(), theBasicPackage.getTMethodDefinition(), null, "source", null, 1, 1, Defintion2Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getDefintion2Element_Target(), theEDFDFlowTracking1Package.getElement(), null, "target", null, 1, 1, Defintion2Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(defintion2NodeEClass, Defintion2Node.class, "Defintion2Node", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getDefintion2Node_Source(), theBasicPackage.getTMethodDefinition(), null, "source", null, 1, 1, Defintion2Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getDefintion2Node_Target(), theGraphPackage.getNode(), null, "target", null, 1, 1, Defintion2Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(method2ElementEClass, Method2Element.class, "Method2Element", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMethod2Element_Source(), theBasicPackage.getTMethod(), null, "source", null, 1, 1, Method2Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMethod2Element_Target(), theEDFDFlowTracking1Package.getElement(), null, "target", null, 1, 1, Method2Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

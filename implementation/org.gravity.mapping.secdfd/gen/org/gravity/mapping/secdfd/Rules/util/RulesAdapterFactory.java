@@ -70,8 +70,8 @@ public class RulesAdapterFactory extends AdapterFactoryImpl {
 	protected RulesSwitch<Adapter> modelSwitch =
 		new RulesSwitch<Adapter>() {
 			@Override
-			public Adapter caseTypeGraph2Graph(TypeGraph2Graph object) {
-				return createTypeGraph2GraphAdapter();
+			public Adapter caseTypeGraph2EDFD(TypeGraph2EDFD object) {
+				return createTypeGraph2EDFDAdapter();
 			}
 			@Override
 			public Adapter caseAbstractRule(AbstractRule object) {
@@ -98,16 +98,16 @@ public class RulesAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.gravity.mapping.secdfd.Rules.TypeGraph2Graph <em>Type Graph2 Graph</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.gravity.mapping.secdfd.Rules.TypeGraph2EDFD <em>Type Graph2 EDFD</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.gravity.mapping.secdfd.Rules.TypeGraph2Graph
+	 * @see org.gravity.mapping.secdfd.Rules.TypeGraph2EDFD
 	 * @generated
 	 */
-	public Adapter createTypeGraph2GraphAdapter() {
+	public Adapter createTypeGraph2EDFDAdapter() {
 		return null;
 	}
 

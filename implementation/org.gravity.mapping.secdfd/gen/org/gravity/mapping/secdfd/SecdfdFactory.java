@@ -22,40 +22,40 @@ public interface SecdfdFactory extends EFactory {
 	SecdfdFactory eINSTANCE = org.gravity.mapping.secdfd.impl.SecdfdFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Type2 Graph Asset</em>'.
+	 * Returns a new object of class '<em>Type Graph2 EDFD</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Type2 Graph Asset</em>'.
+	 * @return a new object of class '<em>Type Graph2 EDFD</em>'.
 	 * @generated
 	 */
-	Type2GraphAsset createType2GraphAsset();
+	TypeGraph2EDFD createTypeGraph2EDFD();
 
 	/**
-	 * Returns a new object of class '<em>Method2 Node</em>'.
+	 * Returns a new object of class '<em>Type2 Asset</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Method2 Node</em>'.
+	 * @return a new object of class '<em>Type2 Asset</em>'.
 	 * @generated
 	 */
-	Method2Node createMethod2Node();
+	Type2Asset createType2Asset();
 
 	/**
-	 * Returns a new object of class '<em>Type Graph2 Graph</em>'.
+	 * Returns a new object of class '<em>Defintion2 Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Type Graph2 Graph</em>'.
+	 * @return a new object of class '<em>Defintion2 Element</em>'.
 	 * @generated
 	 */
-	TypeGraph2Graph createTypeGraph2Graph();
+	Defintion2Element createDefintion2Element();
 
 	/**
-	 * Returns a new object of class '<em>Defintion2 Node</em>'.
+	 * Returns a new object of class '<em>Method2 Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Defintion2 Node</em>'.
+	 * @return a new object of class '<em>Method2 Element</em>'.
 	 * @generated
 	 */
-	Defintion2Node createDefintion2Node();
+	Method2Element createMethod2Element();
 
 	/**
 	 * Returns the package supported by this factory.

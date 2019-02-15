@@ -7,19 +7,19 @@
 <plugin>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated Secdfd -->
+      <!-- @generated Secdfd.pre -->
       <package
             uri="platform:/plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore"
             class="org.gravity.mapping.secdfd.SecdfdPackage"
-            genModel="model/Secdfd.genmodel"/>
+            genModel="model/Secdfd.pre.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated Secdfd -->
+      <!-- @generated Secdfd.pre -->
       <package
             uri="platform:/plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore#//Rules"
             class="org.gravity.mapping.secdfd.Rules.RulesPackage"
-            genModel="model/Secdfd.genmodel"/>
+            genModel="model/Secdfd.pre.genmodel"/>
    </extension>
 
 </plugin>

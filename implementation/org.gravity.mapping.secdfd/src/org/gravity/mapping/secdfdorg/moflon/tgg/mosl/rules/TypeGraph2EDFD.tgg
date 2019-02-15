@@ -1,0 +1,19 @@
+#using org.gravity.mapping.secdfd.*
+#using AttrCondDefLibrary.*
+
+#rule TypeGraph2EDFD #with org.gravity.mapping.secdfd
+
+#source {
+	++ pm :TypeGraph
+}
+
+#target {
+	++ edfd : EDFD
+}
+
+#correspondence {
+	++ pm2Graph : TypeGraph2EDFD {
+		#src->pm
+		#trg->edfd
+	}
+}

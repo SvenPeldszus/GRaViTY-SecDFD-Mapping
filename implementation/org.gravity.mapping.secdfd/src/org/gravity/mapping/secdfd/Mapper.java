@@ -5,7 +5,6 @@ package org.gravity.mapping.secdfd;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -17,21 +16,20 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.gravity.mapping.StringCompare;
+import org.gravity.mapping.XtextParser;
 import org.gravity.typegraph.basic.BasicPackage;
 import org.gravity.typegraph.basic.TAbstractType;
-import org.gravity.typegraph.basic.TClass;
 import org.gravity.typegraph.basic.TMethod;
 import org.gravity.typegraph.basic.TypeGraph;
+import org.junit.Test;
 import org.moflon.tgg.runtime.CorrespondenceModel;
 import org.moflon.tgg.runtime.RuntimeFactory;
-import graph.Graph;
-import graph.GraphAsset;
-import graph.GraphPackage;
-import graph.Node;
-import graph.Subgraphs;
+import eDFDFlowTracking.Asset;
+import eDFDFlowTracking.EDFD;
+import eDFDFlowTracking.EDFDFlowTracking1Package;
+import eDFDFlowTracking.Element;
 
 /**
  * @author speldszus
@@ -40,14 +38,14 @@ import graph.Subgraphs;
 public class Mapper {
 
 	private static final SecdfdFactory FACTORY = SecdfdFactory.eINSTANCE;
-	
+
 	/**
-	 * The correnspondence model built by this class
+	 * The correspondence model built by this class
 	 */
 	private CorrespondenceModel corr;
 
 	/**
-	 * All types and operations from the program model 
+	 * All types and operations from the program model
 	 */
 	private static List<TAbstractType> types;
 	private static List<TMethod> methods;
@@ -55,20 +53,21 @@ public class Mapper {
 	/**
 	 * The main method for testing
 	 * 
-	 * @param args
 	 * @throws IOException If a model cannot be read
 	 */
-	public static void main(String[] args) throws IOException {
+	@Test
+	public void test() throws IOException {
 		// Init a resource set and load the models
-		ResourceSet rs = initResourceSet();
+		XtextParser parser = new XtextParser();
+		EDFD dfd = (EDFD) parser.parse(URI.createFileURI("instances/JPmail.mydsl"));
 
+		ResourceSet rs = initResourceSet(parser.getResourceSet());
 		TypeGraph pm = (TypeGraph) loadModel(rs, "instances/pm.xmi");
-		Graph dfd = (Graph) loadModel(rs, "instances/dfd.xmi");
-
+		
 		CorrespondenceModel corr = new Mapper().map(pm, dfd);
 
 		for (EObject c : corr.getCorrespondences()) {
-			System.out.print(c.eClass().getName()+": ");
+			System.out.print(c.eClass().getName() + ": ");
 			try {
 				System.out.println(c.getClass().getDeclaredMethod("getSource").invoke(c) + " <---> "
 						+ c.getClass().getDeclaredMethod("getTarget").invoke(c));
@@ -80,55 +79,54 @@ public class Mapper {
 
 	}
 
-	private CorrespondenceModel map(TypeGraph pm, Graph dfd) {
-		// Save types and methods from the program model in fields as they are accessed very often
+	private CorrespondenceModel map(TypeGraph pm, EDFD dfd) {
+		// Save types and methods from the program model in fields as they are accessed
+		// very often
 		types = pm.getOwnedTypes().parallelStream().filter(t -> t.isDeclared()).collect(Collectors.toList());
 		methods = pm.getMethods();
-		
+
 		// Create a correspondence model between the two models
 		corr = RuntimeFactory.eINSTANCE.createCorrespondenceModel();
 		createCorrespondence(pm, dfd);
 
 		HashMap<EObject, Set<EObject>> mapping = new HashMap<>();
-		
+
 		// Search for correspondences between graph assets and types in the pm
-		for (Subgraphs subGraph : dfd.getSubgraphs()) {
-			for (GraphAsset asset : subGraph.getAssets()) {
+		for (Asset asset : dfd.getAsset()) {
 				mapping.put(asset, find(asset).map(c -> c.getSource()).collect(Collectors.toSet()));
 			}
-		}
 
 		// Search for correspondences between nodes and operations
-		for (Subgraphs subGraph : dfd.getSubgraphs()) {
-			for (Node node : subGraph.getNodes()) {
+		for (Element node : dfd.getElements()) {
 				if (node.getName() != null) {
 					mapping.put(node, find(node).map(c -> c.getSource()).collect(Collectors.toSet()));
 				}
-			}
 		}
 
 		return corr;
 	}
 
 	/**
-	 * Search methods in the pm corresponding to the node and create correspondences for them
+	 * Search methods in the pm corresponding to the node and create correspondences
+	 * for them
 	 * 
 	 * @param asset The node for which correspondences should be found
 	 * @return A stream of correspondences
 	 */
-	private Stream<Method2Node> find(Node node) {
+	private Stream<Method2Element> find(Element node) {
 		return methods.parallelStream().filter(m -> StringCompare.compare(node.getName(), m.getTName()))
 				.map(m -> createCorrespondence(node, m));
 	}
 
 	/**
-	 * Search classes in the pm corresponding to the asset and create correspondences for them
+	 * Search classes in the pm corresponding to the asset and create
+	 * correspondences for them
 	 * 
 	 * @param asset The asset for which correspondences should be found
 	 * @return A stream of correspondences
 	 */
-	private Stream<Type2GraphAsset> find(GraphAsset asset) {
-		return types.parallelStream().filter(t -> StringCompare.compare(asset.getID(),t.getTName()))
+	private Stream<Type2Asset> find(Asset asset) {
+		return types.parallelStream().filter(t -> StringCompare.compare(asset.getName(), t.getTName()))
 				.map(t -> createCorrespondence(asset, t));
 
 	}
@@ -136,10 +134,12 @@ public class Mapper {
 	/**
 	 * Loads an emf model into the given resource set
 	 * 
-	 * @param rs The resource set
+	 * @param rs   The resource set
 	 * @param file The file containing the model
-	 * @return The root object of the model 
-	 * @throws IOException @see void org.eclipse.emf.ecore.resource.Resource.load(Map<?, ?> options) throws IOException
+	 * @return The root object of the model
+	 * @throws IOException @see void
+	 *                     org.eclipse.emf.ecore.resource.Resource.load(Map<?, ?>
+	 *                     options) throws IOException
 	 */
 	private static EObject loadModel(ResourceSet rs, String file) throws IOException {
 		Resource resource = rs.createResource(URI.createURI(file));
@@ -148,14 +148,15 @@ public class Mapper {
 	}
 
 	/**
-	 * Creates a new correspondence between the two objects and adds it to the correspondence model
+	 * Creates a new correspondence between the two objects and adds it to the
+	 * correspondence model
 	 * 
-	 * @param node A node object
+	 * @param node   A node object
 	 * @param method A method object
 	 * @return The correspondence
 	 */
-	private Method2Node createCorrespondence(Node node, TMethod method) {
-		Method2Node method2node = FACTORY.createMethod2Node();
+	private Method2Element createCorrespondence(Element node, TMethod method) {
+		Method2Element method2node = FACTORY.createMethod2Element();
 		method2node.setSource(method);
 		method2node.setTarget(node);
 		corr.getCorrespondences().add(method2node);
@@ -163,14 +164,15 @@ public class Mapper {
 	}
 
 	/**
-	 * Creates a new correspondence between the two objects and adds it to the correspondence model
+	 * Creates a new correspondence between the two objects and adds it to the
+	 * correspondence model
 	 * 
 	 * @param asset An asset object
-	 * @param type A type object
+	 * @param type  A type object
 	 * @return The correspondence
 	 */
-	private Type2GraphAsset createCorrespondence(GraphAsset asset, TAbstractType type) {
-		Type2GraphAsset type2asset = FACTORY.createType2GraphAsset();
+	private Type2Asset createCorrespondence(Asset asset, TAbstractType type) {
+		Type2Asset type2asset = FACTORY.createType2Asset();
 		type2asset.setSource(type);
 		type2asset.setTarget(asset);
 		corr.getCorrespondences().add(type2asset);
@@ -178,13 +180,14 @@ public class Mapper {
 	}
 
 	/**
-	 * Creates a new correspondence between a program model and a data flow diagram and adds it to the correspondence model
+	 * Creates a new correspondence between a program model and a data flow diagram
+	 * and adds it to the correspondence model
 	 * 
-	 * @param pm The program model
+	 * @param pm  The program model
 	 * @param dfd The data flow diagram
 	 */
-	private TypeGraph2Graph createCorrespondence(TypeGraph pm, Graph dfd) {
-		TypeGraph2Graph pm2dfd = FACTORY.createTypeGraph2Graph();
+	private TypeGraph2EDFD createCorrespondence(TypeGraph pm, EDFD dfd) {
+		TypeGraph2EDFD pm2dfd = FACTORY.createTypeGraph2EDFD();
 		pm2dfd.setSource(pm);
 		pm2dfd.setTarget(dfd);
 		corr.getCorrespondences().add(pm2dfd);
@@ -196,12 +199,11 @@ public class Mapper {
 	 * 
 	 * @return the resource set
 	 */
-	private static ResourceSet initResourceSet() {
-		ResourceSet rs = new ResourceSetImpl();
+	private static ResourceSet initResourceSet(ResourceSet rs) {
 		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION,
 				new XMIResourceFactoryImpl());
 		rs.getPackageRegistry().put(BasicPackage.eNS_URI, BasicPackage.eINSTANCE);
-		rs.getPackageRegistry().put(GraphPackage.eNS_URI, GraphPackage.eINSTANCE);
+		rs.getPackageRegistry().put(EDFDFlowTracking1Package.eNS_URI, EDFDFlowTracking1Package.eINSTANCE);
 		return rs;
 	}
 

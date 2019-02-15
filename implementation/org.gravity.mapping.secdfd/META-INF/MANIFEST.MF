@@ -4,17 +4,18 @@ Automatic-Module-Name: org.gravity.mapping.secdfd
 Bundle-Name: %pluginName
 Bundle-Version: 0.0.1.qualifier
 Bundle-ClassPath: .
-Require-Bundle: org.eclipse.emf.ecore.xmi,
- org.moflon.core.utilities,
+Require-Bundle: org.moflon.core.utilities,
  MocaTree;visibility:=reexport,
  SDMLanguage;visibility:=reexport,
  org.moflon.tgg.language;visibility:=reexport,
  org.moflon.tgg.runtime;visibility:=reexport,
- Traceability;visibility:=reexport,
  org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.gravity.typegraph.basic;bundle-version="1.0.0";visibility:=reexport,
- Graph;bundle-version="0.1.0"
+ org.xtext.example.mydsl,
+ org.eclipse.xtext,
+ org.junit,
+ eDFDFlowTracking1;visibility:=reexport
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

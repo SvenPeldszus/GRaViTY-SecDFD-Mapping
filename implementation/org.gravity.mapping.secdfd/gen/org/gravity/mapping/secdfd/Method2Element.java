@@ -2,32 +2,32 @@
  */
 package org.gravity.mapping.secdfd;
 
-import graph.GraphAsset;
+import eDFDFlowTracking.Element;
 
 import org.eclipse.emf.ecore.EObject;
 
-import org.gravity.typegraph.basic.TAbstractType;
+import org.gravity.typegraph.basic.TMethod;
 
 import org.moflon.tgg.runtime.AbstractCorrespondence;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Type2 Graph Asset</b></em>'.
+ * A representation of the model object '<em><b>Method2 Element</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.gravity.mapping.secdfd.Type2GraphAsset#getSource <em>Source</em>}</li>
- *   <li>{@link org.gravity.mapping.secdfd.Type2GraphAsset#getTarget <em>Target</em>}</li>
+ *   <li>{@link org.gravity.mapping.secdfd.Method2Element#getSource <em>Source</em>}</li>
+ *   <li>{@link org.gravity.mapping.secdfd.Method2Element#getTarget <em>Target</em>}</li>
  * </ul>
  *
- * @see org.gravity.mapping.secdfd.SecdfdPackage#getType2GraphAsset()
+ * @see org.gravity.mapping.secdfd.SecdfdPackage#getMethod2Element()
  * @model
  * @generated
  */
-public interface Type2GraphAsset extends EObject, AbstractCorrespondence {
+public interface Method2Element extends EObject, AbstractCorrespondence {
 	/**
 	 * Returns the value of the '<em><b>Source</b></em>' reference.
 	 * <!-- begin-user-doc -->
@@ -37,22 +37,22 @@ public interface Type2GraphAsset extends EObject, AbstractCorrespondence {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Source</em>' reference.
-	 * @see #setSource(TAbstractType)
-	 * @see org.gravity.mapping.secdfd.SecdfdPackage#getType2GraphAsset_Source()
+	 * @see #setSource(TMethod)
+	 * @see org.gravity.mapping.secdfd.SecdfdPackage#getMethod2Element_Source()
 	 * @model required="true"
 	 * @generated
 	 */
-	TAbstractType getSource();
+	TMethod getSource();
 
 	/**
-	 * Sets the value of the '{@link org.gravity.mapping.secdfd.Type2GraphAsset#getSource <em>Source</em>}' reference.
+	 * Sets the value of the '{@link org.gravity.mapping.secdfd.Method2Element#getSource <em>Source</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Source</em>' reference.
 	 * @see #getSource()
 	 * @generated
 	 */
-	void setSource(TAbstractType value);
+	void setSource(TMethod value);
 
 	/**
 	 * Returns the value of the '<em><b>Target</b></em>' reference.
@@ -63,21 +63,21 @@ public interface Type2GraphAsset extends EObject, AbstractCorrespondence {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Target</em>' reference.
-	 * @see #setTarget(GraphAsset)
-	 * @see org.gravity.mapping.secdfd.SecdfdPackage#getType2GraphAsset_Target()
+	 * @see #setTarget(Element)
+	 * @see org.gravity.mapping.secdfd.SecdfdPackage#getMethod2Element_Target()
 	 * @model required="true"
 	 * @generated
 	 */
-	GraphAsset getTarget();
+	Element getTarget();
 
 	/**
-	 * Sets the value of the '{@link org.gravity.mapping.secdfd.Type2GraphAsset#getTarget <em>Target</em>}' reference.
+	 * Sets the value of the '{@link org.gravity.mapping.secdfd.Method2Element#getTarget <em>Target</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Target</em>' reference.
 	 * @see #getTarget()
 	 * @generated
 	 */
-	void setTarget(GraphAsset value);
+	void setTarget(Element value);
 
-} // Type2GraphAsset
+} // Method2Element
