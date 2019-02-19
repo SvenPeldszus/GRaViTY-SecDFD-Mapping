@@ -18,19 +18,19 @@
 		#trg-> EDFD
 	}
 	
-	Method2Element{
-		#src->TMethod
-		#trg->Element	
-	}
-	
-	Defintion2Element {
-		#src->TMethodDefinition
+	Signature2Element {
+		#src->TSignature
 		#trg->Element
 	}
 	
-	Type2Asset {
+	Defintion2Element {
+		#src->TMember
+		#trg->Element
+	}
+	
+	Type2NamedEntity {
 		#src->TAbstractType
-		#trg->Asset
+		#trg->NamedEntity
 	}
 	
 }

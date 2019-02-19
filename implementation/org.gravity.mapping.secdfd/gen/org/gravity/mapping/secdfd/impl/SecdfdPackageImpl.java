@@ -19,7 +19,8 @@ import org.gravity.mapping.secdfd.Rules.impl.RulesPackageImpl;
 
 import org.gravity.mapping.secdfd.SecdfdFactory;
 import org.gravity.mapping.secdfd.SecdfdPackage;
-import org.gravity.mapping.secdfd.Type2Asset;
+import org.gravity.mapping.secdfd.Signature2Element;
+import org.gravity.mapping.secdfd.Type2NamedEntity;
 import org.gravity.mapping.secdfd.TypeGraph2EDFD;
 
 import org.gravity.typegraph.basic.BasicPackage;
@@ -38,6 +39,13 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass type2NamedEntityEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass typeGraph2EDFDEClass = null;
 
 	/**
@@ -45,14 +53,14 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass type2AssetEClass = null;
+	private EClass defintion2ElementEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass defintion2ElementEClass = null;
+	private EClass signature2ElementEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -138,6 +146,33 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getType2NamedEntity() {
+		return type2NamedEntityEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getType2NamedEntity_Source() {
+		return (EReference)type2NamedEntityEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getType2NamedEntity_Target() {
+		return (EReference)type2NamedEntityEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getTypeGraph2EDFD() {
 		return typeGraph2EDFDEClass;
 	}
@@ -165,33 +200,6 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getType2Asset() {
-		return type2AssetEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getType2Asset_Source() {
-		return (EReference)type2AssetEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getType2Asset_Target() {
-		return (EReference)type2AssetEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getDefintion2Element() {
 		return defintion2ElementEClass;
 	}
@@ -212,6 +220,33 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 	 */
 	public EReference getDefintion2Element_Target() {
 		return (EReference)defintion2ElementEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getSignature2Element() {
+		return signature2ElementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSignature2Element_Source() {
+		return (EReference)signature2ElementEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSignature2Element_Target() {
+		return (EReference)signature2ElementEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -273,17 +308,21 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 		createEReference(typeGraph2EDFDEClass, TYPE_GRAPH2_EDFD__SOURCE);
 		createEReference(typeGraph2EDFDEClass, TYPE_GRAPH2_EDFD__TARGET);
 
-		type2AssetEClass = createEClass(TYPE2_ASSET);
-		createEReference(type2AssetEClass, TYPE2_ASSET__SOURCE);
-		createEReference(type2AssetEClass, TYPE2_ASSET__TARGET);
+		type2NamedEntityEClass = createEClass(TYPE2_NAMED_ENTITY);
+		createEReference(type2NamedEntityEClass, TYPE2_NAMED_ENTITY__SOURCE);
+		createEReference(type2NamedEntityEClass, TYPE2_NAMED_ENTITY__TARGET);
+
+		method2ElementEClass = createEClass(METHOD2_ELEMENT);
+		createEReference(method2ElementEClass, METHOD2_ELEMENT__SOURCE);
+		createEReference(method2ElementEClass, METHOD2_ELEMENT__TARGET);
 
 		defintion2ElementEClass = createEClass(DEFINTION2_ELEMENT);
 		createEReference(defintion2ElementEClass, DEFINTION2_ELEMENT__SOURCE);
 		createEReference(defintion2ElementEClass, DEFINTION2_ELEMENT__TARGET);
 
-		method2ElementEClass = createEClass(METHOD2_ELEMENT);
-		createEReference(method2ElementEClass, METHOD2_ELEMENT__SOURCE);
-		createEReference(method2ElementEClass, METHOD2_ELEMENT__TARGET);
+		signature2ElementEClass = createEClass(SIGNATURE2_ELEMENT);
+		createEReference(signature2ElementEClass, SIGNATURE2_ELEMENT__SOURCE);
+		createEReference(signature2ElementEClass, SIGNATURE2_ELEMENT__TARGET);
 	}
 
 	/**
@@ -324,26 +363,31 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 
 		// Add supertypes to classes
 		typeGraph2EDFDEClass.getESuperTypes().add(theRuntimePackage.getAbstractCorrespondence());
-		type2AssetEClass.getESuperTypes().add(theRuntimePackage.getAbstractCorrespondence());
-		defintion2ElementEClass.getESuperTypes().add(theRuntimePackage.getAbstractCorrespondence());
+		type2NamedEntityEClass.getESuperTypes().add(theRuntimePackage.getAbstractCorrespondence());
 		method2ElementEClass.getESuperTypes().add(theRuntimePackage.getAbstractCorrespondence());
+		defintion2ElementEClass.getESuperTypes().add(theRuntimePackage.getAbstractCorrespondence());
+		signature2ElementEClass.getESuperTypes().add(theRuntimePackage.getAbstractCorrespondence());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(typeGraph2EDFDEClass, TypeGraph2EDFD.class, "TypeGraph2EDFD", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTypeGraph2EDFD_Source(), theBasicPackage.getTypeGraph(), null, "source", null, 1, 1, TypeGraph2EDFD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTypeGraph2EDFD_Target(), theEDFDFlowTracking1Package.getEDFD(), null, "target", null, 1, 1, TypeGraph2EDFD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(type2AssetEClass, Type2Asset.class, "Type2Asset", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getType2Asset_Source(), theBasicPackage.getTAbstractType(), null, "source", null, 1, 1, Type2Asset.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getType2Asset_Target(), theEDFDFlowTracking1Package.getAsset(), null, "target", null, 1, 1, Type2Asset.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(defintion2ElementEClass, Defintion2Element.class, "Defintion2Element", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getDefintion2Element_Source(), theBasicPackage.getTMethodDefinition(), null, "source", null, 1, 1, Defintion2Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getDefintion2Element_Target(), theEDFDFlowTracking1Package.getElement(), null, "target", null, 1, 1, Defintion2Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(type2NamedEntityEClass, Type2NamedEntity.class, "Type2NamedEntity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getType2NamedEntity_Source(), theBasicPackage.getTAbstractType(), null, "source", null, 1, 1, Type2NamedEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getType2NamedEntity_Target(), theEDFDFlowTracking1Package.getNamedEntity(), null, "target", null, 1, 1, Type2NamedEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(method2ElementEClass, Method2Element.class, "Method2Element", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMethod2Element_Source(), theBasicPackage.getTMethod(), null, "source", null, 1, 1, Method2Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMethod2Element_Target(), theEDFDFlowTracking1Package.getElement(), null, "target", null, 1, 1, Method2Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(defintion2ElementEClass, Defintion2Element.class, "Defintion2Element", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getDefintion2Element_Source(), theBasicPackage.getTMember(), null, "source", null, 1, 1, Defintion2Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getDefintion2Element_Target(), theEDFDFlowTracking1Package.getElement(), null, "target", null, 1, 1, Defintion2Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(signature2ElementEClass, Signature2Element.class, "Signature2Element", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSignature2Element_Source(), theBasicPackage.getTSignature(), null, "source", null, 1, 1, Signature2Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSignature2Element_Target(), theEDFDFlowTracking1Package.getElement(), null, "target", null, 1, 1, Signature2Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

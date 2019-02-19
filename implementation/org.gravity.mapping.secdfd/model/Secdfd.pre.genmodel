@@ -12,17 +12,21 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.pre.ecore#//TypeGraph2EDFD/source"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.pre.ecore#//TypeGraph2EDFD/target"/>
     </genClasses>
-    <genClasses ecoreClass="Secdfd.pre.ecore#//Type2Asset">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.pre.ecore#//Type2Asset/source"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.pre.ecore#//Type2Asset/target"/>
+    <genClasses ecoreClass="Secdfd.pre.ecore#//Type2NamedEntity">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.pre.ecore#//Type2NamedEntity/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.pre.ecore#//Type2NamedEntity/target"/>
+    </genClasses>
+    <genClasses ecoreClass="Secdfd.pre.ecore#//Method2Element">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.pre.ecore#//Method2Element/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.pre.ecore#//Method2Element/target"/>
     </genClasses>
     <genClasses ecoreClass="Secdfd.pre.ecore#//Defintion2Element">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.pre.ecore#//Defintion2Element/source"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.pre.ecore#//Defintion2Element/target"/>
     </genClasses>
-    <genClasses ecoreClass="Secdfd.pre.ecore#//Method2Element">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.pre.ecore#//Method2Element/source"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.pre.ecore#//Method2Element/target"/>
+    <genClasses ecoreClass="Secdfd.pre.ecore#//Signature2Element">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.pre.ecore#//Signature2Element/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.pre.ecore#//Signature2Element/target"/>
     </genClasses>
     <nestedGenPackages prefix="Rules" disposableProviderFactory="true" ecorePackage="Secdfd.pre.ecore#//Rules">
       <genClasses ecoreClass="Secdfd.pre.ecore#//Rules/TypeGraph2EDFD"/>

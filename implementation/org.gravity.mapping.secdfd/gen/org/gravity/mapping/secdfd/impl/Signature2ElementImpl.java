@@ -11,27 +11,28 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
-import org.gravity.mapping.secdfd.Defintion2Element;
 import org.gravity.mapping.secdfd.SecdfdPackage;
+import org.gravity.mapping.secdfd.Signature2Element;
 
-import org.gravity.typegraph.basic.TMember;
+import org.gravity.typegraph.basic.TSignature;
+
 import org.moflon.tgg.runtime.impl.AbstractCorrespondenceImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Defintion2 Element</b></em>'.
+ * An implementation of the model object '<em><b>Signature2 Element</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.gravity.mapping.secdfd.impl.Defintion2ElementImpl#getSource <em>Source</em>}</li>
- *   <li>{@link org.gravity.mapping.secdfd.impl.Defintion2ElementImpl#getTarget <em>Target</em>}</li>
+ *   <li>{@link org.gravity.mapping.secdfd.impl.Signature2ElementImpl#getSource <em>Source</em>}</li>
+ *   <li>{@link org.gravity.mapping.secdfd.impl.Signature2ElementImpl#getTarget <em>Target</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class Defintion2ElementImpl extends AbstractCorrespondenceImpl implements Defintion2Element {
+public class Signature2ElementImpl extends AbstractCorrespondenceImpl implements Signature2Element {
 	/**
 	 * The cached value of the '{@link #getSource() <em>Source</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -40,7 +41,7 @@ public class Defintion2ElementImpl extends AbstractCorrespondenceImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected TMember source;
+	protected TSignature source;
 
 	/**
 	 * The cached value of the '{@link #getTarget() <em>Target</em>}' reference.
@@ -57,7 +58,7 @@ public class Defintion2ElementImpl extends AbstractCorrespondenceImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected Defintion2ElementImpl() {
+	protected Signature2ElementImpl() {
 		super();
 	}
 
@@ -68,7 +69,7 @@ public class Defintion2ElementImpl extends AbstractCorrespondenceImpl implements
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return SecdfdPackage.Literals.DEFINTION2_ELEMENT;
+		return SecdfdPackage.Literals.SIGNATURE2_ELEMENT;
 	}
 
 	/**
@@ -76,13 +77,13 @@ public class Defintion2ElementImpl extends AbstractCorrespondenceImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TMember getSource() {
+	public TSignature getSource() {
 		if (source != null && source.eIsProxy()) {
 			InternalEObject oldSource = (InternalEObject)source;
-			source = (TMember)eResolveProxy(oldSource);
+			source = (TSignature)eResolveProxy(oldSource);
 			if (source != oldSource) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SecdfdPackage.DEFINTION2_ELEMENT__SOURCE, oldSource, source));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SecdfdPackage.SIGNATURE2_ELEMENT__SOURCE, oldSource, source));
 			}
 		}
 		return source;
@@ -93,7 +94,7 @@ public class Defintion2ElementImpl extends AbstractCorrespondenceImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TMember basicGetSource() {
+	public TSignature basicGetSource() {
 		return source;
 	}
 
@@ -102,11 +103,11 @@ public class Defintion2ElementImpl extends AbstractCorrespondenceImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setSource(TMember newSource) {
-		TMember oldSource = source;
+	public void setSource(TSignature newSource) {
+		TSignature oldSource = source;
 		source = newSource;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SecdfdPackage.DEFINTION2_ELEMENT__SOURCE, oldSource, source));
+			eNotify(new ENotificationImpl(this, Notification.SET, SecdfdPackage.SIGNATURE2_ELEMENT__SOURCE, oldSource, source));
 	}
 
 	/**
@@ -120,7 +121,7 @@ public class Defintion2ElementImpl extends AbstractCorrespondenceImpl implements
 			target = (Element)eResolveProxy(oldTarget);
 			if (target != oldTarget) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SecdfdPackage.DEFINTION2_ELEMENT__TARGET, oldTarget, target));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SecdfdPackage.SIGNATURE2_ELEMENT__TARGET, oldTarget, target));
 			}
 		}
 		return target;
@@ -144,7 +145,7 @@ public class Defintion2ElementImpl extends AbstractCorrespondenceImpl implements
 		Element oldTarget = target;
 		target = newTarget;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SecdfdPackage.DEFINTION2_ELEMENT__TARGET, oldTarget, target));
+			eNotify(new ENotificationImpl(this, Notification.SET, SecdfdPackage.SIGNATURE2_ELEMENT__TARGET, oldTarget, target));
 	}
 
 	/**
@@ -155,10 +156,10 @@ public class Defintion2ElementImpl extends AbstractCorrespondenceImpl implements
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case SecdfdPackage.DEFINTION2_ELEMENT__SOURCE:
+			case SecdfdPackage.SIGNATURE2_ELEMENT__SOURCE:
 				if (resolve) return getSource();
 				return basicGetSource();
-			case SecdfdPackage.DEFINTION2_ELEMENT__TARGET:
+			case SecdfdPackage.SIGNATURE2_ELEMENT__TARGET:
 				if (resolve) return getTarget();
 				return basicGetTarget();
 		}
@@ -173,10 +174,10 @@ public class Defintion2ElementImpl extends AbstractCorrespondenceImpl implements
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case SecdfdPackage.DEFINTION2_ELEMENT__SOURCE:
-				setSource((TMember)newValue);
+			case SecdfdPackage.SIGNATURE2_ELEMENT__SOURCE:
+				setSource((TSignature)newValue);
 				return;
-			case SecdfdPackage.DEFINTION2_ELEMENT__TARGET:
+			case SecdfdPackage.SIGNATURE2_ELEMENT__TARGET:
 				setTarget((Element)newValue);
 				return;
 		}
@@ -191,10 +192,10 @@ public class Defintion2ElementImpl extends AbstractCorrespondenceImpl implements
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case SecdfdPackage.DEFINTION2_ELEMENT__SOURCE:
-				setSource((TMember)null);
+			case SecdfdPackage.SIGNATURE2_ELEMENT__SOURCE:
+				setSource((TSignature)null);
 				return;
-			case SecdfdPackage.DEFINTION2_ELEMENT__TARGET:
+			case SecdfdPackage.SIGNATURE2_ELEMENT__TARGET:
 				setTarget((Element)null);
 				return;
 		}
@@ -209,12 +210,12 @@ public class Defintion2ElementImpl extends AbstractCorrespondenceImpl implements
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case SecdfdPackage.DEFINTION2_ELEMENT__SOURCE:
+			case SecdfdPackage.SIGNATURE2_ELEMENT__SOURCE:
 				return source != null;
-			case SecdfdPackage.DEFINTION2_ELEMENT__TARGET:
+			case SecdfdPackage.SIGNATURE2_ELEMENT__TARGET:
 				return target != null;
 		}
 		return super.eIsSet(featureID);
 	}
 
-} //Defintion2ElementImpl
+} //Signature2ElementImpl

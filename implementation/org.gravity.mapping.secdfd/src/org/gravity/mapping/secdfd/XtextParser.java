@@ -1,4 +1,4 @@
-package org.gravity.mapping;
+package org.gravity.mapping.secdfd;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -2,31 +2,32 @@
  */
 package org.gravity.mapping.secdfd;
 
-import eDFDFlowTracking.Element;
+import eDFDFlowTracking.NamedEntity;
 
 import org.eclipse.emf.ecore.EObject;
 
-import org.gravity.typegraph.basic.TMember;
+import org.gravity.typegraph.basic.TAbstractType;
+
 import org.moflon.tgg.runtime.AbstractCorrespondence;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Defintion2 Element</b></em>'.
+ * A representation of the model object '<em><b>Type2 Named Entity</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.gravity.mapping.secdfd.Defintion2Element#getSource <em>Source</em>}</li>
- *   <li>{@link org.gravity.mapping.secdfd.Defintion2Element#getTarget <em>Target</em>}</li>
+ *   <li>{@link org.gravity.mapping.secdfd.Type2NamedEntity#getSource <em>Source</em>}</li>
+ *   <li>{@link org.gravity.mapping.secdfd.Type2NamedEntity#getTarget <em>Target</em>}</li>
  * </ul>
  *
- * @see org.gravity.mapping.secdfd.SecdfdPackage#getDefintion2Element()
+ * @see org.gravity.mapping.secdfd.SecdfdPackage#getType2NamedEntity()
  * @model
  * @generated
  */
-public interface Defintion2Element extends EObject, AbstractCorrespondence {
+public interface Type2NamedEntity extends EObject, AbstractCorrespondence {
 	/**
 	 * Returns the value of the '<em><b>Source</b></em>' reference.
 	 * <!-- begin-user-doc -->
@@ -36,22 +37,22 @@ public interface Defintion2Element extends EObject, AbstractCorrespondence {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Source</em>' reference.
-	 * @see #setSource(TMember)
-	 * @see org.gravity.mapping.secdfd.SecdfdPackage#getDefintion2Element_Source()
+	 * @see #setSource(TAbstractType)
+	 * @see org.gravity.mapping.secdfd.SecdfdPackage#getType2NamedEntity_Source()
 	 * @model required="true"
 	 * @generated
 	 */
-	TMember getSource();
+	TAbstractType getSource();
 
 	/**
-	 * Sets the value of the '{@link org.gravity.mapping.secdfd.Defintion2Element#getSource <em>Source</em>}' reference.
+	 * Sets the value of the '{@link org.gravity.mapping.secdfd.Type2NamedEntity#getSource <em>Source</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Source</em>' reference.
 	 * @see #getSource()
 	 * @generated
 	 */
-	void setSource(TMember value);
+	void setSource(TAbstractType value);
 
 	/**
 	 * Returns the value of the '<em><b>Target</b></em>' reference.
@@ -62,21 +63,21 @@ public interface Defintion2Element extends EObject, AbstractCorrespondence {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Target</em>' reference.
-	 * @see #setTarget(Element)
-	 * @see org.gravity.mapping.secdfd.SecdfdPackage#getDefintion2Element_Target()
+	 * @see #setTarget(NamedEntity)
+	 * @see org.gravity.mapping.secdfd.SecdfdPackage#getType2NamedEntity_Target()
 	 * @model required="true"
 	 * @generated
 	 */
-	Element getTarget();
+	NamedEntity getTarget();
 
 	/**
-	 * Sets the value of the '{@link org.gravity.mapping.secdfd.Defintion2Element#getTarget <em>Target</em>}' reference.
+	 * Sets the value of the '{@link org.gravity.mapping.secdfd.Type2NamedEntity#getTarget <em>Target</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Target</em>' reference.
 	 * @see #getTarget()
 	 * @generated
 	 */
-	void setTarget(Element value);
+	void setTarget(NamedEntity value);
 
-} // Defintion2Element
+} // Type2NamedEntity

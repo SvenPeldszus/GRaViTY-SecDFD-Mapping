@@ -2,7 +2,7 @@
  */
 package org.gravity.mapping.secdfd.impl;
 
-import eDFDFlowTracking.Asset;
+import eDFDFlowTracking.NamedEntity;
 
 import org.eclipse.emf.common.notify.Notification;
 
@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.gravity.mapping.secdfd.SecdfdPackage;
-import org.gravity.mapping.secdfd.Type2Asset;
+import org.gravity.mapping.secdfd.Type2NamedEntity;
 
 import org.gravity.typegraph.basic.TAbstractType;
 
@@ -20,19 +20,19 @@ import org.moflon.tgg.runtime.impl.AbstractCorrespondenceImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Type2 Asset</b></em>'.
+ * An implementation of the model object '<em><b>Type2 Named Entity</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.gravity.mapping.secdfd.impl.Type2AssetImpl#getSource <em>Source</em>}</li>
- *   <li>{@link org.gravity.mapping.secdfd.impl.Type2AssetImpl#getTarget <em>Target</em>}</li>
+ *   <li>{@link org.gravity.mapping.secdfd.impl.Type2NamedEntityImpl#getSource <em>Source</em>}</li>
+ *   <li>{@link org.gravity.mapping.secdfd.impl.Type2NamedEntityImpl#getTarget <em>Target</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class Type2AssetImpl extends AbstractCorrespondenceImpl implements Type2Asset {
+public class Type2NamedEntityImpl extends AbstractCorrespondenceImpl implements Type2NamedEntity {
 	/**
 	 * The cached value of the '{@link #getSource() <em>Source</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -51,14 +51,14 @@ public class Type2AssetImpl extends AbstractCorrespondenceImpl implements Type2A
 	 * @generated
 	 * @ordered
 	 */
-	protected Asset target;
+	protected NamedEntity target;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected Type2AssetImpl() {
+	protected Type2NamedEntityImpl() {
 		super();
 	}
 
@@ -69,7 +69,7 @@ public class Type2AssetImpl extends AbstractCorrespondenceImpl implements Type2A
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return SecdfdPackage.Literals.TYPE2_ASSET;
+		return SecdfdPackage.Literals.TYPE2_NAMED_ENTITY;
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class Type2AssetImpl extends AbstractCorrespondenceImpl implements Type2A
 			source = (TAbstractType)eResolveProxy(oldSource);
 			if (source != oldSource) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SecdfdPackage.TYPE2_ASSET__SOURCE, oldSource, source));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SecdfdPackage.TYPE2_NAMED_ENTITY__SOURCE, oldSource, source));
 			}
 		}
 		return source;
@@ -107,7 +107,7 @@ public class Type2AssetImpl extends AbstractCorrespondenceImpl implements Type2A
 		TAbstractType oldSource = source;
 		source = newSource;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SecdfdPackage.TYPE2_ASSET__SOURCE, oldSource, source));
+			eNotify(new ENotificationImpl(this, Notification.SET, SecdfdPackage.TYPE2_NAMED_ENTITY__SOURCE, oldSource, source));
 	}
 
 	/**
@@ -115,13 +115,13 @@ public class Type2AssetImpl extends AbstractCorrespondenceImpl implements Type2A
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Asset getTarget() {
+	public NamedEntity getTarget() {
 		if (target != null && target.eIsProxy()) {
 			InternalEObject oldTarget = (InternalEObject)target;
-			target = (Asset)eResolveProxy(oldTarget);
+			target = (NamedEntity)eResolveProxy(oldTarget);
 			if (target != oldTarget) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SecdfdPackage.TYPE2_ASSET__TARGET, oldTarget, target));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SecdfdPackage.TYPE2_NAMED_ENTITY__TARGET, oldTarget, target));
 			}
 		}
 		return target;
@@ -132,7 +132,7 @@ public class Type2AssetImpl extends AbstractCorrespondenceImpl implements Type2A
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Asset basicGetTarget() {
+	public NamedEntity basicGetTarget() {
 		return target;
 	}
 
@@ -141,11 +141,11 @@ public class Type2AssetImpl extends AbstractCorrespondenceImpl implements Type2A
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setTarget(Asset newTarget) {
-		Asset oldTarget = target;
+	public void setTarget(NamedEntity newTarget) {
+		NamedEntity oldTarget = target;
 		target = newTarget;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SecdfdPackage.TYPE2_ASSET__TARGET, oldTarget, target));
+			eNotify(new ENotificationImpl(this, Notification.SET, SecdfdPackage.TYPE2_NAMED_ENTITY__TARGET, oldTarget, target));
 	}
 
 	/**
@@ -156,10 +156,10 @@ public class Type2AssetImpl extends AbstractCorrespondenceImpl implements Type2A
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case SecdfdPackage.TYPE2_ASSET__SOURCE:
+			case SecdfdPackage.TYPE2_NAMED_ENTITY__SOURCE:
 				if (resolve) return getSource();
 				return basicGetSource();
-			case SecdfdPackage.TYPE2_ASSET__TARGET:
+			case SecdfdPackage.TYPE2_NAMED_ENTITY__TARGET:
 				if (resolve) return getTarget();
 				return basicGetTarget();
 		}
@@ -174,11 +174,11 @@ public class Type2AssetImpl extends AbstractCorrespondenceImpl implements Type2A
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case SecdfdPackage.TYPE2_ASSET__SOURCE:
+			case SecdfdPackage.TYPE2_NAMED_ENTITY__SOURCE:
 				setSource((TAbstractType)newValue);
 				return;
-			case SecdfdPackage.TYPE2_ASSET__TARGET:
-				setTarget((Asset)newValue);
+			case SecdfdPackage.TYPE2_NAMED_ENTITY__TARGET:
+				setTarget((NamedEntity)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -192,11 +192,11 @@ public class Type2AssetImpl extends AbstractCorrespondenceImpl implements Type2A
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case SecdfdPackage.TYPE2_ASSET__SOURCE:
+			case SecdfdPackage.TYPE2_NAMED_ENTITY__SOURCE:
 				setSource((TAbstractType)null);
 				return;
-			case SecdfdPackage.TYPE2_ASSET__TARGET:
-				setTarget((Asset)null);
+			case SecdfdPackage.TYPE2_NAMED_ENTITY__TARGET:
+				setTarget((NamedEntity)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -210,12 +210,12 @@ public class Type2AssetImpl extends AbstractCorrespondenceImpl implements Type2A
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case SecdfdPackage.TYPE2_ASSET__SOURCE:
+			case SecdfdPackage.TYPE2_NAMED_ENTITY__SOURCE:
 				return source != null;
-			case SecdfdPackage.TYPE2_ASSET__TARGET:
+			case SecdfdPackage.TYPE2_NAMED_ENTITY__TARGET:
 				return target != null;
 		}
 		return super.eIsSet(featureID);
 	}
 
-} //Type2AssetImpl
+} //Type2NamedEntityImpl

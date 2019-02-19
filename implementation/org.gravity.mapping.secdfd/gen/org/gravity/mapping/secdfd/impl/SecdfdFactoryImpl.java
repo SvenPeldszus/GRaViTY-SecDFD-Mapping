@@ -57,12 +57,23 @@ public class SecdfdFactoryImpl extends EFactoryImpl implements SecdfdFactory {
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case SecdfdPackage.TYPE_GRAPH2_EDFD: return createTypeGraph2EDFD();
-			case SecdfdPackage.TYPE2_ASSET: return createType2Asset();
-			case SecdfdPackage.DEFINTION2_ELEMENT: return createDefintion2Element();
+			case SecdfdPackage.TYPE2_NAMED_ENTITY: return createType2NamedEntity();
 			case SecdfdPackage.METHOD2_ELEMENT: return createMethod2Element();
+			case SecdfdPackage.DEFINTION2_ELEMENT: return createDefintion2Element();
+			case SecdfdPackage.SIGNATURE2_ELEMENT: return createSignature2Element();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Type2NamedEntity createType2NamedEntity() {
+		Type2NamedEntityImpl type2NamedEntity = new Type2NamedEntityImpl();
+		return type2NamedEntity;
 	}
 
 	/**
@@ -80,9 +91,9 @@ public class SecdfdFactoryImpl extends EFactoryImpl implements SecdfdFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Type2Asset createType2Asset() {
-		Type2AssetImpl type2Asset = new Type2AssetImpl();
-		return type2Asset;
+	public Defintion2Element createDefintion2Element() {
+		Defintion2ElementImpl defintion2Element = new Defintion2ElementImpl();
+		return defintion2Element;
 	}
 
 	/**
@@ -90,9 +101,9 @@ public class SecdfdFactoryImpl extends EFactoryImpl implements SecdfdFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Defintion2Element createDefintion2Element() {
-		Defintion2ElementImpl defintion2Element = new Defintion2ElementImpl();
-		return defintion2Element;
+	public Signature2Element createSignature2Element() {
+		Signature2ElementImpl signature2Element = new Signature2ElementImpl();
+		return signature2Element;
 	}
 
 	/**

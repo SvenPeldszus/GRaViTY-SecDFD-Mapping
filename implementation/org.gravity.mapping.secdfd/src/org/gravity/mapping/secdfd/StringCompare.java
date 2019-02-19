@@ -1,4 +1,4 @@
-package org.gravity.mapping;
+package org.gravity.mapping.secdfd;
 
 /**
  * This class provides functionalities for finding similiar Strings
