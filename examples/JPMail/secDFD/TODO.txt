@@ -1,7 +1,5 @@
 TODO:
 -changes to model analysis to support more than one principle (Bono)
--body -> mimepart body
-
 -Alice: add two processes; login + write email
 
 
@@ -27,6 +25,8 @@ DONE:
 -scenario 1: JPmail-bono.mydsl	
 -scenario 3: JPmail-attachment.mysdl
 -Server and Pop3Server to external entities
+-body -> mimepart body
+-fix to Attachment so that it is encrypted, accordingly to the code
 	
 	
 ----------- notes -----------

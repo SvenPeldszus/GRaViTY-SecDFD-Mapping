@@ -1,6 +1,5 @@
 EDFD JPMail[
 	assets: 
-		// TODO: change that its part of the body so they encrypt it also...
 		// every asset has a type - we find it in code; additionally we can find where it's stored in the code
 		// new asset; attachment is not encrypted with JPMail?
 		Asset Attachment values: [H C], [H I]
@@ -43,7 +42,7 @@ EDFD JPMail[
 		],
 		ExternalEntity Bob[
 			assets: MimePartBody, Header, Attachment
-			incoming flows: "decrypt.provideHeaderAndBody","POP3Server.pop3DownloadAttachment"
+			incoming flows: "decrypt.provideHeaderAndBody" //,"POP3Server.pop3DownloadAttachment"
 			//no outgoing flows
 		],
 		// src/policy/PolicyStore.java
@@ -64,14 +63,15 @@ EDFD JPMail[
 		// src/pop3/JPMailMessage.java
 		// declassification of mail body and header
 		Process toMimeMessage[
-			responsibilities: [Principal Authoriser::], 
-							  [EmailBodyAndHeader Splitter::MimePartBody,Header],
-							  [Attachment Forward::Attachment]
+			responsibilities: [Principal Authoriser::],
+							  [EmailBodyAndHeader, Attachment Joiner:: EmailBodyAndHeader], 
+							  [EmailBodyAndHeader Splitter::MimePartBody,Header]
+							  //[Attachment Forward::Attachment]
 			assets: EmailBodyAndHeader, MimePartBody, Header, Principal, Attachment
 			incoming flows: "Alice.sendOutEmail", "PolicyStore.getPrincipal"
 			// due to src/pop3/JPMailMessage.java in the toMimeMailMessage encryption happens
-			outgoing flows: JPMailMessage [num: 3 assets: MimePartBody, Header targets: EncryptBody],
-							forwardAttachment [num: 4 assets: Attachment targets: SMTPServer]
+			outgoing flows: JPMailMessage [num: 3 assets: MimePartBody, Header targets: EncryptBody]
+							//forwardAttachment [num: 4 assets: Attachment targets: SMTPServer]
 		],
 		// encrypt actually happens at the same time as the declassification in the toMimeMessage....
 		Process EncryptBody[
@@ -86,28 +86,29 @@ EDFD JPMail[
 		],
 		ExternalEntity SMTPServer[
 			//responsibilities: [EncBody,Header,Attachment Forward:: EncBody,Header,Attachment]
-			assets: EncBody,Header,Attachment
-			incoming flows: "EncryptBody.sendMessage", "toMimeMessage.forwardAttachment"
+			assets: EncBody,Header
+			incoming flows: "EncryptBody.sendMessage"
 			// server side functionality not part of the code base
-			outgoing flows: smtpForwardsEmail [num: 7 assets: EncBody, Header, Attachment targets: POP3Server]
+			outgoing flows: smtpForwardsEmail [num: 7 assets: EncBody, Header targets: POP3Server]
 		],
 		ExternalEntity POP3Server[
 			//responsibilities: [EncBody,Header,Attachment Copier:: EncBody,Header,Attachment],
 			//				  [EncBody,Header,Attachment Store::]
-			assets: EncBody,Header,Attachment
+			assets: EncBody,Header
 			incoming flows: "SMTPServer.smtpForwardsEmail"
 			// server side functionality not part of the code base
-			outgoing flows: pop3ForwardsEmail [num: 8 assets: EncBody, Header targets: decrypt],
-							pop3DownloadAttachment [num: 12  assets: Attachment targets: Bob]
+			outgoing flows: pop3ForwardsEmail [num: 8 assets: EncBody, Header targets: decrypt]
+							//pop3DownloadAttachment [num: 12  assets: Attachment targets: Bob]
 		],
 		// due to src/pop3/MailReaderCrypto.java line 381
 		Process decrypt[
 			responsibilities: [Principal Authoriser::],
 							  [EncBody, BobPrivateKey Decrypt:: MimePartBody],
-							  [Header Forward::Header]
-			assets: Principal, EncBody, BobPrivateKey, MimePartBody, Header
+							  [Header Forward::Header],
+							  [MimePartBody Splitter :: MimePartBody, Attachment]
+			assets: Principal, EncBody, BobPrivateKey, MimePartBody, Header, Attachment
 			incoming flows: "POP3Server.pop3ForwardsEmail", "PolicyStore.hasPrincipal", "KeyStore.getPrivateKey"
-			outgoing flows: provideHeaderAndBody [num: 11 assets: MimePartBody, Header targets: Bob]
+			outgoing flows: provideHeaderAndBody [num: 11 assets: MimePartBody, Attachment, Header targets: Bob]
 		]
 	attack zones:
 		OpenNetworkZone[
