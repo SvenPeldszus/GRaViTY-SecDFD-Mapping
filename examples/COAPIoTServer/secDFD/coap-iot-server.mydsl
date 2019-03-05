@@ -1,0 +1,84 @@
+EDFD CoapIoT[
+	assets: 
+		Asset logdata values: [H I], [H Av]
+			source: Device
+			targets: ExchangeStore,
+		Asset devicedata values: [H C], [H Av]
+			source: Device
+			targets: ExchangeStore,
+		Asset newconfiguration values: [H I]
+			source: CoapServerApp
+			targets: Device,
+		Asset coapsessiontoken values: [H I], [H C]
+			source: Authenticate
+			targets: ClientApp, SessionDB,
+		Asset deviceowner values: [H C]
+			source: Device
+			targets: ExchangeStore, Authenticate,
+		Asset deviceserialnumber values: [H I], [H C]
+			source: Device
+			targets: ExchangeStore, Authenticate
+	elements:
+		ExternalEntity Device[
+			assets: logdata, devicedata, newconfiguration, deviceowner, deviceserialnumber
+			incoming flows: "ClientApp.configureDevice"
+			outgoing flows: sendAllDeviceData [num: 6 assets: logdata, devicedata targets: ClientApp],
+							sendAuthData [num: 4 assets: deviceowner, deviceserialnumber targets: ClientApp]
+		],
+		Process ClientApp[
+			responsibilities: [logdata, devicedata, deviceowner, deviceserialnumber Forward :: ], 
+							  [coapsessiontoken User :: ] // to create an authentication request, could be modeled differently, as a joiner of those assets to a new asset "auth req"
+			assets: logdata, devicedata, newconfiguration, coapsessiontoken, deviceowner, deviceserialnumber
+			incoming flows: "Device.sendAllDeviceData", "Device.sendAuthData", "Authenticate.tokenToClient"
+			outgoing flows: authenticationReq [num: 5 assets: deviceowner, deviceserialnumber, coapsessiontoken  targets: Authenticate],
+							fwdDeviceData [num: 7 assets: logdata, devicedata, deviceowner, deviceserialnumber targets: CoapServerApp],
+							configureDevice [num: 11 assets: newconfiguration targets: Device]
+		],
+		Process CoapServerApp[
+			responsibilities: [logdata, devicedata, deviceowner, deviceserialnumber Store ::], 
+							  [logdata, devicedata, deviceowner, deviceserialnumber Joiner :: newconfiguration]
+			assets: logdata, devicedata, newconfiguration, deviceowner, deviceserialnumber
+			incoming flows: "ClientApp.fwdDeviceData", "ExchangeStore.provideDeviceData"
+			outgoing flows: storeDeviceData [num: 8 assets: logdata, devicedata, deviceowner, deviceserialnumber targets: ExchangeStore],
+							generateNewConfiguration [num: 10 assets: newconfiguration targets: ClientApp]
+		],
+		Process Authenticate[
+			responsibilities: [deviceowner, deviceserialnumber, coapsessiontoken Comparator :: ], // to grant authentication (checking signature)
+							  [coapsessiontoken Forward :: ]
+			assets: coapsessiontoken, deviceowner, deviceserialnumber
+			incoming flows: "SessionDB.readToken", "ClientApp.authenticationReq"
+			outgoing flows: generatedToken [num: 1 assets: coapsessiontoken targets: SessionDB],
+							tokenToClient [num: 3 assets: coapsessiontoken targets: SessionDB]
+		],
+		DataStore ExchangeStore[
+			assets: logdata, devicedata, newconfiguration, deviceowner, deviceserialnumber
+			incoming flows: "CoapServerApp.storeDeviceData"
+			outgoing flows: provideDeviceData [num: 9 assets: logdata, devicedata, deviceowner, deviceserialnumber targets: CoapServerApp]
+		],
+		DataStore SessionDB[
+			assets: coapsessiontoken
+			incoming flows: "Authenticate.generatedToken"
+			outgoing flows: readToken [num: 2 assets: coapsessiontoken targets: Authenticate]
+		]
+	attack zones:
+		UDPNetwork[
+			attacker profiles:
+				InternalHacker [
+					observation: 1 //means they can observe (sniff traffic)
+				]
+			elements: Authenticate, SessionDB, ExchangeStore, CoapServerApp
+		],
+		HomeNetwork[
+			attacker profiles:
+				NeighborhoodLurker [
+					observation: 1 //means they can observe (sniff traffic)
+				]
+			elements: Device, ClientApp
+		]
+]
+
+
+
+
+
+

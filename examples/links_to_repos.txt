@@ -1,0 +1,16 @@
+IoT Java Apps
+https://github.com/Appdynamics/iot-java-sdk
+https://github.com/mozilla-iot/things-controller
+https://github.com/baghelamit/iot-traffic-monitor
+https://github.com/dheera/android-wearcamera
+https://github.com/Mozilla9/coap-iot-server
+https://github.com/HannahMitt/HomeMirror
+https://github.com/mozilla-iot/webthing-java
+https://github.com/ManajitPal/Project-Smart-Irrigation
+https://github.com/aws/aws-iot-device-sdk-java
+https://github.com/sitewhere/sitewhere
+https://github.com/soobinjeon/MinT
+https://github.com/ibm-watson-iot/iot-java
+https://github.com/blynkkk/blynk-server
+https://github.com/eclipse/californium
+https://github.com/eclipse/leshan
