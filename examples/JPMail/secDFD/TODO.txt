@@ -1,7 +1,7 @@
 TODO:
 -changes to model analysis to support more than one principle (Bono)
 -body -> mimepart body
--Server and Pop3Server to external entities
+
 -Alice: add two processes; login + write email
 
 
@@ -26,6 +26,7 @@ DONE:
 	there are references to the source code method calls in comments
 -scenario 1: JPmail-bono.mydsl	
 -scenario 3: JPmail-attachment.mysdl
+-Server and Pop3Server to external entities
 	
 	
 ----------- notes -----------

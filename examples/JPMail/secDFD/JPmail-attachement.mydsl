@@ -10,7 +10,7 @@ EDFD JPMail[
 			source: Alice
 			targets: toMimeMessage,
 		// src/pop3/JPMailMessage.java
-		Asset Body values: [M I], [H C], [L Av]
+		Asset MimePartBody values: [M I], [H C], [L Av]
 			source: toMimeMessage
 			targets: EncryptBody, Bob,
 		// src/pop3/JPMailMessage.java
@@ -42,7 +42,7 @@ EDFD JPMail[
 			attacker: true
 		],
 		ExternalEntity Bob[
-			assets: Body, Header, Attachment
+			assets: MimePartBody, Header, Attachment
 			incoming flows: "decrypt.provideHeaderAndBody","POP3Server.pop3DownloadAttachment"
 			//no outgoing flows
 		],
@@ -65,20 +65,20 @@ EDFD JPMail[
 		// declassification of mail body and header
 		Process toMimeMessage[
 			responsibilities: [Principal Authoriser::], 
-							  [EmailBodyAndHeader Splitter::Body,Header],
+							  [EmailBodyAndHeader Splitter::MimePartBody,Header],
 							  [Attachment Forward::Attachment]
-			assets: EmailBodyAndHeader, Body, Header, Principal, Attachment
+			assets: EmailBodyAndHeader, MimePartBody, Header, Principal, Attachment
 			incoming flows: "Alice.sendOutEmail", "PolicyStore.getPrincipal"
 			// due to src/pop3/JPMailMessage.java in the toMimeMailMessage encryption happens
-			outgoing flows: JPMailMessage [num: 3 assets: Body, Header targets: EncryptBody],
+			outgoing flows: JPMailMessage [num: 3 assets: MimePartBody, Header targets: EncryptBody],
 							forwardAttachment [num: 4 assets: Attachment targets: SMTPServer]
 		],
 		// encrypt actually happens at the same time as the declassification in the toMimeMessage....
 		Process EncryptBody[
 			responsibilities: [Principal Authoriser::], 
-							  [Body,BobPublicKey EncryptOrHash::EncBody], 
+							  [MimePartBody,BobPublicKey EncryptOrHash::EncBody], 
 							  [Header Forward::Header]
-			assets: Principal, BobPublicKey, Body, EncBody
+			assets: Principal, BobPublicKey, MimePartBody, EncBody
 			incoming flows: "toMimeMessage.JPMailMessage", "PolicyStore.getPublicKey"
 			// due to src/smtp/MeilSenderCrypto.java call smtp.sendMessage(mmm) line 820
 			// we could also interpret it to link ti to: src/smtp/MailSenderCrypto.java line 490 call this.sendText(msg.toString());
@@ -103,11 +103,11 @@ EDFD JPMail[
 		// due to src/pop3/MailReaderCrypto.java line 381
 		Process decrypt[
 			responsibilities: [Principal Authoriser::],
-							  [EncBody, BobPrivateKey Decrypt:: Body],
+							  [EncBody, BobPrivateKey Decrypt:: MimePartBody],
 							  [Header Forward::Header]
-			assets: Principal, EncBody, BobPrivateKey, Body, Header
+			assets: Principal, EncBody, BobPrivateKey, MimePartBody, Header
 			incoming flows: "POP3Server.pop3ForwardsEmail", "PolicyStore.hasPrincipal", "KeyStore.getPrivateKey"
-			outgoing flows: provideHeaderAndBody [num: 11 assets: Body, Header targets: Bob]
+			outgoing flows: provideHeaderAndBody [num: 11 assets: MimePartBody, Header targets: Bob]
 		]
 	attack zones:
 		OpenNetworkZone[
