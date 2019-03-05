@@ -76,16 +76,16 @@ EDFD JPMail[
 			// we could also interpret it to link ti to: src/smtp/MailSenderCrypto.java line 490 call this.sendText(msg.toString());
 			outgoing flows: sendMessage [num: 5 assets: EncBody, Header targets: SMTPServer]
 		],
-		Process SMTPServer[
-			responsibilities: [EncBody,Header Forward:: EncBody,Header]
+		ExternalEntity SMTPServer[
+			//responsibilities: [EncBody,Header Forward:: EncBody,Header]
 			assets: EncBody,Header
 			incoming flows: "EncryptBody.sendMessage"
 			// server side functionality not part of the code base
 			outgoing flows: smtpForwardsEmail [num: 6 assets: EncBody, Header targets: POP3Server]
 		],
-		Process POP3Server[
-			responsibilities: [EncBody,Header Copier:: EncBody,Header],
-							  [EncBody,Header Store::]
+		ExternalEntity POP3Server[
+			//responsibilities: [EncBody,Header Copier:: EncBody,Header],
+			//				  [EncBody,Header Store::]
 			assets: EncBody,Header
 			incoming flows: "SMTPServer.smtpForwardsEmail"
 			// server side functionality not part of the code base

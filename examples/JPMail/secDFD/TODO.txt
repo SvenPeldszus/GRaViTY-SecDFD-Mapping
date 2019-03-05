@@ -1,14 +1,16 @@
 TODO:
 -changes to model analysis to support more than one principle (Bono)
--mail Sven et al. for Neda projects
+-body -> mimepart body
+-Server and Pop3Server to external entities
+-Alice: add two processes; login + write email
+
 
 -more scenarios; 
-	what if there are two recipients? - encrypt with both public keys; everyone gets something they can decrypt
-	model spoofing - someone manipulating the header `from' - look at it but dont focus....its not possible anyway...
-	split it in two scenarios sending + receiving 
-	authentification phase more details (one scenario!)
+	1) what if there are two recipients? - encrypt with both public keys; everyone gets something they can decrypt
+	2) split it in two scenarios sending + receiving mail
+	3) authentification phase more details (one scenario!)
 -------
-body -> mimepart body
+
 
 
 
