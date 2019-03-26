@@ -5,8 +5,15 @@
 -->
 
 <plugin>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
+ <extension point="org.eclipse.ui.menus">
+    <menuContribution allPopups="false" locationURI="popup:org.gravity.mainmenu">
+      <command commandId="org.gravity.secdfd.mapping.command" label="Map SecDFD" style="push"/>
+    </menuContribution>
+  </extension>
+  <extension point="org.eclipse.ui.commands">
+    <command defaultHandler="org.gravity.mapping.secdfd.ui.handler.MappingHandler" id="org.gravity.secdfd.mapping.command" name="Map SecDFD"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated Secdfd.pre -->
       <package
             uri="platform:/plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore"
@@ -20,6 +27,20 @@
             uri="platform:/plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore#//Rules"
             class="org.gravity.mapping.secdfd.Rules.RulesPackage"
             genModel="model/Secdfd.pre.genmodel"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            category="org.gravity.mapping.secdfd.category"
+            class="org.gravity.mapping.secdfd.views.MappingView"
+            id="org.gravity.mapping.secdfd.view"
+            name="GRaViTY SecDFD Mappings"
+            restorable="true">
+      </view>
+      <category
+            id="org.gravity.mapping.secdfd.category"
+            name="GRaViTY SecDFD Mapping">
+      </category>
    </extension>
 
 </plugin>

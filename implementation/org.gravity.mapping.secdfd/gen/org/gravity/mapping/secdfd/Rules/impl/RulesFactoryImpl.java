@@ -67,6 +67,7 @@ public class RulesFactoryImpl extends EFactoryImpl implements RulesFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public TypeGraph2EDFD createTypeGraph2EDFD() {
 		TypeGraph2EDFDImpl typeGraph2EDFD = new TypeGraph2EDFDImpl();
 		return typeGraph2EDFD;
@@ -77,6 +78,7 @@ public class RulesFactoryImpl extends EFactoryImpl implements RulesFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RulesPackage getRulesPackage() {
 		return (RulesPackage)getEPackage();
 	}

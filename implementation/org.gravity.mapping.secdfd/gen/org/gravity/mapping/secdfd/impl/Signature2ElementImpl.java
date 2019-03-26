@@ -77,6 +77,7 @@ public class Signature2ElementImpl extends AbstractCorrespondenceImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public TSignature getSource() {
 		if (source != null && source.eIsProxy()) {
 			InternalEObject oldSource = (InternalEObject)source;
@@ -103,6 +104,7 @@ public class Signature2ElementImpl extends AbstractCorrespondenceImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSource(TSignature newSource) {
 		TSignature oldSource = source;
 		source = newSource;
@@ -115,6 +117,7 @@ public class Signature2ElementImpl extends AbstractCorrespondenceImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Element getTarget() {
 		if (target != null && target.eIsProxy()) {
 			InternalEObject oldTarget = (InternalEObject)target;
@@ -141,6 +144,7 @@ public class Signature2ElementImpl extends AbstractCorrespondenceImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTarget(Element newTarget) {
 		Element oldTarget = target;
 		target = newTarget;

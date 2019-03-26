@@ -56,11 +56,11 @@ public class SecdfdFactoryImpl extends EFactoryImpl implements SecdfdFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case SecdfdPackage.TYPE_GRAPH2_EDFD: return createTypeGraph2EDFD();
-			case SecdfdPackage.TYPE2_NAMED_ENTITY: return createType2NamedEntity();
 			case SecdfdPackage.METHOD2_ELEMENT: return createMethod2Element();
-			case SecdfdPackage.DEFINTION2_ELEMENT: return createDefintion2Element();
+			case SecdfdPackage.TYPE2_NAMED_ENTITY: return createType2NamedEntity();
 			case SecdfdPackage.SIGNATURE2_ELEMENT: return createSignature2Element();
+			case SecdfdPackage.TYPE_GRAPH2_EDFD: return createTypeGraph2EDFD();
+			case SecdfdPackage.DEFINTION2_ELEMENT: return createDefintion2Element();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -71,46 +71,7 @@ public class SecdfdFactoryImpl extends EFactoryImpl implements SecdfdFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Type2NamedEntity createType2NamedEntity() {
-		Type2NamedEntityImpl type2NamedEntity = new Type2NamedEntityImpl();
-		return type2NamedEntity;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public TypeGraph2EDFD createTypeGraph2EDFD() {
-		TypeGraph2EDFDImpl typeGraph2EDFD = new TypeGraph2EDFDImpl();
-		return typeGraph2EDFD;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Defintion2Element createDefintion2Element() {
-		Defintion2ElementImpl defintion2Element = new Defintion2ElementImpl();
-		return defintion2Element;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Signature2Element createSignature2Element() {
-		Signature2ElementImpl signature2Element = new Signature2ElementImpl();
-		return signature2Element;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+	@Override
 	public Method2Element createMethod2Element() {
 		Method2ElementImpl method2Element = new Method2ElementImpl();
 		return method2Element;
@@ -121,6 +82,51 @@ public class SecdfdFactoryImpl extends EFactoryImpl implements SecdfdFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public Type2NamedEntity createType2NamedEntity() {
+		Type2NamedEntityImpl type2NamedEntity = new Type2NamedEntityImpl();
+		return type2NamedEntity;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Signature2Element createSignature2Element() {
+		Signature2ElementImpl signature2Element = new Signature2ElementImpl();
+		return signature2Element;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public TypeGraph2EDFD createTypeGraph2EDFD() {
+		TypeGraph2EDFDImpl typeGraph2EDFD = new TypeGraph2EDFDImpl();
+		return typeGraph2EDFD;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Defintion2Element createDefintion2Element() {
+		Defintion2ElementImpl defintion2Element = new Defintion2ElementImpl();
+		return defintion2Element;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public SecdfdPackage getSecdfdPackage() {
 		return (SecdfdPackage)getEPackage();
 	}

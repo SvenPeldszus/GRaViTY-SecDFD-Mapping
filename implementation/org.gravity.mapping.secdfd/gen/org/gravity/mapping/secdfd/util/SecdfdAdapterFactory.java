@@ -70,24 +70,24 @@ public class SecdfdAdapterFactory extends AdapterFactoryImpl {
 	protected SecdfdSwitch<Adapter> modelSwitch =
 		new SecdfdSwitch<Adapter>() {
 			@Override
-			public Adapter caseTypeGraph2EDFD(TypeGraph2EDFD object) {
-				return createTypeGraph2EDFDAdapter();
+			public Adapter caseMethod2Element(Method2Element object) {
+				return createMethod2ElementAdapter();
 			}
 			@Override
 			public Adapter caseType2NamedEntity(Type2NamedEntity object) {
 				return createType2NamedEntityAdapter();
 			}
 			@Override
-			public Adapter caseMethod2Element(Method2Element object) {
-				return createMethod2ElementAdapter();
+			public Adapter caseSignature2Element(Signature2Element object) {
+				return createSignature2ElementAdapter();
+			}
+			@Override
+			public Adapter caseTypeGraph2EDFD(TypeGraph2EDFD object) {
+				return createTypeGraph2EDFDAdapter();
 			}
 			@Override
 			public Adapter caseDefintion2Element(Defintion2Element object) {
 				return createDefintion2ElementAdapter();
-			}
-			@Override
-			public Adapter caseSignature2Element(Signature2Element object) {
-				return createSignature2ElementAdapter();
 			}
 			@Override
 			public Adapter caseAbstractCorrespondence(AbstractCorrespondence object) {
@@ -114,6 +114,20 @@ public class SecdfdAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
+	 * Creates a new adapter for an object of class '{@link org.gravity.mapping.secdfd.Method2Element <em>Method2 Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.gravity.mapping.secdfd.Method2Element
+	 * @generated
+	 */
+	public Adapter createMethod2ElementAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link org.gravity.mapping.secdfd.Type2NamedEntity <em>Type2 Named Entity</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -124,6 +138,20 @@ public class SecdfdAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createType2NamedEntityAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.gravity.mapping.secdfd.Signature2Element <em>Signature2 Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.gravity.mapping.secdfd.Signature2Element
+	 * @generated
+	 */
+	public Adapter createSignature2ElementAdapter() {
 		return null;
 	}
 
@@ -152,34 +180,6 @@ public class SecdfdAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createDefintion2ElementAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.gravity.mapping.secdfd.Signature2Element <em>Signature2 Element</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.gravity.mapping.secdfd.Signature2Element
-	 * @generated
-	 */
-	public Adapter createSignature2ElementAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.gravity.mapping.secdfd.Method2Element <em>Method2 Element</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.gravity.mapping.secdfd.Method2Element
-	 * @generated
-	 */
-	public Adapter createMethod2ElementAdapter() {
 		return null;
 	}
 

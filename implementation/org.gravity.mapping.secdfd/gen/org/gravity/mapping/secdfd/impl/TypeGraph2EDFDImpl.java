@@ -77,6 +77,7 @@ public class TypeGraph2EDFDImpl extends AbstractCorrespondenceImpl implements Ty
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public TypeGraph getSource() {
 		if (source != null && source.eIsProxy()) {
 			InternalEObject oldSource = (InternalEObject)source;
@@ -103,6 +104,7 @@ public class TypeGraph2EDFDImpl extends AbstractCorrespondenceImpl implements Ty
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSource(TypeGraph newSource) {
 		TypeGraph oldSource = source;
 		source = newSource;
@@ -115,6 +117,7 @@ public class TypeGraph2EDFDImpl extends AbstractCorrespondenceImpl implements Ty
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EDFD getTarget() {
 		if (target != null && target.eIsProxy()) {
 			InternalEObject oldTarget = (InternalEObject)target;
@@ -141,6 +144,7 @@ public class TypeGraph2EDFDImpl extends AbstractCorrespondenceImpl implements Ty
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTarget(EDFD newTarget) {
 		EDFD oldTarget = target;
 		target = newTarget;

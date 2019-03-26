@@ -28,6 +28,11 @@
 		#trg->Element
 	}
 	
+	Method2Element {
+		#src->TMethod
+		#trg->Element
+	}
+	
 	Type2NamedEntity {
 		#src->TAbstractType
 		#trg->NamedEntity

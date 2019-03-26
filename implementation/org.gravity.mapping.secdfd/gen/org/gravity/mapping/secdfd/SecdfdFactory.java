@@ -22,6 +22,15 @@ public interface SecdfdFactory extends EFactory {
 	SecdfdFactory eINSTANCE = org.gravity.mapping.secdfd.impl.SecdfdFactoryImpl.init();
 
 	/**
+	 * Returns a new object of class '<em>Method2 Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Method2 Element</em>'.
+	 * @generated
+	 */
+	Method2Element createMethod2Element();
+
+	/**
 	 * Returns a new object of class '<em>Type2 Named Entity</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -29,6 +38,15 @@ public interface SecdfdFactory extends EFactory {
 	 * @generated
 	 */
 	Type2NamedEntity createType2NamedEntity();
+
+	/**
+	 * Returns a new object of class '<em>Signature2 Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Signature2 Element</em>'.
+	 * @generated
+	 */
+	Signature2Element createSignature2Element();
 
 	/**
 	 * Returns a new object of class '<em>Type Graph2 EDFD</em>'.
@@ -47,24 +65,6 @@ public interface SecdfdFactory extends EFactory {
 	 * @generated
 	 */
 	Defintion2Element createDefintion2Element();
-
-	/**
-	 * Returns a new object of class '<em>Signature2 Element</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Signature2 Element</em>'.
-	 * @generated
-	 */
-	Signature2Element createSignature2Element();
-
-	/**
-	 * Returns a new object of class '<em>Method2 Element</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Method2 Element</em>'.
-	 * @generated
-	 */
-	Method2Element createMethod2Element();
 
 	/**
 	 * Returns the package supported by this factory.

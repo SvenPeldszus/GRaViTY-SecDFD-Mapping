@@ -68,10 +68,10 @@ public class SecdfdSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case SecdfdPackage.TYPE_GRAPH2_EDFD: {
-				TypeGraph2EDFD typeGraph2EDFD = (TypeGraph2EDFD)theEObject;
-				T result = caseTypeGraph2EDFD(typeGraph2EDFD);
-				if (result == null) result = caseAbstractCorrespondence(typeGraph2EDFD);
+			case SecdfdPackage.METHOD2_ELEMENT: {
+				Method2Element method2Element = (Method2Element)theEObject;
+				T result = caseMethod2Element(method2Element);
+				if (result == null) result = caseAbstractCorrespondence(method2Element);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -82,10 +82,17 @@ public class SecdfdSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SecdfdPackage.METHOD2_ELEMENT: {
-				Method2Element method2Element = (Method2Element)theEObject;
-				T result = caseMethod2Element(method2Element);
-				if (result == null) result = caseAbstractCorrespondence(method2Element);
+			case SecdfdPackage.SIGNATURE2_ELEMENT: {
+				Signature2Element signature2Element = (Signature2Element)theEObject;
+				T result = caseSignature2Element(signature2Element);
+				if (result == null) result = caseAbstractCorrespondence(signature2Element);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SecdfdPackage.TYPE_GRAPH2_EDFD: {
+				TypeGraph2EDFD typeGraph2EDFD = (TypeGraph2EDFD)theEObject;
+				T result = caseTypeGraph2EDFD(typeGraph2EDFD);
+				if (result == null) result = caseAbstractCorrespondence(typeGraph2EDFD);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -96,15 +103,23 @@ public class SecdfdSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SecdfdPackage.SIGNATURE2_ELEMENT: {
-				Signature2Element signature2Element = (Signature2Element)theEObject;
-				T result = caseSignature2Element(signature2Element);
-				if (result == null) result = caseAbstractCorrespondence(signature2Element);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			default: return defaultCase(theEObject);
 		}
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Method2 Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Method2 Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMethod2Element(Method2Element object) {
+		return null;
 	}
 
 	/**
@@ -119,6 +134,21 @@ public class SecdfdSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseType2NamedEntity(Type2NamedEntity object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Signature2 Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Signature2 Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSignature2Element(Signature2Element object) {
 		return null;
 	}
 
@@ -149,36 +179,6 @@ public class SecdfdSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseDefintion2Element(Defintion2Element object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Signature2 Element</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Signature2 Element</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseSignature2Element(Signature2Element object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Method2 Element</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Method2 Element</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseMethod2Element(Method2Element object) {
 		return null;
 	}
 

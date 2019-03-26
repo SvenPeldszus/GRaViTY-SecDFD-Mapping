@@ -3,9 +3,6 @@
  */
 package org.gravity.mapping.secdfd;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -14,12 +11,6 @@ import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.gravity.typegraph.basic.BasicPackage;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TClass;
 import org.gravity.typegraph.basic.TConstructorDefinition;
@@ -32,7 +23,6 @@ import org.gravity.typegraph.basic.TMethodSignature;
 import org.gravity.typegraph.basic.TParameter;
 import org.gravity.typegraph.basic.TSignature;
 import org.gravity.typegraph.basic.TypeGraph;
-import org.junit.Test;
 import org.moflon.tgg.runtime.CorrespondenceModel;
 import org.moflon.tgg.runtime.RuntimeFactory;
 import eDFDFlowTracking.Asset;
@@ -61,40 +51,11 @@ public class Mapper {
 	private static List<TAbstractType> types;
 	private static List<TMethod> methods;
 
-	/**
-	 * The main method for testing
-	 * 
-	 * @throws IOException If a model cannot be read
-	 */
-	@Test
-	public void test() throws IOException {
-		// Init a resource set and load the models
-		XtextParser parser = new XtextParser();
-		EDFD dfd = (EDFD) parser.parse(URI.createFileURI("instances/JPmail.mydsl"));
-
-		ResourceSet rs = initResourceSet(parser.getResourceSet());
-		TypeGraph pm = (TypeGraph) loadModel(rs, "instances/pm.xmi");
-
-		CorrespondenceModel corr = new Mapper().map(pm, dfd);
-
-		for (EObject c : corr.getCorrespondences()) {
-			System.out.print(c.eClass().getName() + ": ");
-			try {
-				System.out.println(c.getClass().getDeclaredMethod("getSource").invoke(c) + " <---> "
-						+ c.getClass().getDeclaredMethod("getTarget").invoke(c));
-			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
-					| NoSuchMethodException | SecurityException e) {
-				e.printStackTrace();
-			}
-		}
-
-	}
-
-	private CorrespondenceModel map(TypeGraph pm, EDFD dfd) {
+	public CorrespondenceModel map(TypeGraph pm, EDFD dfd) {
 		// Save types and methods from the program model in fields as they are accessed
 		// very often
 		types = pm.getOwnedTypes().parallelStream()
-//				.filter(t -> t.isDeclared())
+				.filter(t -> t.isDeclared())
 				.collect(Collectors.toList());
 		methods = pm.getMethods();
 
@@ -131,7 +92,7 @@ public class Mapper {
 		
 		for(Set<TSignature> signatures : elementSignatureMapping.values()) {
 			for(TSignature signature : signatures) {
-				for(TMethodDefinition defintiion : ((TMethodSignature) signature).getDefinitions()) {
+				for(TMethodDefinition defintion : ((TMethodSignature) signature).getDefinitions()) {
 					
 				}
 			}
@@ -240,22 +201,6 @@ public class Mapper {
 	}
 
 	/**
-	 * Loads an emf model into the given resource set
-	 * 
-	 * @param rs   The resource set
-	 * @param file The file containing the model
-	 * @return The root object of the model
-	 * @throws IOException @see void
-	 *                     org.eclipse.emf.ecore.resource.Resource.load(Map<?, ?>
-	 *                     options) throws IOException
-	 */
-	private static EObject loadModel(ResourceSet rs, String file) throws IOException {
-		Resource resource = rs.createResource(URI.createURI(file));
-		resource.load(Collections.emptyMap());
-		return resource.getContents().get(0);
-	}
-
-	/**
 	 * Creates a new correspondence between the two objects and adds it to the
 	 * correspondence model
 	 * 
@@ -324,19 +269,6 @@ public class Mapper {
 		pm2dfd.setTarget(dfd);
 		corr.getCorrespondences().add(pm2dfd);
 		return pm2dfd;
-	}
-
-	/**
-	 * Initializes a new resource set
-	 * 
-	 * @return the resource set
-	 */
-	private static ResourceSet initResourceSet(ResourceSet rs) {
-		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION,
-				new XMIResourceFactoryImpl());
-		rs.getPackageRegistry().put(BasicPackage.eNS_URI, BasicPackage.eINSTANCE);
-		rs.getPackageRegistry().put(EDFDFlowTracking1Package.eNS_URI, EDFDFlowTracking1Package.eINSTANCE);
-		return rs;
 	}
 
 }

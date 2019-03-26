@@ -35,7 +35,7 @@ public class XtextParser {
      */
     public EObject parse(InputStream in) throws IOException
     {
-    	Resource resource = getResourceSet().createResource(URI.createURI("dummy:/xtext.mxdsl"));
+    	Resource resource = getResourceSet().createResource(URI.createURI("dummy:/xtext.mydsl"));
     	resource.load(in, Collections.emptyMap());
         return resource.getContents().get(0);
     }

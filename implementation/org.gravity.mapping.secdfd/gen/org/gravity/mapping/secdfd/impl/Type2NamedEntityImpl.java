@@ -77,6 +77,7 @@ public class Type2NamedEntityImpl extends AbstractCorrespondenceImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public TAbstractType getSource() {
 		if (source != null && source.eIsProxy()) {
 			InternalEObject oldSource = (InternalEObject)source;
@@ -103,6 +104,7 @@ public class Type2NamedEntityImpl extends AbstractCorrespondenceImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSource(TAbstractType newSource) {
 		TAbstractType oldSource = source;
 		source = newSource;
@@ -115,6 +117,7 @@ public class Type2NamedEntityImpl extends AbstractCorrespondenceImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NamedEntity getTarget() {
 		if (target != null && target.eIsProxy()) {
 			InternalEObject oldTarget = (InternalEObject)target;
@@ -141,6 +144,7 @@ public class Type2NamedEntityImpl extends AbstractCorrespondenceImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTarget(NamedEntity newTarget) {
 		NamedEntity oldTarget = target;
 		target = newTarget;

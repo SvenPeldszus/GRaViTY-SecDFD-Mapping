@@ -15,6 +15,7 @@ import org.gravity.mapping.secdfd.Defintion2Element;
 import org.gravity.mapping.secdfd.SecdfdPackage;
 
 import org.gravity.typegraph.basic.TMember;
+
 import org.moflon.tgg.runtime.impl.AbstractCorrespondenceImpl;
 
 /**
@@ -76,6 +77,7 @@ public class Defintion2ElementImpl extends AbstractCorrespondenceImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public TMember getSource() {
 		if (source != null && source.eIsProxy()) {
 			InternalEObject oldSource = (InternalEObject)source;
@@ -102,6 +104,7 @@ public class Defintion2ElementImpl extends AbstractCorrespondenceImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSource(TMember newSource) {
 		TMember oldSource = source;
 		source = newSource;
@@ -114,6 +117,7 @@ public class Defintion2ElementImpl extends AbstractCorrespondenceImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Element getTarget() {
 		if (target != null && target.eIsProxy()) {
 			InternalEObject oldTarget = (InternalEObject)target;
@@ -140,6 +144,7 @@ public class Defintion2ElementImpl extends AbstractCorrespondenceImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTarget(Element newTarget) {
 		Element oldTarget = target;
 		target = newTarget;
