@@ -24,15 +24,32 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.viewers.TableLayout;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.TreeViewerColumn;
+import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeColumn;
+import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IViewSite;
+import org.eclipse.ui.internal.views.markers.MarkersTreeViewer;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.gravity.eclipse.io.ModelSaver;
+import org.gravity.eclipse.ui.GravityUiActivator;
 import org.gravity.mapping.secdfd.CorrespondenceHelper;
 import org.gravity.mapping.secdfd.Mapper;
+import org.gravity.mapping.secdfd.ui.wizard.MappingWizard;
 import org.gravity.mapping.secdfd.ui.wizard.TrafoJob;
 import org.gravity.typegraph.basic.TypeGraph;
 import org.moflon.tgg.runtime.AbstractCorrespondence;
@@ -69,6 +86,39 @@ public class MappingView extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
+		parent.setLayout(new FillLayout());
+		
+		TreeViewer viewer = new TreeViewer(new Tree(parent, SWT.H_SCROLL
+				/*| SWT.VIRTUAL */| SWT.V_SCROLL | SWT.MULTI | SWT.FULL_SELECTION));
+		viewer.getTree().setLinesVisible(true);
+		viewer.setUseHashlookup(true);
+		Tree tree = viewer.getTree();
+		TableLayout layout = new TableLayout();
+		for(String col : new String[] {"Keep","Program Model", "SecDFD"}) {
+			TreeViewerColumn column = new TreeViewerColumn(viewer, SWT.NONE);
+			column.getColumn().setResizable(true);
+			column.getColumn().setMoveable(true);
+			column.getColumn().setText(col);
+		}
+		viewer.getTree().setLayout(layout);
+		tree.setLinesVisible(true);
+		tree.setHeaderVisible(true);
+		tree.layout(true);
+		
+		IViewSite viewSite = getViewSite();
+		IActionBars bars = viewSite.getActionBars();
+		IToolBarManager tm = bars.getToolBarManager(); // Buttons on top
+		IMenuManager mm = bars.getMenuManager(); // Drop down  menu
+		mm.add(new Action("Map project") {
+			@Override
+			public void run() {
+				WizardDialog wizard = new WizardDialog(GravityUiActivator.getShell(),new MappingWizard(Collections.emptyList()));
+				if(wizard.open() == Window.OK) {
+					System.out.println("OK pressed");
+				}
+			}
+		});
+		
 		label = new Label(parent, SWT.NONE);
 	}
 

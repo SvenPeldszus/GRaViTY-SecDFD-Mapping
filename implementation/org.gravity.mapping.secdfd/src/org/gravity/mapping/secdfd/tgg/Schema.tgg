@@ -37,5 +37,8 @@
 		#src->TAbstractType
 		#trg->NamedEntity
 	}
-	
+	Flow2Access {
+		#src->TAccess
+		#trg->Flow
+	}
 }

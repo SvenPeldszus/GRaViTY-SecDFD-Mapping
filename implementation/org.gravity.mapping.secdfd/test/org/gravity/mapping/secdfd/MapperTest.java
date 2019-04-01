@@ -10,11 +10,16 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.gravity.typegraph.basic.BasicPackage;
+import org.gravity.typegraph.basic.TAbstractType;
+import org.gravity.typegraph.basic.TMember;
+import org.gravity.typegraph.basic.TMethod;
+import org.gravity.typegraph.basic.TSignature;
 import org.gravity.typegraph.basic.TypeGraph;
 import org.junit.Test;
 import org.moflon.tgg.runtime.AbstractCorrespondence;
@@ -55,7 +60,7 @@ public class MapperTest {
 			for (EObject c : corr.getCorrespondences()) {
 				System.out.print(c.eClass().getName() + ": ");
 				try {
-					System.out.println(CorrespondenceHelper.getSource((AbstractCorrespondence) c) + " <---> "
+					System.out.println(toString(CorrespondenceHelper.getSource((AbstractCorrespondence) c)) + " <---> "
 							+ CorrespondenceHelper.getTarget((AbstractCorrespondence) c));
 				} catch (IllegalArgumentException | SecurityException e) {
 					e.printStackTrace();
@@ -64,6 +69,24 @@ public class MapperTest {
 			System.out.println("#####\n");
 		}
 
+	}
+
+
+	private String toString(EObject eObject) {
+		EClass eClass = eObject.eClass();
+		if(BasicPackage.eINSTANCE.getTSignature().isSuperTypeOf(eClass)) {
+			return ((TSignature) eObject).getSignatureString();
+		}
+		if(BasicPackage.eINSTANCE.getTAbstractType().isSuperTypeOf(eClass)) {
+			return ((TAbstractType) eObject).getFullyQualifiedName();
+		}
+		if(BasicPackage.eINSTANCE.getTMethod().isSuperTypeOf(eClass)) {
+			return ((TMethod) eObject).getTName();
+		}
+		if(BasicPackage.eINSTANCE.getTMember().isSuperTypeOf(eClass)) {
+			return ((TMember) eObject).getDefinedBy().getFullyQualifiedName()+"."+((TMember) eObject).getSignatureString();
+		}
+		return eObject.toString();
 	}
 
 

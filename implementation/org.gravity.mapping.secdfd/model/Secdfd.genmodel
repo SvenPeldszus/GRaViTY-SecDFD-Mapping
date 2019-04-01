@@ -8,6 +8,14 @@
   <foreignModel>Secdfd.ecore</foreignModel>
   <genPackages prefix="Secdfd" basePackage="org.gravity.mapping" disposableProviderFactory="true"
       ecorePackage="Secdfd.ecore#/">
+    <genClasses ecoreClass="Secdfd.ecore#//TypeGraph2EDFD">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.ecore#//TypeGraph2EDFD/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.ecore#//TypeGraph2EDFD/target"/>
+    </genClasses>
+    <genClasses ecoreClass="Secdfd.ecore#//Signature2Element">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.ecore#//Signature2Element/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.ecore#//Signature2Element/target"/>
+    </genClasses>
     <genClasses ecoreClass="Secdfd.ecore#//Method2Element">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.ecore#//Method2Element/source"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.ecore#//Method2Element/target"/>
@@ -15,14 +23,6 @@
     <genClasses ecoreClass="Secdfd.ecore#//Type2NamedEntity">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.ecore#//Type2NamedEntity/source"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.ecore#//Type2NamedEntity/target"/>
-    </genClasses>
-    <genClasses ecoreClass="Secdfd.ecore#//Signature2Element">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.ecore#//Signature2Element/source"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.ecore#//Signature2Element/target"/>
-    </genClasses>
-    <genClasses ecoreClass="Secdfd.ecore#//TypeGraph2EDFD">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.ecore#//TypeGraph2EDFD/source"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.ecore#//TypeGraph2EDFD/target"/>
     </genClasses>
     <genClasses ecoreClass="Secdfd.ecore#//Defintion2Element">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Secdfd.ecore#//Defintion2Element/source"/>
@@ -61,8 +61,8 @@
         <genOperations ecoreOperation="Secdfd.ecore#//Rules/TypeGraph2EDFD/registerObjects_FWD">
           <genParameters ecoreParameter="Secdfd.ecore#//Rules/TypeGraph2EDFD/registerObjects_FWD/ruleresult"/>
           <genParameters ecoreParameter="Secdfd.ecore#//Rules/TypeGraph2EDFD/registerObjects_FWD/edfd"/>
-          <genParameters ecoreParameter="Secdfd.ecore#//Rules/TypeGraph2EDFD/registerObjects_FWD/pm"/>
           <genParameters ecoreParameter="Secdfd.ecore#//Rules/TypeGraph2EDFD/registerObjects_FWD/pm2Graph"/>
+          <genParameters ecoreParameter="Secdfd.ecore#//Rules/TypeGraph2EDFD/registerObjects_FWD/pm"/>
         </genOperations>
         <genOperations ecoreOperation="Secdfd.ecore#//Rules/TypeGraph2EDFD/checkTypes_FWD">
           <genParameters ecoreParameter="Secdfd.ecore#//Rules/TypeGraph2EDFD/checkTypes_FWD/match"/>
@@ -98,17 +98,17 @@
         <genOperations ecoreOperation="Secdfd.ecore#//Rules/TypeGraph2EDFD/registerObjects_BWD">
           <genParameters ecoreParameter="Secdfd.ecore#//Rules/TypeGraph2EDFD/registerObjects_BWD/ruleresult"/>
           <genParameters ecoreParameter="Secdfd.ecore#//Rules/TypeGraph2EDFD/registerObjects_BWD/edfd"/>
-          <genParameters ecoreParameter="Secdfd.ecore#//Rules/TypeGraph2EDFD/registerObjects_BWD/pm"/>
           <genParameters ecoreParameter="Secdfd.ecore#//Rules/TypeGraph2EDFD/registerObjects_BWD/pm2Graph"/>
+          <genParameters ecoreParameter="Secdfd.ecore#//Rules/TypeGraph2EDFD/registerObjects_BWD/pm"/>
         </genOperations>
         <genOperations ecoreOperation="Secdfd.ecore#//Rules/TypeGraph2EDFD/checkTypes_BWD">
           <genParameters ecoreParameter="Secdfd.ecore#//Rules/TypeGraph2EDFD/checkTypes_BWD/match"/>
         </genOperations>
-        <genOperations ecoreOperation="Secdfd.ecore#//Rules/TypeGraph2EDFD/isAppropriate_BWD_EDFD_2">
-          <genParameters ecoreParameter="Secdfd.ecore#//Rules/TypeGraph2EDFD/isAppropriate_BWD_EDFD_2/edfd"/>
+        <genOperations ecoreOperation="Secdfd.ecore#//Rules/TypeGraph2EDFD/isAppropriate_BWD_EDFD_0">
+          <genParameters ecoreParameter="Secdfd.ecore#//Rules/TypeGraph2EDFD/isAppropriate_BWD_EDFD_0/edfd"/>
         </genOperations>
-        <genOperations ecoreOperation="Secdfd.ecore#//Rules/TypeGraph2EDFD/isAppropriate_FWD_TypeGraph_2">
-          <genParameters ecoreParameter="Secdfd.ecore#//Rules/TypeGraph2EDFD/isAppropriate_FWD_TypeGraph_2/pm"/>
+        <genOperations ecoreOperation="Secdfd.ecore#//Rules/TypeGraph2EDFD/isAppropriate_FWD_TypeGraph_0">
+          <genParameters ecoreParameter="Secdfd.ecore#//Rules/TypeGraph2EDFD/isAppropriate_FWD_TypeGraph_0/pm"/>
         </genOperations>
         <genOperations ecoreOperation="Secdfd.ecore#//Rules/TypeGraph2EDFD/checkAttributes_FWD">
           <genParameters ecoreParameter="Secdfd.ecore#//Rules/TypeGraph2EDFD/checkAttributes_FWD/__tripleMatch"/>

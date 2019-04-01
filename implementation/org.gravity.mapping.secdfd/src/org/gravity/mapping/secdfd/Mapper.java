@@ -5,13 +5,17 @@ package org.gravity.mapping.secdfd;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.eclipse.emf.common.util.EList;
 import org.gravity.typegraph.basic.TAbstractType;
+import org.gravity.typegraph.basic.TAccess;
 import org.gravity.typegraph.basic.TClass;
 import org.gravity.typegraph.basic.TConstructorDefinition;
 import org.gravity.typegraph.basic.TFieldDefinition;
@@ -25,6 +29,9 @@ import org.gravity.typegraph.basic.TSignature;
 import org.gravity.typegraph.basic.TypeGraph;
 import org.moflon.tgg.runtime.CorrespondenceModel;
 import org.moflon.tgg.runtime.RuntimeFactory;
+
+import com.google.common.collect.Streams;
+
 import eDFDFlowTracking.Asset;
 import eDFDFlowTracking.EDFD;
 import eDFDFlowTracking.EDFDFlowTracking1Package;
@@ -54,9 +61,8 @@ public class Mapper {
 	public CorrespondenceModel map(TypeGraph pm, EDFD dfd) {
 		// Save types and methods from the program model in fields as they are accessed
 		// very often
-		types = pm.getOwnedTypes().parallelStream()
-				.filter(t -> t.isDeclared())
-				.collect(Collectors.toList());
+		types = pm.getOwnedTypes().parallelStream().filter(t -> !"T".equals(t.getTName()))
+				.filter(t -> !"Anonymous".equals(t.getTName())).collect(Collectors.toList());
 		methods = pm.getMethods();
 
 		// Create a correspondence model between the two models
@@ -85,20 +91,55 @@ public class Mapper {
 					Set<TAbstractType> correspondingTypes = mapToType(node).map(c -> c.getSource())
 							.collect(Collectors.toSet());
 					entityTypeMapping.put(node, correspondingTypes);
-					elementMemberMapping.put(node, mapToMembers(node, correspondingTypes, entityTypeMapping).map(corr -> corr.getSource()).collect(Collectors.toSet()));
-				}
-			}
-		}
-		
-		for(Set<TSignature> signatures : elementSignatureMapping.values()) {
-			for(TSignature signature : signatures) {
-				for(TMethodDefinition defintion : ((TMethodSignature) signature).getDefinitions()) {
-					
+					elementMemberMapping.put(node, mapToMembers(node, correspondingTypes, entityTypeMapping)
+							.map(corr -> corr.getSource()).collect(Collectors.toSet()));
 				}
 			}
 		}
 
+		for (Entry<Element, Set<TSignature>> entry : elementSignatureMapping.entrySet()) {
+			Element sourceElement = entry.getKey();
+			Set<TSignature> signatures = entry.getValue();
+			for (TSignature signature : signatures) {
+				for (Flow flow : sourceElement.getOutflows()) {
+					for (Element targetElement : flow.getTarget()) {
+						if (elementSignatureMapping.containsKey(targetElement)) {
+							for (TSignature targetSignature : elementSignatureMapping.get(targetElement)) {
+								for (TMethodDefinition sourceDefinition : ((TMethodSignature) signature).getDefinitions()) {
+									if(getPath(sourceDefinition, targetSignature)) {
+										createCorrespondence(sourceElement, sourceDefinition);
+									}
+								}
+							}
+						}
+					}
+				}
+
+			}
+		}
+
 		return corr;
+	}
+
+	private boolean getPath(TMethodDefinition source, TSignature target) {
+		Set<TMember> seen = new HashSet<>();
+		List<TMember> stack = new LinkedList<>();
+		stack.add(source);
+		while (!stack.isEmpty()) {
+			TMember current = stack.remove(0);
+			for (TAccess access : current.getTAccessing()) {
+				TMember tTarget = access.getTTarget();
+				if (tTarget.getSignature().equals(target)) {
+					return true;
+				}
+				if (!seen.contains(tTarget)) {
+					stack.add(tTarget);
+				}
+			}
+			seen.add(current);
+		}
+
+		return false;
 	}
 
 	private Stream<Defintion2Element> mapToMembers(Element node, Set<TAbstractType> correspondingTypes,
@@ -126,14 +167,17 @@ public class Mapper {
 				}
 			}
 		}
-		
+
 		return correspondingMembers.parallelStream();
 	}
 
 	/**
-	 * @param node
-	 * @param correspondingMethods
-	 * @param mapping
+	 * Takes a set of mapped method names and type mappings for finding a
+	 * corresponding signatures.
+	 * 
+	 * @param node                 The element which should be mapped
+	 * @param correspondingMethods The method names corresponding to the element
+	 * @param mapping              A mapping between assets and types
 	 * @return
 	 */
 	private Stream<Signature2Element> mapToSignature(Element node, Set<TMethod> correspondingMethods,
@@ -198,6 +242,10 @@ public class Mapper {
 		return types.parallelStream().filter(t -> StringCompare.compare(entity.getName(), t.getTName()))
 				.map(t -> createCorrespondence(entity, t));
 
+	}
+
+	private void createCorrespondence(Flow flow, TAccess access) {
+		// TODO Auto-generated method stub
 	}
 
 	/**
