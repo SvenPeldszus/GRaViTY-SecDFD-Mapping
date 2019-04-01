@@ -18,6 +18,7 @@ import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TAccess;
 import org.gravity.typegraph.basic.TClass;
 import org.gravity.typegraph.basic.TConstructorDefinition;
+import org.gravity.typegraph.basic.TConstructorName;
 import org.gravity.typegraph.basic.TFieldDefinition;
 import org.gravity.typegraph.basic.TInterface;
 import org.gravity.typegraph.basic.TMember;
@@ -61,9 +62,9 @@ public class Mapper {
 	public CorrespondenceModel map(TypeGraph pm, EDFD dfd) {
 		// Save types and methods from the program model in fields as they are accessed
 		// very often
-		types = pm.getOwnedTypes().parallelStream().filter(t -> !"T".equals(t.getTName()))
+		types = pm.getOwnedTypes().stream().filter(t -> !"T".equals(t.getTName()))
 				.filter(t -> !"Anonymous".equals(t.getTName())).collect(Collectors.toList());
-		methods = pm.getMethods();
+		methods = pm.getMethods().stream().filter(m -> !(m instanceof TConstructorName)).collect(Collectors.toList());
 
 		// Create a correspondence model between the two models
 		corr = RuntimeFactory.eINSTANCE.createCorrespondenceModel();
@@ -168,7 +169,7 @@ public class Mapper {
 			}
 		}
 
-		return correspondingMembers.parallelStream();
+		return correspondingMembers.stream();
 	}
 
 	/**
@@ -207,7 +208,7 @@ public class Mapper {
 				}
 			}
 		}
-		return correspondingMethods.parallelStream().flatMap(method -> method.getSignatures().parallelStream())
+		return correspondingMethods.stream().flatMap(method -> method.getSignatures().stream())
 				.filter(signature -> {
 					int matchedParams = 0;
 					for (TParameter param : signature.getParamList().getEntries()) {
@@ -227,7 +228,7 @@ public class Mapper {
 	 * @return A stream of correspondences
 	 */
 	private Stream<Method2Element> mapToMethod(Element node) {
-		return methods.parallelStream().filter(m -> StringCompare.compare(node.getName(), m.getTName()))
+		return methods.stream().filter(m -> StringCompare.compare(node.getName(), m.getTName()))
 				.map(m -> createCorrespondence(node, m));
 	}
 
@@ -239,7 +240,7 @@ public class Mapper {
 	 * @return A stream of correspondences
 	 */
 	private Stream<Type2NamedEntity> mapToType(NamedEntity entity) {
-		return types.parallelStream().filter(t -> StringCompare.compare(entity.getName(), t.getTName()))
+		return types.stream().filter(t -> StringCompare.compare(entity.getName(), t.getTName()))
 				.map(t -> createCorrespondence(entity, t));
 
 	}

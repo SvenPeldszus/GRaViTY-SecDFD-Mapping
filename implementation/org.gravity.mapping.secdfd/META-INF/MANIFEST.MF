@@ -3,7 +3,8 @@ Bundle-SymbolicName: org.gravity.mapping.secdfd;singleton:=true
 Automatic-Module-Name: org.gravity.mapping.secdfd
 Bundle-Name: %pluginName
 Bundle-Version: 0.0.1.qualifier
-Bundle-ClassPath: .
+Bundle-ClassPath: .,
+ lib/commons-text-1.6.jar
 Require-Bundle: org.moflon.core.utilities,
  MocaTree;visibility:=reexport,
  SDMLanguage;visibility:=reexport,
