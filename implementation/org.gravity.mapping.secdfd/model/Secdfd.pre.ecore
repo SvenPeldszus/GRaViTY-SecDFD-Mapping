@@ -11,6 +11,12 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
         eType="ecore:EClass platform:/resource/eDFDFlowTracking1/model/eDFDFlowTracking1.ecore#//NamedEntity"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TypeGraph2EDFD" eSuperTypes="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="ecore:EClass http://www.gravity.org/typegraph/basic#//TypeGraph"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="ecore:EClass platform:/resource/eDFDFlowTracking1/model/eDFDFlowTracking1.ecore#//EDFD"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Flow2Access" eSuperTypes="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
         eType="ecore:EClass http://www.gravity.org/typegraph/basic#//TAccess"/>
@@ -22,12 +28,6 @@
         eType="ecore:EClass http://www.gravity.org/typegraph/basic#//TMethod"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
         eType="ecore:EClass platform:/resource/eDFDFlowTracking1/model/eDFDFlowTracking1.ecore#//Element"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="TypeGraph2EDFD" eSuperTypes="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
-        eType="ecore:EClass http://www.gravity.org/typegraph/basic#//TypeGraph"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
-        eType="ecore:EClass platform:/resource/eDFDFlowTracking1/model/eDFDFlowTracking1.ecore#//EDFD"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Signature2Element" eSuperTypes="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
