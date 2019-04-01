@@ -14,11 +14,8 @@
 package org.eclipse.equinox.internal.security.storage;
 
 import java.io.IOException;
-import java.util.Random;
 import org.eclipse.equinox.security.storage.ISecurePreferences;
 import org.eclipse.equinox.security.storage.StorageException;
-import org.gravity.security.annotations.CounterMeasure;
-import org.gravity.security.annotations.requirements.Secrecy;
 
 /**
  * This class combines secure preferences node with specific container. See
@@ -121,20 +118,9 @@ public class SecurePreferencesWrapper implements ISecurePreferences {
 	////////////////////////////////////////////////////////////////////////////////////////
 	// puts() and gets()
 
-	@Secrecy(earlyReturn = "secure")
 	@Override
 	public String get(String key, String def) throws StorageException {
 		return node.get(key, def, container);
-	}
-
-	@CounterMeasure
-	public String secure() {
-		StringBuilder s = new StringBuilder();
-		Random random = new Random();
-		for (int i = 0; i < 10 + random.nextInt(10); i++) {
-			s.append((char) random.nextInt('z' - 'a') + 'a');
-		}
-		return s.toString();
 	}
 
 	@Override
