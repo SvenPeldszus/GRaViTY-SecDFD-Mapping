@@ -145,6 +145,7 @@ public class DFDSelectionView extends ViewPart {
 				}
 				mapping.getCorrespondences().add(userCorr);
 				mapping.getUserdefined().add(userCorr);
+				map.updateMappingOnFilesystem(mapping);
 				map.update();
 				System.out.println("Manually mapped: " + e);
 			});

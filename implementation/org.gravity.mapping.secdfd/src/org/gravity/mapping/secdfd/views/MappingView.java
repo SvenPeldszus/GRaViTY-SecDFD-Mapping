@@ -101,7 +101,7 @@ public class MappingView extends ViewPart {
 					mapping.getSuggested().remove(e);
 					mapping.getAccepted().add(e);
 					treeViewer.refresh();
-					updateMappingOnFilesystem(corrs, mapping);
+					updateMappingOnFilesystem(mapping);
 				}
 			});
 		}
@@ -136,7 +136,7 @@ public class MappingView extends ViewPart {
 				mapping.getUserdefined().remove(e);
 				mapping.getAccepted().remove(e);
 				treeViewer.remove(e);
-				updateMappingOnFilesystem(corrs, mapping);
+				updateMappingOnFilesystem(mapping);
 			});
 		}
 	}
@@ -164,7 +164,7 @@ public class MappingView extends ViewPart {
 
 	private Collection<EDFD> dfds;
 
-	private Collection<Mapping> mapping;
+	private Map<IFile, Mapping> mappings;
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -174,6 +174,16 @@ public class MappingView extends ViewPart {
 		IViewSite viewSite = getViewSite();
 		IActionBars bars = viewSite.getActionBars();
 		IToolBarManager tm = bars.getToolBarManager(); // Buttons on top
+		tm.add(new Action("Continue") {
+			
+			public void run() {
+				for(Mapping m : mappings.values()) {
+					System.out.println("Continue with: "+m);
+					//TODO: continue
+				}
+			}
+			
+		});
 		IMenuManager mm = bars.getMenuManager(); // Drop down menu
 		mm.add(new Action("Map project") {
 			@Override
@@ -223,7 +233,7 @@ public class MappingView extends ViewPart {
 			ModelSaver.saveModel(corr, corrFile, new NullProgressMonitor());
 			return new SimpleEntry<IFile, Mapping>(corrFile, corr);
 		}).collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
-		this.mapping = corrs.values();
+		this.mappings = corrs;
 		
 		System.out.println(pm);
 		System.out.println(corrs);
@@ -328,9 +338,9 @@ public class MappingView extends ViewPart {
 	 * @param corrs
 	 * @param mapping
 	 */
-	private void updateMappingOnFilesystem(Map<IFile, Mapping> corrs, Mapping mapping) {
+	public void updateMappingOnFilesystem(Mapping mapping) {
 		try {
-			Optional<IFile> file = corrs.entrySet().parallelStream().filter(entry -> entry.getValue().equals(mapping)).map(entry -> entry.getKey()).findAny();
+			Optional<IFile> file = this.mappings.entrySet().parallelStream().filter(entry -> entry.getValue().equals(mapping)).map(entry -> entry.getKey()).findAny();
 			if(file.isPresent()) {
 				mapping.eResource().save(new FileOutputStream(file.get().getLocation().toString()), Collections.emptyMap());
 			}
@@ -351,7 +361,7 @@ public class MappingView extends ViewPart {
 	}
 
 	public Collection<Mapping> getMapping() {
-		return this.mapping;
+		return this.mappings.values();
 	}
 
 	public void update() {
