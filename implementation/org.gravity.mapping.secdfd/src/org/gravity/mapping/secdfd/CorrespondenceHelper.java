@@ -1,6 +1,7 @@
 package org.gravity.mapping.secdfd;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -24,10 +25,21 @@ public class CorrespondenceHelper {
 	 * @return The source
 	 */
 	public static EObject getSource(AbstractCorrespondence correspondence) {
+		Method method;
 		try {
-			return (EObject) correspondence.getClass().getDeclaredMethod("getSource").invoke(correspondence);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+			method = correspondence.getClass().getDeclaredMethod("getSource");
+		} catch (IllegalArgumentException | NoSuchMethodException
 				| SecurityException e) {
+			try {
+				method = correspondence.getClass().getMethod("getSource");
+			} catch (NoSuchMethodException | SecurityException e1) {
+				LOGGER.log(Level.ERROR, e);
+				return null;
+			}
+		}
+		try {
+			return (EObject) method.invoke(correspondence);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			LOGGER.log(Level.ERROR, e);
 			return null;
 		}
@@ -40,10 +52,21 @@ public class CorrespondenceHelper {
 	 * @return The target
 	 */
 	public static EObject getTarget(AbstractCorrespondence correspondence) {
+		Method method;
 		try {
-			return (EObject) correspondence.getClass().getDeclaredMethod("getTarget").invoke(correspondence);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+			method = correspondence.getClass().getDeclaredMethod("getTarget");
+		} catch (IllegalArgumentException | NoSuchMethodException
 				| SecurityException e) {
+			try {
+				method = correspondence.getClass().getMethod("getTarget");
+			} catch (NoSuchMethodException | SecurityException e1) {
+				LOGGER.log(Level.ERROR, e);
+				return null;
+			}
+		}
+		try {
+			return (EObject) method.invoke(correspondence);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			LOGGER.log(Level.ERROR, e);
 			return null;
 		}

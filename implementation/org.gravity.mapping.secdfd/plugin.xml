@@ -9,27 +9,35 @@
     <menuContribution allPopups="false" locationURI="popup:org.gravity.mainmenu">
       <command commandId="org.gravity.secdfd.mapping.command" label="Map SecDFD" style="push"/>
     </menuContribution>
+    <menuContribution allPopups="false" locationURI="popup:#CompilationUnitEditorContext?after=additions">
+        <command commandId="org.gravity.mapping.secdfd.ui.texteditor"
+                label="Map Selection to SecDFD" style="push"/>
+    </menuContribution>
+    <menuContribution allPopups="false" locationURI="popup:#ClassFileEditorContext?after=additions">
+        <command commandId="org.gravity.mapping.secdfd.ui.texteditor"
+                label="Map Selection to SecDFD" style="push"/>
+    </menuContribution>
   </extension>
   <extension point="org.eclipse.ui.commands">
-    <command defaultHandler="org.gravity.mapping.secdfd.ui.handler.MappingHandler" id="org.gravity.secdfd.mapping.command" name="Map SecDFD"/>
+    <command
+          defaultHandler="org.gravity.mapping.secdfd.ui.handler.MappingHandler"
+          description="Initializes the mapping between Java source code an SecDFDs"
+          id="org.gravity.secdfd.mapping.command"
+          name="Map SecDFD"/>
+    <command id="org.gravity.mapping.secdfd.ui.texteditor"
+            defaultHandler="org.gravity.mapping.secdfd.ui.handler.TextEditorHandler"
+            name="Map Selection to SecDFD"
+            description="Triggers the mapping of the selected element to an element from a SecDFD" />
   </extension>
-  <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated Secdfd.pre -->
-      <package
-            uri="platform:/plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore"
-            class="org.gravity.mapping.secdfd.SecdfdPackage"
-            genModel="model/Secdfd.pre.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated Secdfd.pre -->
-      <package
-            uri="platform:/plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore#//Rules"
-            class="org.gravity.mapping.secdfd.Rules.RulesPackage"
-            genModel="model/Secdfd.pre.genmodel"/>
-   </extension>
-   <extension
+  <extension
          point="org.eclipse.ui.views">
+      <view
+            category="org.gravity.mapping.secdfd.category"
+            class="org.gravity.mapping.secdfd.views.DFDSelectionView"
+            id="org.gravity.mapping.secdfd.view.select"
+            name="GRaViTY SecDFD Selection"
+            restorable="true">
+      </view>
       <view
             category="org.gravity.mapping.secdfd.category"
             class="org.gravity.mapping.secdfd.views.MappingView"
@@ -42,5 +50,27 @@
             name="GRaViTY SecDFD Mapping">
       </category>
    </extension>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated Mapping -->
+      <package
+            uri="http://org.gravity.mapping.secdfd/mapping"
+            class="org.gravity.mapping.secdfd.model.mapping.MappingPackage"
+            genModel="model/Mapping.genmodel"/>
+   </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated Mapping -->
+      <package
+            uri="platform:/plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore"
+            class="org.gravity.mapping.secdfd.SecdfdPackage"
+            genModel="model/Mapping.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated Mapping -->
+      <package
+            uri="platform:/plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore#//Rules"
+            class="org.gravity.mapping.secdfd.Rules.RulesPackage"
+            genModel="model/Mapping.genmodel"/>
+   </extension>
 </plugin>

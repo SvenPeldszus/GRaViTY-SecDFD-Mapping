@@ -196,7 +196,7 @@ public interface TypeGraph2EDFD extends EObject, AbstractRule {
 	 * @model
 	 * @generated
 	 */
-	EObjectContainer isAppropriate_BWD_EDFD_2(EDFD edfd);
+	EObjectContainer isAppropriate_BWD_EDFD_0(EDFD edfd);
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -204,7 +204,7 @@ public interface TypeGraph2EDFD extends EObject, AbstractRule {
 	 * @model
 	 * @generated
 	 */
-	EObjectContainer isAppropriate_FWD_TypeGraph_2(TypeGraph pm);
+	EObjectContainer isAppropriate_FWD_TypeGraph_0(TypeGraph pm);
 
 	/**
 	 * <!-- begin-user-doc -->

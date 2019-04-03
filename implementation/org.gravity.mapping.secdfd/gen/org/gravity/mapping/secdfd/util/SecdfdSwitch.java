@@ -82,13 +82,6 @@ public class SecdfdSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SecdfdPackage.SIGNATURE2_ELEMENT: {
-				Signature2Element signature2Element = (Signature2Element)theEObject;
-				T result = caseSignature2Element(signature2Element);
-				if (result == null) result = caseAbstractCorrespondence(signature2Element);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case SecdfdPackage.TYPE_GRAPH2_EDFD: {
 				TypeGraph2EDFD typeGraph2EDFD = (TypeGraph2EDFD)theEObject;
 				T result = caseTypeGraph2EDFD(typeGraph2EDFD);
@@ -100,6 +93,20 @@ public class SecdfdSwitch<T> extends Switch<T> {
 				Defintion2Element defintion2Element = (Defintion2Element)theEObject;
 				T result = caseDefintion2Element(defintion2Element);
 				if (result == null) result = caseAbstractCorrespondence(defintion2Element);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SecdfdPackage.FLOW2_ACCESS: {
+				Flow2Access flow2Access = (Flow2Access)theEObject;
+				T result = caseFlow2Access(flow2Access);
+				if (result == null) result = caseAbstractCorrespondence(flow2Access);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SecdfdPackage.SIGNATURE2_ELEMENT: {
+				Signature2Element signature2Element = (Signature2Element)theEObject;
+				T result = caseSignature2Element(signature2Element);
+				if (result == null) result = caseAbstractCorrespondence(signature2Element);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -179,6 +186,21 @@ public class SecdfdSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseDefintion2Element(Defintion2Element object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Flow2 Access</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Flow2 Access</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseFlow2Access(Flow2Access object) {
 		return null;
 	}
 

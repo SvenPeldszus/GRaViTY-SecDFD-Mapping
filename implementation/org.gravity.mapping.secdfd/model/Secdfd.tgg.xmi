@@ -11,13 +11,13 @@
       <type xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TypeGraph"/>
     </objectVariable>
     <objectVariable xsi:type="org.moflon.tgg.language:TGGObjectVariable" name="pm2Graph" outgoingLink="//@tggRule.0/@linkVariable.0 //@tggRule.0/@linkVariable.1" bindingOperator="CREATE" domain="//@domain.2">
-      <type xsi:type="ecore:EClass" href="../../../plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore#//TypeGraph2EDFD"/>
+      <type xsi:type="ecore:EClass" href="Secdfd.ecore#//TypeGraph2EDFD"/>
     </objectVariable>
     <linkVariable xsi:type="org.moflon.tgg.language:TGGLinkVariable" name="source" target="//@tggRule.0/@objectVariable.1" source="//@tggRule.0/@objectVariable.2" bindingOperator="CREATE" domain="//@domain.2">
-      <type href="../../../plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore#//TypeGraph2EDFD/source"/>
+      <type href="Secdfd.ecore#//TypeGraph2EDFD/source"/>
     </linkVariable>
     <linkVariable xsi:type="org.moflon.tgg.language:TGGLinkVariable" name="target" target="//@tggRule.0/@objectVariable.0" source="//@tggRule.0/@objectVariable.2" bindingOperator="CREATE" domain="//@domain.2">
-      <type href="../../../plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore#//TypeGraph2EDFD/target"/>
+      <type href="Secdfd.ecore#//TypeGraph2EDFD/target"/>
     </linkVariable>
     <csp/>
   </tggRule>
@@ -28,6 +28,6 @@
     <outermostPackage href="../../eDFDFlowTracking1/model/eDFDFlowTracking1.ecore#/"/>
   </metamodel>
   <metamodel name="secdfd">
-    <outermostPackage href="../../../plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore#/"/>
+    <outermostPackage href="Secdfd.ecore#/"/>
   </metamodel>
 </org.moflon.tgg.language:TripleGraphGrammar>

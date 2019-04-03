@@ -23,7 +23,6 @@ import SDMLanguage.patterns.patternExpressions.PatternExpressionsPackage;
 import SDMLanguage.sdmUtil.SdmUtilPackage;
 
 import eDFDFlowTracking.EDFDFlowTracking1Package;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
@@ -124,15 +123,19 @@ public class RulesPackageImpl extends EPackageImpl implements RulesPackage {
 		CallsPackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
-		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(SecdfdPackage.eNS_URI);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(org.gravity.mapping.secdfd.model.mapping.MappingPackage.eNS_URI);
+		org.gravity.mapping.secdfd.model.mapping.impl.MappingPackageImpl theMappingPackage = (org.gravity.mapping.secdfd.model.mapping.impl.MappingPackageImpl)(registeredPackage instanceof org.gravity.mapping.secdfd.model.mapping.impl.MappingPackageImpl ? registeredPackage : org.gravity.mapping.secdfd.model.mapping.MappingPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(SecdfdPackage.eNS_URI);
 		SecdfdPackageImpl theSecdfdPackage = (SecdfdPackageImpl)(registeredPackage instanceof SecdfdPackageImpl ? registeredPackage : SecdfdPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theRulesPackage.createPackageContents();
+		theMappingPackage.createPackageContents();
 		theSecdfdPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theRulesPackage.initializePackageContents();
+		theMappingPackage.initializePackageContents();
 		theSecdfdPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
@@ -359,7 +362,7 @@ public class RulesPackageImpl extends EPackageImpl implements RulesPackage {
 	 * @generated
 	 */
 	@Override
-	public EOperation getTypeGraph2EDFD__IsAppropriate_BWD_EDFD_2__EDFD() {
+	public EOperation getTypeGraph2EDFD__IsAppropriate_BWD_EDFD_0__EDFD() {
 		return typeGraph2EDFDEClass.getEOperations().get(20);
 	}
 
@@ -369,7 +372,7 @@ public class RulesPackageImpl extends EPackageImpl implements RulesPackage {
 	 * @generated
 	 */
 	@Override
-	public EOperation getTypeGraph2EDFD__IsAppropriate_FWD_TypeGraph_2__TypeGraph() {
+	public EOperation getTypeGraph2EDFD__IsAppropriate_FWD_TypeGraph_0__TypeGraph() {
 		return typeGraph2EDFDEClass.getEOperations().get(21);
 	}
 
@@ -493,8 +496,8 @@ public class RulesPackageImpl extends EPackageImpl implements RulesPackage {
 		createEOperation(typeGraph2EDFDEClass, TYPE_GRAPH2_EDFD___IS_APPLICABLE_CHECK_CSP_BWD__CSP);
 		createEOperation(typeGraph2EDFDEClass, TYPE_GRAPH2_EDFD___REGISTER_OBJECTS_BWD__PERFORMRULERESULT_EOBJECT_EOBJECT_EOBJECT);
 		createEOperation(typeGraph2EDFDEClass, TYPE_GRAPH2_EDFD___CHECK_TYPES_BWD__MATCH);
-		createEOperation(typeGraph2EDFDEClass, TYPE_GRAPH2_EDFD___IS_APPROPRIATE_BWD_EDFD_2__EDFD);
-		createEOperation(typeGraph2EDFDEClass, TYPE_GRAPH2_EDFD___IS_APPROPRIATE_FWD_TYPE_GRAPH_2__TYPEGRAPH);
+		createEOperation(typeGraph2EDFDEClass, TYPE_GRAPH2_EDFD___IS_APPROPRIATE_BWD_EDFD_0__EDFD);
+		createEOperation(typeGraph2EDFDEClass, TYPE_GRAPH2_EDFD___IS_APPROPRIATE_FWD_TYPE_GRAPH_0__TYPEGRAPH);
 		createEOperation(typeGraph2EDFDEClass, TYPE_GRAPH2_EDFD___CHECK_ATTRIBUTES_FWD__TRIPLEMATCH);
 		createEOperation(typeGraph2EDFDEClass, TYPE_GRAPH2_EDFD___CHECK_ATTRIBUTES_BWD__TRIPLEMATCH);
 		createEOperation(typeGraph2EDFDEClass, TYPE_GRAPH2_EDFD___IS_APPLICABLE_CC__MATCH_MATCH);
@@ -617,10 +620,10 @@ public class RulesPackageImpl extends EPackageImpl implements RulesPackage {
 		op = initEOperation(getTypeGraph2EDFD__CheckTypes_BWD__Match(), ecorePackage.getEBoolean(), "checkTypes_BWD", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, theRuntimePackage.getMatch(), "match", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		op = initEOperation(getTypeGraph2EDFD__IsAppropriate_BWD_EDFD_2__EDFD(), theRuntimePackage.getEObjectContainer(), "isAppropriate_BWD_EDFD_2", 0, 1, IS_UNIQUE, IS_ORDERED);
+		op = initEOperation(getTypeGraph2EDFD__IsAppropriate_BWD_EDFD_0__EDFD(), theRuntimePackage.getEObjectContainer(), "isAppropriate_BWD_EDFD_0", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, theEDFDFlowTracking1Package.getEDFD(), "edfd", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		op = initEOperation(getTypeGraph2EDFD__IsAppropriate_FWD_TypeGraph_2__TypeGraph(), theRuntimePackage.getEObjectContainer(), "isAppropriate_FWD_TypeGraph_2", 0, 1, IS_UNIQUE, IS_ORDERED);
+		op = initEOperation(getTypeGraph2EDFD__IsAppropriate_FWD_TypeGraph_0__TypeGraph(), theRuntimePackage.getEObjectContainer(), "isAppropriate_FWD_TypeGraph_0", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, theBasicPackage.getTypeGraph(), "pm", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		op = initEOperation(getTypeGraph2EDFD__CheckAttributes_FWD__TripleMatch(), theRuntimePackage.getAttributeConstraintsRuleResult(), "checkAttributes_FWD", 0, 1, IS_UNIQUE, IS_ORDERED);

@@ -67,6 +67,15 @@ public interface SecdfdFactory extends EFactory {
 	Defintion2Element createDefintion2Element();
 
 	/**
+	 * Returns a new object of class '<em>Flow2 Access</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Flow2 Access</em>'.
+	 * @generated
+	 */
+	Flow2Access createFlow2Access();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

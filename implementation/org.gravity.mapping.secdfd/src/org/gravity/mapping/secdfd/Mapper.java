@@ -14,6 +14,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.eclipse.emf.common.util.EList;
+import org.gravity.mapping.secdfd.model.mapping.Mapping;
+import org.gravity.mapping.secdfd.model.mapping.MappingFactory;
+import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TAccess;
 import org.gravity.typegraph.basic.TClass;
@@ -46,12 +49,10 @@ import eDFDFlowTracking.NamedEntity;
  */
 public class Mapper {
 
-	private static final SecdfdFactory FACTORY = SecdfdFactory.eINSTANCE;
-
 	/**
 	 * The correspondence model built by this class
 	 */
-	private CorrespondenceModel corr;
+	private Mapping corr;
 
 	/**
 	 * All types and operations from the program model
@@ -59,7 +60,7 @@ public class Mapper {
 	private static List<TAbstractType> types;
 	private static List<TMethod> methods;
 
-	public CorrespondenceModel map(TypeGraph pm, EDFD dfd) {
+	public Mapping map(TypeGraph pm, EDFD dfd) {
 		// Save types and methods from the program model in fields as they are accessed
 		// very often
 		types = pm.getOwnedTypes().stream().filter(t -> !"T".equals(t.getTName()))
@@ -67,7 +68,9 @@ public class Mapper {
 		methods = pm.getMethods().stream().filter(m -> !(m instanceof TConstructorName)).collect(Collectors.toList());
 
 		// Create a correspondence model between the two models
-		corr = RuntimeFactory.eINSTANCE.createCorrespondenceModel();
+		corr = MappingFactory.eINSTANCE.createMapping();
+		corr.setSource(pm);
+		corr.setTarget(dfd);
 		createCorrespondence(pm, dfd);
 
 		// Search for correspondences between graph assets and types in the pm
@@ -217,7 +220,10 @@ public class Mapper {
 						}
 					}
 					return matchedParams > 0;
-				}).map(signature -> createCorrespondence(node, signature));
+				}).map(signature -> {
+					MappingProcessSignature newCorr = createCorrespondence(node, signature);
+					return newCorr;
+					});
 	}
 
 	/**
@@ -258,10 +264,11 @@ public class Mapper {
 	 * @return The correspondence
 	 */
 	private Method2Element createCorrespondence(Element element, TMethod member) {
-		Method2Element method2element = FACTORY.createMethod2Element();
+		Method2Element method2element = MappingFactory.eINSTANCE.createMappingProcessName();
 		method2element.setSource(member);
 		method2element.setTarget(element);
 		corr.getCorrespondences().add(method2element);
+		corr.getSuggested().add(method2element);
 		return method2element;
 	}
 
@@ -274,18 +281,20 @@ public class Mapper {
 	 * @return The correspondence
 	 */
 	private Defintion2Element createCorrespondence(Element element, TMember member) {
-		Defintion2Element method2element = FACTORY.createDefintion2Element();
+		Defintion2Element method2element = MappingFactory.eINSTANCE.createMappingProcessDefinition();
 		method2element.setSource(member);
 		method2element.setTarget(element);
 		corr.getCorrespondences().add(method2element);
+		corr.getSuggested().add(method2element);
 		return method2element;
 	}
 
-	private Signature2Element createCorrespondence(Element node, TMethodSignature signature) {
-		Signature2Element signature2element = FACTORY.createSignature2Element();
+	private MappingProcessSignature createCorrespondence(Element node, TMethodSignature signature) {
+		MappingProcessSignature signature2element = MappingFactory.eINSTANCE.createMappingProcessSignature();
 		signature2element.setSource(signature);
 		signature2element.setTarget(node);
 		corr.getCorrespondences().add(signature2element);
+		corr.getSuggested().add(signature2element);
 		return signature2element;
 	}
 
@@ -298,10 +307,11 @@ public class Mapper {
 	 * @return The correspondence
 	 */
 	private Type2NamedEntity createCorrespondence(NamedEntity entity, TAbstractType type) {
-		Type2NamedEntity type2asset = FACTORY.createType2NamedEntity();
+		Type2NamedEntity type2asset = SecdfdFactory.eINSTANCE.createType2NamedEntity();
 		type2asset.setSource(type);
 		type2asset.setTarget(entity);
 		corr.getCorrespondences().add(type2asset);
+		corr.getSuggested().add(type2asset);
 		return type2asset;
 	}
 
@@ -313,7 +323,7 @@ public class Mapper {
 	 * @param dfd The data flow diagram
 	 */
 	private TypeGraph2EDFD createCorrespondence(TypeGraph pm, EDFD dfd) {
-		TypeGraph2EDFD pm2dfd = FACTORY.createTypeGraph2EDFD();
+		TypeGraph2EDFD pm2dfd = SecdfdFactory.eINSTANCE.createTypeGraph2EDFD();
 		pm2dfd.setSource(pm);
 		pm2dfd.setTarget(dfd);
 		corr.getCorrespondences().add(pm2dfd);

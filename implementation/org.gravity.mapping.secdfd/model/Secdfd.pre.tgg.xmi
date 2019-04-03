@@ -4,20 +4,20 @@
   <domain name="Source" metamodel="//@metamodel.0" type="SOURCE"/>
   <domain name="Correspondence" metamodel="//@metamodel.2"/>
   <tggRule name="TypeGraph2EDFD" correspondence="//@domain.2" source="//@domain.1" target="//@domain.0">
+    <objectVariable xsi:type="org.moflon.tgg.language:TGGObjectVariable" name="edfd" incomingLink="//@tggRule.0/@linkVariable.1" bindingOperator="CREATE" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="platform:/resource/eDFDFlowTracking1/model/eDFDFlowTracking1.ecore#//EDFD"/>
+    </objectVariable>
+    <objectVariable xsi:type="org.moflon.tgg.language:TGGObjectVariable" name="pm" incomingLink="//@tggRule.0/@linkVariable.0" bindingOperator="CREATE" domain="//@domain.1">
+      <type xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TypeGraph"/>
+    </objectVariable>
     <objectVariable xsi:type="org.moflon.tgg.language:TGGObjectVariable" name="pm2Graph" outgoingLink="//@tggRule.0/@linkVariable.0 //@tggRule.0/@linkVariable.1" bindingOperator="CREATE" domain="//@domain.2">
       <type xsi:type="ecore:EClass" href="platform:/plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore#//TypeGraph2EDFD"/>
     </objectVariable>
-    <objectVariable xsi:type="org.moflon.tgg.language:TGGObjectVariable" name="edfd" incomingLink="//@tggRule.0/@linkVariable.0" bindingOperator="CREATE" domain="//@domain.0">
-      <type xsi:type="ecore:EClass" href="platform:/resource/eDFDFlowTracking1/model/eDFDFlowTracking1.ecore#//EDFD"/>
-    </objectVariable>
-    <objectVariable xsi:type="org.moflon.tgg.language:TGGObjectVariable" name="pm" incomingLink="//@tggRule.0/@linkVariable.1" bindingOperator="CREATE" domain="//@domain.1">
-      <type xsi:type="ecore:EClass" href="http://www.gravity.org/typegraph/basic#//TypeGraph"/>
-    </objectVariable>
-    <linkVariable xsi:type="org.moflon.tgg.language:TGGLinkVariable" name="target" target="//@tggRule.0/@objectVariable.1" source="//@tggRule.0/@objectVariable.0" bindingOperator="CREATE" domain="//@domain.2">
-      <type href="platform:/plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore#//TypeGraph2EDFD/target"/>
-    </linkVariable>
-    <linkVariable xsi:type="org.moflon.tgg.language:TGGLinkVariable" name="source" target="//@tggRule.0/@objectVariable.2" source="//@tggRule.0/@objectVariable.0" bindingOperator="CREATE" domain="//@domain.2">
+    <linkVariable xsi:type="org.moflon.tgg.language:TGGLinkVariable" name="source" target="//@tggRule.0/@objectVariable.1" source="//@tggRule.0/@objectVariable.2" bindingOperator="CREATE" domain="//@domain.2">
       <type href="platform:/plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore#//TypeGraph2EDFD/source"/>
+    </linkVariable>
+    <linkVariable xsi:type="org.moflon.tgg.language:TGGLinkVariable" name="target" target="//@tggRule.0/@objectVariable.0" source="//@tggRule.0/@objectVariable.2" bindingOperator="CREATE" domain="//@domain.2">
+      <type href="platform:/plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore#//TypeGraph2EDFD/target"/>
     </linkVariable>
     <csp/>
   </tggRule>

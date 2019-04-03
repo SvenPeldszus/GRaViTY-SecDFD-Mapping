@@ -257,22 +257,22 @@ public interface RulesPackage extends EPackage {
 	int TYPE_GRAPH2_EDFD___CHECK_TYPES_BWD__MATCH = RuntimePackage.ABSTRACT_RULE_OPERATION_COUNT + 19;
 
 	/**
-	 * The operation id for the '<em>Is Appropriate BWD EDFD 2</em>' operation.
+	 * The operation id for the '<em>Is Appropriate BWD EDFD 0</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_GRAPH2_EDFD___IS_APPROPRIATE_BWD_EDFD_2__EDFD = RuntimePackage.ABSTRACT_RULE_OPERATION_COUNT + 20;
+	int TYPE_GRAPH2_EDFD___IS_APPROPRIATE_BWD_EDFD_0__EDFD = RuntimePackage.ABSTRACT_RULE_OPERATION_COUNT + 20;
 
 	/**
-	 * The operation id for the '<em>Is Appropriate FWD Type Graph 2</em>' operation.
+	 * The operation id for the '<em>Is Appropriate FWD Type Graph 0</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_GRAPH2_EDFD___IS_APPROPRIATE_FWD_TYPE_GRAPH_2__TYPEGRAPH = RuntimePackage.ABSTRACT_RULE_OPERATION_COUNT + 21;
+	int TYPE_GRAPH2_EDFD___IS_APPROPRIATE_FWD_TYPE_GRAPH_0__TYPEGRAPH = RuntimePackage.ABSTRACT_RULE_OPERATION_COUNT + 21;
 
 	/**
 	 * The operation id for the '<em>Check Attributes FWD</em>' operation.
@@ -558,24 +558,24 @@ public interface RulesPackage extends EPackage {
 	EOperation getTypeGraph2EDFD__CheckTypes_BWD__Match();
 
 	/**
-	 * Returns the meta object for the '{@link org.gravity.mapping.secdfd.Rules.TypeGraph2EDFD#isAppropriate_BWD_EDFD_2(eDFDFlowTracking.EDFD) <em>Is Appropriate BWD EDFD 2</em>}' operation.
+	 * Returns the meta object for the '{@link org.gravity.mapping.secdfd.Rules.TypeGraph2EDFD#isAppropriate_BWD_EDFD_0(eDFDFlowTracking.EDFD) <em>Is Appropriate BWD EDFD 0</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Is Appropriate BWD EDFD 2</em>' operation.
-	 * @see org.gravity.mapping.secdfd.Rules.TypeGraph2EDFD#isAppropriate_BWD_EDFD_2(eDFDFlowTracking.EDFD)
+	 * @return the meta object for the '<em>Is Appropriate BWD EDFD 0</em>' operation.
+	 * @see org.gravity.mapping.secdfd.Rules.TypeGraph2EDFD#isAppropriate_BWD_EDFD_0(eDFDFlowTracking.EDFD)
 	 * @generated
 	 */
-	EOperation getTypeGraph2EDFD__IsAppropriate_BWD_EDFD_2__EDFD();
+	EOperation getTypeGraph2EDFD__IsAppropriate_BWD_EDFD_0__EDFD();
 
 	/**
-	 * Returns the meta object for the '{@link org.gravity.mapping.secdfd.Rules.TypeGraph2EDFD#isAppropriate_FWD_TypeGraph_2(org.gravity.typegraph.basic.TypeGraph) <em>Is Appropriate FWD Type Graph 2</em>}' operation.
+	 * Returns the meta object for the '{@link org.gravity.mapping.secdfd.Rules.TypeGraph2EDFD#isAppropriate_FWD_TypeGraph_0(org.gravity.typegraph.basic.TypeGraph) <em>Is Appropriate FWD Type Graph 0</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Is Appropriate FWD Type Graph 2</em>' operation.
-	 * @see org.gravity.mapping.secdfd.Rules.TypeGraph2EDFD#isAppropriate_FWD_TypeGraph_2(org.gravity.typegraph.basic.TypeGraph)
+	 * @return the meta object for the '<em>Is Appropriate FWD Type Graph 0</em>' operation.
+	 * @see org.gravity.mapping.secdfd.Rules.TypeGraph2EDFD#isAppropriate_FWD_TypeGraph_0(org.gravity.typegraph.basic.TypeGraph)
 	 * @generated
 	 */
-	EOperation getTypeGraph2EDFD__IsAppropriate_FWD_TypeGraph_2__TypeGraph();
+	EOperation getTypeGraph2EDFD__IsAppropriate_FWD_TypeGraph_0__TypeGraph();
 
 	/**
 	 * Returns the meta object for the '{@link org.gravity.mapping.secdfd.Rules.TypeGraph2EDFD#checkAttributes_FWD(org.moflon.tgg.runtime.TripleMatch) <em>Check Attributes FWD</em>}' operation.
@@ -841,20 +841,20 @@ public interface RulesPackage extends EPackage {
 		EOperation TYPE_GRAPH2_EDFD___CHECK_TYPES_BWD__MATCH = eINSTANCE.getTypeGraph2EDFD__CheckTypes_BWD__Match();
 
 		/**
-		 * The meta object literal for the '<em><b>Is Appropriate BWD EDFD 2</b></em>' operation.
+		 * The meta object literal for the '<em><b>Is Appropriate BWD EDFD 0</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation TYPE_GRAPH2_EDFD___IS_APPROPRIATE_BWD_EDFD_2__EDFD = eINSTANCE.getTypeGraph2EDFD__IsAppropriate_BWD_EDFD_2__EDFD();
+		EOperation TYPE_GRAPH2_EDFD___IS_APPROPRIATE_BWD_EDFD_0__EDFD = eINSTANCE.getTypeGraph2EDFD__IsAppropriate_BWD_EDFD_0__EDFD();
 
 		/**
-		 * The meta object literal for the '<em><b>Is Appropriate FWD Type Graph 2</b></em>' operation.
+		 * The meta object literal for the '<em><b>Is Appropriate FWD Type Graph 0</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation TYPE_GRAPH2_EDFD___IS_APPROPRIATE_FWD_TYPE_GRAPH_2__TYPEGRAPH = eINSTANCE.getTypeGraph2EDFD__IsAppropriate_FWD_TypeGraph_2__TypeGraph();
+		EOperation TYPE_GRAPH2_EDFD___IS_APPROPRIATE_FWD_TYPE_GRAPH_0__TYPEGRAPH = eINSTANCE.getTypeGraph2EDFD__IsAppropriate_FWD_TypeGraph_0__TypeGraph();
 
 		/**
 		 * The meta object literal for the '<em><b>Check Attributes FWD</b></em>' operation.

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    name="mapping"
+    nsURI="http://org.gravity.mapping.secdfd/mapping"
+    nsPrefix="org.gravity.mapping.secdfd.model">
+  <eAnnotations
+      source="http://www.eclipse.org/emf/2002/GenModel">
+    <details
+        key="basePackage"
+        value="org.gravity.mapping.secdfd.model"/>
+  </eAnnotations>
+  <eClassifiers
+      xsi:type="ecore:EClass"
+      name="Mapping"
+      eSuperTypes="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//CorrespondenceModel">
+    <eStructuralFeatures
+        xsi:type="ecore:EReference"
+        name="userdefined"
+        upperBound="-1"
+        eType="ecore:EClass platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence"/>
+    <eStructuralFeatures
+        xsi:type="ecore:EReference"
+        name="ignored"
+        upperBound="-1"
+        eType="ecore:EClass platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence"
+        containment="true"/>
+    <eStructuralFeatures
+        xsi:type="ecore:EReference"
+        name="suggested"
+        upperBound="-1"
+        eType="ecore:EClass platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence"/>
+    <eStructuralFeatures
+        xsi:type="ecore:EReference"
+        name="accepted"
+        upperBound="-1"
+        eType="ecore:EClass platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence"/>
+  </eClassifiers>
+  <eClassifiers
+      xsi:type="ecore:EClass"
+      name="AbstractMappingDerived"
+      abstract="true">
+    <eStructuralFeatures
+        xsi:type="ecore:EReference"
+        name="derived"
+        upperBound="-1"
+        eType="ecore:EClass platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence"/>
+  </eClassifiers>
+  <eClassifiers
+      xsi:type="ecore:EClass"
+      name="MappingProcessName"
+      eSuperTypes="Secdfd.ecore#//Method2Element #//AbstractMappingDerived"/>
+  <eClassifiers
+      xsi:type="ecore:EClass"
+      name="MappingProcessSignature"
+      eSuperTypes="Secdfd.ecore#//Signature2Element"/>
+  <eClassifiers
+      xsi:type="ecore:EClass"
+      name="MappingProcessDefinition"
+      eSuperTypes="Secdfd.ecore#//Defintion2Element #//AbstractMappingDerived"/>
+</ecore:EPackage>

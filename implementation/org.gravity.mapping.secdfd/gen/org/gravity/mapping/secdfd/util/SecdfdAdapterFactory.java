@@ -78,16 +78,20 @@ public class SecdfdAdapterFactory extends AdapterFactoryImpl {
 				return createType2NamedEntityAdapter();
 			}
 			@Override
-			public Adapter caseSignature2Element(Signature2Element object) {
-				return createSignature2ElementAdapter();
-			}
-			@Override
 			public Adapter caseTypeGraph2EDFD(TypeGraph2EDFD object) {
 				return createTypeGraph2EDFDAdapter();
 			}
 			@Override
 			public Adapter caseDefintion2Element(Defintion2Element object) {
 				return createDefintion2ElementAdapter();
+			}
+			@Override
+			public Adapter caseFlow2Access(Flow2Access object) {
+				return createFlow2AccessAdapter();
+			}
+			@Override
+			public Adapter caseSignature2Element(Signature2Element object) {
+				return createSignature2ElementAdapter();
 			}
 			@Override
 			public Adapter caseAbstractCorrespondence(AbstractCorrespondence object) {
@@ -180,6 +184,20 @@ public class SecdfdAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createDefintion2ElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.gravity.mapping.secdfd.Flow2Access <em>Flow2 Access</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.gravity.mapping.secdfd.Flow2Access
+	 * @generated
+	 */
+	public Adapter createFlow2AccessAdapter() {
 		return null;
 	}
 

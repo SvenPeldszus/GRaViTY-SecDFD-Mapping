@@ -301,7 +301,7 @@ public class TypeGraph2EDFDImpl extends AbstractRuleImpl implements TypeGraph2ED
 	 * @generated
 	 */
 	@Override
-	public EObjectContainer isAppropriate_BWD_EDFD_2(EDFD edfd) {
+	public EObjectContainer isAppropriate_BWD_EDFD_0(EDFD edfd) {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new UnsupportedOperationException();
@@ -313,7 +313,7 @@ public class TypeGraph2EDFDImpl extends AbstractRuleImpl implements TypeGraph2ED
 	 * @generated
 	 */
 	@Override
-	public EObjectContainer isAppropriate_FWD_TypeGraph_2(TypeGraph pm) {
+	public EObjectContainer isAppropriate_FWD_TypeGraph_0(TypeGraph pm) {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new UnsupportedOperationException();
@@ -455,10 +455,10 @@ public class TypeGraph2EDFDImpl extends AbstractRuleImpl implements TypeGraph2ED
 				return null;
 			case RulesPackage.TYPE_GRAPH2_EDFD___CHECK_TYPES_BWD__MATCH:
 				return checkTypes_BWD((Match)arguments.get(0));
-			case RulesPackage.TYPE_GRAPH2_EDFD___IS_APPROPRIATE_BWD_EDFD_2__EDFD:
-				return isAppropriate_BWD_EDFD_2((EDFD)arguments.get(0));
-			case RulesPackage.TYPE_GRAPH2_EDFD___IS_APPROPRIATE_FWD_TYPE_GRAPH_2__TYPEGRAPH:
-				return isAppropriate_FWD_TypeGraph_2((TypeGraph)arguments.get(0));
+			case RulesPackage.TYPE_GRAPH2_EDFD___IS_APPROPRIATE_BWD_EDFD_0__EDFD:
+				return isAppropriate_BWD_EDFD_0((EDFD)arguments.get(0));
+			case RulesPackage.TYPE_GRAPH2_EDFD___IS_APPROPRIATE_FWD_TYPE_GRAPH_0__TYPEGRAPH:
+				return isAppropriate_FWD_TypeGraph_0((TypeGraph)arguments.get(0));
 			case RulesPackage.TYPE_GRAPH2_EDFD___CHECK_ATTRIBUTES_FWD__TRIPLEMATCH:
 				return checkAttributes_FWD((TripleMatch)arguments.get(0));
 			case RulesPackage.TYPE_GRAPH2_EDFD___CHECK_ATTRIBUTES_BWD__TRIPLEMATCH:

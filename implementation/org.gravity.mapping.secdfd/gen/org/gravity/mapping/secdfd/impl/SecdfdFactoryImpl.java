@@ -58,9 +58,10 @@ public class SecdfdFactoryImpl extends EFactoryImpl implements SecdfdFactory {
 		switch (eClass.getClassifierID()) {
 			case SecdfdPackage.METHOD2_ELEMENT: return createMethod2Element();
 			case SecdfdPackage.TYPE2_NAMED_ENTITY: return createType2NamedEntity();
-			case SecdfdPackage.SIGNATURE2_ELEMENT: return createSignature2Element();
 			case SecdfdPackage.TYPE_GRAPH2_EDFD: return createTypeGraph2EDFD();
 			case SecdfdPackage.DEFINTION2_ELEMENT: return createDefintion2Element();
+			case SecdfdPackage.FLOW2_ACCESS: return createFlow2Access();
+			case SecdfdPackage.SIGNATURE2_ELEMENT: return createSignature2Element();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -119,6 +120,17 @@ public class SecdfdFactoryImpl extends EFactoryImpl implements SecdfdFactory {
 	public Defintion2Element createDefintion2Element() {
 		Defintion2ElementImpl defintion2Element = new Defintion2ElementImpl();
 		return defintion2Element;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Flow2Access createFlow2Access() {
+		Flow2AccessImpl flow2Access = new Flow2AccessImpl();
+		return flow2Access;
 	}
 
 	/**
