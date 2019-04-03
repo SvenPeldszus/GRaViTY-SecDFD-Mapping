@@ -46,6 +46,49 @@ import eDFDFlowTracking.Process;
  */
 public class DFDSelectionView extends ViewPart {
 
+	private final class DFDSelectionContentProvider implements ITreeContentProvider {
+		private EObject source;
+
+		private DFDSelectionContentProvider(EObject source) {
+			this.source = source;
+		}
+
+		@Override
+		public Object[] getElements(Object inputElement) {
+			if (inputElement instanceof Collection) {
+				return ((Collection<?>) inputElement).toArray();
+			}
+			return null;
+		}
+
+		@Override
+		public Object[] getChildren(Object parentElement) {
+			if (parentElement instanceof EDFD) {
+				EDFD dfd = ((EDFD) parentElement);
+				if (source instanceof TAbstractType) {
+					return dfd.getAsset().toArray();
+				} else {
+					return dfd.getElements().toArray();
+				}
+			}
+			return null;
+		}
+
+		@Override
+		public Object getParent(Object element) {
+			return null;
+		}
+
+		@Override
+		public boolean hasChildren(Object element) {
+			return element instanceof EDFD;
+		}
+
+		public void updateSouce(EObject source) {
+			this.source = source;
+		}
+	}
+
 	private final class UserdefinedAction extends Action {
 		private EObject source;
 		private final MappingView map;
@@ -86,15 +129,18 @@ public class DFDSelectionView extends ViewPart {
 					Type2NamedEntity corr = SecdfdFactory.eINSTANCE.createType2NamedEntity();
 					corr.setSource((TAbstractType) source);
 					corr.setTarget((NamedEntity) e);
+					userCorr = corr;
 				} else if (e instanceof DataStore) {
 					if (source instanceof TAbstractType) {
 						Type2NamedEntity corr = SecdfdFactory.eINSTANCE.createType2NamedEntity();
 						corr.setSource((TAbstractType) source);
 						corr.setTarget((NamedEntity) e);
+						userCorr = corr;
 					} else {
 						Defintion2Element corr = SecdfdFactory.eINSTANCE.createDefintion2Element();
 						corr.setSource((TMember) source);
 						corr.setTarget((Element) e);
+						userCorr = corr;
 					}
 				}
 				mapping.getCorrespondences().add(userCorr);
@@ -102,6 +148,10 @@ public class DFDSelectionView extends ViewPart {
 				map.update();
 				System.out.println("Manually mapped: " + e);
 			});
+		}
+		
+		public boolean isEnabled(){
+			return true;//source != null;
 		}
 	}
 
@@ -141,39 +191,7 @@ public class DFDSelectionView extends ViewPart {
 			parent.setLayout(new GridLayout(1, false));
 			treeViewer = new TreeViewer(parent, SWT.BORDER);
 			MappingLabelProvider labelProvider = new MappingLabelProvider();
-			treeViewer.setContentProvider(new ITreeContentProvider() {
-
-				@Override
-				public Object[] getElements(Object inputElement) {
-					if (inputElement instanceof Collection) {
-						return ((Collection<?>) inputElement).toArray();
-					}
-					return null;
-				}
-
-				@Override
-				public Object[] getChildren(Object parentElement) {
-					if (parentElement instanceof EDFD) {
-						EDFD dfd = ((EDFD) parentElement);
-						if (source instanceof TAbstractType) {
-							return dfd.getAsset().toArray();
-						} else {
-							return dfd.getElements().toArray();
-						}
-					}
-					return null;
-				}
-
-				@Override
-				public Object getParent(Object element) {
-					return null;
-				}
-
-				@Override
-				public boolean hasChildren(Object element) {
-					return element instanceof EDFD;
-				}
-			});
+			treeViewer.setContentProvider(new DFDSelectionContentProvider(source));
 			treeViewer.setLabelProvider(labelProvider);
 			GridData layoutData = new GridData(GridData.FILL_BOTH);
 			layoutData.widthHint = parent.getSize().x - 10;
@@ -198,6 +216,7 @@ public class DFDSelectionView extends ViewPart {
 			treeViewer.setInput(mappingView.getDFDs());
 		}
 		action.source = source;
+		((DFDSelectionContentProvider) treeViewer.getContentProvider()).updateSouce(source);
 		treeViewer.refresh(mappingView.getDFDs());
 		parent.pack();
 		parent.layout(true);
