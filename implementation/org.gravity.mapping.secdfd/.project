@@ -11,17 +11,6 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>org.moflon.tgg.mosl.codeadapter.mosltggbuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
-			<name>org.moflon.ide.core.runtime.builders.IntegrationBuilder</name>
-			<triggers>clean,full,incremental</triggers>
-  			<arguments>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
 			<name>org.eclipse.jdt.core.javabuilder</name>
 			<arguments>
 			</arguments>
@@ -38,10 +27,8 @@
 		</buildCommand>
 	</buildSpec>
 	<natures>
-		<nature>org.moflon.ide.core.runtime.natures.IntegrationNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.xtext.ui.shared.xtextNature</nature>
-		<nature>org.moflon.tgg.mosl.codeadapter.moslTGGNature</nature>
 	</natures>
 </projectDescription>
