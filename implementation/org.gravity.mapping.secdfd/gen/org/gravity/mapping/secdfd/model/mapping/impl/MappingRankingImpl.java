@@ -70,6 +70,7 @@ public abstract class MappingRankingImpl extends MinimalEObjectImpl.Container im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getRanking() {
 		return ranking;
 	}
@@ -79,6 +80,7 @@ public abstract class MappingRankingImpl extends MinimalEObjectImpl.Container im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRanking(int newRanking) {
 		int oldRanking = ranking;
 		ranking = newRanking;

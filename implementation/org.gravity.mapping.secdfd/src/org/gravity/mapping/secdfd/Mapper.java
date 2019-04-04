@@ -6,11 +6,13 @@ package org.gravity.mapping.secdfd;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Stack;
@@ -19,12 +21,13 @@ import java.util.stream.Stream;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.model.mapping.MappingFactory;
+import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TAccess;
@@ -49,6 +52,7 @@ import eDFDFlowTracking.EDFDFlowTracking1Package;
 import eDFDFlowTracking.Element;
 import eDFDFlowTracking.Flow;
 import eDFDFlowTracking.NamedEntity;
+import eDFDFlowTracking.Process;
 
 /**
  * @author speldszus
@@ -93,11 +97,11 @@ public class Mapper {
 	/**
 	 * The location at which the mapping should be stored
 	 */
-	private IPath destination;
+	private IFile destination;
 
 	private CorrespondenceHelper helper;
 
-	public Mapper(TypeGraph pm, EDFD dfd, IPath destination) {
+	public Mapper(TypeGraph pm, EDFD dfd, IFile destination) {
 		this.pm = pm;
 		this.dfd = dfd;
 		this.destination = destination;
@@ -133,15 +137,16 @@ public class Mapper {
 	/**
 	 * Create a correspondence model between the two models
 	 * 
-	 * @param pm           The program model
-	 * @param dfd          The DFD
+	 * @param pm          The program model
+	 * @param dfd         The DFD
 	 * @param destination The location where the model should be stored
 	 */
-	private void initializeMapping(TypeGraph pm, EDFD dfd, IPath destination) {
+	private void initializeMapping(TypeGraph pm, EDFD dfd, IFile destination) {
 		// Create a correspondence model between the two models
 		mapping = MappingFactory.eINSTANCE.createMapping();
 		mapping.setSource(pm);
 		mapping.setTarget(dfd);
+		mapping.setName(dfd.getName());
 		URI uri = URI.createURI(destination.toString());
 		EList<EObject> contents = pm.eResource().getResourceSet().createResource(uri).getContents();
 		contents.add(mapping);
@@ -178,7 +183,8 @@ public class Mapper {
 								for (TMethodDefinition sourceDefinition : ((TMethodSignature) signature)
 										.getDefinitions()) {
 									if (getPath(sourceDefinition, targetSignature)) {
-										Defintion2Element corr = helper.createCorrespondence(sourceElement, sourceDefinition);
+										Defintion2Element corr = helper.createCorrespondence(sourceElement,
+												sourceDefinition);
 										mapping.getSuggested().add(corr);
 									}
 								}
@@ -233,12 +239,72 @@ public class Mapper {
 		updateMappingOnFilesystem();
 	}
 
+	public void userdefined(EObject pmObject, EObject dfdObject) {
+		AbstractCorrespondence userCorr = null;
+		Collection<AbstractCorrespondence> correspondences = helper.getCorrespondences(pmObject);
+		if (!correspondences.isEmpty()) {
+			for (AbstractCorrespondence corr : correspondences) {
+				if (CorrespondenceHelper.getTarget(corr).equals(dfdObject)) {
+					userCorr = corr;
+					break;
+				}
+			}
+			mapping.getSuggested().remove(userCorr);
+			mapping.getAccepted().remove(userCorr);
+		} else {
+			if (dfdObject instanceof Process) {
+				TMember member = (TMember) pmObject;
+				Process process = (Process) dfdObject;
+				add(member, process);
+				userCorr = helper.createCorrespondence(process, member);
+			} else if (dfdObject instanceof Asset) {
+				Type2NamedEntity corr = SecdfdFactory.eINSTANCE.createType2NamedEntity();
+				corr.setSource((TAbstractType) pmObject);
+				corr.setTarget((NamedEntity) dfdObject);
+				userCorr = corr;
+			} else if (dfdObject instanceof DataStore) {
+				if (pmObject instanceof TAbstractType) {
+					Type2NamedEntity corr = SecdfdFactory.eINSTANCE.createType2NamedEntity();
+					corr.setSource((TAbstractType) pmObject);
+					corr.setTarget((NamedEntity) dfdObject);
+					userCorr = corr;
+				} else {
+					TMember member = (TMember) pmObject;
+					Defintion2Element corr = SecdfdFactory.eINSTANCE.createDefintion2Element();
+					corr.setSource(member);
+					corr.setTarget((Element) dfdObject);
+					userCorr = corr;
+				}
+			}
+		}
+		mapping.getCorrespondences().add(userCorr);
+		mapping.getUserdefined().add(userCorr);
+		updateMappingOnFilesystem();
+
+	}
+
+	/**
+	 * @param member
+	 * @param process
+	 */
+	private void add(TMember member, Process process) {
+		Set<TMember> memberValues;
+		if(elementMemberMapping.containsKey(process)) {
+			memberValues = elementMemberMapping.get(process);
+		}
+		else {
+			memberValues = new HashSet<>();
+			elementMemberMapping.put(process, memberValues);
+		}
+		memberValues.add(member);
+	}
+
 	/**
 	 * Writes the mapping to the file system
 	 */
 	public void updateMappingOnFilesystem() {
 		try {
-			mapping.eResource().save(new FileOutputStream(destination.makeAbsolute().toFile()), Collections.emptyMap());
+			mapping.eResource().save(new FileOutputStream(destination.getLocation().toFile()), Collections.emptyMap());
 		} catch (IOException e) {
 			LOGGER.log(Level.ERROR, e);
 		}
@@ -438,7 +504,7 @@ public class Mapper {
 	 * 
 	 * @return The location
 	 */
-	public IPath getFile() {
+	public IFile getFile() {
 		return destination;
 	}
 

@@ -43,6 +43,8 @@ import org.gravity.mapping.secdfd.Signature2Element;
 import org.gravity.mapping.secdfd.Type2NamedEntity;
 import org.gravity.mapping.secdfd.TypeGraph2EDFD;
 
+import org.gravity.mapping.secdfd.model.mapping.MappingPackage;
+import org.gravity.mapping.secdfd.model.mapping.impl.MappingPackageImpl;
 import org.gravity.typegraph.basic.BasicPackage;
 
 import org.moflon.tgg.language.LanguagePackage;
@@ -162,8 +164,8 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 		CallsPackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
-		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(org.gravity.mapping.secdfd.model.mapping.MappingPackage.eNS_URI);
-		org.gravity.mapping.secdfd.model.mapping.impl.MappingPackageImpl theMappingPackage = (org.gravity.mapping.secdfd.model.mapping.impl.MappingPackageImpl)(registeredPackage instanceof org.gravity.mapping.secdfd.model.mapping.impl.MappingPackageImpl ? registeredPackage : org.gravity.mapping.secdfd.model.mapping.MappingPackage.eINSTANCE);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(MappingPackage.eNS_URI);
+		MappingPackageImpl theMappingPackage = (MappingPackageImpl)(registeredPackage instanceof MappingPackageImpl ? registeredPackage : MappingPackage.eINSTANCE);
 		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(RulesPackage.eNS_URI);
 		RulesPackageImpl theRulesPackage = (RulesPackageImpl)(registeredPackage instanceof RulesPackageImpl ? registeredPackage : RulesPackage.eINSTANCE);
 

@@ -69,6 +69,7 @@ public class MappingProcessSignatureImpl extends Signature2ElementImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getRanking() {
 		return ranking;
 	}
@@ -78,6 +79,7 @@ public class MappingProcessSignatureImpl extends Signature2ElementImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRanking(int newRanking) {
 		int oldRanking = ranking;
 		ranking = newRanking;

@@ -72,6 +72,7 @@ public class MappingEntityTypeImpl extends Type2NamedEntityImpl implements Mappi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getRanking() {
 		return ranking;
 	}
@@ -81,6 +82,7 @@ public class MappingEntityTypeImpl extends Type2NamedEntityImpl implements Mappi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRanking(int newRanking) {
 		int oldRanking = ranking;
 		ranking = newRanking;
