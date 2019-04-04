@@ -12,8 +12,6 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.wizard.IWizardPage;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 import org.gravity.eclipse.ui.GravityUiActivator;
 import org.gravity.eclipse.util.EclipseProjectUtil;
 import org.gravity.mapping.secdfd.views.MappingView;
@@ -26,7 +24,7 @@ import org.gravity.mapping.secdfd.views.MappingView;
  */
 public class MappingWizard extends org.eclipse.jface.wizard.Wizard {
 
-	private static final Logger LOGGER = Logger.getLogger(MappingWizard.class);
+	public static final Logger LOGGER = Logger.getLogger(MappingWizard.class);
 
 	private JavaProjectPage pageOne;
 	private SecDFDPage pageTwo;
@@ -130,16 +128,9 @@ public class MappingWizard extends org.eclipse.jface.wizard.Wizard {
 	@Override
 	public boolean performFinish() {
 		final List<IFile> selectedDFDs = pageTwo.getSelection();
-		MappingView mappingView;
-		try {
-			mappingView = (MappingView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(MappingView.VIEW_ID);
-
-		} catch (PartInitException e) {
-			LOGGER.log(Level.ERROR, e);
-			return false;
-		}
+		MappingView mappingView = MappingView.getMappingView();
 		GravityUiActivator.getShell().getDisplay().asyncExec(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				mappingView.populate(gravityFolder, selectedDFDs, trafoJob);
@@ -147,10 +138,10 @@ public class MappingWizard extends org.eclipse.jface.wizard.Wizard {
 		});
 		return true;
 	}
-	
+
 	@Override
 	public boolean performCancel() {
-		if(trafoJob != null) {
+		if (trafoJob != null) {
 			trafoJob.cancel();
 		}
 		return super.performCancel();

@@ -3,14 +3,12 @@
  */
 package org.gravity.mapping.secdfd.views;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -24,7 +22,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jface.action.Action;
@@ -46,6 +43,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IViewSite;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
@@ -55,8 +54,9 @@ import org.gravity.mapping.secdfd.Mapper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.ui.wizard.MappingWizard;
 import org.gravity.mapping.secdfd.ui.wizard.TrafoJob;
+import org.gravity.mapping.secdfd.views.actions.AcceptAction;
+import org.gravity.mapping.secdfd.views.actions.RejectAction;
 import org.gravity.typegraph.basic.TypeGraph;
-import org.moflon.tgg.runtime.AbstractCorrespondence;
 import org.xtext.example.mydsl.MyDslStandaloneSetup;
 
 import com.google.inject.Injector;
@@ -68,73 +68,6 @@ import eDFDFlowTracking.EDFD;
  *
  */
 public class MappingView extends ViewPart {
-
-	private final class AcceptAction extends Action {
-		private final ISelection selection;
-		private AcceptAction(ISelection selection) {
-			this.selection = selection;
-		}
-
-		@Override
-		public String getText() {
-			return "accept";
-		}
-
-		@Override
-		public String getToolTipText() {
-			return "Accepts this mapping";
-		}
-
-		public void run() {
-			Stream<? extends Object> stream = ((IStructuredSelection) selection).toList().stream();
-			stream.filter(e -> e instanceof AbstractCorrespondence).map(e -> {
-				return (AbstractCorrespondence) e;
-			}).forEach(e -> {
-				Mapping mapping = (Mapping) ((EObject) e).eContainer();
-				if(!mapping.getUserdefined().contains(e)) {
-					if(mapping.getIgnored().remove(e)) {
-						mapping.getCorrespondences().add(e);
-					}
-					mapping.getSuggested().remove(e);
-					mapping.getAccepted().add(e);
-					treeViewer.refresh();
-					updateMappingOnFilesystem(mapping);
-				}
-			});
-		}
-	}
-
-	private final class RejectAction extends Action {
-		private final ISelection selection;
-		
-		private RejectAction(ISelection selection) {
-			this.selection = selection;
-		}
-
-		@Override
-		public String getText() {
-			return "reject";
-		}
-
-		@Override
-		public String getToolTipText() {
-			return "Rejects this mapping";
-		}
-
-		public void run() {
-			Stream<? extends Object> stream = ((IStructuredSelection) selection).toList().stream();
-			stream.filter(e -> e instanceof AbstractCorrespondence).map(e -> {
-				return (AbstractCorrespondence) e;
-			}).forEach(e -> {
-				Mapping mapping = (Mapping) ((EObject) e).eContainer();
-				mapping.getIgnored().add(e);
-				mapping.getUserdefined().remove(e);
-				mapping.getAccepted().remove(e);
-				treeViewer.remove(e);
-				updateMappingOnFilesystem(mapping);
-			});
-		}
-	}
 
 	private static final String POPULATE_TEXT = "Please wait while this view is populated";
 
@@ -160,7 +93,7 @@ public class MappingView extends ViewPart {
 
 	private Collection<EDFD> dfds;
 
-	private List<Mapper> mappers;
+	private Map<Mapping, Mapper> mappers;
 
 
 	@Override
@@ -175,10 +108,11 @@ public class MappingView extends ViewPart {
 		tm.add(new Action("Continue") {
 			
 			public void run() {
-				for(Mapper mapper : mappers) {
+				for(Mapper mapper : mappers.values()) {
 					Mapping mapping = mapper.getMapping();
 					System.out.println("Continue with: "+mapper);
-					//TODO: continue
+					mapper.optimize();
+					update();					
 				}
 			}
 			
@@ -194,6 +128,10 @@ public class MappingView extends ViewPart {
 				}
 			}
 		});
+	}
+
+	public Mapper getMapper(Mapping mapping) {
+		return mappers.get(mapping);
 	}
 
 	@Override
@@ -223,10 +161,12 @@ public class MappingView extends ViewPart {
 		pm = getProgramModel(trafoJob);
 
 		this.mappers = dfds.map(entry -> {
-			String name = entry.getKey().getName() + ".corr.xmi";
-			IPath destination = gravityFolder.getFile(name).getLocation().makeRelativeTo(this.gravityFolder.getLocation());
-			return new Mapper(pm.getValue(), entry.getValue(), destination);
-		}).collect(Collectors.toList());
+			IFile key = entry.getKey();
+			String name = key.getName();
+			name = name.substring(0, name.length() - key.getFileExtension().length() -1) + ".corr.xmi";
+			IFile destination = gravityFolder.getFile(name);
+			return new Mapper(pm.getValue(), entry.getValue(), destination.getLocation());
+		}).collect(Collectors.toMap(mapper -> mapper.getMapping(), mapper -> mapper));
 		
 		if (!label.isDisposed()) {
 			label.dispose();
@@ -253,14 +193,14 @@ public class MappingView extends ViewPart {
 //						menu.setEnabled(enabled);
 						treeViewer.getControl().setMenu(menu);
 						getSite().registerContextMenu(menuMgr, treeViewer);
-						menuMgr.add(new RejectAction(selection));
-						menuMgr.add(new AcceptAction(selection));
+						menuMgr.add(new RejectAction(((IStructuredSelection) selection).toList()));
+						menuMgr.add(new AcceptAction(((IStructuredSelection) selection).toList()));
 
 					}
 				}
 			});
 		}
-		treeViewer.setInput(mappers.parallelStream().map(m -> m.getMapping()).collect(Collectors.toList()));
+		treeViewer.setInput(mappers.keySet());
 		treeViewer.refresh();
 		parent.pack();
 		parent.layout(true);
@@ -270,7 +210,7 @@ public class MappingView extends ViewPart {
 	 * Requests the program model from the transformation job and adds it to the
 	 * resource set of the DFDs
 	 * 
-	 * @param trafoJob The job creating the prohram model
+	 * @param trafoJob The job creating the program model
 	 * 
 	 * @return The program model
 	 */
@@ -324,21 +264,6 @@ public class MappingView extends ViewPart {
 	}
 
 	/**
-	 * @param corrs
-	 * @param mapping
-	 */
-	public void updateMappingOnFilesystem(Mapping mapping) {
-		try {
-			Optional<IPath> file = this.mappers.parallelStream().filter(entry -> entry.getMapping().equals(mapping)).map(entry -> entry.getFile()).findAny();
-			if(file.isPresent()) {
-				mapping.eResource().save(new FileOutputStream(file.get().toString()), Collections.emptyMap());
-			}
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-	}
-
-	/**
 	 * @return the pm
 	 */
 	public Entry<IFile, TypeGraph> getProgramModel() {
@@ -350,11 +275,32 @@ public class MappingView extends ViewPart {
 	}
 
 	public Collection<Mapping> getMapping() {
-		return this.mappers.parallelStream().map(m -> m.getMapping()).collect(Collectors.toList());
+		return this.mappers.keySet();
 	}
 
 	public void update() {
 		this.treeViewer.refresh();
 	}
 
+	/**
+	 * A getter for the mapping view
+	 * 
+	 * @return The mapping view
+	 */
+	public static MappingView getMappingView() {
+		try {
+			return (MappingView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+					.showView(VIEW_ID);
+		} catch (PartInitException e) {
+			MappingWizard.LOGGER.log(Level.ERROR, e);
+			return null;
+		}
+	}
+
+	/**
+	 * @return the treeViewer
+	 */
+	public TreeViewer getTree() {
+		return treeViewer;
+	}
 }

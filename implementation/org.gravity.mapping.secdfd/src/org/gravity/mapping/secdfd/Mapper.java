@@ -3,6 +3,9 @@
  */
 package org.gravity.mapping.secdfd;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -13,6 +16,8 @@ import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -34,7 +39,10 @@ import org.gravity.typegraph.basic.TMethodSignature;
 import org.gravity.typegraph.basic.TParameter;
 import org.gravity.typegraph.basic.TSignature;
 import org.gravity.typegraph.basic.TypeGraph;
+import org.moflon.tgg.runtime.AbstractCorrespondence;
+
 import eDFDFlowTracking.Asset;
+import eDFDFlowTracking.DataStore;
 import eDFDFlowTracking.EDFD;
 import eDFDFlowTracking.EDFDFlowTracking1Package;
 import eDFDFlowTracking.Element;
@@ -46,6 +54,11 @@ import eDFDFlowTracking.NamedEntity;
  *
  */
 public class Mapper {
+
+	/**
+	 * The logger of this class
+	 */
+	private static final Logger LOGGER = Logger.getLogger(Mapper.class);
 
 	/**
 	 * The correspondence model built by this class
@@ -81,11 +94,13 @@ public class Mapper {
 	 */
 	private IPath destination;
 
+	private CorrespondenceHelper helper;
+
 	public Mapper(TypeGraph pm, EDFD dfd, IPath destination) {
 		this.pm = pm;
 		this.dfd = dfd;
 		this.destination = destination;
-		
+
 		// Save types and methods from the program model in fields as they are accessed
 		// very often
 		types = pm.getOwnedTypes().stream().filter(t -> !"T".equals(t.getTName()))
@@ -94,12 +109,10 @@ public class Mapper {
 
 		initializeMapping(pm, dfd, destination);
 
-		
 		for (Asset asset : dfd.getAsset()) {
 			entityTypeMapping.put(asset, mapToType(asset).map(c -> c.getSource()).collect(Collectors.toSet()));
 		}
 
-		
 		for (Element node : dfd.getElements()) {
 			if (node.getName() != null) {
 				if (EDFDFlowTracking1Package.eINSTANCE.getProcess().isSuperTypeOf(node.eClass())) {
@@ -119,19 +132,20 @@ public class Mapper {
 	/**
 	 * Create a correspondence model between the two models
 	 * 
-	 * @param pm The program model
-	 * @param dfd The DFD
-	 * @param destination2 The location where the model should be stored
+	 * @param pm           The program model
+	 * @param dfd          The DFD
+	 * @param destination The location where the model should be stored
 	 */
-	private void initializeMapping(TypeGraph pm, EDFD dfd, IPath destination2) {
+	private void initializeMapping(TypeGraph pm, EDFD dfd, IPath destination) {
 		// Create a correspondence model between the two models
 		mapping = MappingFactory.eINSTANCE.createMapping();
 		mapping.setSource(pm);
 		mapping.setTarget(dfd);
-		URI uri = URI.createURI(destination2.toString());
+		URI uri = URI.createURI(destination.toString());
 		EList<EObject> contents = pm.eResource().getResourceSet().createResource(uri).getContents();
 		contents.add(mapping);
-		createCorrespondence(pm, dfd);
+		helper = new CorrespondenceHelper(mapping);
+		helper.createCorrespondence(pm, dfd);
 	}
 
 	/**
@@ -163,7 +177,8 @@ public class Mapper {
 								for (TMethodDefinition sourceDefinition : ((TMethodSignature) signature)
 										.getDefinitions()) {
 									if (getPath(sourceDefinition, targetSignature)) {
-										createCorrespondence(sourceElement, sourceDefinition);
+										Defintion2Element corr = helper.createCorrespondence(sourceElement, sourceDefinition);
+										mapping.getSuggested().add(corr);
 									}
 								}
 							}
@@ -173,14 +188,61 @@ public class Mapper {
 
 			}
 		}
-
+		updateMappingOnFilesystem();
 		return mapping;
 	}
-	
-	public void save() {
-//		ModelSaver.saveModel(mapping, destination, new NullProgressMonitor());
+
+	public void accept(AbstractCorrespondence corr) {
+		if ((mapping.getCorrespondences().contains(corr) && !mapping.getUserdefined().contains(corr))
+				|| mapping.getIgnored().contains(corr)) {
+			boolean remove = mapping.getIgnored().remove(corr);
+			if (remove) {
+				mapping.getCorrespondences().add(corr);
+				// TODO: Add to maps
+			} else {
+				mapping.getSuggested().remove(corr);
+			}
+			mapping.getAccepted().add(corr);
+			updateMappingOnFilesystem();
+		}
 	}
-	
+
+	public void reject(AbstractCorrespondence corr) {
+		if (mapping.getCorrespondences().contains(corr)) {
+			mapping.getIgnored().add(corr);
+			mapping.getUserdefined().remove(corr);
+			mapping.getSuggested().remove(corr);
+			mapping.getAccepted().remove(corr);
+			EObject source = CorrespondenceHelper.getSource(corr);
+			EObject target = CorrespondenceHelper.getTarget(corr);
+			if (source instanceof Process) {
+
+			} else if (source instanceof Asset) {
+				Set<TAbstractType> value = entityTypeMapping.get(source);
+				if (value != null) {
+					value.remove(target);
+				}
+			} else if (source instanceof DataStore) {
+				Set<TAbstractType> value = entityTypeMapping.get(source);
+				if (value != null) {
+					value.remove(target);
+				}
+			}
+		}
+		updateMappingOnFilesystem();
+	}
+
+	/**
+	 * Writes the mapping to the file system
+	 */
+	public void updateMappingOnFilesystem() {
+		try {
+			mapping.eResource().save(new FileOutputStream(destination.makeAbsolute().toFile()), Collections.emptyMap());
+		} catch (IOException e) {
+			LOGGER.log(Level.ERROR, e);
+		}
+	}
+
 	private boolean getPath(TMethodDefinition source, TSignature target) {
 		Set<TMember> seen = new HashSet<>();
 		List<TMember> stack = new LinkedList<>();
@@ -220,7 +282,9 @@ public class Mapper {
 								memberType = ((TMethodDefinition) member).getReturnType();
 							}
 							if (memberType.equals(assetType) || memberType.isSuperTypeOf((TAbstractType) assetType)) {
-								correspondingMembers.add(createCorrespondence(node, member));
+								Defintion2Element corr = helper.createCorrespondence(node, member);
+								this.mapping.getSuggested().add(corr);
+								correspondingMembers.add(corr);
 							}
 						}
 					}
@@ -276,7 +340,8 @@ public class Mapper {
 			}
 			return matchedParams > 0;
 		}).map(signature -> {
-			MappingProcessSignature newCorr = createCorrespondence(node, signature);
+			MappingProcessSignature newCorr = helper.createCorrespondence(node, signature);
+			this.mapping.getSuggested().add(newCorr);
 			return newCorr;
 		});
 	}
@@ -289,8 +354,11 @@ public class Mapper {
 	 * @return A stream of correspondences
 	 */
 	private Stream<Method2Element> mapToMethod(Element node) {
-		return methods.stream().filter(m -> StringCompare.compare(node.getName(), m.getTName()))
-				.map(m -> createCorrespondence(node, m));
+		return methods.stream().filter(m -> StringCompare.compare(node.getName(), m.getTName())).map(m -> {
+			Method2Element corr = helper.createCorrespondence(node, m);
+			mapping.getSuggested().add(corr);
+			return corr;
+		});
 	}
 
 	/**
@@ -301,96 +369,12 @@ public class Mapper {
 	 * @return A stream of correspondences
 	 */
 	private Stream<Type2NamedEntity> mapToType(NamedEntity entity) {
-		return types.stream().filter(t -> StringCompare.compare(entity.getName(), t.getTName()))
-				.map(t -> createCorrespondence(entity, t));
+		return types.stream().filter(t -> StringCompare.compare(entity.getName(), t.getTName())).map(t -> {
+			Type2NamedEntity corr = helper.createCorrespondence(entity, t);
+			mapping.getSuggested().add(corr);
+			return corr;
+		});
 
-	}
-
-	private void createCorrespondence(Flow flow, TAccess access) {
-		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * Creates a new correspondence between the two objects and adds it to the
-	 * correspondence model
-	 * 
-	 * @param element A node object
-	 * @param member  A method object
-	 * @return The correspondence
-	 */
-	private Method2Element createCorrespondence(Element element, TMethod member) {
-		Method2Element method2element = MappingFactory.eINSTANCE.createMappingProcessName();
-		method2element.setSource(member);
-		method2element.setTarget(element);
-		mapping.getCorrespondences().add(method2element);
-		mapping.getSuggested().add(method2element);
-		return method2element;
-	}
-
-	/**
-	 * Creates a new correspondence between the two objects and adds it to the
-	 * correspondence model
-	 * 
-	 * @param element A node object
-	 * @param member  A method object
-	 * @return The correspondence
-	 */
-	private Defintion2Element createCorrespondence(Element element, TMember member) {
-		Defintion2Element method2element = MappingFactory.eINSTANCE.createMappingProcessDefinition();
-		method2element.setSource(member);
-		method2element.setTarget(element);
-		mapping.getCorrespondences().add(method2element);
-		mapping.getSuggested().add(method2element);
-		return method2element;
-	}
-
-	/**
-	 * Creates a new correspondence between the two objects and adds it to the
-	 * correspondence model
-	 * 
-	 * @param asset An element
-	 * @param type  A signature
-	 * @return The correspondence
-	 */
-	private MappingProcessSignature createCorrespondence(Element element, TMethodSignature signature) {
-		MappingProcessSignature signature2element = MappingFactory.eINSTANCE.createMappingProcessSignature();
-		signature2element.setSource(signature);
-		signature2element.setTarget(element);
-		mapping.getCorrespondences().add(signature2element);
-		mapping.getSuggested().add(signature2element);
-		return signature2element;
-	}
-
-	/**
-	 * Creates a new correspondence between the two objects and adds it to the
-	 * correspondence model
-	 * 
-	 * @param asset An named entity
-	 * @param type  A type object
-	 * @return The correspondence
-	 */
-	private Type2NamedEntity createCorrespondence(NamedEntity entity, TAbstractType type) {
-		Type2NamedEntity type2asset = SecdfdFactory.eINSTANCE.createType2NamedEntity();
-		type2asset.setSource(type);
-		type2asset.setTarget(entity);
-		mapping.getCorrespondences().add(type2asset);
-		mapping.getSuggested().add(type2asset);
-		return type2asset;
-	}
-
-	/**
-	 * Creates a new correspondence between a program model and a data flow diagram
-	 * and adds it to the correspondence model
-	 * 
-	 * @param pm  The program model
-	 * @param dfd The data flow diagram
-	 */
-	private TypeGraph2EDFD createCorrespondence(TypeGraph pm, EDFD dfd) {
-		TypeGraph2EDFD pm2dfd = SecdfdFactory.eINSTANCE.createTypeGraph2EDFD();
-		pm2dfd.setSource(pm);
-		pm2dfd.setTarget(dfd);
-		mapping.getCorrespondences().add(pm2dfd);
-		return pm2dfd;
 	}
 
 	/**
