@@ -54,7 +54,7 @@ public class MapperTest {
 
 		for (Entry<File, EDFD> entry : dfds.entrySet()) {
 			EDFD dfd = entry.getValue();
-			CorrespondenceModel corr = new Mapper().map(pm, dfd);
+			CorrespondenceModel corr = new Mapper(pm, dfd, null).getMapping();
 			System.out.println("#####\nMapping pm to: " + entry.getKey());
 			System.out.println();
 			for (EObject c : corr.getCorrespondences()) {
