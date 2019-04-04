@@ -7,7 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Map;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
@@ -21,8 +21,8 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -71,11 +71,8 @@ public class MappingView extends ViewPart {
 
 	private final class AcceptAction extends Action {
 		private final ISelection selection;
-		private final Map<IFile, Mapping> corrs;
-
-		private AcceptAction(ISelection selection, Map<IFile, Mapping> corrs) {
+		private AcceptAction(ISelection selection) {
 			this.selection = selection;
-			this.corrs = corrs;
 		}
 
 		@Override
@@ -109,11 +106,9 @@ public class MappingView extends ViewPart {
 
 	private final class RejectAction extends Action {
 		private final ISelection selection;
-		private final Map<IFile, Mapping> corrs;
-
-		private RejectAction(ISelection selection, Map<IFile, Mapping> corrs) {
+		
+		private RejectAction(ISelection selection) {
 			this.selection = selection;
-			this.corrs = corrs;
 		}
 
 		@Override
@@ -155,6 +150,7 @@ public class MappingView extends ViewPart {
 
 	private Label label;
 	private TreeViewer treeViewer;
+	private Composite parent;
 
 	private IFolder gravityFolder;
 
@@ -164,10 +160,12 @@ public class MappingView extends ViewPart {
 
 	private Collection<EDFD> dfds;
 
-	private Map<IFile, Mapping> mappings;
+	private List<Mapper> mappers;
+
 
 	@Override
 	public void createPartControl(Composite parent) {
+		this.parent = parent;
 		label = new Label(parent, SWT.NONE);
 		label.setText(POPULATE_TEXT);
 
@@ -177,8 +175,9 @@ public class MappingView extends ViewPart {
 		tm.add(new Action("Continue") {
 			
 			public void run() {
-				for(Mapping m : mappings.values()) {
-					System.out.println("Continue with: "+m);
+				for(Mapper mapper : mappers) {
+					Mapping mapping = mapper.getMapping();
+					System.out.println("Continue with: "+mapper);
 					//TODO: continue
 				}
 			}
@@ -223,22 +222,12 @@ public class MappingView extends ViewPart {
 
 		pm = getProgramModel(trafoJob);
 
-		Map<IFile, Mapping> corrs = dfds.map(entry -> {
-			Mapping corr = new Mapper().map(pm.getValue(), entry.getValue());
+		this.mappers = dfds.map(entry -> {
 			String name = entry.getKey().getName() + ".corr.xmi";
-			IFile corrFile = gravityFolder.getFile(name);
-			URI uri = URI.createURI(corrFile.getLocation().makeRelativeTo(this.gravityFolder.getLocation()).toString());
-			EList<EObject> contents = this.resourceSet.createResource(uri).getContents();
-			contents.add(corr);
-			ModelSaver.saveModel(corr, corrFile, new NullProgressMonitor());
-			return new SimpleEntry<IFile, Mapping>(corrFile, corr);
-		}).collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
-		this.mappings = corrs;
+			IPath destination = gravityFolder.getFile(name).getLocation().makeRelativeTo(this.gravityFolder.getLocation());
+			return new Mapper(pm.getValue(), entry.getValue(), destination);
+		}).collect(Collectors.toList());
 		
-		System.out.println(pm);
-		System.out.println(corrs);
-
-		Composite parent = label.getParent();
 		if (!label.isDisposed()) {
 			label.dispose();
 			parent.setLayout(new GridLayout(1, false));
@@ -256,7 +245,7 @@ public class MappingView extends ViewPart {
 					ISelection selection = event.getSelection();
 					if (selection instanceof IStructuredSelection) {
 						Object selectedElement = ((IStructuredSelection) selection).getFirstElement();
-						boolean enabled = selectedElement instanceof AbstractCorrespondence && labelProvider
+						labelProvider
 								.getText(mappingProvider.getParent(selectedElement)).equals("suggested");
 
 						MenuManager menuMgr = new MenuManager();
@@ -264,14 +253,14 @@ public class MappingView extends ViewPart {
 //						menu.setEnabled(enabled);
 						treeViewer.getControl().setMenu(menu);
 						getSite().registerContextMenu(menuMgr, treeViewer);
-						menuMgr.add(new RejectAction(selection, corrs));
-						menuMgr.add(new AcceptAction(selection, corrs));
+						menuMgr.add(new RejectAction(selection));
+						menuMgr.add(new AcceptAction(selection));
 
 					}
 				}
 			});
 		}
-		treeViewer.setInput(corrs.entrySet());
+		treeViewer.setInput(mappers.parallelStream().map(m -> m.getMapping()).collect(Collectors.toList()));
 		treeViewer.refresh();
 		parent.pack();
 		parent.layout(true);
@@ -340,9 +329,9 @@ public class MappingView extends ViewPart {
 	 */
 	public void updateMappingOnFilesystem(Mapping mapping) {
 		try {
-			Optional<IFile> file = this.mappings.entrySet().parallelStream().filter(entry -> entry.getValue().equals(mapping)).map(entry -> entry.getKey()).findAny();
+			Optional<IPath> file = this.mappers.parallelStream().filter(entry -> entry.getMapping().equals(mapping)).map(entry -> entry.getFile()).findAny();
 			if(file.isPresent()) {
-				mapping.eResource().save(new FileOutputStream(file.get().getLocation().toString()), Collections.emptyMap());
+				mapping.eResource().save(new FileOutputStream(file.get().toString()), Collections.emptyMap());
 			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -361,7 +350,7 @@ public class MappingView extends ViewPart {
 	}
 
 	public Collection<Mapping> getMapping() {
-		return this.mappings.values();
+		return this.mappers.parallelStream().map(m -> m.getMapping()).collect(Collectors.toList());
 	}
 
 	public void update() {

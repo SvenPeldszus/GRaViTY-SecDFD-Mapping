@@ -9,6 +9,7 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 import org.gravity.mapping.secdfd.CorrespondenceHelper;
+import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.typegraph.basic.BasicPackage;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TMember;
@@ -67,6 +68,9 @@ public class MappingLabelProvider implements ILabelProvider {
 			return prettyPrint(source, target);
 		} else if(element instanceof EDFD) {
 			return ((EDFD) element).getName();
+		}
+		else if (element instanceof Mapping) {
+			return ((Mapping) element).eResource().getURI().lastSegment();
 		}
 		else if (element instanceof EObject) {
 			return prettyPrint((EObject) element);
