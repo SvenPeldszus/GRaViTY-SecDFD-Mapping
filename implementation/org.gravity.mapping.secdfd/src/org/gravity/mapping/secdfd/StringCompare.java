@@ -61,7 +61,10 @@ public class StringCompare {
 		
 		//alternatively we can calculate the cosine similarity.
 		if (similar < (expect > 0 ? expect : 1)) return -1;
-		else return similar;
+		else {
+			double s = (double) similar/Math.max(words1.size(), words2.size());
+			return (int) s*100;
+		}
 //		return similar >= (expect > 0 ? expect : 1);
 
 		// Check if the longer String contains the shorter String
