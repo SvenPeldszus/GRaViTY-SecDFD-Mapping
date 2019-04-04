@@ -3,6 +3,7 @@ package org.gravity.mapping.secdfd;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -130,7 +131,6 @@ public class CorrespondenceHelper {
 		return corr;
 	}
 
-
 	private void addToMap(EObject element, AbstractCorrespondence corr) {
 		Collection<AbstractCorrespondence> values;
 		if(correspondences.containsKey(element)) {
@@ -140,6 +140,19 @@ public class CorrespondenceHelper {
 			values = new HashSet<>();
 		}
 		values.add(corr);
+	}
+	
+	/**
+	 * Checks the correspondences of the given object
+	 * 
+	 * @param object An object
+	 * @return The correspondences
+	 */
+	Collection<AbstractCorrespondence> getCorrespondences(EObject object){
+		if(correspondences.containsKey(object)) {
+			return correspondences.get(object);
+		}
+		return Collections.emptySet();
 	}
 
 	/**
