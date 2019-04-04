@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated eDFDFlowTracking1 -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="eDFDFlowTracking.presentation.EDFDFlowTracking1ModelWizardID"
+            name="%_UI_EDFDFlowTracking1ModelWizard_label"
+            class="eDFDFlowTracking.presentation.EDFDFlowTracking1ModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/EDFDFlowTracking1ModelFile.gif">
+         <description>%_UI_EDFDFlowTracking1ModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated eDFDFlowTracking1 -->
+      <editor
+            id="eDFDFlowTracking.presentation.EDFDFlowTracking1EditorID"
+            name="%_UI_EDFDFlowTracking1Editor_label"
+            icon="icons/full/obj16/EDFDFlowTracking1ModelFile.gif"
+            extensions="edfdflowtracking1"
+            class="eDFDFlowTracking.presentation.EDFDFlowTracking1Editor"
+            contributorClass="eDFDFlowTracking.presentation.EDFDFlowTracking1ActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

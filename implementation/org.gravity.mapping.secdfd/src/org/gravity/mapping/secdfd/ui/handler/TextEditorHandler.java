@@ -108,7 +108,7 @@ public class TextEditorHandler extends AbstractHandler {
 		ITextEditor editor = (ITextEditor) HandlerUtil.getActiveEditor(event);
 		ITextSelection sel = (ITextSelection) editor.getSelectionProvider().getSelection();
 		ITypeRoot typeRoot = JavaUI.getEditorInputTypeRoot(editor.getEditorInput());
-		final ASTParser parser = ASTParser.newParser(AST.JLS11);
+		final ASTParser parser = ASTParser.newParser(AST.JLS10);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		if (typeRoot.getElementType() == IJavaElement.CLASS_FILE) {
 			IClassFile icf = typeRoot.getAdapter(IClassFile.class);
@@ -139,7 +139,7 @@ public class TextEditorHandler extends AbstractHandler {
 	}
 
 	protected static CompilationUnit parse(ICompilationUnit icu) {
-		final ASTParser parser = ASTParser.newParser(AST.JLS11);
+		final ASTParser parser = ASTParser.newParser(AST.JLS10);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		parser.setSource(icu);
 		return (CompilationUnit) parser.createAST(null);
