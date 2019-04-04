@@ -1,6 +1,5 @@
 package org.gravity.mapping.secdfd;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,7 +20,15 @@ public class StringCompare {
 	 * @param second The second String
 	 * @return true, if the Strings are similar
 	 */
-	public static boolean compare(String first, String second) {
+	
+	public static boolean compare_cosine(String first, String second) {
+		//TODO
+		return true;
+	}
+	
+	//public static int 
+	
+	public static Integer compare(String first, String second) {
 		
 
 		// The length of the Stings should not be too different
@@ -32,7 +39,7 @@ public class StringCompare {
 		List<String> words1 = getWords(first);
 		List<String> words2 = getWords(second);
 
-		int similiar = 0;
+		int similar = 0;
 		LevenshteinDistance defaultInstance = LevenshteinDistance.getDefaultInstance();
 		for(String s1 : words1) {
 			for(String s2 : words2) {
@@ -45,13 +52,17 @@ public class StringCompare {
 					accept = 1;
 				}
 				if(defaultInstance.apply(s1, s2) <= accept) {
-					similiar++;
+					similar++;
 				}
 			}
 		}
 		
 		int expect = (int) Math.ceil(((double) Math.max(words1.size(), words2.size())) / 2);
-		return similiar >= (expect > 0 ? expect : 1);
+		
+		//alternatively we can calculate the cosine similarity.
+		if (similar < (expect > 0 ? expect : 1)) return -1;
+		else return similar;
+//		return similar >= (expect > 0 ? expect : 1);
 
 		// Check if the longer String contains the shorter String
 //		if(length1 > length2) {

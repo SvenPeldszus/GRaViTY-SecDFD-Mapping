@@ -5,6 +5,7 @@ package org.gravity.mapping.secdfd;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -354,11 +355,26 @@ public class Mapper {
 	 * @return A stream of correspondences
 	 */
 	private Stream<Method2Element> mapToMethod(Element node) {
-		return methods.stream().filter(m -> StringCompare.compare(node.getName(), m.getTName())).map(m -> {
-			Method2Element corr = helper.createCorrespondence(node, m);
-			mapping.getSuggested().add(corr);
-			return corr;
-		});
+		Integer rank = 0;
+		ArrayList<Method2Element> list = new ArrayList<Method2Element>();
+		for (TMethod m : methods) {
+			rank = StringCompare.compare(node.getName(), m.getTName());
+			if (rank>0) {
+				Method2Element corr = helper.createCorrespondence(node, m, rank);
+				mapping.getSuggested().add(corr);
+				list.add(corr);
+			}
+		}
+		return list.stream();
+		
+		
+//		return methods.stream()
+//				.filter(m -> StringCompare.compare(node.getName(), m.getTName())>0)
+//				.map(m -> {
+//			Method2Element corr = helper.createCorrespondence(node, m, r);
+//			mapping.getSuggested().add(corr);
+//			return corr;
+//		});
 	}
 
 	/**
@@ -369,11 +385,24 @@ public class Mapper {
 	 * @return A stream of correspondences
 	 */
 	private Stream<Type2NamedEntity> mapToType(NamedEntity entity) {
-		return types.stream().filter(t -> StringCompare.compare(entity.getName(), t.getTName())).map(t -> {
-			Type2NamedEntity corr = helper.createCorrespondence(entity, t);
-			mapping.getSuggested().add(corr);
-			return corr;
-		});
+		Integer rank = 0;
+		ArrayList<Type2NamedEntity> list = new ArrayList<Type2NamedEntity>();
+		for (TAbstractType t : types) {
+			rank = StringCompare.compare(entity.getName(), t.getTName());
+			if (rank>0) {
+				Type2NamedEntity corr = helper.createCorrespondence(entity, t, rank);
+				mapping.getSuggested().add(corr);
+				list.add(corr);
+			}
+		}
+		return list.stream();
+		
+		
+//		return types.stream().filter(t -> StringCompare.compare(entity.getName(), t.getTName())).map(t -> {
+//			Type2NamedEntity corr = helper.createCorrespondence(entity, t);
+//			mapping.getSuggested().add(corr);
+//			return corr;
+//		});
 
 	}
 

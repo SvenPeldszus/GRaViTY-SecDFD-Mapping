@@ -11,7 +11,9 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
+import org.gravity.mapping.secdfd.model.mapping.MappingEntityType;
 import org.gravity.mapping.secdfd.model.mapping.MappingFactory;
+import org.gravity.mapping.secdfd.model.mapping.MappingProcessName;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TMember;
@@ -50,10 +52,11 @@ public class CorrespondenceHelper {
 	 * @param member  A method object
 	 * @return The correspondence
 	 */
-	Method2Element createCorrespondence(Element element, TMethod member) {
-		Method2Element corr = MappingFactory.eINSTANCE.createMappingProcessName();
+	Method2Element createCorrespondence(Element element, TMethod member, Integer ranking) {
+		MappingProcessName corr = MappingFactory.eINSTANCE.createMappingProcessName();
 		corr.setSource(member);
 		corr.setTarget(element);
+		corr.setRanking(ranking);
 		mapping.getCorrespondences().add(corr);
 		addToMap(element, corr);
 		addToMap(member, corr);
@@ -104,10 +107,11 @@ public class CorrespondenceHelper {
 	 * @param type  A type object
 	 * @return The correspondence
 	 */
-	Type2NamedEntity createCorrespondence(NamedEntity entity, TAbstractType type) {
-		Type2NamedEntity corr = SecdfdFactory.eINSTANCE.createType2NamedEntity();
+	Type2NamedEntity createCorrespondence(NamedEntity entity, TAbstractType type, Integer ranking) {
+		MappingEntityType corr = (MappingEntityType) SecdfdFactory.eINSTANCE.createType2NamedEntity();
 		corr.setSource(type);
 		corr.setTarget(entity);
+		corr.setRanking(ranking);
 		mapping.getCorrespondences().add(corr);
 		addToMap(entity, corr);
 		addToMap(type, corr);
