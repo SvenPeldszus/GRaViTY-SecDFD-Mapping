@@ -24,6 +24,7 @@ import SDMLanguage.sdmUtil.SdmUtilPackage;
 
 import eDFDFlowTracking.EDFDFlowTracking1Package;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -40,12 +41,14 @@ import org.gravity.mapping.secdfd.impl.SecdfdPackageImpl;
 
 import org.gravity.mapping.secdfd.model.mapping.AbstractMappingDerived;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
+import org.gravity.mapping.secdfd.model.mapping.MappingEntityType;
 import org.gravity.mapping.secdfd.model.mapping.MappingFactory;
 import org.gravity.mapping.secdfd.model.mapping.MappingPackage;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessName;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
 
+import org.gravity.mapping.secdfd.model.mapping.MappingRanking;
 import org.gravity.typegraph.basic.BasicPackage;
 
 import org.moflon.tgg.language.LanguagePackage;
@@ -93,6 +96,20 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 	 * @generated
 	 */
 	private EClass mappingProcessDefinitionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass mappingRankingEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass mappingEntityTypeEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -286,6 +303,33 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getMappingRanking() {
+		return mappingRankingEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMappingRanking_Ranking() {
+		return (EAttribute)mappingRankingEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMappingEntityType() {
+		return mappingEntityTypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public MappingFactory getMappingFactory() {
 		return (MappingFactory)getEFactoryInstance();
@@ -324,6 +368,11 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 		mappingProcessSignatureEClass = createEClass(MAPPING_PROCESS_SIGNATURE);
 
 		mappingProcessDefinitionEClass = createEClass(MAPPING_PROCESS_DEFINITION);
+
+		mappingRankingEClass = createEClass(MAPPING_RANKING);
+		createEAttribute(mappingRankingEClass, MAPPING_RANKING__RANKING);
+
+		mappingEntityTypeEClass = createEClass(MAPPING_ENTITY_TYPE);
 	}
 
 	/**
@@ -359,11 +408,17 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 
 		// Add supertypes to classes
 		mappingEClass.getESuperTypes().add(theRuntimePackage.getCorrespondenceModel());
+		abstractMappingDerivedEClass.getESuperTypes().add(this.getMappingRanking());
 		mappingProcessNameEClass.getESuperTypes().add(theSecdfdPackage.getMethod2Element());
 		mappingProcessNameEClass.getESuperTypes().add(this.getAbstractMappingDerived());
+		mappingProcessNameEClass.getESuperTypes().add(this.getMappingRanking());
 		mappingProcessSignatureEClass.getESuperTypes().add(theSecdfdPackage.getSignature2Element());
+		mappingProcessSignatureEClass.getESuperTypes().add(this.getMappingRanking());
 		mappingProcessDefinitionEClass.getESuperTypes().add(theSecdfdPackage.getDefintion2Element());
 		mappingProcessDefinitionEClass.getESuperTypes().add(this.getAbstractMappingDerived());
+		mappingProcessDefinitionEClass.getESuperTypes().add(this.getMappingRanking());
+		mappingEntityTypeEClass.getESuperTypes().add(theSecdfdPackage.getType2NamedEntity());
+		mappingEntityTypeEClass.getESuperTypes().add(this.getMappingRanking());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(mappingEClass, Mapping.class, "Mapping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -380,6 +435,11 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 		initEClass(mappingProcessSignatureEClass, MappingProcessSignature.class, "MappingProcessSignature", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(mappingProcessDefinitionEClass, MappingProcessDefinition.class, "MappingProcessDefinition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(mappingRankingEClass, MappingRanking.class, "MappingRanking", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getMappingRanking_Ranking(), ecorePackage.getEInt(), "Ranking", null, 0, 1, MappingRanking.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(mappingEntityTypeEClass, MappingEntityType.class, "MappingEntityType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

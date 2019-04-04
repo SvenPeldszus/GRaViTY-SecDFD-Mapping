@@ -14,5 +14,5 @@ import org.gravity.mapping.secdfd.Signature2Element;
  * @model
  * @generated
  */
-public interface MappingProcessSignature extends Signature2Element {
+public interface MappingProcessSignature extends Signature2Element, MappingRanking {
 } // MappingProcessSignature

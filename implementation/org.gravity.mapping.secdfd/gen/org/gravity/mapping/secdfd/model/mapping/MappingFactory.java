@@ -58,6 +58,15 @@ public interface MappingFactory extends EFactory {
 	MappingProcessDefinition createMappingProcessDefinition();
 
 	/**
+	 * Returns a new object of class '<em>Entity Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Entity Type</em>'.
+	 * @generated
+	 */
+	MappingEntityType createMappingEntityType();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

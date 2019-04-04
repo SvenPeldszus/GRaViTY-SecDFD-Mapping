@@ -2,6 +2,7 @@
  */
 package org.gravity.mapping.secdfd.model.mapping;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -152,6 +153,43 @@ public interface MappingPackage extends EPackage {
 	int MAPPING_OPERATION_COUNT = RuntimePackage.CORRESPONDENCE_MODEL_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link org.gravity.mapping.secdfd.model.mapping.impl.MappingRankingImpl <em>Ranking</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.gravity.mapping.secdfd.model.mapping.impl.MappingRankingImpl
+	 * @see org.gravity.mapping.secdfd.model.mapping.impl.MappingPackageImpl#getMappingRanking()
+	 * @generated
+	 */
+	int MAPPING_RANKING = 5;
+
+	/**
+	 * The feature id for the '<em><b>Ranking</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_RANKING__RANKING = 0;
+
+	/**
+	 * The number of structural features of the '<em>Ranking</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_RANKING_FEATURE_COUNT = 1;
+
+	/**
+	 * The number of operations of the '<em>Ranking</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_RANKING_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link org.gravity.mapping.secdfd.model.mapping.impl.AbstractMappingDerivedImpl <em>Abstract Mapping Derived</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -162,13 +200,22 @@ public interface MappingPackage extends EPackage {
 	int ABSTRACT_MAPPING_DERIVED = 1;
 
 	/**
+	 * The feature id for the '<em><b>Ranking</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_MAPPING_DERIVED__RANKING = MAPPING_RANKING__RANKING;
+
+	/**
 	 * The feature id for the '<em><b>Derived</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_MAPPING_DERIVED__DERIVED = 0;
+	int ABSTRACT_MAPPING_DERIVED__DERIVED = MAPPING_RANKING_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Abstract Mapping Derived</em>' class.
@@ -177,7 +224,7 @@ public interface MappingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_MAPPING_DERIVED_FEATURE_COUNT = 1;
+	int ABSTRACT_MAPPING_DERIVED_FEATURE_COUNT = MAPPING_RANKING_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Abstract Mapping Derived</em>' class.
@@ -186,7 +233,7 @@ public interface MappingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_MAPPING_DERIVED_OPERATION_COUNT = 0;
+	int ABSTRACT_MAPPING_DERIVED_OPERATION_COUNT = MAPPING_RANKING_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.gravity.mapping.secdfd.model.mapping.impl.MappingProcessNameImpl <em>Process Name</em>}' class.
@@ -217,13 +264,22 @@ public interface MappingPackage extends EPackage {
 	int MAPPING_PROCESS_NAME__TARGET = SecdfdPackage.METHOD2_ELEMENT__TARGET;
 
 	/**
+	 * The feature id for the '<em><b>Ranking</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_PROCESS_NAME__RANKING = SecdfdPackage.METHOD2_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Derived</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_PROCESS_NAME__DERIVED = SecdfdPackage.METHOD2_ELEMENT_FEATURE_COUNT + 0;
+	int MAPPING_PROCESS_NAME__DERIVED = SecdfdPackage.METHOD2_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Process Name</em>' class.
@@ -232,7 +288,7 @@ public interface MappingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_PROCESS_NAME_FEATURE_COUNT = SecdfdPackage.METHOD2_ELEMENT_FEATURE_COUNT + 1;
+	int MAPPING_PROCESS_NAME_FEATURE_COUNT = SecdfdPackage.METHOD2_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Process Name</em>' class.
@@ -272,13 +328,22 @@ public interface MappingPackage extends EPackage {
 	int MAPPING_PROCESS_SIGNATURE__TARGET = SecdfdPackage.SIGNATURE2_ELEMENT__TARGET;
 
 	/**
+	 * The feature id for the '<em><b>Ranking</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_PROCESS_SIGNATURE__RANKING = SecdfdPackage.SIGNATURE2_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Process Signature</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_PROCESS_SIGNATURE_FEATURE_COUNT = SecdfdPackage.SIGNATURE2_ELEMENT_FEATURE_COUNT + 0;
+	int MAPPING_PROCESS_SIGNATURE_FEATURE_COUNT = SecdfdPackage.SIGNATURE2_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Process Signature</em>' class.
@@ -318,13 +383,22 @@ public interface MappingPackage extends EPackage {
 	int MAPPING_PROCESS_DEFINITION__TARGET = SecdfdPackage.DEFINTION2_ELEMENT__TARGET;
 
 	/**
+	 * The feature id for the '<em><b>Ranking</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_PROCESS_DEFINITION__RANKING = SecdfdPackage.DEFINTION2_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Derived</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_PROCESS_DEFINITION__DERIVED = SecdfdPackage.DEFINTION2_ELEMENT_FEATURE_COUNT + 0;
+	int MAPPING_PROCESS_DEFINITION__DERIVED = SecdfdPackage.DEFINTION2_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Process Definition</em>' class.
@@ -333,7 +407,7 @@ public interface MappingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_PROCESS_DEFINITION_FEATURE_COUNT = SecdfdPackage.DEFINTION2_ELEMENT_FEATURE_COUNT + 1;
+	int MAPPING_PROCESS_DEFINITION_FEATURE_COUNT = SecdfdPackage.DEFINTION2_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Process Definition</em>' class.
@@ -343,6 +417,62 @@ public interface MappingPackage extends EPackage {
 	 * @ordered
 	 */
 	int MAPPING_PROCESS_DEFINITION_OPERATION_COUNT = SecdfdPackage.DEFINTION2_ELEMENT_OPERATION_COUNT + 0;
+
+
+	/**
+	 * The meta object id for the '{@link org.gravity.mapping.secdfd.model.mapping.impl.MappingEntityTypeImpl <em>Entity Type</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.gravity.mapping.secdfd.model.mapping.impl.MappingEntityTypeImpl
+	 * @see org.gravity.mapping.secdfd.model.mapping.impl.MappingPackageImpl#getMappingEntityType()
+	 * @generated
+	 */
+	int MAPPING_ENTITY_TYPE = 6;
+
+	/**
+	 * The feature id for the '<em><b>Source</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_ENTITY_TYPE__SOURCE = SecdfdPackage.TYPE2_NAMED_ENTITY__SOURCE;
+
+	/**
+	 * The feature id for the '<em><b>Target</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_ENTITY_TYPE__TARGET = SecdfdPackage.TYPE2_NAMED_ENTITY__TARGET;
+
+	/**
+	 * The feature id for the '<em><b>Ranking</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_ENTITY_TYPE__RANKING = SecdfdPackage.TYPE2_NAMED_ENTITY_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Entity Type</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_ENTITY_TYPE_FEATURE_COUNT = SecdfdPackage.TYPE2_NAMED_ENTITY_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Entity Type</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_ENTITY_TYPE_OPERATION_COUNT = SecdfdPackage.TYPE2_NAMED_ENTITY_OPERATION_COUNT + 0;
 
 
 	/**
@@ -449,6 +579,37 @@ public interface MappingPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getMappingProcessDefinition();
+
+	/**
+	 * Returns the meta object for class '{@link org.gravity.mapping.secdfd.model.mapping.MappingRanking <em>Ranking</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Ranking</em>'.
+	 * @see org.gravity.mapping.secdfd.model.mapping.MappingRanking
+	 * @generated
+	 */
+	EClass getMappingRanking();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.gravity.mapping.secdfd.model.mapping.MappingRanking#getRanking <em>Ranking</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Ranking</em>'.
+	 * @see org.gravity.mapping.secdfd.model.mapping.MappingRanking#getRanking()
+	 * @see #getMappingRanking()
+	 * @generated
+	 */
+	EAttribute getMappingRanking_Ranking();
+
+	/**
+	 * Returns the meta object for class '{@link org.gravity.mapping.secdfd.model.mapping.MappingEntityType <em>Entity Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Entity Type</em>'.
+	 * @see org.gravity.mapping.secdfd.model.mapping.MappingEntityType
+	 * @generated
+	 */
+	EClass getMappingEntityType();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -562,6 +723,34 @@ public interface MappingPackage extends EPackage {
 		 * @generated
 		 */
 		EClass MAPPING_PROCESS_DEFINITION = eINSTANCE.getMappingProcessDefinition();
+
+		/**
+		 * The meta object literal for the '{@link org.gravity.mapping.secdfd.model.mapping.impl.MappingRankingImpl <em>Ranking</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.gravity.mapping.secdfd.model.mapping.impl.MappingRankingImpl
+		 * @see org.gravity.mapping.secdfd.model.mapping.impl.MappingPackageImpl#getMappingRanking()
+		 * @generated
+		 */
+		EClass MAPPING_RANKING = eINSTANCE.getMappingRanking();
+
+		/**
+		 * The meta object literal for the '<em><b>Ranking</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MAPPING_RANKING__RANKING = eINSTANCE.getMappingRanking_Ranking();
+
+		/**
+		 * The meta object literal for the '{@link org.gravity.mapping.secdfd.model.mapping.impl.MappingEntityTypeImpl <em>Entity Type</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.gravity.mapping.secdfd.model.mapping.impl.MappingEntityTypeImpl
+		 * @see org.gravity.mapping.secdfd.model.mapping.impl.MappingPackageImpl#getMappingEntityType()
+		 * @generated
+		 */
+		EClass MAPPING_ENTITY_TYPE = eINSTANCE.getMappingEntityType();
 
 	}
 

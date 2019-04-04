@@ -7,9 +7,6 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 import org.gravity.mapping.secdfd.model.mapping.AbstractMappingDerived;
@@ -30,7 +27,7 @@ import org.moflon.tgg.runtime.AbstractCorrespondence;
  *
  * @generated
  */
-public abstract class AbstractMappingDerivedImpl extends MinimalEObjectImpl.Container implements AbstractMappingDerived {
+public abstract class AbstractMappingDerivedImpl extends MappingRankingImpl implements AbstractMappingDerived {
 	/**
 	 * The cached value of the '{@link #getDerived() <em>Derived</em>}' reference list.
 	 * <!-- begin-user-doc -->

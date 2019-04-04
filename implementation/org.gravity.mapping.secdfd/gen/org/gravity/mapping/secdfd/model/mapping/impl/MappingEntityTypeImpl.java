@@ -3,29 +3,31 @@
 package org.gravity.mapping.secdfd.model.mapping.impl;
 
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.gravity.mapping.secdfd.impl.Signature2ElementImpl;
 
+import org.gravity.mapping.secdfd.impl.Type2NamedEntityImpl;
+
+import org.gravity.mapping.secdfd.model.mapping.MappingEntityType;
 import org.gravity.mapping.secdfd.model.mapping.MappingPackage;
-import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
 import org.gravity.mapping.secdfd.model.mapping.MappingRanking;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Process Signature</b></em>'.
+ * An implementation of the model object '<em><b>Entity Type</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.gravity.mapping.secdfd.model.mapping.impl.MappingProcessSignatureImpl#getRanking <em>Ranking</em>}</li>
+ *   <li>{@link org.gravity.mapping.secdfd.model.mapping.impl.MappingEntityTypeImpl#getRanking <em>Ranking</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class MappingProcessSignatureImpl extends Signature2ElementImpl implements MappingProcessSignature {
+public class MappingEntityTypeImpl extends Type2NamedEntityImpl implements MappingEntityType {
 	/**
 	 * The default value of the '{@link #getRanking() <em>Ranking</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -35,6 +37,7 @@ public class MappingProcessSignatureImpl extends Signature2ElementImpl implement
 	 * @ordered
 	 */
 	protected static final int RANKING_EDEFAULT = 0;
+
 	/**
 	 * The cached value of the '{@link #getRanking() <em>Ranking</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -50,7 +53,7 @@ public class MappingProcessSignatureImpl extends Signature2ElementImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected MappingProcessSignatureImpl() {
+	protected MappingEntityTypeImpl() {
 		super();
 	}
 
@@ -61,7 +64,7 @@ public class MappingProcessSignatureImpl extends Signature2ElementImpl implement
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return MappingPackage.Literals.MAPPING_PROCESS_SIGNATURE;
+		return MappingPackage.Literals.MAPPING_ENTITY_TYPE;
 	}
 
 	/**
@@ -82,7 +85,7 @@ public class MappingProcessSignatureImpl extends Signature2ElementImpl implement
 		int oldRanking = ranking;
 		ranking = newRanking;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MappingPackage.MAPPING_PROCESS_SIGNATURE__RANKING, oldRanking, ranking));
+			eNotify(new ENotificationImpl(this, Notification.SET, MappingPackage.MAPPING_ENTITY_TYPE__RANKING, oldRanking, ranking));
 	}
 
 	/**
@@ -93,7 +96,7 @@ public class MappingProcessSignatureImpl extends Signature2ElementImpl implement
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case MappingPackage.MAPPING_PROCESS_SIGNATURE__RANKING:
+			case MappingPackage.MAPPING_ENTITY_TYPE__RANKING:
 				return getRanking();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -107,7 +110,7 @@ public class MappingProcessSignatureImpl extends Signature2ElementImpl implement
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case MappingPackage.MAPPING_PROCESS_SIGNATURE__RANKING:
+			case MappingPackage.MAPPING_ENTITY_TYPE__RANKING:
 				setRanking((Integer)newValue);
 				return;
 		}
@@ -122,7 +125,7 @@ public class MappingProcessSignatureImpl extends Signature2ElementImpl implement
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case MappingPackage.MAPPING_PROCESS_SIGNATURE__RANKING:
+			case MappingPackage.MAPPING_ENTITY_TYPE__RANKING:
 				setRanking(RANKING_EDEFAULT);
 				return;
 		}
@@ -137,7 +140,7 @@ public class MappingProcessSignatureImpl extends Signature2ElementImpl implement
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case MappingPackage.MAPPING_PROCESS_SIGNATURE__RANKING:
+			case MappingPackage.MAPPING_ENTITY_TYPE__RANKING:
 				return ranking != RANKING_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
@@ -152,7 +155,7 @@ public class MappingProcessSignatureImpl extends Signature2ElementImpl implement
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == MappingRanking.class) {
 			switch (derivedFeatureID) {
-				case MappingPackage.MAPPING_PROCESS_SIGNATURE__RANKING: return MappingPackage.MAPPING_RANKING__RANKING;
+				case MappingPackage.MAPPING_ENTITY_TYPE__RANKING: return MappingPackage.MAPPING_RANKING__RANKING;
 				default: return -1;
 			}
 		}
@@ -168,7 +171,7 @@ public class MappingProcessSignatureImpl extends Signature2ElementImpl implement
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == MappingRanking.class) {
 			switch (baseFeatureID) {
-				case MappingPackage.MAPPING_RANKING__RANKING: return MappingPackage.MAPPING_PROCESS_SIGNATURE__RANKING;
+				case MappingPackage.MAPPING_RANKING__RANKING: return MappingPackage.MAPPING_ENTITY_TYPE__RANKING;
 				default: return -1;
 			}
 		}
@@ -191,4 +194,4 @@ public class MappingProcessSignatureImpl extends Signature2ElementImpl implement
 		return result.toString();
 	}
 
-} //MappingProcessSignatureImpl
+} //MappingEntityTypeImpl

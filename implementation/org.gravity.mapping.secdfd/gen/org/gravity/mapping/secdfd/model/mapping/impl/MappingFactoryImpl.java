@@ -60,6 +60,7 @@ public class MappingFactoryImpl extends EFactoryImpl implements MappingFactory {
 			case MappingPackage.MAPPING_PROCESS_NAME: return createMappingProcessName();
 			case MappingPackage.MAPPING_PROCESS_SIGNATURE: return createMappingProcessSignature();
 			case MappingPackage.MAPPING_PROCESS_DEFINITION: return createMappingProcessDefinition();
+			case MappingPackage.MAPPING_ENTITY_TYPE: return createMappingEntityType();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -107,6 +108,16 @@ public class MappingFactoryImpl extends EFactoryImpl implements MappingFactory {
 	public MappingProcessDefinition createMappingProcessDefinition() {
 		MappingProcessDefinitionImpl mappingProcessDefinition = new MappingProcessDefinitionImpl();
 		return mappingProcessDefinition;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MappingEntityType createMappingEntityType() {
+		MappingEntityTypeImpl mappingEntityType = new MappingEntityTypeImpl();
+		return mappingEntityType;
 	}
 
 	/**

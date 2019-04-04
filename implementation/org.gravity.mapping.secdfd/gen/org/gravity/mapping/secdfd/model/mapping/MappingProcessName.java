@@ -14,5 +14,5 @@ import org.gravity.mapping.secdfd.Method2Element;
  * @model
  * @generated
  */
-public interface MappingProcessName extends Method2Element, AbstractMappingDerived {
+public interface MappingProcessName extends Method2Element, AbstractMappingDerived, MappingRanking {
 } // MappingProcessName

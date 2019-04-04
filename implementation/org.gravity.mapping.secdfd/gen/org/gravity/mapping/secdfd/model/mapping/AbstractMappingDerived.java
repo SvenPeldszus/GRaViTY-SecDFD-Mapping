@@ -3,9 +3,6 @@
 package org.gravity.mapping.secdfd.model.mapping;
 
 import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EObject;
-
 import org.moflon.tgg.runtime.AbstractCorrespondence;
 
 /**
@@ -24,7 +21,7 @@ import org.moflon.tgg.runtime.AbstractCorrespondence;
  * @model abstract="true"
  * @generated
  */
-public interface AbstractMappingDerived extends EObject {
+public interface AbstractMappingDerived extends MappingRanking {
 	/**
 	 * Returns the value of the '<em><b>Derived</b></em>' reference list.
 	 * The list contents are of type {@link org.moflon.tgg.runtime.AbstractCorrespondence}.
