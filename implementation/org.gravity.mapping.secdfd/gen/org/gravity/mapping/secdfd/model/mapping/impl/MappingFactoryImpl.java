@@ -115,6 +115,7 @@ public class MappingFactoryImpl extends EFactoryImpl implements MappingFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public MappingEntityType createMappingEntityType() {
 		MappingEntityTypeImpl mappingEntityType = new MappingEntityTypeImpl();
 		return mappingEntityType;

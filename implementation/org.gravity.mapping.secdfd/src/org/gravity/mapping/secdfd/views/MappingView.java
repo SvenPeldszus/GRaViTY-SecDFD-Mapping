@@ -19,7 +19,6 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -165,7 +164,7 @@ public class MappingView extends ViewPart {
 			String name = key.getName();
 			name = name.substring(0, name.length() - key.getFileExtension().length() -1) + ".corr.xmi";
 			IFile destination = gravityFolder.getFile(name);
-			return new Mapper(pm.getValue(), entry.getValue(), destination.getLocation());
+			return new Mapper(pm.getValue(), entry.getValue(), destination);
 		}).collect(Collectors.toMap(mapper -> mapper.getMapping(), mapper -> mapper));
 		
 		if (!label.isDisposed()) {
@@ -274,7 +273,7 @@ public class MappingView extends ViewPart {
 		return this.dfds;
 	}
 
-	public Collection<Mapping> getMapping() {
+	public Collection<Mapping> getMappings() {
 		return this.mappers.keySet();
 	}
 

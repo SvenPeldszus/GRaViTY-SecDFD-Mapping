@@ -135,13 +135,22 @@ public interface MappingPackage extends EPackage {
 	int MAPPING__ACCEPTED = RuntimePackage.CORRESPONDENCE_MODEL_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING__NAME = RuntimePackage.CORRESPONDENCE_MODEL_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>Mapping</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_FEATURE_COUNT = RuntimePackage.CORRESPONDENCE_MODEL_FEATURE_COUNT + 4;
+	int MAPPING_FEATURE_COUNT = RuntimePackage.CORRESPONDENCE_MODEL_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of operations of the '<em>Mapping</em>' class.
@@ -530,6 +539,17 @@ public interface MappingPackage extends EPackage {
 	EReference getMapping_Accepted();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.gravity.mapping.secdfd.model.mapping.Mapping#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see org.gravity.mapping.secdfd.model.mapping.Mapping#getName()
+	 * @see #getMapping()
+	 * @generated
+	 */
+	EAttribute getMapping_Name();
+
+	/**
 	 * Returns the meta object for class '{@link org.gravity.mapping.secdfd.model.mapping.AbstractMappingDerived <em>Abstract Mapping Derived</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -675,6 +695,14 @@ public interface MappingPackage extends EPackage {
 		 * @generated
 		 */
 		EReference MAPPING__ACCEPTED = eINSTANCE.getMapping_Accepted();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MAPPING__NAME = eINSTANCE.getMapping_Name();
 
 		/**
 		 * The meta object literal for the '{@link org.gravity.mapping.secdfd.model.mapping.impl.AbstractMappingDerivedImpl <em>Abstract Mapping Derived</em>}' class.

@@ -70,7 +70,7 @@ public class MappingLabelProvider implements ILabelProvider {
 			return ((EDFD) element).getName();
 		}
 		else if (element instanceof Mapping) {
-			return ((Mapping) element).eResource().getURI().lastSegment();
+			return ((Mapping) element).getName();
 		}
 		else if (element instanceof EObject) {
 			return prettyPrint((EObject) element);

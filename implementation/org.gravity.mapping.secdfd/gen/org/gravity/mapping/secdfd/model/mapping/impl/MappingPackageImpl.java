@@ -254,6 +254,16 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 	 * @generated
 	 */
 	@Override
+	public EAttribute getMapping_Name() {
+		return (EAttribute)mappingEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getAbstractMappingDerived() {
 		return abstractMappingDerivedEClass;
 	}
@@ -303,6 +313,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getMappingRanking() {
 		return mappingRankingEClass;
 	}
@@ -312,6 +323,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getMappingRanking_Ranking() {
 		return (EAttribute)mappingRankingEClass.getEStructuralFeatures().get(0);
 	}
@@ -321,6 +333,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getMappingEntityType() {
 		return mappingEntityTypeEClass;
 	}
@@ -359,6 +372,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 		createEReference(mappingEClass, MAPPING__IGNORED);
 		createEReference(mappingEClass, MAPPING__SUGGESTED);
 		createEReference(mappingEClass, MAPPING__ACCEPTED);
+		createEAttribute(mappingEClass, MAPPING__NAME);
 
 		abstractMappingDerivedEClass = createEClass(ABSTRACT_MAPPING_DERIVED);
 		createEReference(abstractMappingDerivedEClass, ABSTRACT_MAPPING_DERIVED__DERIVED);
@@ -426,6 +440,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 		initEReference(getMapping_Ignored(), theRuntimePackage.getAbstractCorrespondence(), null, "ignored", null, 0, -1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMapping_Suggested(), theRuntimePackage.getAbstractCorrespondence(), null, "suggested", null, 0, -1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMapping_Accepted(), theRuntimePackage.getAbstractCorrespondence(), null, "accepted", null, 0, -1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMapping_Name(), ecorePackage.getEString(), "name", null, 0, 1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(abstractMappingDerivedEClass, AbstractMappingDerived.class, "AbstractMappingDerived", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAbstractMappingDerived_Derived(), theRuntimePackage.getAbstractCorrespondence(), null, "derived", null, 0, -1, AbstractMappingDerived.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -88,6 +88,7 @@ public class MappingProcessDefinitionImpl extends Defintion2ElementImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getRanking() {
 		return ranking;
 	}
@@ -97,6 +98,7 @@ public class MappingProcessDefinitionImpl extends Defintion2ElementImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRanking(int newRanking) {
 		int oldRanking = ranking;
 		ranking = newRanking;
