@@ -2,24 +2,15 @@
  */
 package org.gravity.mapping.secdfd.model.mapping.impl;
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-
 import org.gravity.mapping.secdfd.impl.Method2ElementImpl;
-
-import org.gravity.mapping.secdfd.model.mapping.AbstractMappingDerived;
 import org.gravity.mapping.secdfd.model.mapping.MappingPackage;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessName;
 
 import org.gravity.mapping.secdfd.model.mapping.MappingRanking;
-import org.moflon.tgg.runtime.AbstractCorrespondence;
 
 /**
  * <!-- begin-user-doc -->
@@ -30,7 +21,6 @@ import org.moflon.tgg.runtime.AbstractCorrespondence;
  * </p>
  * <ul>
  *   <li>{@link org.gravity.mapping.secdfd.model.mapping.impl.MappingProcessNameImpl#getRanking <em>Ranking</em>}</li>
- *   <li>{@link org.gravity.mapping.secdfd.model.mapping.impl.MappingProcessNameImpl#getDerived <em>Derived</em>}</li>
  * </ul>
  *
  * @generated
@@ -54,16 +44,6 @@ public class MappingProcessNameImpl extends Method2ElementImpl implements Mappin
 	 * @ordered
 	 */
 	protected int ranking = RANKING_EDEFAULT;
-	/**
-	 * The cached value of the '{@link #getDerived() <em>Derived</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDerived()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<AbstractCorrespondence> derived;
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -112,25 +92,10 @@ public class MappingProcessNameImpl extends Method2ElementImpl implements Mappin
 	 * @generated
 	 */
 	@Override
-	public EList<AbstractCorrespondence> getDerived() {
-		if (derived == null) {
-			derived = new EObjectResolvingEList<AbstractCorrespondence>(AbstractCorrespondence.class, this, MappingPackage.MAPPING_PROCESS_NAME__DERIVED);
-		}
-		return derived;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case MappingPackage.MAPPING_PROCESS_NAME__RANKING:
 				return getRanking();
-			case MappingPackage.MAPPING_PROCESS_NAME__DERIVED:
-				return getDerived();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -147,10 +112,6 @@ public class MappingProcessNameImpl extends Method2ElementImpl implements Mappin
 			case MappingPackage.MAPPING_PROCESS_NAME__RANKING:
 				setRanking((Integer)newValue);
 				return;
-			case MappingPackage.MAPPING_PROCESS_NAME__DERIVED:
-				getDerived().clear();
-				getDerived().addAll((Collection<? extends AbstractCorrespondence>)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -166,9 +127,6 @@ public class MappingProcessNameImpl extends Method2ElementImpl implements Mappin
 			case MappingPackage.MAPPING_PROCESS_NAME__RANKING:
 				setRanking(RANKING_EDEFAULT);
 				return;
-			case MappingPackage.MAPPING_PROCESS_NAME__DERIVED:
-				getDerived().clear();
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -183,8 +141,6 @@ public class MappingProcessNameImpl extends Method2ElementImpl implements Mappin
 		switch (featureID) {
 			case MappingPackage.MAPPING_PROCESS_NAME__RANKING:
 				return ranking != RANKING_EDEFAULT;
-			case MappingPackage.MAPPING_PROCESS_NAME__DERIVED:
-				return derived != null && !derived.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -202,12 +158,6 @@ public class MappingProcessNameImpl extends Method2ElementImpl implements Mappin
 				default: return -1;
 			}
 		}
-		if (baseClass == AbstractMappingDerived.class) {
-			switch (derivedFeatureID) {
-				case MappingPackage.MAPPING_PROCESS_NAME__DERIVED: return MappingPackage.ABSTRACT_MAPPING_DERIVED__DERIVED;
-				default: return -1;
-			}
-		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
@@ -221,12 +171,6 @@ public class MappingProcessNameImpl extends Method2ElementImpl implements Mappin
 		if (baseClass == MappingRanking.class) {
 			switch (baseFeatureID) {
 				case MappingPackage.MAPPING_RANKING__RANKING: return MappingPackage.MAPPING_PROCESS_NAME__RANKING;
-				default: return -1;
-			}
-		}
-		if (baseClass == AbstractMappingDerived.class) {
-			switch (baseFeatureID) {
-				case MappingPackage.ABSTRACT_MAPPING_DERIVED__DERIVED: return MappingPackage.MAPPING_PROCESS_NAME__DERIVED;
 				default: return -1;
 			}
 		}

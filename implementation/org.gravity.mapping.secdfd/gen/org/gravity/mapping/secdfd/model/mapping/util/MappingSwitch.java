@@ -92,9 +92,8 @@ public class MappingSwitch<T> extends Switch<T> {
 				MappingProcessName mappingProcessName = (MappingProcessName)theEObject;
 				T result = caseMappingProcessName(mappingProcessName);
 				if (result == null) result = caseMethod2Element(mappingProcessName);
-				if (result == null) result = caseAbstractMappingDerived(mappingProcessName);
-				if (result == null) result = caseAbstractCorrespondence(mappingProcessName);
 				if (result == null) result = caseMappingRanking(mappingProcessName);
+				if (result == null) result = caseAbstractCorrespondence(mappingProcessName);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -102,8 +101,9 @@ public class MappingSwitch<T> extends Switch<T> {
 				MappingProcessSignature mappingProcessSignature = (MappingProcessSignature)theEObject;
 				T result = caseMappingProcessSignature(mappingProcessSignature);
 				if (result == null) result = caseSignature2Element(mappingProcessSignature);
-				if (result == null) result = caseMappingRanking(mappingProcessSignature);
+				if (result == null) result = caseAbstractMappingDerived(mappingProcessSignature);
 				if (result == null) result = caseAbstractCorrespondence(mappingProcessSignature);
+				if (result == null) result = caseMappingRanking(mappingProcessSignature);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}

@@ -424,13 +424,11 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 		mappingEClass.getESuperTypes().add(theRuntimePackage.getCorrespondenceModel());
 		abstractMappingDerivedEClass.getESuperTypes().add(this.getMappingRanking());
 		mappingProcessNameEClass.getESuperTypes().add(theSecdfdPackage.getMethod2Element());
-		mappingProcessNameEClass.getESuperTypes().add(this.getAbstractMappingDerived());
 		mappingProcessNameEClass.getESuperTypes().add(this.getMappingRanking());
 		mappingProcessSignatureEClass.getESuperTypes().add(theSecdfdPackage.getSignature2Element());
-		mappingProcessSignatureEClass.getESuperTypes().add(this.getMappingRanking());
+		mappingProcessSignatureEClass.getESuperTypes().add(this.getAbstractMappingDerived());
 		mappingProcessDefinitionEClass.getESuperTypes().add(theSecdfdPackage.getDefintion2Element());
 		mappingProcessDefinitionEClass.getESuperTypes().add(this.getAbstractMappingDerived());
-		mappingProcessDefinitionEClass.getESuperTypes().add(this.getMappingRanking());
 		mappingEntityTypeEClass.getESuperTypes().add(theSecdfdPackage.getType2NamedEntity());
 		mappingEntityTypeEClass.getESuperTypes().add(this.getMappingRanking());
 

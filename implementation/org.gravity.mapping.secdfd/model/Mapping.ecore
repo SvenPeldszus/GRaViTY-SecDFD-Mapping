@@ -57,15 +57,15 @@
   <eClassifiers
       xsi:type="ecore:EClass"
       name="MappingProcessName"
-      eSuperTypes="Secdfd.ecore#//Method2Element #//AbstractMappingDerived #//MappingRanking"/>
+      eSuperTypes="Secdfd.ecore#//Method2Element #//MappingRanking"/>
   <eClassifiers
       xsi:type="ecore:EClass"
       name="MappingProcessSignature"
-      eSuperTypes="Secdfd.ecore#//Signature2Element #//MappingRanking"/>
+      eSuperTypes="Secdfd.ecore#//Signature2Element #//AbstractMappingDerived"/>
   <eClassifiers
       xsi:type="ecore:EClass"
       name="MappingProcessDefinition"
-      eSuperTypes="Secdfd.ecore#//Defintion2Element #//AbstractMappingDerived #//MappingRanking"/>
+      eSuperTypes="Secdfd.ecore#//Defintion2Element #//AbstractMappingDerived"/>
   <eClassifiers
       xsi:type="ecore:EClass"
       name="MappingRanking"

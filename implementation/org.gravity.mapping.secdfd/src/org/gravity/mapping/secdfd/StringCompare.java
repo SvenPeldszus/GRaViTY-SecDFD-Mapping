@@ -60,20 +60,13 @@ public class StringCompare {
 		int expect = (int) Math.ceil(((double) Math.max(words1.size(), words2.size())) / 2);
 		
 		//alternatively we can calculate the cosine similarity.
-		if (similar < (expect > 0 ? expect : 1)) return -1;
-		else {
-			double s = (double) similar/Math.max(words1.size(), words2.size());
-			return (int) s*100;
+		if (similar < (expect > 0 ? expect : 1)) {
+			return -1;
 		}
-//		return similar >= (expect > 0 ? expect : 1);
-
-		// Check if the longer String contains the shorter String
-//		if(length1 > length2) {
-//			return first.toLowerCase().contains(second.toLowerCase());
-//		}
-//		else {
-//			return second.toLowerCase().contains(first.toLowerCase());
-//		}
+		else {
+			double s = ((double) similar)/Math.max(words1.size(), words2.size());
+			return (int) (s*100);
+		}
 	}
 
 	/**

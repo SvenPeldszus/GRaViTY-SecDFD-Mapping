@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Stack;
@@ -29,6 +28,7 @@ import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.model.mapping.MappingFactory;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
+import org.gravity.mapping.secdfd.model.mapping.MappingRanking;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TAccess;
 import org.gravity.typegraph.basic.TClass;
@@ -184,7 +184,7 @@ public class Mapper {
 										.getDefinitions()) {
 									if (getPath(sourceDefinition, targetSignature)) {
 										Defintion2Element corr = helper.createCorrespondence(sourceElement,
-												sourceDefinition);
+												sourceDefinition, 90);
 										mapping.getSuggested().add(corr);
 									}
 								}
@@ -210,6 +210,26 @@ public class Mapper {
 				mapping.getSuggested().remove(corr);
 			}
 			mapping.getAccepted().add(corr);
+			if (corr instanceof MappingRanking) {
+				((MappingRanking) corr).setRanking(100);
+			} else if (corr instanceof MappingProcessSignature) {
+				for (AbstractCorrespondence parentCorr : helper.getCorrespondences(
+						((TMethodSignature) ((MappingProcessSignature) corr).getSource()).getMethod())) {
+					if (CorrespondenceHelper.getTarget(parentCorr)
+							.equals(((MappingProcessSignature) corr).getTarget())) {
+						((MappingRanking) parentCorr).setRanking(100);
+					}
+				}
+			} else if (corr instanceof MappingProcessDefinition) {
+				for (AbstractCorrespondence parentCorr : helper
+						.getCorrespondences(((TMethodDefinition) ((MappingProcessDefinition) corr).getSource())
+								.getSignature().getMethod())) {
+					if (CorrespondenceHelper.getTarget(parentCorr)
+							.equals(((MappingProcessDefinition) corr).getTarget())) {
+						((MappingRanking) parentCorr).setRanking(100);
+					}
+				}
+			}
 			updateMappingOnFilesystem();
 		}
 	}
@@ -256,26 +276,29 @@ public class Mapper {
 				TMember member = (TMember) pmObject;
 				Process process = (Process) dfdObject;
 				add(member, process);
-				userCorr = helper.createCorrespondence(process, member);
+				userCorr = helper.createCorrespondence(process, member, 100);
 			} else if (dfdObject instanceof Asset) {
-				Type2NamedEntity corr = SecdfdFactory.eINSTANCE.createType2NamedEntity();
+				Type2NamedEntity corr = MappingFactory.eINSTANCE.createMappingEntityType();
 				corr.setSource((TAbstractType) pmObject);
 				corr.setTarget((NamedEntity) dfdObject);
 				userCorr = corr;
 			} else if (dfdObject instanceof DataStore) {
 				if (pmObject instanceof TAbstractType) {
-					Type2NamedEntity corr = SecdfdFactory.eINSTANCE.createType2NamedEntity();
+					Type2NamedEntity corr = MappingFactory.eINSTANCE.createMappingEntityType();
 					corr.setSource((TAbstractType) pmObject);
 					corr.setTarget((NamedEntity) dfdObject);
 					userCorr = corr;
 				} else {
 					TMember member = (TMember) pmObject;
-					Defintion2Element corr = SecdfdFactory.eINSTANCE.createDefintion2Element();
+					Defintion2Element corr = MappingFactory.eINSTANCE.createMappingProcessDefinition();
 					corr.setSource(member);
 					corr.setTarget((Element) dfdObject);
 					userCorr = corr;
 				}
 			}
+		}
+		if(userCorr == null) {
+			System.out.println("USERCORR");
 		}
 		mapping.getCorrespondences().add(userCorr);
 		mapping.getUserdefined().add(userCorr);
@@ -289,10 +312,9 @@ public class Mapper {
 	 */
 	private void add(TMember member, Process process) {
 		Set<TMember> memberValues;
-		if(elementMemberMapping.containsKey(process)) {
+		if (elementMemberMapping.containsKey(process)) {
 			memberValues = elementMemberMapping.get(process);
-		}
-		else {
+		} else {
 			memberValues = new HashSet<>();
 			elementMemberMapping.put(process, memberValues);
 		}
@@ -349,7 +371,7 @@ public class Mapper {
 								memberType = ((TMethodDefinition) member).getReturnType();
 							}
 							if (memberType.equals(assetType) || memberType.isSuperTypeOf((TAbstractType) assetType)) {
-								Defintion2Element corr = helper.createCorrespondence(node, member);
+								Defintion2Element corr = helper.createCorrespondence(node, member, 90);
 								this.mapping.getSuggested().add(corr);
 								correspondingMembers.add(corr);
 							}
@@ -407,7 +429,7 @@ public class Mapper {
 			}
 			return matchedParams > 0;
 		}).map(signature -> {
-			MappingProcessSignature newCorr = helper.createCorrespondence(node, signature);
+			MappingProcessSignature newCorr = helper.createCorrespondence(node, signature, 80);
 			this.mapping.getSuggested().add(newCorr);
 			return newCorr;
 		});
@@ -421,19 +443,17 @@ public class Mapper {
 	 * @return A stream of correspondences
 	 */
 	private Stream<Method2Element> mapToMethod(Element node) {
-		Integer rank = 0;
 		ArrayList<Method2Element> list = new ArrayList<Method2Element>();
 		for (TMethod m : methods) {
-			rank = StringCompare.compare(node.getName(), m.getTName());
-			if (rank>0) {
+			int rank = StringCompare.compare(node.getName(), m.getTName());
+			if (rank > 0) {
 				Method2Element corr = helper.createCorrespondence(node, m, rank);
 				mapping.getSuggested().add(corr);
 				list.add(corr);
 			}
 		}
 		return list.stream();
-		
-		
+
 //		return methods.stream()
 //				.filter(m -> StringCompare.compare(node.getName(), m.getTName())>0)
 //				.map(m -> {
@@ -450,26 +470,40 @@ public class Mapper {
 	 * @param entity The asset for which correspondences should be found
 	 * @return A stream of correspondences
 	 */
+	private Stream<Type2NamedEntity> mapToType(Asset asset) {
+		ArrayList<Type2NamedEntity> list = new ArrayList<Type2NamedEntity>();
+		switch(asset.getType()) {
+		case NUMBER:
+		case VECTOR:
+		case OBJECT:
+			return mapToType((NamedEntity) asset);
+		case STRING:
+			TAbstractType string = pm.getAbstractType("java.lang.String");
+			Type2NamedEntity corr = helper.createCorrespondence(asset, string, 100);
+			mapping.getSuggested().add(corr);
+			list.add(corr);
+			break;	
+		}
+		return list.stream();
+	}
+	/**
+	 * Search classes in the pm corresponding to the asset and create
+	 * correspondences for them
+	 * 
+	 * @param entity The asset for which correspondences should be found
+	 * @return A stream of correspondences
+	 */
 	private Stream<Type2NamedEntity> mapToType(NamedEntity entity) {
-		Integer rank = 0;
 		ArrayList<Type2NamedEntity> list = new ArrayList<Type2NamedEntity>();
 		for (TAbstractType t : types) {
-			rank = StringCompare.compare(entity.getName(), t.getTName());
-			if (rank>0) {
+			int rank = StringCompare.compare(entity.getName(), t.getTName());
+			if (rank > 0) {
 				Type2NamedEntity corr = helper.createCorrespondence(entity, t, rank);
 				mapping.getSuggested().add(corr);
 				list.add(corr);
 			}
 		}
 		return list.stream();
-		
-		
-//		return types.stream().filter(t -> StringCompare.compare(entity.getName(), t.getTName())).map(t -> {
-//			Type2NamedEntity corr = helper.createCorrespondence(entity, t);
-//			mapping.getSuggested().add(corr);
-//			return corr;
-//		});
-
 	}
 
 	/**

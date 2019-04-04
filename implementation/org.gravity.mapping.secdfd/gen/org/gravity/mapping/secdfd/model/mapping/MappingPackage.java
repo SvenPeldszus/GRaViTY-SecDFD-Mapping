@@ -282,22 +282,13 @@ public interface MappingPackage extends EPackage {
 	int MAPPING_PROCESS_NAME__RANKING = SecdfdPackage.METHOD2_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Derived</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MAPPING_PROCESS_NAME__DERIVED = SecdfdPackage.METHOD2_ELEMENT_FEATURE_COUNT + 1;
-
-	/**
 	 * The number of structural features of the '<em>Process Name</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_PROCESS_NAME_FEATURE_COUNT = SecdfdPackage.METHOD2_ELEMENT_FEATURE_COUNT + 2;
+	int MAPPING_PROCESS_NAME_FEATURE_COUNT = SecdfdPackage.METHOD2_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Process Name</em>' class.
@@ -346,13 +337,22 @@ public interface MappingPackage extends EPackage {
 	int MAPPING_PROCESS_SIGNATURE__RANKING = SecdfdPackage.SIGNATURE2_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Derived</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_PROCESS_SIGNATURE__DERIVED = SecdfdPackage.SIGNATURE2_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Process Signature</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_PROCESS_SIGNATURE_FEATURE_COUNT = SecdfdPackage.SIGNATURE2_ELEMENT_FEATURE_COUNT + 1;
+	int MAPPING_PROCESS_SIGNATURE_FEATURE_COUNT = SecdfdPackage.SIGNATURE2_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Process Signature</em>' class.

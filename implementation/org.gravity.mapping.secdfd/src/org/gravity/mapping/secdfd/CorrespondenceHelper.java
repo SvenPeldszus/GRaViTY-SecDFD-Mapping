@@ -13,11 +13,13 @@ import org.eclipse.emf.ecore.EObject;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.model.mapping.MappingEntityType;
 import org.gravity.mapping.secdfd.model.mapping.MappingFactory;
+import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessName;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethod;
+import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TMethodSignature;
 import org.gravity.typegraph.basic.TypeGraph;
 import org.moflon.tgg.runtime.AbstractCorrespondence;
@@ -67,17 +69,23 @@ public class CorrespondenceHelper {
 	 * Creates a new correspondence between the two objects and adds it to the
 	 * correspondence model
 	 * 
-	 * @param element A node object
-	 * @param member  A method object
+	 * @param asset An element
+	 * @param type  A signature
+	 * @param ranking A ranking
+	 * 
 	 * @return The correspondence
 	 */
-	Defintion2Element createCorrespondence(Element element, TMember member) {
-		Defintion2Element corr = MappingFactory.eINSTANCE.createMappingProcessDefinition();
-		corr.setSource(member);
+	MappingProcessSignature createCorrespondence(Element element, TMethodSignature signature, Integer ranking) {
+		MappingProcessSignature corr = MappingFactory.eINSTANCE.createMappingProcessSignature();
+		corr.setSource(signature);
 		corr.setTarget(element);
 		mapping.getCorrespondences().add(corr);
 		addToMap(element, corr);
-		addToMap(member, corr);
+		addToMap(signature, corr);
+		if(getCorrespondences(signature.getMethod()).isEmpty()) {
+			Method2Element parentCorr = createCorrespondence(element, signature.getMethod(), ranking);
+			corr.getDerived().add(parentCorr);
+		}
 		return corr;
 	}
 
@@ -85,17 +93,21 @@ public class CorrespondenceHelper {
 	 * Creates a new correspondence between the two objects and adds it to the
 	 * correspondence model
 	 * 
-	 * @param asset An element
-	 * @param type  A signature
+	 * @param element A node object
+	 * @param member  A method object
+	 * @param ranking 
 	 * @return The correspondence
 	 */
-	MappingProcessSignature createCorrespondence(Element element, TMethodSignature signature) {
-		MappingProcessSignature corr = MappingFactory.eINSTANCE.createMappingProcessSignature();
-		corr.setSource(signature);
+	Defintion2Element createCorrespondence(Element element, TMember member, Integer ranking) {
+		MappingProcessDefinition corr = MappingFactory.eINSTANCE.createMappingProcessDefinition();
+		corr.setSource(member);
 		corr.setTarget(element);
 		mapping.getCorrespondences().add(corr);
 		addToMap(element, corr);
-		addToMap(signature, corr);
+		addToMap(member, corr);
+		if(getCorrespondences(member.getSignature()).isEmpty()) {
+			corr.getDerived().add(createCorrespondence(element, ((TMethodDefinition) member).getSignature(), ranking));
+		}
 		return corr;
 	}
 
@@ -108,7 +120,7 @@ public class CorrespondenceHelper {
 	 * @return The correspondence
 	 */
 	Type2NamedEntity createCorrespondence(NamedEntity entity, TAbstractType type, Integer ranking) {
-		MappingEntityType corr = (MappingEntityType) SecdfdFactory.eINSTANCE.createType2NamedEntity();
+		MappingEntityType corr = MappingFactory.eINSTANCE.createMappingEntityType();
 		corr.setSource(type);
 		corr.setTarget(entity);
 		corr.setRanking(ranking);

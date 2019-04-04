@@ -1,5 +1,8 @@
 package org.gravity.mapping.secdfd.views;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.Map.Entry;
 
 import org.eclipse.core.resources.IFile;
@@ -10,6 +13,7 @@ import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 import org.gravity.mapping.secdfd.CorrespondenceHelper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
+import org.gravity.mapping.secdfd.model.mapping.MappingRanking;
 import org.gravity.typegraph.basic.BasicPackage;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TMember;
@@ -17,11 +21,26 @@ import org.gravity.typegraph.basic.TMethod;
 import org.gravity.typegraph.basic.TSignature;
 import org.moflon.tgg.runtime.AbstractCorrespondence;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import eDFDFlowTracking.EDFD;
 import eDFDFlowTracking.EDFDFlowTracking1Package;
 import eDFDFlowTracking.NamedEntity;
 
 public class MappingLabelProvider implements ILabelProvider {
+
+	private JsonObject object;
+
+	public MappingLabelProvider() {
+		File file = MappingView.getMappingView().getProgramModel().getKey().getProject()
+				.getFile("groundtruth/storepassword.json").getLocation().toFile();
+		try {
+			object = new JsonParser().parse(new FileReader(file)).getAsJsonObject();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public void addListener(ILabelProviderListener listener) {
@@ -65,17 +84,38 @@ public class MappingLabelProvider implements ILabelProvider {
 			AbstractCorrespondence corr = (AbstractCorrespondence) element;
 			EObject source = CorrespondenceHelper.getSource(corr);
 			EObject target = CorrespondenceHelper.getTarget(corr);
-			return prettyPrint(source, target);
-		} else if(element instanceof EDFD) {
+			String prefix = getTruePositive(source, target)+"\t\t";
+			if (element instanceof MappingRanking) {
+				prefix += "ranking: " + Integer.toString(((MappingRanking) element).getRanking())+"\t\t";
+			}
+			return prefix + prettyPrint(source, target);
+		} else if (element instanceof EDFD) {
 			return ((EDFD) element).getName();
-		}
-		else if (element instanceof Mapping) {
+		} else if (element instanceof Mapping) {
 			return ((Mapping) element).getName();
-		}
-		else if (element instanceof EObject) {
+		} else if (element instanceof EObject) {
 			return prettyPrint((EObject) element);
 		}
 		return "ERROR: not handled by the label provider: " + element;
+	}
+
+	private String getTruePositive(EObject source, EObject target) {
+		String sourceString = prettyPrint(source).toLowerCase();
+		String targetString = prettyPrint(target).toLowerCase();
+		String string = "! FALSE POSITIVE";
+		for (JsonElement mapping : object.getAsJsonArray("mappings")) {
+			if (mapping instanceof JsonObject) {
+				String pm = ((JsonObject) mapping).get("pm").getAsString().toLowerCase();
+				if (sourceString.endsWith(pm)) {
+					String dfd = ((JsonObject) mapping).get("secdfd").getAsString().toLowerCase();
+					if (targetString.endsWith(dfd)) {
+						string = "+ TRUE POSITIVE";
+						break;
+					}
+				}
+			}
+		}
+		return string;
 	}
 
 	/**
