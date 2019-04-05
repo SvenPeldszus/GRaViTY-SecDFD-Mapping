@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.Stack;
 import java.util.stream.Collectors;
@@ -24,6 +25,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.gravity.mapping.secdfd.model.mapping.AbstractMappingDerived;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.model.mapping.MappingFactory;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
@@ -154,6 +156,7 @@ public class Mapper {
 	 * @return The optimized mapping
 	 */
 	public Mapping optimize() {
+		LOGGER.log(Level.INFO, "\nStart optimization >>>>>\n");
 		cache.getEntityTypeMapping().entrySet().stream().filter(e -> e.getKey() instanceof Element).forEach(e -> {
 			Element node = (Element) e.getKey();
 			cache.getElementMemberMapping().put(node, mapToMembers(node, e.getValue(), cache.getEntityTypeMapping())
@@ -176,9 +179,12 @@ public class Mapper {
 							for (TSignature targetSignature : cache.getElementSignatureMapping().get(targetElement)) {
 								for (TMethodDefinition sourceDefinition : ((TMethodSignature) signature)
 										.getDefinitions()) {
-									if (getPath(sourceDefinition, targetSignature)) {
-										Defintion2Element corr = helper.createCorrespondence(sourceDefinition, sourceElement,
-												90);
+									if (getPath(sourceDefinition, targetSignature)
+											&& helper.canCreate(sourceDefinition, targetSignature)) {
+										Collection<AbstractCorrespondence> derived = helper.getCorrespondence(signature, sourceElement);
+										Defintion2Element corr = helper.createCorrespondence(sourceDefinition,
+												sourceElement, 90, derived );
+										mapping.getCorrespondences().add(corr);
 										mapping.getSuggested().add(corr);
 									}
 								}
@@ -190,6 +196,7 @@ public class Mapper {
 			}
 		}
 		updateMappingOnFilesystem();
+		LOGGER.log(Level.INFO, "\n<<<<< Stop optimization\n");
 		return mapping;
 	}
 
@@ -205,6 +212,9 @@ public class Mapper {
 			}
 			mapping.getAccepted().add(corr);
 			updateRanking(corr, 100);
+			if(corr instanceof AbstractMappingDerived) {
+				((AbstractMappingDerived) corr).getDerived().forEach(parent -> accept(parent));
+			}
 			updateMappingOnFilesystem();
 		}
 	}
@@ -243,27 +253,25 @@ public class Mapper {
 			EObject pmObject = CorrespondenceHelper.getSource(corr);
 			EObject dfdObject = CorrespondenceHelper.getTarget(corr);
 			if (dfdObject instanceof Process) {
-				if(pmObject instanceof TMember) {
+				if (pmObject instanceof TMember) {
 					Set<TMember> value = cache.getElementMemberMapping().get(dfdObject);
-					if(value != null) {
+					if (value != null) {
 						value.remove(pmObject);
 					}
-				}
-				else if(pmObject instanceof TSignature) {
+				} else if (pmObject instanceof TSignature) {
 					Set<TSignature> value = cache.getElementSignatureMapping().get(dfdObject);
-					if(value != null) {
+					if (value != null) {
 						value.remove(pmObject);
 					}
 					((TMethodSignature) pmObject).getDefinitions().forEach(definiton -> {
 						helper.getCorrespondences(definiton).forEach(defCorr -> reject(defCorr));
 					});
-				}
-				else if(pmObject instanceof TMethod) {
+				} else if (pmObject instanceof TMethod) {
 					Set<TMethod> value = cache.getElementMethodMapping().get(dfdObject);
-					if(value != null) {
+					if (value != null) {
 						value.remove(pmObject);
 					}
-					((TMethod) pmObject).getSignatures().forEach(signature ->{
+					((TMethod) pmObject).getSignatures().forEach(signature -> {
 						helper.getCorrespondences(signature).forEach(sigCorr -> reject(sigCorr));
 					});
 				}
@@ -289,14 +297,23 @@ public class Mapper {
 			}
 			mapping.getSuggested().remove(userCorr);
 			mapping.getAccepted().remove(userCorr);
-		} else {
+		}
+		if (userCorr == null) {
 			userCorr = addNewUserdefinedCorr(pmObject, dfdObject);
 		}
 		if (userCorr == null) {
 			System.out.println("USERCORR");
 		}
-		mapping.getCorrespondences().add(userCorr);
-		mapping.getUserdefined().add(userCorr);
+		Stack<AbstractCorrespondence> stack = new Stack<>();
+		stack.add(userCorr);
+		while (!stack.isEmpty()) {
+			AbstractCorrespondence next = stack.pop();
+			mapping.getCorrespondences().add(next);
+			mapping.getUserdefined().add(next);
+			if (userCorr instanceof AbstractMappingDerived) {
+				stack.addAll(((AbstractMappingDerived) next).getDerived());
+			}
+		}
 		updateMappingOnFilesystem();
 
 	}
@@ -304,7 +321,7 @@ public class Mapper {
 	/**
 	 * Creates a new user defined correspondence
 	 * 
-	 * @param pmObject The object from the program model
+	 * @param pmObject  The object from the program model
 	 * @param dfdObject The object from the DFD
 	 * @return The correspondence
 	 */
@@ -314,12 +331,11 @@ public class Mapper {
 			TMethodDefinition method = (TMethodDefinition) pmObject;
 			if (dfdObject instanceof Process) {
 				Process process = (Process) dfdObject;
-				userCorr = helper.createCorrespondence(method, process, 100);
+				userCorr = helper.createCorrespondence(method, process, 100, Collections.emptyList());
 				cache.add(method, process);
-			} 
-			else if(dfdObject instanceof DataStore) {
+			} else if (dfdObject instanceof DataStore) {
 				DataStore store = (DataStore) dfdObject;
-				userCorr = helper.createCorrespondence(method, store, 100);
+				userCorr = helper.createCorrespondence(method, store, 100, Collections.emptyList());
 				cache.add(method, store);
 			}
 		} else if (pmObject instanceof TAbstractType) {
@@ -333,10 +349,9 @@ public class Mapper {
 				userCorr = helper.createCorrespondence(type, store, 100);
 				cache.add(type, store);
 			}
-		} 
-		if(userCorr == null) {
-			LOGGER.log(Level.ERROR,
-					"Cannot add userdefinded correlation between " + pmObject + " and " + dfdObject);
+		}
+		if (userCorr == null) {
+			LOGGER.log(Level.ERROR, "Cannot add userdefinded correlation between " + pmObject + " and " + dfdObject);
 		}
 		return userCorr;
 	}
@@ -390,8 +405,10 @@ public class Mapper {
 							} else {
 								memberType = ((TMethodDefinition) member).getReturnType();
 							}
-							if (memberType.equals(assetType) || memberType.isSuperTypeOf((TAbstractType) assetType)) {
-								Defintion2Element corr = helper.createCorrespondence(member, element, 90);
+							if (memberType.equals(assetType) || memberType.isSuperTypeOf((TAbstractType) assetType)
+									&& helper.canCreate(member, element)) {
+								Collection<AbstractCorrespondence> derived = helper.getCorrespondence(member.getSignature(), element);
+								Defintion2Element corr = helper.createCorrespondence(member, element, 90, derived);
 								this.mapping.getSuggested().add(corr);
 								correspondingMembers.add(corr);
 							}
@@ -413,7 +430,7 @@ public class Mapper {
 	 * @param mapping              A mapping between assets and types
 	 * @return
 	 */
-	private Stream<Signature2Element> mapToSignature(Element node, Set<TMethod> correspondingMethods,
+	private Stream<MappingProcessSignature> mapToSignature(Element node, Set<TMethod> correspondingMethods,
 			HashMap<NamedEntity, Set<TAbstractType>> mapping) {
 		Set<TAbstractType> paramTypes = new HashSet<>();
 		for (Flow flow : node.getInflows()) {
@@ -449,10 +466,14 @@ public class Mapper {
 			}
 			return matchedParams > 0;
 		}).map(signature -> {
-			MappingProcessSignature newCorr = helper.createCorrespondence(signature, node, 80);
-			this.mapping.getSuggested().add(newCorr);
+			MappingProcessSignature newCorr = null;
+			if (helper.canCreate(signature, node)) {
+				Collection<AbstractCorrespondence> derived = helper.getCorrespondence(signature.getMethod(), node);
+				newCorr = helper.createCorrespondence(signature, node, 80, derived);
+				this.mapping.getSuggested().add(newCorr);
+			}
 			return newCorr;
-		});
+		}).filter(Objects::nonNull);
 	}
 
 	/**
@@ -466,7 +487,7 @@ public class Mapper {
 		ArrayList<Method2Element> list = new ArrayList<Method2Element>();
 		for (TMethod method : methods) {
 			int rank = StringCompare.compare(element.getName(), method.getTName());
-			if (rank > 0) {
+			if (rank > 0 && helper.canCreate(method, element)) {
 				Method2Element corr = helper.createCorrespondence(method, element, rank);
 				mapping.getSuggested().add(corr);
 				list.add(corr);
@@ -499,9 +520,11 @@ public class Mapper {
 			return mapToType((NamedEntity) asset);
 		case STRING:
 			TAbstractType string = pm.getAbstractType("java.lang.String");
-			Type2NamedEntity corr = helper.createCorrespondence(string, asset, 100);
-			mapping.getSuggested().add(corr);
-			list.add(corr);
+			if (helper.canCreate(string, asset)) {
+				Type2NamedEntity corr = helper.createCorrespondence(string, asset, 100);
+				mapping.getSuggested().add(corr);
+				list.add(corr);
+			}
 			break;
 		}
 		return list.stream();
@@ -518,7 +541,7 @@ public class Mapper {
 		ArrayList<Type2NamedEntity> list = new ArrayList<Type2NamedEntity>();
 		for (TAbstractType type : types) {
 			int rank = StringCompare.compare(entity.getName(), type.getTName());
-			if (rank > 0) {
+			if (rank > 0 && helper.canCreate(type, entity)) {
 				Type2NamedEntity corr = helper.createCorrespondence(type, entity, rank);
 				mapping.getSuggested().add(corr);
 				list.add(corr);

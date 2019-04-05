@@ -84,9 +84,9 @@ public class MappingLabelProvider implements ILabelProvider {
 			AbstractCorrespondence corr = (AbstractCorrespondence) element;
 			EObject source = CorrespondenceHelper.getSource(corr);
 			EObject target = CorrespondenceHelper.getTarget(corr);
-			String prefix = getTruePositive(source, target)+"\t\t";
+			String prefix = getTruePositive(source, target) + "\t\t";
 			if (element instanceof MappingRanking) {
-				prefix += "ranking: " + Integer.toString(((MappingRanking) element).getRanking())+"\t\t";
+				prefix += "ranking: " + Integer.toString(((MappingRanking) element).getRanking()) + "\t\t";
 			}
 			return prefix + prettyPrint(source, target);
 		} else if (element instanceof EDFD) {
@@ -101,14 +101,16 @@ public class MappingLabelProvider implements ILabelProvider {
 
 	private String getTruePositive(EObject source, EObject target) {
 		String sourceString = prettyPrint(source).toLowerCase();
+		sourceString = sourceString.substring(sourceString.indexOf(':') + 1).trim();
 		String targetString = prettyPrint(target).toLowerCase();
+		targetString = targetString.substring(targetString.indexOf(':') + 1).trim();
 		String string = "! FALSE POSITIVE";
 		for (JsonElement mapping : object.getAsJsonArray("mappings")) {
 			if (mapping instanceof JsonObject) {
 				String pm = ((JsonObject) mapping).get("pm").getAsString().toLowerCase();
-				if (sourceString.endsWith(pm)) {
+				if (pm.contains(sourceString)) {
 					String dfd = ((JsonObject) mapping).get("secdfd").getAsString().toLowerCase();
-					if (targetString.endsWith(dfd)) {
+					if (targetString.equals(dfd)) {
 						string = "+ TRUE POSITIVE";
 						break;
 					}
@@ -119,11 +121,12 @@ public class MappingLabelProvider implements ILabelProvider {
 	}
 
 	/**
-	 * @param source
-	 * @param target
-	 * @return
+	 * Created a human readable string
+	 * 
+	 * @param eObject The object which should be printed
+	 * @return the string
 	 */
-	private String prettyPrint(EObject eObject) {
+	public static String prettyPrint(EObject eObject) {
 		StringBuilder builder = new StringBuilder();
 		EClass sType = eObject.eClass();
 		if (BasicPackage.eINSTANCE.getTMethod().isSuperTypeOf(sType)) {

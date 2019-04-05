@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -16,15 +18,16 @@ import org.gravity.mapping.secdfd.model.mapping.MappingFactory;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessName;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
+import org.gravity.mapping.secdfd.views.MappingLabelProvider;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethod;
 import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TMethodSignature;
+import org.gravity.typegraph.basic.TSignature;
 import org.gravity.typegraph.basic.TypeGraph;
 import org.moflon.tgg.runtime.AbstractCorrespondence;
 
-import eDFDFlowTracking.DataStore;
 import eDFDFlowTracking.EDFD;
 import eDFDFlowTracking.Element;
 import eDFDFlowTracking.NamedEntity;
@@ -38,15 +41,15 @@ import eDFDFlowTracking.NamedEntity;
 public class CorrespondenceHelper {
 
 	private static final Logger LOGGER = Logger.getLogger(CorrespondenceHelper.class);
-	
+
 	private Mapping mapping;
-	
+
 	private HashMap<EObject, Collection<AbstractCorrespondence>> correspondences = new HashMap<>();
-	
+
 	public CorrespondenceHelper(Mapping mapping) {
 		this.mapping = mapping;
 	}
-	
+
 	/**
 	 * Creates a new correspondence between the two objects and adds it to the
 	 * correspondence model
@@ -54,6 +57,7 @@ public class CorrespondenceHelper {
 	 * @param element A node object
 	 * @param member  A method object
 	 * @return The correspondence
+	 * @throws AddingIgnoredCorrespondenceException
 	 */
 	Method2Element createCorrespondence(TMethod member, Element element, Integer ranking) {
 		MappingProcessName corr = MappingFactory.eINSTANCE.createMappingProcessName();
@@ -63,6 +67,7 @@ public class CorrespondenceHelper {
 		mapping.getCorrespondences().add(corr);
 		addToMap(element, corr);
 		addToMap(member, corr);
+		LOGGER.log(Level.INFO, "Create correspondence: " + MappingLabelProvider.prettyPrint(corr));
 		return corr;
 	}
 
@@ -70,23 +75,25 @@ public class CorrespondenceHelper {
 	 * Creates a new correspondence between the two objects and adds it to the
 	 * correspondence model
 	 * 
-	 * @param asset An element
-	 * @param type  A signature
+	 * @param asset   An element
+	 * @param type    A signature
 	 * @param ranking A ranking
 	 * 
 	 * @return The correspondence
 	 */
-	MappingProcessSignature createCorrespondence(TMethodSignature signature, Element element, Integer ranking) {
+	MappingProcessSignature createCorrespondence(TMethodSignature signature, Element element, Integer ranking, Collection<AbstractCorrespondence> derived) {
 		MappingProcessSignature corr = MappingFactory.eINSTANCE.createMappingProcessSignature();
 		corr.setSource(signature);
 		corr.setTarget(element);
+		corr.getDerived().addAll(derived);
 		mapping.getCorrespondences().add(corr);
 		addToMap(element, corr);
 		addToMap(signature, corr);
-		if(getCorrespondences(signature.getMethod()).isEmpty()) {
+		if (getCorrespondences(signature.getMethod()).isEmpty()) {
 			Method2Element parentCorr = createCorrespondence(signature.getMethod(), element, ranking);
 			corr.getDerived().add(parentCorr);
 		}
+		LOGGER.log(Level.INFO, "Create correspondence: " + MappingLabelProvider.prettyPrint(corr));
 		return corr;
 	}
 
@@ -96,20 +103,22 @@ public class CorrespondenceHelper {
 	 * 
 	 * @param element A node object
 	 * @param member  A method object
-	 * @param ranking 
+	 * @param ranking
 	 * @return The correspondence
 	 */
-	Defintion2Element createCorrespondence(TMember member, Element element, Integer ranking) {
+	MappingProcessDefinition createCorrespondence(TMember member, Element element, Integer ranking, Collection<AbstractCorrespondence> derived) {
 		MappingProcessDefinition corr = MappingFactory.eINSTANCE.createMappingProcessDefinition();
 		corr.setSource(member);
 		corr.setTarget(element);
+		corr.getDerived().addAll(derived);
 		mapping.getCorrespondences().add(corr);
 		addToMap(element, corr);
 		addToMap(member, corr);
-		if(getCorrespondences(member.getSignature()).isEmpty()) {
+		if (getCorrespondences(member.getSignature()).isEmpty()) {
 			TMethodSignature signature = ((TMethodDefinition) member).getSignature();
-			corr.getDerived().add(createCorrespondence(signature, element, ranking));
+			corr.getDerived().add(createCorrespondence(signature, element, ranking, Collections.emptyList()));
 		}
+		LOGGER.log(Level.INFO, "Create correspondence: " + MappingLabelProvider.prettyPrint(corr));
 		return corr;
 	}
 
@@ -129,6 +138,7 @@ public class CorrespondenceHelper {
 		mapping.getCorrespondences().add(corr);
 		addToMap(entity, corr);
 		addToMap(type, corr);
+		LOGGER.log(Level.INFO, "Create correspondence: " + MappingLabelProvider.prettyPrint(corr));
 		return corr;
 	}
 
@@ -146,29 +156,49 @@ public class CorrespondenceHelper {
 		addToMap(pm, corr);
 		addToMap(dfd, corr);
 		mapping.getCorrespondences().add(corr);
+		LOGGER.log(Level.INFO, "Create correspondence: " + MappingLabelProvider.prettyPrint(corr));
 		return corr;
+	}
+
+	/**
+	 * Checks if there is a ignored correspondence between the two objects or has already been created
+	 * 
+	 * @param pmObject  A object from a program model
+	 * @param dfdObject A object from a DFD
+	 * @return true, if this correspondence is not ignored and not already created
+	 */
+	boolean canCreate(EObject pmObject, EObject dfdObject) {
+		boolean isIgnored = mapping.getIgnored().stream()
+				.filter(ignored -> getSource(ignored).equals(pmObject) && getTarget(ignored).equals(dfdObject))
+				.findAny().isPresent();
+		if(isIgnored) {
+			return false;
+		}
+		boolean isPresent = mapping.getCorrespondences().stream()
+		.filter(ignored -> getSource((AbstractCorrespondence) ignored).equals(pmObject) && getTarget((AbstractCorrespondence) ignored).equals(dfdObject))
+		.findAny().isPresent();
+		return !isPresent;
 	}
 
 	private void addToMap(EObject key, AbstractCorrespondence corr) {
 		Collection<AbstractCorrespondence> values;
-		if(correspondences.containsKey(key)) {
+		if (correspondences.containsKey(key)) {
 			values = correspondences.get(key);
-		}
-		else {
+		} else {
 			values = new HashSet<>();
 			correspondences.put(key, values);
 		}
 		values.add(corr);
 	}
-	
+
 	/**
 	 * Checks the correspondences of the given object
 	 * 
 	 * @param object An object
 	 * @return The correspondences
 	 */
-	Collection<AbstractCorrespondence> getCorrespondences(EObject object){
-		if(correspondences.containsKey(object)) {
+	Collection<AbstractCorrespondence> getCorrespondences(EObject object) {
+		if (correspondences.containsKey(object)) {
 			return correspondences.get(object);
 		}
 		return Collections.emptySet();
@@ -184,8 +214,7 @@ public class CorrespondenceHelper {
 		Method method;
 		try {
 			method = correspondence.getClass().getDeclaredMethod("getSource");
-		} catch (IllegalArgumentException | NoSuchMethodException
-				| SecurityException e) {
+		} catch (IllegalArgumentException | NoSuchMethodException | SecurityException e) {
 			try {
 				method = correspondence.getClass().getMethod("getSource");
 			} catch (NoSuchMethodException | SecurityException e1) {
@@ -211,8 +240,7 @@ public class CorrespondenceHelper {
 		Method method;
 		try {
 			method = correspondence.getClass().getDeclaredMethod("getTarget");
-		} catch (IllegalArgumentException | NoSuchMethodException
-				| SecurityException e) {
+		} catch (IllegalArgumentException | NoSuchMethodException | SecurityException e) {
 			try {
 				method = correspondence.getClass().getMethod("getTarget");
 			} catch (NoSuchMethodException | SecurityException e1) {
@@ -226,6 +254,10 @@ public class CorrespondenceHelper {
 			LOGGER.log(Level.ERROR, e);
 			return null;
 		}
+	}
+
+	Collection<AbstractCorrespondence> getCorrespondence(EObject pmElement, EObject dfdElement) {
+		return getCorrespondences(pmElement).stream().filter(corr -> getTarget(corr).equals(dfdElement)).collect(Collectors.toList());
 	}
 
 }
