@@ -17,6 +17,7 @@ import org.gravity.mapping.secdfd.model.mapping.MappingFactory;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessName;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
+import org.gravity.mapping.secdfd.model.mapping.MappingRanking;
 import org.gravity.mapping.secdfd.views.MappingLabelProvider;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TMember;
@@ -65,6 +66,18 @@ public class CorrespondenceHelper {
 		mapping.getCorrespondences().add(corr);
 		addToMap(element, corr);
 		addToMap(member, corr);
+		Collection<AbstractCorrespondence> bonus_corr = getCorrespondence(member, element);
+		if (!bonus_corr.isEmpty()) {
+			AbstractCorrespondence ac = bonus_corr.iterator().next();
+			//increase the ranking
+			if(((MappingRanking) ac).getRanking() < 100) {
+				((MappingRanking) ac).setRanking(((MappingRanking) ac).getRanking()+15);
+				
+			}
+		} else if(bonus_corr.size()>1) {
+			//logg it
+			LOGGER.log(Level.INFO, "More than one corresponcende: " + MappingLabelProvider.prettyPrint(corr));
+		}
 		LOGGER.log(Level.INFO, "Create correspondence: " + MappingLabelProvider.prettyPrint(corr));
 		return corr;
 	}
@@ -81,12 +94,25 @@ public class CorrespondenceHelper {
 	 */
 	MappingProcessSignature createCorrespondence(TMethodSignature signature, Element element, Integer ranking, Collection<AbstractCorrespondence> derived) {
 		MappingProcessSignature corr = MappingFactory.eINSTANCE.createMappingProcessSignature();
+		corr.setRanking(ranking);
 		corr.setSource(signature);
 		corr.setTarget(element);
 		corr.getDerived().addAll(derived);
 		mapping.getCorrespondences().add(corr);
 		addToMap(element, corr);
 		addToMap(signature, corr);
+		Collection<AbstractCorrespondence> bonus_corr = getCorrespondence(signature, element);
+		if (!bonus_corr.isEmpty()) {
+			AbstractCorrespondence ac = bonus_corr.iterator().next();
+			//increase the ranking
+			if(((MappingRanking) ac).getRanking() < 100) {
+				((MappingRanking) ac).setRanking(((MappingRanking) ac).getRanking()+15);
+				
+			}
+		} else if(bonus_corr.size()>1) {
+			//logg it
+			LOGGER.log(Level.INFO, "More than one corresponcende: " + MappingLabelProvider.prettyPrint(corr));
+		}
 		if (getCorrespondences(signature.getMethod()).isEmpty()) {
 			Method2Element parentCorr = createCorrespondence(signature.getMethod(), element, ranking);
 			corr.getDerived().add(parentCorr);
@@ -106,12 +132,25 @@ public class CorrespondenceHelper {
 	 */
 	MappingProcessDefinition createCorrespondence(TMember member, Element element, Integer ranking, Collection<AbstractCorrespondence> derived) {
 		MappingProcessDefinition corr = MappingFactory.eINSTANCE.createMappingProcessDefinition();
+		corr.setRanking(ranking);
 		corr.setSource(member);
 		corr.setTarget(element);
 		corr.getDerived().addAll(derived);
 		mapping.getCorrespondences().add(corr);
 		addToMap(element, corr);
 		addToMap(member, corr);
+		Collection<AbstractCorrespondence> bonus_corr = getCorrespondence(member, element);
+		if (!bonus_corr.isEmpty()) {
+			AbstractCorrespondence ac = bonus_corr.iterator().next();
+			//increase the ranking
+			if(((MappingRanking) ac).getRanking() < 100) {
+				((MappingRanking) ac).setRanking(((MappingRanking) ac).getRanking()+15);
+				
+			}
+		} else if(bonus_corr.size()>1) {
+			//logg it
+			LOGGER.log(Level.INFO, "More than one corresponcende: " + MappingLabelProvider.prettyPrint(corr));
+		}
 		if (getCorrespondences(member.getSignature()).isEmpty()) {
 			TMethodSignature signature = ((TMethodDefinition) member).getSignature();
 			corr.getDerived().add(createCorrespondence(signature, element, ranking, Collections.emptyList()));
@@ -136,6 +175,18 @@ public class CorrespondenceHelper {
 		mapping.getCorrespondences().add(corr);
 		addToMap(entity, corr);
 		addToMap(type, corr);
+		Collection<AbstractCorrespondence> bonus_corr = getCorrespondence(type, entity);
+		if (!bonus_corr.isEmpty()) {
+			AbstractCorrespondence ac = bonus_corr.iterator().next();
+			//increase the ranking
+			if(((MappingRanking) ac).getRanking() < 100) {
+				((MappingRanking) ac).setRanking(((MappingRanking) ac).getRanking()+15);
+				
+			}
+		} else if(bonus_corr.size()>1) {
+			//logg it
+			LOGGER.log(Level.INFO, "More than one corresponcende: " + MappingLabelProvider.prettyPrint(corr));
+		}
 		LOGGER.log(Level.INFO, "Create correspondence: " + MappingLabelProvider.prettyPrint(corr));
 		return corr;
 	}
