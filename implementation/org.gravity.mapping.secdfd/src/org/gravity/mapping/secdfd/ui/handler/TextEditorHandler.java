@@ -1,7 +1,11 @@
 package org.gravity.mapping.secdfd.ui.handler;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map.Entry;
-
+import java.util.stream.Collectors;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.core.commands.AbstractHandler;
@@ -17,9 +21,12 @@ import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.NodeFinder;
+import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
+import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.ui.PartInitException;
@@ -31,7 +38,10 @@ import org.gravity.eclipse.util.JavaASTUtil;
 import org.gravity.mapping.secdfd.views.DFDSelectionView;
 import org.gravity.mapping.secdfd.views.MappingView;
 import org.gravity.typegraph.basic.TAbstractType;
+import org.gravity.typegraph.basic.TFieldDefinition;
+import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TMethodSignature;
+import org.gravity.typegraph.basic.TParameter;
 import org.gravity.typegraph.basic.TypeGraph;
 
 /**
@@ -54,26 +64,8 @@ public class TextEditorHandler extends AbstractHandler {
 		ASTNode node = getSelectedASTNode(event);
 		TypeGraph pm = mappingView.getProgramModel().getValue();
 
-		EObject selected = null;
-		if (node.getNodeType() == ASTNode.SIMPLE_NAME) {
-			node = node.getParent();
-		}
-		switch (node.getNodeType()) {
-		case ASTNode.METHOD_DECLARATION:
-			MethodDeclaration method = (MethodDeclaration) node;
-			TMethodSignature tMethodSignature = JavaASTUtil.getTMethodSignature(method, pm);
-			System.out.println(tMethodSignature);
-			TAbstractType tDeclaringType = JavaASTUtil.getTClass((TypeDeclaration) method.getParent(), pm);
-			selected = tMethodSignature.getTDefinition(tDeclaringType);
-			;
-			break;
-		case ASTNode.TYPE_DECLARATION:
-			TAbstractType tType = JavaASTUtil.getTClass((TypeDeclaration) node, pm);
-			System.out.println(tType);
-			selected = tType;
-			break;
-		}
-		if (selected == null) {
+		List<EObject> selected = getSelectedPMElement(node, pm);
+		if (selected == null || selected.isEmpty()) {
 			LOGGER.log(Level.ERROR, "Cannot find element in model: " + node);
 			return null;
 		}
@@ -86,14 +78,67 @@ public class TextEditorHandler extends AbstractHandler {
 			LOGGER.log(Level.ERROR, e);
 			return false;
 		}
-		final EObject finalCopy = selected;
 		GravityUiActivator.getShell().getDisplay().asyncExec(new Runnable() {
 
 			@Override
 			public void run() {
-				dfdView.populate(finalCopy, mappingView);
+				dfdView.populate(selected, mappingView);
 			}
 		});
+		return null;
+	}
+
+	/**
+	 * Searches the selected element in the program model
+	 * 
+	 * @param node A AST node
+	 * @param pm   The program model
+	 * @return the selected element
+	 */
+	private List<EObject> getSelectedPMElement(ASTNode node, TypeGraph pm) {
+		switch (node.getNodeType()) {
+		case ASTNode.SIMPLE_NAME:
+			return getSelectedPMElement(node.getParent(), pm);
+		case ASTNode.SINGLE_VARIABLE_DECLARATION:
+			SingleVariableDeclaration var =((SingleVariableDeclaration) node);
+			ASTNode varParent = var.getParent();
+			if(varParent.getNodeType() == ASTNode.METHOD_DECLARATION) {
+				MethodDeclaration varMethod = (MethodDeclaration) varParent;
+				TMethodDefinition varMethodDef = (TMethodDefinition) getSelectedPMElement(varMethod, pm).get(0);
+				int index = varMethod.parameters().indexOf(var);
+				TParameter tParam = varMethodDef.getSignature().getParamList().getFirst();
+				for(int i = 0; i < index; i++) {
+					tParam = tParam.getNext();
+				}
+				List<EObject> list = new ArrayList<>(3);
+				list.add(tParam.getType());
+				list.add(tParam);
+				list.add(varMethodDef);
+				return list;
+			}
+		case ASTNode.VARIABLE_DECLARATION_FRAGMENT:
+			ASTNode parent = node.getParent();
+			if (parent.getNodeType() == ASTNode.FIELD_DECLARATION) {
+				FieldDeclaration field = (FieldDeclaration) parent;
+				String name = ((VariableDeclarationFragment) node).getName().toString();
+				TAbstractType tType = JavaASTUtil.getTClass((TypeDeclaration) field.getParent(), pm);
+				List<EObject> fieldList = new LinkedList<>(tType.getDefines().stream()
+						.filter(member -> (member instanceof TFieldDefinition))
+						.filter(def -> ((TFieldDefinition) def).getSignature().getField().getTName().equals(name))
+						.collect(Collectors.toList()));
+				TAbstractType fieldType = ((TFieldDefinition) fieldList.get(0)).getSignature().getType();
+				fieldList.add(0, fieldType);
+				return fieldList;
+			}
+		case ASTNode.METHOD_DECLARATION:
+			MethodDeclaration method = (MethodDeclaration) node;
+			TMethodSignature tMethodSignature = JavaASTUtil.getTMethodSignature(method, pm);
+			System.out.println(tMethodSignature);
+			TAbstractType tDeclaringType = JavaASTUtil.getTClass((TypeDeclaration) method.getParent(), pm);
+			return Collections.singletonList(tMethodSignature.getTDefinition(tDeclaringType));
+		case ASTNode.TYPE_DECLARATION:
+			return Collections.singletonList(JavaASTUtil.getTClass((TypeDeclaration) node, pm));
+		}
 		return null;
 	}
 

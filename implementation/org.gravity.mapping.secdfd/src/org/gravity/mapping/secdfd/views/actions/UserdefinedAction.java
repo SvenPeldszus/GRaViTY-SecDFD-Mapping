@@ -1,5 +1,6 @@
 package org.gravity.mapping.secdfd.views.actions;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -23,7 +24,7 @@ public final class UserdefinedAction extends Action {
 	/**
 	 * The source element which should be mapped
 	 */
-	EObject source;
+	List<EObject> source;
 	
 	
 	private final MappingView map;
@@ -55,7 +56,7 @@ public final class UserdefinedAction extends Action {
 			}
 			Mapping mapping = result.get();
 			Mapper mapper = map.getMapper(mapping);
-			mapper.userdefined(source, (EObject) e);
+			source.forEach(s -> mapper.userdefined(s, (EObject) e));
 			map.update();
 		});
 	}
@@ -65,7 +66,7 @@ public final class UserdefinedAction extends Action {
 		return true;//source != null;
 	}
 
-	public void setSource(EObject source) {
+	public void setSource(List<EObject> source) {
 		this.source = source;
 	}
 

@@ -181,9 +181,10 @@ public class Mapper {
 										.getDefinitions()) {
 									if (getPath(sourceDefinition, targetSignature)
 											&& helper.canCreate(sourceDefinition, targetSignature)) {
-										Collection<AbstractCorrespondence> derived = helper.getCorrespondence(signature, sourceElement);
+										Collection<AbstractCorrespondence> derived = helper.getCorrespondence(signature,
+												sourceElement);
 										Defintion2Element corr = helper.createCorrespondence(sourceDefinition,
-												sourceElement, 90, derived );
+												sourceElement, 90, derived);
 										mapping.getCorrespondences().add(corr);
 										mapping.getSuggested().add(corr);
 									}
@@ -212,7 +213,7 @@ public class Mapper {
 			}
 			mapping.getAccepted().add(corr);
 			updateRanking(corr, 100);
-			if(corr instanceof AbstractMappingDerived) {
+			if (corr instanceof AbstractMappingDerived) {
 				((AbstractMappingDerived) corr).getDerived().forEach(parent -> accept(parent));
 			}
 			updateMappingOnFilesystem();
@@ -301,21 +302,19 @@ public class Mapper {
 		if (userCorr == null) {
 			userCorr = addNewUserdefinedCorr(pmObject, dfdObject);
 		}
-		if (userCorr == null) {
-			System.out.println("USERCORR");
-		}
-		Stack<AbstractCorrespondence> stack = new Stack<>();
-		stack.add(userCorr);
-		while (!stack.isEmpty()) {
-			AbstractCorrespondence next = stack.pop();
-			mapping.getCorrespondences().add(next);
-			mapping.getUserdefined().add(next);
-			if (userCorr instanceof AbstractMappingDerived) {
-				stack.addAll(((AbstractMappingDerived) next).getDerived());
+		if (userCorr != null) {
+			Stack<AbstractCorrespondence> stack = new Stack<>();
+			stack.add(userCorr);
+			while (!stack.isEmpty()) {
+				AbstractCorrespondence next = stack.pop();
+				mapping.getCorrespondences().add(next);
+				mapping.getUserdefined().add(next);
+				if (userCorr instanceof AbstractMappingDerived) {
+					stack.addAll(((AbstractMappingDerived) next).getDerived());
+				}
 			}
+			updateMappingOnFilesystem();
 		}
-		updateMappingOnFilesystem();
-
 	}
 
 	/**
@@ -407,7 +406,8 @@ public class Mapper {
 							}
 							if (memberType.equals(assetType) || memberType.isSuperTypeOf((TAbstractType) assetType)
 									&& helper.canCreate(member, element)) {
-								Collection<AbstractCorrespondence> derived = helper.getCorrespondence(member.getSignature(), element);
+								Collection<AbstractCorrespondence> derived = helper
+										.getCorrespondence(member.getSignature(), element);
 								Defintion2Element corr = helper.createCorrespondence(member, element, 90, derived);
 								this.mapping.getSuggested().add(corr);
 								correspondingMembers.add(corr);

@@ -4,6 +4,10 @@
 package org.gravity.mapping.secdfd.views;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
@@ -22,7 +26,9 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.part.ViewPart;
 import org.gravity.mapping.secdfd.views.actions.UserdefinedAction;
 import org.gravity.typegraph.basic.TAbstractType;
+import org.gravity.typegraph.basic.TFieldDefinition;
 
+import eDFDFlowTracking.DataStore;
 import eDFDFlowTracking.EDFD;
 
 /**
@@ -52,8 +58,14 @@ public class DFDSelectionView extends ViewPart {
 				EDFD dfd = ((EDFD) parentElement);
 				if (source instanceof TAbstractType) {
 					return dfd.getAsset().toArray();
-				} else {
-					return dfd.getElements().toArray();
+				} else if(source instanceof TFieldDefinition){
+					Set<EObject> results = new HashSet<>();
+					results.addAll(dfd.getAsset());
+					results.addAll(dfd.getElements().stream().filter(element -> (element instanceof DataStore)).collect(Collectors.toSet()));
+					return results.toArray();
+				}
+				else {
+					return dfd.getElements().stream().filter(element -> (element instanceof Process)).toArray();
 				}
 			}
 			return null;
@@ -105,12 +117,12 @@ public class DFDSelectionView extends ViewPart {
 	 * Populates the view with the given content
 	 *
 	 */
-	public void populate(EObject source, MappingView mappingView) {
+	public void populate(List<EObject> source, MappingView mappingView) {
 		if (treeViewer == null) {
-			initTree(source, mappingView);
+			initTree(source.get(0), mappingView);
 		}
 		action.setSource(source);
-		((DFDSelectionContentProvider) treeViewer.getContentProvider()).updateSouce(source);
+		((DFDSelectionContentProvider) treeViewer.getContentProvider()).updateSouce(source.get(0));
 		treeViewer.refresh(mappingView.getDFDs());
 		parent.pack();
 		parent.layout(true);
