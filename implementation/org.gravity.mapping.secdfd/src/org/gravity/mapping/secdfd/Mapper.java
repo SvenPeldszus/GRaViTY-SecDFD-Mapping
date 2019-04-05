@@ -31,6 +31,8 @@ import org.gravity.mapping.secdfd.model.mapping.MappingFactory;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
 import org.gravity.mapping.secdfd.model.mapping.MappingRanking;
+import org.gravity.mapping.secdfd.views.MappingContentProvider;
+import org.gravity.mapping.secdfd.views.MappingLabelProvider;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TAccess;
 import org.gravity.typegraph.basic.TClass;
@@ -156,6 +158,7 @@ public class Mapper {
 	 * @return The optimized mapping
 	 */
 	public Mapping optimize() {
+		MappingLabelProvider.initializeLogging();
 		LOGGER.log(Level.INFO, "\nStart optimization >>>>>\n");
 		cache.getEntityTypeMapping().entrySet().stream().filter(e -> e.getKey() instanceof Element).forEach(e -> {
 			Element node = (Element) e.getKey();
@@ -183,8 +186,8 @@ public class Mapper {
 											&& helper.canCreate(sourceDefinition, targetSignature)) {
 										Collection<AbstractCorrespondence> derived = helper.getCorrespondence(signature,
 												sourceElement);
-										Defintion2Element corr = helper.createCorrespondence(sourceDefinition,
-												sourceElement, 90, derived);
+										Defintion2Element corr = helper.createCorrespondence(sourceDefinition, sourceElement, 90, derived);
+										//TODO: change it already there (duplicates on the screen)
 										mapping.getCorrespondences().add(corr);
 										mapping.getSuggested().add(corr);
 									}

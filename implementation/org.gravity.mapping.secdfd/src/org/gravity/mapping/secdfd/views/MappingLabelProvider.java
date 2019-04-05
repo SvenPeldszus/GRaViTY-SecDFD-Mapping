@@ -3,6 +3,10 @@ package org.gravity.mapping.secdfd.views;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
+import java.util.HashSet;
 import java.util.Map.Entry;
 
 import org.eclipse.core.resources.IFile;
@@ -11,6 +15,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
+//import org.eclipse.xtext.util.Files;
 import org.gravity.mapping.secdfd.CorrespondenceHelper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.model.mapping.MappingRanking;
@@ -31,12 +36,53 @@ import eDFDFlowTracking.NamedEntity;
 public class MappingLabelProvider implements ILabelProvider {
 
 	private JsonObject object;
+	//public static boolean reset = false;
+	public static HashSet<String> true_positives = new HashSet<String>();
+	public static HashSet<String> false_positives = new HashSet<String>();
+	public static HashSet<String> JsonFileTP = new HashSet<String>();
+	public static HashSet<String> copyJsonFileTP = new HashSet<String>();
 
+	public static void initializeLogging() {
+		//logg
+		File file = MappingView.getMappingView().getProgramModel().getKey().getProject()
+				.getFile("precision_recall.log").getLocation().toFile();
+		String build = "Precision "
+				.concat(Double.toString((double) true_positives.size() / (true_positives.size() + false_positives.size())))
+				.concat(", Recall: "
+						.concat(Double.toString((double) true_positives.size() / (true_positives.size() + copyJsonFileTP.size()))))
+				.concat("\n").concat("TP: ").concat(Integer.toString(true_positives.size())).concat("\n").concat("FP: ")
+				.concat(Integer.toString(false_positives.size())).concat("\n").concat("FN: ")
+				.concat(Integer.toString(copyJsonFileTP.size())).concat("\n");
+		try {
+			file.createNewFile();
+			Files.write(file.toPath(), build.getBytes(),StandardOpenOption.APPEND);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		copyJsonFileTP = new HashSet<String>(JsonFileTP);
+		true_positives = new HashSet();
+		false_positives = new HashSet();
+	}
+	
 	public MappingLabelProvider() {
 		File file = MappingView.getMappingView().getProgramModel().getKey().getProject()
 				.getFile("groundtruth/storepassword.json").getLocation().toFile();
 		try {
 			object = new JsonParser().parse(new FileReader(file)).getAsJsonObject();
+			for (JsonElement mapping : object.getAsJsonArray("mappings")) {
+				if (mapping instanceof JsonObject) {
+					String pm = ((JsonObject) mapping).get("pm").getAsString().toLowerCase();
+					JsonFileTP.add(pm);
+					if (pm.contains(":")) {
+						String substring = pm.substring(pm.lastIndexOf('.')+1);
+						JsonFileTP.add(substring);
+						String substring1 = substring.substring(0,substring.indexOf('('));
+						JsonFileTP.add(substring1);
+					}
+				}
+			}
+			initializeLogging();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -111,12 +157,15 @@ public class MappingLabelProvider implements ILabelProvider {
 				if (pm.contains(sourceString)) {
 					String dfd = ((JsonObject) mapping).get("secdfd").getAsString().toLowerCase();
 					if (targetString.equals(dfd)) {
+						true_positives.add(sourceString);
+						copyJsonFileTP.remove(sourceString);
 						string = "+ TRUE POSITIVE";
 						break;
 					}
 				}
 			}
 		}
+		if(string=="! FALSE POSITIVE") false_positives.add(sourceString);
 		return string;
 	}
 
