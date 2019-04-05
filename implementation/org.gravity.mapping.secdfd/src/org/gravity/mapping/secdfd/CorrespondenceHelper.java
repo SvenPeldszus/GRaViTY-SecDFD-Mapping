@@ -24,6 +24,7 @@ import org.gravity.typegraph.basic.TMethodSignature;
 import org.gravity.typegraph.basic.TypeGraph;
 import org.moflon.tgg.runtime.AbstractCorrespondence;
 
+import eDFDFlowTracking.DataStore;
 import eDFDFlowTracking.EDFD;
 import eDFDFlowTracking.Element;
 import eDFDFlowTracking.NamedEntity;
@@ -54,7 +55,7 @@ public class CorrespondenceHelper {
 	 * @param member  A method object
 	 * @return The correspondence
 	 */
-	Method2Element createCorrespondence(Element element, TMethod member, Integer ranking) {
+	Method2Element createCorrespondence(TMethod member, Element element, Integer ranking) {
 		MappingProcessName corr = MappingFactory.eINSTANCE.createMappingProcessName();
 		corr.setSource(member);
 		corr.setTarget(element);
@@ -75,7 +76,7 @@ public class CorrespondenceHelper {
 	 * 
 	 * @return The correspondence
 	 */
-	MappingProcessSignature createCorrespondence(Element element, TMethodSignature signature, Integer ranking) {
+	MappingProcessSignature createCorrespondence(TMethodSignature signature, Element element, Integer ranking) {
 		MappingProcessSignature corr = MappingFactory.eINSTANCE.createMappingProcessSignature();
 		corr.setSource(signature);
 		corr.setTarget(element);
@@ -83,7 +84,7 @@ public class CorrespondenceHelper {
 		addToMap(element, corr);
 		addToMap(signature, corr);
 		if(getCorrespondences(signature.getMethod()).isEmpty()) {
-			Method2Element parentCorr = createCorrespondence(element, signature.getMethod(), ranking);
+			Method2Element parentCorr = createCorrespondence(signature.getMethod(), element, ranking);
 			corr.getDerived().add(parentCorr);
 		}
 		return corr;
@@ -98,7 +99,7 @@ public class CorrespondenceHelper {
 	 * @param ranking 
 	 * @return The correspondence
 	 */
-	Defintion2Element createCorrespondence(Element element, TMember member, Integer ranking) {
+	Defintion2Element createCorrespondence(TMember member, Element element, Integer ranking) {
 		MappingProcessDefinition corr = MappingFactory.eINSTANCE.createMappingProcessDefinition();
 		corr.setSource(member);
 		corr.setTarget(element);
@@ -106,7 +107,8 @@ public class CorrespondenceHelper {
 		addToMap(element, corr);
 		addToMap(member, corr);
 		if(getCorrespondences(member.getSignature()).isEmpty()) {
-			corr.getDerived().add(createCorrespondence(element, ((TMethodDefinition) member).getSignature(), ranking));
+			TMethodSignature signature = ((TMethodDefinition) member).getSignature();
+			corr.getDerived().add(createCorrespondence(signature, element, ranking));
 		}
 		return corr;
 	}
@@ -119,7 +121,7 @@ public class CorrespondenceHelper {
 	 * @param type  A type object
 	 * @return The correspondence
 	 */
-	Type2NamedEntity createCorrespondence(NamedEntity entity, TAbstractType type, Integer ranking) {
+	Type2NamedEntity createCorrespondence(TAbstractType type, NamedEntity entity, Integer ranking) {
 		MappingEntityType corr = MappingFactory.eINSTANCE.createMappingEntityType();
 		corr.setSource(type);
 		corr.setTarget(entity);
@@ -147,13 +149,14 @@ public class CorrespondenceHelper {
 		return corr;
 	}
 
-	private void addToMap(EObject element, AbstractCorrespondence corr) {
+	private void addToMap(EObject key, AbstractCorrespondence corr) {
 		Collection<AbstractCorrespondence> values;
-		if(correspondences.containsKey(element)) {
-			values = correspondences.get(element);
+		if(correspondences.containsKey(key)) {
+			values = correspondences.get(key);
 		}
 		else {
 			values = new HashSet<>();
+			correspondences.put(key, values);
 		}
 		values.add(corr);
 	}
