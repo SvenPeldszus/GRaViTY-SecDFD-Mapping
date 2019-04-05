@@ -96,6 +96,7 @@ public class CorrespondenceHelper {
 	 */
 	MappingProcessSignature createCorrespondence(TMethodSignature signature, Element element, Integer ranking, Collection<AbstractCorrespondence> derived) {
 		MappingProcessSignature corr = MappingFactory.eINSTANCE.createMappingProcessSignature();
+		corr.setRanking(ranking);
 		corr.setSource(signature);
 		corr.setTarget(element);
 		corr.getDerived().addAll(derived);
@@ -133,6 +134,7 @@ public class CorrespondenceHelper {
 	 */
 	MappingProcessDefinition createCorrespondence(TMember member, Element element, Integer ranking, Collection<AbstractCorrespondence> derived) {
 		MappingProcessDefinition corr = MappingFactory.eINSTANCE.createMappingProcessDefinition();
+		corr.setRanking(ranking);
 		corr.setSource(member);
 		corr.setTarget(element);
 		corr.getDerived().addAll(derived);
