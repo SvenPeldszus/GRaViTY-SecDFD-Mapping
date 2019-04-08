@@ -2,8 +2,8 @@ package org.gravity.mapping.secdfd;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import org.apache.commons.text.similarity.LevenshteinDistance;
+import info.debatty.java.stringsimilarity.Cosine;
 
 /**
  * This class provides functionalities for finding similiar Strings
@@ -21,21 +21,43 @@ public class StringCompare {
 	 * @return true, if the Strings are similar
 	 */
 	
-	public static boolean compare_cosine(String first, String second) {
-		//TODO
-		return true;
+	public static Integer compare_cosine(String first, String second) {
+		List<String> words1 = getWords(first);
+		List<String> words2 = getWords(second);
+		Cosine cosine_class = new Cosine();
+
+		int similar = 0;
+		for(String s1 : words1) {
+			for(String s2 : words2) {
+				
+				//if 0, the strings are completely different, if 1, they are the same
+				double cos_dist =  cosine_class.similarity(s1, s2);
+				int avg = (s1.length() +  s2.length()) / 2;
+				double accept = 0; 
+				if(avg > 7) {
+					accept = 0.7;
+				}
+				else if(avg > 2) {
+					accept = 0.9;
+				}
+				if(cos_dist >= accept) {
+					similar++;
+				}
+			}
+		}
+		
+		int expect = (int) Math.ceil(((double) Math.max(words1.size(), words2.size())) / 2);
+		if (similar < (expect > 0 ? expect : 1)) {
+			return -1;
+		}
+		else {
+			double s = ((double) similar)/Math.max(words1.size(), words2.size());
+			return (int) (s*100);
+		}
 	}
-	
-	//public static int 
+
 	
 	public static Integer compare(String first, String second) {
-		
-
-		// The length of the Stings should not be too different
-//		if(Math.abs(length1 - length2) > Math.max(length1, length2)*0.5) {
-//			return false;
-//		}
-
 		List<String> words1 = getWords(first);
 		List<String> words2 = getWords(second);
 
@@ -59,7 +81,6 @@ public class StringCompare {
 		
 		int expect = (int) Math.ceil(((double) Math.max(words1.size(), words2.size())) / 2);
 		
-		//alternatively we can calculate the cosine similarity.
 		if (similar < (expect > 0 ? expect : 1)) {
 			return -1;
 		}
