@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -111,6 +112,17 @@ public class MappingView extends ViewPart {
 					Mapping mapping = mapper.getMapping();
 					System.out.println("Continue with: "+mapper);
 					mapper.optimize();
+					update();					
+				}
+			}
+			
+		});
+		tm.add(new Action("Accept all") {
+			
+			public void run() {
+				for(Mapper mapper : mappers.values()) {
+					Mapping mapping = mapper.getMapping();
+					new ArrayList<>(mapping.getSuggested()).forEach(corr -> mapper.accept(corr));
 					update();					
 				}
 			}

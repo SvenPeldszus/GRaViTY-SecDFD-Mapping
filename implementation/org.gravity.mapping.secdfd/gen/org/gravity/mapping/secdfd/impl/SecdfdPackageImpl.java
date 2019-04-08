@@ -23,6 +23,7 @@ import SDMLanguage.patterns.patternExpressions.PatternExpressionsPackage;
 import SDMLanguage.sdmUtil.SdmUtilPackage;
 
 import eDFDFlowTracking.EDFDFlowTracking1Package;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -44,7 +45,9 @@ import org.gravity.mapping.secdfd.Type2NamedEntity;
 import org.gravity.mapping.secdfd.TypeGraph2EDFD;
 
 import org.gravity.mapping.secdfd.model.mapping.MappingPackage;
+
 import org.gravity.mapping.secdfd.model.mapping.impl.MappingPackageImpl;
+
 import org.gravity.typegraph.basic.BasicPackage;
 
 import org.moflon.tgg.language.LanguagePackage;
@@ -77,13 +80,6 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass signature2ElementEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	private EClass typeGraph2EDFDEClass = null;
 
 	/**
@@ -99,6 +95,13 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 	 * @generated
 	 */
 	private EClass flow2AccessEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass signature2ElementEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -253,36 +256,6 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 	 * @generated
 	 */
 	@Override
-	public EClass getSignature2Element() {
-		return signature2ElementEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EReference getSignature2Element_Source() {
-		return (EReference)signature2ElementEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EReference getSignature2Element_Target() {
-		return (EReference)signature2ElementEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public EClass getTypeGraph2EDFD() {
 		return typeGraph2EDFDEClass;
 	}
@@ -365,6 +338,36 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 	@Override
 	public EReference getFlow2Access_Target() {
 		return (EReference)flow2AccessEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getSignature2Element() {
+		return signature2ElementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getSignature2Element_Source() {
+		return (EReference)signature2ElementEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getSignature2Element_Target() {
+		return (EReference)signature2ElementEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**

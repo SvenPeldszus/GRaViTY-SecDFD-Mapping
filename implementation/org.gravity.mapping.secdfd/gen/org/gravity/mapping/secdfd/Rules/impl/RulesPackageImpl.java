@@ -23,6 +23,7 @@ import SDMLanguage.patterns.patternExpressions.PatternExpressionsPackage;
 import SDMLanguage.sdmUtil.SdmUtilPackage;
 
 import eDFDFlowTracking.EDFDFlowTracking1Package;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
@@ -38,7 +39,9 @@ import org.gravity.mapping.secdfd.SecdfdPackage;
 import org.gravity.mapping.secdfd.impl.SecdfdPackageImpl;
 
 import org.gravity.mapping.secdfd.model.mapping.MappingPackage;
+
 import org.gravity.mapping.secdfd.model.mapping.impl.MappingPackageImpl;
+
 import org.gravity.typegraph.basic.BasicPackage;
 
 import org.moflon.tgg.language.LanguagePackage;

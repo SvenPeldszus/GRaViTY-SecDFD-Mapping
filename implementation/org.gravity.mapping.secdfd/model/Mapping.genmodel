@@ -21,10 +21,13 @@
     <genClasses ecoreClass="Mapping.ecore#//MappingProcessName"/>
     <genClasses ecoreClass="Mapping.ecore#//MappingProcessSignature"/>
     <genClasses ecoreClass="Mapping.ecore#//MappingProcessDefinition"/>
-    <genClasses image="false" ecoreClass="Mapping.ecore#//MappingRanking">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Mapping.ecore#//MappingRanking/Ranking"/>
+    <genClasses image="false" ecoreClass="Mapping.ecore#//AbstractMappingRanking">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Mapping.ecore#//AbstractMappingRanking/Ranking"/>
     </genClasses>
     <genClasses ecoreClass="Mapping.ecore#//MappingEntityType"/>
+    <genClasses image="false" ecoreClass="Mapping.ecore#//AbstractMappingBase">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Mapping.ecore#//AbstractMappingBase/deriving"/>
+    </genClasses>
   </genPackages>
   <genPackages prefix="Secdfd" basePackage="org.gravity.mapping" disposableProviderFactory="true"
       ecorePackage="Secdfd.ecore#/">

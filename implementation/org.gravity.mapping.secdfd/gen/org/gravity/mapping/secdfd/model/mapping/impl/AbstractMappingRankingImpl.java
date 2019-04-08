@@ -9,23 +9,23 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
+import org.gravity.mapping.secdfd.model.mapping.AbstractMappingRanking;
 import org.gravity.mapping.secdfd.model.mapping.MappingPackage;
-import org.gravity.mapping.secdfd.model.mapping.MappingRanking;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Ranking</b></em>'.
+ * An implementation of the model object '<em><b>Abstract Mapping Ranking</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.gravity.mapping.secdfd.model.mapping.impl.MappingRankingImpl#getRanking <em>Ranking</em>}</li>
+ *   <li>{@link org.gravity.mapping.secdfd.model.mapping.impl.AbstractMappingRankingImpl#getRanking <em>Ranking</em>}</li>
  * </ul>
  *
  * @generated
  */
-public abstract class MappingRankingImpl extends MinimalEObjectImpl.Container implements MappingRanking {
+public abstract class AbstractMappingRankingImpl extends MinimalEObjectImpl.Container implements AbstractMappingRanking {
 	/**
 	 * The default value of the '{@link #getRanking() <em>Ranking</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -51,7 +51,7 @@ public abstract class MappingRankingImpl extends MinimalEObjectImpl.Container im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected MappingRankingImpl() {
+	protected AbstractMappingRankingImpl() {
 		super();
 	}
 
@@ -62,7 +62,7 @@ public abstract class MappingRankingImpl extends MinimalEObjectImpl.Container im
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return MappingPackage.Literals.MAPPING_RANKING;
+		return MappingPackage.Literals.ABSTRACT_MAPPING_RANKING;
 	}
 
 	/**
@@ -85,7 +85,7 @@ public abstract class MappingRankingImpl extends MinimalEObjectImpl.Container im
 		int oldRanking = ranking;
 		ranking = newRanking;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MappingPackage.MAPPING_RANKING__RANKING, oldRanking, ranking));
+			eNotify(new ENotificationImpl(this, Notification.SET, MappingPackage.ABSTRACT_MAPPING_RANKING__RANKING, oldRanking, ranking));
 	}
 
 	/**
@@ -96,7 +96,7 @@ public abstract class MappingRankingImpl extends MinimalEObjectImpl.Container im
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case MappingPackage.MAPPING_RANKING__RANKING:
+			case MappingPackage.ABSTRACT_MAPPING_RANKING__RANKING:
 				return getRanking();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -110,7 +110,7 @@ public abstract class MappingRankingImpl extends MinimalEObjectImpl.Container im
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case MappingPackage.MAPPING_RANKING__RANKING:
+			case MappingPackage.ABSTRACT_MAPPING_RANKING__RANKING:
 				setRanking((Integer)newValue);
 				return;
 		}
@@ -125,7 +125,7 @@ public abstract class MappingRankingImpl extends MinimalEObjectImpl.Container im
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case MappingPackage.MAPPING_RANKING__RANKING:
+			case MappingPackage.ABSTRACT_MAPPING_RANKING__RANKING:
 				setRanking(RANKING_EDEFAULT);
 				return;
 		}
@@ -140,7 +140,7 @@ public abstract class MappingRankingImpl extends MinimalEObjectImpl.Container im
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case MappingPackage.MAPPING_RANKING__RANKING:
+			case MappingPackage.ABSTRACT_MAPPING_RANKING__RANKING:
 				return ranking != RANKING_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
@@ -162,4 +162,4 @@ public abstract class MappingRankingImpl extends MinimalEObjectImpl.Container im
 		return result.toString();
 	}
 
-} //MappingRankingImpl
+} //AbstractMappingRankingImpl

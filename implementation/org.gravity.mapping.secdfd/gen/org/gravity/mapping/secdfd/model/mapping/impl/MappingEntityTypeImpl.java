@@ -2,17 +2,28 @@
  */
 package org.gravity.mapping.secdfd.model.mapping.impl;
 
+import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
+import org.eclipse.emf.ecore.util.InternalEList;
+
 import org.gravity.mapping.secdfd.impl.Type2NamedEntityImpl;
 
+import org.gravity.mapping.secdfd.model.mapping.AbstractMappingBase;
+import org.gravity.mapping.secdfd.model.mapping.AbstractMappingDerived;
+import org.gravity.mapping.secdfd.model.mapping.AbstractMappingRanking;
 import org.gravity.mapping.secdfd.model.mapping.MappingEntityType;
 import org.gravity.mapping.secdfd.model.mapping.MappingPackage;
-import org.gravity.mapping.secdfd.model.mapping.MappingRanking;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,6 +34,7 @@ import org.gravity.mapping.secdfd.model.mapping.MappingRanking;
  * </p>
  * <ul>
  *   <li>{@link org.gravity.mapping.secdfd.model.mapping.impl.MappingEntityTypeImpl#getRanking <em>Ranking</em>}</li>
+ *   <li>{@link org.gravity.mapping.secdfd.model.mapping.impl.MappingEntityTypeImpl#getDeriving <em>Deriving</em>}</li>
  * </ul>
  *
  * @generated
@@ -47,6 +59,16 @@ public class MappingEntityTypeImpl extends Type2NamedEntityImpl implements Mappi
 	 * @ordered
 	 */
 	protected int ranking = RANKING_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getDeriving() <em>Deriving</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDeriving()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<AbstractMappingDerived> deriving;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -96,10 +118,54 @@ public class MappingEntityTypeImpl extends Type2NamedEntityImpl implements Mappi
 	 * @generated
 	 */
 	@Override
+	public EList<AbstractMappingDerived> getDeriving() {
+		if (deriving == null) {
+			deriving = new EObjectWithInverseResolvingEList.ManyInverse<AbstractMappingDerived>(AbstractMappingDerived.class, this, MappingPackage.MAPPING_ENTITY_TYPE__DERIVING, MappingPackage.ABSTRACT_MAPPING_DERIVED__DERIVED);
+		}
+		return deriving;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case MappingPackage.MAPPING_ENTITY_TYPE__DERIVING:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getDeriving()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case MappingPackage.MAPPING_ENTITY_TYPE__DERIVING:
+				return ((InternalEList<?>)getDeriving()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case MappingPackage.MAPPING_ENTITY_TYPE__RANKING:
 				return getRanking();
+			case MappingPackage.MAPPING_ENTITY_TYPE__DERIVING:
+				return getDeriving();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -109,11 +175,16 @@ public class MappingEntityTypeImpl extends Type2NamedEntityImpl implements Mappi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case MappingPackage.MAPPING_ENTITY_TYPE__RANKING:
 				setRanking((Integer)newValue);
+				return;
+			case MappingPackage.MAPPING_ENTITY_TYPE__DERIVING:
+				getDeriving().clear();
+				getDeriving().addAll((Collection<? extends AbstractMappingDerived>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -130,6 +201,9 @@ public class MappingEntityTypeImpl extends Type2NamedEntityImpl implements Mappi
 			case MappingPackage.MAPPING_ENTITY_TYPE__RANKING:
 				setRanking(RANKING_EDEFAULT);
 				return;
+			case MappingPackage.MAPPING_ENTITY_TYPE__DERIVING:
+				getDeriving().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -144,6 +218,8 @@ public class MappingEntityTypeImpl extends Type2NamedEntityImpl implements Mappi
 		switch (featureID) {
 			case MappingPackage.MAPPING_ENTITY_TYPE__RANKING:
 				return ranking != RANKING_EDEFAULT;
+			case MappingPackage.MAPPING_ENTITY_TYPE__DERIVING:
+				return deriving != null && !deriving.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -155,9 +231,15 @@ public class MappingEntityTypeImpl extends Type2NamedEntityImpl implements Mappi
 	 */
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == MappingRanking.class) {
+		if (baseClass == AbstractMappingRanking.class) {
 			switch (derivedFeatureID) {
-				case MappingPackage.MAPPING_ENTITY_TYPE__RANKING: return MappingPackage.MAPPING_RANKING__RANKING;
+				case MappingPackage.MAPPING_ENTITY_TYPE__RANKING: return MappingPackage.ABSTRACT_MAPPING_RANKING__RANKING;
+				default: return -1;
+			}
+		}
+		if (baseClass == AbstractMappingBase.class) {
+			switch (derivedFeatureID) {
+				case MappingPackage.MAPPING_ENTITY_TYPE__DERIVING: return MappingPackage.ABSTRACT_MAPPING_BASE__DERIVING;
 				default: return -1;
 			}
 		}
@@ -171,9 +253,15 @@ public class MappingEntityTypeImpl extends Type2NamedEntityImpl implements Mappi
 	 */
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == MappingRanking.class) {
+		if (baseClass == AbstractMappingRanking.class) {
 			switch (baseFeatureID) {
-				case MappingPackage.MAPPING_RANKING__RANKING: return MappingPackage.MAPPING_ENTITY_TYPE__RANKING;
+				case MappingPackage.ABSTRACT_MAPPING_RANKING__RANKING: return MappingPackage.MAPPING_ENTITY_TYPE__RANKING;
+				default: return -1;
+			}
+		}
+		if (baseClass == AbstractMappingBase.class) {
+			switch (baseFeatureID) {
+				case MappingPackage.ABSTRACT_MAPPING_BASE__DERIVING: return MappingPackage.MAPPING_ENTITY_TYPE__DERIVING;
 				default: return -1;
 			}
 		}

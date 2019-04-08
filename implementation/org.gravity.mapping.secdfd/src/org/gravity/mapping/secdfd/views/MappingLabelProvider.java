@@ -18,7 +18,10 @@ import org.eclipse.swt.graphics.Image;
 //import org.eclipse.xtext.util.Files;
 import org.gravity.mapping.secdfd.CorrespondenceHelper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
-import org.gravity.mapping.secdfd.model.mapping.MappingRanking;
+import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
+import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
+import org.gravity.mapping.secdfd.model.mapping.AbstractMappingBase;
+import org.gravity.mapping.secdfd.model.mapping.AbstractMappingRanking;
 import org.gravity.typegraph.basic.BasicPackage;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TMember;
@@ -91,9 +94,7 @@ public class MappingLabelProvider implements ILabelProvider {
 			EObject source = CorrespondenceHelper.getSource(corr);
 			EObject target = CorrespondenceHelper.getTarget(corr);
 			String prefix = Logging.getTruePositive(object, source, target) + "\t\t";
-			if (element instanceof MappingRanking) {
-				prefix += "ranking: " + Integer.toString(((MappingRanking) element).getRanking()) + "\t\t";
-			}
+			prefix += "ranking: " + Integer.toString(getTotalRanking(corr)) + "\t\t";
 			return prefix + prettyPrint(source, target);
 		} else if (element instanceof EDFD) {
 			return ((EDFD) element).getName();
@@ -103,6 +104,27 @@ public class MappingLabelProvider implements ILabelProvider {
 			return prettyPrint((EObject) element);
 		}
 		return "ERROR: not handled by the label provider: " + element;
+	}
+
+	/**
+	 * @param element
+	 * @return
+	 */
+	public static int getTotalRanking(AbstractCorrespondence corr) {
+		if (corr instanceof MappingProcessDefinition) {
+			return 150;
+		}
+		if (corr instanceof MappingProcessSignature) {
+			return 120;
+		}
+		int rank = 0;
+		if (corr instanceof AbstractMappingRanking) {
+			rank += ((AbstractMappingRanking) corr).getRanking();
+		}
+		if (corr instanceof AbstractMappingBase) {
+			rank += 5 * ((AbstractMappingBase) corr).getDeriving().size();
+		}
+		return Math.min(100, rank);
 	}
 
 	/**
@@ -152,46 +174,47 @@ public class MappingLabelProvider implements ILabelProvider {
 		public static HashSet<String> false_positives = new HashSet<String>();
 		public static HashSet<String> JsonFileTP = new HashSet<String>();
 		public static HashSet<String> copyJsonFileTP = new HashSet<String>();
-	
+
 		static void init(JsonObject object) {
 			for (JsonElement mapping : object.getAsJsonArray("mappings")) {
 				if (mapping instanceof JsonObject) {
-					String pm = ((JsonObject) mapping).get("pm").getAsString().toLowerCase();
-					String dfd = ((JsonObject) mapping).get("secdfd").getAsString().toLowerCase();
+					String pm = ((JsonObject) mapping).get("pm").getAsString().toLowerCase().replaceAll(" ", "");
+					String dfd = ((JsonObject) mapping).get("secdfd").getAsString().toLowerCase().replaceAll(" ", "");
 					JsonFileTP.add(pm + dfd);
 				}
 			}
 		}
-	
+
 		public static void logging() {
 			// logg
-			File file = MappingView.getMappingView().getProgramModel().getKey().getProject()
-					.getFile("precision_recall.log").getLocation().toFile();
-			String build = "Precision "
-					.concat(Double.toString(
-							(double) true_positives.size() / (true_positives.size() + false_positives.size())))
-					.concat(", Recall: ".concat(Double.toString(
-							(double) true_positives.size() / (true_positives.size() + copyJsonFileTP.size()))))
-					.concat("\n").concat("TP: ").concat(Integer.toString(true_positives.size())).concat("\n")
-					.concat("FP: ").concat(Integer.toString(false_positives.size())).concat("\n").concat("FN: ")
-					.concat(Integer.toString(copyJsonFileTP.size())).concat("\n");
-			try {
-				file.createNewFile();
-				Files.write(file.toPath(), build.getBytes(), StandardOpenOption.APPEND);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if (JsonFileTP.size() > 0) {
+				File file = MappingView.getMappingView().getProgramModel().getKey().getProject()
+						.getFile("precision_recall.log").getLocation().toFile();
+				String build = "Precision "
+						.concat(Double.toString(
+								(double) true_positives.size() / (true_positives.size() + false_positives.size())))
+						.concat(", Recall: ".concat(Double.toString(
+								(double) true_positives.size() / (true_positives.size() + copyJsonFileTP.size()))))
+						.concat("\n").concat("TP: ").concat(Integer.toString(true_positives.size())).concat("\n")
+						.concat("FP: ").concat(Integer.toString(false_positives.size())).concat("\n").concat("FN: ")
+						.concat(Integer.toString(copyJsonFileTP.size())).concat("\n");
+				try {
+					file.createNewFile();
+					Files.write(file.toPath(), build.getBytes(), StandardOpenOption.APPEND);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				copyJsonFileTP = new HashSet<String>(JsonFileTP);
+				true_positives = new HashSet<>();
+				false_positives = new HashSet<>();
 			}
-			copyJsonFileTP = new HashSet<String>(JsonFileTP);
-			true_positives = new HashSet<>();
-			false_positives = new HashSet<>();
 		}
-	
+
 		static String getTruePositive(JsonObject object, EObject source, EObject target) {
 			String sourceString = prettyPrint(source).toLowerCase();
-			sourceString = sourceString.substring(sourceString.indexOf(':') + 1).trim();
+			sourceString = sourceString.substring(sourceString.indexOf(':') + 1).replaceAll(" ", "");
 			String targetString = prettyPrint(target).toLowerCase();
-			targetString = targetString.substring(targetString.indexOf(':') + 1).trim();
+			targetString = targetString.substring(targetString.indexOf(':') + 1).replaceAll(" ", "");
 			String string = "! FALSE POSITIVE";
 			for (JsonElement mapping : object.getAsJsonArray("mappings")) {
 				if (mapping instanceof JsonObject) {

@@ -14,5 +14,5 @@ import org.gravity.mapping.secdfd.Type2NamedEntity;
  * @model
  * @generated
  */
-public interface MappingEntityType extends Type2NamedEntity, MappingRanking {
+public interface MappingEntityType extends Type2NamedEntity, AbstractMappingRanking, AbstractMappingBase {
 } // MappingEntityType

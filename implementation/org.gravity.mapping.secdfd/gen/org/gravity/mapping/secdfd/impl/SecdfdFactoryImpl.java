@@ -95,17 +95,6 @@ public class SecdfdFactoryImpl extends EFactoryImpl implements SecdfdFactory {
 	 * @generated
 	 */
 	@Override
-	public Signature2Element createSignature2Element() {
-		Signature2ElementImpl signature2Element = new Signature2ElementImpl();
-		return signature2Element;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public TypeGraph2EDFD createTypeGraph2EDFD() {
 		TypeGraph2EDFDImpl typeGraph2EDFD = new TypeGraph2EDFDImpl();
 		return typeGraph2EDFD;
@@ -131,6 +120,17 @@ public class SecdfdFactoryImpl extends EFactoryImpl implements SecdfdFactory {
 	public Flow2Access createFlow2Access() {
 		Flow2AccessImpl flow2Access = new Flow2AccessImpl();
 		return flow2Access;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Signature2Element createSignature2Element() {
+		Signature2ElementImpl signature2Element = new Signature2ElementImpl();
+		return signature2Element;
 	}
 
 	/**

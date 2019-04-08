@@ -24,6 +24,7 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.NodeFinder;
+import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
@@ -137,6 +138,15 @@ public class TextEditorHandler extends AbstractHandler {
 			TAbstractType tDeclaringType = JavaASTUtil.getTClass((TypeDeclaration) method.getParent(), pm);
 			return Collections.singletonList(tMethodSignature.getTDefinition(tDeclaringType));
 		case ASTNode.TYPE_DECLARATION:
+			ASTNode tmpASTNode2 = node.getParent();
+			if (tmpASTNode2 instanceof CompilationUnit) {
+				PackageDeclaration childPackage = ((CompilationUnit) tmpASTNode2).getPackage();
+				String name = childPackage.getName().getFullyQualifiedName()+"."+((TypeDeclaration) node).getName(); //$NON-NLS-1$
+				TAbstractType tType = pm.getAbstractType(name);
+				if(tType != null) {
+					return Collections.singletonList(tType);
+				}
+			}
 			return Collections.singletonList(JavaASTUtil.getTClass((TypeDeclaration) node, pm));
 		}
 		return null;

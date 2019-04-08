@@ -39,7 +39,9 @@ import org.gravity.mapping.secdfd.SecdfdPackage;
 
 import org.gravity.mapping.secdfd.impl.SecdfdPackageImpl;
 
+import org.gravity.mapping.secdfd.model.mapping.AbstractMappingBase;
 import org.gravity.mapping.secdfd.model.mapping.AbstractMappingDerived;
+import org.gravity.mapping.secdfd.model.mapping.AbstractMappingRanking;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.model.mapping.MappingEntityType;
 import org.gravity.mapping.secdfd.model.mapping.MappingFactory;
@@ -48,7 +50,6 @@ import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessName;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
 
-import org.gravity.mapping.secdfd.model.mapping.MappingRanking;
 import org.gravity.typegraph.basic.BasicPackage;
 
 import org.moflon.tgg.language.LanguagePackage;
@@ -102,7 +103,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass mappingRankingEClass = null;
+	private EClass abstractMappingRankingEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -110,6 +111,13 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 	 * @generated
 	 */
 	private EClass mappingEntityTypeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass abstractMappingBaseEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -314,8 +322,8 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 	 * @generated
 	 */
 	@Override
-	public EClass getMappingRanking() {
-		return mappingRankingEClass;
+	public EClass getAbstractMappingRanking() {
+		return abstractMappingRankingEClass;
 	}
 
 	/**
@@ -324,8 +332,8 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 	 * @generated
 	 */
 	@Override
-	public EAttribute getMappingRanking_Ranking() {
-		return (EAttribute)mappingRankingEClass.getEStructuralFeatures().get(0);
+	public EAttribute getAbstractMappingRanking_Ranking() {
+		return (EAttribute)abstractMappingRankingEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -336,6 +344,26 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 	@Override
 	public EClass getMappingEntityType() {
 		return mappingEntityTypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getAbstractMappingBase() {
+		return abstractMappingBaseEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getAbstractMappingBase_Deriving() {
+		return (EReference)abstractMappingBaseEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -383,10 +411,13 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 
 		mappingProcessDefinitionEClass = createEClass(MAPPING_PROCESS_DEFINITION);
 
-		mappingRankingEClass = createEClass(MAPPING_RANKING);
-		createEAttribute(mappingRankingEClass, MAPPING_RANKING__RANKING);
+		abstractMappingRankingEClass = createEClass(ABSTRACT_MAPPING_RANKING);
+		createEAttribute(abstractMappingRankingEClass, ABSTRACT_MAPPING_RANKING__RANKING);
 
 		mappingEntityTypeEClass = createEClass(MAPPING_ENTITY_TYPE);
+
+		abstractMappingBaseEClass = createEClass(ABSTRACT_MAPPING_BASE);
+		createEReference(abstractMappingBaseEClass, ABSTRACT_MAPPING_BASE__DERIVING);
 	}
 
 	/**
@@ -422,15 +453,19 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 
 		// Add supertypes to classes
 		mappingEClass.getESuperTypes().add(theRuntimePackage.getCorrespondenceModel());
-		abstractMappingDerivedEClass.getESuperTypes().add(this.getMappingRanking());
+		abstractMappingDerivedEClass.getESuperTypes().add(theRuntimePackage.getAbstractCorrespondence());
 		mappingProcessNameEClass.getESuperTypes().add(theSecdfdPackage.getMethod2Element());
-		mappingProcessNameEClass.getESuperTypes().add(this.getMappingRanking());
+		mappingProcessNameEClass.getESuperTypes().add(this.getAbstractMappingRanking());
+		mappingProcessNameEClass.getESuperTypes().add(this.getAbstractMappingBase());
 		mappingProcessSignatureEClass.getESuperTypes().add(theSecdfdPackage.getSignature2Element());
 		mappingProcessSignatureEClass.getESuperTypes().add(this.getAbstractMappingDerived());
+		mappingProcessSignatureEClass.getESuperTypes().add(this.getAbstractMappingBase());
 		mappingProcessDefinitionEClass.getESuperTypes().add(theSecdfdPackage.getDefintion2Element());
 		mappingProcessDefinitionEClass.getESuperTypes().add(this.getAbstractMappingDerived());
 		mappingEntityTypeEClass.getESuperTypes().add(theSecdfdPackage.getType2NamedEntity());
-		mappingEntityTypeEClass.getESuperTypes().add(this.getMappingRanking());
+		mappingEntityTypeEClass.getESuperTypes().add(this.getAbstractMappingRanking());
+		mappingEntityTypeEClass.getESuperTypes().add(this.getAbstractMappingBase());
+		abstractMappingBaseEClass.getESuperTypes().add(theRuntimePackage.getAbstractCorrespondence());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(mappingEClass, Mapping.class, "Mapping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -441,7 +476,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 		initEAttribute(getMapping_Name(), ecorePackage.getEString(), "name", null, 0, 1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(abstractMappingDerivedEClass, AbstractMappingDerived.class, "AbstractMappingDerived", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getAbstractMappingDerived_Derived(), theRuntimePackage.getAbstractCorrespondence(), null, "derived", null, 0, -1, AbstractMappingDerived.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAbstractMappingDerived_Derived(), this.getAbstractMappingBase(), this.getAbstractMappingBase_Deriving(), "derived", null, 0, -1, AbstractMappingDerived.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(mappingProcessNameEClass, MappingProcessName.class, "MappingProcessName", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -449,10 +484,13 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 
 		initEClass(mappingProcessDefinitionEClass, MappingProcessDefinition.class, "MappingProcessDefinition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(mappingRankingEClass, MappingRanking.class, "MappingRanking", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getMappingRanking_Ranking(), ecorePackage.getEInt(), "Ranking", null, 0, 1, MappingRanking.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(abstractMappingRankingEClass, AbstractMappingRanking.class, "AbstractMappingRanking", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getAbstractMappingRanking_Ranking(), ecorePackage.getEInt(), "Ranking", null, 0, 1, AbstractMappingRanking.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(mappingEntityTypeEClass, MappingEntityType.class, "MappingEntityType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(abstractMappingBaseEClass, AbstractMappingBase.class, "AbstractMappingBase", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getAbstractMappingBase_Deriving(), this.getAbstractMappingDerived(), this.getAbstractMappingDerived_Derived(), "deriving", null, 0, -1, AbstractMappingBase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

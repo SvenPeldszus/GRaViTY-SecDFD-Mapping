@@ -40,15 +40,6 @@ public interface SecdfdFactory extends EFactory {
 	Type2NamedEntity createType2NamedEntity();
 
 	/**
-	 * Returns a new object of class '<em>Signature2 Element</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Signature2 Element</em>'.
-	 * @generated
-	 */
-	Signature2Element createSignature2Element();
-
-	/**
 	 * Returns a new object of class '<em>Type Graph2 EDFD</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -74,6 +65,15 @@ public interface SecdfdFactory extends EFactory {
 	 * @generated
 	 */
 	Flow2Access createFlow2Access();
+
+	/**
+	 * Returns a new object of class '<em>Signature2 Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Signature2 Element</em>'.
+	 * @generated
+	 */
+	Signature2Element createSignature2Element();
 
 	/**
 	 * Returns the package supported by this factory.
