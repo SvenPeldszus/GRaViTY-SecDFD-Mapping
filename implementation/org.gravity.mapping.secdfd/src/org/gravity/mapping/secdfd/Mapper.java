@@ -49,6 +49,7 @@ import org.gravity.typegraph.basic.TParameter;
 import org.gravity.typegraph.basic.TSignature;
 import org.gravity.typegraph.basic.TypeGraph;
 import org.moflon.tgg.runtime.AbstractCorrespondence;
+import org.xtext.example.mydsl.validation.MyDslValidator;
 
 import eDFDFlowTracking.Asset;
 import eDFDFlowTracking.DataStore;
@@ -187,13 +188,13 @@ public class Mapper {
 							.filter(key -> elementSignatureMapping.containsKey(key))
 							.map(target -> elementSignatureMapping.get(target)).filter(Objects::nonNull)
 							.flatMap(target -> target.stream()).collect(Collectors.toSet());
-					
+
 					Map<TAbstractType, Asset> compatible = new HashMap<>();
-					for(Asset asset : flow.getAssets()) {
-						if(entityTypeMapping.containsKey(asset)) {
+					for (Asset asset : flow.getAssets()) {
+						if (entityTypeMapping.containsKey(asset)) {
 							Set<TAbstractType> types = entityTypeMapping.get(asset).stream()
-							.flatMap(type -> getAllCompatibleTypes(type).stream()).collect(Collectors.toSet());
-							if(types.contains(returnType)) {
+									.flatMap(type -> getAllCompatibleTypes(type).stream()).collect(Collectors.toSet());
+							if (types.contains(returnType)) {
 								compatible.put(returnType, asset);
 							}
 						}
@@ -203,7 +204,8 @@ public class Mapper {
 							def.getAccessedBy().stream().map(access -> access.getTSource().getSignature())
 									.filter(calling -> callingSignatures.contains(calling)).forEach(calling -> {
 										if (helper.canCreate(def, sourceElement)) {
-											AbstractMappingBase returnCorr = (AbstractMappingBase) helper.getCorrespondence(returnType, compatible.get(returnType));
+											AbstractMappingBase returnCorr = (AbstractMappingBase) helper
+													.getCorrespondence(returnType, compatible.get(returnType));
 											helper.createCorrespondence(def, sourceElement, 80,
 													Collections.singleton(returnCorr));
 											cache.add(def, sourceElement);
@@ -217,6 +219,7 @@ public class Mapper {
 		}
 		updateMappingOnFilesystem();
 		LOGGER.log(Level.INFO, "\n<<<<< Stop optimization\n");
+
 		return mapping;
 	}
 
@@ -232,7 +235,8 @@ public class Mapper {
 						for (TMethodDefinition sourceDefinition : ((TMethodSignature) signature).getDefinitions()) {
 							if (getPath(sourceDefinition, targetSignature)
 									&& helper.canCreate(sourceDefinition, sourceElement)) {
-								AbstractMappingBase derived = (AbstractMappingBase) helper.getCorrespondence(signature, sourceElement);
+								AbstractMappingBase derived = (AbstractMappingBase) helper.getCorrespondence(signature,
+										sourceElement);
 								Defintion2Element corr = helper.createCorrespondence(sourceDefinition, sourceElement,
 										90, Collections.singleton(derived));
 								mapping.getCorrespondences().add(corr);

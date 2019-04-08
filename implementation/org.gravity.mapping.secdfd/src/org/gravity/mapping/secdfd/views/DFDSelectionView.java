@@ -27,6 +27,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.gravity.mapping.secdfd.views.actions.UserdefinedAction;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TFieldDefinition;
+import org.gravity.typegraph.basic.TMethodDefinition;
 
 import eDFDFlowTracking.DataStore;
 import eDFDFlowTracking.EDFD;
@@ -65,7 +66,7 @@ public class DFDSelectionView extends ViewPart {
 					results.addAll(dfd.getElements().stream().filter(element -> (element instanceof DataStore)).collect(Collectors.toSet()));
 					return results.toArray();
 				}
-				else {
+				else if(source instanceof TMethodDefinition){
 					return dfd.getElements().stream().filter(element -> (element instanceof Process)).toArray();
 				}
 			}
