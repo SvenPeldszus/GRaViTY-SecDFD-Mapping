@@ -3,8 +3,10 @@
  */
 package org.gravity.mapping.secdfd.views;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -20,18 +22,27 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.jdt.core.ISourceReference;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -50,13 +61,22 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.gravity.eclipse.io.ModelSaver;
 import org.gravity.eclipse.ui.GravityUiActivator;
+import org.gravity.eclipse.util.JavaASTUtil;
+import org.gravity.mapping.secdfd.CorrespondenceHelper;
 import org.gravity.mapping.secdfd.Mapper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
+import org.gravity.mapping.secdfd.model.mapping.MappingEntityType;
+import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
+import org.gravity.mapping.secdfd.model.mapping.impl.MappingImpl;
 import org.gravity.mapping.secdfd.ui.wizard.MappingWizard;
 import org.gravity.mapping.secdfd.ui.wizard.TrafoJob;
 import org.gravity.mapping.secdfd.views.actions.AcceptAction;
 import org.gravity.mapping.secdfd.views.actions.RejectAction;
+import org.gravity.typegraph.basic.TAbstractType;
+import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TypeGraph;
+import org.hamcrest.core.IsInstanceOf;
+import org.moflon.tgg.runtime.AbstractCorrespondence;
 import org.xtext.example.mydsl.MyDslStandaloneSetup;
 
 import com.google.inject.Injector;
@@ -183,6 +203,62 @@ public class MappingView extends ViewPart {
 			label.dispose();
 			parent.setLayout(new GridLayout(1, false));
 			treeViewer = new TreeViewer(parent, SWT.BORDER);
+			treeViewer.addDoubleClickListener(new IDoubleClickListener() {
+				public void doubleClick(DoubleClickEvent event) {
+					HashMap<String, IType> astTypes = null;
+					try {
+						astTypes = JavaASTUtil.getTypesForProject(JavaCore.create(gravityFolder.getProject()));
+					} catch (JavaModelException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					AbstractCorrespondence corr = null;
+					ISelection s = event.getSelection();
+					if (s instanceof StructuredSelection) {
+						Object selection = ((IStructuredSelection) s).getFirstElement();
+						if (selection instanceof MappingProcessDefinition) {
+							corr = (AbstractCorrespondence) selection;
+						}else if (selection instanceof MappingEntityType) {
+							corr = (AbstractCorrespondence) selection;
+						}//else root element was double clicked
+					}
+					if (corr != null) {
+						EObject pmElement = CorrespondenceHelper.getSource(corr);
+						TAbstractType type = null ;
+						if (pmElement instanceof TMethodDefinition) {
+							TMethodDefinition member = (TMethodDefinition) pmElement;
+							type = member.getDefinedBy();
+						}
+						else if(pmElement instanceof TAbstractType){
+						    type = (TAbstractType) pmElement;
+						}
+						else {
+							LOGGER.log(Level.ERROR, "pmElement is not the correct instance type. (double click)");
+						}
+						if (type!=null) {
+							//TODO: iType is null for type=TAbstractType
+							IType iType = astTypes.get(type.getFullyQualifiedName());
+							try {
+								//TODO: open the file on this path in the left side from the package explorer
+								File f = iType.getUnderlyingResource().getFullPath().toFile();
+								try {
+									java.awt.Desktop.getDesktop().open(f);
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								
+								//TODO: navigate to the line where the method is defined OR where the Type is defined
+							} catch (JavaModelException e) {
+								e.printStackTrace();
+							}
+						}
+					}else {
+						LOGGER.log(Level.ERROR, "Correspondence is null - something is wrong.");
+					}
+
+				}
+			});
 			MappingContentProvider mappingProvider = new MappingContentProvider();
 			MappingLabelProvider labelProvider = new MappingLabelProvider();
 			treeViewer.setContentProvider(mappingProvider);
