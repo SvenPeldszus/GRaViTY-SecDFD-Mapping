@@ -3,6 +3,16 @@
  */
 package org.xtext.example.mydsl.validation
 
+import eDFDFlowTracking.EDFDFlowTracking1Package;
+import eDFDFlowTracking.Asset
+import eDFDFlowTracking.Process
+import org.eclipse.xtext.validation.Check
+import java.util.Map
+import java.util.HashMap
+import org.eclipse.emf.ecore.EObject
+import java.util.Set
+import eDFDFlowTracking.NamedEntity
+import eDFDFlowTracking.DataStore
 
 /**
  * This class contains custom validation rules. 
@@ -11,15 +21,30 @@ package org.xtext.example.mydsl.validation
  */
 class MyDslValidator extends AbstractMyDslValidator {
 	
-//	public static val INVALID_NAME = 'invalidName'
-//
-//	@Check
-//	def checkGreetingStartsWithCapital(Greeting greeting) {
-//		if (!Character.isUpperCase(greeting.name.charAt(0))) {
-//			warning('Name should start with a capital', 
-//					MyDslPackage.Literals.GREETING__NAME,
-//					INVALID_NAME)
-//		}
-//	}
+	//EObject is the edfd instance, the set of strings are the names of the source elements in the program model
+	static Map<String, Set<String>> map = new HashMap();
+   
+    def static setMap(Map<String, Set<String>> newMap){
+        map = newMap;
+    }
 	
+	public static val COMPLIANCE_ABSENCE = 'absent in implementation'
+	
+	
+	@Check(FAST)
+	def AbsenceInImplementation(EObject eobject) {
+		if (eobject instanceof DataStore || eobject instanceof Process || eobject instanceof Asset){
+			if (map.containsKey((eobject as NamedEntity).name)) {
+				info('The element has been mapped to ' + map.get((eobject as NamedEntity).name), 
+					EDFDFlowTracking1Package.Literals.NAMED_ENTITY__NAME,
+					COMPLIANCE_ABSENCE)
+			}else{
+				warning('Absence of asset in implementation. Please create a mapping or modify the code.', 
+					EDFDFlowTracking1Package.Literals.NAMED_ENTITY__NAME,
+					COMPLIANCE_ABSENCE)
+			}
+		}
+
+	}
+		
 }
