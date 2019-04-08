@@ -24,6 +24,9 @@ import org.apache.log4j.Category;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -223,24 +226,30 @@ public class Mapper {
 		LOGGER.log(Level.INFO, "\n<<<<< Stop optimization\n");
 
 		Map<String, Set<String>> map = new HashMap<>();
-        mapping.getCorrespondences().stream().filter(corr -> corr instanceof MappingProcessDefinition || corr instanceof MappingEntityType)
-                .forEach(corr -> {
-                    String dfd =
-((NamedEntity) CorrespondenceHelper.getTarget((AbstractCorrespondence) corr)).getName();
-                    Set<String> pm;
-                    if(map.containsKey(dfd)) {
-                        pm = map.get(dfd);
-                    }
-                    else {
-                        pm = new HashSet<>();
-                        map.put(dfd, pm);
-                    }
-                   
-pm.add(MappingLabelProvider.prettyPrint(CorrespondenceHelper.getSource((AbstractCorrespondence)
-corr)));
-                });
-        MyDslValidator.setMap(map);
+		mapping.getCorrespondences().stream()
+				.filter(corr -> corr instanceof MappingProcessDefinition || corr instanceof MappingEntityType)
+				.forEach(corr -> {
+					String dfd = ((NamedEntity) CorrespondenceHelper.getTarget((AbstractCorrespondence) corr))
+							.getName();
+					Set<String> pm;
+					if (map.containsKey(dfd)) {
+						pm = map.get(dfd);
+					} else {
+						pm = new HashSet<>();
+						map.put(dfd, pm);
+					}
 
+					pm.add(MappingLabelProvider
+							.prettyPrint(CorrespondenceHelper.getSource((AbstractCorrespondence) corr)));
+				});
+		MyDslValidator.setMap(map);
+		IFile file = destination.getParent().getFile(new Path(dfd.eResource().getURI().toFileString()));
+		try {
+			file.touch(new NullProgressMonitor());
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return mapping;
 	}
 

@@ -29,6 +29,8 @@ import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TFieldDefinition;
 import org.gravity.typegraph.basic.TMethodDefinition;
 
+import com.google.common.collect.Streams;
+
 import eDFDFlowTracking.DataStore;
 import eDFDFlowTracking.EDFD;
 import eDFDFlowTracking.Process;
@@ -59,14 +61,15 @@ public class DFDSelectionView extends ViewPart {
 			if (parentElement instanceof EDFD) {
 				EDFD dfd = ((EDFD) parentElement);
 				if (source instanceof TAbstractType) {
-					return dfd.getAsset().toArray();
-				} else if(source instanceof TFieldDefinition){
+					return Streams.concat(dfd.getElements().stream().filter(e -> e instanceof DataStore),
+							dfd.getAsset().stream()).toArray();
+				} else if (source instanceof TFieldDefinition) {
 					Set<EObject> results = new HashSet<>();
 					results.addAll(dfd.getAsset());
-					results.addAll(dfd.getElements().stream().filter(element -> (element instanceof DataStore)).collect(Collectors.toSet()));
+					results.addAll(dfd.getElements().stream().filter(element -> (element instanceof DataStore))
+							.collect(Collectors.toSet()));
 					return results.toArray();
-				}
-				else if(source instanceof TMethodDefinition){
+				} else if (source instanceof TMethodDefinition) {
 					return dfd.getElements().stream().filter(element -> (element instanceof Process)).toArray();
 				}
 			}
@@ -132,9 +135,10 @@ public class DFDSelectionView extends ViewPart {
 	}
 
 	/**
-	 * Creates a new tree showing the possible elements corresponding with a source element
+	 * Creates a new tree showing the possible elements corresponding with a source
+	 * element
 	 * 
-	 * @param source The source element
+	 * @param source      The source element
 	 * @param mappingView The view holding all mappings
 	 */
 	private void initTree(EObject source, MappingView mappingView) {

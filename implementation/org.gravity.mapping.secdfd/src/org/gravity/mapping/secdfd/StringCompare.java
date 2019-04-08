@@ -19,9 +19,8 @@ public class StringCompare {
 	 * @param first  The first String
 	 * @param second The second String
 	 * @return true, if the Strings are similar
-	 */
-	
-	public static Integer compare_cosine(String first, String second) {
+	 */	
+	public static Integer compareCosine(String first, String second) {
 		List<String> words1 = getWords(first);
 		List<String> words2 = getWords(second);
 		Cosine cosine_class = new Cosine();
@@ -57,6 +56,13 @@ public class StringCompare {
 	}
 
 	
+	/**
+	 * Compares the two given Strings and checks if they are similar
+	 * 
+	 * @param first  The first String
+	 * @param second The second String
+	 * @return true, if the Strings are similar
+	 */	
 	public static Integer compare(String first, String second) {
 		List<String> words1 = getWords(first);
 		List<String> words2 = getWords(second);
