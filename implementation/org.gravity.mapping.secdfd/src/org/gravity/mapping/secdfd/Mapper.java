@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
@@ -19,6 +20,7 @@ import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.log4j.Category;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
@@ -27,6 +29,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.gravity.mapping.secdfd.model.mapping.AbstractMappingDerived;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
+import org.gravity.mapping.secdfd.model.mapping.MappingEntityType;
 import org.gravity.mapping.secdfd.model.mapping.MappingFactory;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
@@ -48,6 +51,7 @@ import org.gravity.typegraph.basic.TParameter;
 import org.gravity.typegraph.basic.TSignature;
 import org.gravity.typegraph.basic.TypeGraph;
 import org.moflon.tgg.runtime.AbstractCorrespondence;
+import org.xtext.example.mydsl.validation.MyDslValidator;
 
 import eDFDFlowTracking.Asset;
 import eDFDFlowTracking.DataStore;
@@ -201,6 +205,24 @@ public class Mapper {
 		}
 		updateMappingOnFilesystem();
 		LOGGER.log(Level.INFO, "\n<<<<< Stop optimization\n");
+		Map<String, Set<String>> map = new HashMap<>();
+        mapping.getCorrespondences().stream().filter(corr -> corr instanceof MappingProcessDefinition || corr instanceof MappingEntityType)
+                .forEach(corr -> {
+                    String dfd =
+((NamedEntity) CorrespondenceHelper.getTarget((AbstractCorrespondence) corr)).getName();
+                    Set<String> pm;
+                    if(map.containsKey(dfd)) {
+                        pm = map.get(dfd);
+                    }
+                    else {
+                        pm = new HashSet<>();
+                        map.put(dfd, pm);
+                    }
+                   
+pm.add(MappingLabelProvider.prettyPrint(CorrespondenceHelper.getSource((AbstractCorrespondence)
+corr)));
+                });
+        MyDslValidator.setMap(map);
 		return mapping;
 	}
 
