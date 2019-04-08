@@ -12,8 +12,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.gravity.mapping.secdfd.Defintion2Element;
 import org.gravity.mapping.secdfd.Method2Element;
 import org.gravity.mapping.secdfd.Signature2Element;
-
 import org.gravity.mapping.secdfd.Type2NamedEntity;
+
 import org.gravity.mapping.secdfd.model.mapping.*;
 
 import org.moflon.tgg.runtime.AbstractCorrespondence;
@@ -96,12 +96,16 @@ public class MappingAdapterFactory extends AdapterFactoryImpl {
 				return createMappingProcessDefinitionAdapter();
 			}
 			@Override
-			public Adapter caseMappingRanking(MappingRanking object) {
-				return createMappingRankingAdapter();
+			public Adapter caseAbstractMappingRanking(AbstractMappingRanking object) {
+				return createAbstractMappingRankingAdapter();
 			}
 			@Override
 			public Adapter caseMappingEntityType(MappingEntityType object) {
 				return createMappingEntityTypeAdapter();
+			}
+			@Override
+			public Adapter caseAbstractMappingBase(AbstractMappingBase object) {
+				return createAbstractMappingBaseAdapter();
 			}
 			@Override
 			public Adapter caseCorrespondenceModel(CorrespondenceModel object) {
@@ -218,16 +222,16 @@ public class MappingAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.gravity.mapping.secdfd.model.mapping.MappingRanking <em>Ranking</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.gravity.mapping.secdfd.model.mapping.AbstractMappingRanking <em>Abstract Mapping Ranking</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.gravity.mapping.secdfd.model.mapping.MappingRanking
+	 * @see org.gravity.mapping.secdfd.model.mapping.AbstractMappingRanking
 	 * @generated
 	 */
-	public Adapter createMappingRankingAdapter() {
+	public Adapter createAbstractMappingRankingAdapter() {
 		return null;
 	}
 
@@ -242,6 +246,20 @@ public class MappingAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMappingEntityTypeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.gravity.mapping.secdfd.model.mapping.AbstractMappingBase <em>Abstract Mapping Base</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.gravity.mapping.secdfd.model.mapping.AbstractMappingBase
+	 * @generated
+	 */
+	public Adapter createAbstractMappingBaseAdapter() {
 		return null;
 	}
 

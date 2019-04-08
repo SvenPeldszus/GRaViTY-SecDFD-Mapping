@@ -6,21 +6,24 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Optional;
+import java.util.List;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
+import org.gravity.mapping.secdfd.model.mapping.AbstractMappingBase;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.model.mapping.MappingEntityType;
 import org.gravity.mapping.secdfd.model.mapping.MappingFactory;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessName;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
-import org.gravity.mapping.secdfd.model.mapping.MappingRanking;
 import org.gravity.mapping.secdfd.views.MappingLabelProvider;
 import org.gravity.typegraph.basic.TAbstractType;
+import org.gravity.typegraph.basic.TClass;
+import org.gravity.typegraph.basic.TInterface;
 import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethod;
 import org.gravity.typegraph.basic.TMethodDefinition;
@@ -59,12 +62,10 @@ public class CorrespondenceHelper {
 	 * @return The correspondence
 	 * @throws AddingIgnoredCorrespondenceException
 	 */
-	Method2Element createCorrespondence(TMethod member, Element element, Integer ranking) {
-		MappingProcessName corr;
-		Optional<AbstractCorrespondence> existing = getCorrespondence(member, element).parallelStream()
-				.filter(c -> c instanceof MappingProcessName).findAny();
-		if (existing.isPresent()) {
-			corr = (MappingProcessName) existing.get();
+	MappingProcessName createCorrespondence(TMethod member, Element element, Integer ranking) {
+		MappingProcessName corr = (MappingProcessName) getCorrespondence(member, element);
+		if (corr != null) {
+			return (MappingProcessName) corr;
 		} else {
 			corr = MappingFactory.eINSTANCE.createMappingProcessName();
 			corr.setSource(member);
@@ -74,17 +75,6 @@ public class CorrespondenceHelper {
 			mapping.getCorrespondences().add(corr);
 		}
 		corr.setRanking(ranking);
-		Collection<AbstractCorrespondence> bonusCorr = getCorrespondence(member, element);
-		if (!bonusCorr.isEmpty()) {
-			AbstractCorrespondence ac = bonusCorr.iterator().next();
-			// increase the ranking
-			if (((MappingRanking) ac).getRanking() < 100) {
-				((MappingRanking) ac).setRanking(((MappingRanking) ac).getRanking() + 15);
-			}
-		} else if (bonusCorr.size() > 1) {
-			// logg it
-			LOGGER.log(Level.INFO, "More than one corresponcende: " + MappingLabelProvider.prettyPrint(corr));
-		}
 		LOGGER.log(Level.INFO, "Create correspondence: " + MappingLabelProvider.prettyPrint(corr));
 		return corr;
 	}
@@ -100,37 +90,24 @@ public class CorrespondenceHelper {
 	 * @return The correspondence
 	 */
 	MappingProcessSignature createCorrespondence(TMethodSignature signature, Element element, Integer ranking,
-			Collection<AbstractCorrespondence> derived) {
-		MappingProcessSignature corr;
-		Optional<AbstractCorrespondence> existing = getCorrespondence(signature, element).parallelStream()
-				.filter(c -> c instanceof MappingProcessName).findAny();
-		if (existing.isPresent()) {
-			corr = (MappingProcessSignature) existing.get();
+			Collection<AbstractMappingBase> derived) {
+		MappingProcessSignature corr = (MappingProcessSignature) getCorrespondence(signature, element);
+		if (corr != null) {
+			return corr;
 		} else {
 			corr = MappingFactory.eINSTANCE.createMappingProcessSignature();
 			corr.setSource(signature);
 			corr.setTarget(element);
+			corr.getDerived().addAll(derived);
 			addToMap(element, corr);
 			addToMap(signature, corr);
 			mapping.getCorrespondences().add(corr);
 		}
-		corr.setRanking(ranking);
-		corr.getDerived().addAll(derived);
-		Collection<AbstractCorrespondence> bonusCorr = getCorrespondence(signature, element);
-		if (!bonusCorr.isEmpty()) {
-			AbstractCorrespondence ac = bonusCorr.iterator().next();
-			// increase the ranking
-			if (((MappingRanking) ac).getRanking() < 100) {
-				((MappingRanking) ac).setRanking(((MappingRanking) ac).getRanking() + 15);
-			}
-		} else if (bonusCorr.size() > 1) {
-			// logg it
-			LOGGER.log(Level.INFO, "More than one corresponcende: " + MappingLabelProvider.prettyPrint(corr));
+		MappingProcessName nameCorr = (MappingProcessName) getCorrespondence(signature.getMethod(), element);
+		if (nameCorr != null) {
+			nameCorr = createCorrespondence(signature.getMethod(), element, ranking);
 		}
-		if (getCorrespondences(signature.getMethod()).isEmpty()) {
-			Method2Element parentCorr = createCorrespondence(signature.getMethod(), element, ranking);
-			corr.getDerived().add(parentCorr);
-		}
+		corr.getDerived().add(nameCorr);
 		LOGGER.log(Level.INFO, "Create correspondence: " + MappingLabelProvider.prettyPrint(corr));
 		return corr;
 	}
@@ -145,38 +122,24 @@ public class CorrespondenceHelper {
 	 * @return The correspondence
 	 */
 	MappingProcessDefinition createCorrespondence(TMember member, Element element, Integer ranking,
-			Collection<AbstractCorrespondence> derived) {
-		MappingProcessDefinition corr;
-		Optional<AbstractCorrespondence> existing = getCorrespondence(member, element).parallelStream()
-				.filter(c -> c instanceof MappingProcessDefinition).findAny();
-		if (existing.isPresent()) {
-			corr = (MappingProcessDefinition) existing.get();
-		} else {
-			corr = MappingFactory.eINSTANCE.createMappingProcessDefinition();
-			corr.setSource(member);
-			corr.setTarget(element);
-			addToMap(element, corr);
-			addToMap(member, corr);
-			mapping.getCorrespondences().add(corr);
+			Collection<? extends AbstractMappingBase> derived) {
+		MappingProcessDefinition corr = (MappingProcessDefinition) getCorrespondence(member, element);
+		if (corr != null) {
+			return corr;
 		}
-		corr.setRanking(ranking);
+		corr = MappingFactory.eINSTANCE.createMappingProcessDefinition();
+		corr.setSource(member);
+		corr.setTarget(element);
 		corr.getDerived().addAll(derived);
-		Collection<AbstractCorrespondence> bonusCorr = getCorrespondence(member, element);
-		if (!bonusCorr.isEmpty()) {
-			AbstractCorrespondence ac = bonusCorr.iterator().next();
-			// increase the ranking
-			if (((MappingRanking) ac).getRanking() < 100) {
-				((MappingRanking) ac).setRanking(((MappingRanking) ac).getRanking() + 15);
-
-			}
-		} else if (bonusCorr.size() > 1) {
-			// logg it
-			LOGGER.log(Level.INFO, "More than one corresponcende: " + MappingLabelProvider.prettyPrint(corr));
-		}
-		if (getCorrespondences(member.getSignature()).isEmpty()) {
+		addToMap(element, corr);
+		addToMap(member, corr);
+		mapping.getCorrespondences().add(corr);
+		MappingProcessSignature sigCorr = (MappingProcessSignature) getCorrespondence(member.getSignature(), element);
+		if (sigCorr == null) {
 			TMethodSignature signature = ((TMethodDefinition) member).getSignature();
-			corr.getDerived().add(createCorrespondence(signature, element, ranking, Collections.emptyList()));
+			sigCorr = createCorrespondence(signature, element, ranking, Collections.emptyList());
 		}
+		corr.getDerived().add(sigCorr);
 		LOGGER.log(Level.INFO, "Create correspondence: " + MappingLabelProvider.prettyPrint(corr));
 		return corr;
 	}
@@ -189,32 +152,27 @@ public class CorrespondenceHelper {
 	 * @param type  A type object
 	 * @return The correspondence
 	 */
-	Type2NamedEntity createCorrespondence(TAbstractType type, NamedEntity entity, Integer ranking) {
-		MappingEntityType corr;
-		Optional<AbstractCorrespondence> existing = getCorrespondence(type, entity).parallelStream()
-				.filter(c -> c instanceof MappingEntityType).findAny();
-		if (existing.isPresent()) {
-			corr = (MappingEntityType) existing.get();
-		} else {
-			corr = MappingFactory.eINSTANCE.createMappingEntityType();
-			corr.setSource(type);
-			corr.setTarget(entity);
-			addToMap(type, corr);
-			addToMap(entity, corr);
-			mapping.getCorrespondences().add(corr);
+	MappingEntityType createCorrespondence(TAbstractType type, NamedEntity entity, Integer ranking) {
+		MappingEntityType corr = (MappingEntityType) getCorrespondence(type, entity);
+		if (corr != null) {
+			return corr;
 		}
+		corr = MappingFactory.eINSTANCE.createMappingEntityType();
+		corr.setSource(type);
+		corr.setTarget(entity);
 		corr.setRanking(ranking);
-		Collection<AbstractCorrespondence> bonusCorr = getCorrespondence(type, entity);
-		if (!bonusCorr.isEmpty()) {
-			AbstractCorrespondence ac = bonusCorr.iterator().next();
-			// increase the ranking
-			if (((MappingRanking) ac).getRanking() < 100) {
-				((MappingRanking) ac).setRanking(((MappingRanking) ac).getRanking() + 15);
-			}
-		} else if (bonusCorr.size() > 1) {
-			// logg it
-			LOGGER.log(Level.INFO, "More than one corresponcende: " + MappingLabelProvider.prettyPrint(corr));
+		addToMap(type, corr);
+		addToMap(entity, corr);
+		mapping.getCorrespondences().add(corr);
+
+		if (type instanceof TInterface) {
+			TInterface tInterface = (TInterface) type;
+			tInterface.getImplementedBy().forEach(child -> createCorrespondence(child, entity, ranking));
+			tInterface.getChildInterfaces().forEach(child -> createCorrespondence(child, entity, ranking));
+		} else if (type instanceof TClass) {
+			((TClass) type).getChildClasses().forEach(child -> createCorrespondence(child, entity, ranking));
 		}
+
 		LOGGER.log(Level.INFO, "Create correspondence: " + MappingLabelProvider.prettyPrint(corr));
 		return corr;
 	}
@@ -335,9 +293,16 @@ public class CorrespondenceHelper {
 		}
 	}
 
-	Collection<AbstractCorrespondence> getCorrespondence(EObject pmElement, EObject dfdElement) {
-		return getCorrespondences(pmElement).stream().filter(corr -> getTarget(corr).equals(dfdElement))
-				.collect(Collectors.toList());
+	AbstractCorrespondence getCorrespondence(EObject pmElement, EObject dfdElement) {
+		List<AbstractCorrespondence> collect = getCorrespondences(pmElement).stream()
+				.filter(corr -> getTarget(corr).equals(dfdElement)).collect(Collectors.toList());
+		if (collect.isEmpty()) {
+			return null;
+		}
+		if (collect.size() > 1) {
+			LOGGER.log(Level.ERROR, "Multiple correspondences: " + collect);
+		}
+		return collect.get(0);
 	}
 
 }

@@ -47,28 +47,29 @@
       xsi:type="ecore:EClass"
       name="AbstractMappingDerived"
       abstract="true"
-      eSuperTypes="#//MappingRanking">
+      eSuperTypes="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence">
     <eStructuralFeatures
         xsi:type="ecore:EReference"
         name="derived"
         upperBound="-1"
-        eType="ecore:EClass platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence"/>
+        eType="#//AbstractMappingBase"
+        eOpposite="#//AbstractMappingBase/deriving"/>
   </eClassifiers>
   <eClassifiers
       xsi:type="ecore:EClass"
       name="MappingProcessName"
-      eSuperTypes="Secdfd.ecore#//Method2Element #//MappingRanking"/>
+      eSuperTypes="Secdfd.ecore#//Method2Element #//AbstractMappingRanking #//AbstractMappingBase"/>
   <eClassifiers
       xsi:type="ecore:EClass"
       name="MappingProcessSignature"
-      eSuperTypes="Secdfd.ecore#//Signature2Element #//AbstractMappingDerived"/>
+      eSuperTypes="Secdfd.ecore#//Signature2Element #//AbstractMappingDerived #//AbstractMappingBase"/>
   <eClassifiers
       xsi:type="ecore:EClass"
       name="MappingProcessDefinition"
       eSuperTypes="Secdfd.ecore#//Defintion2Element #//AbstractMappingDerived"/>
   <eClassifiers
       xsi:type="ecore:EClass"
-      name="MappingRanking"
+      name="AbstractMappingRanking"
       abstract="true">
     <eStructuralFeatures
         xsi:type="ecore:EAttribute"
@@ -78,5 +79,18 @@
   <eClassifiers
       xsi:type="ecore:EClass"
       name="MappingEntityType"
-      eSuperTypes="Secdfd.ecore#//Type2NamedEntity #//MappingRanking"/>
+      eSuperTypes="Secdfd.ecore#//Type2NamedEntity #//AbstractMappingRanking #//AbstractMappingBase"/>
+  <eClassifiers
+      xsi:type="ecore:EClass"
+      name="AbstractMappingBase"
+      abstract="true"
+      interface="true"
+      eSuperTypes="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence">
+    <eStructuralFeatures
+        xsi:type="ecore:EReference"
+        name="deriving"
+        upperBound="-1"
+        eType="#//AbstractMappingDerived"
+        eOpposite="#//AbstractMappingDerived/derived"/>
+  </eClassifiers>
 </ecore:EPackage>

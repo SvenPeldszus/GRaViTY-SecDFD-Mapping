@@ -151,16 +151,6 @@ public interface SecdfdPackage extends EPackage {
 	int TYPE2_NAMED_ENTITY_OPERATION_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.gravity.mapping.secdfd.impl.Signature2ElementImpl <em>Signature2 Element</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.gravity.mapping.secdfd.impl.Signature2ElementImpl
-	 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getSignature2Element()
-	 * @generated
-	 */
-	int SIGNATURE2_ELEMENT = 5;
-
-	/**
 	 * The meta object id for the '{@link org.gravity.mapping.secdfd.impl.TypeGraph2EDFDImpl <em>Type Graph2 EDFD</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -252,7 +242,6 @@ public interface SecdfdPackage extends EPackage {
 	 */
 	int DEFINTION2_ELEMENT_OPERATION_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
 
-
 	/**
 	 * The meta object id for the '{@link org.gravity.mapping.secdfd.impl.Flow2AccessImpl <em>Flow2 Access</em>}' class.
 	 * <!-- begin-user-doc -->
@@ -298,6 +287,16 @@ public interface SecdfdPackage extends EPackage {
 	 * @ordered
 	 */
 	int FLOW2_ACCESS_OPERATION_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.gravity.mapping.secdfd.impl.Signature2ElementImpl <em>Signature2 Element</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.gravity.mapping.secdfd.impl.Signature2ElementImpl
+	 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getSignature2Element()
+	 * @generated
+	 */
+	int SIGNATURE2_ELEMENT = 5;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
@@ -401,38 +400,6 @@ public interface SecdfdPackage extends EPackage {
 	EReference getType2NamedEntity_Target();
 
 	/**
-	 * Returns the meta object for class '{@link org.gravity.mapping.secdfd.Signature2Element <em>Signature2 Element</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Signature2 Element</em>'.
-	 * @see org.gravity.mapping.secdfd.Signature2Element
-	 * @generated
-	 */
-	EClass getSignature2Element();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.gravity.mapping.secdfd.Signature2Element#getSource <em>Source</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Source</em>'.
-	 * @see org.gravity.mapping.secdfd.Signature2Element#getSource()
-	 * @see #getSignature2Element()
-	 * @generated
-	 */
-	EReference getSignature2Element_Source();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.gravity.mapping.secdfd.Signature2Element#getTarget <em>Target</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Target</em>'.
-	 * @see org.gravity.mapping.secdfd.Signature2Element#getTarget()
-	 * @see #getSignature2Element()
-	 * @generated
-	 */
-	EReference getSignature2Element_Target();
-
-	/**
 	 * Returns the meta object for class '{@link org.gravity.mapping.secdfd.TypeGraph2EDFD <em>Type Graph2 EDFD</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -529,6 +496,38 @@ public interface SecdfdPackage extends EPackage {
 	EReference getFlow2Access_Target();
 
 	/**
+	 * Returns the meta object for class '{@link org.gravity.mapping.secdfd.Signature2Element <em>Signature2 Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Signature2 Element</em>'.
+	 * @see org.gravity.mapping.secdfd.Signature2Element
+	 * @generated
+	 */
+	EClass getSignature2Element();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.gravity.mapping.secdfd.Signature2Element#getSource <em>Source</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Source</em>'.
+	 * @see org.gravity.mapping.secdfd.Signature2Element#getSource()
+	 * @see #getSignature2Element()
+	 * @generated
+	 */
+	EReference getSignature2Element_Source();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.gravity.mapping.secdfd.Signature2Element#getTarget <em>Target</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Target</em>'.
+	 * @see org.gravity.mapping.secdfd.Signature2Element#getTarget()
+	 * @see #getSignature2Element()
+	 * @generated
+	 */
+	EReference getSignature2Element_Target();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -602,32 +601,6 @@ public interface SecdfdPackage extends EPackage {
 		 * @generated
 		 */
 		EReference TYPE2_NAMED_ENTITY__TARGET = eINSTANCE.getType2NamedEntity_Target();
-
-		/**
-		 * The meta object literal for the '{@link org.gravity.mapping.secdfd.impl.Signature2ElementImpl <em>Signature2 Element</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.gravity.mapping.secdfd.impl.Signature2ElementImpl
-		 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getSignature2Element()
-		 * @generated
-		 */
-		EClass SIGNATURE2_ELEMENT = eINSTANCE.getSignature2Element();
-
-		/**
-		 * The meta object literal for the '<em><b>Source</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SIGNATURE2_ELEMENT__SOURCE = eINSTANCE.getSignature2Element_Source();
-
-		/**
-		 * The meta object literal for the '<em><b>Target</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SIGNATURE2_ELEMENT__TARGET = eINSTANCE.getSignature2Element_Target();
 
 		/**
 		 * The meta object literal for the '{@link org.gravity.mapping.secdfd.impl.TypeGraph2EDFDImpl <em>Type Graph2 EDFD</em>}' class.
@@ -706,6 +679,32 @@ public interface SecdfdPackage extends EPackage {
 		 * @generated
 		 */
 		EReference FLOW2_ACCESS__TARGET = eINSTANCE.getFlow2Access_Target();
+
+		/**
+		 * The meta object literal for the '{@link org.gravity.mapping.secdfd.impl.Signature2ElementImpl <em>Signature2 Element</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.gravity.mapping.secdfd.impl.Signature2ElementImpl
+		 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getSignature2Element()
+		 * @generated
+		 */
+		EClass SIGNATURE2_ELEMENT = eINSTANCE.getSignature2Element();
+
+		/**
+		 * The meta object literal for the '<em><b>Source</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SIGNATURE2_ELEMENT__SOURCE = eINSTANCE.getSignature2Element_Source();
+
+		/**
+		 * The meta object literal for the '<em><b>Target</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SIGNATURE2_ELEMENT__TARGET = eINSTANCE.getSignature2Element_Target();
 
 	}
 

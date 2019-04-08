@@ -10,8 +10,8 @@ import org.eclipse.emf.ecore.util.Switch;
 import org.gravity.mapping.secdfd.Defintion2Element;
 import org.gravity.mapping.secdfd.Method2Element;
 import org.gravity.mapping.secdfd.Signature2Element;
-
 import org.gravity.mapping.secdfd.Type2NamedEntity;
+
 import org.gravity.mapping.secdfd.model.mapping.*;
 
 import org.moflon.tgg.runtime.AbstractCorrespondence;
@@ -84,7 +84,7 @@ public class MappingSwitch<T> extends Switch<T> {
 			case MappingPackage.ABSTRACT_MAPPING_DERIVED: {
 				AbstractMappingDerived abstractMappingDerived = (AbstractMappingDerived)theEObject;
 				T result = caseAbstractMappingDerived(abstractMappingDerived);
-				if (result == null) result = caseMappingRanking(abstractMappingDerived);
+				if (result == null) result = caseAbstractCorrespondence(abstractMappingDerived);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -92,7 +92,8 @@ public class MappingSwitch<T> extends Switch<T> {
 				MappingProcessName mappingProcessName = (MappingProcessName)theEObject;
 				T result = caseMappingProcessName(mappingProcessName);
 				if (result == null) result = caseMethod2Element(mappingProcessName);
-				if (result == null) result = caseMappingRanking(mappingProcessName);
+				if (result == null) result = caseAbstractMappingRanking(mappingProcessName);
+				if (result == null) result = caseAbstractMappingBase(mappingProcessName);
 				if (result == null) result = caseAbstractCorrespondence(mappingProcessName);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -102,8 +103,8 @@ public class MappingSwitch<T> extends Switch<T> {
 				T result = caseMappingProcessSignature(mappingProcessSignature);
 				if (result == null) result = caseSignature2Element(mappingProcessSignature);
 				if (result == null) result = caseAbstractMappingDerived(mappingProcessSignature);
+				if (result == null) result = caseAbstractMappingBase(mappingProcessSignature);
 				if (result == null) result = caseAbstractCorrespondence(mappingProcessSignature);
-				if (result == null) result = caseMappingRanking(mappingProcessSignature);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -113,13 +114,12 @@ public class MappingSwitch<T> extends Switch<T> {
 				if (result == null) result = caseDefintion2Element(mappingProcessDefinition);
 				if (result == null) result = caseAbstractMappingDerived(mappingProcessDefinition);
 				if (result == null) result = caseAbstractCorrespondence(mappingProcessDefinition);
-				if (result == null) result = caseMappingRanking(mappingProcessDefinition);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MappingPackage.MAPPING_RANKING: {
-				MappingRanking mappingRanking = (MappingRanking)theEObject;
-				T result = caseMappingRanking(mappingRanking);
+			case MappingPackage.ABSTRACT_MAPPING_RANKING: {
+				AbstractMappingRanking abstractMappingRanking = (AbstractMappingRanking)theEObject;
+				T result = caseAbstractMappingRanking(abstractMappingRanking);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -127,8 +127,16 @@ public class MappingSwitch<T> extends Switch<T> {
 				MappingEntityType mappingEntityType = (MappingEntityType)theEObject;
 				T result = caseMappingEntityType(mappingEntityType);
 				if (result == null) result = caseType2NamedEntity(mappingEntityType);
-				if (result == null) result = caseMappingRanking(mappingEntityType);
+				if (result == null) result = caseAbstractMappingRanking(mappingEntityType);
+				if (result == null) result = caseAbstractMappingBase(mappingEntityType);
 				if (result == null) result = caseAbstractCorrespondence(mappingEntityType);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MappingPackage.ABSTRACT_MAPPING_BASE: {
+				AbstractMappingBase abstractMappingBase = (AbstractMappingBase)theEObject;
+				T result = caseAbstractMappingBase(abstractMappingBase);
+				if (result == null) result = caseAbstractCorrespondence(abstractMappingBase);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -212,17 +220,17 @@ public class MappingSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Ranking</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Abstract Mapping Ranking</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Ranking</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Abstract Mapping Ranking</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseMappingRanking(MappingRanking object) {
+	public T caseAbstractMappingRanking(AbstractMappingRanking object) {
 		return null;
 	}
 
@@ -238,6 +246,21 @@ public class MappingSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseMappingEntityType(MappingEntityType object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Abstract Mapping Base</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Abstract Mapping Base</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAbstractMappingBase(AbstractMappingBase object) {
 		return null;
 	}
 

@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
@@ -25,13 +26,13 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.gravity.mapping.secdfd.model.mapping.AbstractMappingBase;
 import org.gravity.mapping.secdfd.model.mapping.AbstractMappingDerived;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.model.mapping.MappingFactory;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
-import org.gravity.mapping.secdfd.model.mapping.MappingRanking;
-import org.gravity.mapping.secdfd.views.MappingContentProvider;
+import org.gravity.mapping.secdfd.model.mapping.AbstractMappingRanking;
 import org.gravity.mapping.secdfd.views.MappingLabelProvider;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TAccess;
@@ -160,43 +161,58 @@ public class Mapper {
 	public Mapping optimize() {
 		MappingLabelProvider.Logging.logging();
 		LOGGER.log(Level.INFO, "\nStart optimization >>>>>\n");
-		cache.getEntityTypeMapping().entrySet().stream().filter(e -> e.getKey() instanceof Element).forEach(e -> {
-			Element node = (Element) e.getKey();
-			cache.getElementMemberMapping().put(node, mapToMembers(node, e.getValue(), cache.getEntityTypeMapping())
+		HashMap<NamedEntity, Set<TAbstractType>> entityTypeMapping = cache.getEntityTypeMapping();
+
+		entityTypeMapping.entrySet().stream().filter(entry -> entry.getKey() instanceof Element).forEach(entry -> {
+			Element element = (Element) entry.getKey();
+			cache.getElementMemberMapping().put(element, mapToMembers(element, entry.getValue(), entityTypeMapping)
 					.map(corr -> corr.getSource()).collect(Collectors.toSet()));
 		});
 
 		for (Entry<Element, Set<TMethod>> entry : cache.getElementMethodMapping().entrySet()) {
 			Element node = entry.getKey();
-			cache.addAllSignatures(mapToSignature(node, entry.getValue(), cache.getEntityTypeMapping())
+			cache.addAllSignatures(mapToSignature(node, entry.getValue(), entityTypeMapping)
 					.map(corr -> corr.getSource()).collect(Collectors.toSet()), node);
 		}
 
-		for (Entry<Element, Set<TSignature>> entry : cache.getElementSignatureMapping().entrySet()) {
+		HashMap<Element, Set<TSignature>> elementSignatureMapping = cache.getElementSignatureMapping();
+		for (Entry<Element, Set<TSignature>> entry : elementSignatureMapping.entrySet()) {
 			Element sourceElement = entry.getKey();
 			Set<TSignature> signatures = entry.getValue();
-			for (TSignature signature : signatures) {
+			for (TSignature calledSignature : signatures) {
+				TAbstractType returnType = ((TMethodSignature) calledSignature).getReturnType();
+				mapToParamFlow(sourceElement, calledSignature);
 				for (Flow flow : sourceElement.getOutflows()) {
-					for (Element targetElement : flow.getTarget()) {
-						if (cache.getElementSignatureMapping().containsKey(targetElement)) {
-							for (TSignature targetSignature : cache.getElementSignatureMapping().get(targetElement)) {
-								for (TMethodDefinition sourceDefinition : ((TMethodSignature) signature)
-										.getDefinitions()) {
-									if (getPath(sourceDefinition, targetSignature)
-											&& helper.canCreate(sourceDefinition, targetSignature)) {
-										Collection<AbstractCorrespondence> derived = helper.getCorrespondence(signature,
-												sourceElement);
-										Defintion2Element corr = helper.createCorrespondence(sourceDefinition, sourceElement, 90, derived);
-										//TODO: change it already there (duplicates on the screen)
-										mapping.getCorrespondences().add(corr);
-										mapping.getSuggested().add(corr);
-									}
-								}
+					Collection<TSignature> callingSignatures = flow.getTarget().stream()
+							.filter(key -> elementSignatureMapping.containsKey(key))
+							.map(target -> elementSignatureMapping.get(target)).filter(Objects::nonNull)
+							.flatMap(target -> target.stream()).collect(Collectors.toSet());
+					
+					Map<TAbstractType, Asset> compatible = new HashMap<>();
+					for(Asset asset : flow.getAssets()) {
+						if(entityTypeMapping.containsKey(asset)) {
+							Set<TAbstractType> types = entityTypeMapping.get(asset).stream()
+							.flatMap(type -> getAllCompatibleTypes(type).stream()).collect(Collectors.toSet());
+							if(types.contains(returnType)) {
+								compatible.put(returnType, asset);
 							}
 						}
 					}
+					if (!compatible.isEmpty()) {
+						for (TMethodDefinition def : ((TMethodSignature) calledSignature).getDefinitions()) {
+							def.getAccessedBy().stream().map(access -> access.getTSource().getSignature())
+									.filter(calling -> callingSignatures.contains(calling)).forEach(calling -> {
+										if (helper.canCreate(def, sourceElement)) {
+											AbstractMappingBase returnCorr = (AbstractMappingBase) helper.getCorrespondence(returnType, compatible.get(returnType));
+											helper.createCorrespondence(def, sourceElement, 80,
+													Collections.singleton(returnCorr));
+											cache.add(def, sourceElement);
+										}
+									});
+							;
+						}
+					}
 				}
-
 			}
 		}
 		updateMappingOnFilesystem();
@@ -204,6 +220,36 @@ public class Mapper {
 		return mapping;
 	}
 
+	/**
+	 * @param sourceElement
+	 * @param signature
+	 */
+	private void mapToParamFlow(Element sourceElement, TSignature signature) {
+		for (Flow flow : sourceElement.getOutflows()) {
+			for (Element targetElement : flow.getTarget()) {
+				if (cache.getElementSignatureMapping().containsKey(targetElement)) {
+					for (TSignature targetSignature : cache.getElementSignatureMapping().get(targetElement)) {
+						for (TMethodDefinition sourceDefinition : ((TMethodSignature) signature).getDefinitions()) {
+							if (getPath(sourceDefinition, targetSignature)
+									&& helper.canCreate(sourceDefinition, sourceElement)) {
+								AbstractMappingBase derived = (AbstractMappingBase) helper.getCorrespondence(signature, sourceElement);
+								Defintion2Element corr = helper.createCorrespondence(sourceDefinition, sourceElement,
+										90, Collections.singleton(derived));
+								mapping.getCorrespondences().add(corr);
+								mapping.getSuggested().add(corr);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Accept the given correspondence
+	 * 
+	 * @param corr The correspondence
+	 */
 	public void accept(AbstractCorrespondence corr) {
 		if ((mapping.getCorrespondences().contains(corr) && !mapping.getUserdefined().contains(corr))
 				|| mapping.getIgnored().contains(corr)) {
@@ -224,30 +270,10 @@ public class Mapper {
 	}
 
 	/**
-	 * Recursively updates the ranking
+	 * Reject the given correspondence
 	 * 
-	 * @param corr A correspondence
+	 * @param corr The correspondence
 	 */
-	private void updateRanking(AbstractCorrespondence corr, int ranking) {
-		if (corr instanceof MappingRanking) {
-			((MappingRanking) corr).setRanking(ranking);
-		} else if (corr instanceof MappingProcessSignature) {
-			for (AbstractCorrespondence parentCorr : helper.getCorrespondences(
-					((TMethodSignature) ((MappingProcessSignature) corr).getSource()).getMethod())) {
-				if (CorrespondenceHelper.getTarget(parentCorr).equals(((MappingProcessSignature) corr).getTarget())) {
-					((MappingRanking) parentCorr).setRanking(ranking);
-				}
-			}
-		} else if (corr instanceof MappingProcessDefinition) {
-			for (AbstractCorrespondence parentCorr : helper.getCorrespondences(
-					((TMethodDefinition) ((MappingProcessDefinition) corr).getSource()).getSignature().getMethod())) {
-				if (CorrespondenceHelper.getTarget(parentCorr).equals(((MappingProcessDefinition) corr).getTarget())) {
-					((MappingRanking) parentCorr).setRanking(ranking);
-				}
-			}
-		}
-	}
-
 	public void reject(AbstractCorrespondence corr) {
 		if (mapping.getCorrespondences().contains(corr)) {
 			mapping.getIgnored().add(corr);
@@ -289,6 +315,13 @@ public class Mapper {
 		updateMappingOnFilesystem();
 	}
 
+	/**
+	 * Set the correspondence between the two objects to userdefined or create a
+	 * correspondence
+	 * 
+	 * @param pmObject  An object from a program model
+	 * @param dfdObject An object from a DFD
+	 */
 	public void userdefined(EObject pmObject, EObject dfdObject) {
 		AbstractCorrespondence userCorr = null;
 		Collection<AbstractCorrespondence> correspondences = helper.getCorrespondences(pmObject);
@@ -312,7 +345,7 @@ public class Mapper {
 				AbstractCorrespondence next = stack.pop();
 				mapping.getCorrespondences().add(next);
 				mapping.getUserdefined().add(next);
-				if (userCorr instanceof AbstractMappingDerived) {
+				if (next instanceof AbstractMappingDerived) {
 					stack.addAll(((AbstractMappingDerived) next).getDerived());
 				}
 			}
@@ -359,6 +392,31 @@ public class Mapper {
 	}
 
 	/**
+	 * Recursively updates the ranking
+	 * 
+	 * @param corr A correspondence
+	 */
+	private void updateRanking(AbstractCorrespondence corr, int ranking) {
+		if (corr instanceof AbstractMappingRanking) {
+			((AbstractMappingRanking) corr).setRanking(ranking);
+		} else if (corr instanceof MappingProcessSignature) {
+			for (AbstractCorrespondence parentCorr : helper.getCorrespondences(
+					((TMethodSignature) ((MappingProcessSignature) corr).getSource()).getMethod())) {
+				if (CorrespondenceHelper.getTarget(parentCorr).equals(((MappingProcessSignature) corr).getTarget())) {
+					((AbstractMappingRanking) parentCorr).setRanking(ranking);
+				}
+			}
+		} else if (corr instanceof MappingProcessDefinition) {
+			for (AbstractCorrespondence parentCorr : helper.getCorrespondences(
+					((TMethodDefinition) ((MappingProcessDefinition) corr).getSource()).getSignature().getMethod())) {
+				if (CorrespondenceHelper.getTarget(parentCorr).equals(((MappingProcessDefinition) corr).getTarget())) {
+					((AbstractMappingRanking) parentCorr).setRanking(ranking);
+				}
+			}
+		}
+	}
+
+	/**
 	 * Writes the mapping to the file system
 	 */
 	public void updateMappingOnFilesystem() {
@@ -390,14 +448,14 @@ public class Mapper {
 		return false;
 	}
 
-	private Stream<Defintion2Element> mapToMembers(Element element, Set<TAbstractType> correspondingTypes,
-			HashMap<NamedEntity, Set<TAbstractType>> mapping) {
+	private Stream<Defintion2Element> mapToMembers(Element element, Set<TAbstractType> typescorrespondingToElement,
+			HashMap<NamedEntity, Set<TAbstractType>> typeMapping) {
 		Set<Defintion2Element> correspondingMembers = new HashSet<>();
-		for (TAbstractType type : correspondingTypes) {
+		for (TAbstractType type : typescorrespondingToElement) {
 			for (Asset asset : element.getAssets()) {
-				if (mapping.containsKey(asset)) {
+				if (typeMapping.containsKey(asset)) {
 					List<TMember> members = type.getDefines();
-					for (TAbstractType assetType : mapping.get(asset)) {
+					for (TAbstractType assetType : typeMapping.get(asset)) {
 						for (TMember member : members) {
 							TAbstractType memberType;
 							if (member instanceof TFieldDefinition) {
@@ -407,11 +465,10 @@ public class Mapper {
 							} else {
 								memberType = ((TMethodDefinition) member).getReturnType();
 							}
-							if (memberType.equals(assetType) || memberType.isSuperTypeOf((TAbstractType) assetType)
+							if ((memberType.equals(assetType) || memberType.isSuperTypeOf((TAbstractType) assetType))
 									&& helper.canCreate(member, element)) {
-								Collection<AbstractCorrespondence> derived = helper
-										.getCorrespondence(member.getSignature(), element);
-								Defintion2Element corr = helper.createCorrespondence(member, element, 90, derived);
+								Defintion2Element corr = helper.createCorrespondence(member, element, 90,
+										Collections.emptyList());
 								this.mapping.getSuggested().add(corr);
 								correspondingMembers.add(corr);
 							}
@@ -435,48 +492,66 @@ public class Mapper {
 	 */
 	private Stream<MappingProcessSignature> mapToSignature(Element node, Set<TMethod> correspondingMethods,
 			HashMap<NamedEntity, Set<TAbstractType>> mapping) {
-		Set<TAbstractType> paramTypes = new HashSet<>();
+		Map<Asset, Set<TAbstractType>> paramTypes = new HashMap<>();
 		for (Flow flow : node.getInflows()) {
 			for (Asset asset : flow.getAssets()) {
 				if (mapping.containsKey(asset)) {
-					for (TAbstractType eObject : mapping.get(asset)) {
-						Stack<TAbstractType> stack = new Stack<>();
-						stack.add(eObject);
-						while (!stack.isEmpty()) {
-							TAbstractType type = stack.pop();
-							paramTypes.add(type);
-							if (type instanceof TClass) {
-								TClass tClass = (TClass) type;
-								TClass parentClass = tClass.getParentClass();
-								if (parentClass != null) {
-									stack.add(parentClass);
-								}
-								stack.addAll(tClass.getImplements());
-							} else if (type instanceof TInterface) {
-								stack.addAll(((TInterface) type).getParentInterfaces());
-							}
-						}
-					}
+					Set<TAbstractType> compatipbleTypes = mapping.get(asset).stream()
+							.flatMap(type -> mapping.get(asset).stream()).collect(Collectors.toSet());
+					paramTypes.put(asset, compatipbleTypes);
 				}
 			}
 		}
-		return correspondingMethods.stream().flatMap(method -> method.getSignatures().stream()).filter(signature -> {
-			int matchedParams = 0;
+		return correspondingMethods.stream().flatMap(method -> method.getSignatures().stream()).map(signature -> {
+			Map<Asset, TAbstractType> matchedAssets = new HashMap<>();
 			for (TParameter param : signature.getParamList().getEntries()) {
-				if (paramTypes.contains(param.getType())) {
-					matchedParams++;
+				for (Entry<Asset, Set<TAbstractType>> entry : paramTypes.entrySet()) {
+					if (entry.getValue().contains(param.getType())) {
+						matchedAssets.put(entry.getKey(), param.getType());
+					}
 				}
 			}
-			return matchedParams > 0;
-		}).map(signature -> {
+			if (matchedAssets.size() == 0) {
+				return null;
+			}
 			MappingProcessSignature newCorr = null;
 			if (helper.canCreate(signature, node)) {
-				Collection<AbstractCorrespondence> derived = helper.getCorrespondence(signature.getMethod(), node);
+				Collection<AbstractMappingBase> derived = matchedAssets.entrySet().parallelStream()
+						.map(entry -> (AbstractMappingBase) helper.getCorrespondence(entry.getValue(), entry.getKey()))
+						.collect(Collectors.toSet());
 				newCorr = helper.createCorrespondence(signature, node, 80, derived);
 				this.mapping.getSuggested().add(newCorr);
 			}
 			return newCorr;
 		}).filter(Objects::nonNull);
+	}
+
+	/**
+	 * Searches all types to which this type is compatible
+	 * 
+	 * @param type The type for which the set should be calculated
+	 * @return All types the type is compatible to
+	 */
+	private Set<TAbstractType> getAllCompatibleTypes(TAbstractType type) {
+		Set<TAbstractType> types = new HashSet<>();
+		types.add(type);
+		Stack<TAbstractType> stack = new Stack<>();
+		stack.add(type);
+		while (!stack.isEmpty()) {
+			TAbstractType nextType = stack.pop();
+			types.add(nextType);
+			if (nextType instanceof TClass) {
+				TClass tClass = (TClass) nextType;
+				TClass parentClass = tClass.getParentClass();
+				if (parentClass != null) {
+					stack.add(parentClass);
+				}
+				stack.addAll(tClass.getImplements());
+			} else if (nextType instanceof TInterface) {
+				stack.addAll(((TInterface) nextType).getParentInterfaces());
+			}
+		}
+		return types;
 	}
 
 	/**

@@ -30,6 +30,7 @@ import org.gravity.typegraph.basic.TFieldDefinition;
 
 import eDFDFlowTracking.DataStore;
 import eDFDFlowTracking.EDFD;
+import eDFDFlowTracking.Process;
 
 /**
  * @author speldszus
@@ -123,7 +124,8 @@ public class DFDSelectionView extends ViewPart {
 		}
 		action.setSource(source);
 		((DFDSelectionContentProvider) treeViewer.getContentProvider()).updateSouce(source.get(0));
-		treeViewer.refresh(mappingView.getDFDs());
+		treeViewer.refresh(mappingView.getDFDs(), true);
+		treeViewer.getControl().update();
 		parent.pack();
 		parent.layout(true);
 	}

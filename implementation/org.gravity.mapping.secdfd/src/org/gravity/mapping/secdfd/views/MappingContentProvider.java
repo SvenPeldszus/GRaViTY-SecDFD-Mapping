@@ -1,46 +1,26 @@
 package org.gravity.mapping.secdfd.views;
 
 import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.gravity.mapping.secdfd.model.mapping.AbstractMappingDerived;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.model.mapping.MappingEntityType;
-import org.gravity.mapping.secdfd.model.mapping.MappingProcessName;
-import org.gravity.mapping.secdfd.model.mapping.MappingRanking;
+import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
 import org.moflon.tgg.runtime.AbstractCorrespondence;
 import org.moflon.tgg.runtime.CorrespondenceModel;
 
 public class MappingContentProvider implements ITreeContentProvider {
 
-	private final class compareByRanking implements Comparator<Object> {
+	private final class compareByRanking implements Comparator<AbstractCorrespondence> {
 		@Override
-		public int compare(Object a, Object b) {
-			if (a instanceof MappingProcessName || a instanceof MappingEntityType || a instanceof AbstractMappingDerived) {
-				//a has a ranking
-				if (a instanceof MappingProcessName || a instanceof MappingEntityType || a instanceof AbstractMappingDerived) {
-					//b has a ranking
-					if (((MappingRanking) a).getRanking()>((MappingRanking) b).getRanking()) return -1;
-					else if ( ((MappingRanking) a).getRanking()==((MappingRanking) b).getRanking() ) {
-						return 0;
-					}else return 1;
-				}else {
-					//b has no ranking, a is smaller
-					return 1;
-				}
-			}else {
-				//a has no ranking, a is greater
-				return -1;
-			}
+		public int compare(AbstractCorrespondence a, AbstractCorrespondence b) {
+			return MappingLabelProvider.getTotalRanking(b) - MappingLabelProvider.getTotalRanking(a);
 		}
 	}
 
@@ -52,23 +32,6 @@ public class MappingContentProvider implements ITreeContentProvider {
 		return null;
 	}
 
-	public boolean firstHigherRank(Object a, Object b) {
-		if (a instanceof MappingProcessName || a instanceof MappingEntityType || a instanceof AbstractMappingDerived) {
-			//a has a ranking
-			if (a instanceof MappingProcessName || a instanceof MappingEntityType || a instanceof AbstractMappingDerived) {
-				//b has a ranking
-				return ((MappingRanking) a).getRanking()>((MappingRanking) b).getRanking();
-			}else {
-				//b has no ranking
-				return false;
-			}
-		}else {
-			//a has no ranking
-			return true;
-		}
-	}
-
-	
 	@Override
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof Mapping) {
@@ -80,22 +43,24 @@ public class MappingContentProvider implements ITreeContentProvider {
 					new AbstractMap.SimpleEntry<String, Collection<AbstractCorrespondence>>("accepted",
 							((Mapping) parentElement).getAccepted()) };
 		} else if (parentElement instanceof CorrespondenceModel) {
-			//order by ranking
-			Object[] to_sort = ((CorrespondenceModel) parentElement).getCorrespondences().toArray();
-			ArrayList<Object> list = new ArrayList<Object>(Arrays.asList(to_sort));
+			// order by ranking
+			List<AbstractCorrespondence> list = ((CorrespondenceModel) parentElement).getCorrespondences().stream()
+					.filter(e -> e instanceof MappingProcessDefinition || e instanceof MappingEntityType).map(e -> (AbstractCorrespondence) e)
+					.collect(Collectors.toList());
 			list.sort(new compareByRanking());
 			return list.toArray();
-			//((CorrespondenceModel) parentElement).getCorrespondences().toArray();
 		} else if (parentElement instanceof Collection) {
-			//order by ranking
-			ArrayList<Object> list = (ArrayList<Object>) new ArrayList<Object>(Arrays.asList(((Collection<?>) parentElement).toArray()));
+			// order by ranking
+			List<AbstractCorrespondence> list = ((Collection<?>) parentElement).stream()
+					.filter(e -> e instanceof MappingProcessDefinition || e instanceof MappingEntityType).map(e -> (AbstractCorrespondence) e)
+					.collect(Collectors.toList());
 			list.sort(new compareByRanking());
 			return list.toArray();
 		} else if (parentElement instanceof Stream) {
 			return ((Stream<?>) parentElement).toArray();
 		}
-		if(parentElement instanceof Entry) {
-			return getChildren(((Entry<?,?>) parentElement).getValue());
+		if (parentElement instanceof Entry) {
+			return getChildren(((Entry<?, ?>) parentElement).getValue());
 		}
 
 		return null;
