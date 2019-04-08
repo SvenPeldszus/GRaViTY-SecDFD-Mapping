@@ -36,53 +36,13 @@ import eDFDFlowTracking.NamedEntity;
 public class MappingLabelProvider implements ILabelProvider {
 
 	private JsonObject object;
-	//public static boolean reset = false;
-	public static HashSet<String> true_positives = new HashSet<String>();
-	public static HashSet<String> false_positives = new HashSet<String>();
-	public static HashSet<String> JsonFileTP = new HashSet<String>();
-	public static HashSet<String> copyJsonFileTP = new HashSet<String>();
 
-	public static void initializeLogging() {
-		//logg
-		File file = MappingView.getMappingView().getProgramModel().getKey().getProject()
-				.getFile("precision_recall.log").getLocation().toFile();
-		String build = "Precision "
-				.concat(Double.toString((double) true_positives.size() / (true_positives.size() + false_positives.size())))
-				.concat(", Recall: "
-						.concat(Double.toString((double) true_positives.size() / (true_positives.size() + copyJsonFileTP.size()))))
-				.concat("\n").concat("TP: ").concat(Integer.toString(true_positives.size())).concat("\n").concat("FP: ")
-				.concat(Integer.toString(false_positives.size())).concat("\n").concat("FN: ")
-				.concat(Integer.toString(copyJsonFileTP.size())).concat("\n");
-		try {
-			file.createNewFile();
-			Files.write(file.toPath(), build.getBytes(),StandardOpenOption.APPEND);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		copyJsonFileTP = new HashSet<String>(JsonFileTP);
-		true_positives = new HashSet();
-		false_positives = new HashSet();
-	}
-	
 	public MappingLabelProvider() {
 		File file = MappingView.getMappingView().getProgramModel().getKey().getProject()
 				.getFile("groundtruth/storepassword.json").getLocation().toFile();
 		try {
 			object = new JsonParser().parse(new FileReader(file)).getAsJsonObject();
-			for (JsonElement mapping : object.getAsJsonArray("mappings")) {
-				if (mapping instanceof JsonObject) {
-					String pm = ((JsonObject) mapping).get("pm").getAsString().toLowerCase();
-					JsonFileTP.add(pm);
-					if (pm.contains(":")) {
-						String substring = pm.substring(pm.lastIndexOf('.')+1);
-						JsonFileTP.add(substring);
-						String substring1 = substring.substring(0,substring.indexOf('('));
-						JsonFileTP.add(substring1);
-					}
-				}
-			}
-			initializeLogging();
+			Logging.init(object);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -130,7 +90,7 @@ public class MappingLabelProvider implements ILabelProvider {
 			AbstractCorrespondence corr = (AbstractCorrespondence) element;
 			EObject source = CorrespondenceHelper.getSource(corr);
 			EObject target = CorrespondenceHelper.getTarget(corr);
-			String prefix = getTruePositive(source, target) + "\t\t";
+			String prefix = Logging.getTruePositive(object, source, target) + "\t\t";
 			if (element instanceof MappingRanking) {
 				prefix += "ranking: " + Integer.toString(((MappingRanking) element).getRanking()) + "\t\t";
 			}
@@ -143,30 +103,6 @@ public class MappingLabelProvider implements ILabelProvider {
 			return prettyPrint((EObject) element);
 		}
 		return "ERROR: not handled by the label provider: " + element;
-	}
-
-	private String getTruePositive(EObject source, EObject target) {
-		String sourceString = prettyPrint(source).toLowerCase();
-		sourceString = sourceString.substring(sourceString.indexOf(':') + 1).trim();
-		String targetString = prettyPrint(target).toLowerCase();
-		targetString = targetString.substring(targetString.indexOf(':') + 1).trim();
-		String string = "! FALSE POSITIVE";
-		for (JsonElement mapping : object.getAsJsonArray("mappings")) {
-			if (mapping instanceof JsonObject) {
-				String pm = ((JsonObject) mapping).get("pm").getAsString().toLowerCase();
-				if (pm.contains(sourceString)) {
-					String dfd = ((JsonObject) mapping).get("secdfd").getAsString().toLowerCase();
-					if (targetString.equals(dfd)) {
-						true_positives.add(sourceString);
-						copyJsonFileTP.remove(sourceString);
-						string = "+ TRUE POSITIVE";
-						break;
-					}
-				}
-			}
-		}
-		if(string=="! FALSE POSITIVE") false_positives.add(sourceString);
-		return string;
 	}
 
 	/**
@@ -209,5 +145,74 @@ public class MappingLabelProvider implements ILabelProvider {
 
 	private String prettyPrint(EObject source, EObject target) {
 		return prettyPrint(source) + " <-> " + prettyPrint(target);
+	}
+
+	public static class Logging {
+		public static HashSet<String> true_positives = new HashSet<String>();
+		public static HashSet<String> false_positives = new HashSet<String>();
+		public static HashSet<String> JsonFileTP = new HashSet<String>();
+		public static HashSet<String> copyJsonFileTP = new HashSet<String>();
+	
+		static void init(JsonObject object) {
+			for (JsonElement mapping : object.getAsJsonArray("mappings")) {
+				if (mapping instanceof JsonObject) {
+					String pm = ((JsonObject) mapping).get("pm").getAsString().toLowerCase();
+					String dfd = ((JsonObject) mapping).get("secdfd").getAsString().toLowerCase();
+					JsonFileTP.add(pm + dfd);
+				}
+			}
+		}
+	
+		public static void logging() {
+			// logg
+			File file = MappingView.getMappingView().getProgramModel().getKey().getProject()
+					.getFile("precision_recall.log").getLocation().toFile();
+			String build = "Precision "
+					.concat(Double.toString(
+							(double) true_positives.size() / (true_positives.size() + false_positives.size())))
+					.concat(", Recall: ".concat(Double.toString(
+							(double) true_positives.size() / (true_positives.size() + copyJsonFileTP.size()))))
+					.concat("\n").concat("TP: ").concat(Integer.toString(true_positives.size())).concat("\n")
+					.concat("FP: ").concat(Integer.toString(false_positives.size())).concat("\n").concat("FN: ")
+					.concat(Integer.toString(copyJsonFileTP.size())).concat("\n");
+			try {
+				file.createNewFile();
+				Files.write(file.toPath(), build.getBytes(), StandardOpenOption.APPEND);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			copyJsonFileTP = new HashSet<String>(JsonFileTP);
+			true_positives = new HashSet<>();
+			false_positives = new HashSet<>();
+		}
+	
+		static String getTruePositive(JsonObject object, EObject source, EObject target) {
+			String sourceString = prettyPrint(source).toLowerCase();
+			sourceString = sourceString.substring(sourceString.indexOf(':') + 1).trim();
+			String targetString = prettyPrint(target).toLowerCase();
+			targetString = targetString.substring(targetString.indexOf(':') + 1).trim();
+			String string = "! FALSE POSITIVE";
+			for (JsonElement mapping : object.getAsJsonArray("mappings")) {
+				if (mapping instanceof JsonObject) {
+					String pm = ((JsonObject) mapping).get("pm").getAsString().toLowerCase();
+					if (pm.contains(sourceString)) {
+						String dfd = ((JsonObject) mapping).get("secdfd").getAsString().toLowerCase();
+						if (targetString.equals(dfd)) {
+							if ((source instanceof TMember || source instanceof TAbstractType)) {
+								true_positives.add(sourceString + targetString);
+								copyJsonFileTP.remove(sourceString + targetString);
+							}
+							string = "+ TRUE POSITIVE";
+							break;
+						}
+					}
+				}
+			}
+			if ((source instanceof TMember || source instanceof TAbstractType) && string == "! FALSE POSITIVE") {
+				false_positives.add(sourceString + targetString);
+			}
+			return string;
+		}
 	}
 }

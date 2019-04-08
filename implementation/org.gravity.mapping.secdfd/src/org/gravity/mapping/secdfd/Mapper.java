@@ -158,7 +158,7 @@ public class Mapper {
 	 * @return The optimized mapping
 	 */
 	public Mapping optimize() {
-		MappingLabelProvider.initializeLogging();
+		MappingLabelProvider.Logging.logging();
 		LOGGER.log(Level.INFO, "\nStart optimization >>>>>\n");
 		cache.getEntityTypeMapping().entrySet().stream().filter(e -> e.getKey() instanceof Element).forEach(e -> {
 			Element node = (Element) e.getKey();
