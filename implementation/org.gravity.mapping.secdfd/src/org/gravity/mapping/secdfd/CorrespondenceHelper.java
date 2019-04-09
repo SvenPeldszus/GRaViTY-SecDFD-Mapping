@@ -111,8 +111,9 @@ public class CorrespondenceHelper {
 			mapping.getCorrespondences().add(corr);
 		}
 		MappingProcessName nameCorr = (MappingProcessName) getCorrespondence(signature.getMethod(), element);
-		if (nameCorr != null) {
+		if (nameCorr == null) {
 			nameCorr = createCorrespondence(signature.getMethod(), element, ranking);
+			System.out.println(nameCorr);
 		}
 		corr.getDerived().add(nameCorr);
 		LOGGER.log(Level.INFO, "Create correspondence: " + MappingLabelProvider.prettyPrint(corr));
