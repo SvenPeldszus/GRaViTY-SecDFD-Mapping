@@ -5,16 +5,13 @@ package org.gravity.mapping.secdfd.views;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Objects;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
@@ -159,7 +156,7 @@ public class MappingView extends ViewPart {
 	public void populate(IFolder gravityFolder, Collection<IFile> dfdFiles, TrafoJob trafoJob) {
 		this.gravityFolder = gravityFolder;
 
-		Stream<SimpleEntry<IFile, EDFD>> dfds = loadDFDs(dfdFiles);
+		Map<IFile, EDFD> dfds = loadDFDs(dfdFiles);
 		try {
 			trafoJob.join();
 		} catch (InterruptedException e) {
@@ -168,14 +165,15 @@ public class MappingView extends ViewPart {
 
 		pm = getProgramModel(trafoJob);
 
-		this.mappers = dfds.map(entry -> {
+		this.mappers = new HashMap<>();
+		for(Entry<IFile, EDFD> entry : dfds.entrySet()) {
 			IFile key = entry.getKey();
 			String name = key.getName();
 			name = name.substring(0, name.length() - key.getFileExtension().length() - 1) + ".corr.xmi";
 			IFile destination = gravityFolder.getFile(name);
-			return new Mapper(pm.getValue(), entry.getValue(), destination);
-		}).collect(Collectors.toMap(mapper -> mapper.getMapping(), mapper -> mapper));
-
+			Mapper mapper = new Mapper(pm.getValue(), entry.getValue(), destination);
+			mappers.put(mapper.getMapping(), mapper);
+		}
 		if (!label.isDisposed()) {
 			label.dispose();
 			parent.setLayout(new GridLayout(1, false));
@@ -242,13 +240,14 @@ public class MappingView extends ViewPart {
 	 * 
 	 * @return A stream of DFDs and the files they are stored in
 	 */
-	private Stream<SimpleEntry<IFile, EDFD>> loadDFDs(Collection<IFile> files) {
+	private Map<IFile, EDFD> loadDFDs(Collection<IFile> files) {
+		Map<IFile, EDFD> loadedDFDs = new HashMap<>();
 		this.dfds = new HashSet<>();
 		Injector injector = new MyDslStandaloneSetup().createInjectorAndDoEMFRegistration();
 		XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
 		this.resourceSet = resourceSet;
 		resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
-		Stream<SimpleEntry<IFile, EDFD>> dfds = files.parallelStream().map(f -> {
+		for(IFile f : files) {
 			URI uri = URI.createURI(f.getLocation().makeRelativeTo(gravityFolder.getLocation()).toString());
 			Resource resource = resourceSet.createResource(uri);
 			try {
@@ -259,9 +258,9 @@ public class MappingView extends ViewPart {
 			}
 			EDFD dfd = (EDFD) resource.getContents().get(0);
 			this.dfds.add(dfd);
-			return new SimpleEntry<IFile, EDFD>(f, dfd);
-		}).filter(Objects::nonNull);
-		return dfds;
+			loadedDFDs.put(f, dfd);
+		}
+		return loadedDFDs;
 	}
 
 	/**
