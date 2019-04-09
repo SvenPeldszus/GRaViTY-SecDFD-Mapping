@@ -12,7 +12,13 @@ import java.util.stream.Collectors;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
+import org.gravity.eclipse.util.JavaASTUtil;
 import org.gravity.mapping.secdfd.model.mapping.AbstractMappingBase;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.model.mapping.MappingEntityType;
@@ -45,12 +51,15 @@ public class CorrespondenceHelper {
 
 	private static final Logger LOGGER = Logger.getLogger(CorrespondenceHelper.class);
 
-	private Mapping mapping;
+	private final Mapping mapping;
+	private final IJavaProject project;
 
 	private HashMap<EObject, Collection<AbstractCorrespondence>> correspondences = new HashMap<>();
 
-	public CorrespondenceHelper(Mapping mapping) {
+
+	public CorrespondenceHelper(Mapping mapping, IJavaProject project) {
 		this.mapping = mapping;
+		this.project = project;
 	}
 
 	/**
@@ -141,6 +150,13 @@ public class CorrespondenceHelper {
 		}
 		corr.getDerived().add(sigCorr);
 		LOGGER.log(Level.INFO, "Create correspondence: " + MappingLabelProvider.prettyPrint(corr));
+		
+		try {
+			final HashMap<String, IType> astTypes = JavaASTUtil.getTypesForProject(project);
+			MarkerHelper.createMarker(astTypes, member, element.getName(), IMarker.PRIORITY_NORMAL);
+		} catch (JavaModelException e) {
+			LOGGER.log(Level.ERROR, e);
+		}
 		return corr;
 	}
 
@@ -172,8 +188,13 @@ public class CorrespondenceHelper {
 		} else if (type instanceof TClass) {
 			((TClass) type).getChildClasses().forEach(child -> createCorrespondence(child, entity, ranking));
 		}
-
 		LOGGER.log(Level.INFO, "Create correspondence: " + MappingLabelProvider.prettyPrint(corr));
+		try {
+			final HashMap<String, IType> astTypes = JavaASTUtil.getTypesForProject(project);
+			MarkerHelper.createMarker(astTypes, type, entity.getName(), IMarker.PRIORITY_NORMAL);
+		} catch (JavaModelException e) {
+			LOGGER.log(Level.ERROR, e);
+		}
 		return corr;
 	}
 

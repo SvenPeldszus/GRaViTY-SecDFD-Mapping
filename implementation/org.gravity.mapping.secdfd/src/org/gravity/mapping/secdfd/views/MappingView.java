@@ -109,8 +109,6 @@ public class MappingView extends ViewPart {
 			
 			public void run() {
 				for(Mapper mapper : mappers.values()) {
-					Mapping mapping = mapper.getMapping();
-					System.out.println("Continue with: "+mapper);
 					mapper.optimize();
 					update();					
 				}

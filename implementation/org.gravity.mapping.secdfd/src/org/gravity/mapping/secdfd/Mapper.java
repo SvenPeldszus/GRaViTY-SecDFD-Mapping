@@ -20,16 +20,20 @@ import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.apache.log4j.Category;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
+import org.gravity.eclipse.util.JavaASTUtil;
 import org.gravity.mapping.secdfd.model.mapping.AbstractMappingBase;
 import org.gravity.mapping.secdfd.model.mapping.AbstractMappingDerived;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
@@ -155,7 +159,7 @@ public class Mapper {
 		URI uri = URI.createURI(destination.toString());
 		EList<EObject> contents = pm.eResource().getResourceSet().createResource(uri).getContents();
 		contents.add(mapping);
-		helper = new CorrespondenceHelper(mapping);
+		helper = new CorrespondenceHelper(mapping, JavaCore.create(destination.getProject()));
 		helper.createCorrespondence(pm, dfd);
 	}
 
@@ -224,33 +228,37 @@ public class Mapper {
 		}
 		updateMappingOnFilesystem();
 		LOGGER.log(Level.INFO, "\n<<<<< Stop optimization\n");
+		return mapping;
+	}
 
-		Map<String, Set<String>> map = new HashMap<>();
-		mapping.getCorrespondences().stream()
-				.filter(corr -> corr instanceof MappingProcessDefinition || corr instanceof MappingEntityType)
-				.forEach(corr -> {
-					String dfd = ((NamedEntity) CorrespondenceHelper.getTarget((AbstractCorrespondence) corr))
-							.getName();
-					Set<String> pm;
-					if (map.containsKey(dfd)) {
-						pm = map.get(dfd);
-					} else {
-						pm = new HashSet<>();
-						map.put(dfd, pm);
-					}
-
-					pm.add(MappingLabelProvider
-							.prettyPrint(CorrespondenceHelper.getSource((AbstractCorrespondence) corr)));
-				});
-		MyDslValidator.setMap(map);
-		IFile file = destination.getParent().getFile(new Path(dfd.eResource().getURI().toFileString()));
+	/**
+	 * 
+	 */
+	private void updateMarkers() {
 		try {
+			Map<String, Set<String>> map = new HashMap<>();
+			mapping.getCorrespondences().stream()
+					.filter(corr -> corr instanceof MappingProcessDefinition || corr instanceof MappingEntityType)
+					.forEach(corr -> {
+						String dfdElementName = ((NamedEntity) CorrespondenceHelper
+								.getTarget((AbstractCorrespondence) corr)).getName();
+						Set<String> pmElementStrings;
+						if (map.containsKey(dfdElementName)) {
+							pmElementStrings = map.get(dfdElementName);
+						} else {
+							pmElementStrings = new HashSet<>();
+							map.put(dfdElementName, pmElementStrings);
+						}
+						EObject pmElement = CorrespondenceHelper.getSource((AbstractCorrespondence) corr);
+						String pmElementString = MappingLabelProvider.prettyPrint(pmElement);
+						pmElementStrings.add(pmElementString);
+					});
+			MyDslValidator.setMap(map);
+			IFile file = destination.getParent().getFile(new Path(dfd.eResource().getURI().toFileString()));
 			file.touch(new NullProgressMonitor());
 		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.log(Level.ERROR, e);
 		}
-		return mapping;
 	}
 
 	/**
@@ -346,6 +354,12 @@ public class Mapper {
 				}
 			}
 		}
+		try {
+			final HashMap<String, IType> astTypes = JavaASTUtil.getTypesForProject(JavaCore.create(destination.getProject()));
+			MarkerHelper.deleteMarker(astTypes, CorrespondenceHelper.getSource(corr));
+		} catch (JavaModelException e) {
+			LOGGER.log(Level.ERROR, e);
+		}
 		updateMappingOnFilesystem();
 	}
 
@@ -368,6 +382,14 @@ public class Mapper {
 			}
 			mapping.getSuggested().remove(userCorr);
 			mapping.getAccepted().remove(userCorr);
+			if(mapping.getIgnored().contains(userCorr)) {
+				try {
+					final HashMap<String, IType> astTypes = JavaASTUtil.getTypesForProject(JavaCore.create(destination.getProject()));
+					MarkerHelper.createMarker(astTypes, CorrespondenceHelper.getSource(userCorr), ((NamedEntity) CorrespondenceHelper.getTarget(userCorr)).getName(), IMarker.PRIORITY_NORMAL);
+				} catch (JavaModelException e) {
+					LOGGER.log(Level.ERROR, e);
+				}
+			}
 		}
 		if (userCorr == null) {
 			userCorr = addNewUserdefinedCorr(pmObject, dfdObject);
@@ -454,6 +476,7 @@ public class Mapper {
 	 * Writes the mapping to the file system
 	 */
 	public void updateMappingOnFilesystem() {
+		updateMarkers();
 		try {
 			mapping.eResource().save(new FileOutputStream(destination.getLocation().toFile()), Collections.emptyMap());
 		} catch (IOException e) {
