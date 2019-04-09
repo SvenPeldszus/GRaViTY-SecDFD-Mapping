@@ -56,6 +56,7 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
@@ -239,23 +240,23 @@ public class MappingView extends ViewPart {
 							LOGGER.log(Level.ERROR, "pmElement is not the correct instance type. (double click)");
 						}
 						if (type!=null) {
-							//TODO: iType is null for type=TAbstractType
 							IType iType = astTypes.get(type.getFullyQualifiedName());
-							try {
-								IFile f = (IFile) iType.getUnderlyingResource();
-								if (f != null) {
-								    IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-								    try {
-										IEditorPart openEditor = IDE.openEditor(page, f);
-									} catch (PartInitException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
+							if (iType!=null) {
+								try {
+									IFile f = (IFile) iType.getUnderlyingResource();
+									if (f != null) {
+									    IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+									    try {
+											IEditorPart openEditor = IDE.openEditor(page,  f);
+										} catch (PartInitException e) {
+											e.printStackTrace();
+										}
 									}
+								} catch (JavaModelException e) {
+									e.printStackTrace();
 								}
-								
-								//TODO: navigate to the line where the method is defined OR where the Type is defined
-							} catch (JavaModelException e) {
-								e.printStackTrace();
+							}else {
+								LOGGER.log(Level.ERROR, "AstTypes does not include general library types (String).");
 							}
 						}
 					}else {
