@@ -3,10 +3,8 @@
  */
 package org.gravity.mapping.secdfd.views;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -22,27 +20,18 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.jdt.core.ISourceReference;
-import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -53,34 +42,21 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IViewSite;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.gravity.eclipse.io.ModelSaver;
 import org.gravity.eclipse.ui.GravityUiActivator;
-import org.gravity.eclipse.util.JavaASTUtil;
-import org.gravity.mapping.secdfd.CorrespondenceHelper;
 import org.gravity.mapping.secdfd.Mapper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
-import org.gravity.mapping.secdfd.model.mapping.MappingEntityType;
-import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
-import org.gravity.mapping.secdfd.model.mapping.impl.MappingImpl;
 import org.gravity.mapping.secdfd.ui.wizard.MappingWizard;
 import org.gravity.mapping.secdfd.ui.wizard.TrafoJob;
 import org.gravity.mapping.secdfd.views.actions.AcceptAction;
 import org.gravity.mapping.secdfd.views.actions.RejectAction;
-import org.gravity.typegraph.basic.TAbstractType;
-import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TypeGraph;
-import org.hamcrest.core.IsInstanceOf;
-import org.moflon.tgg.runtime.AbstractCorrespondence;
 import org.xtext.example.mydsl.MyDslStandaloneSetup;
 
 import com.google.inject.Injector;
@@ -103,7 +79,7 @@ public class MappingView extends ViewPart {
 	/**
 	 * The logger of this class
 	 */
-	private static final Logger LOGGER = Logger.getLogger(MappingView.class);
+	static final Logger LOGGER = Logger.getLogger(MappingView.class);
 
 	private Label label;
 	private TreeViewer treeViewer;
@@ -119,7 +95,6 @@ public class MappingView extends ViewPart {
 
 	private Map<Mapping, Mapper> mappers;
 
-
 	@Override
 	public void createPartControl(Composite parent) {
 		this.parent = parent;
@@ -130,25 +105,25 @@ public class MappingView extends ViewPart {
 		IActionBars bars = viewSite.getActionBars();
 		IToolBarManager tm = bars.getToolBarManager(); // Buttons on top
 		tm.add(new Action("Continue") {
-			
+
 			public void run() {
-				for(Mapper mapper : mappers.values()) {
+				for (Mapper mapper : mappers.values()) {
 					mapper.optimize();
-					update();					
+					update();
 				}
 			}
-			
+
 		});
 		tm.add(new Action("Accept all") {
-			
+
 			public void run() {
-				for(Mapper mapper : mappers.values()) {
+				for (Mapper mapper : mappers.values()) {
 					Mapping mapping = mapper.getMapping();
 					new ArrayList<>(mapping.getSuggested()).forEach(corr -> mapper.accept(corr));
-					update();					
+					update();
 				}
 			}
-			
+
 		});
 		IMenuManager mm = bars.getMenuManager(); // Drop down menu
 		mm.add(new Action("Map project") {
@@ -196,73 +171,16 @@ public class MappingView extends ViewPart {
 		this.mappers = dfds.map(entry -> {
 			IFile key = entry.getKey();
 			String name = key.getName();
-			name = name.substring(0, name.length() - key.getFileExtension().length() -1) + ".corr.xmi";
+			name = name.substring(0, name.length() - key.getFileExtension().length() - 1) + ".corr.xmi";
 			IFile destination = gravityFolder.getFile(name);
 			return new Mapper(pm.getValue(), entry.getValue(), destination);
 		}).collect(Collectors.toMap(mapper -> mapper.getMapping(), mapper -> mapper));
-		
+
 		if (!label.isDisposed()) {
 			label.dispose();
 			parent.setLayout(new GridLayout(1, false));
 			treeViewer = new TreeViewer(parent, SWT.BORDER);
-			treeViewer.addDoubleClickListener(new IDoubleClickListener() {
-				public void doubleClick(DoubleClickEvent event) {
-					HashMap<String, IType> astTypes = null;
-					try {
-						astTypes = JavaASTUtil.getTypesForProject(JavaCore.create(gravityFolder.getProject()));
-					} catch (JavaModelException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					AbstractCorrespondence corr = null;
-					ISelection s = event.getSelection();
-					if (s instanceof StructuredSelection) {
-						Object selection = ((IStructuredSelection) s).getFirstElement();
-						if (selection instanceof MappingProcessDefinition) {
-							corr = (AbstractCorrespondence) selection;
-						}else if (selection instanceof MappingEntityType) {
-							corr = (AbstractCorrespondence) selection;
-						}//else root element was double clicked
-					}
-					if (corr != null) {
-						EObject pmElement = CorrespondenceHelper.getSource(corr);
-						TAbstractType type = null ;
-						if (pmElement instanceof TMethodDefinition) {
-							TMethodDefinition member = (TMethodDefinition) pmElement;
-							type = member.getDefinedBy();
-						}
-						else if(pmElement instanceof TAbstractType){
-						    type = (TAbstractType) pmElement;
-						}
-						else {
-							LOGGER.log(Level.ERROR, "pmElement is not the correct instance type. (double click)");
-						}
-						if (type!=null) {
-							IType iType = astTypes.get(type.getFullyQualifiedName());
-							if (iType!=null) {
-								try {
-									IFile f = (IFile) iType.getUnderlyingResource();
-									if (f != null) {
-									    IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-									    try {
-											IEditorPart openEditor = IDE.openEditor(page,  f);
-										} catch (PartInitException e) {
-											e.printStackTrace();
-										}
-									}
-								} catch (JavaModelException e) {
-									e.printStackTrace();
-								}
-							}else {
-								LOGGER.log(Level.ERROR, "AstTypes does not include general library types (String).");
-							}
-						}
-					}else {
-						LOGGER.log(Level.ERROR, "Correspondence is null - something is wrong.");
-					}
-
-				}
-			});
+			treeViewer.addDoubleClickListener(new OpenJavaFileDoubleClickListener(gravityFolder));
 			MappingContentProvider mappingProvider = new MappingContentProvider();
 			MappingLabelProvider labelProvider = new MappingLabelProvider();
 			treeViewer.setContentProvider(mappingProvider);
@@ -276,8 +194,7 @@ public class MappingView extends ViewPart {
 					ISelection selection = event.getSelection();
 					if (selection instanceof IStructuredSelection) {
 						Object selectedElement = ((IStructuredSelection) selection).getFirstElement();
-						labelProvider
-								.getText(mappingProvider.getParent(selectedElement)).equals("suggested");
+						labelProvider.getText(mappingProvider.getParent(selectedElement)).equals("suggested");
 
 						MenuManager menuMgr = new MenuManager();
 						Menu menu = menuMgr.createContextMenu(treeViewer.getControl());
@@ -297,7 +214,7 @@ public class MappingView extends ViewPart {
 		parent.layout(true);
 	}
 
-	/** 
+	/**
 	 * Requests the program model from the transformation job and adds it to the
 	 * resource set of the DFDs
 	 * 
@@ -380,8 +297,7 @@ public class MappingView extends ViewPart {
 	 */
 	public static MappingView getMappingView() {
 		try {
-			return (MappingView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-					.showView(VIEW_ID);
+			return (MappingView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(VIEW_ID);
 		} catch (PartInitException e) {
 			MappingWizard.LOGGER.log(Level.ERROR, e);
 			return null;

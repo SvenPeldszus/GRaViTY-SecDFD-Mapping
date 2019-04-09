@@ -30,7 +30,8 @@ Require-Bundle: org.moflon.core.utilities,
  org.eclipse.ui.ide,
  org.eclipse.jface.text,
  org.eclipse.ui.workbench.texteditor,
- org.eclipse.jdt.ui
+ org.eclipse.jdt.ui,
+ org.eclipse.ui.editors
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
