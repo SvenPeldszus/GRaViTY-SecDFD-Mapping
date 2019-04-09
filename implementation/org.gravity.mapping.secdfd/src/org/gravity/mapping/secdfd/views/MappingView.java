@@ -53,9 +53,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IViewSite;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
@@ -239,13 +242,15 @@ public class MappingView extends ViewPart {
 							//TODO: iType is null for type=TAbstractType
 							IType iType = astTypes.get(type.getFullyQualifiedName());
 							try {
-								//TODO: open the file on this path in the left side from the package explorer
-								File f = iType.getUnderlyingResource().getFullPath().toFile();
-								try {
-									java.awt.Desktop.getDesktop().open(f);
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
+								IFile f = (IFile) iType.getUnderlyingResource();
+								if (f != null) {
+								    IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+								    try {
+										IEditorPart openEditor = IDE.openEditor(page, f);
+									} catch (PartInitException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
 								}
 								
 								//TODO: navigate to the line where the method is defined OR where the Type is defined
