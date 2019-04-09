@@ -187,43 +187,10 @@ public class Mapper {
 
 		HashMap<Element, Set<TSignature>> elementSignatureMapping = cache.getElementSignatureMapping();
 		for (Entry<Element, Set<TSignature>> entry : elementSignatureMapping.entrySet()) {
-			Element sourceElement = entry.getKey();
-			Set<TSignature> signatures = entry.getValue();
-			for (TSignature calledSignature : signatures) {
-				TAbstractType returnType = ((TMethodSignature) calledSignature).getReturnType();
-				mapToParamFlow(sourceElement, calledSignature);
-				for (Flow flow : sourceElement.getOutflows()) {
-					Collection<TSignature> callingSignatures = flow.getTarget().stream()
-							.filter(key -> elementSignatureMapping.containsKey(key))
-							.map(target -> elementSignatureMapping.get(target)).filter(Objects::nonNull)
-							.flatMap(target -> target.stream()).collect(Collectors.toSet());
-
-					Map<TAbstractType, Asset> compatible = new HashMap<>();
-					for (Asset asset : flow.getAssets()) {
-						if (entityTypeMapping.containsKey(asset)) {
-							Set<TAbstractType> types = entityTypeMapping.get(asset).stream()
-									.flatMap(type -> getAllCompatibleTypes(type).stream()).collect(Collectors.toSet());
-							if (types.contains(returnType)) {
-								compatible.put(returnType, asset);
-							}
-						}
-					}
-					if (!compatible.isEmpty()) {
-						for (TMethodDefinition def : ((TMethodSignature) calledSignature).getDefinitions()) {
-							def.getAccessedBy().stream().map(access -> access.getTSource().getSignature())
-									.filter(calling -> callingSignatures.contains(calling)).forEach(calling -> {
-										if (helper.canCreate(def, sourceElement)) {
-											AbstractMappingBase returnCorr = (AbstractMappingBase) helper
-													.getCorrespondence(returnType, compatible.get(returnType));
-											helper.createCorrespondence(def, sourceElement, 80,
-													Collections.singleton(returnCorr));
-											cache.add(def, sourceElement);
-										}
-									});
-							;
-						}
-					}
-				}
+			Element mappedElement = entry.getKey();
+			for (TSignature mappedSignature : entry.getValue()) {
+				mapToParamFlow(mappedElement, mappedSignature);
+				mapToReturnFlow(mappedElement, mappedSignature);
 			}
 		}
 		updateMappingOnFilesystem();
@@ -232,7 +199,65 @@ public class Mapper {
 	}
 
 	/**
+	 * Map return flow in the pm to asset flow in the DFD
 	 * 
+	 * @param sourceOfFlow The source of a flow in the DFD
+	 * @param calledSignature A signature corresponding with the DFD element
+	 */
+	private void mapToReturnFlow(Element sourceOfFlow,	TSignature calledSignature) {
+		HashMap<NamedEntity, Set<TAbstractType>> entityTypeMapping = cache.getEntityTypeMapping();
+		TAbstractType returnType = ((TMethodSignature) calledSignature).getReturnType();
+		for (Flow flow : sourceOfFlow.getOutflows()) {
+			Map<TAbstractType, Asset> compatible = new HashMap<>();
+			for (Asset asset : flow.getAssets()) {
+				if (entityTypeMapping.containsKey(asset)) {
+					Set<TAbstractType> types = entityTypeMapping.get(asset).stream()
+							.flatMap(type -> getAllCompatibleTypes(type).stream())
+							.collect(Collectors.toSet());
+					if (types.contains(returnType)) {
+						compatible.put(returnType, asset);
+					}
+				}
+			}
+			boolean compatibleReturnType = !compatible.isEmpty();
+			
+			if (compatibleReturnType) {
+				for (Element targetElement : flow.getTarget()) {
+					Set<TSignature> callingSignatures = helper.getCorrespondences(targetElement).stream()
+							.filter(corr -> corr instanceof MappingProcessSignature)
+							.map(corr -> (TSignature) CorrespondenceHelper.getSource(corr))
+							.collect(Collectors.toSet());
+					
+					for (TMethodDefinition calledDefinition : ((TMethodSignature) calledSignature)
+							.getDefinitions()) {
+						calledDefinition.getAccessedBy().stream().forEach(access -> {
+							TMember callingDefiniton = access.getTSource();
+							TSignature callingSignature = callingDefiniton.getSignature();
+							if (callingSignatures.contains(callingSignature)) {
+								if (helper.canCreate(calledDefinition, sourceOfFlow)) {
+									AbstractMappingBase returnCorr = (AbstractMappingBase) helper
+											.getCorrespondence(returnType, compatible.get(returnType));
+									helper.createCorrespondence(calledDefinition, sourceOfFlow, 80,
+											Collections.singleton(returnCorr));
+									cache.add(calledDefinition, sourceOfFlow);
+								}
+								if (helper.canCreate(callingDefiniton, targetElement)) {
+									AbstractMappingBase returnCorr = (AbstractMappingBase) helper
+											.getCorrespondence(returnType, compatible.get(returnType));
+									helper.createCorrespondence(callingDefiniton, targetElement, 80,
+											Collections.singleton(returnCorr));
+									cache.add(callingDefiniton, targetElement);
+								}
+							}
+						});
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Update the marker data for the DFD
 	 */
 	private void updateMarkers() {
 		try {
@@ -262,23 +287,35 @@ public class Mapper {
 	}
 
 	/**
+	 * Search a path from the source to the target of a flow
+	 * 
 	 * @param sourceElement
-	 * @param signature
+	 * @param sourceSignature
 	 */
-	private void mapToParamFlow(Element sourceElement, TSignature signature) {
+	private void mapToParamFlow(Element sourceElement, TSignature sourceSignature) {
 		for (Flow flow : sourceElement.getOutflows()) {
 			for (Element targetElement : flow.getTarget()) {
 				if (cache.getElementSignatureMapping().containsKey(targetElement)) {
 					for (TSignature targetSignature : cache.getElementSignatureMapping().get(targetElement)) {
-						for (TMethodDefinition sourceDefinition : ((TMethodSignature) signature).getDefinitions()) {
-							if (getPath(sourceDefinition, targetSignature)
-									&& helper.canCreate(sourceDefinition, sourceElement)) {
-								AbstractMappingBase derived = (AbstractMappingBase) helper.getCorrespondence(signature,
-										sourceElement);
-								Defintion2Element corr = helper.createCorrespondence(sourceDefinition, sourceElement,
-										90, Collections.singleton(derived));
-								mapping.getCorrespondences().add(corr);
-								mapping.getSuggested().add(corr);
+						for (TMethodDefinition sourceDefinition : ((TMethodSignature) sourceSignature)
+								.getDefinitions()) {
+							Set<TMember> targets = getPath(sourceDefinition, targetSignature);
+							if (!targets.isEmpty()) {
+								if (helper.canCreate(sourceDefinition, sourceElement)) {
+									Defintion2Element sourceCorr = helper.createCorrespondence(sourceDefinition,
+											sourceElement, 90, Collections.emptyList());
+									mapping.getCorrespondences().add(sourceCorr);
+									mapping.getSuggested().add(sourceCorr);
+								}
+								for (TMember targetDefinition : targets) {
+									if (helper.canCreate(targetDefinition, targetElement)) {
+										Defintion2Element corr = helper.createCorrespondence(targetDefinition,
+												targetElement, 90, Collections.emptyList());
+										mapping.getCorrespondences().add(corr);
+										mapping.getSuggested().add(corr);
+
+									}
+								}
 							}
 						}
 					}
@@ -355,7 +392,8 @@ public class Mapper {
 			}
 		}
 		try {
-			final HashMap<String, IType> astTypes = JavaASTUtil.getTypesForProject(JavaCore.create(destination.getProject()));
+			final HashMap<String, IType> astTypes = JavaASTUtil
+					.getTypesForProject(JavaCore.create(destination.getProject()));
 			MarkerHelper.deleteMarker(astTypes, CorrespondenceHelper.getSource(corr));
 		} catch (JavaModelException e) {
 			LOGGER.log(Level.ERROR, e);
@@ -382,10 +420,13 @@ public class Mapper {
 			}
 			mapping.getSuggested().remove(userCorr);
 			mapping.getAccepted().remove(userCorr);
-			if(mapping.getIgnored().contains(userCorr)) {
+			if (mapping.getIgnored().contains(userCorr)) {
 				try {
-					final HashMap<String, IType> astTypes = JavaASTUtil.getTypesForProject(JavaCore.create(destination.getProject()));
-					MarkerHelper.createMarker(astTypes, CorrespondenceHelper.getSource(userCorr), ((NamedEntity) CorrespondenceHelper.getTarget(userCorr)).getName(), IMarker.PRIORITY_NORMAL);
+					final HashMap<String, IType> astTypes = JavaASTUtil
+							.getTypesForProject(JavaCore.create(destination.getProject()));
+					MarkerHelper.createMarker(astTypes, CorrespondenceHelper.getSource(userCorr),
+							((NamedEntity) CorrespondenceHelper.getTarget(userCorr)).getName(),
+							IMarker.PRIORITY_NORMAL);
 				} catch (JavaModelException e) {
 					LOGGER.log(Level.ERROR, e);
 				}
@@ -484,7 +525,16 @@ public class Mapper {
 		}
 	}
 
-	private boolean getPath(TMethodDefinition source, TSignature target) {
+	/**
+	 * Searches if there is a path form the source definitions to a definition
+	 * implementing the target signature
+	 * 
+	 * @param source The source definition
+	 * @param target The target signature
+	 * @return the reached definitions implementing the signature;
+	 */
+	private Set<TMember> getPath(TMethodDefinition source, TSignature target) {
+		Set<TMember> reachedTargets = new HashSet<>();
 		Set<TMember> seen = new HashSet<>();
 		List<TMember> stack = new LinkedList<>();
 		stack.add(source);
@@ -492,17 +542,17 @@ public class Mapper {
 			TMember current = stack.remove(0);
 			for (TAccess access : current.getTAccessing()) {
 				TMember tTarget = access.getTTarget();
-				if (tTarget.getSignature().equals(target)) {
-					return true;
-				}
 				if (!seen.contains(tTarget)) {
 					stack.add(tTarget);
+					if (tTarget.getSignature().equals(target)) {
+						reachedTargets.add(tTarget);
+					}
 				}
 			}
 			seen.add(current);
 		}
 
-		return false;
+		return reachedTargets;
 	}
 
 	private Stream<Defintion2Element> mapToMembers(Element element, Set<TAbstractType> typescorrespondingToElement,

@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Stack;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Level;
@@ -16,7 +15,6 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.gravity.eclipse.util.JavaASTUtil;
 import org.gravity.mapping.secdfd.model.mapping.AbstractMappingBase;
