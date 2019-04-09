@@ -47,3 +47,4 @@ Export-Package: org.gravity.mapping.secdfd,
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-Activator: org.gravity.mapping.secdfd.Activator
+Import-Package: org.eclipse.emf.common.ui
