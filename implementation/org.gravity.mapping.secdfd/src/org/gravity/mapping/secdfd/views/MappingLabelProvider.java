@@ -3,9 +3,8 @@ package org.gravity.mapping.secdfd.views;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -18,7 +17,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
-//import org.eclipse.xtext.util.Files;
 import org.gravity.mapping.secdfd.CorrespondenceHelper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
@@ -163,10 +161,10 @@ public class MappingLabelProvider implements ILabelProvider {
 
 		private static Map<String, Set<String>> map = null;
 
-		public static HashSet<String> true_positives = new HashSet<String>();
-		public static HashSet<String> false_positives = new HashSet<String>();
-		public static HashSet<String> JsonFileTP = new HashSet<String>();
-		public static HashSet<String> copyJsonFileTP = new HashSet<String>();
+		public static HashSet<String> truePositives = new HashSet<String>();
+		public static HashSet<String> falsePositives = new HashSet<String>();
+		public static HashSet<String> expectedPositives = new HashSet<String>();
+		public static HashSet<String> falseNegaives = new HashSet<String>();
 
 		static void init() {
 			MappingView mappingView = MappingView.getMappingView();
@@ -174,7 +172,7 @@ public class MappingLabelProvider implements ILabelProvider {
 				File file = mappingView.getProgramModel().getKey().getProject()
 						.getFile("groundtruth/" + mapping.getName() + ".json").getLocation().toFile();
 				if (file.exists()) {
-					if(map == null) {
+					if (map == null) {
 						map = new HashMap<>();
 					}
 					try {
@@ -193,7 +191,7 @@ public class MappingLabelProvider implements ILabelProvider {
 									map.put(dfd, pmNames);
 								}
 								pmNames.add(pm);
-								JsonFileTP.add(pm + dfd);
+								expectedPositives.add(pm + " <-> " + dfd);
 							}
 						}
 					} catch (FileNotFoundException e) {
@@ -201,44 +199,69 @@ public class MappingLabelProvider implements ILabelProvider {
 					}
 				}
 			}
-			if(map == null) {
+			falseNegaives = new HashSet<String>(expectedPositives);
+			truePositives = new HashSet<>();
+			falsePositives = new HashSet<>();
+			if (map == null) {
 				map = new HashMap<>();
 			}
 		}
 
 		public static void logging() {
-			if (map == null) {
+			if (map == null || map.size() == 0) {
 				return;
 			}
 
 			// logg
-			if (JsonFileTP.size() > 0) {
+			if (expectedPositives.size() > 0) {
 				File file = MappingView.getMappingView().getProgramModel().getKey().getProject()
-						.getFile("precision_recall.log").getLocation().toFile();
-				int tp = true_positives.size();
-				int fp = false_positives.size();
-				int fn = copyJsonFileTP.size();
+						.getFile("log/precision_recall_"+System.currentTimeMillis()+".log").getLocation().toFile();
+				int tp = truePositives.size();
+				int fp = falsePositives.size();
+				int fn = falseNegaives.size();
 				double precission = (double) tp / (tp + fp);
 				double recall = (double) tp / (tp + fn);
-				String build = "Precision ".concat(Double.toString(precission))
-						.concat(", Recall: ".concat(Double.toString(recall))).concat("\n").concat("TP: ")
-						.concat(Integer.toString(tp)).concat("\n").concat("FP: ").concat(Integer.toString(fp))
-						.concat("\n").concat("FN: ").concat(Integer.toString(fn)).concat("\n");
 				try {
+					file.getParentFile().mkdirs();
 					file.createNewFile();
-					Files.write(file.toPath(), build.getBytes(), StandardOpenOption.APPEND);
+					try (FileWriter writer = new FileWriter(file, true)) {
+						writer.append("Precision ");
+						writer.append(Double.toString(precission));
+						writer.append(", Recall: ");
+						writer.append(Double.toString(recall));
+						writer.append("\nTP: ");
+						writer.append(Integer.toString(tp));
+						writer.append("\nFP: ");
+						writer.append(Integer.toString(fp));
+						writer.append("\nFN: ");
+						writer.append(Integer.toString(fn));
+						writer.append("\n\nFalse negatives:\n");
+						for(String missed: falseNegaives) {
+							writer.append(missed);
+							writer.append('\n');
+						}
+						writer.append("\nFalse positives:\n");
+						for(String wrong: falsePositives) {
+							writer.append(wrong);
+							writer.append('\n');
+						}
+						writer.append('\n');
+					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				copyJsonFileTP = new HashSet<String>(JsonFileTP);
-				true_positives = new HashSet<>();
-				false_positives = new HashSet<>();
+				falseNegaives = new HashSet<String>(expectedPositives);
+				truePositives = new HashSet<>();
+				falsePositives = new HashSet<>();
 			}
 		}
 
 		static String getTruePositive(EObject pmObject, EObject dfdObject) {
-			if (map == null) {
+			if (map == null || map.size() == 0) {
 				init();
+			}
+			if (map.size() == 0) {
+				return "";
 			}
 
 			String pmString = prettyPrint(pmObject).toLowerCase();
@@ -247,13 +270,13 @@ public class MappingLabelProvider implements ILabelProvider {
 			dfdString = dfdString.substring(dfdString.indexOf(':') + 1).replaceAll(" ", "");
 			if (map.containsKey(dfdString)) {
 				if (map.get(dfdString).contains(pmString)) {
-					true_positives.add(pmString + dfdString);
-					copyJsonFileTP.remove(pmString + dfdString);
+					truePositives.add(pmString + " <-> " + dfdString);
+					falseNegaives.remove(pmString + " <-> " + dfdString);
 					return "+ TRUE POSITIVE";
 				}
 			}
 			if (pmObject instanceof TMember || pmObject instanceof TAbstractType) {
-				false_positives.add(pmString + dfdString);
+				falsePositives.add(pmString + " <-> " + dfdString);
 			}
 			return "! FALSE POSITIVE";
 		}

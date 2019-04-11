@@ -66,7 +66,7 @@
   <eClassifiers
       xsi:type="ecore:EClass"
       name="MappingProcessDefinition"
-      eSuperTypes="Secdfd.ecore#//Defintion2Element #//AbstractMappingDerived"/>
+      eSuperTypes="Secdfd.ecore#//Defintion2Element #//AbstractMappingDerived #//AbstractMappingBase"/>
   <eClassifiers
       xsi:type="ecore:EClass"
       name="AbstractMappingRanking"

@@ -50,14 +50,17 @@ public class CorrespondenceHelper {
 	private static final Logger LOGGER = Logger.getLogger(CorrespondenceHelper.class);
 
 	private final Mapping mapping;
+	private MappingCache cache;
 	private final IJavaProject project;
 
 	private HashMap<EObject, Collection<AbstractCorrespondence>> correspondences = new HashMap<>();
 
 
-	public CorrespondenceHelper(Mapping mapping, IJavaProject project) {
+
+	public CorrespondenceHelper(Mapping mapping, IJavaProject project, MappingCache cache) {
 		this.mapping = mapping;
 		this.project = project;
+		this.cache = cache;
 	}
 
 	/**
@@ -79,6 +82,7 @@ public class CorrespondenceHelper {
 			corr.setTarget(element);
 			addToMap(element, corr);
 			addToMap(member, corr);
+			cache.add(member, element);
 			mapping.getCorrespondences().add(corr);
 		}
 		corr.setRanking(ranking);
@@ -108,12 +112,13 @@ public class CorrespondenceHelper {
 			corr.getDerived().addAll(derived);
 			addToMap(element, corr);
 			addToMap(signature, corr);
+			cache.add(signature, element);
 			mapping.getCorrespondences().add(corr);
 		}
 		MappingProcessName nameCorr = (MappingProcessName) getCorrespondence(signature.getMethod(), element);
 		if (nameCorr == null) {
 			nameCorr = createCorrespondence(signature.getMethod(), element, ranking);
-			System.out.println(nameCorr);
+			mapping.getSuggested().add(nameCorr);
 		}
 		corr.getDerived().add(nameCorr);
 		LOGGER.log(Level.INFO, "Create correspondence: " + MappingLabelProvider.prettyPrint(corr));
@@ -129,7 +134,7 @@ public class CorrespondenceHelper {
 	 * @param ranking
 	 * @return The correspondence
 	 */
-	MappingProcessDefinition createCorrespondence(TMember member, Element element, Integer ranking,
+	MappingProcessDefinition createCorrespondence(TMethodDefinition member, Element element, Integer ranking,
 			Collection<? extends AbstractMappingBase> derived) {
 		MappingProcessDefinition corr = (MappingProcessDefinition) getCorrespondence(member, element);
 		if (corr != null) {
@@ -141,13 +146,25 @@ public class CorrespondenceHelper {
 		corr.getDerived().addAll(derived);
 		addToMap(element, corr);
 		addToMap(member, corr);
+		cache.add(member, element);
 		mapping.getCorrespondences().add(corr);
 		MappingProcessSignature sigCorr = (MappingProcessSignature) getCorrespondence(member.getSignature(), element);
 		if (sigCorr == null) {
-			TMethodSignature signature = ((TMethodDefinition) member).getSignature();
+			TMethodSignature signature = member.getSignature();
 			sigCorr = createCorrespondence(signature, element, ranking, Collections.emptyList());
+			mapping.getSuggested().add(sigCorr);
 		}
 		corr.getDerived().add(sigCorr);
+		
+		TMethodDefinition overriding = member.getOverriding();
+		if(overriding != null && overriding.getDefinedBy() instanceof TInterface){
+			MappingProcessDefinition overCorr = (MappingProcessDefinition) getCorrespondence(overriding, element);
+			if(overCorr == null) {
+				overCorr = createCorrespondence(overriding, element, ranking, Collections.singletonList(corr));
+				mapping.getSuggested().add(overCorr);
+			}
+		}
+		
 		LOGGER.log(Level.INFO, "Create correspondence: " + MappingLabelProvider.prettyPrint(corr));
 		
 		try {
@@ -178,14 +195,15 @@ public class CorrespondenceHelper {
 		corr.setRanking(ranking);
 		addToMap(type, corr);
 		addToMap(entity, corr);
+		cache.add(type, entity);
 		mapping.getCorrespondences().add(corr);
 
 		if (type instanceof TInterface) {
 			TInterface tInterface = (TInterface) type;
-			tInterface.getImplementedBy().forEach(child -> createCorrespondence(child, entity, ranking));
-			tInterface.getChildInterfaces().forEach(child -> createCorrespondence(child, entity, ranking));
+			tInterface.getImplementedBy().forEach(child -> mapping.getSuggested().add(createCorrespondence(child, entity, ranking)));
+			tInterface.getChildInterfaces().forEach(child -> mapping.getSuggested().add(createCorrespondence(child, entity, ranking)));
 		} else if (type instanceof TClass) {
-			((TClass) type).getChildClasses().forEach(child -> createCorrespondence(child, entity, ranking));
+			((TClass) type).getChildClasses().forEach(child -> mapping.getSuggested().add(createCorrespondence(child, entity, ranking)));
 		}
 		LOGGER.log(Level.INFO, "Create correspondence: " + MappingLabelProvider.prettyPrint(corr));
 		try {

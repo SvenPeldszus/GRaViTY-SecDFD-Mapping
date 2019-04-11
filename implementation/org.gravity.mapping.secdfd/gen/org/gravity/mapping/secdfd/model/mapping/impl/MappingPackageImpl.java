@@ -462,6 +462,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 		mappingProcessSignatureEClass.getESuperTypes().add(this.getAbstractMappingBase());
 		mappingProcessDefinitionEClass.getESuperTypes().add(theSecdfdPackage.getDefintion2Element());
 		mappingProcessDefinitionEClass.getESuperTypes().add(this.getAbstractMappingDerived());
+		mappingProcessDefinitionEClass.getESuperTypes().add(this.getAbstractMappingBase());
 		mappingEntityTypeEClass.getESuperTypes().add(theSecdfdPackage.getType2NamedEntity());
 		mappingEntityTypeEClass.getESuperTypes().add(this.getAbstractMappingRanking());
 		mappingEntityTypeEClass.getESuperTypes().add(this.getAbstractMappingBase());

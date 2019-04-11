@@ -113,6 +113,7 @@ public class MappingSwitch<T> extends Switch<T> {
 				T result = caseMappingProcessDefinition(mappingProcessDefinition);
 				if (result == null) result = caseDefintion2Element(mappingProcessDefinition);
 				if (result == null) result = caseAbstractMappingDerived(mappingProcessDefinition);
+				if (result == null) result = caseAbstractMappingBase(mappingProcessDefinition);
 				if (result == null) result = caseAbstractCorrespondence(mappingProcessDefinition);
 				if (result == null) result = defaultCase(theEObject);
 				return result;

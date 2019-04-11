@@ -1,28 +1,42 @@
 EDFD JPMail[
 	assets: 
-		Asset EmailBodyAndHeader values: [M I], [H C], [L Av]
+		Asset EmailBodyAndHeader 
+			type: Object
+			values: [M I], [H C], [L Av]
 			source: Alice
 			targets: toMimeMessage,
 		// src/pop3/JPMailMessage.java
-		Asset MimePartBody values: [M I], [H C], [L Av]
+		Asset MimePartBody 
+			type: Object
+			values: [M I], [H C], [L Av] 
 			source: toMimeMessage
 			targets: EncryptBody, Bob,
 		// src/pop3/JPMailMessage.java
-		Asset EncBody values: [L Av]
+		Asset EncBody 
+			type: Object
+			values: [L Av]
 			source: EncryptBody
 			targets: decrypt,
 		// src/pop3/JPMailMessage.java
-		Asset Header values: [M I], [M Av]
+		Asset Header 
+			type: Object
+			values: [M I], [M Av]
 			source: toMimeMessage
 			targets: SMTPServer, POP3Server, Bob,
-		Asset BobPublicKey values: [M I], [L Av]
+		Asset BobPublicKey 
+			type: Object
+			values: [M I], [L Av]
 			source: PolicyStore
 			targets: EncryptBody,
-		Asset BobPrivateKey values: [M I], [H C], [M Av]
+		Asset BobPrivateKey 
+			type: Object
+			values: [M I], [H C], [M Av]
 			source: KeyStore
 			targets: decrypt,
 		// src/policy/PolicyStore.java `Principal user'
-		Asset Principal values: [H I], [L Av]
+		Asset Principal 
+			type: Object
+			values: [H I], [L Av]
 			source: PolicyStore
 			targets: toMimeMessage, decrypt
 	elements:

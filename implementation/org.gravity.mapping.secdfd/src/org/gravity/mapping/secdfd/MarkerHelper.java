@@ -69,7 +69,12 @@ public class MarkerHelper {
 			javaElement = astTypes.get(((TAbstractType) element).getFullyQualifiedName());
 		} else if (element instanceof TMethodDefinition) {
 			TMethodDefinition member = (TMethodDefinition) element;
-			IType iType = astTypes.get(member.getDefinedBy().getFullyQualifiedName());
+			String fullyQualifiedName = member.getDefinedBy().getFullyQualifiedName();
+			IType iType = astTypes.get(fullyQualifiedName);
+			if(iType == null) {
+				LOGGER.log(Level.WARN, "Type not found in AST: " + fullyQualifiedName);
+				return null;
+			}
 			try {
 				javaElement = JavaASTUtil.getIMethod(member.getSignature(), iType);
 			} catch (JavaModelException e) {

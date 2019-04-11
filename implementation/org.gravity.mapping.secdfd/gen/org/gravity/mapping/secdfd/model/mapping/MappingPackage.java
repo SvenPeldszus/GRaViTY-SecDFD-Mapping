@@ -364,13 +364,22 @@ public interface MappingPackage extends EPackage {
 	int MAPPING_PROCESS_DEFINITION__DERIVED = SecdfdPackage.DEFINTION2_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Deriving</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_PROCESS_DEFINITION__DERIVING = SecdfdPackage.DEFINTION2_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Process Definition</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_PROCESS_DEFINITION_FEATURE_COUNT = SecdfdPackage.DEFINTION2_ELEMENT_FEATURE_COUNT + 1;
+	int MAPPING_PROCESS_DEFINITION_FEATURE_COUNT = SecdfdPackage.DEFINTION2_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Process Definition</em>' class.

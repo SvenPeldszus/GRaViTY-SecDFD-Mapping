@@ -14,5 +14,5 @@ import org.gravity.mapping.secdfd.Defintion2Element;
  * @model
  * @generated
  */
-public interface MappingProcessDefinition extends Defintion2Element, AbstractMappingDerived {
+public interface MappingProcessDefinition extends Defintion2Element, AbstractMappingDerived, AbstractMappingBase {
 } // MappingProcessDefinition

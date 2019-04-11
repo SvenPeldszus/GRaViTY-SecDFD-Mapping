@@ -35,7 +35,7 @@ class MyDslValidator extends AbstractMyDslValidator {
 	def AbsenceInImplementation(EObject eobject) {
 		if (eobject instanceof DataStore || eobject instanceof Process || eobject instanceof Asset){
 			if (map.containsKey((eobject as NamedEntity).name)) {
-				info('The element has been mapped to ' + map.get((eobject as NamedEntity).name), 
+				info('The element has been mapped to ' + map.get((eobject as NamedEntity).name)+'\n', 
 					EDFDFlowTracking1Package.Literals.NAMED_ENTITY__NAME,
 					COMPLIANCE_ABSENCE)
 			}else{
