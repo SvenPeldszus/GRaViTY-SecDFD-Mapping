@@ -114,12 +114,4 @@ EDFD JPMail[
 			incoming flows: "POP3Server.pop3ForwardsEmail", "PolicyStore.hasPrincipal", "KeyStore.getPrivateKey"
 			outgoing flows: provideHeaderAndBody [num: 10 assets: MimePartBody, Header targets: Bob]
 		]
-	attack zones:
-		OpenNetworkZone[
-			attacker profiles:
-				ExternalHacker [
-					observation: 1
-				]
-			elements: SMTPServer, POP3Server
-		]
 ]
