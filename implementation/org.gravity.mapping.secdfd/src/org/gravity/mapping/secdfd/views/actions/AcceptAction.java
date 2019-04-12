@@ -28,16 +28,16 @@ public final class AcceptAction extends Action {
 	}
 
 	public void run() {
+		MappingView mappingView = MappingView.getMappingView();
 		selection.stream()
 		.filter(e -> e instanceof AbstractCorrespondence).map(e -> {
 			return (AbstractCorrespondence) e;
 		}).forEach(e -> {
 			Mapping mapping = (Mapping) ((EObject) e).eContainer();
 			if(!mapping.getUserdefined().contains(e)) {
-				MappingView mappingView = MappingView.getMappingView();
-				mappingView.getMapper(mapping).accept(e);;
-				mappingView.getTree().refresh();
+				mappingView.getMapper(mapping).accept(e);
 			}
 		});
+		mappingView.update();
 	}
 }

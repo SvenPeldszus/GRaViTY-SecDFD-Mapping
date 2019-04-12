@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.emf.ecore.EObject;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethod;
@@ -136,6 +137,29 @@ public class MappingCache {
 	 */
 	public HashMap<Element, Set<TSignature>> getElementSignatureMapping() {
 		return elementSignatureMapping;
+	}
+
+	/**
+	 * @param pmElement
+	 * @param dfdElement
+	 */
+	void remove(EObject pmElement, EObject dfdElement) {
+		Set<TMember> members = getElementMemberMapping().get(dfdElement);
+		if(members!=null) {
+			members.remove(pmElement);
+		}
+		Set<TSignature> sigs = getElementSignatureMapping().get(dfdElement);
+		if(sigs != null) {
+			sigs.remove(pmElement);
+		}
+		Set<TMethod> names = getElementMethodMapping().get(dfdElement);
+		if(names != null) {
+			names.remove(pmElement);
+		}
+		Set<TAbstractType> types = getEntityTypeMapping().get(dfdElement);
+		if(types!=null) {
+			types.remove(pmElement);
+		}
 	}
 
 }

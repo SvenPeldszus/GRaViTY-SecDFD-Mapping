@@ -38,6 +38,7 @@ import org.gravity.mapping.secdfd.model.mapping.MappingFactory;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
 import org.gravity.mapping.secdfd.model.mapping.AbstractMappingRanking;
+import org.gravity.mapping.secdfd.views.Logging;
 import org.gravity.mapping.secdfd.views.MappingLabelProvider;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TConstructorName;
@@ -156,28 +157,29 @@ public class Mapper {
 	}
 
 	/**
-		 * Accept the given correspondence
-		 * 
-		 * @param corr The correspondence
-		 */
-		public void accept(AbstractCorrespondence corr) {
-			if ((mapping.getCorrespondences().contains(corr) && !mapping.getUserdefined().contains(corr))
-					|| mapping.getIgnored().contains(corr)) {
-				boolean remove = mapping.getIgnored().remove(corr);
-				if (remove) {
-					mapping.getCorrespondences().add(corr);
-	//				add(CorrespondenceHelper.getSource(corr), CorrespondenceHelper.getTarget(corr));
-				} else {
-					mapping.getSuggested().remove(corr);
-				}
-				mapping.getAccepted().add(corr);
-				updateRanking(corr, 100);
-				if (corr instanceof AbstractMappingDerived) {
-					((AbstractMappingDerived) corr).getDerived().forEach(parent -> accept(parent));
-				}
-				updateMappingOnFilesystem();
+	 * Accept the given correspondence
+	 * 
+	 * @param corr   The correspondence
+	 * @param update If the serialized files should be updated
+	 */
+	public void accept(AbstractCorrespondence corr) {
+		if ((mapping.getCorrespondences().contains(corr) && !mapping.getUserdefined().contains(corr))
+				|| mapping.getIgnored().contains(corr)) {
+			boolean remove = mapping.getIgnored().remove(corr);
+			if (remove) {
+				mapping.getCorrespondences().add(corr);
+				// add(CorrespondenceHelper.getSource(corr),
+				// CorrespondenceHelper.getTarget(corr));
+			} else {
+				mapping.getSuggested().remove(corr);
+			}
+			mapping.getAccepted().add(corr);
+			updateRanking(corr, 100);
+			if (corr instanceof AbstractMappingDerived) {
+				((AbstractMappingDerived) corr).getDerived().forEach(parent -> accept(parent));
 			}
 		}
+	}
 
 	/**
 	 * Reject the given correspondence
@@ -229,7 +231,6 @@ public class Mapper {
 		} catch (JavaModelException e) {
 			LOGGER.log(Level.ERROR, e);
 		}
-		updateMappingOnFilesystem();
 	}
 
 	/**
@@ -277,7 +278,6 @@ public class Mapper {
 					stack.addAll(((AbstractMappingDerived) next).getDerived());
 				}
 			}
-			updateMappingOnFilesystem();
 		}
 	}
 
@@ -319,12 +319,12 @@ public class Mapper {
 		return userCorr;
 	}
 
-
 	public void optimize() {
 		this.optimizer.optimize();
 		updateMappingOnFilesystem();
+		Logging.writeLog(mapping.getCorrespondences());
 	}
-	
+
 	/**
 	 * Recursively updates the ranking
 	 * 
@@ -403,7 +403,7 @@ public class Mapper {
 		ArrayList<Method2Element> list = new ArrayList<Method2Element>();
 		for (TMethod method : methods) {
 			int rank = StringCompare.compare(element.getName(), method.getTName());
-			if (rank > 0 && helper.canCreate(method, element)) {
+			if (rank > 0 && helper.canCreate(method, element, Collections.emptyMap())) {
 				Method2Element corr = helper.createCorrespondence(method, element, rank);
 				mapping.getSuggested().add(corr);
 				list.add(corr);
@@ -436,7 +436,7 @@ public class Mapper {
 			return mapToType((NamedEntity) asset);
 		case STRING:
 			TAbstractType string = pm.getAbstractType("java.lang.String");
-			if (helper.canCreate(string, asset)) {
+			if (helper.canCreate(string, asset, Collections.emptyMap())) {
 				Type2NamedEntity corr = helper.createCorrespondence(string, asset, 100);
 				mapping.getSuggested().add(corr);
 				list.add(corr);
@@ -457,7 +457,7 @@ public class Mapper {
 		ArrayList<Type2NamedEntity> list = new ArrayList<Type2NamedEntity>();
 		for (TAbstractType type : types) {
 			int rank = StringCompare.compare(entity.getName(), type.getTName());
-			if (rank > 0 && helper.canCreate(type, entity)) {
+			if (rank > 0 && helper.canCreate(type, entity, Collections.emptyMap())) {
 				Type2NamedEntity corr = helper.createCorrespondence(type, entity, rank);
 				mapping.getSuggested().add(corr);
 				list.add(corr);

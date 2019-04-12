@@ -27,11 +27,11 @@ public final class UserdefinedAction extends Action {
 	List<EObject> source;
 	
 	
-	private final MappingView map;
+	private final MappingView mappingView;
 	private IStructuredSelection selection;
 
 	public UserdefinedAction(MappingView map) {
-		this.map = map;
+		this.mappingView = map;
 	}
 
 	@Override
@@ -48,16 +48,16 @@ public final class UserdefinedAction extends Action {
 		Stream<?> stream = ((IStructuredSelection) selection).toList().stream();
 		stream.filter(e -> !(e instanceof EDFD)).forEach(e -> {
 			// TODO: Add to mapping
-			Optional<Mapping> result = map.getMappings().stream()
+			Optional<Mapping> result = mappingView.getMappings().stream()
 					.filter(c -> c.getTarget().equals(((EObject) e).eContainer())).findAny();
 			if (!result.isPresent()) {
 				LOGGER.log(Level.ERROR, "Didn't found mapping");
 				return;
 			}
 			Mapping mapping = result.get();
-			Mapper mapper = map.getMapper(mapping);
+			Mapper mapper = mappingView.getMapper(mapping);
 			source.forEach(s -> mapper.userdefined(s, (EObject) e));
-			map.update();
+			mappingView.update();
 		});
 	}
 	

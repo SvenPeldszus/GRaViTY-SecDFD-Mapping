@@ -3,16 +3,16 @@
  */
 package org.xtext.example.mydsl.validation
 
-import eDFDFlowTracking.EDFDFlowTracking1Package;
 import eDFDFlowTracking.Asset
-import eDFDFlowTracking.Process
-import org.eclipse.xtext.validation.Check
-import java.util.Map
-import java.util.HashMap
-import org.eclipse.emf.ecore.EObject
-import java.util.Set
-import eDFDFlowTracking.NamedEntity
 import eDFDFlowTracking.DataStore
+import eDFDFlowTracking.EDFDFlowTracking1Package
+import eDFDFlowTracking.NamedEntity
+import eDFDFlowTracking.Process
+import java.util.HashMap
+import java.util.Map
+import java.util.Set
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.xtext.validation.Check
 
 /**
  * This class contains custom validation rules. 
@@ -35,9 +35,14 @@ class MyDslValidator extends AbstractMyDslValidator {
 	def AbsenceInImplementation(EObject eobject) {
 		if (eobject instanceof DataStore || eobject instanceof Process || eobject instanceof Asset){
 			if (map.containsKey((eobject as NamedEntity).name)) {
-				info('The element has been mapped to ' + map.get((eobject as NamedEntity).name)+'\n', 
-					EDFDFlowTracking1Package.Literals.NAMED_ENTITY__NAME,
-					COMPLIANCE_ABSENCE)
+				var message = 'The element has been mapped to '
+				val pm = map.get((eobject as NamedEntity).name)
+				message += Integer.toString(pm.size())
+				message += ' elements:'
+				for(sig : pm) {
+					message += sig + '\n'
+				}
+				info(message, EDFDFlowTracking1Package.Literals.NAMED_ENTITY__NAME,	COMPLIANCE_ABSENCE)
 			}else{
 				warning('Absence of asset in implementation. Please create a mapping or modify the code.', 
 					EDFDFlowTracking1Package.Literals.NAMED_ENTITY__NAME,

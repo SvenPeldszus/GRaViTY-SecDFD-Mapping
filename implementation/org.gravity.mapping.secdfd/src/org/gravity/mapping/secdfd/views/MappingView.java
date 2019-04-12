@@ -174,6 +174,7 @@ public class MappingView extends ViewPart {
 			Mapper mapper = new Mapper(pm.getValue(), entry.getValue(), destination);
 			mappers.put(mapper.getMapping(), mapper);
 		}
+		Logging.init();
 		if (!label.isDisposed()) {
 			label.dispose();
 			parent.setLayout(new GridLayout(1, false));
@@ -286,6 +287,9 @@ public class MappingView extends ViewPart {
 	}
 
 	public void update() {
+		for(Mapper mapper : mappers.values()) {
+			mapper.updateMappingOnFilesystem();
+		}
 		this.treeViewer.refresh();
 	}
 

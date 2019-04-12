@@ -1,15 +1,6 @@
 package org.gravity.mapping.secdfd.views;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.EClass;
@@ -30,9 +21,6 @@ import org.gravity.typegraph.basic.TMethod;
 import org.gravity.typegraph.basic.TSignature;
 import org.moflon.tgg.runtime.AbstractCorrespondence;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import eDFDFlowTracking.EDFD;
 import eDFDFlowTracking.EDFDFlowTracking1Package;
 import eDFDFlowTracking.NamedEntity;
@@ -77,13 +65,17 @@ public class MappingLabelProvider implements ILabelProvider {
 			if (key instanceof String) {
 				return (String) key;
 			}
+			if(key instanceof EObject) {
+				return prettyPrint((EObject) key);
+			}
 		} else if (element instanceof AbstractCorrespondence) {
 			AbstractCorrespondence corr = (AbstractCorrespondence) element;
 			EObject source = CorrespondenceHelper.getSource(corr);
-			EObject target = CorrespondenceHelper.getTarget(corr);
-			String prefix = Logging.getTruePositive(source, target) + "\t\t";
-			prefix += "ranking: " + Integer.toString(getTotalRanking(corr)) + "\t\t";
-			return prefix + prettyPrint(source, target);
+			String prefix = Logging.getTruePositive(corr);
+			if(prefix.length() > 0) {
+				prefix += "\t\t";
+			}
+			return prefix + prettyPrint(source);
 		} else if (element instanceof EDFD) {
 			return ((EDFD) element).getName();
 		} else if (element instanceof Mapping) {
@@ -147,138 +139,15 @@ public class MappingLabelProvider implements ILabelProvider {
 				builder.append("DataStore: ");
 			}
 			builder.append(((NamedEntity) eObject).getName());
-		} else {
+		} else if(eObject instanceof AbstractCorrespondence){
+			return prettyPrint(CorrespondenceHelper.getSource((AbstractCorrespondence) eObject), CorrespondenceHelper.getTarget((AbstractCorrespondence) eObject));
+		}else {
 			return eObject.toString();
 		}
 		return builder.toString();
 	}
 
-	private String prettyPrint(EObject source, EObject target) {
+	private static String prettyPrint(EObject source, EObject target) {
 		return prettyPrint(source) + " <-> " + prettyPrint(target);
-	}
-
-	public static class Logging {
-
-		private static Map<String, Set<String>> map = null;
-
-		public static HashSet<String> truePositives = new HashSet<String>();
-		public static HashSet<String> falsePositives = new HashSet<String>();
-		public static HashSet<String> expectedPositives = new HashSet<String>();
-		public static HashSet<String> falseNegaives = new HashSet<String>();
-
-		static void init() {
-			MappingView mappingView = MappingView.getMappingView();
-			for (Mapping mapping : mappingView.getMappings()) {
-				File file = mappingView.getProgramModel().getKey().getProject()
-						.getFile("groundtruth/" + mapping.getName() + ".json").getLocation().toFile();
-				if (file.exists()) {
-					if (map == null) {
-						map = new HashMap<>();
-					}
-					try {
-						JsonObject object = new JsonParser().parse(new FileReader(file)).getAsJsonObject();
-						for (JsonElement jsonElement : object.getAsJsonArray("mappings")) {
-							if (jsonElement instanceof JsonObject) {
-								String pm = ((JsonObject) jsonElement).get("pm").getAsString().toLowerCase()
-										.replaceAll(" ", "");
-								String dfd = ((JsonObject) jsonElement).get("secdfd").getAsString().toLowerCase()
-										.replaceAll(" ", "");
-								Set<String> pmNames;
-								if (map.containsKey(dfd)) {
-									pmNames = map.get(dfd);
-								} else {
-									pmNames = new HashSet<>();
-									map.put(dfd, pmNames);
-								}
-								pmNames.add(pm);
-								expectedPositives.add(pm + " <-> " + dfd);
-							}
-						}
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-			falseNegaives = new HashSet<String>(expectedPositives);
-			truePositives = new HashSet<>();
-			falsePositives = new HashSet<>();
-			if (map == null) {
-				map = new HashMap<>();
-			}
-		}
-
-		public static void logging() {
-			if (map == null || map.size() == 0) {
-				return;
-			}
-
-			// logg
-			if (expectedPositives.size() > 0) {
-				File file = MappingView.getMappingView().getProgramModel().getKey().getProject()
-						.getFile("log/precision_recall_"+System.currentTimeMillis()+".log").getLocation().toFile();
-				int tp = truePositives.size();
-				int fp = falsePositives.size();
-				int fn = falseNegaives.size();
-				double precission = (double) tp / (tp + fp);
-				double recall = (double) tp / (tp + fn);
-				try {
-					file.getParentFile().mkdirs();
-					file.createNewFile();
-					try (FileWriter writer = new FileWriter(file, true)) {
-						writer.append("Precision ");
-						writer.append(Double.toString(precission));
-						writer.append(", Recall: ");
-						writer.append(Double.toString(recall));
-						writer.append("\nTP: ");
-						writer.append(Integer.toString(tp));
-						writer.append("\nFP: ");
-						writer.append(Integer.toString(fp));
-						writer.append("\nFN: ");
-						writer.append(Integer.toString(fn));
-						writer.append("\n\nFalse negatives:\n");
-						for(String missed: falseNegaives) {
-							writer.append(missed);
-							writer.append('\n');
-						}
-						writer.append("\nFalse positives:\n");
-						for(String wrong: falsePositives) {
-							writer.append(wrong);
-							writer.append('\n');
-						}
-						writer.append('\n');
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				falseNegaives = new HashSet<String>(expectedPositives);
-				truePositives = new HashSet<>();
-				falsePositives = new HashSet<>();
-			}
-		}
-
-		static String getTruePositive(EObject pmObject, EObject dfdObject) {
-			if (map == null || map.size() == 0) {
-				init();
-			}
-			if (map.size() == 0) {
-				return "";
-			}
-
-			String pmString = prettyPrint(pmObject).toLowerCase();
-			pmString = pmString.substring(pmString.indexOf(':') + 1).replaceAll(" ", "");
-			String dfdString = prettyPrint(dfdObject).toLowerCase();
-			dfdString = dfdString.substring(dfdString.indexOf(':') + 1).replaceAll(" ", "");
-			if (map.containsKey(dfdString)) {
-				if (map.get(dfdString).contains(pmString)) {
-					truePositives.add(pmString + " <-> " + dfdString);
-					falseNegaives.remove(pmString + " <-> " + dfdString);
-					return "+ TRUE POSITIVE";
-				}
-			}
-			if (pmObject instanceof TMember || pmObject instanceof TAbstractType) {
-				falsePositives.add(pmString + " <-> " + dfdString);
-			}
-			return "! FALSE POSITIVE";
-		}
 	}
 }

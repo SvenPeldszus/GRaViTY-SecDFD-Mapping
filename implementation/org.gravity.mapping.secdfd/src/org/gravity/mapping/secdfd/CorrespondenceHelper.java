@@ -7,17 +7,21 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.gravity.eclipse.util.JavaASTUtil;
 import org.gravity.mapping.secdfd.model.mapping.AbstractMappingBase;
+import org.gravity.mapping.secdfd.model.mapping.AbstractMappingDerived;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.model.mapping.MappingEntityType;
 import org.gravity.mapping.secdfd.model.mapping.MappingFactory;
@@ -28,7 +32,6 @@ import org.gravity.mapping.secdfd.views.MappingLabelProvider;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TClass;
 import org.gravity.typegraph.basic.TInterface;
-import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethod;
 import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TMethodSignature;
@@ -241,7 +244,10 @@ public class CorrespondenceHelper {
 	 * @param dfdObject A object from a DFD
 	 * @return true, if this correspondence is not ignored and not already created
 	 */
-	boolean canCreate(EObject pmObject, EObject dfdObject) {
+	boolean canCreate(EObject pmObject, EObject dfdObject, Map<EObject, Set<EObject>> excludes) {
+		if(excludes.containsKey(dfdObject) && excludes.get(dfdObject).contains(pmObject)) {
+			return false;
+		}
 		boolean isIgnored = mapping.getIgnored().stream()
 				.filter(ignored -> getSource(ignored).equals(pmObject) && getTarget(ignored).equals(dfdObject))
 				.findAny().isPresent();
@@ -341,6 +347,34 @@ public class CorrespondenceHelper {
 			LOGGER.log(Level.ERROR, "Multiple correspondences: " + collect);
 		}
 		return collect.get(0);
+	}
+
+	public void delete(AbstractCorrespondence corr) {
+		EObject pmElement = getSource(corr);
+		EObject dfdElement = getTarget(corr);
+		Collection<AbstractCorrespondence> pm2corr = correspondences.get(pmElement);
+		if(pm2corr != null) {
+			pm2corr.remove(corr);
+		}
+		Collection<AbstractCorrespondence> dfd2corr = correspondences.get(dfdElement);
+		if(dfd2corr !=null) {
+			dfd2corr.remove(corr);
+		}
+		mapping.getCorrespondences().remove(corr);
+		mapping.getSuggested().remove(corr);
+		mapping.getIgnored().remove(corr);
+		mapping.getAccepted().remove(corr);
+		mapping.getUserdefined().remove(corr);
+		cache.remove(pmElement, dfdElement);
+		if(corr instanceof AbstractMappingBase) {
+			for(AbstractMappingDerived derived : ((AbstractMappingBase) corr).getDeriving()) {
+				if(derived.getDerived().size() <= 1) {
+					delete(derived);
+				}
+			}
+			((AbstractMappingBase) corr).getDeriving().clear();
+		}
+		EcoreUtil.delete(corr);
 	}
 
 }

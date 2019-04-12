@@ -36,7 +36,7 @@ public final class RejectAction extends Action {
 			Mapping mapping = (Mapping) ((EObject) e).eContainer();
 			MappingView mappingView = MappingView.getMappingView();
 			mappingView.getMapper(mapping).reject((AbstractCorrespondence) e);
-			mappingView.getTree().remove(e);
+//			mappingView.getTree().remove(e);
 			mappingView.update();
 		});
 	}
