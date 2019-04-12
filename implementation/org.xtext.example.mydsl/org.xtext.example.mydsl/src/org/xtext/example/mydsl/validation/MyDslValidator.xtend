@@ -40,7 +40,7 @@ class MyDslValidator extends AbstractMyDslValidator {
 				message += Integer.toString(pm.size())
 				message += ' elements:'
 				for(sig : pm) {
-					message += sig + '\n'
+					message += '\n' + sig
 				}
 				info(message, EDFDFlowTracking1Package.Literals.NAMED_ENTITY__NAME,	COMPLIANCE_ABSENCE)
 			}else{
