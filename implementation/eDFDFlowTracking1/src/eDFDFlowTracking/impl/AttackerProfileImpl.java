@@ -112,6 +112,7 @@ public class AttackerProfileImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -121,6 +122,7 @@ public class AttackerProfileImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -133,6 +135,7 @@ public class AttackerProfileImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getNumber() {
 		return number;
 	}
@@ -142,6 +145,7 @@ public class AttackerProfileImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setNumber(int newNumber) {
 		int oldNumber = number;
 		number = newNumber;
@@ -154,6 +158,7 @@ public class AttackerProfileImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getObservation() {
 		return observation;
 	}
@@ -163,6 +168,7 @@ public class AttackerProfileImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setObservation(int newObservation) {
 		int oldObservation = observation;
 		observation = newObservation;

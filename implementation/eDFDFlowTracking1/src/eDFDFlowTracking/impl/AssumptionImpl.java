@@ -89,6 +89,7 @@ public class AssumptionImpl extends MinimalEObjectImpl.Container implements Assu
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Objective> getObjective() {
 		if (objective == null) {
 			objective = new EDataTypeUniqueEList<Objective>(Objective.class, this, EDFDFlowTracking1Package.ASSUMPTION__OBJECTIVE);
@@ -101,6 +102,7 @@ public class AssumptionImpl extends MinimalEObjectImpl.Container implements Assu
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Layer getLayer() {
 		return layer;
 	}
@@ -110,6 +112,7 @@ public class AssumptionImpl extends MinimalEObjectImpl.Container implements Assu
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLayer(Layer newLayer) {
 		Layer oldLayer = layer;
 		layer = newLayer == null ? LAYER_EDEFAULT : newLayer;

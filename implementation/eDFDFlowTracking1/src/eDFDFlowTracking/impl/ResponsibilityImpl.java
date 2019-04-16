@@ -137,6 +137,7 @@ public class ResponsibilityImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -146,6 +147,7 @@ public class ResponsibilityImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -158,6 +160,7 @@ public class ResponsibilityImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getNumber() {
 		return number;
 	}
@@ -167,6 +170,7 @@ public class ResponsibilityImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setNumber(int newNumber) {
 		int oldNumber = number;
 		number = newNumber;
@@ -179,6 +183,7 @@ public class ResponsibilityImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ResponsibilityType> getAction() {
 		if (action == null) {
 			action = new EDataTypeUniqueEList<ResponsibilityType>(ResponsibilityType.class, this, EDFDFlowTracking1Package.RESPONSIBILITY__ACTION);
@@ -191,6 +196,7 @@ public class ResponsibilityImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Asset> getIncomeassets() {
 		if (incomeassets == null) {
 			incomeassets = new EObjectResolvingEList<Asset>(Asset.class, this, EDFDFlowTracking1Package.RESPONSIBILITY__INCOMEASSETS);
@@ -203,6 +209,7 @@ public class ResponsibilityImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Asset> getOutcomeassets() {
 		if (outcomeassets == null) {
 			outcomeassets = new EObjectResolvingEList<Asset>(Asset.class, this, EDFDFlowTracking1Package.RESPONSIBILITY__OUTCOMEASSETS);
@@ -215,6 +222,7 @@ public class ResponsibilityImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public eDFDFlowTracking.Process getProcess() {
 		if (eContainerFeatureID() != EDFDFlowTracking1Package.RESPONSIBILITY__PROCESS) return null;
 		return (eDFDFlowTracking.Process)eInternalContainer();
@@ -235,6 +243,7 @@ public class ResponsibilityImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setProcess(eDFDFlowTracking.Process newProcess) {
 		if (newProcess != eInternalContainer() || (eContainerFeatureID() != EDFDFlowTracking1Package.RESPONSIBILITY__PROCESS && newProcess != null)) {
 			if (EcoreUtil.isAncestor(this, newProcess))

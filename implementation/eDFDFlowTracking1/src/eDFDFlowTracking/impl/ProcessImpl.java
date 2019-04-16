@@ -65,6 +65,7 @@ public class ProcessImpl extends ElementImpl implements eDFDFlowTracking.Process
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Responsibility> getResponsibility() {
 		if (responsibility == null) {
 			responsibility = new EObjectContainmentWithInverseEList<Responsibility>(Responsibility.class, this, EDFDFlowTracking1Package.PROCESS__RESPONSIBILITY, EDFDFlowTracking1Package.RESPONSIBILITY__PROCESS);

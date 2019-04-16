@@ -236,6 +236,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getAsset() {
 		return assetEClass;
 	}
@@ -245,6 +246,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAsset_Value() {
 		return (EReference)assetEClass.getEStructuralFeatures().get(0);
 	}
@@ -254,6 +256,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAsset_Source() {
 		return (EReference)assetEClass.getEStructuralFeatures().get(1);
 	}
@@ -263,6 +266,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAsset_Targets() {
 		return (EReference)assetEClass.getEStructuralFeatures().get(2);
 	}
@@ -272,6 +276,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAsset_Type() {
 		return (EAttribute)assetEClass.getEStructuralFeatures().get(3);
 	}
@@ -281,6 +286,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getProcess() {
 		return processEClass;
 	}
@@ -290,6 +296,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getProcess_Responsibility() {
 		return (EReference)processEClass.getEStructuralFeatures().get(0);
 	}
@@ -299,6 +306,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEDFD() {
 		return edfdEClass;
 	}
@@ -308,6 +316,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEDFD_Asset() {
 		return (EReference)edfdEClass.getEStructuralFeatures().get(0);
 	}
@@ -317,6 +326,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEDFD_Trustzones() {
 		return (EReference)edfdEClass.getEStructuralFeatures().get(1);
 	}
@@ -326,6 +336,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEDFD_Elements() {
 		return (EReference)edfdEClass.getEStructuralFeatures().get(2);
 	}
@@ -335,6 +346,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getDataStore() {
 		return dataStoreEClass;
 	}
@@ -344,6 +356,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getFlow() {
 		return flowEClass;
 	}
@@ -353,6 +366,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getFlow_Channel() {
 		return (EAttribute)flowEClass.getEStructuralFeatures().get(0);
 	}
@@ -362,6 +376,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getFlow_Target() {
 		return (EReference)flowEClass.getEStructuralFeatures().get(1);
 	}
@@ -371,6 +386,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getFlow_Source() {
 		return (EReference)flowEClass.getEStructuralFeatures().get(2);
 	}
@@ -380,6 +396,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getFlow_Label() {
 		return (EAttribute)flowEClass.getEStructuralFeatures().get(3);
 	}
@@ -389,6 +406,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getExternalEntity() {
 		return externalEntityEClass;
 	}
@@ -398,6 +416,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getElement() {
 		return elementEClass;
 	}
@@ -407,6 +426,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getElement_Outflows() {
 		return (EReference)elementEClass.getEStructuralFeatures().get(0);
 	}
@@ -416,6 +436,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getElement_Assumption() {
 		return (EReference)elementEClass.getEStructuralFeatures().get(1);
 	}
@@ -425,6 +446,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getElement_Assets() {
 		return (EReference)elementEClass.getEStructuralFeatures().get(2);
 	}
@@ -434,6 +456,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getElement_Inflows() {
 		return (EReference)elementEClass.getEStructuralFeatures().get(3);
 	}
@@ -443,6 +466,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getElement_Attacker() {
 		return (EAttribute)elementEClass.getEStructuralFeatures().get(4);
 	}
@@ -452,6 +476,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNamedEntity() {
 		return namedEntityEClass;
 	}
@@ -461,6 +486,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getNamedEntity_Name() {
 		return (EAttribute)namedEntityEClass.getEStructuralFeatures().get(0);
 	}
@@ -470,6 +496,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getNamedEntity_Number() {
 		return (EAttribute)namedEntityEClass.getEStructuralFeatures().get(1);
 	}
@@ -479,6 +506,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getValue() {
 		return valueEClass;
 	}
@@ -488,6 +516,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getValue_Objective() {
 		return (EAttribute)valueEClass.getEStructuralFeatures().get(0);
 	}
@@ -497,6 +526,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getValue_Priority() {
 		return (EAttribute)valueEClass.getEStructuralFeatures().get(1);
 	}
@@ -506,6 +536,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getAssumption() {
 		return assumptionEClass;
 	}
@@ -515,6 +546,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAssumption_Objective() {
 		return (EAttribute)assumptionEClass.getEStructuralFeatures().get(0);
 	}
@@ -524,6 +556,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAssumption_Layer() {
 		return (EAttribute)assumptionEClass.getEStructuralFeatures().get(1);
 	}
@@ -533,6 +566,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getAttackerProfile() {
 		return attackerProfileEClass;
 	}
@@ -542,6 +576,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAttackerProfile_Observation() {
 		return (EAttribute)attackerProfileEClass.getEStructuralFeatures().get(0);
 	}
@@ -551,6 +586,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getTrustZone() {
 		return trustZoneEClass;
 	}
@@ -560,6 +596,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getTrustZone_Elements() {
 		return (EReference)trustZoneEClass.getEStructuralFeatures().get(0);
 	}
@@ -569,6 +606,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getTrustZone_Subzones() {
 		return (EReference)trustZoneEClass.getEStructuralFeatures().get(1);
 	}
@@ -578,6 +616,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getTrustZone_Attackerprofile() {
 		return (EReference)trustZoneEClass.getEStructuralFeatures().get(2);
 	}
@@ -587,6 +626,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getResponsibility() {
 		return responsibilityEClass;
 	}
@@ -596,6 +636,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getResponsibility_Action() {
 		return (EAttribute)responsibilityEClass.getEStructuralFeatures().get(0);
 	}
@@ -605,6 +646,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getResponsibility_Incomeassets() {
 		return (EReference)responsibilityEClass.getEStructuralFeatures().get(1);
 	}
@@ -614,6 +656,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getResponsibility_Outcomeassets() {
 		return (EReference)responsibilityEClass.getEStructuralFeatures().get(2);
 	}
@@ -623,6 +666,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getResponsibility_Process() {
 		return (EReference)responsibilityEClass.getEStructuralFeatures().get(3);
 	}
@@ -632,6 +676,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getPriority() {
 		return priorityEEnum;
 	}
@@ -641,6 +686,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getChannel() {
 		return channelEEnum;
 	}
@@ -650,6 +696,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getResponsibilityType() {
 		return responsibilityTypeEEnum;
 	}
@@ -659,6 +706,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getObjective() {
 		return objectiveEEnum;
 	}
@@ -668,6 +716,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getLayer() {
 		return layerEEnum;
 	}
@@ -677,6 +726,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getAssetType() {
 		return assetTypeEEnum;
 	}
@@ -686,6 +736,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EDFDFlowTracking1Factory getEDFDFlowTracking1Factory() {
 		return (EDFDFlowTracking1Factory)getEFactoryInstance();
 	}
@@ -914,6 +965,7 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 		addEEnumLiteral(assetTypeEEnum, AssetType.OBJECT);
 		addEEnumLiteral(assetTypeEEnum, AssetType.NUMBER);
 		addEEnumLiteral(assetTypeEEnum, AssetType.VECTOR);
+		addEEnumLiteral(assetTypeEEnum, AssetType.BOOLEAN);
 
 		// Create resource
 		createResource(eNS_URI);

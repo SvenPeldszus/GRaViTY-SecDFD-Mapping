@@ -169,6 +169,7 @@ public abstract class ElementImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -178,6 +179,7 @@ public abstract class ElementImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -190,6 +192,7 @@ public abstract class ElementImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getNumber() {
 		return number;
 	}
@@ -199,6 +202,7 @@ public abstract class ElementImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setNumber(int newNumber) {
 		int oldNumber = number;
 		number = newNumber;
@@ -211,6 +215,7 @@ public abstract class ElementImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Flow> getOutflows() {
 		if (outflows == null) {
 			outflows = new EObjectContainmentEList<Flow>(Flow.class, this, EDFDFlowTracking1Package.ELEMENT__OUTFLOWS);
@@ -223,6 +228,7 @@ public abstract class ElementImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Assumption> getAssumption() {
 		if (assumption == null) {
 			assumption = new EObjectContainmentEList<Assumption>(Assumption.class, this, EDFDFlowTracking1Package.ELEMENT__ASSUMPTION);
@@ -235,6 +241,7 @@ public abstract class ElementImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Asset> getAssets() {
 		if (assets == null) {
 			assets = new EObjectResolvingEList<Asset>(Asset.class, this, EDFDFlowTracking1Package.ELEMENT__ASSETS);
@@ -247,6 +254,7 @@ public abstract class ElementImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Flow> getInflows() {
 		if (inflows == null) {
 			inflows = new EObjectResolvingEList<Flow>(Flow.class, this, EDFDFlowTracking1Package.ELEMENT__INFLOWS);
@@ -259,6 +267,7 @@ public abstract class ElementImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isAttacker() {
 		return attacker;
 	}
@@ -268,6 +277,7 @@ public abstract class ElementImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAttacker(boolean newAttacker) {
 		boolean oldAttacker = attacker;
 		attacker = newAttacker;

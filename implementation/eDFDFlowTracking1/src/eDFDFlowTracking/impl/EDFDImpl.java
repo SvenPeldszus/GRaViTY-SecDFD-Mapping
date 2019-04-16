@@ -136,6 +136,7 @@ public class EDFDImpl extends MinimalEObjectImpl.Container implements EDFD {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -145,6 +146,7 @@ public class EDFDImpl extends MinimalEObjectImpl.Container implements EDFD {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -157,6 +159,7 @@ public class EDFDImpl extends MinimalEObjectImpl.Container implements EDFD {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getNumber() {
 		return number;
 	}
@@ -166,6 +169,7 @@ public class EDFDImpl extends MinimalEObjectImpl.Container implements EDFD {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setNumber(int newNumber) {
 		int oldNumber = number;
 		number = newNumber;
@@ -178,6 +182,7 @@ public class EDFDImpl extends MinimalEObjectImpl.Container implements EDFD {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Asset> getAsset() {
 		if (asset == null) {
 			asset = new EObjectContainmentEList<Asset>(Asset.class, this, EDFDFlowTracking1Package.EDFD__ASSET);
@@ -190,6 +195,7 @@ public class EDFDImpl extends MinimalEObjectImpl.Container implements EDFD {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<TrustZone> getTrustzones() {
 		if (trustzones == null) {
 			trustzones = new EObjectContainmentEList<TrustZone>(TrustZone.class, this, EDFDFlowTracking1Package.EDFD__TRUSTZONES);
@@ -202,6 +208,7 @@ public class EDFDImpl extends MinimalEObjectImpl.Container implements EDFD {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Element> getElements() {
 		if (elements == null) {
 			elements = new EObjectContainmentEList<Element>(Element.class, this, EDFDFlowTracking1Package.EDFD__ELEMENTS);

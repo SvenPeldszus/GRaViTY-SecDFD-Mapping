@@ -93,6 +93,7 @@ public class ValueImpl extends MinimalEObjectImpl.Container implements Value {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Objective getObjective() {
 		return objective;
 	}
@@ -102,6 +103,7 @@ public class ValueImpl extends MinimalEObjectImpl.Container implements Value {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setObjective(Objective newObjective) {
 		Objective oldObjective = objective;
 		objective = newObjective == null ? OBJECTIVE_EDEFAULT : newObjective;
@@ -114,6 +116,7 @@ public class ValueImpl extends MinimalEObjectImpl.Container implements Value {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Priority getPriority() {
 		return priority;
 	}
@@ -123,6 +126,7 @@ public class ValueImpl extends MinimalEObjectImpl.Container implements Value {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPriority(Priority newPriority) {
 		Priority oldPriority = priority;
 		priority = newPriority == null ? PRIORITY_EDEFAULT : newPriority;

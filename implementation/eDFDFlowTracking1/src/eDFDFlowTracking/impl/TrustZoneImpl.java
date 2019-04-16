@@ -90,6 +90,7 @@ public class TrustZoneImpl extends ElementImpl implements TrustZone {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Element> getElements() {
 		if (elements == null) {
 			elements = new EObjectResolvingEList<Element>(Element.class, this, EDFDFlowTracking1Package.TRUST_ZONE__ELEMENTS);
@@ -102,6 +103,7 @@ public class TrustZoneImpl extends ElementImpl implements TrustZone {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<TrustZone> getSubzones() {
 		if (subzones == null) {
 			subzones = new EObjectContainmentEList<TrustZone>(TrustZone.class, this, EDFDFlowTracking1Package.TRUST_ZONE__SUBZONES);
@@ -114,6 +116,7 @@ public class TrustZoneImpl extends ElementImpl implements TrustZone {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<AttackerProfile> getAttackerprofile() {
 		if (attackerprofile == null) {
 			attackerprofile = new EObjectContainmentEList<AttackerProfile>(AttackerProfile.class, this, EDFDFlowTracking1Package.TRUST_ZONE__ATTACKERPROFILE);

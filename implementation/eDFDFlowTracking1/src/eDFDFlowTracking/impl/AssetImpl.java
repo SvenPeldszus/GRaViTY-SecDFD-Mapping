@@ -158,6 +158,7 @@ public class AssetImpl extends MinimalEObjectImpl.Container implements Asset {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -167,6 +168,7 @@ public class AssetImpl extends MinimalEObjectImpl.Container implements Asset {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -179,6 +181,7 @@ public class AssetImpl extends MinimalEObjectImpl.Container implements Asset {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getNumber() {
 		return number;
 	}
@@ -188,6 +191,7 @@ public class AssetImpl extends MinimalEObjectImpl.Container implements Asset {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setNumber(int newNumber) {
 		int oldNumber = number;
 		number = newNumber;
@@ -200,6 +204,7 @@ public class AssetImpl extends MinimalEObjectImpl.Container implements Asset {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Value> getValue() {
 		if (value == null) {
 			value = new EObjectContainmentEList<Value>(Value.class, this, EDFDFlowTracking1Package.ASSET__VALUE);
@@ -212,6 +217,7 @@ public class AssetImpl extends MinimalEObjectImpl.Container implements Asset {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Element getSource() {
 		if (source != null && source.eIsProxy()) {
 			InternalEObject oldSource = (InternalEObject)source;
@@ -238,6 +244,7 @@ public class AssetImpl extends MinimalEObjectImpl.Container implements Asset {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSource(Element newSource) {
 		Element oldSource = source;
 		source = newSource;
@@ -250,6 +257,7 @@ public class AssetImpl extends MinimalEObjectImpl.Container implements Asset {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Element> getTargets() {
 		if (targets == null) {
 			targets = new EObjectResolvingEList<Element>(Element.class, this, EDFDFlowTracking1Package.ASSET__TARGETS);
@@ -262,6 +270,7 @@ public class AssetImpl extends MinimalEObjectImpl.Container implements Asset {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AssetType getType() {
 		return type;
 	}
@@ -271,6 +280,7 @@ public class AssetImpl extends MinimalEObjectImpl.Container implements Asset {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(AssetType newType) {
 		AssetType oldType = type;
 		type = newType == null ? TYPE_EDEFAULT : newType;

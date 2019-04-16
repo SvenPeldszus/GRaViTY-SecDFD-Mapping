@@ -121,6 +121,7 @@ public class FlowImpl extends ElementImpl implements Flow {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Channel getChannel() {
 		return channel;
 	}
@@ -130,6 +131,7 @@ public class FlowImpl extends ElementImpl implements Flow {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setChannel(Channel newChannel) {
 		Channel oldChannel = channel;
 		channel = newChannel == null ? CHANNEL_EDEFAULT : newChannel;
@@ -142,6 +144,7 @@ public class FlowImpl extends ElementImpl implements Flow {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Element> getTarget() {
 		if (target == null) {
 			target = new EObjectResolvingEList<Element>(Element.class, this, EDFDFlowTracking1Package.FLOW__TARGET);
@@ -154,6 +157,7 @@ public class FlowImpl extends ElementImpl implements Flow {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Element getSource() {
 		if (source != null && source.eIsProxy()) {
 			InternalEObject oldSource = (InternalEObject)source;
@@ -180,6 +184,7 @@ public class FlowImpl extends ElementImpl implements Flow {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSource(Element newSource) {
 		Element oldSource = source;
 		source = newSource;
@@ -192,6 +197,7 @@ public class FlowImpl extends ElementImpl implements Flow {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getLabel() {
 		return label;
 	}
@@ -201,6 +207,7 @@ public class FlowImpl extends ElementImpl implements Flow {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLabel(int newLabel) {
 		int oldLabel = label;
 		label = newLabel;

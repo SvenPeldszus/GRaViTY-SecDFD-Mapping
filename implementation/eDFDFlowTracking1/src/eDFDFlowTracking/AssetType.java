@@ -56,7 +56,15 @@ public enum AssetType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	VECTOR(3, "Vector", "Vector");
+	VECTOR(3, "Vector", "Vector"), /**
+	 * The '<em><b>Boolean</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #BOOLEAN_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	BOOLEAN(4, "Boolean", "Boolean");
 
 	/**
 	 * The '<em><b>String</b></em>' literal value.
@@ -119,6 +127,21 @@ public enum AssetType implements Enumerator {
 	public static final int VECTOR_VALUE = 3;
 
 	/**
+	 * The '<em><b>Boolean</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Boolean</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #BOOLEAN
+	 * @model name="Boolean"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int BOOLEAN_VALUE = 4;
+
+	/**
 	 * An array of all the '<em><b>Asset Type</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -130,6 +153,7 @@ public enum AssetType implements Enumerator {
 			OBJECT,
 			NUMBER,
 			VECTOR,
+			BOOLEAN,
 		};
 
 	/**
@@ -190,6 +214,7 @@ public enum AssetType implements Enumerator {
 			case OBJECT_VALUE: return OBJECT;
 			case NUMBER_VALUE: return NUMBER;
 			case VECTOR_VALUE: return VECTOR;
+			case BOOLEAN_VALUE: return BOOLEAN;
 		}
 		return null;
 	}
@@ -232,6 +257,7 @@ public enum AssetType implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 	  return value;
 	}
@@ -241,6 +267,7 @@ public enum AssetType implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 	  return name;
 	}
@@ -250,6 +277,7 @@ public enum AssetType implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 	  return literal;
 	}
