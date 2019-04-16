@@ -178,6 +178,13 @@ public class Mapper {
 			if (corr instanceof AbstractMappingDerived) {
 				((AbstractMappingDerived) corr).getDerived().forEach(parent -> accept(parent));
 			}
+			if (corr instanceof MappingProcessDefinition) {
+				helper.getCorrespondences(CorrespondenceHelper.getSource(corr)).forEach(other -> {
+					if(other != corr) {
+						reject(other);
+					}
+				});
+			}
 		}
 	}
 
@@ -431,6 +438,20 @@ public class Mapper {
 		ArrayList<Type2NamedEntity> list = new ArrayList<Type2NamedEntity>();
 		switch (asset.getType()) {
 		case NUMBER:
+			TAbstractType number = pm.getAbstractType("java.lang.Number");
+			if (number != null) {
+				MappingOptimizer.getAllChildClasses(number).forEach(n -> {
+					Type2NamedEntity corr = helper.createCorrespondence(n, asset, 90);
+					mapping.getSuggested().add(corr);
+					list.add(corr);
+				});
+			}
+			for (String name : new String[] {"int", "long", "float", "double"}) {
+				Type2NamedEntity corr = helper.createCorrespondence(pm.getClass(name), asset, 90);
+				mapping.getSuggested().add(corr);
+				list.add(corr);
+			}
+			break;
 		case VECTOR:
 		case OBJECT:
 			return mapToType((NamedEntity) asset);
@@ -441,6 +462,16 @@ public class Mapper {
 				mapping.getSuggested().add(corr);
 				list.add(corr);
 			}
+			break;
+		case BOOLEAN:
+			Type2NamedEntity objectCorr = helper.createCorrespondence(pm.getAbstractType("java.lang.Boolean"), asset, 90);
+			mapping.getSuggested().add(objectCorr);
+			list.add(objectCorr);
+			Type2NamedEntity primitiveCorr = helper.createCorrespondence(pm.getAbstractType("boolean"), asset, 90);
+			mapping.getSuggested().add(primitiveCorr);
+			list.add(primitiveCorr);
+			break;
+		default:
 			break;
 		}
 		return list.stream();
