@@ -249,6 +249,29 @@ public class AssetImpl extends MinimalEObjectImpl.Container implements Asset {
 	 * @generated
 	 */
 	@Override
+	public AssetType getType() {
+		return type;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setType(AssetType newType) {
+		AssetType oldType = type;
+		type = newType == null ? TYPE_EDEFAULT : newType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTracking1Package.ASSET__TYPE, oldType, type));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case EDFDFlowTrackingPackage.ASSET__VALUE:

@@ -269,6 +269,16 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * @generated
 	 */
 	@Override
+	public EAttribute getAsset_Type() {
+		return (EAttribute)assetEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getProcess() {
 		return processEClass;
 	}
@@ -709,6 +719,19 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 	 * @generated
 	 */
 	@Override
+<<<<<<< HEAD
+=======
+	public EEnum getAssetType() {
+		return assetTypeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+>>>>>>> f3298c6... Added asset type boolean
 	public EDFDFlowTracking1Factory getEDFDFlowTracking1Factory() {
 		return (EDFDFlowTracking1Factory)getEFactoryInstance();
 	}
@@ -929,6 +952,16 @@ public class EDFDFlowTracking1PackageImpl extends EPackageImpl implements EDFDFl
 		addEEnumLiteral(layerEEnum, Layer.ARCHITECTURAL);
 		addEEnumLiteral(layerEEnum, Layer.APPLICATION);
 
+<<<<<<< HEAD
+=======
+		initEEnum(assetTypeEEnum, AssetType.class, "AssetType");
+		addEEnumLiteral(assetTypeEEnum, AssetType.STRING);
+		addEEnumLiteral(assetTypeEEnum, AssetType.OBJECT);
+		addEEnumLiteral(assetTypeEEnum, AssetType.NUMBER);
+		addEEnumLiteral(assetTypeEEnum, AssetType.VECTOR);
+		addEEnumLiteral(assetTypeEEnum, AssetType.BOOLEAN);
+
+>>>>>>> f3298c6... Added asset type boolean
 		// Create resource
 		createResource(eNS_URI);
 
