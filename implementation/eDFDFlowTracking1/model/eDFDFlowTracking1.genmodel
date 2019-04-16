@@ -47,6 +47,7 @@
       <genEnumLiterals ecoreEnumLiteral="eDFDFlowTracking1.ecore#//AssetType/Object"/>
       <genEnumLiterals ecoreEnumLiteral="eDFDFlowTracking1.ecore#//AssetType/Number"/>
       <genEnumLiterals ecoreEnumLiteral="eDFDFlowTracking1.ecore#//AssetType/Vector"/>
+      <genEnumLiterals ecoreEnumLiteral="eDFDFlowTracking1.ecore#//AssetType/Boolean"/>
     </genEnums>
     <genClasses ecoreClass="eDFDFlowTracking1.ecore#//Asset">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference eDFDFlowTracking1.ecore#//Asset/value"/>

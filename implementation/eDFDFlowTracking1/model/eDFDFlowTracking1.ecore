@@ -125,5 +125,6 @@
     <eLiterals name="Object" value="1" literal="Object"/>
     <eLiterals name="Number" value="2" literal="Number"/>
     <eLiterals name="Vector" value="3" literal="Vector"/>
+    <eLiterals name="Boolean" value="4" literal="Boolean"/>
   </eClassifiers>
 </ecore:EPackage>
