@@ -42,6 +42,13 @@
       <genEnumLiterals ecoreEnumLiteral="eDFDFlowTracking1.ecore#//Layer/Architectural"/>
       <genEnumLiterals ecoreEnumLiteral="eDFDFlowTracking1.ecore#//Layer/Application"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="eDFDFlowTracking1.ecore#//AssetType">
+      <genEnumLiterals ecoreEnumLiteral="eDFDFlowTracking1.ecore#//AssetType/String"/>
+      <genEnumLiterals ecoreEnumLiteral="eDFDFlowTracking1.ecore#//AssetType/Object"/>
+      <genEnumLiterals ecoreEnumLiteral="eDFDFlowTracking1.ecore#//AssetType/Number"/>
+      <genEnumLiterals ecoreEnumLiteral="eDFDFlowTracking1.ecore#//AssetType/Vector"/>
+      <genEnumLiterals ecoreEnumLiteral="eDFDFlowTracking1.ecore#//AssetType/Boolean"/>
+    </genEnums>
     <genClasses ecoreClass="eDFDFlowTracking1.ecore#//Asset">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference eDFDFlowTracking1.ecore#//Asset/value"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference eDFDFlowTracking1.ecore#//Asset/source"/>
