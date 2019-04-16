@@ -1,0 +1,100 @@
+EDFD uc57_change_password [
+	assets:
+		Asset id
+			type: Number
+			values: [H C], [H I]
+			source: registered_user
+			targets: change_password,
+		Asset old_password
+			type: String
+			values: [H C], [H I]
+			source: registered_user
+			targets: change_password,
+		Asset new_password
+			type: String
+			values: [H C], [H I]
+			source: registered_user
+			targets: change_password,
+		Asset old_password_hashed
+			type: String
+			values: [H C], [H I]
+			source: authentificate_password
+			targets: db,
+		Asset new_password_hashed
+			type: String
+			values: [H C], [H I]
+			source: reset_password
+			targets: db,
+		Asset validity
+			type: Object
+			values: [H C], [H I]
+			source: db
+			targets: authentificate_password
+	
+	elements:
+		ExternalEntity registered_user [
+			assets: id, old_password
+			outgoing flows: change [
+				num: 0 
+				assets: id, old_password, new_password 
+				source: registered_user 
+				targets: change_password
+			]
+			attacker: false
+		],
+		Process change_password [
+			assets: id, old_password
+			incoming flows: "registered_user.change",
+				"authentificate_password.check_result"
+			outgoing flows: check [
+				num: 1 
+				assets: id, old_password
+				source: change_password 
+				targets: authentificate_password
+			],
+			reset [
+				num: 5 
+				assets: id, new_password
+				source: change_password 
+				targets: reset_password
+			]
+		],
+		Process authentificate_password [
+			assets: id, old_password
+			incoming flows: "change_password.check",
+				"db.db_check_result"
+			outgoing flows: db_check [
+				num: 2 
+				assets: id, old_password_hashed
+				source: authentificate_password 
+				targets: db
+			],
+			check_result [
+				num: 4 
+				assets: validity
+				source: authentificate_password 
+				targets: change_password
+			]
+		],
+		Process reset_password [
+			assets: id, old_password
+			incoming flows: "change_password.reset"
+			outgoing flows: db_put [
+				num: 6 
+				assets: id, new_password_hashed
+				source: reset_password 
+				targets: db
+			]
+		],
+		DataStore db [
+			assets: id, old_password_hashed, new_password_hashed, validity
+			incoming flows: "authentificate_password.db_check",
+				"reset_password.db_put"
+			outgoing flows: db_check_result [
+				num: 3 
+				assets: validity
+				source: db 
+				targets: authentificate_password
+			]
+		] 
+]
