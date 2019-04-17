@@ -137,7 +137,6 @@ public class MappingOptimizer {
 
 		removeDefinitionsWithoutCouplingToProcess(excludes);
 		removeUnusedAssetMappings(dfd, excludes);
-
 		if (change) {
 			optimize(excludes);
 		}
@@ -363,6 +362,9 @@ public class MappingOptimizer {
 	 */
 	private boolean mapToFieldsInProcess(Process process, NamedEntity entity, Map<EObject, Set<EObject>> excludes) {
 		boolean change = false;
+		if(!cache.getElementMemberMapping().containsKey(process)) {
+			return false;
+		}
 		for (TMember member : cache.getElementMemberMapping().get(process)) {
 			for (TFieldDefinition field : member.getTAccessing().parallelStream().map(access -> access.getTTarget())
 					.filter(definition -> definition instanceof TFieldDefinition)
@@ -482,7 +484,7 @@ public class MappingOptimizer {
 		return change;
 	}
 
-	private Set<TAbstractType> getAllParents(TAbstractType type) {
+	private static Set<TAbstractType> getAllParents(TAbstractType type) {
 		Set<TAbstractType> types = new HashSet<>();
 		types.add(type);
 		Stack<TAbstractType> stack = new Stack<>();
@@ -660,6 +662,7 @@ public class MappingOptimizer {
 							TAbstractType memberType;
 							if (member instanceof TFieldDefinition) {
 								memberType = ((TFieldDefinition) member).getSignature().getType();
+								continue;
 							} else if (member instanceof TConstructorDefinition) {
 								memberType = type;
 							} else {
