@@ -177,6 +177,9 @@ public class MappingOptimizer {
 				}
 			}
 			remove.forEach(corr -> {
+				if(mapping.getUserdefined().contains(corr) || mapping.getAccepted().contains(corr)) {
+					return;
+				}
 				EObject key = CorrespondenceHelper.getTarget(corr);
 				Set<EObject> set;
 				if (excludes.containsKey(key)) {
@@ -238,6 +241,9 @@ public class MappingOptimizer {
 			}
 		}
 		assetsToRemove.forEach(corr -> {
+			if(mapping.getUserdefined().contains(corr) || mapping.getAccepted().contains(corr)) {
+				return;
+			}
 			EObject key = CorrespondenceHelper.getTarget(corr);
 			Set<EObject> set;
 			if (excludes.containsKey(key)) {
