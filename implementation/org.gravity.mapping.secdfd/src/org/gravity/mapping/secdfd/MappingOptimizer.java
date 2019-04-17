@@ -16,12 +16,14 @@ import java.util.stream.Stream;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.gravity.mapping.secdfd.model.mapping.AbstractMappingBase;
 import org.gravity.mapping.secdfd.model.mapping.AbstractMappingRanking;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.model.mapping.MappingEntityType;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
+import org.gravity.mapping.secdfd.model.mapping.MappingProcessName;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TAccess;
@@ -135,9 +137,30 @@ public class MappingOptimizer {
 		}
 
 		findForwardedFlows(dfd, excludes);
+		
+		for(Element element : dfd.getElements()) {
+			if(!elementMemberMapping.containsKey(element) && elementSignatureMapping.containsKey(element)) {
+				Set<TSignature> signatures = elementSignatureMapping.get(element);
+				if(signatures.size() == 1) {
+					TMethodSignature sig = (TMethodSignature) signatures.iterator().next();
+					MappingProcessName nameCorr = (MappingProcessName) helper.getCorrespondence(sig.getMethod(), element);
+					if(nameCorr.getRanking() > 70) {
+						EList<TMethodDefinition> defs = sig.getDefinitions();
+						if(defs.size() < 3) {
+							defs.forEach(def -> {
+								if(helper.canCreate(def, element, excludes)) {
+									MappingProcessDefinition corr = helper.createCorrespondence(def, element, 50, Collections.emptyList());
+									this.mapping.getSuggested().add(corr);
+								}
+							});
+						}
+					}
+				}
+			}
+		}
 
-		removeDefinitionsWithoutCouplingToProcess(excludes);
-		removeUnusedAssetMappings(dfd, excludes);
+//		removeDefinitionsWithoutCouplingToProcess(excludes);
+//		removeUnusedAssetMappings(dfd, excludes);
 		if (change) {
 			optimize(excludes);
 		}
