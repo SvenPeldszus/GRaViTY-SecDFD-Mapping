@@ -504,7 +504,7 @@ public class MappingOptimizer {
 		return types;
 	}
 
-	private Set<TAbstractType> getAllChildClasses(TAbstractType type) {
+	public static Set<TAbstractType> getAllChildClasses(TAbstractType type) {
 		Set<TAbstractType> types = new HashSet<>();
 		types.add(type);
 		Stack<TAbstractType> stack = new Stack<>();
