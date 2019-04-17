@@ -25,6 +25,7 @@ import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.NodeFinder;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
+import org.eclipse.jdt.core.dom.PrimitiveType;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
@@ -98,6 +99,9 @@ public class TextEditorHandler extends AbstractHandler {
 	 */
 	private List<EObject> getSelectedPMElement(ASTNode node, TypeGraph pm) {
 		switch (node.getNodeType()) {
+		case ASTNode.PRIMITIVE_TYPE:
+			String primitive = ((PrimitiveType) node).getPrimitiveTypeCode().toString();
+			return Collections.singletonList(pm.getClass(primitive));
 		case ASTNode.SIMPLE_NAME:
 			return getSelectedPMElement(node.getParent(), pm);
 		case ASTNode.SINGLE_VARIABLE_DECLARATION:
