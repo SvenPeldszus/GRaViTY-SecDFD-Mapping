@@ -1,12 +1,21 @@
 package org.gravity.mapping.secdfd.ui.wizard;
 
+import java.io.IOException;
+import java.util.Collections;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jdt.core.IJavaProject;
 import org.gravity.eclipse.GravityAPI;
 import org.gravity.eclipse.exceptions.TransformationFailedException;
+import org.gravity.eclipse.util.EclipseProjectUtil;
 import org.gravity.mapping.secdfd.Activator;
 import org.gravity.typegraph.basic.TypeGraph;
 
@@ -34,6 +43,18 @@ public final class TrafoJob extends Job {
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
 		try {
+			try {
+				IFile file = EclipseProjectUtil.getGravityFolder(javaProject.getProject(), monitor)
+						.getFile(javaProject.getProject().getName() + ".xmi");
+				if (file.exists()) {
+					Resource resource = new ResourceSetImpl().createResource(URI.createURI(file.getName()));
+					resource.load(file.getContents(), Collections.emptyMap());
+					pm = (TypeGraph) resource.getContents().get(0);
+					return Status.OK_STATUS;
+				}
+			} catch (IOException | CoreException e) {
+				// Fallback to create new pm
+			}
 			pm = GravityAPI.createProgramModel(javaProject, monitor);
 		} catch (TransformationFailedException e) {
 			new Status(Status.ERROR, Activator.PLUGIN_ID, e.getMessage(), e);
