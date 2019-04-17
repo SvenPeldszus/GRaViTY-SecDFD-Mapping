@@ -18,6 +18,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.gravity.mapping.secdfd.model.mapping.AbstractMappingBase;
+import org.gravity.mapping.secdfd.model.mapping.AbstractMappingRanking;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.model.mapping.MappingEntityType;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
@@ -180,6 +181,10 @@ public class MappingOptimizer {
 				if(mapping.getUserdefined().contains(corr) || mapping.getAccepted().contains(corr)) {
 					return;
 				}
+				if(corr instanceof AbstractMappingRanking && ((AbstractMappingRanking) corr).getRanking() > 70) {
+					// Don't remove high quality mappings
+					return;
+				}
 				EObject key = CorrespondenceHelper.getTarget(corr);
 				Set<EObject> set;
 				if (excludes.containsKey(key)) {
@@ -242,6 +247,10 @@ public class MappingOptimizer {
 		}
 		assetsToRemove.forEach(corr -> {
 			if(mapping.getUserdefined().contains(corr) || mapping.getAccepted().contains(corr)) {
+				return;
+			}
+			if(corr instanceof AbstractMappingRanking && ((AbstractMappingRanking) corr).getRanking() > 70) {
+				// Don't remove high quality mappings
 				return;
 			}
 			EObject key = CorrespondenceHelper.getTarget(corr);
