@@ -1,0 +1,81 @@
+EDFD uc1 [
+	assets: 
+		Asset barcode
+			type: Number
+			values: [H C], [H I]
+			source: cashier
+			targets: scan_barcode, 
+		Asset scan_barcode_event
+			type: Object
+			values: [H C], [H I]
+			source: scan_barcode	
+			targets: publish, xx,
+		Asset start_event
+			type: Object
+			values: [H C], [H I]
+			source: start_new_sale
+			targets: publish, draw_ui, 
+		Asset total_change_event
+			type: Object
+			values: [H C], [H I]
+			source: xx	
+			targets: publish, draw_ui,
+		Asset finish_event
+			type: Object
+			values: [H C], [H I]
+			source: finish_sale	
+			targets: publish,
+		Asset product
+			type: Object
+			values: [H C], [H I]
+			source: get_product_stock	
+			targets: xx, get_sales_price,
+		Asset price
+			type: Number
+			values: [H C], [H I]
+			source: get_sales_price	
+			targets: xx
+	elements:
+		ExternalEntity cashier [
+			assets: barcode
+			outgoing flows: scan [num: 1 assets: barcode targets: scan_barcode]
+			attacker: false
+		],
+		Process start_new_sale [
+			assets: start_event
+			outgoing flows: push_start [num: 0 assets: start_event targets: publish]
+		],
+		Process scan_barcode [
+			assets: barcode
+			incoming flows: "cashier.scan"
+			outgoing flows: push_scan [num: 2 assets: scan_barcode_event targets: publish]
+		],
+		Process publish [
+			assets: start_event, scan_barcode_event, finish_event
+			incoming flows: "start_new_sale.push_start", "scan_barcode.push_scan", "xx.push_change"
+		],
+		Process draw_ui [
+			
+		],
+		Process xx [
+			assets: barcode, product, price, total_change_event
+			incoming flows: "get_product_stock.fwd_product", "get_sales_price.fwd_price"
+			outgoing flows:	get_product [num: 3 assets: barcode targets: get_product_stock],
+				get_price [num: 5 assets: product targets: get_sales_price],
+				push_change [num: 7 assets: total_change_event targets: publish]
+		],
+		Process get_product_stock [
+			assets: barcode, product
+			incoming flows: "xx.get_product"
+			outgoing flows: fwd_product [num: 4 assets: product targets: xx]
+		],
+		Process get_sales_price [
+			assets: product, price
+			incoming flows: "xx.get_price"
+			outgoing flows: fwd_price [num: 6 assets: price targets: xx]
+		],
+		Process finish_sale [
+			assets: finish_event
+			outgoing flows: finsih [num: 8 assets: finish_event targets: publish]
+		]
+]

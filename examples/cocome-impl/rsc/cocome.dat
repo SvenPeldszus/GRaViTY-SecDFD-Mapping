@@ -1,0 +1,33 @@
+param: STORE: dist :=
+"Store65536" 0
+"Store65546" 1
+"Store65625" 8
+"Store65583" 4
+"Store65603" 6
+"Store65631" 9
+"Store65620" 8
+"Store65627" 9
+"Store65634" 9
+"Store65610" 7
+"Store65581" 4
+"Store65542" 6
+ ;
+
+param: PRODUCT: amount :=
+"Product98783" 9
+ ;
+
+param stock (tr):
+"Product98783" :=
+"Store65536" 4 
+"Store65546" 0 
+"Store65625" 0 
+"Store65583" 0 
+"Store65603" 0 
+"Store65631" 0 
+"Store65620" 0 
+"Store65627" 0 
+"Store65634" 0 
+"Store65610" 0 
+"Store65581" 0 
+"Store65542" 0  ;

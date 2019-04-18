@@ -1,0 +1,293 @@
+<?xml version="1.0"?>
+
+<project name="cocome-impl" default="main" basedir="..">
+	<property file="rsc/tradingsystem.properties" />
+
+	<!-- This additional library is used for the "for"-loop used in this build.xml -->
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties" classpath="lib/ant-contrib-1.0b3.jar" />
+
+	<path id="master-classpath">
+		<fileset dir="${lib.dir}">
+			<include name="**.jar" />
+		</fileset>
+		<fileset dir="${lib.dir}/hibernate">
+			<include name="**.jar" />
+		</fileset>
+		<fileset dir="${lib.dir}/derby">
+			<include name="**.jar" />
+		</fileset>
+		<fileset dir="${lib.dir}/jms">
+			<include name="**.jar" />
+		</fileset>
+		<fileset dir="${lib.dir}/activemq">
+			<include name="apache-activemq-4.1.0-incubator.jar" />
+		</fileset>
+		<dirset dir="${build.dir}" />
+		<dirset dir="${rsc.dir}" />
+		<dirset dir="${rsc.dir}/META-INF" />
+	</path>
+
+	<target name="main">
+		<echo message="" />
+		<echo message="Build file for: CoCoME" />
+		<echo message="" />
+	</target>
+
+
+
+
+	<!-- ********************* Trading System ******************************************** -->
+
+	<target name="runInventorySystem" depends="" description="Runs the Trading System according to the 
+												 configuration given in tradingsystem.properties">
+
+		<parallel>
+			<foreach list="${trading.stores}" delimiter="," target="runStoreApplication" param="storeloop.var" inheritall="true" inheritrefs="true" parallel="true" />
+			<foreach list="${trading.reportings}" delimiter="," target="runReportingApplication" param="reportingloop.var" inheritall="true" inheritrefs="true" parallel="true" />
+			<antcall target="runBank" />
+		</parallel>
+	</target>
+
+	<target name="runInventorySystemGUIs" depends="" description="Runs the Trading System GUIs according to the 
+													 configuration given in tradingsystem.properties">
+		<parallel>
+			<foreach list="${trading.storeguis}" delimiter="," target="runStoreGUI" param="storeguiloop.var" inheritall="true" inheritrefs="true" parallel="true" />
+			<foreach list="${trading.reportingguis}" delimiter="," target="runReportingGUI" param="reportingguiloop.var" inheritall="true" inheritrefs="true" parallel="true" />
+		</parallel>
+	</target>
+
+	<target name="runCashDeskLines" depends="" description="Runs the Cash Desks according to the 
+													 configuration given in tradingsystem.properties">
+
+		<parallel>
+			<foreach list="${cashdeskline.cashdesks}" delimiter="," target="runCashDesk" param="cashdeskloop.var" inheritall="true" inheritrefs="true" parallel="true" />
+			<foreach list="${cashdeskline.coordinators}" delimiter="," target="runCoordinator" param="coordinatorloop.var" inheritall="true" inheritrefs="true" parallel="true" />
+		</parallel>
+	</target>
+
+
+	<!-- ********************** Inventory ************************************************* -->
+
+	<!-- For each store one application and one GUI will be started -->
+	<target name="runStore" depends="">
+		<parallel>
+			<antcall target="runStoreApplication" />
+			<antcall target="runStoreGUI" />
+		</parallel>
+	</target>
+
+	<target name="runStoreGUI" depends="">
+		<propertycopy name="storename" from="${storeguiloop.var}.store" silent="true" override="true" />
+		<java classname="org.cocome.tradingsystem.inventory.gui.store.Store" fork="true">
+			<sysproperty key="java.security.policy" value="${rsc.dir}/cocomermi.policy" />
+			<arg line="${rmiregistry.baseurl} ${rmiregistry.port} ${storename}" />
+			<classpath refid="master-classpath" />
+		</java>
+	</target>
+
+	<target name="runStoreApplication" depends="">
+		<propertycopy name="storename" from="${storeloop.var}.name" silent="true" override="true" />
+		<propertycopy name="storeid" from="${storeloop.var}.id" silent="true" override="true" />
+		<java classname="org.cocome.tradingsystem.inventory.application.ApplicationFactory" fork="${fork}">
+			<sysproperty key="java.security.policy" value="${rsc.dir}/cocomermi.policy" />
+			<arg line="1 ${rmiregistry.baseurl} ${rmiregistry.port} ${storename} ${storeid}" />
+			<classpath refid="master-classpath" />
+		</java>
+	</target>
+
+
+
+	<!-- For each reporting one application and one GUI will be started -->
+	<target name="runReporting" depends="">
+		<propertycopy name="reportingname" from="${reportingloop.var}.name" silent="true" override="true" />
+		<parallel>
+			<antcall target="runReportingApplication" />
+			<antcall target="runReportingGUI" />
+		</parallel>
+	</target>
+
+
+
+	<target name="runReportingGUI" depends="">
+		<propertycopy name="reportingname" from="${reportingguiloop.var}.reporting" silent="true" override="true" />
+		<java classname="org.cocome.tradingsystem.inventory.gui.reporting.Reporting" fork="true">
+			<sysproperty key="java.security.policy" value="${rsc.dir}/cocomermi.policy" />
+			<arg line="${rmiregistry.baseurl} ${rmiregistry.port} ${reportingname}" />
+			<classpath refid="master-classpath" />
+		</java>
+	</target>
+
+
+	<target name="runReportingApplication" depends="">
+		<propertycopy name="reportingname" from="${reportingloop.var}.name" silent="true" override="true" />
+		<java classname="org.cocome.tradingsystem.inventory.application.ApplicationFactory" fork="${fork}">
+			<sysproperty key="java.security.policy" value="${rsc.dir}/cocomermi.policy" />
+			<arg line="0 ${rmiregistry.baseurl} ${rmiregistry.port} ${reportingname}" />
+			<classpath refid="master-classpath" />
+		</java>
+	</target>
+
+
+
+
+
+
+	<!-- ********************** CashDeskLine ************************************************* -->
+
+
+	<target name="runCashDesk">
+		<propertycopy name="cashdeskchannel" from="${cashdeskloop.var}.channel" silent="true" override="true" />
+		<propertycopy name="cashdeskstore" from="${cashdeskloop.var}.store" silent="true" override="true" />
+		<java classname="org.cocome.tradingsystem.cashdeskline.cashdesk.CashDesk" fork="true">
+			<sysproperty key="java.security.policy" value="${rsc.dir}/cocomermi.policy" />
+			<arg line="${rmiregistry.baseurl} ${rmiregistry.port} ${cashdeskchannel} ${cashdeskstore} ${bank.name}" />
+			<classpath refid="master-classpath" />
+		</java>
+	</target>
+
+	<target name="runCoordinator">
+		<propertycopy name="coordstore" from="${coordinatorloop.var}.store" silent="true" override="true" />
+		<java classname="org.cocome.tradingsystem.cashdeskline.coordinator.impl.Coordinator" fork="false">
+			<arg line="${coordstore}" />
+			<classpath refid="master-classpath" />
+		</java>
+	</target>
+
+	<target name="runBank" unless="testing">
+		<java classname="org.cocome.tradingsystem.external.impl.BankImpl" fork="${fork}">
+			<sysproperty key="java.security.policy" value="${rsc.dir}/cocomermi.policy" />
+			<arg line="Bank ${rmiregistry.baseurl} ${rmiregistry.port}" />
+			<classpath refid="master-classpath" />
+		</java>
+	</target>
+
+
+	<!-- ********************* Infrastructure ********************************************** -->
+
+	<target name="runInfrastructure" depends="" description="Runs the required infrastructural services
+							 like RMI, database, and event broker">
+		<parallel>
+			<antcall target="startrmiregistry" />
+			<antcall target="startderbydatabase" />
+			<antcall target="runBroker" />
+		</parallel>
+	</target>
+
+	<target name="stopInfrastructure" depends="" description="Stops the database and event broker 
+								in a proper manner">
+		<parallel>
+			<antcall target="stopderbydatabase" />
+			<antcall target="stopBroker" />
+		</parallel>
+	</target>
+
+	<target name="startderbydatabase" depends="">
+		<copy todir="${derby.dir}" preservelastmodified="true">
+			<fileset dir="${rsc.dir}">
+				<include name="derby.properties" />
+			</fileset>
+		</copy>
+		<java classname="org.apache.derby.drda.NetworkServerControl" fork="true">
+			<sysproperty key="java.security.policy" value="${rsc.dir}/cocomermi.policy" />
+			<sysproperty key="derby.system.home" value="${derby.dir}" />
+			<arg line="start " />
+			<classpath refid="master-classpath" />
+		</java>
+	</target>
+
+	<target name="stopderbydatabase" depends="">
+		<copy todir="${derby.dir}" preservelastmodified="true">
+			<fileset dir="${rsc.dir}">
+				<include name="derby.properties" />
+			</fileset>
+		</copy>
+		<java classname="org.apache.derby.drda.NetworkServerControl" fork="true">
+			<sysproperty key="derby.system.home" value="${derby.dir}" />
+			<sysproperty key="java.security.policy" value="${rsc.dir}/cocomermi.policy" />
+			<arg line="shutdown" />
+			<classpath refid="master-classpath" />
+		</java>
+	</target>
+
+	<target name="startrmiregistry" depends="">
+		<java classname="org.cocome.tradingsystem.inventory.application.util.RmiRegistry" fork="${fork}">
+			<sysproperty key="java.security.policy" value="${rsc.dir}/cocomermi.policy" />
+			<arg line="${rmiregistry.port}" />
+			<classpath refid="master-classpath" />
+		</java>
+	</target>
+
+
+	<target name="runBroker" depends="">
+		<java jar="${lib.dir}/run.jar" fork="true">
+			<sysproperty key="java.security.policy" value="${rsc.dir}/cocomermi.policy" />
+			<sysproperty key="activemq.home" value="${lib.dir}/activemq" />
+			<sysproperty key="activemq.data" value="${rsc.dir}" />
+			<arg line="start xbean:file:${rsc.dir}/activemq.xml" />
+			<classpath refid="master-classpath" />
+		</java>
+	</target>
+
+
+	<target name="stopBroker" depends="">
+		<java jar="${lib.dir}/run.jar" fork="true">
+			<sysproperty key="java.security.policy" value="${rsc.dir}/cocomermi.policy" />
+			<sysproperty key="activemq.home" value="${lib.dir}/activemq" />
+			<sysproperty key="activemq.data" value="${rsc.dir}" />
+			<arg line="stop --all" />
+			<classpath refid="master-classpath" />
+		</java>
+	</target>
+
+	<target name="fillDB" depends="" description="Fills the database with generated data.
+											To do this, the infrastructure has to be started before.">
+		<java classname="org.cocome.tradingsystem.inventory.data.test.FillDB" fork="true">
+			<classpath refid="master-classpath" />
+		</java>
+	</target>
+
+	<!-- ******************** Building Process ********************************************* -->
+	<target name="compile" depends="clean" description="Compile main source tree java files into class files">
+		<mkdir dir="${build.dir}" />
+		<!-- compile our Java source to build.dir -->
+		<javac destdir="${build.dir}" source="1.5" target="1.5" debug="true" deprecation="false" optimize="false" failonerror="true">
+		<!--<javac destdir="${build.dir}" debug="true" optimize="false" failonerror="true">			-->
+			<src path="${src.dir}" />
+			<classpath refid="master-classpath" />
+		</javac>
+		<copy todir="${build.dir}" preservelastmodified="true">
+			<fileset dir="${rsc.dir}">
+				<include name="**/*" />
+				<exclude name="cocome.dat" /> <!-- temp file for UC 8, must not be copied -->
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="rmic" depends="">
+		<rmic base="${build.dir}">
+			<include name="org/cocome/tradingsystem/application/store/impl/**.class" />
+			<include name="org/cocome/tradingsystem/application/reporting/impl/**.class" />
+		</rmic>
+	</target>
+
+	<target name="clean" depends="">
+		<delete dir="${doc.dir}" />
+	</target>
+
+	<target name="deleteDB" depends="" description="Deletes the folder containing the current database">
+		<delete dir="${derby.dir}/inventory" />
+	</target>
+
+
+	<!-- ******************** Documentation ************************************************* -->
+	<target name="doc" depends="" description="Generates Javadoc documentation">
+		<mkdir dir="${doc.dir}" />
+		<javadoc packagenames="org.cocome.*" sourcepath="${src.dir}" defaultexcludes="yes" destdir="${doc.dir}" author="true" version="true" use="true" windowtitle="CoCoME Implementation">
+			<classpath refid="master-classpath" />
+			<doctitle>
+				<![CDATA[<h1>CoCoME Implementation</h1>]]>
+			</doctitle>
+		</javadoc>
+	</target>
+
+</project>

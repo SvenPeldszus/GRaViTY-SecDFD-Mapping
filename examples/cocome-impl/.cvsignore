@@ -1,0 +1,7 @@
+activemq-data
+derbydb/**
+inventory
+bin
+doc
+.settings
+activemq.log
