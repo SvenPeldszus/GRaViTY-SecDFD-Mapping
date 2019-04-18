@@ -1,0 +1,172 @@
+EDFD atmsimulator[
+	assets:
+		Asset card
+				type: Object
+				values: [H Av]
+				source: Customer
+				targets: Read_Card_Verify_PIN, Customer,
+		Asset PIN
+				type: String
+				values: [H C], [H I]
+				source: Customer
+				targets: Read_Card_Verify_PIN, Bank,
+		Asset money 
+				type: Object
+				values: [H Av]
+				source: Dispense_Cash
+				targets: Customer,
+		Asset envelope 
+				type: Object
+				values: [H Av]
+				source: Customer
+				targets: Read_Envelope,
+		Asset keyboard_input 
+				type: String
+				values: [H I], [H C]
+				source: Customer
+				targets: Update_Display,Reciept_Printer,
+		Asset display_view 
+				type: String
+				values: [H I], [H C], [H Av]
+				source: Update_Display
+				targets: Customer,
+		Asset status 
+				type: Object
+				values: [H I], [H C], [M Av]
+				source: Bank
+				targets: Update_Display, 
+		Asset account 
+				type: Object
+				values: [H I], [H C]
+				source: Read_Card_Verify_PIN
+				targets: Update_Display, Network_Bank,
+		Asset balance 
+				type: Number
+				values: [H I], [H C], [L Av]
+				source: Bank
+				targets: Update_Display,
+		Asset amount 
+				type: Number
+				values: [H I]
+				source: Update_Display
+				targets: Deposit, Withdraw, Dispense_Cash, Transfer, Check_Balance,
+		Asset message 
+				type: Object
+				values: [H I], [H C], [H Av]
+				source: Update_Display
+				targets: Network_Bank,	
+		Asset reciept 
+				type: Object
+				values: [L Av]
+				source: Reciept_Printer
+				targets: Customer,
+		Asset transaction 
+				type: Object
+				values: [H I], [H C], [H Av]
+				source: Network_Bank
+				targets: Bank
+	elements:
+		ExternalEntity Customer[
+			assets: money, keyboard_input, display_view, card, reciept, PIN
+			incoming flows: "atmsimulator.Reciept_Printer.print_return_card", 
+							"atmsimulator.Update_Display.refresh_display", 
+							"atmsimulator.Dispense_Cash.money_to_customer"
+			outgoing flows: insert_card_and_PIN [num: 1  assets: card, PIN targets: Read_Card_Verify_PIN],
+							insert_envelope [num: 1 assets: envelope targets: Read_Envelope],
+							use_keyboard [num: 1 assets: keyboard_input targets: Update_Display]
+		],
+		ExternalEntity Bank[
+			assets: transaction, status, balance
+			incoming flows: "atmsimulator.Network_Bank.transaction_to_bank", 
+							"atmsimulator.Read_Card_Verify_PIN.check_PIN"
+			outgoing flows: PIN_status [num: 1  assets: status targets: Read_Card_Verify_PIN],
+							tr_status [num: 1 assets: status targets: Network_Bank]
+		],
+		Process Retain_Card[
+			assets: status
+			incoming flows: "atmsimulator.Read_Card_Verify_PIN.wrong_four_times"
+			outgoing flows: wrong_four_times_notify [num: 1 assets: status targets: Update_Display]
+		],
+		Process Update_Display[
+			assets: keyboard_input, display_view, status, balance, account, message, amount
+			incoming flows: "atmsimulator.Customer.use_keyboard",
+							"atmsimulator.Retain_Card.wrong_four_times_notify",
+							"atmsimulator.Read_Card_Verify_PIN.right_PIN",
+							"atmsimulator.Check_Balance.balance_to_display",
+							"Transfer.transfer_status_to_display",
+							"Deposit.deposit_status_to_display",
+							"Dispense_Cash.dispense_status_to_display"
+			outgoing flows: refresh_display [num: 1 assets: display_view targets: Customer],
+							balance_for_account [num: 1 assets: account targets: Check_Balance],
+							transfer_from_to [num: 1 assets: message targets: Transfer],
+							deposit_amount [num: 1 assets: amount targets: Deposit],
+							withdraw_amount [num: 1 assets: amount targets: Withdraw],
+							print_reciept [num: 1 assets: keyboard_input targets: Reciept_Printer]
+		],
+		Process Read_Card_Verify_PIN[
+			assets: status, PIN, card, account
+			incoming flows: "atmsimulator.Customer.insert_card_and_PIN", 
+							"atmsimulator.Bank.PIN_status"
+			outgoing flows: wrong_four_times [num: 1 assets: status targets: Retain_Card],
+							right_PIN [num: 1 assets: status, account targets: Update_Display],
+							check_PIN [num: 1 assets: account, PIN targets: Bank]
+		],		
+		Process Read_Envelope[
+			assets: envelope, amount
+			incoming flows: "atmsimulator.Customer.insert_envelope"
+			outgoing flows: count_the_amount [num: 1 assets: amount targets: Deposit]
+		],	
+		Process Reciept_Printer[
+			assets: card, reciept
+			incoming flows: "atmsimulator.Update_Display.print_reciept"
+			outgoing flows: print_return_card [num: 1 assets: reciept,card targets: Customer]
+		],
+		Process Check_Balance[
+			assets: account, balance
+			incoming flows: "atmsimulator.Update_Display.balance_for_account",
+							"atmsimulator.Network_Bank.balance_to_check_balance"
+			outgoing flows: balance_for_account_tr [num: 1 assets: account targets: Network_Bank],
+							balance_to_display [num: 1 assets: balance targets: Update_Display]
+		],
+		Process Transfer[
+			assets: status, message
+			incoming flows: "atmsimulator.Update_Display.transfer_from_to",
+							"atmsimulator.Network_Bank.status_to_transfer"
+			outgoing flows: transfer_from_to_tr [num: 1 assets: message targets: Network_Bank],
+							transfer_status_to_display [num: 1 assets: status targets: Update_Display]
+		],
+		Process Deposit[
+			assets: status, amount
+			incoming flows: "atmsimulator.Update_Display.deposit_amount",
+							"atmsimulator.Read_Envelope.count_the_amount",
+							"atmsimulator.Network_Bank.status_to_deposit"
+			outgoing flows: deposit_amount_tr [num: 1 assets: amount targets: Network_Bank],
+							deposit_status_to_display [num: 1 assets: status targets: Update_Display]
+		],
+		Process Dispense_Cash[
+			assets: status, amount, money
+			incoming flows: "Withdraw.withdraw_status_to_display"
+			outgoing flows: money_to_customer [num: 1 assets: money targets: Customer],
+							dispense_status_to_display [num: 1 assets: status targets: Update_Display]
+		],
+		Process Withdraw[
+			assets: amount, status
+			incoming flows: "atmsimulator.Update_Display.withdraw_amount",
+							"atmsimulator.Network_Bank.status_to_withdraw"
+			outgoing flows: withdraw_amount_tr [num: 1 assets: amount targets: Network_Bank],
+							withdraw_status_to_display [num: 1 assets: status targets: Update_Display]
+		],
+		Process Network_Bank[
+			assets: status, amount, message, account, balance, transaction
+			incoming flows: "atmsimulator.Bank.tr_status",
+							"atmsimulator.Check_Balance.balance_for_account_tr",
+							"Transfer.transfer_from_to_tr",
+							"Deposit.deposit_amount_tr",
+							"Withdraw.withdraw_amount_tr"
+			outgoing flows: transaction_to_bank [num: 1 assets: transaction targets: Bank],
+							status_to_deposit [num: 1 assets: status targets: Deposit],
+							status_to_transfer [num: 1 assets: status targets: Transfer],
+							balance_to_check_balance [num: 1 assets: balance targets: Check_Balance],
+							status_to_withdraw [num: 1 assets: status targets: Withdraw]
+		]
+]
