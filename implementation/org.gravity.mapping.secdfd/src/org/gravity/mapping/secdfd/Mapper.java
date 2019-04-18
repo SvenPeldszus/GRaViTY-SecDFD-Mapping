@@ -417,14 +417,6 @@ public class Mapper {
 			}
 		}
 		return list.stream();
-
-//		return methods.stream()
-//				.filter(m -> StringCompare.compare(node.getName(), m.getTName())>0)
-//				.map(m -> {
-//			Method2Element corr = helper.createCorrespondence(node, m, r);
-//			mapping.getSuggested().add(corr);
-//			return corr;
-//		});
 	}
 
 	/**

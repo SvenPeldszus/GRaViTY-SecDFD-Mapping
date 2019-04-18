@@ -1,0 +1,4 @@
+<tm-instructor-search-bar (searched)="search($event)" [searchKey]="searchKey"></tm-instructor-search-bar>
+
+<tm-student-result-table *ngIf="studentTables && studentTables.length" [studentTables]="studentTables">
+</tm-student-result-table>
