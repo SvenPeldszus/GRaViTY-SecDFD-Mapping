@@ -1,0 +1,42 @@
+{"mappings": [
+	{"pm": "long", "secdfd": "barcode"},
+	{"pm": "java.lang.Long", "secdfd": "barcode"},
+
+	{"pm": "org.cocome.tradingsystem.cashdeskline.events.ProductBarcodeScanEvent", "secdfd": "scan_barcode_event"},
+	{"pm": "org.cocome.tradingsystem.cashdeskline.events.ProductBarcodeScannedEvent", "secdfd": "scan_barcode_event"},
+	
+	{"pm": "org.cocome.tradingsystem.cashdeskline.events.SaleStartedEvent", "secdfd": "start_sale_event"},
+
+	{"pm": "org.cocome.tradingsystem.cashdeskline.events.RunningTotalChangedEvent", "secdfd": "total_change_event"},
+	
+	{"pm": "org.cocome.tradingsystem.cashdeskline.events.SaleFinishedEvent", "secdfd": "finish_sale_event"},
+	
+	{"pm": "org.cocome.tradingsystem.inventory.application.store.ProductWithStockItemTO", "secdfd": "product_with_stock_item"},
+	
+	{"pm": "double", "secdfd": "price"},
+	{"pm": "java.lang.Double", "secdfd": "price"},
+	
+	{"pm": "org.cocome.tradingsystem.cashdeskline.cashdesk.cashboxcontroller.impl.CashBoxControllerEventHandlerImpl.sendSaleStartedEvent(SaleStartedEvent):void", "secdfd": "start_sale"},
+	
+	{"pm": "org.cocome.tradingsystem.cashdeskline.cashdesk.scannercontroller.impl.ScannerControllerEventHandlerImpl.sendProductBarcodeScannedEvent(ProductBarcodeScannedEvent):void", "secdfd": "scan_barcode"},
+
+	{"pm": " javax.jms.TopicPublisher.publish(Message):void", "secdfd": "publish"},
+
+	{"pm": "org.cocome.tradingsystem.cashdeskline.cashdesk.gui.impl.GUIEventHandlerImpl.onEvent(RunningTotalChangedEvent):void", "secdfd": "draw_ui"},
+	{"pm": "org.cocome.tradingsystem.cashdeskline.cashdesk.gui.impl.GUIEventHandlerImpl.onEvent(SaleStartedEvent):void", "secdfd": "draw_ui"},
+
+	{"pm": "org.cocome.tradingsystem.cashdeskline.cashdesk.application.impl.ApplicationEventHandlerImpl.onEvent(ProductBarcodeScannedEvent):void", "secdfd": "on_barcode_event"},
+	
+	{"pm": "org.cocome.tradingsystem.inventory.application.store.CashDeskConnectorIf.getProductWithStockItem(long):ProductWithStockItemTO", "secdfd": "get_product_stock_item"},
+	{"pm": "org.cocome.tradingsystem.inventory.application.store.impl.StoreImpl.getProductWithStockItem(long):ProductWithStockItemTO", "secdfd": "get_product_stock_item"},
+
+	{"pm": "org.cocome.tradingsystem.inventory.application.store.StockItemTO.getSalesPrice():long", "secdfd": "get_sales_price"},
+	{"pm": "org.cocome.tradingsystem.inventory.application.store.ProductWithStockItemTO.getStockItem():StockItemTO", "secdfd": "get_sales_price"},
+
+	{"pm": "org.cocome.tradingsystem.cashdeskline.cashdesk.scannercontroller.impl.ScannerControllerEventHandlerImpl.sendFinishedSaleEvent(SaleFinishedEvent):void", "secdfd": "finish_sale"},
+
+	{"pm": "org.cocome.tradingsystem.inventory.data.store.StoreQueryIf", "secdfd": "store_query"},
+	{"pm": "org.cocome.tradingsystem.inventory.data.store.impl.StoreQueryImpl", "secdfd": "store_query"},
+	{"pm": "org.cocome.tradingsystem.inventory.data.store.impl.StoreQueryImpl.queryProductById(long,PersistanceContext):Product", "secdfd": "store_query"}
+]
+}
