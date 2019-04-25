@@ -40,6 +40,7 @@ import org.moflon.tgg.runtime.AbstractCorrespondence;
 
 import eDFDFlowTracking.EDFD;
 import eDFDFlowTracking.Element;
+import eDFDFlowTracking.ExternalEntity;
 import eDFDFlowTracking.NamedEntity;
 
 /**
@@ -139,6 +140,9 @@ public class CorrespondenceHelper {
 	 */
 	MappingProcessDefinition createCorrespondence(TMethodDefinition member, Element element, Integer ranking,
 			Collection<? extends AbstractMappingBase> derived) {
+		if(element instanceof ExternalEntity) {
+			return null;
+		}
 		MappingProcessDefinition corr = (MappingProcessDefinition) getCorrespondence(member, element);
 		if (corr != null) {
 			return corr;
@@ -245,6 +249,9 @@ public class CorrespondenceHelper {
 	 * @return true, if this correspondence is not ignored and not already created
 	 */
 	boolean canCreate(EObject pmObject, EObject dfdObject, Map<EObject, Set<EObject>> excludes) {
+		if(dfdObject instanceof ExternalEntity) {
+			return false;
+		}
 		if(excludes.containsKey(dfdObject) && excludes.get(dfdObject).contains(pmObject)) {
 			return false;
 		}

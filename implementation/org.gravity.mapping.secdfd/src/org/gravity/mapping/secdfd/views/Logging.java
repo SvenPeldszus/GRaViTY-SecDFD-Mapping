@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.gravity.mapping.secdfd.CorrespondenceHelper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.typegraph.basic.TAbstractType;
@@ -25,23 +26,30 @@ import com.google.gson.JsonParser;
 
 public class Logging {
 
-	private static Map<String, Set<String>> map = null;
+	private static Map<Resource, Map<String, Set<String>>> maps = new HashMap<>();
+	
+
+	public static Map<Resource, HashSet<String>> allExpectedPositives = new HashMap<>();
 
 	public static HashSet<String> truePositives = new HashSet<String>();
 	public static HashSet<String> falsePositives = new HashSet<String>();
-	public static HashSet<String> expectedPositives = new HashSet<String>();
-	public static HashSet<String> falseNegaives = new HashSet<String>();
+	public static HashSet<String> falseNegatives = new HashSet<String>();
 
-	public static boolean init() {
+	public static void init() {
 		MappingView mappingView = MappingView.getMappingView();
 		for (Mapping mapping : mappingView.getMappings()) {
 			File file = mappingView.getProgramModel().getKey().getProject()
 					.getFile("groundtruth/" + mapping.getName() + ".json").getLocation().toFile();
 			if (file.exists()) {
+				Resource eResource = mapping.getTarget().eResource();
+				HashSet<String> expectedPositives = new HashSet<>();
+				allExpectedPositives.put(eResource, expectedPositives);
 				try {
 					JsonObject object = new JsonParser().parse(new FileReader(file)).getAsJsonObject();
+					Map<String, Set<String>> map = maps.get(eResource);
 					if (map == null) {
 						map = new HashMap<>();
+						maps.put(eResource, map);
 					}
 					for (JsonElement jsonElement : object.getAsJsonArray("mappings")) {
 						if (jsonElement instanceof JsonObject) {
@@ -65,28 +73,18 @@ public class Logging {
 				}
 			}
 		}
-		falseNegaives = new HashSet<String>(expectedPositives);
+		falseNegatives = new HashSet<String>();
 		truePositives = new HashSet<>();
 		falsePositives = new HashSet<>();
-		if (map == null) {
-			map = new HashMap<>();
-		}
-		return map.size() > 0;
 	}
 
 	public static void writeLog(Collection<EObject> corrs) {
-		if (map == null || map.size() == 0) {
-			return;
-		}
-		update(corrs);
-
-		// logg
-		if (expectedPositives.size() > 0) {
+		if (update(corrs)) {
 			File file = MappingView.getMappingView().getProgramModel().getKey().getProject()
 					.getFile("log/precision_recall_" + System.currentTimeMillis() + ".log").getLocation().toFile();
 			int tp = truePositives.size();
 			int fp = falsePositives.size();
-			int fn = falseNegaives.size();
+			int fn = falseNegatives.size();
 			double precission = (double) tp / (tp + fp);
 			double recall = (double) tp / (tp + fn);
 			try {
@@ -104,7 +102,7 @@ public class Logging {
 					writer.append("\nFN: ");
 					writer.append(Integer.toString(fn));
 					writer.append("\n\nFalse negatives:\n");
-					for (String missed : falseNegaives) {
+					for (String missed : falseNegatives) {
 						writer.append(missed);
 						writer.append('\n');
 					}
@@ -118,18 +116,26 @@ public class Logging {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			falseNegaives = new HashSet<String>(expectedPositives);
-			truePositives = new HashSet<>();
-			falsePositives = new HashSet<>();
 		}
 	}
 
-	public static void update(Collection<EObject> corrs) {
-		if (map == null || map.size() == 0) {
-			if (!init()) {
-				return;
-			}
+	public static boolean update(Collection<EObject> corrs) {
+		if(corrs.isEmpty()) {
+			return true;
 		}
+		Resource eResource = CorrespondenceHelper.getTarget((AbstractCorrespondence) corrs.iterator().next()).eResource();
+		Map<String, Set<String>> map = maps.get(eResource);
+		if(map == null || map.isEmpty()) {
+			init();
+			map = maps.get(eResource);
+		}
+		if(map == null || map.isEmpty()) {
+			return false;
+		}
+		
+		falseNegatives = new HashSet<String>(allExpectedPositives.get(eResource));
+		truePositives = new HashSet<>();
+		falsePositives = new HashSet<>();
 		for (AbstractCorrespondence corr : corrs.parallelStream().filter(corr -> corr instanceof AbstractCorrespondence)
 				.map(corr -> (AbstractCorrespondence) corr).collect(Collectors.toList())) {
 			EObject pmObject = CorrespondenceHelper.getSource(corr);
@@ -143,7 +149,7 @@ public class Logging {
 			if (map.containsKey(dfdString)) {
 				if (map.get(dfdString).contains(pmString)) {
 					truePositives.add(pmString + " <-> " + dfdString);
-					falseNegaives.remove(pmString + " <-> " + dfdString);
+					falseNegatives.remove(pmString + " <-> " + dfdString);
 					continue;
 				}
 			}
@@ -151,6 +157,7 @@ public class Logging {
 				falsePositives.add(pmString + " <-> " + dfdString);
 			}
 		}
+		return true;
 	}
 
 	public static String getTruePositive(AbstractCorrespondence corr) {
@@ -160,6 +167,7 @@ public class Logging {
 	}
 
 	public static String getTruePositive(EObject pmObject, EObject dfdObject) {
+		Map<String, Set<String>> map = maps.get(dfdObject.eResource());
 		if (map == null || map.size() == 0) {
 			init();
 		}
@@ -174,7 +182,7 @@ public class Logging {
 		if (map.containsKey(dfdString)) {
 			if (map.get(dfdString).contains(pmString)) {
 				truePositives.add(pmString + " <-> " + dfdString);
-				falseNegaives.remove(pmString + " <-> " + dfdString);
+				falseNegatives.remove(pmString + " <-> " + dfdString);
 				return "+ TRUE POSITIVE";
 			}
 		}

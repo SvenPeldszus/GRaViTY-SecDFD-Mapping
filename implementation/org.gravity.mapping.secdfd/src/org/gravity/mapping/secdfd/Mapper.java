@@ -139,7 +139,6 @@ public class Mapper {
 			}
 		}
 		optimizer = new MappingOptimizer(helper, cache, mapping);
-		optimize();
 	}
 
 	public void addUserdefinedListener(IListener listener) {

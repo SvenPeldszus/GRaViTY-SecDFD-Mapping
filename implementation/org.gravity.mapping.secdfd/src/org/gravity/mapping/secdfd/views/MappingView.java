@@ -167,9 +167,9 @@ public class MappingView extends ViewPart {
 			IFile destination = gravityFolder.getFile(name);
 			Mapper mapper = new Mapper(pm.getValue(), entry.getValue(), destination);
 			mappers.put(mapper.getMapping(), mapper);
+			mapper.optimize();
 			mapper.addUserdefinedListener(continueAction);
 		}
-		Logging.init();
 		if (!label.isDisposed()) {
 			label.dispose();
 			parent.setLayout(new GridLayout(1, false));
