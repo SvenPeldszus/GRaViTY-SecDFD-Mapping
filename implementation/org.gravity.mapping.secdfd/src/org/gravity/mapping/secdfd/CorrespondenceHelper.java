@@ -280,7 +280,11 @@ public class CorrespondenceHelper {
 	 */
 	Collection<AbstractCorrespondence> getCorrespondences(EObject object) {
 		if (correspondences.containsKey(object)) {
-			return correspondences.get(object);
+			Collection<AbstractCorrespondence> value = correspondences.get(object);
+			if(value != null) {
+				return value;
+			}
+			correspondences.remove(object);
 		}
 		return Collections.emptySet();
 	}

@@ -1,6 +1,5 @@
 {"mappings": [
 	{"pm": "long", "secdfd": "barcode"},
-	{"pm": "java.lang.Long", "secdfd": "barcode"},
 
 	{"pm": "org.cocome.tradingsystem.cashdeskline.events.ProductBarcodeScanEvent", "secdfd": "scan_barcode_event"},
 	{"pm": "org.cocome.tradingsystem.cashdeskline.events.ProductBarcodeScannedEvent", "secdfd": "scan_barcode_event"},
@@ -14,9 +13,8 @@
 	{"pm": "org.cocome.tradingsystem.inventory.application.store.ProductWithStockItemTO", "secdfd": "product_with_stock_item"},
 	
 	{"pm": "double", "secdfd": "price"},
-	{"pm": "java.lang.Double", "secdfd": "price"},
 	
-	{"pm": "org.cocome.tradingsystem.cashdeskline.cashdesk.cashboxcontroller.impl.CashBoxControllerEventHandlerImpl.sendSaleStartedEvent(SaleStartedEvent):void", "secdfd": "start_sale"},
+	{"pm": "org.cocome.tradingsystem.cashdeskline.cashdesk.cashboxcontroller.impl.CashBoxControllerEventHandlerImpl.sendSaleStartedEvent(SaleStartedEnvent):void", "secdfd": "start_sale"},
 	
 	{"pm": "org.cocome.tradingsystem.cashdeskline.cashdesk.scannercontroller.impl.ScannerControllerEventHandlerImpl.sendProductBarcodeScannedEvent(ProductBarcodeScannedEvent):void", "secdfd": "scan_barcode"},
 
