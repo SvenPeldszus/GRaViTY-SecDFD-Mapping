@@ -10,17 +10,17 @@ EDFD jpetstoredfd[
 				type: Object
 				values: [L Av]
 				source: BackendDB
-				targets: Handle_Customer_Actions,
+				targets: Customer,
 		Asset itemID 
 				type: String
 				values: [L Av]
-				source: Handle_Customer_Actions
+				source: Customer
 				targets: CartDB,
 		Asset item
 				type: Object
 				values: [L Av]
 				source: CartDB
-				targets: Handle_Customer_Actions,
+				targets: Customer,
 		Asset account_info 
 				type: Object
 				values: [H I], [H C]
@@ -37,15 +37,15 @@ EDFD jpetstoredfd[
 				source: Customer
 				targets: Authenticate,
 		//customer view are all the final Strings defined in ActionBean classes that call viewXXX();
-		Asset customer_view 
-				type: String
-				values: [H I], [H C]
-				source: Handle_Customer_Actions
-				targets: Customer,
+//		Asset customer_view 
+//				type: String
+//				values: [H I], [H C]
+//				source: Handle_Customer_Actions
+//				targets: Customer,
 		Asset keyword 
 				type: String
 				values: [L I]
-				source: Handle_Customer_Actions
+				source: Customer
 				targets: Search_Products,	
 		Asset order 
 				type: Object
@@ -59,8 +59,12 @@ EDFD jpetstoredfd[
 				targets: Purchase_Order
 	elements:
 		ExternalEntity Customer[
-			assets: customer_view, account_info, username, password
-			outgoing flows: customer_login [num: 1  assets: password, username, account_info targets: Authenticate]
+			assets: account_info, username, password, itemID, keyword
+			outgoing flows: customer_login [num: 1  assets: password, username, account_info targets: Authenticate],
+							manage_cart [num: 1 assets: itemID targets: AddRemove_Items],
+							browse_catalog [num: 1 assets: keyword targets: Search_Products],
+							initiate_confirm_purchase [num: 1 assets: username targets: Purchase_Order],
+							manage_account [num: 1 assets: account_info targets: Manage_Account]
 		],
 		DataStore CartDB[
 			assets: itemID,item, cart
@@ -82,48 +86,48 @@ EDFD jpetstoredfd[
 		Process Authenticate[
 			assets: password, username, account_info
 			incoming flows: "Customer.customer_login"
-			outgoing flows: info_to_frontend [num: 1 assets: account_info targets: Handle_Customer_Actions]
+			outgoing flows: info_to_manage_account [num: 1 assets: account_info targets: Manage_Account]
 		],
-		Process Update_View[
-			assets: customer_view
-			incoming flows: "jpetstoredfd.Handle_Customer_Actions.update_content"
-			outgoing flows: provide_content [num: 1 assets: customer_view targets: Customer]
-		],
-		Process Handle_Customer_Actions[
-			assets: account_info, itemID, item, keyword, product, username, customer_view
-			incoming flows: "jpetstoredfd.Authenticate.info_to_frontend",
-							"jpetstoredfd.AddRemove_Items.provide_item_list",
-							"jpetstoredfd.Search_Products.provide_product_list"
-			outgoing flows: update_content [num: 1 assets: customer_view targets: Update_View],
-							manage_cart [num: 1 assets: itemID targets: AddRemove_Items],
-							browse_catalog [num: 1 assets: keyword targets: Search_Products],
-							initiate_confirm_purchase [num: 1 assets: username targets: Purchase_Order],
-							manage_account [num: 1 assets: account_info targets: Manage_Account]
-		],		
+//		Process Update_View[
+//			assets: customer_view
+//			incoming flows: "jpetstoredfd.Handle_Customer_Actions.update_content"
+//			outgoing flows: provide_content [num: 1 assets: customer_view targets: Customer]
+//		],
+//		Process Handle_Customer_Actions[
+//			assets: account_info, itemID, item, keyword, product, username, customer_view
+//			incoming flows: "jpetstoredfd.Authenticate.info_to_frontend",
+//							"jpetstoredfd.AddRemove_Items.provide_item_list",
+//							"jpetstoredfd.Search_Products.provide_product_list"
+//			outgoing flows: ---update_content [num: 1 assets: customer_view targets: Update_View],
+//							manage_cart [num: 1 assets: itemID targets: AddRemove_Items],
+//							browse_catalog [num: 1 assets: keyword targets: Search_Products],
+//							initiate_confirm_purchase [num: 1 assets: username targets: Purchase_Order],
+//							manage_account [num: 1 assets: account_info targets: Manage_Account]
+//		],		
 		Process Search_Products[
 			assets: keyword, product, productID
-			incoming flows: "jpetstoredfd.Handle_Customer_Actions.browse_catalog",
+			incoming flows: "jpetstoredfd.Customer.browse_catalog",
 							"jpetstoredfd.BackendDB.read_product_list"
 			outgoing flows: read_products [num: 1 assets: productID targets: BackendDB],
-							provide_product_list [num: 1 assets: product targets: Handle_Customer_Actions]
+							provide_product_list [num: 1 assets: product targets: Customer]
 		],	
 		Process Purchase_Order[
 			assets: username, account_info, cart, order
 			incoming flows: "jpetstoredfd.CartDB.read_cart",
 							"jpetstoredfd.CustomerDB.read_account_info",
-							"jpetstoredfd.Handle_Customer_Actions.initiate_confirm_purchase"
+							"jpetstoredfd.Customer.initiate_confirm_purchase"
 			outgoing flows: send_order [num: 1 assets: order targets: BackendDB]
 		],
 		Process AddRemove_Items[
 			assets: itemID, item
 			incoming flows: "jpetstoredfd.CartDB.read_cart_items",
-							"jpetstoredfd.Handle_Customer_Actions.manage_cart"
+							"jpetstoredfd.Customer.manage_cart"
 			outgoing flows: add_or_remove [num: 1 assets: itemID targets: CartDB],
-							provide_item_list [num: 1 assets: item targets: Handle_Customer_Actions]
+							provide_item_list [num: 1 assets: item targets: Customer]
 		],
 		Process Manage_Account[
 			assets: account_info
-			incoming flows: "jpetstoredfd.Handle_Customer_Actions.manage_account"
+			incoming flows: "jpetstoredfd.Customer.manage_account"
 			outgoing flows: write_account_info [num: 1 assets: account_info targets: CustomerDB]
 		]
 ]
