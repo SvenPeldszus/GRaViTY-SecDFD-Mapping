@@ -143,7 +143,10 @@ public class TextEditorHandler extends AbstractHandler {
 			MethodDeclaration method = (MethodDeclaration) node;
 			TMethodSignature tMethodSignature = JavaASTUtil.getTMethodSignature(method, pm);
 			System.out.println(tMethodSignature);
-			TAbstractType tDeclaringType = JavaASTUtil.getTClass((TypeDeclaration) method.getParent(), pm);
+			TypeDeclaration definingType = (TypeDeclaration) method.getParent();
+			PackageDeclaration containingPackage = ((CompilationUnit) definingType.getParent()).getPackage();;
+			String fullyQualifiedName = containingPackage.getName().getFullyQualifiedName()+"."+definingType.getName(); //$NON-NLS-1$
+			TAbstractType tDeclaringType = pm.getAbstractType(fullyQualifiedName);
 			return Collections.singletonList(tMethodSignature.getTDefinition(tDeclaringType));
 		case ASTNode.TYPE_DECLARATION:
 			ASTNode tmpASTNode2 = node.getParent();
