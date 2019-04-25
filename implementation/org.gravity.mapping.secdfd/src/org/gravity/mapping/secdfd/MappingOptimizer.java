@@ -154,9 +154,8 @@ public class MappingOptimizer {
 						EList<TMethodDefinition> defs = sig.getDefinitions();
 						if (defs.size() < 3) {
 							defs.forEach(def -> {
-								if (helper.canCreate(def, element, excludes)) {
-									MappingProcessDefinition corr = helper.createCorrespondence(def, element, 50,
-											Collections.emptyList());
+								if(helper.canCreate(def, element, excludes)) {
+									MappingProcessDefinition corr = helper.createCorrespondence(def, element, 70, Collections.emptyList());
 									this.mapping.getSuggested().add(corr);
 								}
 							});
@@ -385,7 +384,7 @@ public class MappingOptimizer {
 									if (helper.canCreate(sourceMember, targetElement, excludes)
 											&& sourceMember instanceof TMethodDefinition) {
 										MappingProcessDefinition corr = helper.createCorrespondence(
-												(TMethodDefinition) sourceMember, sourceElement, 50,
+												(TMethodDefinition) sourceMember, sourceElement, 70,
 												Collections.emptySet());
 										mapping.getSuggested().add(corr);
 										cache.add(sourceMember, sourceElement);
@@ -396,7 +395,7 @@ public class MappingOptimizer {
 									if (helper.canCreate(targetMember, targetElement, excludes)
 											&& targetMember instanceof TMethodDefinition) {
 										MappingProcessDefinition corr = helper.createCorrespondence(
-												(TMethodDefinition) targetMember, targetElement, 50,
+												(TMethodDefinition) targetMember, targetElement, 70,
 												Collections.emptySet());
 										mapping.getSuggested().add(corr);
 										cache.add(targetMember, targetElement);
