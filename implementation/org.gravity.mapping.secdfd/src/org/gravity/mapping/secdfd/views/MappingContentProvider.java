@@ -1,6 +1,7 @@
 package org.gravity.mapping.secdfd.views;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -8,9 +9,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.gravity.mapping.secdfd.CorrespondenceHelper;
+import org.gravity.mapping.secdfd.helpers.RankingHelper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.model.mapping.MappingEntityType;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
@@ -19,13 +25,6 @@ import org.moflon.tgg.runtime.AbstractCorrespondence;
 import org.moflon.tgg.runtime.CorrespondenceModel;
 
 public class MappingContentProvider implements ITreeContentProvider {
-
-	private final class CompareByRanking implements Comparator<AbstractCorrespondence> {
-		@Override
-		public int compare(AbstractCorrespondence a, AbstractCorrespondence b) {
-			return MappingLabelProvider.getTotalRanking(b) - MappingLabelProvider.getTotalRanking(a);
-		}
-	}
 
 	@Override
 	public Object[] getElements(Object inputElement) {
@@ -69,6 +68,12 @@ public class MappingContentProvider implements ITreeContentProvider {
 			Entry<?, ?> entry = (Entry<?, ?>) parentElement;
 			if (entry.getKey() instanceof EObject) {
 				return ((Collection<?>) entry.getValue()).toArray();
+//				List<?> values = new ArrayList<>((Collection<?>) entry.getValue());
+//				List<Integer> ranks = values.parallelStream()
+//						.map(o -> RankingHelper.getRanking((AbstractCorrespondence) o)).distinct().sorted()
+//						.collect(Collectors.toList());
+//				int median = ranks.get(ranks.size() / 2);
+//				return values.parallelStream().filter(o -> RankingHelper.getRanking((AbstractCorrespondence) o) >= median).toArray();
 			}
 			return getChildren(((Entry<?, ?>) parentElement).getValue());
 		}

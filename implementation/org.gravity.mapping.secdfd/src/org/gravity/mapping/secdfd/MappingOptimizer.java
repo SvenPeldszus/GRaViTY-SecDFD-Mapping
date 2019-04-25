@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,8 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.gravity.mapping.secdfd.helpers.CallHelper;
+import org.gravity.mapping.secdfd.helpers.RankingHelper;
 import org.gravity.mapping.secdfd.model.mapping.AbstractMappingBase;
 import org.gravity.mapping.secdfd.model.mapping.AbstractMappingRanking;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
@@ -70,7 +73,9 @@ public class MappingOptimizer {
 	 * @return The optimized mapping
 	 */
 	public Mapping optimize() {
-		return optimize(new HashMap<>());
+		Mapping optimized = optimize(new HashMap<>());
+//		removeBasedOnRanking(optimized.getSuggested());
+		return optimized;
 	}
 
 	private Mapping optimize(Map<EObject, Set<EObject>> excludes) {
@@ -137,19 +142,21 @@ public class MappingOptimizer {
 		}
 
 		findForwardedFlows(dfd, excludes);
-		
-		for(Element element : dfd.getElements()) {
-			if(!elementMemberMapping.containsKey(element) && elementSignatureMapping.containsKey(element)) {
+
+		for (Element element : dfd.getElements()) {
+			if (!elementMemberMapping.containsKey(element) && elementSignatureMapping.containsKey(element)) {
 				Set<TSignature> signatures = elementSignatureMapping.get(element);
-				if(signatures.size() == 1) {
+				if (signatures.size() == 1) {
 					TMethodSignature sig = (TMethodSignature) signatures.iterator().next();
-					MappingProcessName nameCorr = (MappingProcessName) helper.getCorrespondence(sig.getMethod(), element);
-					if(nameCorr.getRanking() > 70) {
+					MappingProcessName nameCorr = (MappingProcessName) helper.getCorrespondence(sig.getMethod(),
+							element);
+					if (nameCorr.getRanking() > 70) {
 						EList<TMethodDefinition> defs = sig.getDefinitions();
-						if(defs.size() < 3) {
+						if (defs.size() < 3) {
 							defs.forEach(def -> {
-								if(helper.canCreate(def, element, excludes)) {
-									MappingProcessDefinition corr = helper.createCorrespondence(def, element, 50, Collections.emptyList());
+								if (helper.canCreate(def, element, excludes)) {
+									MappingProcessDefinition corr = helper.createCorrespondence(def, element, 50,
+											Collections.emptyList());
 									this.mapping.getSuggested().add(corr);
 								}
 							});
@@ -166,6 +173,21 @@ public class MappingOptimizer {
 		}
 		LOGGER.log(Level.INFO, "\n<<<<< Stop optimization\n");
 		return mapping;
+	}
+
+	/**
+	 * @param values
+	 */
+	private void removeBasedOnRanking(List<AbstractCorrespondence> values) {
+		List<Integer> ranks = values.parallelStream().map(o -> RankingHelper.getRanking(o)).distinct().sorted()
+				.collect(Collectors.toList());
+		int median = ranks.get(ranks.size() / 2);
+		List<AbstractCorrespondence> remove = values.parallelStream()
+				.filter(o -> RankingHelper.getRanking((AbstractCorrespondence) o) < median)
+				.collect(Collectors.toList());
+		for (int i = 0; i < remove.size(); i++) {
+			helper.delete(remove.remove(0));
+		}
 	}
 
 	/**
@@ -186,13 +208,13 @@ public class MappingOptimizer {
 					continue;
 				}
 				int coupling = 0;
-				for (TAccess access : member.getAccessedBy()) {
-					if (values.contains(access.getTSource())) {
+				for (TMember access : CallHelper.getAllInCalls(member)) {
+					if (values.contains(access)) {
 						coupling++;
 					}
 				}
-				for (TAccess access : member.getTAccessing()) {
-					if (values.contains(access.getTTarget())) {
+				for (TMember access : CallHelper.getAllOutCalls(member)) {
+					if (values.contains(access)) {
 						coupling++;
 					}
 				}
@@ -201,10 +223,10 @@ public class MappingOptimizer {
 				}
 			}
 			remove.forEach(corr -> {
-				if(mapping.getUserdefined().contains(corr) || mapping.getAccepted().contains(corr)) {
+				if (mapping.getUserdefined().contains(corr) || mapping.getAccepted().contains(corr)) {
 					return;
 				}
-				if(corr instanceof AbstractMappingRanking && ((AbstractMappingRanking) corr).getRanking() > 70) {
+				if (corr instanceof AbstractMappingRanking && ((AbstractMappingRanking) corr).getRanking() > 70) {
 					// Don't remove high quality mappings
 					return;
 				}
@@ -269,10 +291,10 @@ public class MappingOptimizer {
 			}
 		}
 		assetsToRemove.forEach(corr -> {
-			if(mapping.getUserdefined().contains(corr) || mapping.getAccepted().contains(corr)) {
+			if (mapping.getUserdefined().contains(corr) || mapping.getAccepted().contains(corr)) {
 				return;
 			}
-			if(corr instanceof AbstractMappingRanking && ((AbstractMappingRanking) corr).getRanking() > 70) {
+			if (corr instanceof AbstractMappingRanking && ((AbstractMappingRanking) corr).getRanking() > 70) {
 				// Don't remove high quality mappings
 				return;
 			}
@@ -355,10 +377,8 @@ public class MappingOptimizer {
 									return false;
 								}).collect(Collectors.toSet());
 						for (TMember sourceMember : sourceMembers) {
-							for (TMember accessor : sourceMember.getAccessedBy().parallelStream()
-									.map(access -> access.getTSource()).collect(Collectors.toSet())) {
-								Set<TMember> targetMembers = accessor.getTAccessing().parallelStream()
-										.map(access -> access.getTTarget())
+							for (TMember accessor : CallHelper.getAllInCalls(sourceMember)) {
+								Set<TMember> targetMembers = CallHelper.getAllOutCalls(accessor).parallelStream()
 										.filter(target -> targetSignatures.contains(target.getSignature()))
 										.collect(Collectors.toSet());
 								if (targetMembers.size() > 0 && sourceMember instanceof TMethodDefinition) {
@@ -400,11 +420,11 @@ public class MappingOptimizer {
 	 */
 	private boolean mapToFieldsInProcess(Process process, NamedEntity entity, Map<EObject, Set<EObject>> excludes) {
 		boolean change = false;
-		if(!cache.getElementMemberMapping().containsKey(process)) {
+		if (!cache.getElementMemberMapping().containsKey(process)) {
 			return false;
 		}
 		for (TMember member : cache.getElementMemberMapping().get(process)) {
-			for (TFieldDefinition field : member.getTAccessing().parallelStream().map(access -> access.getTTarget())
+			for (TFieldDefinition field : CallHelper.getAllOutCalls(member).parallelStream()
 					.filter(definition -> definition instanceof TFieldDefinition)
 					.map(definition -> (TFieldDefinition) definition).collect(Collectors.toSet())) {
 				String fieldName = field.getSignature().getField().getTName();
@@ -435,8 +455,7 @@ public class MappingOptimizer {
 		boolean change = false;
 		if (callingSignature != calledSignature) {
 			for (TMethodDefinition callingDefiniton : callingSignature.getDefinitions()) {
-				for (TAccess access : callingDefiniton.getTAccessing()) {
-					TMember calledDefinition = access.getTTarget();
+				for (TMember calledDefinition : CallHelper.getAllOutCalls(callingDefiniton)) {
 					if (calledDefinition.getSignature().equals(calledSignature)) {
 						if (helper.canCreate(callingDefiniton, process, excludes)) {
 							MappingProcessDefinition corr = helper.createCorrespondence(callingDefiniton, process, 60,
@@ -493,8 +512,7 @@ public class MappingOptimizer {
 							.map(corr -> (TSignature) CorrespondenceHelper.getSource(corr)).collect(Collectors.toSet());
 
 					for (TMethodDefinition calledDefinition : ((TMethodSignature) calledSignature).getDefinitions()) {
-						for (TAccess access : calledDefinition.getAccessedBy()) {
-							TMember callingDefiniton = access.getTSource();
+						for (TMember callingDefiniton : CallHelper.getAllInCalls(calledDefinition)) {
 							TSignature callingSignature = callingDefiniton.getSignature();
 							if (callingSignatures.contains(callingSignature)) {
 								if (helper.canCreate(calledDefinition, sourceOfFlow, excludes)) {
@@ -622,8 +640,7 @@ public class MappingOptimizer {
 		stack.add(source);
 		while (!stack.isEmpty()) {
 			TMember current = stack.remove(0);
-			for (TAccess access : current.getTAccessing()) {
-				TMember tTarget = access.getTTarget();
+			for (TMember tTarget : CallHelper.getAllOutCalls(current)) {
 				if (!seen.contains(tTarget)) {
 					stack.add(tTarget);
 					if (tTarget.getSignature().equals(target)) {

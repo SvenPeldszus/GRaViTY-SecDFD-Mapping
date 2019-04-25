@@ -13,7 +13,7 @@ EDFD uc1 [
 		Asset start_sale_event
 			type: Object
 			values: [H C], [H I]
-			source: start_new_sale
+			source: start_sale
 			targets: publish, draw_ui, 
 		Asset total_change_event
 			type: Object
@@ -41,7 +41,7 @@ EDFD uc1 [
 			outgoing flows: scan [assets: barcode targets: scan_barcode]
 			attacker: false
 		],
-		Process start_new_sale [
+		Process start_sale [
 			assets: start_sale_event
 			outgoing flows: push_start [assets: start_sale_event targets: publish]
 		],
@@ -52,7 +52,7 @@ EDFD uc1 [
 		],
 		Process publish [
 			assets: start_sale_event, scan_barcode_event, total_change_event, finish_sale_event
-			incoming flows: "start_new_sale.push_start", 
+			incoming flows: "start_sale.push_start", 
 			"scan_barcode.push_scan", 
 			"on_barcode_event.push_change",
 			"finish_sale.push_finish"

@@ -23,6 +23,7 @@ import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.NodeFinder;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.PrimitiveType;
@@ -99,6 +100,9 @@ public class TextEditorHandler extends AbstractHandler {
 	 */
 	private List<EObject> getSelectedPMElement(ASTNode node, TypeGraph pm) {
 		switch (node.getNodeType()) {
+		case ASTNode.METHOD_INVOCATION:
+			
+			return Collections.emptyList();
 		case ASTNode.PRIMITIVE_TYPE:
 			String primitive = ((PrimitiveType) node).getPrimitiveTypeCode().toString();
 			return Collections.singletonList(pm.getClass(primitive));

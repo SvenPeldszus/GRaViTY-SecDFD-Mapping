@@ -2,7 +2,7 @@ package org.gravity.mapping.secdfd;
 
 import java.util.*;
 
-import org.gravity.typegraph.basic.TAccess;
+import org.gravity.mapping.secdfd.helpers.CallHelper;
 import org.gravity.typegraph.basic.TMember;
 
 public class PathSearch {
@@ -26,10 +26,9 @@ public class PathSearch {
 			if (current.getMember() == this.destination) {
 				return current.generatePath();
 			}
-			for (TAccess neighbor : current.member.getTAccessing()) {
-				TMember tTarget = neighbor.getTTarget();
-				if (!current.seen(tTarget)) {
-					final Step nextStep = new Step(tTarget, current, current.cost + 1);
+			for (TMember neighbor : CallHelper.getAllOutCalls(current.member)) {
+				if (!current.seen(neighbor)) {
+					final Step nextStep = new Step(neighbor, current, current.cost + 1);
 					this.pending.add(nextStep);
 				}
 			}

@@ -9,6 +9,7 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 import org.gravity.mapping.secdfd.CorrespondenceHelper;
+import org.gravity.mapping.secdfd.helpers.RankingHelper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
@@ -75,6 +76,7 @@ public class MappingLabelProvider implements ILabelProvider {
 			if(prefix.length() > 0) {
 				prefix += "\t\t";
 			}
+			prefix += RankingHelper.getRanking(corr) + "\t\t";
 			return prefix + prettyPrint(source);
 		} else if (element instanceof EDFD) {
 			return ((EDFD) element).getName();
@@ -84,27 +86,6 @@ public class MappingLabelProvider implements ILabelProvider {
 			return prettyPrint((EObject) element);
 		}
 		return "ERROR: not handled by the label provider: " + element;
-	}
-
-	/**
-	 * @param element
-	 * @return
-	 */
-	public static int getTotalRanking(AbstractCorrespondence corr) {
-		if (corr instanceof MappingProcessDefinition) {
-			return 150;
-		}
-		if (corr instanceof MappingProcessSignature) {
-			return 120;
-		}
-		int rank = 0;
-		if (corr instanceof AbstractMappingRanking) {
-			rank += ((AbstractMappingRanking) corr).getRanking();
-		}
-		if (corr instanceof AbstractMappingBase) {
-			rank += 5 * ((AbstractMappingBase) corr).getDeriving().size();
-		}
-		return Math.min(100, rank);
 	}
 
 	/**

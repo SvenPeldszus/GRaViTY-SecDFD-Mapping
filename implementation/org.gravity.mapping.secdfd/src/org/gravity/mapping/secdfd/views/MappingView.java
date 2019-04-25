@@ -52,6 +52,7 @@ import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.ui.wizard.MappingWizard;
 import org.gravity.mapping.secdfd.ui.wizard.TrafoJob;
 import org.gravity.mapping.secdfd.views.actions.AcceptAction;
+import org.gravity.mapping.secdfd.views.actions.ContinueAction;
 import org.gravity.mapping.secdfd.views.actions.RejectAction;
 import org.gravity.typegraph.basic.TypeGraph;
 import org.xtext.example.mydsl.MyDslStandaloneSetup;
@@ -90,7 +91,9 @@ public class MappingView extends ViewPart {
 
 	private Collection<EDFD> dfds;
 
-	private Map<Mapping, Mapper> mappers;
+	Map<Mapping, Mapper> mappers;
+
+	private ContinueAction continueAction;
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -101,16 +104,7 @@ public class MappingView extends ViewPart {
 		IViewSite viewSite = getViewSite();
 		IActionBars bars = viewSite.getActionBars();
 		IToolBarManager tm = bars.getToolBarManager(); // Buttons on top
-		tm.add(new Action("Continue") {
-
-			public void run() {
-				for (Mapper mapper : mappers.values()) {
-					mapper.optimize();
-					update();
-				}
-			}
-
-		});
+		tm.add((continueAction = new ContinueAction(this)));
 		tm.add(new Action("Accept all") {
 
 			public void run() {
@@ -166,13 +160,14 @@ public class MappingView extends ViewPart {
 		pm = getProgramModel(trafoJob);
 
 		this.mappers = new HashMap<>();
-		for(Entry<IFile, EDFD> entry : dfds.entrySet()) {
+		for (Entry<IFile, EDFD> entry : dfds.entrySet()) {
 			IFile key = entry.getKey();
 			String name = key.getName();
 			name = name.substring(0, name.length() - key.getFileExtension().length() - 1) + ".corr.xmi";
 			IFile destination = gravityFolder.getFile(name);
 			Mapper mapper = new Mapper(pm.getValue(), entry.getValue(), destination);
 			mappers.put(mapper.getMapping(), mapper);
+			mapper.addUserdefinedListener(continueAction);
 		}
 		Logging.init();
 		if (!label.isDisposed()) {
@@ -248,7 +243,7 @@ public class MappingView extends ViewPart {
 		XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
 		this.resourceSet = resourceSet;
 		resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
-		for(IFile f : files) {
+		for (IFile f : files) {
 			URI uri = URI.createURI(f.getLocation().makeRelativeTo(gravityFolder.getLocation()).toString());
 			Resource resource = resourceSet.createResource(uri);
 			try {
@@ -283,11 +278,14 @@ public class MappingView extends ViewPart {
 	}
 
 	public Collection<Mapping> getMappings() {
+		if(this.mappers == null) {
+			this.mappers = new HashMap<>();
+		}
 		return this.mappers.keySet();
 	}
 
 	public void update() {
-		for(Mapper mapper : mappers.values()) {
+		for (Mapper mapper : mappers.values()) {
 			mapper.updateMappingOnFilesystem();
 		}
 		this.treeViewer.refresh();
