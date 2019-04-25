@@ -5,21 +5,22 @@ EDFD jpetstoredfd[
 				values: [L Av]
 				source: Search_Products
 				targets: BackendDB,
-		Asset product_list
+		//list of products
+		Asset product
 				type: Object
 				values: [L Av]
 				source: BackendDB
-				targets: Frontend,
+				targets: Handle_Customer_Actions,
 		Asset itemID 
 				type: String
 				values: [L Av]
-				source: Frontend
+				source: Handle_Customer_Actions
 				targets: CartDB,
-		Asset item_list 
+		Asset item
 				type: Object
 				values: [L Av]
 				source: CartDB
-				targets: Frontend,
+				targets: Handle_Customer_Actions,
 		Asset account_info 
 				type: Object
 				values: [H I], [H C]
@@ -39,12 +40,12 @@ EDFD jpetstoredfd[
 		Asset customer_view 
 				type: String
 				values: [H I], [H C]
-				source: Frontend
+				source: Handle_Customer_Actions
 				targets: Customer,
 		Asset keyword 
 				type: String
 				values: [L I]
-				source: Frontend
+				source: Handle_Customer_Actions
 				targets: Search_Products,	
 		Asset order 
 				type: Object
@@ -62,9 +63,9 @@ EDFD jpetstoredfd[
 			outgoing flows: customer_login [num: 1  assets: password, username, account_info targets: Authenticate]
 		],
 		DataStore CartDB[
-			assets: itemID,item_list, cart
+			assets: itemID,item, cart
 			incoming flows: "AddRemove_Items.add_or_remove"
-			outgoing flows: read_cart_items [num: 1 assets: item_list targets: AddRemove_Items],
+			outgoing flows: read_cart_items [num: 1 assets: item targets: AddRemove_Items],
 							read_cart [num: 1 assets: cart targets: Purchase_Order]	
 		],
 		DataStore CustomerDB[
@@ -73,23 +74,23 @@ EDFD jpetstoredfd[
 			outgoing flows: read_account_info [num: 1 assets: account_info targets: Purchase_Order]	
 		],
 		DataStore BackendDB[
-			assets: order, product_list, productID
+			assets: order, product, productID
 			incoming flows: "jpetstoredfd.Purchase_Order.send_order", 
 							"jpetstoredfd.Search_Products.read_products"
-			outgoing flows: read_product_list [num: 1 assets: product_list targets: Search_Products]	
+			outgoing flows: read_product_list [num: 1 assets: product targets: Search_Products]	
 		],
 		Process Authenticate[
 			assets: password, username, account_info
 			incoming flows: "Customer.customer_login"
-			outgoing flows: info_to_frontend [num: 1 assets: account_info targets: Frontend]
+			outgoing flows: info_to_frontend [num: 1 assets: account_info targets: Handle_Customer_Actions]
 		],
 		Process Update_View[
 			assets: customer_view
-			incoming flows: "jpetstoredfd.Frontend.update_content"
+			incoming flows: "jpetstoredfd.Handle_Customer_Actions.update_content"
 			outgoing flows: provide_content [num: 1 assets: customer_view targets: Customer]
 		],
-		Process Frontend[
-			assets: account_info, itemID, item_list, keyword, product_list, username, customer_view
+		Process Handle_Customer_Actions[
+			assets: account_info, itemID, item, keyword, product, username, customer_view
 			incoming flows: "jpetstoredfd.Authenticate.info_to_frontend",
 							"jpetstoredfd.AddRemove_Items.provide_item_list",
 							"jpetstoredfd.Search_Products.provide_product_list"
@@ -100,29 +101,29 @@ EDFD jpetstoredfd[
 							manage_account [num: 1 assets: account_info targets: Manage_Account]
 		],		
 		Process Search_Products[
-			assets: keyword, product_list, productID
-			incoming flows: "jpetstoredfd.Frontend.browse_catalog",
+			assets: keyword, product, productID
+			incoming flows: "jpetstoredfd.Handle_Customer_Actions.browse_catalog",
 							"jpetstoredfd.BackendDB.read_product_list"
 			outgoing flows: read_products [num: 1 assets: productID targets: BackendDB],
-							provide_product_list [num: 1 assets: product_list targets: Frontend]
+							provide_product_list [num: 1 assets: product targets: Handle_Customer_Actions]
 		],	
 		Process Purchase_Order[
 			assets: username, account_info, cart, order
 			incoming flows: "jpetstoredfd.CartDB.read_cart",
 							"jpetstoredfd.CustomerDB.read_account_info",
-							"jpetstoredfd.Frontend.initiate_confirm_purchase"
+							"jpetstoredfd.Handle_Customer_Actions.initiate_confirm_purchase"
 			outgoing flows: send_order [num: 1 assets: order targets: BackendDB]
 		],
 		Process AddRemove_Items[
-			assets: itemID, item_list
+			assets: itemID, item
 			incoming flows: "jpetstoredfd.CartDB.read_cart_items",
-							"jpetstoredfd.Frontend.manage_cart"
+							"jpetstoredfd.Handle_Customer_Actions.manage_cart"
 			outgoing flows: add_or_remove [num: 1 assets: itemID targets: CartDB],
-							provide_item_list [num: 1 assets: item_list targets: Frontend]
+							provide_item_list [num: 1 assets: item targets: Handle_Customer_Actions]
 		],
 		Process Manage_Account[
 			assets: account_info
-			incoming flows: "jpetstoredfd.Frontend.manage_account"
+			incoming flows: "jpetstoredfd.Handle_Customer_Actions.manage_account"
 			outgoing flows: write_account_info [num: 1 assets: account_info targets: CustomerDB]
 		]
 ]
