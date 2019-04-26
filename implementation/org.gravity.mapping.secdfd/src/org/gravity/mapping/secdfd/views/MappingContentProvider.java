@@ -41,9 +41,17 @@ public class MappingContentProvider implements ITreeContentProvider {
 			final Map<EObject, List<AbstractCorrespondence>> map = new HashMap<>();
 			Collection<?> collection = ((Collection<?>) parentElement);
 			collection.stream()
-					.filter(e -> (e instanceof MappingProcessDefinition
-							&& ((MappingProcessDefinition) e).getSource().getDefinedBy() instanceof TClass)
-							|| e instanceof MappingEntityType)
+					.filter(e -> {
+						if(e instanceof MappingProcessDefinition) {
+							if(((MappingProcessDefinition) e).getSource().getDefinedBy() instanceof TClass) {
+								return true;
+							}
+							if(((Mapping) ((MappingProcessDefinition) e).eContainer()).getUserdefined().contains(e)){
+								return true;
+							}
+						}
+						return (e instanceof MappingEntityType);
+					})
 					.map(e -> (AbstractCorrespondence) e).forEach(e -> {
 						EObject key = CorrespondenceHelper.getTarget(e);
 						List<AbstractCorrespondence> values;
