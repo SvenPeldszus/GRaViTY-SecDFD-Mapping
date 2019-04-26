@@ -655,10 +655,13 @@ public class Mapper {
 			Set<TMethodDefinition> definitionWithKnownAsset = notMappedAccessedDefinitions.parallelStream()
 					.filter(def -> def.getDefinedBy().isDeclared()).collect(Collectors.toSet());
 			for (TMethodDefinition toMap : definitionWithKnownAsset) {
-				Set<Asset> calledMethodAssets = toMap.getSignature().getParamList().getEntries().parallelStream()
-						.flatMap(param -> helper.getCorrespondences(param.getType()).parallelStream())
+				Set<Asset> calledMethodAssets = Stream
+						.concat(toMap.getSignature().getParamList().getEntries().parallelStream()
+								.map(param -> param.getType()), Stream.of(toMap.getDefinedBy(), toMap.getReturnType()))
+						.flatMap(param -> helper.getCorrespondences(param).parallelStream())
 						.map(corr -> CorrespondenceHelper.getTarget(corr)).filter(target -> target instanceof Asset)
 						.map(target -> (Asset) target).collect(Collectors.toSet());
+
 				List<Element> create = process.getOutflows().parallelStream()
 						.filter(pr -> pr.getAssets().parallelStream().filter(a -> calledMethodAssets.contains(a))
 								.findAny().isPresent())
