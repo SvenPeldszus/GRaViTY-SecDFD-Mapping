@@ -17,7 +17,7 @@
 	
 	{"pm": "org.cocome.tradingsystem.cashdeskline.cashdesk.cashboxcontroller.impl.CashBoxControllerEventHandlerImpl.sendSaleStartedEvent(SaleStartedEnvent):void", "secdfd": "start_sale"},
 	
-	{"pm": "org.cocome.tradingsystem.cashdeskline.cashdesk.scannercontroller.impl.ScannerControllerEventHandlerImpl.sendProductBarcodeScannedEvent(ProductBarcodeScannedEvent):void", "secdfd": "scan_barcode"},
+	{"pm": "org.cocome.tradingsystem.cashdeskline.cashdesk.scannercontroller.impl.ScannerControllerEventHandlerImpl.sendProductBarcodeScannedEvent(ProductBarcodeScannedEvent):void", "secdfd": "scan_product_barcode"},
 
 	{"pm": " javax.jms.TopicPublisher.publish(Message):void", "secdfd": "publish"},
 

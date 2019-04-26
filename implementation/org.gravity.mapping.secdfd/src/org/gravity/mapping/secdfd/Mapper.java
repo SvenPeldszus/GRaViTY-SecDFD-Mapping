@@ -586,7 +586,7 @@ public class Mapper {
 		Set<MappingProcessDefinition> relevantProcessDefinitionMappings = Stream
 				.concat(mapping.getUserdefined().parallelStream(), mapping.getAccepted().parallelStream())
 				.filter(corr -> corr instanceof MappingProcessDefinition).map(corr -> (MappingProcessDefinition) corr)
-				.collect(Collectors.toSet());
+				.filter(corr -> (corr.getTarget() instanceof Process)).collect(Collectors.toSet());
 
 		for (MappingProcessDefinition mappingProcessDefinition : relevantProcessDefinitionMappings) {
 			Process process = (Process) mappingProcessDefinition.getTarget();
@@ -598,7 +598,7 @@ public class Mapper {
 							|| !elementMemberMapping.get(targetProcess).contains(method))
 					.map(element -> (Process) element).collect(Collectors.toSet());
 			if (targetProcesses.isEmpty()) {
-				return;
+				continue;
 			}
 
 			Set<TAbstractType> assets = process.getOutflows().parallelStream()
@@ -665,12 +665,11 @@ public class Mapper {
 						.flatMap(flow -> flow.getTarget().parallelStream().filter(t -> !(t instanceof ExternalEntity)))
 						.collect(Collectors.toList());
 				for (Element p : create) {
-					MappingProcessDefinition newCorr = helper.createCorrespondence(toMap, p, 30,
-							Collections.emptySet());
-					mapping.getSuggested().add(newCorr);
-				}
-				if (create.size() > 0) {
-					return;
+					if (helper.canCreate(toMap, p, Collections.emptyMap())) {
+						MappingProcessDefinition newCorr = helper.createCorrespondence(toMap, p, 30,
+								Collections.emptySet());
+						mapping.getSuggested().add(newCorr);
+					}
 				}
 			}
 		}

@@ -4,11 +4,11 @@ EDFD uc1 [
 			type: Number
 			values: [H C], [H I]
 			source: cashier
-			targets: scan_barcode, 
+			targets: scan_product_barcode, 
 		Asset scan_barcode_event
 			type: Object
 			values: [H C], [H I]
-			source: scan_barcode	
+			source: scan_product_barcode	
 			targets: publish, on_barcode_event,
 		Asset start_sale_event
 			type: Object
@@ -38,14 +38,14 @@ EDFD uc1 [
 	elements:
 		ExternalEntity cashier [
 			assets: barcode
-			outgoing flows: scan [assets: barcode targets: scan_barcode]
+			outgoing flows: scan [assets: barcode targets: scan_product_barcode]
 			attacker: false
 		],
 		Process start_sale [
 			assets: start_sale_event
 			outgoing flows: push_start [assets: start_sale_event targets: publish]
 		],
-		Process scan_barcode [
+		Process scan_product_barcode [
 			assets: barcode
 			incoming flows: "cashier.scan"
 			outgoing flows: push_scan [assets: scan_barcode_event targets: publish]
@@ -53,7 +53,7 @@ EDFD uc1 [
 		Process publish [
 			assets: start_sale_event, scan_barcode_event, total_change_event, finish_sale_event
 			incoming flows: "start_sale.push_start", 
-			"scan_barcode.push_scan", 
+			"scan_product_barcode.push_scan", 
 			"on_barcode_event.push_change",
 			"finish_sale.push_finish"
 			outgoing flows: notify_backend [assets: scan_barcode_event targets: on_barcode_event]
