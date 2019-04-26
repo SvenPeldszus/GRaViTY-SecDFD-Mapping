@@ -11,6 +11,7 @@
 	{"pm": "org.cocome.tradingsystem.cashdeskline.events.SaleFinishedEvent", "secdfd": "finish_sale_event"},
 	
 	{"pm": "org.cocome.tradingsystem.inventory.application.store.ProductWithStockItemTO", "secdfd": "product_with_stock_item"},
+	{"pm": "org.cocome.tradingsystem.inventory.application.store.StockItemTO", "secdfd": "product_with_stock_item"},
 	
 	{"pm": "double", "secdfd": "price"},
 	
@@ -27,6 +28,7 @@
 	
 	{"pm": "org.cocome.tradingsystem.inventory.application.store.CashDeskConnectorIf.getProductWithStockItem(long):ProductWithStockItemTO", "secdfd": "get_product_stock_item"},
 	{"pm": "org.cocome.tradingsystem.inventory.application.store.impl.StoreImpl.getProductWithStockItem(long):ProductWithStockItemTO", "secdfd": "get_product_stock_item"},
+	{"pm": "org.cocome.tradingsystem.inventory.application.store.ProductWithStockItemTO.getStockItemTO():StockItemTO", "secdfd": "get_product_stock_item"},
 
 	{"pm": "org.cocome.tradingsystem.inventory.application.store.StockItemTO.getSalesPrice():long", "secdfd": "get_sales_price"},
 	{"pm": "org.cocome.tradingsystem.inventory.application.store.ProductWithStockItemTO.getStockItem():StockItemTO", "secdfd": "get_sales_price"},

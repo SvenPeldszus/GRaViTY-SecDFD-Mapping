@@ -38,10 +38,12 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.gravity.eclipse.ui.GravityUiActivator;
 import org.gravity.eclipse.util.JavaASTUtil;
+import org.gravity.mapping.secdfd.helpers.CallHelper;
 import org.gravity.mapping.secdfd.views.DFDSelectionView;
 import org.gravity.mapping.secdfd.views.MappingView;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TFieldDefinition;
+import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TMethodSignature;
 import org.gravity.typegraph.basic.TParameter;
@@ -101,8 +103,29 @@ public class TextEditorHandler extends AbstractHandler {
 	private List<EObject> getSelectedPMElement(ASTNode node, TypeGraph pm) {
 		switch (node.getNodeType()) {
 		case ASTNode.METHOD_INVOCATION:
-			
-			return Collections.emptyList();
+			MethodInvocation invoc = (MethodInvocation) node;
+			String calledMethodName = invoc.getName().getFullyQualifiedName();
+			int numParams = invoc.arguments().size();
+			ASTNode parentOfInvocation = invoc.getParent();
+			while(parentOfInvocation.getNodeType() != ASTNode.METHOD_DECLARATION) {
+				parentOfInvocation = parentOfInvocation.getParent();
+			}
+			List<EObject> parentMethod = getSelectedPMElement(parentOfInvocation, pm);
+			if(parentMethod.size() == 0) {
+				return Collections.emptyList();
+			}
+			List<EObject> matches = new LinkedList<>();
+			for(TMember calledMember : CallHelper.getAllOutCalls((TMember) parentMethod.get(0))){
+				if(calledMember instanceof TMethodDefinition) {
+					TMethodDefinition calledMethod = (TMethodDefinition) calledMember;
+					TMethodSignature signature = calledMethod.getSignature();
+					if(signature.getParamList().getEntries().size() == numParams
+							&& calledMethodName.equals(signature.getMethod().getTName())) {
+						matches.add(calledMethod);
+					}
+				}
+			}
+			return matches;
 		case ASTNode.PRIMITIVE_TYPE:
 			String primitive = ((PrimitiveType) node).getPrimitiveTypeCode().toString();
 			return Collections.singletonList(pm.getClass(primitive));

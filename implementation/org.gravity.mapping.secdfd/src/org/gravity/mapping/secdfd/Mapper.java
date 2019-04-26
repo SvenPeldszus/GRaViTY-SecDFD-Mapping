@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Stack;
 import java.util.stream.Collectors;
@@ -32,6 +33,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.gravity.eclipse.util.JavaASTUtil;
 import org.gravity.mapping.secdfd.helpers.CallHelper;
+import org.gravity.mapping.secdfd.model.mapping.AbstractMappingBase;
 import org.gravity.mapping.secdfd.model.mapping.AbstractMappingDerived;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.model.mapping.MappingEntityType;
@@ -60,6 +62,7 @@ import eDFDFlowTracking.DataStore;
 import eDFDFlowTracking.EDFD;
 import eDFDFlowTracking.EDFDFlowTracking1Package;
 import eDFDFlowTracking.Element;
+import eDFDFlowTracking.ExternalEntity;
 import eDFDFlowTracking.NamedEntity;
 import eDFDFlowTracking.Process;
 
@@ -233,10 +236,26 @@ public class Mapper {
 						helper.getCorrespondences(signature).forEach(sigCorr -> reject(sigCorr));
 					});
 				}
-			} else if (pmObject instanceof Asset || pmObject instanceof DataStore) {
-				Set<TAbstractType> value = cache.getEntityTypeMapping().get(dfdObject);
-				if (value != null) {
-					value.remove(pmObject);
+			} else if (dfdObject instanceof Asset || dfdObject instanceof DataStore) {
+				if (pmObject instanceof TMember) {
+					Set<TMember> value = cache.getElementMemberMapping().get(dfdObject);
+					if (value != null) {
+						value.remove(pmObject);
+					}
+				} else {
+					Set<TAbstractType> value = cache.getEntityTypeMapping().get(dfdObject);
+					if (value != null) {
+						value.remove(pmObject);
+					}
+					EList<AbstractMappingDerived> deriving = ((MappingEntityType) corr).getDeriving();
+					for (int i = 0; i < deriving.size(); i++) {
+						AbstractMappingDerived derivingCorr = deriving.remove(0);
+						EList<AbstractMappingBase> derivedFrom = derivingCorr.getDerived();
+						derivedFrom.remove(corr);
+						if (derivedFrom.size() == 1) {
+							reject(derivingCorr);
+						}
+					}
 				}
 			}
 		}
@@ -539,14 +558,37 @@ public class Mapper {
 	}
 
 	public void addRandom() {
+		HashMap<Element, Set<TSignature>> elementSignatureMapping = cache.getElementSignatureMapping();
 		HashMap<Element, Set<TMember>> elementMemberMapping = cache.getElementMemberMapping();
 		HashMap<NamedEntity, Set<TAbstractType>> entityTypeMapping = cache.getEntityTypeMapping();
 
-		Stream<MappingProcessDefinition> relevantProcessDefinitionMappings = Stream
-				.concat(mapping.getUserdefined().parallelStream(), mapping.getAccepted().parallelStream())
-				.filter(corr -> corr instanceof MappingProcessDefinition).map(corr -> (MappingProcessDefinition) corr);
+//		for (Entry<Element, Set<TSignature>> entry : elementSignatureMapping.entrySet()) {
+//			Element element = entry.getKey();
+//			for (TSignature signature : entry.getValue()) {
+//				if (signature instanceof TMethodSignature) {
+//					TMethodSignature methodSignature = (TMethodSignature) signature;
+//					if(methodSignature.getDefinitions().size() != 1) {
+//						continue;
+//					}	
+//					MappingProcessSignature sigCorr = (MappingProcessSignature) helper.getCorrespondence(signature,
+//							element);
+//					if (sigCorr.getDeriving().size() == 0) {
+//						TMethodDefinition methodDefinition = methodSignature.getDefinitions().get(0);
+//						if(helper.canCreate(methodDefinition, sigCorr.getTarget(), Collections.emptyMap())) {
+//							MappingProcessDefinition newCorr = helper.createCorrespondence(methodDefinition, sigCorr.getTarget(), 45, Collections.singleton(sigCorr));
+//							mapping.getSuggested().add(newCorr);
+//						}
+//					}
+//				}
+//			}
+//		}
 
-		relevantProcessDefinitionMappings.forEach(mappingProcessDefinition -> {
+		Set<MappingProcessDefinition> relevantProcessDefinitionMappings = Stream
+				.concat(mapping.getUserdefined().parallelStream(), mapping.getAccepted().parallelStream())
+				.filter(corr -> corr instanceof MappingProcessDefinition).map(corr -> (MappingProcessDefinition) corr)
+				.collect(Collectors.toSet());
+
+		for (MappingProcessDefinition mappingProcessDefinition : relevantProcessDefinitionMappings) {
 			Process process = (Process) mappingProcessDefinition.getTarget();
 			TMethodDefinition method = (TMethodDefinition) mappingProcessDefinition.getSource();
 
@@ -576,8 +618,8 @@ public class Mapper {
 							.filter(member -> member instanceof TMethodDefinition)
 							.map(member -> (TMethodDefinition) member).collect(Collectors.toSet())) {
 						process.getOutflows().parallelStream()
-								.filter(flow -> flow.getAssets().parallelStream()
-										.filter(asset -> entityTypeMapping.containsKey(asset)).findAny().isPresent())
+//								.filter(flow -> flow.getAssets().parallelStream()
+//										.filter(asset -> entityTypeMapping.containsKey(asset)).findAny().isPresent())
 								.flatMap(flow -> flow.getTarget().stream()).forEach(p -> {
 									MappingProcessDefinition newCorr = helper.createCorrespondence(caller, p, 30,
 											Collections.emptySet());
@@ -620,7 +662,8 @@ public class Mapper {
 				List<Element> create = process.getOutflows().parallelStream()
 						.filter(pr -> pr.getAssets().parallelStream().filter(a -> calledMethodAssets.contains(a))
 								.findAny().isPresent())
-						.flatMap(flow -> flow.getTarget().parallelStream()).collect(Collectors.toList());
+						.flatMap(flow -> flow.getTarget().parallelStream().filter(t -> !(t instanceof ExternalEntity)))
+						.collect(Collectors.toList());
 				for (Element p : create) {
 					MappingProcessDefinition newCorr = helper.createCorrespondence(toMap, p, 30,
 							Collections.emptySet());
@@ -630,7 +673,7 @@ public class Mapper {
 					return;
 				}
 			}
-		});
+		}
 	}
 
 }

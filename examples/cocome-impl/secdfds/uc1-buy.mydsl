@@ -14,12 +14,12 @@ EDFD uc1 [
 			type: Object
 			values: [H C], [H I]
 			source: start_sale
-			targets: publish, draw_ui, 
+			targets: publish, 
 		Asset total_change_event
 			type: Object
 			values: [H C], [H I]
 			source: on_barcode_event	
-			targets: publish, draw_ui,
+			targets: publish,
 		Asset finish_sale_event
 			type: Object
 			values: [H C], [H I]
@@ -56,12 +56,7 @@ EDFD uc1 [
 			"scan_barcode.push_scan", 
 			"on_barcode_event.push_change",
 			"finish_sale.push_finish"
-			outgoing flows: notify_ui [assets: start_sale_event, total_change_event, finish_sale_event targets: draw_ui],
-				notify_backend [assets: scan_barcode_event targets: on_barcode_event]
-		],
-		Process draw_ui [
-			assets: start_sale_event, total_change_event, finish_sale_event
-			incoming flows: "publish.notify_ui"
+			outgoing flows: notify_backend [assets: scan_barcode_event targets: on_barcode_event]
 		],
 		Process on_barcode_event [
 			assets: barcode, product_with_stock_item, price, total_change_event
