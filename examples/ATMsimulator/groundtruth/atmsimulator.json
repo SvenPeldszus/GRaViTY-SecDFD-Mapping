@@ -4,10 +4,11 @@
 	{"pm": "banking.Money", "secdfd": "money"},
 	{"pm": "java.lang.String", "secdfd": "keyboard_input"},
 	{"pm": "java.lang.String", "secdfd": "display_view"},
+
 	{"pm": "banking.Status", "secdfd": "status"},
-	{"pm": "simulation.SimulatedBank.Failure", "secdfd": "status"},
-	{"pm": "simulation.SimulatedBank.Success", "secdfd": "status"},
-	{"pm": "simulation.SimulatedBank.InvalidPIN", "secdfd": "status"},
+	{"pm": "simulation.SimulatedBank$Failure", "secdfd": "status"},
+	{"pm": "simulation.SimulatedBank$Success", "secdfd": "status"},
+
 	{"pm": "banking.AccountInformation", "secdfd": "account"},
 	{"pm": "banking.Balances", "secdfd": "balance"},
 	{"pm": "banking.Money", "secdfd": "amount"},
@@ -18,26 +19,44 @@
 	{"pm": "atm.transaction.Deposit", "secdfd": "transaction"},
 	{"pm": "atm.transaction.Transfer", "secdfd": "transaction"},
 	{"pm": "atm.transaction.Inquiry", "secdfd": "transaction"},
+
 	{"pm": "atm.physical.CardReader.retainCard():void", "secdfd": "Retain_Card"},
-	{"pm": "simulation.SimDisplay", "secdfd": "Update_Display"},
+	{"pm": "simulation.Simulation.retainCard():void", "secdfd": "Retain_Card"},
+
 	{"pm": "simulation.SimDisplay.clearDisplay():void", "secdfd": "Update_Display"},
 	{"pm": "simulation.SimDisplay.display(String):void", "secdfd": "Update_Display"},
+	{"pm": "simulation.Simulation.clearDisplay():void", "secdfd": "Update_Display"},
+	{"pm": "simulation.Simulation.display(String):void", "secdfd": "Update_Display"},
+
+
 	{"pm": "atm.physical.CardReader.readCard():Card", "secdfd": "Read_Card_Verify_PIN"},
 	{"pm": "banking.Status.isInvalidPIN():boolean", "secdfd": "Read_Card_Verify_PIN"},
 	{"pm": "simulation.SimulatedBank.InvalidPIN", "secdfd": "Read_Card_Verify_PIN"},
+	{"pm": "simulation.Simulation.readCard():Card", "secdfd": "Read_Card_Verify_PIN"},
+
+
 	{"pm": "atm.physical.CardReader.ejectCard():void", "secdfd": "Eject_Card_Print_Receipt"},
 	{"pm": "atm.physical.ReceiptPrinter.printReceipt(Receipt):void", "secdfd": "Eject_Card_Print_Receipt"},
-	{"pm": "atm.transaction.Inquiry", "secdfd": "Check_Balance"},
+	{"pm": "simulation.Simulation.ejectCard():void", "secdfd": "Eject_Card_Print_Receipt"},
+	{"pm": "simulation.Simulation.printReceiptLine(String):void", "secdfd": "Eject_Card_Print_Receipt"},
+
 	{"pm": "simulation.SimulatedBank.inquiry(Message,Balances):Status", "secdfd": "Check_Balance"},
-	{"pm": "atm.transaction.Transfer", "secdfd": "Transfer"},
+	{"pm": "simulation.Simulation.sendMessage(Message,Balances):Status", "secdfd": "Check_Balance"},
+
 	{"pm": "simulation.SimulatedBank.transfer(Message,Balances):Status", "secdfd": "Transfer"},
-	{"pm": "atm.transaction.Deposit", "secdfd": "Deposit"},
+	{"pm": "simulation.Simulation.sendMessage(Message,Balances):Status", "secdfd": "Transfer"},
+
 	{"pm": "simulation.SimulatedBank.initiateDeposit(Message):Status", "secdfd": "Deposit"},
 	{"pm": "simulation.SimulatedBank.completeDeposit(Message,Balances):Status", "secdfd": "Deposit"},
-	{"pm": "atm.physical.CashDispenser", "secdfd": "Dispense_Cash"},
+	{"pm": "simulation.Simulation.sendMessage(Message,Balances):Status", "secdfd": "Deposit"},
+
 	{"pm": "atm.physical.CashDispenser.dispenseCash(Money):void", "secdfd": "Dispense_Cash"},
-	{"pm": "atm.transaction.Withdrawal", "secdfd": "Withdraw"},
+	{"pm": "simulation.Simulation.dispenseCash(Money):void", "secdfd": "Dispense_Cash"},
+
 	{"pm": "simulation.SimulatedBank.withdrawal(Message,Balances):Status", "secdfd": "Withdraw"},
-	{"pm": "atm.physical.NetworkToBank", "secdfd": "Network_Bank"}
+	{"pm": "simulation.Simulation.sendMessage(Message,Balances):Status", "secdfd": "Withdraw"},
+
+	{"pm": "simulation.Simulation.sendMessage(Message,Balances):Status", "secdfd": "Network_Bank"},
+	{"pm": "atm.physical.NetworkToBank.sendMessage(Message,Balances):Status", "secdfd": "Network_Bank"}
 ]
 }
