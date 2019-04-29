@@ -461,14 +461,14 @@ public class Mapper {
 		ArrayList<Type2NamedEntity> list = new ArrayList<Type2NamedEntity>();
 		switch (asset.getType()) {
 		case NUMBER:
-			TAbstractType number = pm.getAbstractType("java.lang.Number");
-			if (number != null) {
-				MappingOptimizer.getAllChildClasses(number).forEach(n -> {
-					Type2NamedEntity corr = helper.createCorrespondence(n, asset, 90);
-					mapping.getSuggested().add(corr);
-					list.add(corr);
-				});
-			}
+//			TAbstractType number = pm.getAbstractType("java.lang.Number");
+//			if (number != null) {
+//				MappingOptimizer.getAllChildClasses(number).forEach(n -> {
+//					Type2NamedEntity corr = helper.createCorrespondence(n, asset, 90);
+//					mapping.getSuggested().add(corr);
+//					list.add(corr);
+//				});
+//			}
 			for (String name : new String[] { "int", "long", "float", "double" }) {
 				Type2NamedEntity corr = helper.createCorrespondence(pm.getClass(name), asset, 90);
 				mapping.getSuggested().add(corr);
