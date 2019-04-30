@@ -12,16 +12,14 @@
 	{"pm": "org.mybatis.jpetstore.domain.Cart", "secdfd": "cart"},
 	{"pm": "org.mybatis.jpetstore.domain.CartItem", "secdfd": "cart"},
 	{"pm": "org.mybatis.jpetstore.domain.Order", "secdfd": "order"},
-	
-	{"pm": "org.mybatis.jpetstore.domain.Cart.itemMap", "secdfd": "CartDB"},
-	{"pm": "org.mybatis.jpetstore.domain.Cart.itemList", "secdfd": "CartDB"},
+
 	{"pm": "java.util.HashMap", "secdfd": "CartDB"},
 	{"pm": "java.util.Map", "secdfd": "CartDB"},
 	{"pm": "java.util.AbstractMap", "secdfd": "CartDB"},
-	{"pm": "java.util.ArrayList", "secdfd": "CartDB"},
 
-	{"pm": "org.mybatis.jpetstore.web.actions.AccountActionBean.accountService", "secdfd": "AccountDB"},
-	{"pm": "org.mybatis.jpetstore.service.AccountService.accountMapper", "secdfd": "AccountDB"},
+	{"pm": "org.mybatis.jpetstore.mapper.AccountMapper", "secdfd": "AccountDB"},
+	{"pm": "org.mybatis.jpetstore.service.AccountService", "secdfd": "AccountDB"},
+	{"pm": "org.mybatis.jpetstore.domain.Account", "secdfd": "AccountDB"},
 
 	{"pm": "org.mybatis.jpetstore.mapper.OrderMapper", "secdfd": "Orders_And_ProductsDB"},
 	{"pm": "org.mybatis.jpetstore.mapper.ProductMapper", "secdfd": "Orders_And_ProductsDB"},
