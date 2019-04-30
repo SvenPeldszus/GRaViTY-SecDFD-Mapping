@@ -381,7 +381,7 @@ public class MappingOptimizer {
 										.filter(target -> targetSignatures.contains(target.getSignature()))
 										.collect(Collectors.toSet());
 								if (targetMembers.size() > 0 && sourceMember instanceof TMethodDefinition) {
-									if (helper.canCreate(sourceMember, targetElement, excludes)
+									if (helper.canCreate(sourceMember, sourceElement, excludes)
 											&& sourceMember instanceof TMethodDefinition) {
 										MappingProcessDefinition corr = helper.createCorrespondence(
 												(TMethodDefinition) sourceMember, sourceElement, 70,
