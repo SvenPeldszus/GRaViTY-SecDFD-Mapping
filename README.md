@@ -22,7 +22,7 @@ During the development of security-critical software, the system implementation 
 
 A detailed description how to use the tool will be added soon.
 
-A short description is contained in Section IV. Implementaion of the paper: [preprint](http://rgse.uni-koblenz.de/web/pages/people/peldszus/publications/PTS+19-MODELS-SecureData-FlowComplianceChecksBetweenModelsAndCodeBasedOnAutomatedMappings.pdf)
+A short description is contained in Section IV. - Implementation - of the paper: [preprint](http://rgse.uni-koblenz.de/web/pages/people/peldszus/publications/PTS+19-MODELS-SecureData-FlowComplianceChecksBetweenModelsAndCodeBasedOnAutomatedMappings.pdf)
 
 ## Installation
 
