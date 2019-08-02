@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.gravity.mapping.secdfd.feature"
+      label="GRaViTY to SecDFD Mapping"
+      version="1.0.0.qualifier"
+      license-feature="org.gravity.license.epl"
+      license-feature-version="1.0.0">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <url>
+      <update label="GRaViTY to SecDFD Mapping" url="https://gravity-tool.org/secdfd-mapper/updatesite/"/>
+      <discovery label="xtext" url="https://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"/>
+      <discovery label="EMF" url="https://download.eclipse.org/modeling/emf/emf/builds/release/"/>
+      <discovery label="MoDisco" url="http://download.eclipse.org/releases/2018-12/"/>
+   </url>
+
+   <requires>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.eclipse.emf.edit"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.emf.ecore.xmi"/>
+      <import plugin="org.eclipse.emf.edit.ui"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.gravity.typegraph.basic" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.xtext"/>
+      <import plugin="org.junit"/>
+      <import plugin="org.gravity.eclipse.ui"/>
+      <import plugin="org.gravity.eclipse"/>
+      <import plugin="org.eclipse.jdt.core"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
+      <import plugin="org.eclipse.jdt.ui"/>
+      <import plugin="org.eclipse.xtext.xbase"/>
+      <import plugin="org.eclipse.equinox.common" version="3.5.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.xtext.xbase.lib" version="2.14.0" match="greaterOrEqual"/>
+      <import plugin="org.antlr.runtime"/>
+      <import plugin="org.eclipse.xtext.util"/>
+      <import plugin="org.eclipse.xtend.lib" version="2.14.0" match="greaterOrEqual"/>
+      <import plugin="org.apache.log4j"/>
+      <import plugin="org.eclipse.xtext.ide"/>
+      <import plugin="org.eclipse.xtext.xbase.ide"/>
+      <import plugin="org.eclipse.xtext.ui"/>
+      <import plugin="org.eclipse.xtext.ui.shared"/>
+      <import plugin="org.eclipse.xtext.ui.codetemplates.ui"/>
+      <import plugin="org.eclipse.ui.editors" version="3.5.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.ide" version="3.5.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.compare"/>
+      <import plugin="org.eclipse.xtext.builder"/>
+   </requires>
+
+   <plugin
+         id="eDFDFlowTracking1"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="eDFDFlowTracking1.edit"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="eDFDFlowTracking1.editor"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gravity.mapping.secdfd"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.xtext.example.mydsl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.xtext.example.mydsl.ide"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.xtext.example.mydsl.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
