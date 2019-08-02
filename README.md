@@ -36,9 +36,10 @@ In what follows we describe how the prototypical implementation can be built.
 
 ## Structure of this Repository
 
-- examples/ -- The examples used for the evaluation
-- implementation/ -- The source code of the prorotypical implementation
-- README.md -- This readme
+- `build/` -- The feature project and the updatesite project (The updatesite is hosted [here](https://gravity-tool.org/secdfd-mapper/updatesite/))
+- `examples/` -- The examples used for the evaluation
+- `implementation/` -- The source code of the prorotypical implementation
+- `README.md` -- This readme
 
 ### Requirements
 
@@ -49,4 +50,4 @@ To build the tool an Eclipse including the following plugins is required:
 
 ### Build
 
-To built the tool the Eclipse projects from the ''implementation/'' folder of this repository have to be imported into the eclipse workspace. 
+To built the tool the Eclipse projects from the `implementation/` and the `build` folder of this repository have to be imported into the eclipse workspace. Afterwards the updatesite can be built by opening `org.gravity.mapper.secdfd.updatesite/site.xml` and selecting 'Build All'. Alternatively, the plugins can be installed into the running instance according to the following manal: [Export and Install into the Running Host](https://help.eclipse.org/2019-03/index.jsp?topic=%2Forg.eclipse.pde.doc.user%2Ftasks%2Fui_export_install_into_host.htm)
