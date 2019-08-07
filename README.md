@@ -30,9 +30,9 @@ The prototypical implementation of the GRaViTY-SecDFD-Maopping-Tool can be insta
 
 https://gravity-tool.org/secdfd-mapper/updatesite/
 
-Before installing our tool please install MoDisco from the Eclipse 2019-09 build:
+If you are using an Eclipse newer that 2018-09, please install the MoDisco SDK from the Eclipse 2019-09 build before installing our tool:
 
-updatesit: http://download.eclipse.org/releases/2018-09
+updatesite: http://download.eclipse.org/releases/2018-09
 
 ## Building the Tool
 
