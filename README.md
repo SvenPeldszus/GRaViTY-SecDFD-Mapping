@@ -25,6 +25,9 @@ To use our tool at first open the Java perspective of Eclipse. The context menus
 Afterwards you can right click on any project and select "GRaViTY" -> "Map SecDFD". This will open a dialog showing all DFD with the selected project and allow you to select the model you want to map to the code. 
 After clicking finish it might take some time to build a program model and to analyze the code until a new view called "GRaViTY SecDFD Mappings" will be opened.
 
+![Map to secDFD](img/map-secdfd.png?raw=true "Map to secDFD")
+![Map to secDFD Dialog](img/map-secdfd-dialog.png?raw=true "Map to secDFD Dialog")
+
 In this view you all suggested mappings are presented and you can accept or reject them by right clicking on a mapping and selecting "accept" or "reject". In addition information and warning markers are shown on the Java source code files and the SecDFD model stating mappings and missing mappings.
 If you double click on a mapping in the "GRaViTY SecDFD Mappings" view and the according Java element is contained in the selected project it's "*.java" file will be opened.
 
