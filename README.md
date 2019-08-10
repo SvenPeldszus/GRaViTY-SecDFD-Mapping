@@ -27,9 +27,12 @@ After clicking finish it might take some time to build a program model and to an
 
 <p align="center">
 <img src="fig/map-secdfd.png" width="450" title="Map to secDFD">
+  <br>Figure 1: Map a Java project to secDFD models.</br>
 </p>
+
 <p align="center">
 <img src="fig/map-secdfd-dialog.png" width="450" title="Map to secDFD Dialog">
+  <br>Figure 2: Dialog box for selecting models to map.</br>
 </p>
 
 In this view you all suggested mappings are presented and you can accept or reject them by right clicking on a mapping and selecting "accept" or "reject". In addition information and warning markers are shown on the Java source code files and the SecDFD model stating mappings and missing mappings.
@@ -37,21 +40,26 @@ If you double click on a mapping in the "GRaViTY SecDFD Mappings" view and the a
 
 <p align="center">
 <img src="fig/view-with-mappings.png" width="450" title="View with mappings">
+  <br>Figure 3: View with suggested, user defined, accepted, and rejected mappings.</br>
 </p>
 <p align="center">
 <img src="fig/accept.png" width="450" title="Accept a mapping">
+  <br>Figure 4: Accept a new mapping.</br>
 </p>
 <p align="center">
 <img src="fig/accepted-mapping-in-code.png" width="450" title="Accepted mapping in code">
+  <br>Figure 5: Open the Java file containing the element of a mapping.</br>
 </p>
 
 Manual mappings can be added by placing the mouse cursor on the Java element you want to map to the DFD, right clicking and selecting "Map Selection to SecDFD". This will open a view called "GRaViTY SecDFD Selection" showing possible elements from the SecDFD. You can create a new mapping by right clicking on one of those elements and selecting "map". This step might lead to new suggested mappings based on your manual mapping.
 
 <p align="center">
 <img src="fig/map-code-to-dfd.png" width="450" title="Map a code element to a DFD element">
+  <br>Figure 6: Map a Java element to a DFD element.</br>
 </p>
 <p align="center">
 <img src="fig/define-dfd-el-to-map.png" width="450" title="Select a DFD element to be mapped">
+  <br>Figure 7: Select a DFD element to be mapped to the desired Java element.</br>
 </p>
 
 After you accepted, rejected or added elements you can click on continue in the "GRaViTY SecDFD Mappings" view to get more automated suggestions.
