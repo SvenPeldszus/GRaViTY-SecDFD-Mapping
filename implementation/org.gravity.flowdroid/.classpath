@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/java-8-oracle"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="src" path="/ca.mcgill.sable.soot.lib"/>
+	<classpathentry kind="lib" path="soot-infoflow-cmd-jar-with-dependencies.jar" sourcepath="/home/speldszus/Downloads/asm-7.1-sources.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
