@@ -4,7 +4,7 @@ This repository contains the implementation and evaluation data for our 2019 MOD
 
 ## Publication
 
-Our paper will be presented between 18th and 20th September 2019 at [MODELS](http://modelsconference.org) in Munich.
+Has been presented between on the 18th of September 2019 at [MODELS](http://modelsconference.org) in Munich ([Slides](https://github.com/SvenPeldszus/GRaViTY-SecDFD-Mapping/blob/master/documents/2019-09-18-MODELS-SecDFD-GRaViTY-Mapping-Slides.pdf), [Poster](https://github.com/SvenPeldszus/GRaViTY-SecDFD-Mapping/blob/master/documents/2019-09-18-MODELS-SecDFD-GRaViTY-Mapping-Poster.pdf)).
 
 For a precise schedule and more information please refer to the conference website: http://modelsconference.org
 
@@ -13,6 +13,13 @@ For a precise schedule and more information please refer to the conference websi
 [Sven Peldszus](http://sven.peldszus.com), Katja Tuma, Daniel Strüber, Jan Jürjens, Riccardo Scandariato: *Secure Data-Flow Compliance Checks between Models and Code based on Automated Mappings*. In: Proceedings of the 22nd ACM/IEEE International Conference on Model Driven Engineering Languages and Systems (MODELS), 2019. to appear. 
 
 The preprint is available [here](http://rgse.uni-koblenz.de/web/pages/people/peldszus/publications/PTS+19-MODELS-SecureData-FlowComplianceChecksBetweenModelsAndCodeBasedOnAutomatedMappings.pdf)
+
+### Slides and Poster
+
+The slides of the talk at MODELS 2019 in Munich as well as the poster presented at the reception are available below:
+
+ * [Slides](https://github.com/SvenPeldszus/GRaViTY-SecDFD-Mapping/blob/master/documents/2019-09-18-MODELS-SecDFD-GRaViTY-Mapping-Slides.pdf)
+ * [Poster](https://github.com/SvenPeldszus/GRaViTY-SecDFD-Mapping/blob/master/documents/2019-09-18-MODELS-SecDFD-GRaViTY-Mapping-Poster.pdf)
 
 ### Abstract
 
