@@ -4,11 +4,7 @@ package org.gravity.mapping.secdfd;
 
 import eDFDFlowTracking.Element;
 
-import org.eclipse.emf.ecore.EObject;
-
 import org.gravity.typegraph.basic.TMember;
-
-import org.moflon.tgg.runtime.AbstractCorrespondence;
 
 /**
  * <!-- begin-user-doc -->
@@ -27,14 +23,10 @@ import org.moflon.tgg.runtime.AbstractCorrespondence;
  * @model
  * @generated
  */
-public interface Defintion2Element extends EObject, AbstractCorrespondence {
+public interface Defintion2Element extends AbstractCorrespondence {
 	/**
 	 * Returns the value of the '<em><b>Source</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Source</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Source</em>' reference.
 	 * @see #setSource(TMember)
@@ -57,10 +49,6 @@ public interface Defintion2Element extends EObject, AbstractCorrespondence {
 	/**
 	 * Returns the value of the '<em><b>Target</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Target</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Target</em>' reference.
 	 * @see #setTarget(Element)

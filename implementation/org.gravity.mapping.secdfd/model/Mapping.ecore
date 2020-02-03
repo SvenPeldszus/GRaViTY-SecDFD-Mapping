@@ -15,39 +15,53 @@
   </eAnnotations>
   <eClassifiers
       xsi:type="ecore:EClass"
-      name="Mapping"
-      eSuperTypes="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//CorrespondenceModel">
+      name="Mapping">
     <eStructuralFeatures
         xsi:type="ecore:EReference"
         name="userdefined"
         upperBound="-1"
-        eType="ecore:EClass platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence"/>
+        eType="ecore:EClass Secdfd.ecore#//AbstractCorrespondence"/>
     <eStructuralFeatures
         xsi:type="ecore:EReference"
         name="ignored"
         upperBound="-1"
-        eType="ecore:EClass platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence"
+        eType="ecore:EClass Secdfd.ecore#//AbstractCorrespondence"
         containment="true"/>
     <eStructuralFeatures
         xsi:type="ecore:EReference"
         name="suggested"
         upperBound="-1"
-        eType="ecore:EClass platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence"/>
+        eType="ecore:EClass Secdfd.ecore#//AbstractCorrespondence"/>
     <eStructuralFeatures
         xsi:type="ecore:EReference"
         name="accepted"
         upperBound="-1"
-        eType="ecore:EClass platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence"/>
+        eType="ecore:EClass Secdfd.ecore#//AbstractCorrespondence"/>
     <eStructuralFeatures
         xsi:type="ecore:EAttribute"
         name="name"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures
+        xsi:type="ecore:EReference"
+        name="source"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures
+        xsi:type="ecore:EReference"
+        name="target"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures
+        xsi:type="ecore:EReference"
+        name="correspondences"
+        ordered="false"
+        upperBound="-1"
+        eType="ecore:EClass Secdfd.ecore#//AbstractCorrespondence"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers
       xsi:type="ecore:EClass"
       name="AbstractMappingDerived"
       abstract="true"
-      eSuperTypes="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence">
+      eSuperTypes="Secdfd.ecore#//AbstractCorrespondence">
     <eStructuralFeatures
         xsi:type="ecore:EReference"
         name="derived"
@@ -85,7 +99,7 @@
       name="AbstractMappingBase"
       abstract="true"
       interface="true"
-      eSuperTypes="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore#//AbstractCorrespondence">
+      eSuperTypes="Secdfd.ecore#//AbstractCorrespondence">
     <eStructuralFeatures
         xsi:type="ecore:EReference"
         name="deriving"

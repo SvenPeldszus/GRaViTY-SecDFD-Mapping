@@ -18,7 +18,7 @@ import org.gravity.mapping.secdfd.CorrespondenceHelper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TMember;
-import org.moflon.tgg.runtime.AbstractCorrespondence;
+import org.gravity.mapping.secdfd.AbstractCorrespondence;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -78,7 +78,7 @@ public class Logging {
 		falsePositives = new HashSet<>();
 	}
 
-	public static void writeLog(Collection<EObject> corrs) {
+	public static void writeLog(Collection<AbstractCorrespondence> corrs) {
 		if (update(corrs)) {
 			File file = MappingView.getMappingView().getProgramModel().getKey().getProject()
 					.getFile("log/precision_recall_" + System.currentTimeMillis() + ".log").getLocation().toFile();
@@ -119,7 +119,7 @@ public class Logging {
 		}
 	}
 
-	public static boolean update(Collection<EObject> corrs) {
+	public static boolean update(Collection<AbstractCorrespondence> corrs) {
 		if(corrs.isEmpty()) {
 			return true;
 		}
@@ -168,10 +168,10 @@ public class Logging {
 
 	public static String getTruePositive(EObject pmObject, EObject dfdObject) {
 		Map<String, Set<String>> map = maps.get(dfdObject.eResource());
-		if (map == null || map.size() == 0) {
+		if (map == null || map.isEmpty()) {
 			init();
 		}
-		if (map.size() == 0) {
+		if (map.isEmpty()) {
 			return "";
 		}
 

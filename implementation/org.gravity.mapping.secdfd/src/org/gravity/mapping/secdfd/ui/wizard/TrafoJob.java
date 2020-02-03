@@ -53,6 +53,7 @@ public final class TrafoJob extends Job {
 					return Status.OK_STATUS;
 				}
 			} catch (IOException | CoreException e) {
+				e.printStackTrace();
 				// Fallback to create new pm
 			}
 			pm = GravityAPI.createProgramModel(javaProject, monitor);

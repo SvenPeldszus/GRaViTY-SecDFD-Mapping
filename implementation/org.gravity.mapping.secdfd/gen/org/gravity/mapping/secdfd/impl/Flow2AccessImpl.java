@@ -10,13 +10,12 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.gravity.mapping.secdfd.Flow2Access;
 import org.gravity.mapping.secdfd.SecdfdPackage;
 
 import org.gravity.typegraph.basic.TAccess;
-
-import org.moflon.tgg.runtime.impl.AbstractCorrespondenceImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -32,7 +31,7 @@ import org.moflon.tgg.runtime.impl.AbstractCorrespondenceImpl;
  *
  * @generated
  */
-public class Flow2AccessImpl extends AbstractCorrespondenceImpl implements Flow2Access {
+public class Flow2AccessImpl extends MinimalEObjectImpl.Container implements Flow2Access {
 	/**
 	 * The cached value of the '{@link #getSource() <em>Source</em>}' reference.
 	 * <!-- begin-user-doc -->

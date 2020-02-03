@@ -6,8 +6,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
-import org.moflon.tgg.runtime.RuntimePackage;
-
 /**
  * <!-- begin-user-doc -->
  * The <b>Package</b> for the model.
@@ -22,7 +20,6 @@ import org.moflon.tgg.runtime.RuntimePackage;
  * <!-- end-user-doc -->
  * @see org.gravity.mapping.secdfd.SecdfdFactory
  * @model kind="package"
- *        annotation="http://www.eclipse.org/emf/2002/GenModel basePackage='org.gravity.mapping'"
  * @generated
  */
 public interface SecdfdPackage extends EPackage {
@@ -59,6 +56,34 @@ public interface SecdfdPackage extends EPackage {
 	SecdfdPackage eINSTANCE = org.gravity.mapping.secdfd.impl.SecdfdPackageImpl.init();
 
 	/**
+	 * The meta object id for the '{@link org.gravity.mapping.secdfd.AbstractCorrespondence <em>Abstract Correspondence</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.gravity.mapping.secdfd.AbstractCorrespondence
+	 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getAbstractCorrespondence()
+	 * @generated
+	 */
+	int ABSTRACT_CORRESPONDENCE = 0;
+
+	/**
+	 * The number of structural features of the '<em>Abstract Correspondence</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_CORRESPONDENCE_FEATURE_COUNT = 0;
+
+	/**
+	 * The number of operations of the '<em>Abstract Correspondence</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_CORRESPONDENCE_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link org.gravity.mapping.secdfd.impl.Method2ElementImpl <em>Method2 Element</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -66,7 +91,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getMethod2Element()
 	 * @generated
 	 */
-	int METHOD2_ELEMENT = 0;
+	int METHOD2_ELEMENT = 1;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
@@ -75,7 +100,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METHOD2_ELEMENT__SOURCE = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 0;
+	int METHOD2_ELEMENT__SOURCE = ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -84,7 +109,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METHOD2_ELEMENT__TARGET = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 1;
+	int METHOD2_ELEMENT__TARGET = ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Method2 Element</em>' class.
@@ -93,7 +118,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METHOD2_ELEMENT_FEATURE_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 2;
+	int METHOD2_ELEMENT_FEATURE_COUNT = ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Method2 Element</em>' class.
@@ -102,7 +127,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METHOD2_ELEMENT_OPERATION_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
+	int METHOD2_ELEMENT_OPERATION_COUNT = ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.gravity.mapping.secdfd.impl.Type2NamedEntityImpl <em>Type2 Named Entity</em>}' class.
@@ -112,7 +137,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getType2NamedEntity()
 	 * @generated
 	 */
-	int TYPE2_NAMED_ENTITY = 1;
+	int TYPE2_NAMED_ENTITY = 2;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
@@ -121,7 +146,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE2_NAMED_ENTITY__SOURCE = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 0;
+	int TYPE2_NAMED_ENTITY__SOURCE = ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -130,7 +155,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE2_NAMED_ENTITY__TARGET = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 1;
+	int TYPE2_NAMED_ENTITY__TARGET = ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Type2 Named Entity</em>' class.
@@ -139,7 +164,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE2_NAMED_ENTITY_FEATURE_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 2;
+	int TYPE2_NAMED_ENTITY_FEATURE_COUNT = ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Type2 Named Entity</em>' class.
@@ -148,7 +173,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE2_NAMED_ENTITY_OPERATION_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
+	int TYPE2_NAMED_ENTITY_OPERATION_COUNT = ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.gravity.mapping.secdfd.impl.TypeGraph2EDFDImpl <em>Type Graph2 EDFD</em>}' class.
@@ -158,7 +183,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getTypeGraph2EDFD()
 	 * @generated
 	 */
-	int TYPE_GRAPH2_EDFD = 2;
+	int TYPE_GRAPH2_EDFD = 3;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
@@ -167,7 +192,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_GRAPH2_EDFD__SOURCE = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 0;
+	int TYPE_GRAPH2_EDFD__SOURCE = ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -176,7 +201,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_GRAPH2_EDFD__TARGET = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 1;
+	int TYPE_GRAPH2_EDFD__TARGET = ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Type Graph2 EDFD</em>' class.
@@ -185,7 +210,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_GRAPH2_EDFD_FEATURE_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 2;
+	int TYPE_GRAPH2_EDFD_FEATURE_COUNT = ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Type Graph2 EDFD</em>' class.
@@ -194,7 +219,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_GRAPH2_EDFD_OPERATION_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
+	int TYPE_GRAPH2_EDFD_OPERATION_COUNT = ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.gravity.mapping.secdfd.impl.Defintion2ElementImpl <em>Defintion2 Element</em>}' class.
@@ -204,7 +229,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getDefintion2Element()
 	 * @generated
 	 */
-	int DEFINTION2_ELEMENT = 3;
+	int DEFINTION2_ELEMENT = 4;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
@@ -213,7 +238,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DEFINTION2_ELEMENT__SOURCE = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 0;
+	int DEFINTION2_ELEMENT__SOURCE = ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -222,7 +247,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DEFINTION2_ELEMENT__TARGET = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 1;
+	int DEFINTION2_ELEMENT__TARGET = ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Defintion2 Element</em>' class.
@@ -231,7 +256,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DEFINTION2_ELEMENT_FEATURE_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 2;
+	int DEFINTION2_ELEMENT_FEATURE_COUNT = ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Defintion2 Element</em>' class.
@@ -240,7 +265,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DEFINTION2_ELEMENT_OPERATION_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
+	int DEFINTION2_ELEMENT_OPERATION_COUNT = ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.gravity.mapping.secdfd.impl.Flow2AccessImpl <em>Flow2 Access</em>}' class.
@@ -250,7 +275,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getFlow2Access()
 	 * @generated
 	 */
-	int FLOW2_ACCESS = 4;
+	int FLOW2_ACCESS = 5;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
@@ -259,7 +284,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FLOW2_ACCESS__SOURCE = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 0;
+	int FLOW2_ACCESS__SOURCE = ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -268,7 +293,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FLOW2_ACCESS__TARGET = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 1;
+	int FLOW2_ACCESS__TARGET = ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Flow2 Access</em>' class.
@@ -277,7 +302,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FLOW2_ACCESS_FEATURE_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 2;
+	int FLOW2_ACCESS_FEATURE_COUNT = ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Flow2 Access</em>' class.
@@ -286,7 +311,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FLOW2_ACCESS_OPERATION_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
+	int FLOW2_ACCESS_OPERATION_COUNT = ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.gravity.mapping.secdfd.impl.Signature2ElementImpl <em>Signature2 Element</em>}' class.
@@ -296,7 +321,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getSignature2Element()
 	 * @generated
 	 */
-	int SIGNATURE2_ELEMENT = 5;
+	int SIGNATURE2_ELEMENT = 6;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
@@ -305,7 +330,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SIGNATURE2_ELEMENT__SOURCE = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 0;
+	int SIGNATURE2_ELEMENT__SOURCE = ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -314,7 +339,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SIGNATURE2_ELEMENT__TARGET = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 1;
+	int SIGNATURE2_ELEMENT__TARGET = ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Signature2 Element</em>' class.
@@ -323,7 +348,7 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SIGNATURE2_ELEMENT_FEATURE_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 2;
+	int SIGNATURE2_ELEMENT_FEATURE_COUNT = ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Signature2 Element</em>' class.
@@ -332,8 +357,18 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SIGNATURE2_ELEMENT_OPERATION_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
+	int SIGNATURE2_ELEMENT_OPERATION_COUNT = ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
 
+
+	/**
+	 * Returns the meta object for class '{@link org.gravity.mapping.secdfd.AbstractCorrespondence <em>Abstract Correspondence</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Abstract Correspondence</em>'.
+	 * @see org.gravity.mapping.secdfd.AbstractCorrespondence
+	 * @generated
+	 */
+	EClass getAbstractCorrespondence();
 
 	/**
 	 * Returns the meta object for class '{@link org.gravity.mapping.secdfd.Method2Element <em>Method2 Element</em>}'.
@@ -550,6 +585,16 @@ public interface SecdfdPackage extends EPackage {
 	 * @generated
 	 */
 	interface Literals {
+		/**
+		 * The meta object literal for the '{@link org.gravity.mapping.secdfd.AbstractCorrespondence <em>Abstract Correspondence</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.gravity.mapping.secdfd.AbstractCorrespondence
+		 * @see org.gravity.mapping.secdfd.impl.SecdfdPackageImpl#getAbstractCorrespondence()
+		 * @generated
+		 */
+		EClass ABSTRACT_CORRESPONDENCE = eINSTANCE.getAbstractCorrespondence();
+
 		/**
 		 * The meta object literal for the '{@link org.gravity.mapping.secdfd.impl.Method2ElementImpl <em>Method2 Element</em>}' class.
 		 * <!-- begin-user-doc -->

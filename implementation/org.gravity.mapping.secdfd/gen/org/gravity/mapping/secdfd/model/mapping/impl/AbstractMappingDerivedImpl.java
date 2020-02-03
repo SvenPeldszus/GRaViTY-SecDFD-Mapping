@@ -10,13 +10,15 @@ import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.gravity.mapping.secdfd.model.mapping.AbstractMappingBase;
 import org.gravity.mapping.secdfd.model.mapping.AbstractMappingDerived;
 import org.gravity.mapping.secdfd.model.mapping.MappingPackage;
-import org.moflon.tgg.runtime.impl.AbstractCorrespondenceImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,7 +33,7 @@ import org.moflon.tgg.runtime.impl.AbstractCorrespondenceImpl;
  *
  * @generated
  */
-public abstract class AbstractMappingDerivedImpl extends AbstractCorrespondenceImpl implements AbstractMappingDerived {
+public abstract class AbstractMappingDerivedImpl extends MinimalEObjectImpl.Container implements AbstractMappingDerived {
 	/**
 	 * The cached value of the '{@link #getDerived() <em>Derived</em>}' reference list.
 	 * <!-- begin-user-doc -->

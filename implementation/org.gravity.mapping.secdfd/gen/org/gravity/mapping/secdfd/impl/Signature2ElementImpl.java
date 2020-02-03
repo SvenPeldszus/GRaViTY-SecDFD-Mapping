@@ -10,13 +10,12 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.gravity.mapping.secdfd.SecdfdPackage;
 import org.gravity.mapping.secdfd.Signature2Element;
 
 import org.gravity.typegraph.basic.TSignature;
-
-import org.moflon.tgg.runtime.impl.AbstractCorrespondenceImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -32,7 +31,7 @@ import org.moflon.tgg.runtime.impl.AbstractCorrespondenceImpl;
  *
  * @generated
  */
-public class Signature2ElementImpl extends AbstractCorrespondenceImpl implements Signature2Element {
+public class Signature2ElementImpl extends MinimalEObjectImpl.Container implements Signature2Element {
 	/**
 	 * The cached value of the '{@link #getSource() <em>Source</em>}' reference.
 	 * <!-- begin-user-doc -->

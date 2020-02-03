@@ -10,13 +10,12 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.gravity.mapping.secdfd.SecdfdPackage;
 import org.gravity.mapping.secdfd.TypeGraph2EDFD;
 
 import org.gravity.typegraph.basic.TypeGraph;
-
-import org.moflon.tgg.runtime.impl.AbstractCorrespondenceImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -32,7 +31,7 @@ import org.moflon.tgg.runtime.impl.AbstractCorrespondenceImpl;
  *
  * @generated
  */
-public class TypeGraph2EDFDImpl extends AbstractCorrespondenceImpl implements TypeGraph2EDFD {
+public class TypeGraph2EDFDImpl extends MinimalEObjectImpl.Container implements TypeGraph2EDFD {
 	/**
 	 * The cached value of the '{@link #getSource() <em>Source</em>}' reference.
 	 * <!-- begin-user-doc -->

@@ -10,13 +10,12 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.gravity.mapping.secdfd.Method2Element;
 import org.gravity.mapping.secdfd.SecdfdPackage;
 
 import org.gravity.typegraph.basic.TMethod;
-
-import org.moflon.tgg.runtime.impl.AbstractCorrespondenceImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -32,7 +31,7 @@ import org.moflon.tgg.runtime.impl.AbstractCorrespondenceImpl;
  *
  * @generated
  */
-public class Method2ElementImpl extends AbstractCorrespondenceImpl implements Method2Element {
+public class Method2ElementImpl extends MinimalEObjectImpl.Container implements Method2Element {
 	/**
 	 * The cached value of the '{@link #getSource() <em>Source</em>}' reference.
 	 * <!-- begin-user-doc -->

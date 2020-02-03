@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -219,10 +220,22 @@ public class MappingView extends ViewPart {
 	private Entry<IFile, TypeGraph> getProgramModel(TrafoJob trafoJob) {
 		TypeGraph pm = trafoJob.getPM();
 		IFile pmFile = gravityFolder.getFile(pm.getTName() + ".xmi");
-		Resource resource = pm.eResource();
 		URI pmUri = URI.createURI(pmFile.getLocation().makeRelativeTo(gravityFolder.getLocation()).toString());
-		resource.setURI(pmUri);
-		this.resourceSet.getResources().add(resource);
+		Resource resource = pm.eResource();
+		if (resource == null) {
+			Optional<Resource> result = this.resourceSet.getResources().parallelStream().filter(r -> r.getURI().equals(pmUri)).findAny();
+			if(result.isPresent()) {
+				resource = result.get();
+			}
+			else {
+				resource = this.resourceSet.createResource(pmUri);
+			}
+			resource.getContents().clear();
+			resource.getContents().add(pm);
+		} else {
+			resource.setURI(pmUri);
+			this.resourceSet.getResources().add(resource);
+		}
 		if (!pmFile.exists()) {
 			ModelSaver.saveModel(resource, pmFile, new NullProgressMonitor());
 		}
@@ -278,7 +291,7 @@ public class MappingView extends ViewPart {
 	}
 
 	public Collection<Mapping> getMappings() {
-		if(this.mappers == null) {
+		if (this.mappers == null) {
 			this.mappers = new HashMap<>();
 		}
 		return this.mappers.keySet();

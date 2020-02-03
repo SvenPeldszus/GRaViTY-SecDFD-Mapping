@@ -25,6 +25,38 @@
       <discovery label="MoDisco" url="http://download.eclipse.org/releases/2018-12/"/>
    </url>
 
+   <includes
+         id="org.gravity.features.eclipse"
+         version="0.0.0"/>
+
+   <includes
+         id="org.gravity.features.modisco"
+         version="0.0.0"/>
+
+   <includes
+         id="org.gravity.features.typegraph.basic"
+         version="0.0.0"/>
+
+   <includes
+         id="org.gravity.license.epl"
+         version="0.0.0"/>
+
+   <includes
+         id="org.moflon.core.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.moflon.ide.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.moflon.ide.visualization.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.moflon.tgg.mosl.feature"
+         version="0.0.0"/>
+
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.emf.ecore"/>

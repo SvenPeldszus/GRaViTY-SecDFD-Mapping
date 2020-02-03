@@ -9,15 +9,13 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
 import org.eclipse.emf.ecore.EObject;
 
+import org.gravity.mapping.secdfd.AbstractCorrespondence;
 import org.gravity.mapping.secdfd.Defintion2Element;
 import org.gravity.mapping.secdfd.Method2Element;
 import org.gravity.mapping.secdfd.Signature2Element;
 import org.gravity.mapping.secdfd.Type2NamedEntity;
 
 import org.gravity.mapping.secdfd.model.mapping.*;
-
-import org.moflon.tgg.runtime.AbstractCorrespondence;
-import org.moflon.tgg.runtime.CorrespondenceModel;
 
 /**
  * <!-- begin-user-doc -->
@@ -106,10 +104,6 @@ public class MappingAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseAbstractMappingBase(AbstractMappingBase object) {
 				return createAbstractMappingBaseAdapter();
-			}
-			@Override
-			public Adapter caseCorrespondenceModel(CorrespondenceModel object) {
-				return createCorrespondenceModelAdapter();
 			}
 			@Override
 			public Adapter caseAbstractCorrespondence(AbstractCorrespondence object) {
@@ -264,27 +258,13 @@ public class MappingAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.moflon.tgg.runtime.CorrespondenceModel <em>Correspondence Model</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.gravity.mapping.secdfd.AbstractCorrespondence <em>Abstract Correspondence</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.moflon.tgg.runtime.CorrespondenceModel
-	 * @generated
-	 */
-	public Adapter createCorrespondenceModelAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.moflon.tgg.runtime.AbstractCorrespondence <em>Abstract Correspondence</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.moflon.tgg.runtime.AbstractCorrespondence
+	 * @see org.gravity.mapping.secdfd.AbstractCorrespondence
 	 * @generated
 	 */
 	public Adapter createAbstractCorrespondenceAdapter() {

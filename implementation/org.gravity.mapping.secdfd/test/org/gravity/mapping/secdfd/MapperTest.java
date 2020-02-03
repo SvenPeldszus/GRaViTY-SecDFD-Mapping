@@ -22,8 +22,8 @@ import org.gravity.typegraph.basic.TMethod;
 import org.gravity.typegraph.basic.TSignature;
 import org.gravity.typegraph.basic.TypeGraph;
 import org.junit.Test;
-import org.moflon.tgg.runtime.AbstractCorrespondence;
-import org.moflon.tgg.runtime.CorrespondenceModel;
+import org.gravity.mapping.secdfd.AbstractCorrespondence;
+import org.gravity.mapping.secdfd.model.mapping.Mapping;
 
 import eDFDFlowTracking.EDFD;
 import eDFDFlowTracking.EDFDFlowTracking1Package;
@@ -54,7 +54,7 @@ public class MapperTest {
 
 		for (Entry<File, EDFD> entry : dfds.entrySet()) {
 			EDFD dfd = entry.getValue();
-			CorrespondenceModel corr = new Mapper(pm, dfd, null).getMapping();
+			Mapping corr = new Mapper(pm, dfd, null).getMapping();
 			System.out.println("#####\nMapping pm to: " + entry.getKey());
 			System.out.println();
 			for (EObject c : corr.getCorrespondences()) {

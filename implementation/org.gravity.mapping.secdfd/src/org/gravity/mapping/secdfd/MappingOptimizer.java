@@ -41,7 +41,7 @@ import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TMethodSignature;
 import org.gravity.typegraph.basic.TParameter;
 import org.gravity.typegraph.basic.TSignature;
-import org.moflon.tgg.runtime.AbstractCorrespondence;
+import org.gravity.mapping.secdfd.AbstractCorrespondence;
 
 import com.google.common.collect.Streams;
 
@@ -151,7 +151,7 @@ public class MappingOptimizer {
 					MappingProcessName nameCorr = (MappingProcessName) helper.getCorrespondence(sig.getMethod(),
 							element);
 					if (nameCorr.getRanking() > 70) {
-						EList<TMethodDefinition> defs = sig.getDefinitions();
+						EList<TMethodDefinition> defs = sig.getMethodDefinitions();
 						if (defs.size() < 3) {
 							defs.forEach(def -> {
 								if(helper.canCreate(def, element, excludes)) {
@@ -271,7 +271,7 @@ public class MappingOptimizer {
 					TMethodSignature tMethodSignature = (TMethodSignature) signature;
 					TAbstractType returnType = tMethodSignature.getReturnType();
 					assetTypes.addAll(getAllParents(returnType));
-					for (TParameter param : tMethodSignature.getParamList().getEntries()) {
+					for (TParameter param : tMethodSignature.getParameters()) {
 						TAbstractType paramType = param.getType();
 						assetTypes.addAll(getAllChildClasses(paramType));
 					}
@@ -367,7 +367,7 @@ public class MappingOptimizer {
 										return assetType.equals(((TFieldSignature) sig).getType());
 									}
 									if (sig instanceof TMethodSignature) {
-										for (TParameter param : ((TMethodSignature) sig).getParamList().getEntries()) {
+										for (TParameter param : ((TMethodSignature) sig).getParameters()) {
 											if (assetType.equals(param.getType())) {
 												return true;
 											}
@@ -453,7 +453,7 @@ public class MappingOptimizer {
 			Map<EObject, Set<EObject>> excludes) {
 		boolean change = false;
 		if (callingSignature != calledSignature) {
-			for (TMethodDefinition callingDefiniton : callingSignature.getDefinitions()) {
+			for (TMethodDefinition callingDefiniton : callingSignature.getMethodDefinitions()) {
 				for (TMember calledDefinition : CallHelper.getAllOutCalls(callingDefiniton)) {
 					if (calledDefinition.getSignature().equals(calledSignature)) {
 						if (helper.canCreate(callingDefiniton, process, excludes)) {
@@ -510,7 +510,7 @@ public class MappingOptimizer {
 							.filter(corr -> corr instanceof MappingProcessSignature)
 							.map(corr -> (TSignature) CorrespondenceHelper.getSource(corr)).collect(Collectors.toSet());
 
-					for (TMethodDefinition calledDefinition : ((TMethodSignature) calledSignature).getDefinitions()) {
+					for (TMethodDefinition calledDefinition : ((TMethodSignature) calledSignature).getMethodDefinitions()) {
 						for (TMember callingDefiniton : CallHelper.getAllInCalls(calledDefinition)) {
 							TSignature callingSignature = callingDefiniton.getSignature();
 							if (callingSignatures.contains(callingSignature)) {
@@ -593,7 +593,7 @@ public class MappingOptimizer {
 				if (cache.getElementSignatureMapping().containsKey(targetElement)) {
 					for (TSignature targetSignature : cache.getElementSignatureMapping().get(targetElement)) {
 						for (TMethodDefinition sourceDefinition : ((TMethodSignature) sourceSignature)
-								.getDefinitions()) {
+								.getMethodDefinitions()) {
 							Set<TMember> targets = getPath(sourceDefinition, targetSignature);
 							if (!targets.isEmpty()) {
 								if (helper.canCreate(sourceDefinition, sourceElement, excludes)) {
@@ -682,14 +682,14 @@ public class MappingOptimizer {
 				if (expectedAssetTypes.contains(signature.getReturnType())) {
 					matchedAssets.put(entry.getKey(), signature.getReturnType());
 				}
-				for (TParameter param : signature.getParamList().getEntries()) {
+				for (TParameter param : signature.getParameters()) {
 					if (expectedAssetTypes.contains(param.getType())) {
 						matchedAssets.put(entry.getKey(), param.getType());
 					}
 
 				}
 			}
-			if (matchedAssets.size() == 0) {
+			if (matchedAssets.isEmpty()) {
 				return null;
 			}
 			MappingProcessSignature newCorr = null;

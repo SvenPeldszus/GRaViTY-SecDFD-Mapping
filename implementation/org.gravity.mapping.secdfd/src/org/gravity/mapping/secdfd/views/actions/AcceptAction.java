@@ -5,7 +5,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.Action;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.views.MappingView;
-import org.moflon.tgg.runtime.AbstractCorrespondence;
+import org.gravity.mapping.secdfd.AbstractCorrespondence;
 
 public final class AcceptAction extends Action {
 	/**

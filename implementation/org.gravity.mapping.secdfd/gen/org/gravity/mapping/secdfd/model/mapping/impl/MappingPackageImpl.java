@@ -2,26 +2,6 @@
  */
 package org.gravity.mapping.secdfd.model.mapping.impl;
 
-import MocaTree.MocaTreePackage;
-
-import SDMLanguage.SDMLanguagePackage;
-
-import SDMLanguage.activities.ActivitiesPackage;
-
-import SDMLanguage.calls.CallsPackage;
-
-import SDMLanguage.calls.callExpressions.CallExpressionsPackage;
-
-import SDMLanguage.expressions.ExpressionsPackage;
-
-import SDMLanguage.patterns.AttributeConstraints.AttributeConstraintsPackage;
-
-import SDMLanguage.patterns.PatternsPackage;
-
-import SDMLanguage.patterns.patternExpressions.PatternExpressionsPackage;
-
-import SDMLanguage.sdmUtil.SdmUtilPackage;
-
 import eDFDFlowTracking.EDFDFlowTracking1Package;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -30,10 +10,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
-import org.gravity.mapping.secdfd.Rules.RulesPackage;
-
-import org.gravity.mapping.secdfd.Rules.impl.RulesPackageImpl;
 
 import org.gravity.mapping.secdfd.SecdfdPackage;
 
@@ -51,10 +27,6 @@ import org.gravity.mapping.secdfd.model.mapping.MappingProcessName;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
 
 import org.gravity.typegraph.basic.BasicPackage;
-
-import org.moflon.tgg.language.LanguagePackage;
-
-import org.moflon.tgg.runtime.RuntimePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -169,34 +141,18 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 		// Initialize simple dependencies
 		BasicPackage.eINSTANCE.eClass();
 		EDFDFlowTracking1Package.eINSTANCE.eClass();
-		LanguagePackage.eINSTANCE.eClass();
-		RuntimePackage.eINSTANCE.eClass();
-		PatternsPackage.eINSTANCE.eClass();
-		SDMLanguagePackage.eINSTANCE.eClass();
-		ActivitiesPackage.eINSTANCE.eClass();
-		MocaTreePackage.eINSTANCE.eClass();
-		ExpressionsPackage.eINSTANCE.eClass();
-		CallExpressionsPackage.eINSTANCE.eClass();
-		SdmUtilPackage.eINSTANCE.eClass();
-		AttributeConstraintsPackage.eINSTANCE.eClass();
-		PatternExpressionsPackage.eINSTANCE.eClass();
-		CallsPackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
 		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(SecdfdPackage.eNS_URI);
 		SecdfdPackageImpl theSecdfdPackage = (SecdfdPackageImpl)(registeredPackage instanceof SecdfdPackageImpl ? registeredPackage : SecdfdPackage.eINSTANCE);
-		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(RulesPackage.eNS_URI);
-		RulesPackageImpl theRulesPackage = (RulesPackageImpl)(registeredPackage instanceof RulesPackageImpl ? registeredPackage : RulesPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theMappingPackage.createPackageContents();
 		theSecdfdPackage.createPackageContents();
-		theRulesPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theMappingPackage.initializePackageContents();
 		theSecdfdPackage.initializePackageContents();
-		theRulesPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theMappingPackage.freeze();
@@ -264,6 +220,36 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 	@Override
 	public EAttribute getMapping_Name() {
 		return (EAttribute)mappingEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getMapping_Source() {
+		return (EReference)mappingEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getMapping_Target() {
+		return (EReference)mappingEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getMapping_Correspondences() {
+		return (EReference)mappingEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -401,6 +387,9 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 		createEReference(mappingEClass, MAPPING__SUGGESTED);
 		createEReference(mappingEClass, MAPPING__ACCEPTED);
 		createEAttribute(mappingEClass, MAPPING__NAME);
+		createEReference(mappingEClass, MAPPING__SOURCE);
+		createEReference(mappingEClass, MAPPING__TARGET);
+		createEReference(mappingEClass, MAPPING__CORRESPONDENCES);
 
 		abstractMappingDerivedEClass = createEClass(ABSTRACT_MAPPING_DERIVED);
 		createEReference(abstractMappingDerivedEClass, ABSTRACT_MAPPING_DERIVED__DERIVED);
@@ -444,7 +433,6 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
-		RuntimePackage theRuntimePackage = (RuntimePackage)EPackage.Registry.INSTANCE.getEPackage(RuntimePackage.eNS_URI);
 		SecdfdPackage theSecdfdPackage = (SecdfdPackage)EPackage.Registry.INSTANCE.getEPackage(SecdfdPackage.eNS_URI);
 
 		// Create type parameters
@@ -452,8 +440,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		mappingEClass.getESuperTypes().add(theRuntimePackage.getCorrespondenceModel());
-		abstractMappingDerivedEClass.getESuperTypes().add(theRuntimePackage.getAbstractCorrespondence());
+		abstractMappingDerivedEClass.getESuperTypes().add(theSecdfdPackage.getAbstractCorrespondence());
 		mappingProcessNameEClass.getESuperTypes().add(theSecdfdPackage.getMethod2Element());
 		mappingProcessNameEClass.getESuperTypes().add(this.getAbstractMappingRanking());
 		mappingProcessNameEClass.getESuperTypes().add(this.getAbstractMappingBase());
@@ -466,15 +453,18 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 		mappingEntityTypeEClass.getESuperTypes().add(theSecdfdPackage.getType2NamedEntity());
 		mappingEntityTypeEClass.getESuperTypes().add(this.getAbstractMappingRanking());
 		mappingEntityTypeEClass.getESuperTypes().add(this.getAbstractMappingBase());
-		abstractMappingBaseEClass.getESuperTypes().add(theRuntimePackage.getAbstractCorrespondence());
+		abstractMappingBaseEClass.getESuperTypes().add(theSecdfdPackage.getAbstractCorrespondence());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(mappingEClass, Mapping.class, "Mapping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMapping_Userdefined(), theRuntimePackage.getAbstractCorrespondence(), null, "userdefined", null, 0, -1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getMapping_Ignored(), theRuntimePackage.getAbstractCorrespondence(), null, "ignored", null, 0, -1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getMapping_Suggested(), theRuntimePackage.getAbstractCorrespondence(), null, "suggested", null, 0, -1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getMapping_Accepted(), theRuntimePackage.getAbstractCorrespondence(), null, "accepted", null, 0, -1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMapping_Userdefined(), theSecdfdPackage.getAbstractCorrespondence(), null, "userdefined", null, 0, -1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMapping_Ignored(), theSecdfdPackage.getAbstractCorrespondence(), null, "ignored", null, 0, -1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMapping_Suggested(), theSecdfdPackage.getAbstractCorrespondence(), null, "suggested", null, 0, -1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMapping_Accepted(), theSecdfdPackage.getAbstractCorrespondence(), null, "accepted", null, 0, -1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMapping_Name(), ecorePackage.getEString(), "name", null, 0, 1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMapping_Source(), ecorePackage.getEObject(), null, "source", null, 0, 1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMapping_Target(), ecorePackage.getEObject(), null, "target", null, 0, 1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMapping_Correspondences(), theSecdfdPackage.getAbstractCorrespondence(), null, "correspondences", null, 0, -1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(abstractMappingDerivedEClass, AbstractMappingDerived.class, "AbstractMappingDerived", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAbstractMappingDerived_Derived(), this.getAbstractMappingBase(), this.getAbstractMappingBase_Deriving(), "derived", null, 0, -1, AbstractMappingDerived.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

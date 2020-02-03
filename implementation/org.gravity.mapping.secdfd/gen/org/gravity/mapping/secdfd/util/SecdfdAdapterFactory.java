@@ -11,8 +11,6 @@ import org.eclipse.emf.ecore.EObject;
 
 import org.gravity.mapping.secdfd.*;
 
-import org.moflon.tgg.runtime.AbstractCorrespondence;
-
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
@@ -70,6 +68,10 @@ public class SecdfdAdapterFactory extends AdapterFactoryImpl {
 	protected SecdfdSwitch<Adapter> modelSwitch =
 		new SecdfdSwitch<Adapter>() {
 			@Override
+			public Adapter caseAbstractCorrespondence(AbstractCorrespondence object) {
+				return createAbstractCorrespondenceAdapter();
+			}
+			@Override
 			public Adapter caseMethod2Element(Method2Element object) {
 				return createMethod2ElementAdapter();
 			}
@@ -94,10 +96,6 @@ public class SecdfdAdapterFactory extends AdapterFactoryImpl {
 				return createSignature2ElementAdapter();
 			}
 			@Override
-			public Adapter caseAbstractCorrespondence(AbstractCorrespondence object) {
-				return createAbstractCorrespondenceAdapter();
-			}
-			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -116,6 +114,20 @@ public class SecdfdAdapterFactory extends AdapterFactoryImpl {
 		return modelSwitch.doSwitch((EObject)target);
 	}
 
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.gravity.mapping.secdfd.AbstractCorrespondence <em>Abstract Correspondence</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.gravity.mapping.secdfd.AbstractCorrespondence
+	 * @generated
+	 */
+	public Adapter createAbstractCorrespondenceAdapter() {
+		return null;
+	}
 
 	/**
 	 * Creates a new adapter for an object of class '{@link org.gravity.mapping.secdfd.Method2Element <em>Method2 Element</em>}'.
@@ -198,20 +210,6 @@ public class SecdfdAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createSignature2ElementAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.moflon.tgg.runtime.AbstractCorrespondence <em>Abstract Correspondence</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.moflon.tgg.runtime.AbstractCorrespondence
-	 * @generated
-	 */
-	public Adapter createAbstractCorrespondenceAdapter() {
 		return null;
 	}
 

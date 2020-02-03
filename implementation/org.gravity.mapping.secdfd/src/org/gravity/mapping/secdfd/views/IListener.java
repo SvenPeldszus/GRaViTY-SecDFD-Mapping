@@ -2,7 +2,7 @@ package org.gravity.mapping.secdfd.views;
 
 import java.util.Collection;
 
-import org.moflon.tgg.runtime.AbstractCorrespondence;
+import org.gravity.mapping.secdfd.AbstractCorrespondence;
 
 public interface IListener {
 	

@@ -83,13 +83,7 @@ public class TextEditorHandler extends AbstractHandler {
 			LOGGER.log(Level.ERROR, e);
 			return false;
 		}
-		GravityUiActivator.getShell().getDisplay().asyncExec(new Runnable() {
-
-			@Override
-			public void run() {
-				dfdView.populate(selected, mappingView);
-			}
-		});
+		GravityUiActivator.getShell().getDisplay().asyncExec(() -> dfdView.populate(selected, mappingView));
 		return null;
 	}
 
@@ -107,19 +101,19 @@ public class TextEditorHandler extends AbstractHandler {
 			String calledMethodName = invoc.getName().getFullyQualifiedName();
 			int numParams = invoc.arguments().size();
 			ASTNode parentOfInvocation = invoc.getParent();
-			while(parentOfInvocation.getNodeType() != ASTNode.METHOD_DECLARATION) {
+			while (parentOfInvocation.getNodeType() != ASTNode.METHOD_DECLARATION) {
 				parentOfInvocation = parentOfInvocation.getParent();
 			}
 			List<EObject> parentMethod = getSelectedPMElement(parentOfInvocation, pm);
-			if(parentMethod.size() == 0) {
+			if (parentMethod.isEmpty()) {
 				return Collections.emptyList();
 			}
 			List<EObject> matches = new LinkedList<>();
-			for(TMember calledMember : CallHelper.getAllOutCalls((TMember) parentMethod.get(0))){
-				if(calledMember instanceof TMethodDefinition) {
+			for (TMember calledMember : CallHelper.getAllOutCalls((TMember) parentMethod.get(0))) {
+				if (calledMember instanceof TMethodDefinition) {
 					TMethodDefinition calledMethod = (TMethodDefinition) calledMember;
 					TMethodSignature signature = calledMethod.getSignature();
-					if(signature.getParamList().getEntries().size() == numParams
+					if (signature.getParameters().size() == numParams
 							&& calledMethodName.equals(signature.getMethod().getTName())) {
 						matches.add(calledMethod);
 					}
@@ -132,14 +126,14 @@ public class TextEditorHandler extends AbstractHandler {
 		case ASTNode.SIMPLE_NAME:
 			return getSelectedPMElement(node.getParent(), pm);
 		case ASTNode.SINGLE_VARIABLE_DECLARATION:
-			SingleVariableDeclaration var =((SingleVariableDeclaration) node);
+			SingleVariableDeclaration var = ((SingleVariableDeclaration) node);
 			ASTNode varParent = var.getParent();
-			if(varParent.getNodeType() == ASTNode.METHOD_DECLARATION) {
+			if (varParent.getNodeType() == ASTNode.METHOD_DECLARATION) {
 				MethodDeclaration varMethod = (MethodDeclaration) varParent;
 				TMethodDefinition varMethodDef = (TMethodDefinition) getSelectedPMElement(varMethod, pm).get(0);
 				int index = varMethod.parameters().indexOf(var);
-				TParameter tParam = varMethodDef.getSignature().getParamList().getFirst();
-				for(int i = 0; i < index; i++) {
+				TParameter tParam = varMethodDef.getSignature().getFirstParameter();
+				for (int i = 0; i < index; i++) {
 					tParam = tParam.getNext();
 				}
 				List<EObject> list = new ArrayList<>(3);
@@ -148,6 +142,7 @@ public class TextEditorHandler extends AbstractHandler {
 				list.add(varMethodDef);
 				return list;
 			}
+			break;
 		case ASTNode.VARIABLE_DECLARATION_FRAGMENT:
 			ASTNode parent = node.getParent();
 			if (parent.getNodeType() == ASTNode.FIELD_DECLARATION) {
@@ -162,27 +157,33 @@ public class TextEditorHandler extends AbstractHandler {
 				fieldList.add(0, fieldType);
 				return fieldList;
 			}
+			break;
 		case ASTNode.METHOD_DECLARATION:
 			MethodDeclaration method = (MethodDeclaration) node;
 			TMethodSignature tMethodSignature = JavaASTUtil.getTMethodSignature(method, pm);
 			System.out.println(tMethodSignature);
 			TypeDeclaration definingType = (TypeDeclaration) method.getParent();
-			PackageDeclaration containingPackage = ((CompilationUnit) definingType.getParent()).getPackage();;
-			String fullyQualifiedName = containingPackage.getName().getFullyQualifiedName()+"."+definingType.getName(); //$NON-NLS-1$
-			TAbstractType tDeclaringType = pm.getAbstractType(fullyQualifiedName);
+			PackageDeclaration containingPackage = ((CompilationUnit) definingType.getParent()).getPackage();
+			;
+			String fullyQualifiedName = containingPackage.getName().getFullyQualifiedName() + "." //$NON-NLS-1$
+					+ definingType.getName();
+			TAbstractType tDeclaringType = pm.getType(fullyQualifiedName);
 			return Collections.singletonList(tMethodSignature.getTDefinition(tDeclaringType));
 		case ASTNode.TYPE_DECLARATION:
 			ASTNode tmpASTNode2 = node.getParent();
 			if (tmpASTNode2 instanceof CompilationUnit) {
 				PackageDeclaration childPackage = ((CompilationUnit) tmpASTNode2).getPackage();
-				String name = childPackage.getName().getFullyQualifiedName()+"."+((TypeDeclaration) node).getName(); //$NON-NLS-1$
-				TAbstractType tType = pm.getAbstractType(name);
-				if(tType != null) {
+				String name = childPackage.getName().getFullyQualifiedName() + "." + ((TypeDeclaration) node).getName(); //$NON-NLS-1$
+				TAbstractType tType = pm.getType(name);
+				if (tType != null) {
 					return Collections.singletonList(tType);
 				}
 			}
 			return Collections.singletonList(JavaASTUtil.getTClass((TypeDeclaration) node, pm));
+		default:
+			LOGGER.error("Unknown ASTNode kind: " + node.getNodeType());
 		}
+
 		return null;
 	}
 
@@ -220,10 +221,7 @@ public class TextEditorHandler extends AbstractHandler {
 			return false;
 		}
 		Entry<IFile, TypeGraph> entry = mappingView.getProgramModel();
-		if (entry == null) {
-			return false;
-		}
-		return true;
+		return entry != null;
 	}
 
 	protected static CompilationUnit parse(ICompilationUnit icu) {

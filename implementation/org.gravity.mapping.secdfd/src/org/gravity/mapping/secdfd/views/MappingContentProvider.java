@@ -14,8 +14,7 @@ import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.model.mapping.MappingEntityType;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
 import org.gravity.typegraph.basic.TClass;
-import org.moflon.tgg.runtime.AbstractCorrespondence;
-import org.moflon.tgg.runtime.CorrespondenceModel;
+import org.gravity.mapping.secdfd.AbstractCorrespondence;
 
 public class MappingContentProvider implements ITreeContentProvider {
 
@@ -94,7 +93,7 @@ public class MappingContentProvider implements ITreeContentProvider {
 		}
 		if (element instanceof Entry) {
 			Object value = ((Entry<?, ?>) element).getValue();
-			if (value instanceof CorrespondenceModel) {
+			if (value instanceof Mapping) {
 				return true;
 			}
 			if (value instanceof Collection) {

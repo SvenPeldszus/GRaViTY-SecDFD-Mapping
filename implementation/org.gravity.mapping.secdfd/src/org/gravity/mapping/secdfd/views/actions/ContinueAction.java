@@ -14,7 +14,7 @@ import org.gravity.mapping.secdfd.Mapper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.views.IListener;
 import org.gravity.mapping.secdfd.views.MappingView;
-import org.moflon.tgg.runtime.AbstractCorrespondence;
+import org.gravity.mapping.secdfd.AbstractCorrespondence;
 
 import eDFDFlowTracking.EDFD;
 

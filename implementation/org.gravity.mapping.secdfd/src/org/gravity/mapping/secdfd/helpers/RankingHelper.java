@@ -2,13 +2,13 @@ package org.gravity.mapping.secdfd.helpers;
 
 import java.util.stream.Stream;
 
+import org.gravity.mapping.secdfd.AbstractCorrespondence;
 import org.gravity.mapping.secdfd.model.mapping.AbstractMappingBase;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.model.mapping.MappingEntityType;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessName;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
-import org.moflon.tgg.runtime.AbstractCorrespondence;
 
 import eDFDFlowTracking.Asset;
 import eDFDFlowTracking.NamedEntity;

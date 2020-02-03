@@ -9,8 +9,6 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.gravity.mapping.secdfd.SecdfdPackage;
 
-import org.moflon.tgg.runtime.RuntimePackage;
-
 /**
  * <!-- begin-user-doc -->
  * The <b>Package</b> for the model.
@@ -25,7 +23,6 @@ import org.moflon.tgg.runtime.RuntimePackage;
  * <!-- end-user-doc -->
  * @see org.gravity.mapping.secdfd.model.mapping.MappingFactory
  * @model kind="package"
- *        annotation="http://www.eclipse.org/emf/2002/GenModel basePackage='org.gravity.mapping.secdfd.model'"
  * @generated
  */
 public interface MappingPackage extends EPackage {
@@ -72,40 +69,13 @@ public interface MappingPackage extends EPackage {
 	int MAPPING = 0;
 
 	/**
-	 * The feature id for the '<em><b>Correspondences</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MAPPING__CORRESPONDENCES = RuntimePackage.CORRESPONDENCE_MODEL__CORRESPONDENCES;
-
-	/**
-	 * The feature id for the '<em><b>Source</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MAPPING__SOURCE = RuntimePackage.CORRESPONDENCE_MODEL__SOURCE;
-
-	/**
-	 * The feature id for the '<em><b>Target</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MAPPING__TARGET = RuntimePackage.CORRESPONDENCE_MODEL__TARGET;
-
-	/**
 	 * The feature id for the '<em><b>Userdefined</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING__USERDEFINED = RuntimePackage.CORRESPONDENCE_MODEL_FEATURE_COUNT + 0;
+	int MAPPING__USERDEFINED = 0;
 
 	/**
 	 * The feature id for the '<em><b>Ignored</b></em>' containment reference list.
@@ -114,7 +84,7 @@ public interface MappingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING__IGNORED = RuntimePackage.CORRESPONDENCE_MODEL_FEATURE_COUNT + 1;
+	int MAPPING__IGNORED = 1;
 
 	/**
 	 * The feature id for the '<em><b>Suggested</b></em>' reference list.
@@ -123,7 +93,7 @@ public interface MappingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING__SUGGESTED = RuntimePackage.CORRESPONDENCE_MODEL_FEATURE_COUNT + 2;
+	int MAPPING__SUGGESTED = 2;
 
 	/**
 	 * The feature id for the '<em><b>Accepted</b></em>' reference list.
@@ -132,7 +102,7 @@ public interface MappingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING__ACCEPTED = RuntimePackage.CORRESPONDENCE_MODEL_FEATURE_COUNT + 3;
+	int MAPPING__ACCEPTED = 3;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -141,7 +111,34 @@ public interface MappingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING__NAME = RuntimePackage.CORRESPONDENCE_MODEL_FEATURE_COUNT + 4;
+	int MAPPING__NAME = 4;
+
+	/**
+	 * The feature id for the '<em><b>Source</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING__SOURCE = 5;
+
+	/**
+	 * The feature id for the '<em><b>Target</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING__TARGET = 6;
+
+	/**
+	 * The feature id for the '<em><b>Correspondences</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING__CORRESPONDENCES = 7;
 
 	/**
 	 * The number of structural features of the '<em>Mapping</em>' class.
@@ -150,7 +147,7 @@ public interface MappingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_FEATURE_COUNT = RuntimePackage.CORRESPONDENCE_MODEL_FEATURE_COUNT + 5;
+	int MAPPING_FEATURE_COUNT = 8;
 
 	/**
 	 * The number of operations of the '<em>Mapping</em>' class.
@@ -159,7 +156,7 @@ public interface MappingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_OPERATION_COUNT = RuntimePackage.CORRESPONDENCE_MODEL_OPERATION_COUNT + 0;
+	int MAPPING_OPERATION_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link org.gravity.mapping.secdfd.model.mapping.impl.AbstractMappingDerivedImpl <em>Abstract Mapping Derived</em>}' class.
@@ -178,7 +175,7 @@ public interface MappingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_MAPPING_DERIVED__DERIVED = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 0;
+	int ABSTRACT_MAPPING_DERIVED__DERIVED = SecdfdPackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Abstract Mapping Derived</em>' class.
@@ -187,7 +184,7 @@ public interface MappingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_MAPPING_DERIVED_FEATURE_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 1;
+	int ABSTRACT_MAPPING_DERIVED_FEATURE_COUNT = SecdfdPackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Abstract Mapping Derived</em>' class.
@@ -196,7 +193,7 @@ public interface MappingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_MAPPING_DERIVED_OPERATION_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
+	int ABSTRACT_MAPPING_DERIVED_OPERATION_COUNT = SecdfdPackage.ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.gravity.mapping.secdfd.model.mapping.impl.MappingProcessNameImpl <em>Process Name</em>}' class.
@@ -508,7 +505,7 @@ public interface MappingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_MAPPING_BASE__DERIVING = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 0;
+	int ABSTRACT_MAPPING_BASE__DERIVING = SecdfdPackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Abstract Mapping Base</em>' class.
@@ -517,7 +514,7 @@ public interface MappingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_MAPPING_BASE_FEATURE_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 1;
+	int ABSTRACT_MAPPING_BASE_FEATURE_COUNT = SecdfdPackage.ABSTRACT_CORRESPONDENCE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Abstract Mapping Base</em>' class.
@@ -526,7 +523,7 @@ public interface MappingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_MAPPING_BASE_OPERATION_COUNT = RuntimePackage.ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
+	int ABSTRACT_MAPPING_BASE_OPERATION_COUNT = SecdfdPackage.ABSTRACT_CORRESPONDENCE_OPERATION_COUNT + 0;
 
 
 	/**
@@ -593,6 +590,39 @@ public interface MappingPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getMapping_Name();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.gravity.mapping.secdfd.model.mapping.Mapping#getSource <em>Source</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Source</em>'.
+	 * @see org.gravity.mapping.secdfd.model.mapping.Mapping#getSource()
+	 * @see #getMapping()
+	 * @generated
+	 */
+	EReference getMapping_Source();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.gravity.mapping.secdfd.model.mapping.Mapping#getTarget <em>Target</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Target</em>'.
+	 * @see org.gravity.mapping.secdfd.model.mapping.Mapping#getTarget()
+	 * @see #getMapping()
+	 * @generated
+	 */
+	EReference getMapping_Target();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.gravity.mapping.secdfd.model.mapping.Mapping#getCorrespondences <em>Correspondences</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Correspondences</em>'.
+	 * @see org.gravity.mapping.secdfd.model.mapping.Mapping#getCorrespondences()
+	 * @see #getMapping()
+	 * @generated
+	 */
+	EReference getMapping_Correspondences();
 
 	/**
 	 * Returns the meta object for class '{@link org.gravity.mapping.secdfd.model.mapping.AbstractMappingDerived <em>Abstract Mapping Derived</em>}'.
@@ -769,6 +799,30 @@ public interface MappingPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute MAPPING__NAME = eINSTANCE.getMapping_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Source</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MAPPING__SOURCE = eINSTANCE.getMapping_Source();
+
+		/**
+		 * The meta object literal for the '<em><b>Target</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MAPPING__TARGET = eINSTANCE.getMapping_Target();
+
+		/**
+		 * The meta object literal for the '<em><b>Correspondences</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MAPPING__CORRESPONDENCES = eINSTANCE.getMapping_Correspondences();
 
 		/**
 		 * The meta object literal for the '{@link org.gravity.mapping.secdfd.model.mapping.impl.AbstractMappingDerivedImpl <em>Abstract Mapping Derived</em>}' class.

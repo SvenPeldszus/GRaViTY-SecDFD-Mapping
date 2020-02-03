@@ -7,15 +7,13 @@ import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.Switch;
 
+import org.gravity.mapping.secdfd.AbstractCorrespondence;
 import org.gravity.mapping.secdfd.Defintion2Element;
 import org.gravity.mapping.secdfd.Method2Element;
 import org.gravity.mapping.secdfd.Signature2Element;
 import org.gravity.mapping.secdfd.Type2NamedEntity;
 
 import org.gravity.mapping.secdfd.model.mapping.*;
-
-import org.moflon.tgg.runtime.AbstractCorrespondence;
-import org.moflon.tgg.runtime.CorrespondenceModel;
 
 /**
  * <!-- begin-user-doc -->
@@ -77,7 +75,6 @@ public class MappingSwitch<T> extends Switch<T> {
 			case MappingPackage.MAPPING: {
 				Mapping mapping = (Mapping)theEObject;
 				T result = caseMapping(mapping);
-				if (result == null) result = caseCorrespondenceModel(mapping);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -262,21 +259,6 @@ public class MappingSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseAbstractMappingBase(AbstractMappingBase object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Correspondence Model</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Correspondence Model</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseCorrespondenceModel(CorrespondenceModel object) {
 		return null;
 	}
 

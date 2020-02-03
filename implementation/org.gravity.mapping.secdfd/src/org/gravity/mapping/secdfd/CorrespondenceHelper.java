@@ -20,6 +20,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.gravity.eclipse.util.JavaASTUtil;
+import org.gravity.eclipse.util.MarkerUtil;
 import org.gravity.mapping.secdfd.model.mapping.AbstractMappingBase;
 import org.gravity.mapping.secdfd.model.mapping.AbstractMappingDerived;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
@@ -36,7 +37,7 @@ import org.gravity.typegraph.basic.TMethod;
 import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TMethodSignature;
 import org.gravity.typegraph.basic.TypeGraph;
-import org.moflon.tgg.runtime.AbstractCorrespondence;
+import org.gravity.mapping.secdfd.AbstractCorrespondence;
 
 import eDFDFlowTracking.EDFD;
 import eDFDFlowTracking.Element;
@@ -175,8 +176,8 @@ public class CorrespondenceHelper {
 		LOGGER.log(Level.INFO, "Create correspondence: " + MappingLabelProvider.prettyPrint(corr));
 		
 		try {
-			final HashMap<String, IType> astTypes = JavaASTUtil.getTypesForProject(project);
-			MarkerHelper.createMarker(astTypes, member, element.getName(), IMarker.PRIORITY_NORMAL);
+			final Map<String, IType> astTypes = JavaASTUtil.getTypesForProject(project);
+			MarkerUtil.createMarker(astTypes, member, element.getName(), IMarker.PRIORITY_NORMAL, IMarker.SEVERITY_INFO);
 		} catch (JavaModelException e) {
 			LOGGER.log(Level.ERROR, e);
 		}
@@ -214,8 +215,8 @@ public class CorrespondenceHelper {
 		}
 		LOGGER.log(Level.INFO, "Create correspondence: " + MappingLabelProvider.prettyPrint(corr));
 		try {
-			final HashMap<String, IType> astTypes = JavaASTUtil.getTypesForProject(project);
-			MarkerHelper.createMarker(astTypes, type, entity.getName(), IMarker.PRIORITY_NORMAL);
+			final Map<String, IType> astTypes = JavaASTUtil.getTypesForProject(project);
+			MarkerUtil.createMarker(astTypes, type, entity.getName(), IMarker.PRIORITY_NORMAL, IMarker.SEVERITY_INFO);
 		} catch (JavaModelException e) {
 			LOGGER.log(Level.ERROR, e);
 		}

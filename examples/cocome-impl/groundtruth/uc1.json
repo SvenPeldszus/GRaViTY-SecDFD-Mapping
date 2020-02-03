@@ -32,7 +32,7 @@
 	{"pm": "org.cocome.tradingsystem.cashdeskline.cashdesk.scannercontroller.impl.ScannerControllerEventHandlerImpl.sendFinishedSaleEvent(SaleFinishedEvent):void", "secdfd": "finish_sale"},
 
 	{"pm": "org.cocome.tradingsystem.inventory.data.store.StoreQueryIf", "secdfd": "store_query"},
-	{"pm": "org.cocome.tradingsystem.inventory.data.store.StoreQueryIf.queryProductById(long,PersistanceContext):Product", "secdfd": "store_query"}
+	{"pm": "org.cocome.tradingsystem.inventory.data.store.StoreQueryIf.queryProductById(long,PersistanceContext):Product", "secdfd": "store_query"},
 	{"pm": "org.cocome.tradingsystem.inventory.data.store.impl.StoreQueryImpl", "secdfd": "store_query"},
 	{"pm": "org.cocome.tradingsystem.inventory.data.store.impl.StoreQueryImpl.queryProductById(long,PersistanceContext):Product", "secdfd": "store_query"}
 ]

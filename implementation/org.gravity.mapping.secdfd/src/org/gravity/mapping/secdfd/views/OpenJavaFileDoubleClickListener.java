@@ -1,6 +1,6 @@
 package org.gravity.mapping.secdfd.views;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.log4j.Level;
 import org.eclipse.core.resources.IFile;
@@ -29,7 +29,7 @@ import org.gravity.mapping.secdfd.model.mapping.MappingEntityType;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TMethodDefinition;
-import org.moflon.tgg.runtime.AbstractCorrespondence;
+import org.gravity.mapping.secdfd.AbstractCorrespondence;
 
 final class OpenJavaFileDoubleClickListener implements IDoubleClickListener {
 	private final IFolder gravityFolder;
@@ -78,7 +78,7 @@ final class OpenJavaFileDoubleClickListener implements IDoubleClickListener {
 	 */
 	private IJavaElement getJavaElement(EObject pmElement) {
 		try {
-			HashMap<String, IType> astTypes = JavaASTUtil
+			Map<String, IType> astTypes = JavaASTUtil
 					.getTypesForProject(JavaCore.create(gravityFolder.getProject()));
 
 			IJavaElement javaElement = null;

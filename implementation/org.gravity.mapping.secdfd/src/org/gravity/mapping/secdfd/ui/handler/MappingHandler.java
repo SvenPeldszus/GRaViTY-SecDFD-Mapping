@@ -26,7 +26,7 @@ public class MappingHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		List<Object> selection = GravityUiActivator.getSelection(event);
+		List<?> selection = GravityUiActivator.getSelection(event);
 		List<IJavaProject> projects = selection.parallelStream()
 				.filter(o -> o instanceof IJavaProject)
 				.map(p -> (IJavaProject) p)

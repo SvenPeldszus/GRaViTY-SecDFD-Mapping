@@ -8,11 +8,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Stack;
 import java.util.stream.Collectors;
@@ -32,6 +33,7 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.gravity.eclipse.util.JavaASTUtil;
+import org.gravity.eclipse.util.MarkerUtil;
 import org.gravity.mapping.secdfd.helpers.CallHelper;
 import org.gravity.mapping.secdfd.model.mapping.AbstractMappingBase;
 import org.gravity.mapping.secdfd.model.mapping.AbstractMappingDerived;
@@ -44,17 +46,18 @@ import org.gravity.mapping.secdfd.model.mapping.AbstractMappingRanking;
 import org.gravity.mapping.secdfd.views.IListener;
 import org.gravity.mapping.secdfd.views.Logging;
 import org.gravity.mapping.secdfd.views.MappingLabelProvider;
+import org.gravity.typegraph.basic.BasicFactory;
 import org.gravity.typegraph.basic.TAbstractType;
-import org.gravity.typegraph.basic.TAccess;
 import org.gravity.typegraph.basic.TConstructorName;
 import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethod;
 import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TMethodSignature;
+import org.gravity.typegraph.basic.TPackage;
 import org.gravity.typegraph.basic.TParameter;
 import org.gravity.typegraph.basic.TSignature;
 import org.gravity.typegraph.basic.TypeGraph;
-import org.moflon.tgg.runtime.AbstractCorrespondence;
+import org.gravity.mapping.secdfd.AbstractCorrespondence;
 import org.xtext.example.mydsl.validation.MyDslValidator;
 
 import eDFDFlowTracking.Asset;
@@ -76,6 +79,8 @@ public class Mapper {
 	 * The logger of this class
 	 */
 	private static final Logger LOGGER = Logger.getLogger(Mapper.class);
+
+	public static final String MAPPING_MARKER = "org.gravity.mapping.secdfd.markers.java";
 
 	/**
 	 * The correspondence model built by this class
@@ -131,11 +136,11 @@ public class Mapper {
 		for (Element node : dfd.getElements()) {
 			if (node.getName() != null) {
 				if (EDFDFlowTracking1Package.eINSTANCE.getProcess().isSuperTypeOf(node.eClass())) {
-					Set<TMethod> correspondingMethods = mapToMethod(node).map(c -> c.getSource())
+					Set<TMethod> correspondingMethods = mapToMethod(node).map(Method2Element::getSource)
 							.collect(Collectors.toSet());
 					cache.addAllMethods(correspondingMethods, node);
 				} else if (EDFDFlowTracking1Package.eINSTANCE.getDataStore().isSuperTypeOf(node.eClass())) {
-					Set<TAbstractType> correspondingTypes = mapToType(node).map(c -> c.getSource())
+					Set<TAbstractType> correspondingTypes = mapToType(node).map(Type2NamedEntity::getSource)
 							.collect(Collectors.toSet());
 					cache.addAll(correspondingTypes, node);
 				}
@@ -260,9 +265,9 @@ public class Mapper {
 			}
 		}
 		try {
-			final HashMap<String, IType> astTypes = JavaASTUtil
+			final Map<String, IType> astTypes = JavaASTUtil
 					.getTypesForProject(JavaCore.create(destination.getProject()));
-			MarkerHelper.deleteMarker(astTypes, CorrespondenceHelper.getSource(corr));
+			MarkerUtil.deleteMarker(astTypes, CorrespondenceHelper.getSource(corr));
 		} catch (JavaModelException e) {
 			LOGGER.log(Level.ERROR, e);
 		}
@@ -289,11 +294,11 @@ public class Mapper {
 			mapping.getAccepted().remove(userCorr);
 			if (mapping.getIgnored().contains(userCorr)) {
 				try {
-					final HashMap<String, IType> astTypes = JavaASTUtil
+					final Map<String, IType> astTypes = JavaASTUtil
 							.getTypesForProject(JavaCore.create(destination.getProject()));
-					MarkerHelper.createMarker(astTypes, CorrespondenceHelper.getSource(userCorr),
-							((NamedEntity) CorrespondenceHelper.getTarget(userCorr)).getName(),
-							IMarker.PRIORITY_NORMAL);
+					MarkerUtil.createMarker(astTypes, CorrespondenceHelper.getSource(userCorr),
+							((NamedEntity) CorrespondenceHelper.getTarget(userCorr)).getName(), IMarker.PRIORITY_NORMAL,
+							IMarker.SEVERITY_INFO);
 				} catch (JavaModelException e) {
 					LOGGER.log(Level.ERROR, e);
 				}
@@ -303,7 +308,7 @@ public class Mapper {
 			userCorr = addNewUserdefinedCorr(pmObject, dfdObject);
 		}
 		if (userCorr != null) {
-			Stack<AbstractCorrespondence> stack = new Stack<>();
+			Deque<AbstractCorrespondence> stack = new LinkedList<>();
 			stack.add(userCorr);
 			while (!stack.isEmpty()) {
 				AbstractCorrespondence next = stack.pop();
@@ -438,7 +443,7 @@ public class Mapper {
 	 * @return A stream of correspondences
 	 */
 	private Stream<Method2Element> mapToMethod(Element element) {
-		ArrayList<Method2Element> list = new ArrayList<Method2Element>();
+		List<Method2Element> list = new ArrayList<>();
 		for (TMethod method : methods) {
 			int rank = StringCompare.compare(element.getName(), method.getTName());
 			if (rank > 0 && helper.canCreate(method, element, Collections.emptyMap())) {
@@ -479,7 +484,14 @@ public class Mapper {
 		case OBJECT:
 			return mapToType((NamedEntity) asset);
 		case STRING:
-			TAbstractType string = pm.getAbstractType("java.lang.String");
+			TPackage lang = pm.getPackage(new String[] { "java", "lang" });
+			TAbstractType string = lang.getOwnedTypes().parallelStream().filter(t -> "String".equals(t.getTName()))
+					.findAny().orElse(null);
+			if (string == null) {
+				string = BasicFactory.eINSTANCE.createTClass();
+				string.setTName("String");
+				lang.getOwnedTypes().add(string);
+			}
 			if (helper.canCreate(string, asset, Collections.emptyMap())) {
 				Type2NamedEntity corr = helper.createCorrespondence(string, asset, 100);
 				mapping.getSuggested().add(corr);
@@ -487,11 +499,10 @@ public class Mapper {
 			}
 			break;
 		case BOOLEAN:
-			Type2NamedEntity objectCorr = helper.createCorrespondence(pm.getAbstractType("java.lang.Boolean"), asset,
-					90);
+			Type2NamedEntity objectCorr = helper.createCorrespondence(pm.getType("java.lang.Boolean"), asset, 90);
 			mapping.getSuggested().add(objectCorr);
 			list.add(objectCorr);
-			Type2NamedEntity primitiveCorr = helper.createCorrespondence(pm.getAbstractType("boolean"), asset, 90);
+			Type2NamedEntity primitiveCorr = helper.createCorrespondence(pm.getType("boolean"), asset, 90);
 			mapping.getSuggested().add(primitiveCorr);
 			list.add(primitiveCorr);
 			break;
@@ -509,7 +520,7 @@ public class Mapper {
 	 * @return A stream of correspondences
 	 */
 	private Stream<Type2NamedEntity> mapToType(NamedEntity entity) {
-		ArrayList<Type2NamedEntity> list = new ArrayList<Type2NamedEntity>();
+		List<Type2NamedEntity> list = new ArrayList<>();
 		for (TAbstractType type : types) {
 			int rank = StringCompare.compare(entity.getName(), type.getTName());
 			if (rank > 0 && helper.canCreate(type, entity, Collections.emptyMap())) {
@@ -572,7 +583,7 @@ public class Mapper {
 //					}	
 //					MappingProcessSignature sigCorr = (MappingProcessSignature) helper.getCorrespondence(signature,
 //							element);
-//					if (sigCorr.getDeriving().size() == 0) {
+//					if (sigCorr.getDeriving().isEmpty()) {
 //						TMethodDefinition methodDefinition = methodSignature.getDefinitions().get(0);
 //						if(helper.canCreate(methodDefinition, sigCorr.getTarget(), Collections.emptyMap())) {
 //							MappingProcessDefinition newCorr = helper.createCorrespondence(methodDefinition, sigCorr.getTarget(), 45, Collections.singleton(sigCorr));
@@ -643,7 +654,7 @@ public class Mapper {
 								if (assets.contains(definiton.getDefinedBy())) {
 									return true;
 								}
-								for (TParameter param : definiton.getSignature().getParamList().getEntries()) {
+								for (TParameter param : definiton.getSignature().getParameters()) {
 									if (assets.contains(param.getType())) {
 										return true;
 									}
@@ -656,15 +667,14 @@ public class Mapper {
 					.filter(def -> def.getDefinedBy().isDeclared()).collect(Collectors.toSet());
 			for (TMethodDefinition toMap : definitionWithKnownAsset) {
 				Set<Asset> calledMethodAssets = Stream
-						.concat(toMap.getSignature().getParamList().getEntries().parallelStream()
-								.map(param -> param.getType()), Stream.of(toMap.getDefinedBy(), toMap.getReturnType()))
+						.concat(toMap.getSignature().getParameters().parallelStream().map(TParameter::getType),
+								Stream.of(toMap.getDefinedBy(), toMap.getReturnType()))
 						.flatMap(param -> helper.getCorrespondences(param).parallelStream())
-						.map(corr -> CorrespondenceHelper.getTarget(corr)).filter(target -> target instanceof Asset)
+						.map(CorrespondenceHelper::getTarget).filter(target -> target instanceof Asset)
 						.map(target -> (Asset) target).collect(Collectors.toSet());
 
 				List<Element> create = process.getOutflows().parallelStream()
-						.filter(pr -> pr.getAssets().parallelStream().filter(a -> calledMethodAssets.contains(a))
-								.findAny().isPresent())
+						.filter(pr -> pr.getAssets().parallelStream().anyMatch(a -> calledMethodAssets.contains(a)))
 						.flatMap(flow -> flow.getTarget().parallelStream().filter(t -> !(t instanceof ExternalEntity)))
 						.collect(Collectors.toList());
 				for (Element p : create) {
