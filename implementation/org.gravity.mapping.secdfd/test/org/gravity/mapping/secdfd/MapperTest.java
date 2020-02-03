@@ -26,7 +26,7 @@ import org.gravity.mapping.secdfd.AbstractCorrespondence;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 
 import eDFDFlowTracking.EDFD;
-import eDFDFlowTracking.EDFDFlowTracking1Package;
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 
 /**
  * @author speldszus
@@ -115,7 +115,7 @@ public class MapperTest {
 		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION,
 				new XMIResourceFactoryImpl());
 		rs.getPackageRegistry().put(BasicPackage.eNS_URI, BasicPackage.eINSTANCE);
-		rs.getPackageRegistry().put(EDFDFlowTracking1Package.eNS_URI, EDFDFlowTracking1Package.eINSTANCE);
+		rs.getPackageRegistry().put(EDFDFlowTrackingPackage.eNS_URI, EDFDFlowTrackingPackage.eINSTANCE);
 		return rs;
 	}
 }

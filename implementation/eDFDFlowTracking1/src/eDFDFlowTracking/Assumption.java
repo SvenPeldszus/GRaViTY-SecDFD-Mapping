@@ -29,10 +29,6 @@ public interface Assumption extends EObject {
 	 * The list contents are of type {@link eDFDFlowTracking.Objective}.
 	 * The literals are from the enumeration {@link eDFDFlowTracking.Objective}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Objective</em>' attribute list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Objective</em>' attribute list.
 	 * @see eDFDFlowTracking.Objective
@@ -46,10 +42,6 @@ public interface Assumption extends EObject {
 	 * Returns the value of the '<em><b>Layer</b></em>' attribute.
 	 * The literals are from the enumeration {@link eDFDFlowTracking.Layer}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Layer</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Layer</em>' attribute.
 	 * @see eDFDFlowTracking.Layer

@@ -27,10 +27,6 @@ public interface TrustZone extends Element {
 	 * Returns the value of the '<em><b>Elements</b></em>' reference list.
 	 * The list contents are of type {@link eDFDFlowTracking.Element}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Elements</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Elements</em>' reference list.
 	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getTrustZone_Elements()
@@ -43,10 +39,6 @@ public interface TrustZone extends Element {
 	 * Returns the value of the '<em><b>Subzones</b></em>' containment reference list.
 	 * The list contents are of type {@link eDFDFlowTracking.TrustZone}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Subzones</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Subzones</em>' containment reference list.
 	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getTrustZone_Subzones()
@@ -59,10 +51,6 @@ public interface TrustZone extends Element {
 	 * Returns the value of the '<em><b>Attackerprofile</b></em>' containment reference list.
 	 * The list contents are of type {@link eDFDFlowTracking.AttackerProfile}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Attackerprofile</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Attackerprofile</em>' containment reference list.
 	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getTrustZone_Attackerprofile()

@@ -51,10 +51,6 @@ public enum Priority implements Enumerator {
 	/**
 	 * The '<em><b>H</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>H</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #H
 	 * @model
@@ -66,10 +62,6 @@ public enum Priority implements Enumerator {
 	/**
 	 * The '<em><b>M</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>M</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #M
 	 * @model
@@ -81,10 +73,6 @@ public enum Priority implements Enumerator {
 	/**
 	 * The '<em><b>L</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>L</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #L
 	 * @model

@@ -51,10 +51,6 @@ public enum Channel implements Enumerator {
 	/**
 	 * The '<em><b>Wi Fi</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Wi Fi</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #WI_FI
 	 * @model name="WiFi"
@@ -66,10 +62,6 @@ public enum Channel implements Enumerator {
 	/**
 	 * The '<em><b>VLAN</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>VLAN</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #VLAN
 	 * @model
@@ -81,10 +73,6 @@ public enum Channel implements Enumerator {
 	/**
 	 * The '<em><b>ETH</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>ETH</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #ETH
 	 * @model

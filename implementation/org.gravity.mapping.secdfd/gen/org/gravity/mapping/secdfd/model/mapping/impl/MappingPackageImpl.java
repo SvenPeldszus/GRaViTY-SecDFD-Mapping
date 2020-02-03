@@ -2,7 +2,7 @@
  */
 package org.gravity.mapping.secdfd.model.mapping.impl;
 
-import eDFDFlowTracking.EDFDFlowTracking1Package;
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -140,7 +140,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 
 		// Initialize simple dependencies
 		BasicPackage.eINSTANCE.eClass();
-		EDFDFlowTracking1Package.eINSTANCE.eClass();
+		EDFDFlowTrackingPackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
 		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(SecdfdPackage.eNS_URI);

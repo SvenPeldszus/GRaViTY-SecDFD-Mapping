@@ -4,6 +4,7 @@ package eDFDFlowTracking.impl;
 
 import eDFDFlowTracking.AttackerProfile;
 import eDFDFlowTracking.EDFDFlowTrackingPackage;
+
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;

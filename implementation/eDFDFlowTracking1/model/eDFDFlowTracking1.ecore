@@ -17,6 +17,8 @@
         eType="#//Element"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="targets" lowerBound="1"
         upperBound="-1" eType="#//Element"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Type" eType="#//AssetType"
+        defaultValueLiteral="String"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Process" eSuperTypes="#//Element">
     <eStructuralFeatures xsi:type="ecore:EReference" name="responsibility" upperBound="-1"

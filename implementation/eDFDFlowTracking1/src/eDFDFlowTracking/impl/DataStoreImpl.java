@@ -4,6 +4,7 @@ package eDFDFlowTracking.impl;
 
 import eDFDFlowTracking.DataStore;
 import eDFDFlowTracking.EDFDFlowTrackingPackage;
+
 import org.eclipse.emf.ecore.EClass;
 
 /**

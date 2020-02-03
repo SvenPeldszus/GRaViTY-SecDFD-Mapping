@@ -61,10 +61,6 @@ public enum Objective implements Enumerator {
 	/**
 	 * The '<em><b>Integrity</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Integrity</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #INTEGRITY
 	 * @model name="Integrity"
@@ -76,10 +72,6 @@ public enum Objective implements Enumerator {
 	/**
 	 * The '<em><b>Confidentiality</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Confidentiality</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #CONFIDENTIALITY
 	 * @model name="Confidentiality"
@@ -91,10 +83,6 @@ public enum Objective implements Enumerator {
 	/**
 	 * The '<em><b>Availability</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Availability</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #AVAILABILITY
 	 * @model name="Availability"
@@ -106,10 +94,6 @@ public enum Objective implements Enumerator {
 	/**
 	 * The '<em><b>Accountability</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Accountability</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #ACCOUNTABILITY
 	 * @model name="Accountability"

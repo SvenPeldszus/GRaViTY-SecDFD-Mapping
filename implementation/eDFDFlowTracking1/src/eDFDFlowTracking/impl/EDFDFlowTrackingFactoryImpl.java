@@ -3,6 +3,7 @@
 package eDFDFlowTracking.impl;
 
 import eDFDFlowTracking.Asset;
+import eDFDFlowTracking.AssetType;
 import eDFDFlowTracking.Assumption;
 import eDFDFlowTracking.AttackerProfile;
 import eDFDFlowTracking.Channel;
@@ -107,6 +108,8 @@ public class EDFDFlowTrackingFactoryImpl extends EFactoryImpl implements EDFDFlo
 				return createObjectiveFromString(eDataType, initialValue);
 			case EDFDFlowTrackingPackage.LAYER:
 				return createLayerFromString(eDataType, initialValue);
+			case EDFDFlowTrackingPackage.ASSET_TYPE:
+				return createAssetTypeFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -130,6 +133,8 @@ public class EDFDFlowTrackingFactoryImpl extends EFactoryImpl implements EDFDFlo
 				return convertObjectiveToString(eDataType, instanceValue);
 			case EDFDFlowTrackingPackage.LAYER:
 				return convertLayerToString(eDataType, instanceValue);
+			case EDFDFlowTrackingPackage.ASSET_TYPE:
+				return convertAssetTypeToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -353,6 +358,26 @@ public class EDFDFlowTrackingFactoryImpl extends EFactoryImpl implements EDFDFlo
 	 * @generated
 	 */
 	public String convertLayerToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AssetType createAssetTypeFromString(EDataType eDataType, String initialValue) {
+		AssetType result = AssetType.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertAssetTypeToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

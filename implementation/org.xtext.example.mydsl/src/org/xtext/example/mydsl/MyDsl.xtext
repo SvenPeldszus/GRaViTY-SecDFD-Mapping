@@ -35,7 +35,8 @@ AttackerProfile returns AttackerProfile:
 Asset returns Asset:
 	{Asset}
 	'Asset'
-	name=EString
+	name=EString 
+		'type:' Type=AssetType
 		('values:' value+=Value ( "," value+=Value)* )?
 		'source:' source=[Element|EString]
 		'targets:' targets+=[Element|EString] ( "," targets+=[Element|EString])*
@@ -138,3 +139,6 @@ enum ResponsibilityType returns ResponsibilityType:
 
 enum Channel returns Channel:
 				VLAN = 'VLAN' | ETH = 'ETH' | WiFi = 'WiFi';
+
+enum AssetType returns AssetType:
+				String = 'String' | Number = 'Number' | Object = 'Object' | Vector = 'Vector';

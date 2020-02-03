@@ -29,10 +29,6 @@ public interface Responsibility extends NamedEntity {
 	 * The list contents are of type {@link eDFDFlowTracking.ResponsibilityType}.
 	 * The literals are from the enumeration {@link eDFDFlowTracking.ResponsibilityType}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Action</em>' attribute list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Action</em>' attribute list.
 	 * @see eDFDFlowTracking.ResponsibilityType
@@ -46,10 +42,6 @@ public interface Responsibility extends NamedEntity {
 	 * Returns the value of the '<em><b>Incomeassets</b></em>' reference list.
 	 * The list contents are of type {@link eDFDFlowTracking.Asset}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Incomeassets</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Incomeassets</em>' reference list.
 	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getResponsibility_Incomeassets()
@@ -62,10 +54,6 @@ public interface Responsibility extends NamedEntity {
 	 * Returns the value of the '<em><b>Outcomeassets</b></em>' reference list.
 	 * The list contents are of type {@link eDFDFlowTracking.Asset}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Outcomeassets</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Outcomeassets</em>' reference list.
 	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getResponsibility_Outcomeassets()
@@ -78,10 +66,6 @@ public interface Responsibility extends NamedEntity {
 	 * Returns the value of the '<em><b>Process</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link eDFDFlowTracking.Process#getResponsibility <em>Responsibility</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Process</em>' container reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Process</em>' container reference.
 	 * @see #setProcess(eDFDFlowTracking.Process)

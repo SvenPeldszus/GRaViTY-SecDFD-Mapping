@@ -51,10 +51,6 @@ public enum Layer implements Enumerator {
 	/**
 	 * The '<em><b>Transport</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Transport</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #TRANSPORT
 	 * @model name="Transport"
@@ -66,10 +62,6 @@ public enum Layer implements Enumerator {
 	/**
 	 * The '<em><b>Architectural</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Architectural</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #ARCHITECTURAL
 	 * @model name="Architectural"
@@ -81,10 +73,6 @@ public enum Layer implements Enumerator {
 	/**
 	 * The '<em><b>Application</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Application</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #APPLICATION
 	 * @model name="Application"

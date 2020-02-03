@@ -26,10 +26,6 @@ public interface Process extends Element {
 	 * The list contents are of type {@link eDFDFlowTracking.Responsibility}.
 	 * It is bidirectional and its opposite is '{@link eDFDFlowTracking.Responsibility#getProcess <em>Process</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Responsibility</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Responsibility</em>' containment reference list.
 	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getProcess_Responsibility()

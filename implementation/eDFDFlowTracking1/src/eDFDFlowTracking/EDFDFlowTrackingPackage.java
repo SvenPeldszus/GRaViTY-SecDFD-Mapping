@@ -160,13 +160,22 @@ public interface EDFDFlowTrackingPackage extends EPackage {
 	int ASSET__TARGETS = NAMED_ENTITY_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSET__TYPE = NAMED_ENTITY_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>Asset</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ASSET_FEATURE_COUNT = NAMED_ENTITY_FEATURE_COUNT + 3;
+	int ASSET_FEATURE_COUNT = NAMED_ENTITY_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of operations of the '<em>Asset</em>' class.
@@ -1147,6 +1156,16 @@ public interface EDFDFlowTrackingPackage extends EPackage {
 	 */
 	int LAYER = 17;
 
+	/**
+	 * The meta object id for the '{@link eDFDFlowTracking.AssetType <em>Asset Type</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see eDFDFlowTracking.AssetType
+	 * @see eDFDFlowTracking.impl.EDFDFlowTrackingPackageImpl#getAssetType()
+	 * @generated
+	 */
+	int ASSET_TYPE = 18;
+
 
 	/**
 	 * Returns the meta object for class '{@link eDFDFlowTracking.Asset <em>Asset</em>}'.
@@ -1190,6 +1209,17 @@ public interface EDFDFlowTrackingPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getAsset_Targets();
+
+	/**
+	 * Returns the meta object for the attribute '{@link eDFDFlowTracking.Asset#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see eDFDFlowTracking.Asset#getType()
+	 * @see #getAsset()
+	 * @generated
+	 */
+	EAttribute getAsset_Type();
 
 	/**
 	 * Returns the meta object for class '{@link eDFDFlowTracking.Process <em>Process</em>}'.
@@ -1659,6 +1689,16 @@ public interface EDFDFlowTrackingPackage extends EPackage {
 	EEnum getLayer();
 
 	/**
+	 * Returns the meta object for enum '{@link eDFDFlowTracking.AssetType <em>Asset Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Asset Type</em>'.
+	 * @see eDFDFlowTracking.AssetType
+	 * @generated
+	 */
+	EEnum getAssetType();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1714,6 +1754,14 @@ public interface EDFDFlowTrackingPackage extends EPackage {
 		 * @generated
 		 */
 		EReference ASSET__TARGETS = eINSTANCE.getAsset_Targets();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ASSET__TYPE = eINSTANCE.getAsset_Type();
 
 		/**
 		 * The meta object literal for the '{@link eDFDFlowTracking.impl.ProcessImpl <em>Process</em>}' class.
@@ -2100,6 +2148,16 @@ public interface EDFDFlowTrackingPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum LAYER = eINSTANCE.getLayer();
+
+		/**
+		 * The meta object literal for the '{@link eDFDFlowTracking.AssetType <em>Asset Type</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see eDFDFlowTracking.AssetType
+		 * @see eDFDFlowTracking.impl.EDFDFlowTrackingPackageImpl#getAssetType()
+		 * @generated
+		 */
+		EEnum ASSET_TYPE = eINSTANCE.getAssetType();
 
 	}
 

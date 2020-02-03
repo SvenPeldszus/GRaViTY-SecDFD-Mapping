@@ -23,7 +23,7 @@ import org.gravity.typegraph.basic.TSignature;
 import org.gravity.mapping.secdfd.AbstractCorrespondence;
 
 import eDFDFlowTracking.EDFD;
-import eDFDFlowTracking.EDFDFlowTracking1Package;
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 import eDFDFlowTracking.NamedEntity;
 
 public class MappingLabelProvider implements ILabelProvider {
@@ -111,12 +111,12 @@ public class MappingLabelProvider implements ILabelProvider {
 		} else if (BasicPackage.eINSTANCE.getTAbstractType().isSuperTypeOf(sType)) {
 			builder.append("Type: ");
 			builder.append(((TAbstractType) eObject).getFullyQualifiedName());
-		} else if (EDFDFlowTracking1Package.eINSTANCE.getNamedEntity().isSuperTypeOf(sType)) {
-			if (EDFDFlowTracking1Package.eINSTANCE.getProcess().isSuperTypeOf(sType)) {
+		} else if (EDFDFlowTrackingPackage.eINSTANCE.getNamedEntity().isSuperTypeOf(sType)) {
+			if (EDFDFlowTrackingPackage.eINSTANCE.getProcess().isSuperTypeOf(sType)) {
 				builder.append("Process: ");
-			} else if (EDFDFlowTracking1Package.eINSTANCE.getAsset().isSuperTypeOf(sType)) {
+			} else if (EDFDFlowTrackingPackage.eINSTANCE.getAsset().isSuperTypeOf(sType)) {
 				builder.append("Asset: ");
-			} else if (EDFDFlowTracking1Package.eINSTANCE.getDataStore().isSuperTypeOf(sType)) {
+			} else if (EDFDFlowTrackingPackage.eINSTANCE.getDataStore().isSuperTypeOf(sType)) {
 				builder.append("DataStore: ");
 			}
 			builder.append(((NamedEntity) eObject).getName());

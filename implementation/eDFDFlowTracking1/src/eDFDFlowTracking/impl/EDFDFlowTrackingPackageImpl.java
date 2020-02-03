@@ -3,6 +3,7 @@
 package eDFDFlowTracking.impl;
 
 import eDFDFlowTracking.Asset;
+import eDFDFlowTracking.AssetType;
 import eDFDFlowTracking.Assumption;
 import eDFDFlowTracking.AttackerProfile;
 import eDFDFlowTracking.Channel;
@@ -163,6 +164,13 @@ public class EDFDFlowTrackingPackageImpl extends EPackageImpl implements EDFDFlo
 	private EEnum layerEEnum = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum assetTypeEEnum = null;
+
+	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
 	 * package URI value.
@@ -261,6 +269,16 @@ public class EDFDFlowTrackingPackageImpl extends EPackageImpl implements EDFDFlo
 	@Override
 	public EReference getAsset_Targets() {
 		return (EReference)assetEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getAsset_Type() {
+		return (EAttribute)assetEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -709,6 +727,16 @@ public class EDFDFlowTrackingPackageImpl extends EPackageImpl implements EDFDFlo
 	 * @generated
 	 */
 	@Override
+	public EEnum getAssetType() {
+		return assetTypeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EDFDFlowTrackingFactory getEDFDFlowTrackingFactory() {
 		return (EDFDFlowTrackingFactory)getEFactoryInstance();
 	}
@@ -736,6 +764,7 @@ public class EDFDFlowTrackingPackageImpl extends EPackageImpl implements EDFDFlo
 		createEReference(assetEClass, ASSET__VALUE);
 		createEReference(assetEClass, ASSET__SOURCE);
 		createEReference(assetEClass, ASSET__TARGETS);
+		createEAttribute(assetEClass, ASSET__TYPE);
 
 		processEClass = createEClass(PROCESS);
 		createEReference(processEClass, PROCESS__RESPONSIBILITY);
@@ -794,6 +823,7 @@ public class EDFDFlowTrackingPackageImpl extends EPackageImpl implements EDFDFlo
 		responsibilityTypeEEnum = createEEnum(RESPONSIBILITY_TYPE);
 		objectiveEEnum = createEEnum(OBJECTIVE);
 		layerEEnum = createEEnum(LAYER);
+		assetTypeEEnum = createEEnum(ASSET_TYPE);
 	}
 
 	/**
@@ -840,6 +870,7 @@ public class EDFDFlowTrackingPackageImpl extends EPackageImpl implements EDFDFlo
 		initEReference(getAsset_Value(), this.getValue(), null, "value", null, 0, -1, Asset.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAsset_Source(), this.getElement(), null, "source", null, 1, 1, Asset.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAsset_Targets(), this.getElement(), null, "targets", null, 1, -1, Asset.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAsset_Type(), this.getAssetType(), "Type", "String", 0, 1, Asset.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(processEClass, eDFDFlowTracking.Process.class, "Process", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getProcess_Responsibility(), this.getResponsibility(), this.getResponsibility_Process(), "responsibility", null, 0, -1, eDFDFlowTracking.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -928,6 +959,13 @@ public class EDFDFlowTrackingPackageImpl extends EPackageImpl implements EDFDFlo
 		addEEnumLiteral(layerEEnum, Layer.TRANSPORT);
 		addEEnumLiteral(layerEEnum, Layer.ARCHITECTURAL);
 		addEEnumLiteral(layerEEnum, Layer.APPLICATION);
+
+		initEEnum(assetTypeEEnum, AssetType.class, "AssetType");
+		addEEnumLiteral(assetTypeEEnum, AssetType.STRING);
+		addEEnumLiteral(assetTypeEEnum, AssetType.OBJECT);
+		addEEnumLiteral(assetTypeEEnum, AssetType.NUMBER);
+		addEEnumLiteral(assetTypeEEnum, AssetType.VECTOR);
+		addEEnumLiteral(assetTypeEEnum, AssetType.BOOLEAN);
 
 		// Create resource
 		createResource(eNS_URI);

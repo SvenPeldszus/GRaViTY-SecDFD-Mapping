@@ -63,7 +63,7 @@ import org.xtext.example.mydsl.validation.MyDslValidator;
 import eDFDFlowTracking.Asset;
 import eDFDFlowTracking.DataStore;
 import eDFDFlowTracking.EDFD;
-import eDFDFlowTracking.EDFDFlowTracking1Package;
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 import eDFDFlowTracking.Element;
 import eDFDFlowTracking.ExternalEntity;
 import eDFDFlowTracking.NamedEntity;
@@ -135,11 +135,11 @@ public class Mapper {
 
 		for (Element node : dfd.getElements()) {
 			if (node.getName() != null) {
-				if (EDFDFlowTracking1Package.eINSTANCE.getProcess().isSuperTypeOf(node.eClass())) {
+				if (EDFDFlowTrackingPackage.eINSTANCE.getProcess().isSuperTypeOf(node.eClass())) {
 					Set<TMethod> correspondingMethods = mapToMethod(node).map(Method2Element::getSource)
 							.collect(Collectors.toSet());
 					cache.addAllMethods(correspondingMethods, node);
-				} else if (EDFDFlowTracking1Package.eINSTANCE.getDataStore().isSuperTypeOf(node.eClass())) {
+				} else if (EDFDFlowTrackingPackage.eINSTANCE.getDataStore().isSuperTypeOf(node.eClass())) {
 					Set<TAbstractType> correspondingTypes = mapToType(node).map(Type2NamedEntity::getSource)
 							.collect(Collectors.toSet());
 					cache.addAll(correspondingTypes, node);

@@ -151,10 +151,6 @@ public enum ResponsibilityType implements Enumerator {
 	/**
 	 * The '<em><b>Store</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Store</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #STORE
 	 * @model name="Store"
@@ -166,10 +162,6 @@ public enum ResponsibilityType implements Enumerator {
 	/**
 	 * The '<em><b>Comparator</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Comparator</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #COMPARATOR
 	 * @model name="Comparator"
@@ -181,10 +173,6 @@ public enum ResponsibilityType implements Enumerator {
 	/**
 	 * The '<em><b>Discarder</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Discarder</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #DISCARDER
 	 * @model name="Discarder"
@@ -196,10 +184,6 @@ public enum ResponsibilityType implements Enumerator {
 	/**
 	 * The '<em><b>Joiner</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Joiner</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #JOINER
 	 * @model name="Joiner"
@@ -211,10 +195,6 @@ public enum ResponsibilityType implements Enumerator {
 	/**
 	 * The '<em><b>Copier</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Copier</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #COPIER
 	 * @model name="Copier"
@@ -226,10 +206,6 @@ public enum ResponsibilityType implements Enumerator {
 	/**
 	 * The '<em><b>Splitter</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Splitter</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #SPLITTER
 	 * @model name="Splitter"
@@ -241,10 +217,6 @@ public enum ResponsibilityType implements Enumerator {
 	/**
 	 * The '<em><b>Forward</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Forward</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #FORWARD
 	 * @model name="Forward"
@@ -256,10 +228,6 @@ public enum ResponsibilityType implements Enumerator {
 	/**
 	 * The '<em><b>Encrypt Or Hash</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Encrypt Or Hash</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #ENCRYPT_OR_HASH
 	 * @model name="EncryptOrHash"
@@ -271,10 +239,6 @@ public enum ResponsibilityType implements Enumerator {
 	/**
 	 * The '<em><b>Decrypt</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Decrypt</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #DECRYPT
 	 * @model name="Decrypt"
@@ -286,10 +250,6 @@ public enum ResponsibilityType implements Enumerator {
 	/**
 	 * The '<em><b>Authenticator</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Authenticator</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #AUTHENTICATOR
 	 * @model name="Authenticator"
@@ -301,10 +261,6 @@ public enum ResponsibilityType implements Enumerator {
 	/**
 	 * The '<em><b>Authoriser</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Authoriser</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #AUTHORISER
 	 * @model name="Authoriser"
@@ -316,10 +272,6 @@ public enum ResponsibilityType implements Enumerator {
 	/**
 	 * The '<em><b>Verifier</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Verifier</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #VERIFIER
 	 * @model name="Verifier"
@@ -331,10 +283,6 @@ public enum ResponsibilityType implements Enumerator {
 	/**
 	 * The '<em><b>User</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>User</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #USER
 	 * @model name="User"

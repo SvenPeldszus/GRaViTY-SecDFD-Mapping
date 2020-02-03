@@ -7,14 +7,6 @@
 <plugin>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated eDFDFlowTracking1 -->
-      <package
-            uri="http://www.example.org/eDFDFlowTracking"
-            class="eDFDFlowTracking.EDFDFlowTracking1Package"
-            genModel="model/eDFDFlowTracking1.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated eDFDFlowTracking -->
       <package
             uri="http://www.example.org/eDFDFlowTracking"

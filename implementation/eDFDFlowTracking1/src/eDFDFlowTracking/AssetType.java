@@ -13,7 +13,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * A representation of the literals of the enumeration '<em><b>Asset Type</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
- * @see eDFDFlowTracking.EDFDFlowTracking1Package#getAssetType()
+ * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getAssetType()
  * @model
  * @generated
  */
@@ -56,7 +56,9 @@ public enum AssetType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	VECTOR(3, "Vector", "Vector"), /**
+	VECTOR(3, "Vector", "Vector"),
+
+	/**
 	 * The '<em><b>Boolean</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -69,10 +71,6 @@ public enum AssetType implements Enumerator {
 	/**
 	 * The '<em><b>String</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>String</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #STRING
 	 * @model name="String"
@@ -84,10 +82,6 @@ public enum AssetType implements Enumerator {
 	/**
 	 * The '<em><b>Object</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Object</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #OBJECT
 	 * @model name="Object"
@@ -99,10 +93,6 @@ public enum AssetType implements Enumerator {
 	/**
 	 * The '<em><b>Number</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Number</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #NUMBER
 	 * @model name="Number"
@@ -114,10 +104,6 @@ public enum AssetType implements Enumerator {
 	/**
 	 * The '<em><b>Vector</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Vector</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #VECTOR
 	 * @model name="Vector"
@@ -129,10 +115,6 @@ public enum AssetType implements Enumerator {
 	/**
 	 * The '<em><b>Boolean</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Boolean</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #BOOLEAN
 	 * @model name="Boolean"

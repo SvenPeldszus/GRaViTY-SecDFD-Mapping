@@ -27,10 +27,6 @@ public interface EDFD extends NamedEntity {
 	 * Returns the value of the '<em><b>Asset</b></em>' containment reference list.
 	 * The list contents are of type {@link eDFDFlowTracking.Asset}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Asset</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Asset</em>' containment reference list.
 	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getEDFD_Asset()
@@ -43,10 +39,6 @@ public interface EDFD extends NamedEntity {
 	 * Returns the value of the '<em><b>Trustzones</b></em>' containment reference list.
 	 * The list contents are of type {@link eDFDFlowTracking.TrustZone}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Trustzones</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Trustzones</em>' containment reference list.
 	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getEDFD_Trustzones()
@@ -59,10 +51,6 @@ public interface EDFD extends NamedEntity {
 	 * Returns the value of the '<em><b>Elements</b></em>' containment reference list.
 	 * The list contents are of type {@link eDFDFlowTracking.Element}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Elements</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Elements</em>' containment reference list.
 	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getEDFD_Elements()
