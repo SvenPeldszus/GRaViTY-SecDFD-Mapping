@@ -9,7 +9,7 @@ package eDFDFlowTracking;
  * <!-- end-user-doc -->
  *
  *
- * @see eDFDFlowTracking.EDFDFlowTracking1Package#getDataStore()
+ * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getDataStore()
  * @model
  * @generated
  */

@@ -2,8 +2,7 @@
  */
 package eDFDFlowTracking.tests;
 
-import eDFDFlowTracking.EDFDFlowTracking1Factory;
-
+import eDFDFlowTracking.EDFDFlowTrackingFactory;
 import junit.textui.TestRunner;
 
 /**
@@ -52,7 +51,7 @@ public class ProcessTest extends ElementTest {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(EDFDFlowTracking1Factory.eINSTANCE.createProcess());
+		setFixture(EDFDFlowTrackingFactory.eINSTANCE.createProcess());
 	}
 
 	/**

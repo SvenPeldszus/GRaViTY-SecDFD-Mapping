@@ -3,7 +3,7 @@
 package eDFDFlowTracking.provider;
 
 
-import eDFDFlowTracking.EDFDFlowTracking1Package;
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 import eDFDFlowTracking.Objective;
 import eDFDFlowTracking.Value;
 
@@ -80,7 +80,7 @@ public class ValueItemProvider
 				 getResourceLocator(),
 				 getString("_UI_Value_Objective_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Value_Objective_feature", "_UI_Value_type"),
-				 EDFDFlowTracking1Package.Literals.VALUE__OBJECTIVE,
+				 EDFDFlowTrackingPackage.Literals.VALUE__OBJECTIVE,
 				 true,
 				 false,
 				 false,
@@ -102,7 +102,7 @@ public class ValueItemProvider
 				 getResourceLocator(),
 				 getString("_UI_Value_Priority_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Value_Priority_feature", "_UI_Value_type"),
-				 EDFDFlowTracking1Package.Literals.VALUE__PRIORITY,
+				 EDFDFlowTrackingPackage.Literals.VALUE__PRIORITY,
 				 true,
 				 false,
 				 false,
@@ -136,7 +136,7 @@ public class ValueItemProvider
 			getString("_UI_Value_type") :
 			getString("_UI_Value_type") + " " + label;
 	}
-	
+
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
@@ -150,8 +150,8 @@ public class ValueItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Value.class)) {
-			case EDFDFlowTracking1Package.VALUE__OBJECTIVE:
-			case EDFDFlowTracking1Package.VALUE__PRIORITY:
+			case EDFDFlowTrackingPackage.VALUE__OBJECTIVE:
+			case EDFDFlowTrackingPackage.VALUE__PRIORITY:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}
@@ -178,7 +178,7 @@ public class ValueItemProvider
 	 */
 	@Override
 	public ResourceLocator getResourceLocator() {
-		return EDFDFlowTracking1EditPlugin.INSTANCE;
+		return EDFDFlowTrackingEditPlugin.INSTANCE;
 	}
 
 }

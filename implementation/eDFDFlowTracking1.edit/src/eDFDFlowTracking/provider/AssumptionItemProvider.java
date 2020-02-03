@@ -4,7 +4,7 @@ package eDFDFlowTracking.provider;
 
 
 import eDFDFlowTracking.Assumption;
-import eDFDFlowTracking.EDFDFlowTracking1Package;
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 import eDFDFlowTracking.Layer;
 
 import java.util.Collection;
@@ -80,7 +80,7 @@ public class AssumptionItemProvider
 				 getResourceLocator(),
 				 getString("_UI_Assumption_Objective_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Assumption_Objective_feature", "_UI_Assumption_type"),
-				 EDFDFlowTracking1Package.Literals.ASSUMPTION__OBJECTIVE,
+				 EDFDFlowTrackingPackage.Literals.ASSUMPTION__OBJECTIVE,
 				 true,
 				 false,
 				 false,
@@ -102,7 +102,7 @@ public class AssumptionItemProvider
 				 getResourceLocator(),
 				 getString("_UI_Assumption_Layer_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Assumption_Layer_feature", "_UI_Assumption_type"),
-				 EDFDFlowTracking1Package.Literals.ASSUMPTION__LAYER,
+				 EDFDFlowTrackingPackage.Literals.ASSUMPTION__LAYER,
 				 true,
 				 false,
 				 false,
@@ -136,7 +136,7 @@ public class AssumptionItemProvider
 			getString("_UI_Assumption_type") :
 			getString("_UI_Assumption_type") + " " + label;
 	}
-	
+
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
@@ -150,8 +150,8 @@ public class AssumptionItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Assumption.class)) {
-			case EDFDFlowTracking1Package.ASSUMPTION__OBJECTIVE:
-			case EDFDFlowTracking1Package.ASSUMPTION__LAYER:
+			case EDFDFlowTrackingPackage.ASSUMPTION__OBJECTIVE:
+			case EDFDFlowTrackingPackage.ASSUMPTION__LAYER:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}
@@ -178,7 +178,7 @@ public class AssumptionItemProvider
 	 */
 	@Override
 	public ResourceLocator getResourceLocator() {
-		return EDFDFlowTracking1EditPlugin.INSTANCE;
+		return EDFDFlowTrackingEditPlugin.INSTANCE;
 	}
 
 }

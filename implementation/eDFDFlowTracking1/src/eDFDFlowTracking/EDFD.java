@@ -18,7 +18,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link eDFDFlowTracking.EDFD#getElements <em>Elements</em>}</li>
  * </ul>
  *
- * @see eDFDFlowTracking.EDFDFlowTracking1Package#getEDFD()
+ * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getEDFD()
  * @model
  * @generated
  */
@@ -33,7 +33,7 @@ public interface EDFD extends NamedEntity {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Asset</em>' containment reference list.
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getEDFD_Asset()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getEDFD_Asset()
 	 * @model containment="true"
 	 * @generated
 	 */
@@ -49,7 +49,7 @@ public interface EDFD extends NamedEntity {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Trustzones</em>' containment reference list.
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getEDFD_Trustzones()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getEDFD_Trustzones()
 	 * @model containment="true"
 	 * @generated
 	 */
@@ -65,7 +65,7 @@ public interface EDFD extends NamedEntity {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Elements</em>' containment reference list.
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getEDFD_Elements()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getEDFD_Elements()
 	 * @model containment="true"
 	 * @generated
 	 */

@@ -13,7 +13,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * A representation of the literals of the enumeration '<em><b>Priority</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
- * @see eDFDFlowTracking.EDFDFlowTracking1Package#getPriority()
+ * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getPriority()
  * @model
  * @generated
  */

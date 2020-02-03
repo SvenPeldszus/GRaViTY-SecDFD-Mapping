@@ -4,8 +4,7 @@ package eDFDFlowTracking.provider;
 
 
 import eDFDFlowTracking.AttackerProfile;
-import eDFDFlowTracking.EDFDFlowTracking1Package;
-
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 import java.util.Collection;
 import java.util.List;
 
@@ -80,7 +79,7 @@ public class AttackerProfileItemProvider
 				 getResourceLocator(),
 				 getString("_UI_NamedEntity_name_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_NamedEntity_name_feature", "_UI_NamedEntity_type"),
-				 EDFDFlowTracking1Package.Literals.NAMED_ENTITY__NAME,
+				 EDFDFlowTrackingPackage.Literals.NAMED_ENTITY__NAME,
 				 true,
 				 false,
 				 false,
@@ -102,7 +101,7 @@ public class AttackerProfileItemProvider
 				 getResourceLocator(),
 				 getString("_UI_NamedEntity_number_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_NamedEntity_number_feature", "_UI_NamedEntity_type"),
-				 EDFDFlowTracking1Package.Literals.NAMED_ENTITY__NUMBER,
+				 EDFDFlowTrackingPackage.Literals.NAMED_ENTITY__NUMBER,
 				 true,
 				 false,
 				 false,
@@ -124,7 +123,7 @@ public class AttackerProfileItemProvider
 				 getResourceLocator(),
 				 getString("_UI_AttackerProfile_Observation_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_AttackerProfile_Observation_feature", "_UI_AttackerProfile_type"),
-				 EDFDFlowTracking1Package.Literals.ATTACKER_PROFILE__OBSERVATION,
+				 EDFDFlowTrackingPackage.Literals.ATTACKER_PROFILE__OBSERVATION,
 				 true,
 				 false,
 				 false,
@@ -157,7 +156,7 @@ public class AttackerProfileItemProvider
 			getString("_UI_AttackerProfile_type") :
 			getString("_UI_AttackerProfile_type") + " " + label;
 	}
-	
+
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
@@ -171,9 +170,9 @@ public class AttackerProfileItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(AttackerProfile.class)) {
-			case EDFDFlowTracking1Package.ATTACKER_PROFILE__NAME:
-			case EDFDFlowTracking1Package.ATTACKER_PROFILE__NUMBER:
-			case EDFDFlowTracking1Package.ATTACKER_PROFILE__OBSERVATION:
+			case EDFDFlowTrackingPackage.ATTACKER_PROFILE__NAME:
+			case EDFDFlowTrackingPackage.ATTACKER_PROFILE__NUMBER:
+			case EDFDFlowTrackingPackage.ATTACKER_PROFILE__OBSERVATION:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}
@@ -200,7 +199,7 @@ public class AttackerProfileItemProvider
 	 */
 	@Override
 	public ResourceLocator getResourceLocator() {
-		return EDFDFlowTracking1EditPlugin.INSTANCE;
+		return EDFDFlowTrackingEditPlugin.INSTANCE;
 	}
 
 }

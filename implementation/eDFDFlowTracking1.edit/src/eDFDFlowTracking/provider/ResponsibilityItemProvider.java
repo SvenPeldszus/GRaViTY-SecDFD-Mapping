@@ -3,7 +3,7 @@
 package eDFDFlowTracking.provider;
 
 
-import eDFDFlowTracking.EDFDFlowTracking1Package;
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 import eDFDFlowTracking.Responsibility;
 
 import java.util.Collection;
@@ -65,7 +65,6 @@ public class ResponsibilityItemProvider
 			addActionPropertyDescriptor(object);
 			addIncomeassetsPropertyDescriptor(object);
 			addOutcomeassetsPropertyDescriptor(object);
-			addProcessPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -83,7 +82,7 @@ public class ResponsibilityItemProvider
 				 getResourceLocator(),
 				 getString("_UI_NamedEntity_name_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_NamedEntity_name_feature", "_UI_NamedEntity_type"),
-				 EDFDFlowTracking1Package.Literals.NAMED_ENTITY__NAME,
+				 EDFDFlowTrackingPackage.Literals.NAMED_ENTITY__NAME,
 				 true,
 				 false,
 				 false,
@@ -105,7 +104,7 @@ public class ResponsibilityItemProvider
 				 getResourceLocator(),
 				 getString("_UI_NamedEntity_number_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_NamedEntity_number_feature", "_UI_NamedEntity_type"),
-				 EDFDFlowTracking1Package.Literals.NAMED_ENTITY__NUMBER,
+				 EDFDFlowTrackingPackage.Literals.NAMED_ENTITY__NUMBER,
 				 true,
 				 false,
 				 false,
@@ -127,7 +126,7 @@ public class ResponsibilityItemProvider
 				 getResourceLocator(),
 				 getString("_UI_Responsibility_Action_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Responsibility_Action_feature", "_UI_Responsibility_type"),
-				 EDFDFlowTracking1Package.Literals.RESPONSIBILITY__ACTION,
+				 EDFDFlowTrackingPackage.Literals.RESPONSIBILITY__ACTION,
 				 true,
 				 false,
 				 false,
@@ -149,7 +148,7 @@ public class ResponsibilityItemProvider
 				 getResourceLocator(),
 				 getString("_UI_Responsibility_incomeassets_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Responsibility_incomeassets_feature", "_UI_Responsibility_type"),
-				 EDFDFlowTracking1Package.Literals.RESPONSIBILITY__INCOMEASSETS,
+				 EDFDFlowTrackingPackage.Literals.RESPONSIBILITY__INCOMEASSETS,
 				 true,
 				 false,
 				 true,
@@ -171,29 +170,7 @@ public class ResponsibilityItemProvider
 				 getResourceLocator(),
 				 getString("_UI_Responsibility_outcomeassets_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Responsibility_outcomeassets_feature", "_UI_Responsibility_type"),
-				 EDFDFlowTracking1Package.Literals.RESPONSIBILITY__OUTCOMEASSETS,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Process feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addProcessPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Responsibility_process_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Responsibility_process_feature", "_UI_Responsibility_type"),
-				 EDFDFlowTracking1Package.Literals.RESPONSIBILITY__PROCESS,
+				 EDFDFlowTrackingPackage.Literals.RESPONSIBILITY__OUTCOMEASSETS,
 				 true,
 				 false,
 				 true,
@@ -226,7 +203,7 @@ public class ResponsibilityItemProvider
 			getString("_UI_Responsibility_type") :
 			getString("_UI_Responsibility_type") + " " + label;
 	}
-	
+
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
@@ -240,9 +217,9 @@ public class ResponsibilityItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Responsibility.class)) {
-			case EDFDFlowTracking1Package.RESPONSIBILITY__NAME:
-			case EDFDFlowTracking1Package.RESPONSIBILITY__NUMBER:
-			case EDFDFlowTracking1Package.RESPONSIBILITY__ACTION:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__NAME:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__NUMBER:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__ACTION:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}
@@ -269,7 +246,7 @@ public class ResponsibilityItemProvider
 	 */
 	@Override
 	public ResourceLocator getResourceLocator() {
-		return EDFDFlowTracking1EditPlugin.INSTANCE;
+		return EDFDFlowTrackingEditPlugin.INSTANCE;
 	}
 
 }

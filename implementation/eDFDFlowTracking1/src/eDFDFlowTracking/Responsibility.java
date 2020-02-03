@@ -19,7 +19,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link eDFDFlowTracking.Responsibility#getProcess <em>Process</em>}</li>
  * </ul>
  *
- * @see eDFDFlowTracking.EDFDFlowTracking1Package#getResponsibility()
+ * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getResponsibility()
  * @model
  * @generated
  */
@@ -36,7 +36,7 @@ public interface Responsibility extends NamedEntity {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Action</em>' attribute list.
 	 * @see eDFDFlowTracking.ResponsibilityType
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getResponsibility_Action()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getResponsibility_Action()
 	 * @model
 	 * @generated
 	 */
@@ -52,7 +52,7 @@ public interface Responsibility extends NamedEntity {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Incomeassets</em>' reference list.
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getResponsibility_Incomeassets()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getResponsibility_Incomeassets()
 	 * @model
 	 * @generated
 	 */
@@ -68,7 +68,7 @@ public interface Responsibility extends NamedEntity {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Outcomeassets</em>' reference list.
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getResponsibility_Outcomeassets()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getResponsibility_Outcomeassets()
 	 * @model
 	 * @generated
 	 */
@@ -85,7 +85,7 @@ public interface Responsibility extends NamedEntity {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Process</em>' container reference.
 	 * @see #setProcess(eDFDFlowTracking.Process)
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getResponsibility_Process()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getResponsibility_Process()
 	 * @see eDFDFlowTracking.Process#getResponsibility
 	 * @model opposite="responsibility" transient="false"
 	 * @generated

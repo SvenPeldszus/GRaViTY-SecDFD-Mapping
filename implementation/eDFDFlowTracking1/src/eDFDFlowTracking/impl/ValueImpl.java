@@ -2,7 +2,7 @@
  */
 package eDFDFlowTracking.impl;
 
-import eDFDFlowTracking.EDFDFlowTracking1Package;
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 import eDFDFlowTracking.Objective;
 import eDFDFlowTracking.Priority;
 import eDFDFlowTracking.Value;
@@ -85,7 +85,7 @@ public class ValueImpl extends MinimalEObjectImpl.Container implements Value {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return EDFDFlowTracking1Package.Literals.VALUE;
+		return EDFDFlowTrackingPackage.Literals.VALUE;
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class ValueImpl extends MinimalEObjectImpl.Container implements Value {
 		Objective oldObjective = objective;
 		objective = newObjective == null ? OBJECTIVE_EDEFAULT : newObjective;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTracking1Package.VALUE__OBJECTIVE, oldObjective, objective));
+			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTrackingPackage.VALUE__OBJECTIVE, oldObjective, objective));
 	}
 
 	/**
@@ -131,7 +131,7 @@ public class ValueImpl extends MinimalEObjectImpl.Container implements Value {
 		Priority oldPriority = priority;
 		priority = newPriority == null ? PRIORITY_EDEFAULT : newPriority;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTracking1Package.VALUE__PRIORITY, oldPriority, priority));
+			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTrackingPackage.VALUE__PRIORITY, oldPriority, priority));
 	}
 
 	/**
@@ -142,9 +142,9 @@ public class ValueImpl extends MinimalEObjectImpl.Container implements Value {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.VALUE__OBJECTIVE:
+			case EDFDFlowTrackingPackage.VALUE__OBJECTIVE:
 				return getObjective();
-			case EDFDFlowTracking1Package.VALUE__PRIORITY:
+			case EDFDFlowTrackingPackage.VALUE__PRIORITY:
 				return getPriority();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -158,10 +158,10 @@ public class ValueImpl extends MinimalEObjectImpl.Container implements Value {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.VALUE__OBJECTIVE:
+			case EDFDFlowTrackingPackage.VALUE__OBJECTIVE:
 				setObjective((Objective)newValue);
 				return;
-			case EDFDFlowTracking1Package.VALUE__PRIORITY:
+			case EDFDFlowTrackingPackage.VALUE__PRIORITY:
 				setPriority((Priority)newValue);
 				return;
 		}
@@ -176,10 +176,10 @@ public class ValueImpl extends MinimalEObjectImpl.Container implements Value {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.VALUE__OBJECTIVE:
+			case EDFDFlowTrackingPackage.VALUE__OBJECTIVE:
 				setObjective(OBJECTIVE_EDEFAULT);
 				return;
-			case EDFDFlowTracking1Package.VALUE__PRIORITY:
+			case EDFDFlowTrackingPackage.VALUE__PRIORITY:
 				setPriority(PRIORITY_EDEFAULT);
 				return;
 		}
@@ -194,9 +194,9 @@ public class ValueImpl extends MinimalEObjectImpl.Container implements Value {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.VALUE__OBJECTIVE:
+			case EDFDFlowTrackingPackage.VALUE__OBJECTIVE:
 				return objective != OBJECTIVE_EDEFAULT;
-			case EDFDFlowTracking1Package.VALUE__PRIORITY:
+			case EDFDFlowTrackingPackage.VALUE__PRIORITY:
 				return priority != PRIORITY_EDEFAULT;
 		}
 		return super.eIsSet(featureID);

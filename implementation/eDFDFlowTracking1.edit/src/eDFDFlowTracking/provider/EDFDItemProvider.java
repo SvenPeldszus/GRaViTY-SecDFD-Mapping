@@ -4,9 +4,8 @@ package eDFDFlowTracking.provider;
 
 
 import eDFDFlowTracking.EDFD;
-import eDFDFlowTracking.EDFDFlowTracking1Factory;
-import eDFDFlowTracking.EDFDFlowTracking1Package;
-
+import eDFDFlowTracking.EDFDFlowTrackingFactory;
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 import java.util.Collection;
 import java.util.List;
 
@@ -82,7 +81,7 @@ public class EDFDItemProvider
 				 getResourceLocator(),
 				 getString("_UI_NamedEntity_name_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_NamedEntity_name_feature", "_UI_NamedEntity_type"),
-				 EDFDFlowTracking1Package.Literals.NAMED_ENTITY__NAME,
+				 EDFDFlowTrackingPackage.Literals.NAMED_ENTITY__NAME,
 				 true,
 				 false,
 				 false,
@@ -104,7 +103,7 @@ public class EDFDItemProvider
 				 getResourceLocator(),
 				 getString("_UI_NamedEntity_number_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_NamedEntity_number_feature", "_UI_NamedEntity_type"),
-				 EDFDFlowTracking1Package.Literals.NAMED_ENTITY__NUMBER,
+				 EDFDFlowTrackingPackage.Literals.NAMED_ENTITY__NUMBER,
 				 true,
 				 false,
 				 false,
@@ -125,9 +124,9 @@ public class EDFDItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(EDFDFlowTracking1Package.Literals.EDFD__ASSET);
-			childrenFeatures.add(EDFDFlowTracking1Package.Literals.EDFD__TRUSTZONES);
-			childrenFeatures.add(EDFDFlowTracking1Package.Literals.EDFD__ELEMENTS);
+			childrenFeatures.add(EDFDFlowTrackingPackage.Literals.EDFD__ASSET);
+			childrenFeatures.add(EDFDFlowTrackingPackage.Literals.EDFD__TRUSTZONES);
+			childrenFeatures.add(EDFDFlowTrackingPackage.Literals.EDFD__ELEMENTS);
 		}
 		return childrenFeatures;
 	}
@@ -169,7 +168,7 @@ public class EDFDItemProvider
 			getString("_UI_EDFD_type") :
 			getString("_UI_EDFD_type") + " " + label;
 	}
-	
+
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
@@ -183,13 +182,13 @@ public class EDFDItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(EDFD.class)) {
-			case EDFDFlowTracking1Package.EDFD__NAME:
-			case EDFDFlowTracking1Package.EDFD__NUMBER:
+			case EDFDFlowTrackingPackage.EDFD__NAME:
+			case EDFDFlowTrackingPackage.EDFD__NUMBER:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			case EDFDFlowTracking1Package.EDFD__ASSET:
-			case EDFDFlowTracking1Package.EDFD__TRUSTZONES:
-			case EDFDFlowTracking1Package.EDFD__ELEMENTS:
+			case EDFDFlowTrackingPackage.EDFD__ASSET:
+			case EDFDFlowTrackingPackage.EDFD__TRUSTZONES:
+			case EDFDFlowTrackingPackage.EDFD__ELEMENTS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -209,38 +208,38 @@ public class EDFDItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(EDFDFlowTracking1Package.Literals.EDFD__ASSET,
-				 EDFDFlowTracking1Factory.eINSTANCE.createAsset()));
+				(EDFDFlowTrackingPackage.Literals.EDFD__ASSET,
+				 EDFDFlowTrackingFactory.eINSTANCE.createAsset()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(EDFDFlowTracking1Package.Literals.EDFD__TRUSTZONES,
-				 EDFDFlowTracking1Factory.eINSTANCE.createTrustZone()));
+				(EDFDFlowTrackingPackage.Literals.EDFD__TRUSTZONES,
+				 EDFDFlowTrackingFactory.eINSTANCE.createTrustZone()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(EDFDFlowTracking1Package.Literals.EDFD__ELEMENTS,
-				 EDFDFlowTracking1Factory.eINSTANCE.createProcess()));
+				(EDFDFlowTrackingPackage.Literals.EDFD__ELEMENTS,
+				 EDFDFlowTrackingFactory.eINSTANCE.createProcess()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(EDFDFlowTracking1Package.Literals.EDFD__ELEMENTS,
-				 EDFDFlowTracking1Factory.eINSTANCE.createDataStore()));
+				(EDFDFlowTrackingPackage.Literals.EDFD__ELEMENTS,
+				 EDFDFlowTrackingFactory.eINSTANCE.createDataStore()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(EDFDFlowTracking1Package.Literals.EDFD__ELEMENTS,
-				 EDFDFlowTracking1Factory.eINSTANCE.createFlow()));
+				(EDFDFlowTrackingPackage.Literals.EDFD__ELEMENTS,
+				 EDFDFlowTrackingFactory.eINSTANCE.createFlow()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(EDFDFlowTracking1Package.Literals.EDFD__ELEMENTS,
-				 EDFDFlowTracking1Factory.eINSTANCE.createExternalEntity()));
+				(EDFDFlowTrackingPackage.Literals.EDFD__ELEMENTS,
+				 EDFDFlowTrackingFactory.eINSTANCE.createExternalEntity()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(EDFDFlowTracking1Package.Literals.EDFD__ELEMENTS,
-				 EDFDFlowTracking1Factory.eINSTANCE.createTrustZone()));
+				(EDFDFlowTrackingPackage.Literals.EDFD__ELEMENTS,
+				 EDFDFlowTrackingFactory.eINSTANCE.createTrustZone()));
 	}
 
 	/**
@@ -255,8 +254,8 @@ public class EDFDItemProvider
 		Object childObject = child;
 
 		boolean qualify =
-			childFeature == EDFDFlowTracking1Package.Literals.EDFD__TRUSTZONES ||
-			childFeature == EDFDFlowTracking1Package.Literals.EDFD__ELEMENTS;
+			childFeature == EDFDFlowTrackingPackage.Literals.EDFD__TRUSTZONES ||
+			childFeature == EDFDFlowTrackingPackage.Literals.EDFD__ELEMENTS;
 
 		if (qualify) {
 			return getString
@@ -274,7 +273,7 @@ public class EDFDItemProvider
 	 */
 	@Override
 	public ResourceLocator getResourceLocator() {
-		return EDFDFlowTracking1EditPlugin.INSTANCE;
+		return EDFDFlowTrackingEditPlugin.INSTANCE;
 	}
 
 }

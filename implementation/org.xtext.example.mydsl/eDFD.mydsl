@@ -1,0 +1,85 @@
+// https://github.com/apl-cornell/fabric/tree/master/examples/friendmap/src
+EDFD DistriFriendMap[
+	assets: 
+		Asset ApplicationCode source: FriendMap targets: AliceWorkerNode,
+		Asset BobsLocation values: [H C] source: SNAPP targets: CreateMap, LocalDS,
+		Asset AliceLocation values: [H C] source: SNAPP targets: CreateMap, LocalDS,
+		Asset MapCode source: MapProvider targets: AliceWorkerNode,
+		Asset Map values: [H C] source: CreateMap targets: LocalDS, SNAPP
+	elements:
+		ExternalEntity FriendMap[
+			assets: ApplicationCode
+			//no incoming flows
+			outgoing flows: loadAppCode [num: 1 assets: ApplicationCode targets: AliceWorkerNode]
+		],
+		ExternalEntity MapProvider[
+			assets: MapCode
+			incoming flows: "MapServices.requestMap" 
+			outgoing flows: provideMap [num: 8 assets: MapCode targets: MapServices]			
+		],
+		ExternalEntity SNAPP[
+			assets: BobsLocation, AliceLocation, Map
+			incoming flows: "SocialNetworkAPI.requestLocation"
+			outgoing flows: provideLoc [num: 4 assets: BobsLocation, AliceLocation targets: SocialNetworkAPI]
+		],
+		DataStore LocalDS[
+			assets: BobsLocation, AliceLocation, Map
+			incoming flows: "AliceWorkerNode.storeLocal"
+			outgoing flows: readLocal [num: 10 assets: BobsLocation, AliceLocation, Map targets: AliceWorkerNode]
+		],
+		Process AliceWorkerNode[
+			responsibilities: [BobsLocation, AliceLocation, Map Store::], 
+							  [BobsLocation, AliceLocation, Map Copier::BobsLocation, AliceLocation, Map],
+							  [Map Forward::Map]
+			assets: BobsLocation, AliceLocation, Map
+			incoming flows: "LocalDS.readLocal", "SocialNetworkAPI.sendLocations", "CreateMap.getFriendMap", "MapServices.sendMap", "FriendMap.loadAppCode"
+			outgoing flows: requestLocations [num: 2 targets: SocialNetworkAPI],
+							requestEmptyMap [num: 6 targets: MapServices],
+							invokeFunction [num: 11 assets: BobsLocation, AliceLocation, MapCode targets: CreateMap],
+							post2SocialNetwork [num: 13 assets: Map targets: SocialNetworkAPI],
+							storeLocal [num: 10 assets: ApplicationCode, BobsLocation, AliceLocation, Map, MapCode targets: LocalDS]
+		],
+		Process SocialNetworkAPI[
+			responsibilities: [BobsLocation, AliceLocation Forward::BobsLocation, AliceLocation],
+							  [Map Forward:: Map]
+			assets: BobsLocation, AliceLocation, Map
+			incoming flows: "AliceWorkerNode.requestLocations", "AliceWorkerNode.post2SocialNetwork", "SNAPP.provideLoc"
+			outgoing flows: requestLocation [num: 3 targets: SNAPP],
+							sendLocations [num: 5 assets: BobsLocation, AliceLocation targets: AliceWorkerNode],
+							postMap [num: 14 assets: Map targets: SNAPP]
+		],
+		Process MapServices[
+			responsibilities: [MapCode Forward:: MapCode]
+			assets: MapCode
+			incoming flows: "AliceWorkerNode.requestEmptyMap", "MapProvider.provideMap"
+			outgoing flows: requestMap [num: 7 targets: MapProvider],
+							sendMap [num: 9 assets: MapCode targets: AliceWorkerNode]
+		],
+		Process CreateMap[
+			responsibilities: [BobsLocation, AliceLocation User:: Map]
+			assets: BobsLocation, AliceLocation, Map
+			incoming flows: "AliceWorkerNode.invokeFunction"
+			outgoing flows: getFriendMap [num: 12 assets: Map targets: AliceWorkerNode],
+							getMap [num: 15 assets: BobsLocation, AliceLocation targets: Google]
+			
+		],
+		ExternalEntity Google[
+			assets: Map
+			incoming flows: "CreateMap.getMap"
+		]
+	attack zones:
+		Attackerzone1[
+			attacker profiles:
+				ExternalHacker [
+					observation: 1
+				]
+			elements: MapProvider, MapServices
+		],
+		Attackerzone2[
+			attacker profiles:
+				MaliciousMapCodeLeak[
+					observation: 1
+				]
+			elements: Google
+		]
+]

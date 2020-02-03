@@ -3,8 +3,7 @@
 package eDFDFlowTracking.impl;
 
 import eDFDFlowTracking.Asset;
-import eDFDFlowTracking.AssetType;
-import eDFDFlowTracking.EDFDFlowTracking1Package;
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 import eDFDFlowTracking.Element;
 import eDFDFlowTracking.Value;
 
@@ -38,7 +37,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link eDFDFlowTracking.impl.AssetImpl#getValue <em>Value</em>}</li>
  *   <li>{@link eDFDFlowTracking.impl.AssetImpl#getSource <em>Source</em>}</li>
  *   <li>{@link eDFDFlowTracking.impl.AssetImpl#getTargets <em>Targets</em>}</li>
- *   <li>{@link eDFDFlowTracking.impl.AssetImpl#getType <em>Type</em>}</li>
  * </ul>
  *
  * @generated
@@ -115,26 +113,6 @@ public class AssetImpl extends MinimalEObjectImpl.Container implements Asset {
 	protected EList<Element> targets;
 
 	/**
-	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getType()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final AssetType TYPE_EDEFAULT = AssetType.STRING;
-
-	/**
-	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getType()
-	 * @generated
-	 * @ordered
-	 */
-	protected AssetType type = TYPE_EDEFAULT;
-
-	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -150,7 +128,7 @@ public class AssetImpl extends MinimalEObjectImpl.Container implements Asset {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return EDFDFlowTracking1Package.Literals.ASSET;
+		return EDFDFlowTrackingPackage.Literals.ASSET;
 	}
 
 	/**
@@ -173,7 +151,7 @@ public class AssetImpl extends MinimalEObjectImpl.Container implements Asset {
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTracking1Package.ASSET__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTrackingPackage.ASSET__NAME, oldName, name));
 	}
 
 	/**
@@ -196,7 +174,7 @@ public class AssetImpl extends MinimalEObjectImpl.Container implements Asset {
 		int oldNumber = number;
 		number = newNumber;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTracking1Package.ASSET__NUMBER, oldNumber, number));
+			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTrackingPackage.ASSET__NUMBER, oldNumber, number));
 	}
 
 	/**
@@ -207,7 +185,7 @@ public class AssetImpl extends MinimalEObjectImpl.Container implements Asset {
 	@Override
 	public EList<Value> getValue() {
 		if (value == null) {
-			value = new EObjectContainmentEList<Value>(Value.class, this, EDFDFlowTracking1Package.ASSET__VALUE);
+			value = new EObjectContainmentEList<Value>(Value.class, this, EDFDFlowTrackingPackage.ASSET__VALUE);
 		}
 		return value;
 	}
@@ -224,7 +202,7 @@ public class AssetImpl extends MinimalEObjectImpl.Container implements Asset {
 			source = (Element)eResolveProxy(oldSource);
 			if (source != oldSource) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, EDFDFlowTracking1Package.ASSET__SOURCE, oldSource, source));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, EDFDFlowTrackingPackage.ASSET__SOURCE, oldSource, source));
 			}
 		}
 		return source;
@@ -249,7 +227,7 @@ public class AssetImpl extends MinimalEObjectImpl.Container implements Asset {
 		Element oldSource = source;
 		source = newSource;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTracking1Package.ASSET__SOURCE, oldSource, source));
+			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTrackingPackage.ASSET__SOURCE, oldSource, source));
 	}
 
 	/**
@@ -260,7 +238,7 @@ public class AssetImpl extends MinimalEObjectImpl.Container implements Asset {
 	@Override
 	public EList<Element> getTargets() {
 		if (targets == null) {
-			targets = new EObjectResolvingEList<Element>(Element.class, this, EDFDFlowTracking1Package.ASSET__TARGETS);
+			targets = new EObjectResolvingEList<Element>(Element.class, this, EDFDFlowTrackingPackage.ASSET__TARGETS);
 		}
 		return targets;
 	}
@@ -271,32 +249,9 @@ public class AssetImpl extends MinimalEObjectImpl.Container implements Asset {
 	 * @generated
 	 */
 	@Override
-	public AssetType getType() {
-		return type;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void setType(AssetType newType) {
-		AssetType oldType = type;
-		type = newType == null ? TYPE_EDEFAULT : newType;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTracking1Package.ASSET__TYPE, oldType, type));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.ASSET__VALUE:
+			case EDFDFlowTrackingPackage.ASSET__VALUE:
 				return ((InternalEList<?>)getValue()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -310,19 +265,17 @@ public class AssetImpl extends MinimalEObjectImpl.Container implements Asset {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.ASSET__NAME:
+			case EDFDFlowTrackingPackage.ASSET__NAME:
 				return getName();
-			case EDFDFlowTracking1Package.ASSET__NUMBER:
+			case EDFDFlowTrackingPackage.ASSET__NUMBER:
 				return getNumber();
-			case EDFDFlowTracking1Package.ASSET__VALUE:
+			case EDFDFlowTrackingPackage.ASSET__VALUE:
 				return getValue();
-			case EDFDFlowTracking1Package.ASSET__SOURCE:
+			case EDFDFlowTrackingPackage.ASSET__SOURCE:
 				if (resolve) return getSource();
 				return basicGetSource();
-			case EDFDFlowTracking1Package.ASSET__TARGETS:
+			case EDFDFlowTrackingPackage.ASSET__TARGETS:
 				return getTargets();
-			case EDFDFlowTracking1Package.ASSET__TYPE:
-				return getType();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -336,25 +289,22 @@ public class AssetImpl extends MinimalEObjectImpl.Container implements Asset {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.ASSET__NAME:
+			case EDFDFlowTrackingPackage.ASSET__NAME:
 				setName((String)newValue);
 				return;
-			case EDFDFlowTracking1Package.ASSET__NUMBER:
+			case EDFDFlowTrackingPackage.ASSET__NUMBER:
 				setNumber((Integer)newValue);
 				return;
-			case EDFDFlowTracking1Package.ASSET__VALUE:
+			case EDFDFlowTrackingPackage.ASSET__VALUE:
 				getValue().clear();
 				getValue().addAll((Collection<? extends Value>)newValue);
 				return;
-			case EDFDFlowTracking1Package.ASSET__SOURCE:
+			case EDFDFlowTrackingPackage.ASSET__SOURCE:
 				setSource((Element)newValue);
 				return;
-			case EDFDFlowTracking1Package.ASSET__TARGETS:
+			case EDFDFlowTrackingPackage.ASSET__TARGETS:
 				getTargets().clear();
 				getTargets().addAll((Collection<? extends Element>)newValue);
-				return;
-			case EDFDFlowTracking1Package.ASSET__TYPE:
-				setType((AssetType)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -368,23 +318,20 @@ public class AssetImpl extends MinimalEObjectImpl.Container implements Asset {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.ASSET__NAME:
+			case EDFDFlowTrackingPackage.ASSET__NAME:
 				setName(NAME_EDEFAULT);
 				return;
-			case EDFDFlowTracking1Package.ASSET__NUMBER:
+			case EDFDFlowTrackingPackage.ASSET__NUMBER:
 				setNumber(NUMBER_EDEFAULT);
 				return;
-			case EDFDFlowTracking1Package.ASSET__VALUE:
+			case EDFDFlowTrackingPackage.ASSET__VALUE:
 				getValue().clear();
 				return;
-			case EDFDFlowTracking1Package.ASSET__SOURCE:
+			case EDFDFlowTrackingPackage.ASSET__SOURCE:
 				setSource((Element)null);
 				return;
-			case EDFDFlowTracking1Package.ASSET__TARGETS:
+			case EDFDFlowTrackingPackage.ASSET__TARGETS:
 				getTargets().clear();
-				return;
-			case EDFDFlowTracking1Package.ASSET__TYPE:
-				setType(TYPE_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -398,18 +345,16 @@ public class AssetImpl extends MinimalEObjectImpl.Container implements Asset {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.ASSET__NAME:
+			case EDFDFlowTrackingPackage.ASSET__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case EDFDFlowTracking1Package.ASSET__NUMBER:
+			case EDFDFlowTrackingPackage.ASSET__NUMBER:
 				return number != NUMBER_EDEFAULT;
-			case EDFDFlowTracking1Package.ASSET__VALUE:
+			case EDFDFlowTrackingPackage.ASSET__VALUE:
 				return value != null && !value.isEmpty();
-			case EDFDFlowTracking1Package.ASSET__SOURCE:
+			case EDFDFlowTrackingPackage.ASSET__SOURCE:
 				return source != null;
-			case EDFDFlowTracking1Package.ASSET__TARGETS:
+			case EDFDFlowTrackingPackage.ASSET__TARGETS:
 				return targets != null && !targets.isEmpty();
-			case EDFDFlowTracking1Package.ASSET__TYPE:
-				return type != TYPE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -428,8 +373,6 @@ public class AssetImpl extends MinimalEObjectImpl.Container implements Asset {
 		result.append(name);
 		result.append(", number: ");
 		result.append(number);
-		result.append(", Type: ");
-		result.append(type);
 		result.append(')');
 		return result.toString();
 	}

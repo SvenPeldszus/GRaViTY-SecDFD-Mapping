@@ -13,7 +13,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * A representation of the literals of the enumeration '<em><b>Layer</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
- * @see eDFDFlowTracking.EDFDFlowTracking1Package#getLayer()
+ * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getLayer()
  * @model
  * @generated
  */

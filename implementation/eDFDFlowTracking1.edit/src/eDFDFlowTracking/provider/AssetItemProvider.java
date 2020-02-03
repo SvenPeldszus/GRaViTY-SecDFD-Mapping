@@ -4,9 +4,8 @@ package eDFDFlowTracking.provider;
 
 
 import eDFDFlowTracking.Asset;
-import eDFDFlowTracking.EDFDFlowTracking1Factory;
-import eDFDFlowTracking.EDFDFlowTracking1Package;
-
+import eDFDFlowTracking.EDFDFlowTrackingFactory;
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 import java.util.Collection;
 import java.util.List;
 
@@ -67,7 +66,6 @@ public class AssetItemProvider
 			addNumberPropertyDescriptor(object);
 			addSourcePropertyDescriptor(object);
 			addTargetsPropertyDescriptor(object);
-			addTypePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -85,7 +83,7 @@ public class AssetItemProvider
 				 getResourceLocator(),
 				 getString("_UI_NamedEntity_name_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_NamedEntity_name_feature", "_UI_NamedEntity_type"),
-				 EDFDFlowTracking1Package.Literals.NAMED_ENTITY__NAME,
+				 EDFDFlowTrackingPackage.Literals.NAMED_ENTITY__NAME,
 				 true,
 				 false,
 				 false,
@@ -107,7 +105,7 @@ public class AssetItemProvider
 				 getResourceLocator(),
 				 getString("_UI_NamedEntity_number_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_NamedEntity_number_feature", "_UI_NamedEntity_type"),
-				 EDFDFlowTracking1Package.Literals.NAMED_ENTITY__NUMBER,
+				 EDFDFlowTrackingPackage.Literals.NAMED_ENTITY__NUMBER,
 				 true,
 				 false,
 				 false,
@@ -129,7 +127,7 @@ public class AssetItemProvider
 				 getResourceLocator(),
 				 getString("_UI_Asset_source_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Asset_source_feature", "_UI_Asset_type"),
-				 EDFDFlowTracking1Package.Literals.ASSET__SOURCE,
+				 EDFDFlowTrackingPackage.Literals.ASSET__SOURCE,
 				 true,
 				 false,
 				 true,
@@ -151,33 +149,11 @@ public class AssetItemProvider
 				 getResourceLocator(),
 				 getString("_UI_Asset_targets_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Asset_targets_feature", "_UI_Asset_type"),
-				 EDFDFlowTracking1Package.Literals.ASSET__TARGETS,
+				 EDFDFlowTrackingPackage.Literals.ASSET__TARGETS,
 				 true,
 				 false,
 				 true,
 				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Type feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addTypePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Asset_Type_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Asset_Type_feature", "_UI_Asset_type"),
-				 EDFDFlowTracking1Package.Literals.ASSET__TYPE,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -194,7 +170,7 @@ public class AssetItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(EDFDFlowTracking1Package.Literals.ASSET__VALUE);
+			childrenFeatures.add(EDFDFlowTrackingPackage.Literals.ASSET__VALUE);
 		}
 		return childrenFeatures;
 	}
@@ -236,7 +212,7 @@ public class AssetItemProvider
 			getString("_UI_Asset_type") :
 			getString("_UI_Asset_type") + " " + label;
 	}
-	
+
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
@@ -250,12 +226,11 @@ public class AssetItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Asset.class)) {
-			case EDFDFlowTracking1Package.ASSET__NAME:
-			case EDFDFlowTracking1Package.ASSET__NUMBER:
-			case EDFDFlowTracking1Package.ASSET__TYPE:
+			case EDFDFlowTrackingPackage.ASSET__NAME:
+			case EDFDFlowTrackingPackage.ASSET__NUMBER:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			case EDFDFlowTracking1Package.ASSET__VALUE:
+			case EDFDFlowTrackingPackage.ASSET__VALUE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -275,8 +250,8 @@ public class AssetItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(EDFDFlowTracking1Package.Literals.ASSET__VALUE,
-				 EDFDFlowTracking1Factory.eINSTANCE.createValue()));
+				(EDFDFlowTrackingPackage.Literals.ASSET__VALUE,
+				 EDFDFlowTrackingFactory.eINSTANCE.createValue()));
 	}
 
 	/**
@@ -287,7 +262,7 @@ public class AssetItemProvider
 	 */
 	@Override
 	public ResourceLocator getResourceLocator() {
-		return EDFDFlowTracking1EditPlugin.INSTANCE;
+		return EDFDFlowTrackingEditPlugin.INSTANCE;
 	}
 
 }

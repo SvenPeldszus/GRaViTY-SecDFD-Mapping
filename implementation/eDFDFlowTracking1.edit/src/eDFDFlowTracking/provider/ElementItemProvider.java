@@ -3,8 +3,8 @@
 package eDFDFlowTracking.provider;
 
 
-import eDFDFlowTracking.EDFDFlowTracking1Factory;
-import eDFDFlowTracking.EDFDFlowTracking1Package;
+import eDFDFlowTracking.EDFDFlowTrackingFactory;
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 import eDFDFlowTracking.Element;
 
 import java.util.Collection;
@@ -85,7 +85,7 @@ public class ElementItemProvider
 				 getResourceLocator(),
 				 getString("_UI_NamedEntity_name_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_NamedEntity_name_feature", "_UI_NamedEntity_type"),
-				 EDFDFlowTracking1Package.Literals.NAMED_ENTITY__NAME,
+				 EDFDFlowTrackingPackage.Literals.NAMED_ENTITY__NAME,
 				 true,
 				 false,
 				 false,
@@ -107,7 +107,7 @@ public class ElementItemProvider
 				 getResourceLocator(),
 				 getString("_UI_NamedEntity_number_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_NamedEntity_number_feature", "_UI_NamedEntity_type"),
-				 EDFDFlowTracking1Package.Literals.NAMED_ENTITY__NUMBER,
+				 EDFDFlowTrackingPackage.Literals.NAMED_ENTITY__NUMBER,
 				 true,
 				 false,
 				 false,
@@ -129,7 +129,7 @@ public class ElementItemProvider
 				 getResourceLocator(),
 				 getString("_UI_Element_assets_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Element_assets_feature", "_UI_Element_type"),
-				 EDFDFlowTracking1Package.Literals.ELEMENT__ASSETS,
+				 EDFDFlowTrackingPackage.Literals.ELEMENT__ASSETS,
 				 true,
 				 false,
 				 true,
@@ -151,7 +151,7 @@ public class ElementItemProvider
 				 getResourceLocator(),
 				 getString("_UI_Element_inflows_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Element_inflows_feature", "_UI_Element_type"),
-				 EDFDFlowTracking1Package.Literals.ELEMENT__INFLOWS,
+				 EDFDFlowTrackingPackage.Literals.ELEMENT__INFLOWS,
 				 true,
 				 false,
 				 true,
@@ -173,7 +173,7 @@ public class ElementItemProvider
 				 getResourceLocator(),
 				 getString("_UI_Element_Attacker_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Element_Attacker_feature", "_UI_Element_type"),
-				 EDFDFlowTracking1Package.Literals.ELEMENT__ATTACKER,
+				 EDFDFlowTrackingPackage.Literals.ELEMENT__ATTACKER,
 				 true,
 				 false,
 				 false,
@@ -194,8 +194,8 @@ public class ElementItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(EDFDFlowTracking1Package.Literals.ELEMENT__OUTFLOWS);
-			childrenFeatures.add(EDFDFlowTracking1Package.Literals.ELEMENT__ASSUMPTION);
+			childrenFeatures.add(EDFDFlowTrackingPackage.Literals.ELEMENT__OUTFLOWS);
+			childrenFeatures.add(EDFDFlowTrackingPackage.Literals.ELEMENT__ASSUMPTION);
 		}
 		return childrenFeatures;
 	}
@@ -226,7 +226,7 @@ public class ElementItemProvider
 			getString("_UI_Element_type") :
 			getString("_UI_Element_type") + " " + label;
 	}
-	
+
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
@@ -240,13 +240,13 @@ public class ElementItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Element.class)) {
-			case EDFDFlowTracking1Package.ELEMENT__NAME:
-			case EDFDFlowTracking1Package.ELEMENT__NUMBER:
-			case EDFDFlowTracking1Package.ELEMENT__ATTACKER:
+			case EDFDFlowTrackingPackage.ELEMENT__NAME:
+			case EDFDFlowTrackingPackage.ELEMENT__NUMBER:
+			case EDFDFlowTrackingPackage.ELEMENT__ATTACKER:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			case EDFDFlowTracking1Package.ELEMENT__OUTFLOWS:
-			case EDFDFlowTracking1Package.ELEMENT__ASSUMPTION:
+			case EDFDFlowTrackingPackage.ELEMENT__OUTFLOWS:
+			case EDFDFlowTrackingPackage.ELEMENT__ASSUMPTION:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -266,13 +266,13 @@ public class ElementItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(EDFDFlowTracking1Package.Literals.ELEMENT__OUTFLOWS,
-				 EDFDFlowTracking1Factory.eINSTANCE.createFlow()));
+				(EDFDFlowTrackingPackage.Literals.ELEMENT__OUTFLOWS,
+				 EDFDFlowTrackingFactory.eINSTANCE.createFlow()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(EDFDFlowTracking1Package.Literals.ELEMENT__ASSUMPTION,
-				 EDFDFlowTracking1Factory.eINSTANCE.createAssumption()));
+				(EDFDFlowTrackingPackage.Literals.ELEMENT__ASSUMPTION,
+				 EDFDFlowTrackingFactory.eINSTANCE.createAssumption()));
 	}
 
 	/**
@@ -283,7 +283,7 @@ public class ElementItemProvider
 	 */
 	@Override
 	public ResourceLocator getResourceLocator() {
-		return EDFDFlowTracking1EditPlugin.INSTANCE;
+		return EDFDFlowTrackingEditPlugin.INSTANCE;
 	}
 
 }

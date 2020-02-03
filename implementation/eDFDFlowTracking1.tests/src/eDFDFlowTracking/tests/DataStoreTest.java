@@ -3,8 +3,7 @@
 package eDFDFlowTracking.tests;
 
 import eDFDFlowTracking.DataStore;
-import eDFDFlowTracking.EDFDFlowTracking1Factory;
-
+import eDFDFlowTracking.EDFDFlowTrackingFactory;
 import junit.textui.TestRunner;
 
 /**
@@ -53,7 +52,7 @@ public class DataStoreTest extends ElementTest {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(EDFDFlowTracking1Factory.eINSTANCE.createDataStore());
+		setFixture(EDFDFlowTrackingFactory.eINSTANCE.createDataStore());
 	}
 
 	/**

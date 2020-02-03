@@ -4,7 +4,7 @@ package eDFDFlowTracking.impl;
 
 import eDFDFlowTracking.Asset;
 import eDFDFlowTracking.EDFD;
-import eDFDFlowTracking.EDFDFlowTracking1Package;
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 import eDFDFlowTracking.Element;
 import eDFDFlowTracking.TrustZone;
 
@@ -128,7 +128,7 @@ public class EDFDImpl extends MinimalEObjectImpl.Container implements EDFD {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return EDFDFlowTracking1Package.Literals.EDFD;
+		return EDFDFlowTrackingPackage.Literals.EDFD;
 	}
 
 	/**
@@ -151,7 +151,7 @@ public class EDFDImpl extends MinimalEObjectImpl.Container implements EDFD {
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTracking1Package.EDFD__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTrackingPackage.EDFD__NAME, oldName, name));
 	}
 
 	/**
@@ -174,7 +174,7 @@ public class EDFDImpl extends MinimalEObjectImpl.Container implements EDFD {
 		int oldNumber = number;
 		number = newNumber;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTracking1Package.EDFD__NUMBER, oldNumber, number));
+			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTrackingPackage.EDFD__NUMBER, oldNumber, number));
 	}
 
 	/**
@@ -185,7 +185,7 @@ public class EDFDImpl extends MinimalEObjectImpl.Container implements EDFD {
 	@Override
 	public EList<Asset> getAsset() {
 		if (asset == null) {
-			asset = new EObjectContainmentEList<Asset>(Asset.class, this, EDFDFlowTracking1Package.EDFD__ASSET);
+			asset = new EObjectContainmentEList<Asset>(Asset.class, this, EDFDFlowTrackingPackage.EDFD__ASSET);
 		}
 		return asset;
 	}
@@ -198,7 +198,7 @@ public class EDFDImpl extends MinimalEObjectImpl.Container implements EDFD {
 	@Override
 	public EList<TrustZone> getTrustzones() {
 		if (trustzones == null) {
-			trustzones = new EObjectContainmentEList<TrustZone>(TrustZone.class, this, EDFDFlowTracking1Package.EDFD__TRUSTZONES);
+			trustzones = new EObjectContainmentEList<TrustZone>(TrustZone.class, this, EDFDFlowTrackingPackage.EDFD__TRUSTZONES);
 		}
 		return trustzones;
 	}
@@ -211,7 +211,7 @@ public class EDFDImpl extends MinimalEObjectImpl.Container implements EDFD {
 	@Override
 	public EList<Element> getElements() {
 		if (elements == null) {
-			elements = new EObjectContainmentEList<Element>(Element.class, this, EDFDFlowTracking1Package.EDFD__ELEMENTS);
+			elements = new EObjectContainmentEList<Element>(Element.class, this, EDFDFlowTrackingPackage.EDFD__ELEMENTS);
 		}
 		return elements;
 	}
@@ -224,11 +224,11 @@ public class EDFDImpl extends MinimalEObjectImpl.Container implements EDFD {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.EDFD__ASSET:
+			case EDFDFlowTrackingPackage.EDFD__ASSET:
 				return ((InternalEList<?>)getAsset()).basicRemove(otherEnd, msgs);
-			case EDFDFlowTracking1Package.EDFD__TRUSTZONES:
+			case EDFDFlowTrackingPackage.EDFD__TRUSTZONES:
 				return ((InternalEList<?>)getTrustzones()).basicRemove(otherEnd, msgs);
-			case EDFDFlowTracking1Package.EDFD__ELEMENTS:
+			case EDFDFlowTrackingPackage.EDFD__ELEMENTS:
 				return ((InternalEList<?>)getElements()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -242,15 +242,15 @@ public class EDFDImpl extends MinimalEObjectImpl.Container implements EDFD {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.EDFD__NAME:
+			case EDFDFlowTrackingPackage.EDFD__NAME:
 				return getName();
-			case EDFDFlowTracking1Package.EDFD__NUMBER:
+			case EDFDFlowTrackingPackage.EDFD__NUMBER:
 				return getNumber();
-			case EDFDFlowTracking1Package.EDFD__ASSET:
+			case EDFDFlowTrackingPackage.EDFD__ASSET:
 				return getAsset();
-			case EDFDFlowTracking1Package.EDFD__TRUSTZONES:
+			case EDFDFlowTrackingPackage.EDFD__TRUSTZONES:
 				return getTrustzones();
-			case EDFDFlowTracking1Package.EDFD__ELEMENTS:
+			case EDFDFlowTrackingPackage.EDFD__ELEMENTS:
 				return getElements();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -265,21 +265,21 @@ public class EDFDImpl extends MinimalEObjectImpl.Container implements EDFD {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.EDFD__NAME:
+			case EDFDFlowTrackingPackage.EDFD__NAME:
 				setName((String)newValue);
 				return;
-			case EDFDFlowTracking1Package.EDFD__NUMBER:
+			case EDFDFlowTrackingPackage.EDFD__NUMBER:
 				setNumber((Integer)newValue);
 				return;
-			case EDFDFlowTracking1Package.EDFD__ASSET:
+			case EDFDFlowTrackingPackage.EDFD__ASSET:
 				getAsset().clear();
 				getAsset().addAll((Collection<? extends Asset>)newValue);
 				return;
-			case EDFDFlowTracking1Package.EDFD__TRUSTZONES:
+			case EDFDFlowTrackingPackage.EDFD__TRUSTZONES:
 				getTrustzones().clear();
 				getTrustzones().addAll((Collection<? extends TrustZone>)newValue);
 				return;
-			case EDFDFlowTracking1Package.EDFD__ELEMENTS:
+			case EDFDFlowTrackingPackage.EDFD__ELEMENTS:
 				getElements().clear();
 				getElements().addAll((Collection<? extends Element>)newValue);
 				return;
@@ -295,19 +295,19 @@ public class EDFDImpl extends MinimalEObjectImpl.Container implements EDFD {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.EDFD__NAME:
+			case EDFDFlowTrackingPackage.EDFD__NAME:
 				setName(NAME_EDEFAULT);
 				return;
-			case EDFDFlowTracking1Package.EDFD__NUMBER:
+			case EDFDFlowTrackingPackage.EDFD__NUMBER:
 				setNumber(NUMBER_EDEFAULT);
 				return;
-			case EDFDFlowTracking1Package.EDFD__ASSET:
+			case EDFDFlowTrackingPackage.EDFD__ASSET:
 				getAsset().clear();
 				return;
-			case EDFDFlowTracking1Package.EDFD__TRUSTZONES:
+			case EDFDFlowTrackingPackage.EDFD__TRUSTZONES:
 				getTrustzones().clear();
 				return;
-			case EDFDFlowTracking1Package.EDFD__ELEMENTS:
+			case EDFDFlowTrackingPackage.EDFD__ELEMENTS:
 				getElements().clear();
 				return;
 		}
@@ -322,15 +322,15 @@ public class EDFDImpl extends MinimalEObjectImpl.Container implements EDFD {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.EDFD__NAME:
+			case EDFDFlowTrackingPackage.EDFD__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case EDFDFlowTracking1Package.EDFD__NUMBER:
+			case EDFDFlowTrackingPackage.EDFD__NUMBER:
 				return number != NUMBER_EDEFAULT;
-			case EDFDFlowTracking1Package.EDFD__ASSET:
+			case EDFDFlowTrackingPackage.EDFD__ASSET:
 				return asset != null && !asset.isEmpty();
-			case EDFDFlowTracking1Package.EDFD__TRUSTZONES:
+			case EDFDFlowTrackingPackage.EDFD__TRUSTZONES:
 				return trustzones != null && !trustzones.isEmpty();
-			case EDFDFlowTracking1Package.EDFD__ELEMENTS:
+			case EDFDFlowTrackingPackage.EDFD__ELEMENTS:
 				return elements != null && !elements.isEmpty();
 		}
 		return super.eIsSet(featureID);

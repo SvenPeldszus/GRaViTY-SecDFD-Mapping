@@ -13,7 +13,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * A representation of the literals of the enumeration '<em><b>Channel</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
- * @see eDFDFlowTracking.EDFDFlowTracking1Package#getChannel()
+ * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getChannel()
  * @model
  * @generated
  */

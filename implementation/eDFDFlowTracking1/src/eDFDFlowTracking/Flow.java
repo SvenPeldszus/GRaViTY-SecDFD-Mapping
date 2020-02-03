@@ -19,7 +19,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link eDFDFlowTracking.Flow#getLabel <em>Label</em>}</li>
  * </ul>
  *
- * @see eDFDFlowTracking.EDFDFlowTracking1Package#getFlow()
+ * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getFlow()
  * @model
  * @generated
  */
@@ -36,7 +36,7 @@ public interface Flow extends Element {
 	 * @return the value of the '<em>Channel</em>' attribute.
 	 * @see eDFDFlowTracking.Channel
 	 * @see #setChannel(Channel)
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getFlow_Channel()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getFlow_Channel()
 	 * @model
 	 * @generated
 	 */
@@ -63,7 +63,7 @@ public interface Flow extends Element {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Target</em>' reference list.
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getFlow_Target()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getFlow_Target()
 	 * @model
 	 * @generated
 	 */
@@ -79,7 +79,7 @@ public interface Flow extends Element {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Source</em>' reference.
 	 * @see #setSource(Element)
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getFlow_Source()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getFlow_Source()
 	 * @model
 	 * @generated
 	 */
@@ -105,7 +105,7 @@ public interface Flow extends Element {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Label</em>' attribute.
 	 * @see #setLabel(int)
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getFlow_Label()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getFlow_Label()
 	 * @model
 	 * @generated
 	 */

@@ -3,8 +3,8 @@
 package eDFDFlowTracking.provider;
 
 
-import eDFDFlowTracking.EDFDFlowTracking1Factory;
-import eDFDFlowTracking.EDFDFlowTracking1Package;
+import eDFDFlowTracking.EDFDFlowTrackingFactory;
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 import eDFDFlowTracking.TrustZone;
 
 import java.util.Collection;
@@ -65,7 +65,7 @@ public class TrustZoneItemProvider extends ElementItemProvider {
 				 getResourceLocator(),
 				 getString("_UI_TrustZone_elements_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_TrustZone_elements_feature", "_UI_TrustZone_type"),
-				 EDFDFlowTracking1Package.Literals.TRUST_ZONE__ELEMENTS,
+				 EDFDFlowTrackingPackage.Literals.TRUST_ZONE__ELEMENTS,
 				 true,
 				 false,
 				 true,
@@ -86,8 +86,8 @@ public class TrustZoneItemProvider extends ElementItemProvider {
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(EDFDFlowTracking1Package.Literals.TRUST_ZONE__SUBZONES);
-			childrenFeatures.add(EDFDFlowTracking1Package.Literals.TRUST_ZONE__ATTACKERPROFILE);
+			childrenFeatures.add(EDFDFlowTrackingPackage.Literals.TRUST_ZONE__SUBZONES);
+			childrenFeatures.add(EDFDFlowTrackingPackage.Literals.TRUST_ZONE__ATTACKERPROFILE);
 		}
 		return childrenFeatures;
 	}
@@ -129,7 +129,7 @@ public class TrustZoneItemProvider extends ElementItemProvider {
 			getString("_UI_TrustZone_type") :
 			getString("_UI_TrustZone_type") + " " + label;
 	}
-	
+
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
@@ -143,8 +143,8 @@ public class TrustZoneItemProvider extends ElementItemProvider {
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(TrustZone.class)) {
-			case EDFDFlowTracking1Package.TRUST_ZONE__SUBZONES:
-			case EDFDFlowTracking1Package.TRUST_ZONE__ATTACKERPROFILE:
+			case EDFDFlowTrackingPackage.TRUST_ZONE__SUBZONES:
+			case EDFDFlowTrackingPackage.TRUST_ZONE__ATTACKERPROFILE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -164,13 +164,13 @@ public class TrustZoneItemProvider extends ElementItemProvider {
 
 		newChildDescriptors.add
 			(createChildParameter
-				(EDFDFlowTracking1Package.Literals.TRUST_ZONE__SUBZONES,
-				 EDFDFlowTracking1Factory.eINSTANCE.createTrustZone()));
+				(EDFDFlowTrackingPackage.Literals.TRUST_ZONE__SUBZONES,
+				 EDFDFlowTrackingFactory.eINSTANCE.createTrustZone()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(EDFDFlowTracking1Package.Literals.TRUST_ZONE__ATTACKERPROFILE,
-				 EDFDFlowTracking1Factory.eINSTANCE.createAttackerProfile()));
+				(EDFDFlowTrackingPackage.Literals.TRUST_ZONE__ATTACKERPROFILE,
+				 EDFDFlowTrackingFactory.eINSTANCE.createAttackerProfile()));
 	}
 
 }

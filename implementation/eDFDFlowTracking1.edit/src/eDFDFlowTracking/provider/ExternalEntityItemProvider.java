@@ -69,7 +69,7 @@ public class ExternalEntityItemProvider extends ElementItemProvider {
 			getString("_UI_ExternalEntity_type") :
 			getString("_UI_ExternalEntity_type") + " " + label;
 	}
-	
+
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached

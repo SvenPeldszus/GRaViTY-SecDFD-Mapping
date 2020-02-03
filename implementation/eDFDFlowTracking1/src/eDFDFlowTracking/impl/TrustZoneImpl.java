@@ -3,7 +3,7 @@
 package eDFDFlowTracking.impl;
 
 import eDFDFlowTracking.AttackerProfile;
-import eDFDFlowTracking.EDFDFlowTracking1Package;
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 import eDFDFlowTracking.Element;
 import eDFDFlowTracking.TrustZone;
 
@@ -82,7 +82,7 @@ public class TrustZoneImpl extends ElementImpl implements TrustZone {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return EDFDFlowTracking1Package.Literals.TRUST_ZONE;
+		return EDFDFlowTrackingPackage.Literals.TRUST_ZONE;
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class TrustZoneImpl extends ElementImpl implements TrustZone {
 	@Override
 	public EList<Element> getElements() {
 		if (elements == null) {
-			elements = new EObjectResolvingEList<Element>(Element.class, this, EDFDFlowTracking1Package.TRUST_ZONE__ELEMENTS);
+			elements = new EObjectResolvingEList<Element>(Element.class, this, EDFDFlowTrackingPackage.TRUST_ZONE__ELEMENTS);
 		}
 		return elements;
 	}
@@ -106,7 +106,7 @@ public class TrustZoneImpl extends ElementImpl implements TrustZone {
 	@Override
 	public EList<TrustZone> getSubzones() {
 		if (subzones == null) {
-			subzones = new EObjectContainmentEList<TrustZone>(TrustZone.class, this, EDFDFlowTracking1Package.TRUST_ZONE__SUBZONES);
+			subzones = new EObjectContainmentEList<TrustZone>(TrustZone.class, this, EDFDFlowTrackingPackage.TRUST_ZONE__SUBZONES);
 		}
 		return subzones;
 	}
@@ -119,7 +119,7 @@ public class TrustZoneImpl extends ElementImpl implements TrustZone {
 	@Override
 	public EList<AttackerProfile> getAttackerprofile() {
 		if (attackerprofile == null) {
-			attackerprofile = new EObjectContainmentEList<AttackerProfile>(AttackerProfile.class, this, EDFDFlowTracking1Package.TRUST_ZONE__ATTACKERPROFILE);
+			attackerprofile = new EObjectContainmentEList<AttackerProfile>(AttackerProfile.class, this, EDFDFlowTrackingPackage.TRUST_ZONE__ATTACKERPROFILE);
 		}
 		return attackerprofile;
 	}
@@ -132,9 +132,9 @@ public class TrustZoneImpl extends ElementImpl implements TrustZone {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.TRUST_ZONE__SUBZONES:
+			case EDFDFlowTrackingPackage.TRUST_ZONE__SUBZONES:
 				return ((InternalEList<?>)getSubzones()).basicRemove(otherEnd, msgs);
-			case EDFDFlowTracking1Package.TRUST_ZONE__ATTACKERPROFILE:
+			case EDFDFlowTrackingPackage.TRUST_ZONE__ATTACKERPROFILE:
 				return ((InternalEList<?>)getAttackerprofile()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -148,11 +148,11 @@ public class TrustZoneImpl extends ElementImpl implements TrustZone {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.TRUST_ZONE__ELEMENTS:
+			case EDFDFlowTrackingPackage.TRUST_ZONE__ELEMENTS:
 				return getElements();
-			case EDFDFlowTracking1Package.TRUST_ZONE__SUBZONES:
+			case EDFDFlowTrackingPackage.TRUST_ZONE__SUBZONES:
 				return getSubzones();
-			case EDFDFlowTracking1Package.TRUST_ZONE__ATTACKERPROFILE:
+			case EDFDFlowTrackingPackage.TRUST_ZONE__ATTACKERPROFILE:
 				return getAttackerprofile();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -167,15 +167,15 @@ public class TrustZoneImpl extends ElementImpl implements TrustZone {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.TRUST_ZONE__ELEMENTS:
+			case EDFDFlowTrackingPackage.TRUST_ZONE__ELEMENTS:
 				getElements().clear();
 				getElements().addAll((Collection<? extends Element>)newValue);
 				return;
-			case EDFDFlowTracking1Package.TRUST_ZONE__SUBZONES:
+			case EDFDFlowTrackingPackage.TRUST_ZONE__SUBZONES:
 				getSubzones().clear();
 				getSubzones().addAll((Collection<? extends TrustZone>)newValue);
 				return;
-			case EDFDFlowTracking1Package.TRUST_ZONE__ATTACKERPROFILE:
+			case EDFDFlowTrackingPackage.TRUST_ZONE__ATTACKERPROFILE:
 				getAttackerprofile().clear();
 				getAttackerprofile().addAll((Collection<? extends AttackerProfile>)newValue);
 				return;
@@ -191,13 +191,13 @@ public class TrustZoneImpl extends ElementImpl implements TrustZone {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.TRUST_ZONE__ELEMENTS:
+			case EDFDFlowTrackingPackage.TRUST_ZONE__ELEMENTS:
 				getElements().clear();
 				return;
-			case EDFDFlowTracking1Package.TRUST_ZONE__SUBZONES:
+			case EDFDFlowTrackingPackage.TRUST_ZONE__SUBZONES:
 				getSubzones().clear();
 				return;
-			case EDFDFlowTracking1Package.TRUST_ZONE__ATTACKERPROFILE:
+			case EDFDFlowTrackingPackage.TRUST_ZONE__ATTACKERPROFILE:
 				getAttackerprofile().clear();
 				return;
 		}
@@ -212,11 +212,11 @@ public class TrustZoneImpl extends ElementImpl implements TrustZone {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.TRUST_ZONE__ELEMENTS:
+			case EDFDFlowTrackingPackage.TRUST_ZONE__ELEMENTS:
 				return elements != null && !elements.isEmpty();
-			case EDFDFlowTracking1Package.TRUST_ZONE__SUBZONES:
+			case EDFDFlowTrackingPackage.TRUST_ZONE__SUBZONES:
 				return subzones != null && !subzones.isEmpty();
-			case EDFDFlowTracking1Package.TRUST_ZONE__ATTACKERPROFILE:
+			case EDFDFlowTrackingPackage.TRUST_ZONE__ATTACKERPROFILE:
 				return attackerprofile != null && !attackerprofile.isEmpty();
 		}
 		return super.eIsSet(featureID);

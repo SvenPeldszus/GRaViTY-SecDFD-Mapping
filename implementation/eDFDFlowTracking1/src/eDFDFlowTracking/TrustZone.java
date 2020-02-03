@@ -18,7 +18,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link eDFDFlowTracking.TrustZone#getAttackerprofile <em>Attackerprofile</em>}</li>
  * </ul>
  *
- * @see eDFDFlowTracking.EDFDFlowTracking1Package#getTrustZone()
+ * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getTrustZone()
  * @model
  * @generated
  */
@@ -33,7 +33,7 @@ public interface TrustZone extends Element {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Elements</em>' reference list.
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getTrustZone_Elements()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getTrustZone_Elements()
 	 * @model
 	 * @generated
 	 */
@@ -49,7 +49,7 @@ public interface TrustZone extends Element {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Subzones</em>' containment reference list.
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getTrustZone_Subzones()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getTrustZone_Subzones()
 	 * @model containment="true"
 	 * @generated
 	 */
@@ -65,7 +65,7 @@ public interface TrustZone extends Element {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Attackerprofile</em>' containment reference list.
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getTrustZone_Attackerprofile()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getTrustZone_Attackerprofile()
 	 * @model containment="true"
 	 * @generated
 	 */

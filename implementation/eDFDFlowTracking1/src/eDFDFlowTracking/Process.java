@@ -16,7 +16,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link eDFDFlowTracking.Process#getResponsibility <em>Responsibility</em>}</li>
  * </ul>
  *
- * @see eDFDFlowTracking.EDFDFlowTracking1Package#getProcess()
+ * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getProcess()
  * @model
  * @generated
  */
@@ -32,7 +32,7 @@ public interface Process extends Element {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Responsibility</em>' containment reference list.
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getProcess_Responsibility()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getProcess_Responsibility()
 	 * @see eDFDFlowTracking.Responsibility#getProcess
 	 * @model opposite="process" containment="true"
 	 * @generated

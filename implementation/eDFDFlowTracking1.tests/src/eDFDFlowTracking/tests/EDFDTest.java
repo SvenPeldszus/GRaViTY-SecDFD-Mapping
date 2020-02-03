@@ -3,8 +3,7 @@
 package eDFDFlowTracking.tests;
 
 import eDFDFlowTracking.EDFD;
-import eDFDFlowTracking.EDFDFlowTracking1Factory;
-
+import eDFDFlowTracking.EDFDFlowTrackingFactory;
 import junit.framework.TestCase;
 
 import junit.textui.TestRunner;
@@ -72,7 +71,7 @@ public class EDFDTest extends TestCase {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(EDFDFlowTracking1Factory.eINSTANCE.createEDFD());
+		setFixture(EDFDFlowTrackingFactory.eINSTANCE.createEDFD());
 	}
 
 	/**

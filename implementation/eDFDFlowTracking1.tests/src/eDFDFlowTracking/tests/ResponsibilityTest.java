@@ -2,7 +2,7 @@
  */
 package eDFDFlowTracking.tests;
 
-import eDFDFlowTracking.EDFDFlowTracking1Factory;
+import eDFDFlowTracking.EDFDFlowTrackingFactory;
 import eDFDFlowTracking.Responsibility;
 
 import junit.framework.TestCase;
@@ -72,7 +72,7 @@ public class ResponsibilityTest extends TestCase {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(EDFDFlowTracking1Factory.eINSTANCE.createResponsibility());
+		setFixture(EDFDFlowTrackingFactory.eINSTANCE.createResponsibility());
 	}
 
 	/**

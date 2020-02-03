@@ -13,7 +13,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * A representation of the literals of the enumeration '<em><b>Responsibility Type</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
- * @see eDFDFlowTracking.EDFDFlowTracking1Package#getResponsibilityType()
+ * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getResponsibilityType()
  * @model
  * @generated
  */

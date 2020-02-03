@@ -2,7 +2,7 @@
  */
 package eDFDFlowTracking.tests;
 
-import eDFDFlowTracking.EDFDFlowTracking1Factory;
+import eDFDFlowTracking.EDFDFlowTrackingFactory;
 import eDFDFlowTracking.Value;
 
 import junit.framework.TestCase;
@@ -72,7 +72,7 @@ public class ValueTest extends TestCase {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(EDFDFlowTracking1Factory.eINSTANCE.createValue());
+		setFixture(EDFDFlowTrackingFactory.eINSTANCE.createValue());
 	}
 
 	/**

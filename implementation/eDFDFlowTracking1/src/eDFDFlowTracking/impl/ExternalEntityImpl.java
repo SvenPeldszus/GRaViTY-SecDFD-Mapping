@@ -2,7 +2,7 @@
  */
 package eDFDFlowTracking.impl;
 
-import eDFDFlowTracking.EDFDFlowTracking1Package;
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 import eDFDFlowTracking.ExternalEntity;
 
 import org.eclipse.emf.ecore.EClass;
@@ -31,7 +31,7 @@ public class ExternalEntityImpl extends ElementImpl implements ExternalEntity {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return EDFDFlowTracking1Package.Literals.EXTERNAL_ENTITY;
+		return EDFDFlowTrackingPackage.Literals.EXTERNAL_ENTITY;
 	}
 
 } //ExternalEntityImpl

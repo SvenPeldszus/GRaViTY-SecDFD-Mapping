@@ -5,7 +5,7 @@ Bundle-SymbolicName: eDFDFlowTracking1.edit;singleton:=true
 Automatic-Module-Name: eDFDFlowTracking1.edit
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
-Bundle-Activator: eDFDFlowTracking.provider.EDFDFlowTracking1EditPlugin$Implementation
+Bundle-Activator: eDFDFlowTracking.provider.EDFDFlowTrackingEditPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

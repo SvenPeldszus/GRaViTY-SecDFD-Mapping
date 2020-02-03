@@ -15,7 +15,7 @@ package eDFDFlowTracking;
  *   <li>{@link eDFDFlowTracking.AttackerProfile#getObservation <em>Observation</em>}</li>
  * </ul>
  *
- * @see eDFDFlowTracking.EDFDFlowTracking1Package#getAttackerProfile()
+ * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getAttackerProfile()
  * @model
  * @generated
  */
@@ -30,7 +30,7 @@ public interface AttackerProfile extends NamedEntity {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Observation</em>' attribute.
 	 * @see #setObservation(int)
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getAttackerProfile_Observation()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getAttackerProfile_Observation()
 	 * @model required="true"
 	 * @generated
 	 */

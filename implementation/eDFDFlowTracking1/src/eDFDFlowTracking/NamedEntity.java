@@ -17,7 +17,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link eDFDFlowTracking.NamedEntity#getNumber <em>Number</em>}</li>
  * </ul>
  *
- * @see eDFDFlowTracking.EDFDFlowTracking1Package#getNamedEntity()
+ * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getNamedEntity()
  * @model interface="true" abstract="true"
  * @generated
  */
@@ -32,7 +32,7 @@ public interface NamedEntity extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getNamedEntity_Name()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getNamedEntity_Name()
 	 * @model id="true"
 	 * @generated
 	 */
@@ -58,7 +58,7 @@ public interface NamedEntity extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Number</em>' attribute.
 	 * @see #setNumber(int)
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getNamedEntity_Number()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getNamedEntity_Number()
 	 * @model
 	 * @generated
 	 */

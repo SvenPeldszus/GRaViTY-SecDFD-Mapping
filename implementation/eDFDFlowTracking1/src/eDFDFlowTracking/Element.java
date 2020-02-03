@@ -20,7 +20,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link eDFDFlowTracking.Element#isAttacker <em>Attacker</em>}</li>
  * </ul>
  *
- * @see eDFDFlowTracking.EDFDFlowTracking1Package#getElement()
+ * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getElement()
  * @model abstract="true"
  * @generated
  */
@@ -35,7 +35,7 @@ public interface Element extends NamedEntity {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Outflows</em>' containment reference list.
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getElement_Outflows()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getElement_Outflows()
 	 * @model containment="true"
 	 * @generated
 	 */
@@ -51,7 +51,7 @@ public interface Element extends NamedEntity {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Assumption</em>' containment reference list.
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getElement_Assumption()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getElement_Assumption()
 	 * @model containment="true"
 	 * @generated
 	 */
@@ -67,7 +67,7 @@ public interface Element extends NamedEntity {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Assets</em>' reference list.
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getElement_Assets()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getElement_Assets()
 	 * @model
 	 * @generated
 	 */
@@ -83,7 +83,7 @@ public interface Element extends NamedEntity {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Inflows</em>' reference list.
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getElement_Inflows()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getElement_Inflows()
 	 * @model
 	 * @generated
 	 */
@@ -99,7 +99,7 @@ public interface Element extends NamedEntity {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Attacker</em>' attribute.
 	 * @see #setAttacker(boolean)
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getElement_Attacker()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getElement_Attacker()
 	 * @model
 	 * @generated
 	 */

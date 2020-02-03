@@ -1,4 +1,5 @@
 Manifest-Version: 1.0
+Automatic-Module-Name: org.xtext.example.mydsl
 Bundle-ManifestVersion: 2
 Bundle-Name: org.xtext.example.mydsl
 Bundle-Vendor: My Company
@@ -10,9 +11,10 @@ Require-Bundle: eDFDFlowTracking1,
  org.eclipse.xtext.xbase,
  org.eclipse.equinox.common;bundle-version="3.5.0",
  org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
- org.antlr.runtime,
  org.eclipse.xtext.util,
- org.eclipse.xtend.lib;bundle-version="2.14.0"
+ org.eclipse.xtend.lib;bundle-version="2.14.0",
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)",
+ org.eclipse.xtext.ecore;bundle-version="2.17.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.xtext.example.mydsl.parser.antlr.internal,
  org.xtext.example.mydsl.scoping,
@@ -23,5 +25,5 @@ Export-Package: org.xtext.example.mydsl.parser.antlr.internal,
  org.xtext.example.mydsl.formatting2,
  org.xtext.example.mydsl.serializer,
  org.xtext.example.mydsl.parser.antlr
-Import-Package: org.apache.log4j
-Automatic-Module-Name: org.xtext.example.mydsl
+Import-Package: org.apache.log4j,
+ org.eclipse.core.runtime;version="3.5.0"

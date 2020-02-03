@@ -9,7 +9,7 @@ package eDFDFlowTracking;
  * <!-- end-user-doc -->
  *
  *
- * @see eDFDFlowTracking.EDFDFlowTracking1Package#getExternalEntity()
+ * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getExternalEntity()
  * @model
  * @generated
  */

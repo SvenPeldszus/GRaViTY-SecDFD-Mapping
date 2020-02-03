@@ -3,8 +3,7 @@
 package eDFDFlowTracking.impl;
 
 import eDFDFlowTracking.DataStore;
-import eDFDFlowTracking.EDFDFlowTracking1Package;
-
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 import org.eclipse.emf.ecore.EClass;
 
 /**
@@ -31,7 +30,7 @@ public class DataStoreImpl extends ElementImpl implements DataStore {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return EDFDFlowTracking1Package.Literals.DATA_STORE;
+		return EDFDFlowTrackingPackage.Literals.DATA_STORE;
 	}
 
 } //DataStoreImpl

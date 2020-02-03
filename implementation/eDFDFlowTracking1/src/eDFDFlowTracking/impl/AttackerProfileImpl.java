@@ -3,8 +3,7 @@
 package eDFDFlowTracking.impl;
 
 import eDFDFlowTracking.AttackerProfile;
-import eDFDFlowTracking.EDFDFlowTracking1Package;
-
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
@@ -104,7 +103,7 @@ public class AttackerProfileImpl extends MinimalEObjectImpl.Container implements
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return EDFDFlowTracking1Package.Literals.ATTACKER_PROFILE;
+		return EDFDFlowTrackingPackage.Literals.ATTACKER_PROFILE;
 	}
 
 	/**
@@ -127,7 +126,7 @@ public class AttackerProfileImpl extends MinimalEObjectImpl.Container implements
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTracking1Package.ATTACKER_PROFILE__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTrackingPackage.ATTACKER_PROFILE__NAME, oldName, name));
 	}
 
 	/**
@@ -150,7 +149,7 @@ public class AttackerProfileImpl extends MinimalEObjectImpl.Container implements
 		int oldNumber = number;
 		number = newNumber;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTracking1Package.ATTACKER_PROFILE__NUMBER, oldNumber, number));
+			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTrackingPackage.ATTACKER_PROFILE__NUMBER, oldNumber, number));
 	}
 
 	/**
@@ -173,7 +172,7 @@ public class AttackerProfileImpl extends MinimalEObjectImpl.Container implements
 		int oldObservation = observation;
 		observation = newObservation;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTracking1Package.ATTACKER_PROFILE__OBSERVATION, oldObservation, observation));
+			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTrackingPackage.ATTACKER_PROFILE__OBSERVATION, oldObservation, observation));
 	}
 
 	/**
@@ -184,11 +183,11 @@ public class AttackerProfileImpl extends MinimalEObjectImpl.Container implements
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.ATTACKER_PROFILE__NAME:
+			case EDFDFlowTrackingPackage.ATTACKER_PROFILE__NAME:
 				return getName();
-			case EDFDFlowTracking1Package.ATTACKER_PROFILE__NUMBER:
+			case EDFDFlowTrackingPackage.ATTACKER_PROFILE__NUMBER:
 				return getNumber();
-			case EDFDFlowTracking1Package.ATTACKER_PROFILE__OBSERVATION:
+			case EDFDFlowTrackingPackage.ATTACKER_PROFILE__OBSERVATION:
 				return getObservation();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -202,13 +201,13 @@ public class AttackerProfileImpl extends MinimalEObjectImpl.Container implements
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.ATTACKER_PROFILE__NAME:
+			case EDFDFlowTrackingPackage.ATTACKER_PROFILE__NAME:
 				setName((String)newValue);
 				return;
-			case EDFDFlowTracking1Package.ATTACKER_PROFILE__NUMBER:
+			case EDFDFlowTrackingPackage.ATTACKER_PROFILE__NUMBER:
 				setNumber((Integer)newValue);
 				return;
-			case EDFDFlowTracking1Package.ATTACKER_PROFILE__OBSERVATION:
+			case EDFDFlowTrackingPackage.ATTACKER_PROFILE__OBSERVATION:
 				setObservation((Integer)newValue);
 				return;
 		}
@@ -223,13 +222,13 @@ public class AttackerProfileImpl extends MinimalEObjectImpl.Container implements
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.ATTACKER_PROFILE__NAME:
+			case EDFDFlowTrackingPackage.ATTACKER_PROFILE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
-			case EDFDFlowTracking1Package.ATTACKER_PROFILE__NUMBER:
+			case EDFDFlowTrackingPackage.ATTACKER_PROFILE__NUMBER:
 				setNumber(NUMBER_EDEFAULT);
 				return;
-			case EDFDFlowTracking1Package.ATTACKER_PROFILE__OBSERVATION:
+			case EDFDFlowTrackingPackage.ATTACKER_PROFILE__OBSERVATION:
 				setObservation(OBSERVATION_EDEFAULT);
 				return;
 		}
@@ -244,11 +243,11 @@ public class AttackerProfileImpl extends MinimalEObjectImpl.Container implements
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.ATTACKER_PROFILE__NAME:
+			case EDFDFlowTrackingPackage.ATTACKER_PROFILE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case EDFDFlowTracking1Package.ATTACKER_PROFILE__NUMBER:
+			case EDFDFlowTrackingPackage.ATTACKER_PROFILE__NUMBER:
 				return number != NUMBER_EDEFAULT;
-			case EDFDFlowTracking1Package.ATTACKER_PROFILE__OBSERVATION:
+			case EDFDFlowTrackingPackage.ATTACKER_PROFILE__OBSERVATION:
 				return observation != OBSERVATION_EDEFAULT;
 		}
 		return super.eIsSet(featureID);

@@ -2,7 +2,7 @@
  */
 package eDFDFlowTracking.impl;
 
-import eDFDFlowTracking.EDFDFlowTracking1Package;
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 import eDFDFlowTracking.Responsibility;
 
 import java.util.Collection;
@@ -57,7 +57,7 @@ public class ProcessImpl extends ElementImpl implements eDFDFlowTracking.Process
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return EDFDFlowTracking1Package.Literals.PROCESS;
+		return EDFDFlowTrackingPackage.Literals.PROCESS;
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class ProcessImpl extends ElementImpl implements eDFDFlowTracking.Process
 	@Override
 	public EList<Responsibility> getResponsibility() {
 		if (responsibility == null) {
-			responsibility = new EObjectContainmentWithInverseEList<Responsibility>(Responsibility.class, this, EDFDFlowTracking1Package.PROCESS__RESPONSIBILITY, EDFDFlowTracking1Package.RESPONSIBILITY__PROCESS);
+			responsibility = new EObjectContainmentWithInverseEList<Responsibility>(Responsibility.class, this, EDFDFlowTrackingPackage.PROCESS__RESPONSIBILITY, EDFDFlowTrackingPackage.RESPONSIBILITY__PROCESS);
 		}
 		return responsibility;
 	}
@@ -82,7 +82,7 @@ public class ProcessImpl extends ElementImpl implements eDFDFlowTracking.Process
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.PROCESS__RESPONSIBILITY:
+			case EDFDFlowTrackingPackage.PROCESS__RESPONSIBILITY:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getResponsibility()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
@@ -96,7 +96,7 @@ public class ProcessImpl extends ElementImpl implements eDFDFlowTracking.Process
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.PROCESS__RESPONSIBILITY:
+			case EDFDFlowTrackingPackage.PROCESS__RESPONSIBILITY:
 				return ((InternalEList<?>)getResponsibility()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -110,7 +110,7 @@ public class ProcessImpl extends ElementImpl implements eDFDFlowTracking.Process
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.PROCESS__RESPONSIBILITY:
+			case EDFDFlowTrackingPackage.PROCESS__RESPONSIBILITY:
 				return getResponsibility();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -125,7 +125,7 @@ public class ProcessImpl extends ElementImpl implements eDFDFlowTracking.Process
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.PROCESS__RESPONSIBILITY:
+			case EDFDFlowTrackingPackage.PROCESS__RESPONSIBILITY:
 				getResponsibility().clear();
 				getResponsibility().addAll((Collection<? extends Responsibility>)newValue);
 				return;
@@ -141,7 +141,7 @@ public class ProcessImpl extends ElementImpl implements eDFDFlowTracking.Process
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.PROCESS__RESPONSIBILITY:
+			case EDFDFlowTrackingPackage.PROCESS__RESPONSIBILITY:
 				getResponsibility().clear();
 				return;
 		}
@@ -156,7 +156,7 @@ public class ProcessImpl extends ElementImpl implements eDFDFlowTracking.Process
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.PROCESS__RESPONSIBILITY:
+			case EDFDFlowTrackingPackage.PROCESS__RESPONSIBILITY:
 				return responsibility != null && !responsibility.isEmpty();
 		}
 		return super.eIsSet(featureID);

@@ -3,7 +3,6 @@
 package eDFDFlowTracking.impl;
 
 import eDFDFlowTracking.Asset;
-import eDFDFlowTracking.AssetType;
 import eDFDFlowTracking.Assumption;
 import eDFDFlowTracking.AttackerProfile;
 import eDFDFlowTracking.Channel;
@@ -108,8 +107,6 @@ public class EDFDFlowTracking1FactoryImpl extends EFactoryImpl implements EDFDFl
 				return createObjectiveFromString(eDataType, initialValue);
 			case EDFDFlowTracking1Package.LAYER:
 				return createLayerFromString(eDataType, initialValue);
-			case EDFDFlowTracking1Package.ASSET_TYPE:
-				return createAssetTypeFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -133,8 +130,6 @@ public class EDFDFlowTracking1FactoryImpl extends EFactoryImpl implements EDFDFl
 				return convertObjectiveToString(eDataType, instanceValue);
 			case EDFDFlowTracking1Package.LAYER:
 				return convertLayerToString(eDataType, instanceValue);
-			case EDFDFlowTracking1Package.ASSET_TYPE:
-				return convertAssetTypeToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -358,26 +353,6 @@ public class EDFDFlowTracking1FactoryImpl extends EFactoryImpl implements EDFDFl
 	 * @generated
 	 */
 	public String convertLayerToString(EDataType eDataType, Object instanceValue) {
-		return instanceValue == null ? null : instanceValue.toString();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public AssetType createAssetTypeFromString(EDataType eDataType, String initialValue) {
-		AssetType result = AssetType.get(initialValue);
-		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-		return result;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String convertAssetTypeToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

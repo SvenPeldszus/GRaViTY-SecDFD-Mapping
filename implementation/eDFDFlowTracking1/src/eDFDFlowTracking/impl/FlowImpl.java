@@ -3,7 +3,7 @@
 package eDFDFlowTracking.impl;
 
 import eDFDFlowTracking.Channel;
-import eDFDFlowTracking.EDFDFlowTracking1Package;
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 import eDFDFlowTracking.Element;
 import eDFDFlowTracking.Flow;
 
@@ -113,7 +113,7 @@ public class FlowImpl extends ElementImpl implements Flow {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return EDFDFlowTracking1Package.Literals.FLOW;
+		return EDFDFlowTrackingPackage.Literals.FLOW;
 	}
 
 	/**
@@ -136,7 +136,7 @@ public class FlowImpl extends ElementImpl implements Flow {
 		Channel oldChannel = channel;
 		channel = newChannel == null ? CHANNEL_EDEFAULT : newChannel;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTracking1Package.FLOW__CHANNEL, oldChannel, channel));
+			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTrackingPackage.FLOW__CHANNEL, oldChannel, channel));
 	}
 
 	/**
@@ -147,7 +147,7 @@ public class FlowImpl extends ElementImpl implements Flow {
 	@Override
 	public EList<Element> getTarget() {
 		if (target == null) {
-			target = new EObjectResolvingEList<Element>(Element.class, this, EDFDFlowTracking1Package.FLOW__TARGET);
+			target = new EObjectResolvingEList<Element>(Element.class, this, EDFDFlowTrackingPackage.FLOW__TARGET);
 		}
 		return target;
 	}
@@ -164,7 +164,7 @@ public class FlowImpl extends ElementImpl implements Flow {
 			source = (Element)eResolveProxy(oldSource);
 			if (source != oldSource) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, EDFDFlowTracking1Package.FLOW__SOURCE, oldSource, source));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, EDFDFlowTrackingPackage.FLOW__SOURCE, oldSource, source));
 			}
 		}
 		return source;
@@ -189,7 +189,7 @@ public class FlowImpl extends ElementImpl implements Flow {
 		Element oldSource = source;
 		source = newSource;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTracking1Package.FLOW__SOURCE, oldSource, source));
+			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTrackingPackage.FLOW__SOURCE, oldSource, source));
 	}
 
 	/**
@@ -212,7 +212,7 @@ public class FlowImpl extends ElementImpl implements Flow {
 		int oldLabel = label;
 		label = newLabel;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTracking1Package.FLOW__LABEL, oldLabel, label));
+			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTrackingPackage.FLOW__LABEL, oldLabel, label));
 	}
 
 	/**
@@ -223,14 +223,14 @@ public class FlowImpl extends ElementImpl implements Flow {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.FLOW__CHANNEL:
+			case EDFDFlowTrackingPackage.FLOW__CHANNEL:
 				return getChannel();
-			case EDFDFlowTracking1Package.FLOW__TARGET:
+			case EDFDFlowTrackingPackage.FLOW__TARGET:
 				return getTarget();
-			case EDFDFlowTracking1Package.FLOW__SOURCE:
+			case EDFDFlowTrackingPackage.FLOW__SOURCE:
 				if (resolve) return getSource();
 				return basicGetSource();
-			case EDFDFlowTracking1Package.FLOW__LABEL:
+			case EDFDFlowTrackingPackage.FLOW__LABEL:
 				return getLabel();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -245,17 +245,17 @@ public class FlowImpl extends ElementImpl implements Flow {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.FLOW__CHANNEL:
+			case EDFDFlowTrackingPackage.FLOW__CHANNEL:
 				setChannel((Channel)newValue);
 				return;
-			case EDFDFlowTracking1Package.FLOW__TARGET:
+			case EDFDFlowTrackingPackage.FLOW__TARGET:
 				getTarget().clear();
 				getTarget().addAll((Collection<? extends Element>)newValue);
 				return;
-			case EDFDFlowTracking1Package.FLOW__SOURCE:
+			case EDFDFlowTrackingPackage.FLOW__SOURCE:
 				setSource((Element)newValue);
 				return;
-			case EDFDFlowTracking1Package.FLOW__LABEL:
+			case EDFDFlowTrackingPackage.FLOW__LABEL:
 				setLabel((Integer)newValue);
 				return;
 		}
@@ -270,16 +270,16 @@ public class FlowImpl extends ElementImpl implements Flow {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.FLOW__CHANNEL:
+			case EDFDFlowTrackingPackage.FLOW__CHANNEL:
 				setChannel(CHANNEL_EDEFAULT);
 				return;
-			case EDFDFlowTracking1Package.FLOW__TARGET:
+			case EDFDFlowTrackingPackage.FLOW__TARGET:
 				getTarget().clear();
 				return;
-			case EDFDFlowTracking1Package.FLOW__SOURCE:
+			case EDFDFlowTrackingPackage.FLOW__SOURCE:
 				setSource((Element)null);
 				return;
-			case EDFDFlowTracking1Package.FLOW__LABEL:
+			case EDFDFlowTrackingPackage.FLOW__LABEL:
 				setLabel(LABEL_EDEFAULT);
 				return;
 		}
@@ -294,13 +294,13 @@ public class FlowImpl extends ElementImpl implements Flow {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.FLOW__CHANNEL:
+			case EDFDFlowTrackingPackage.FLOW__CHANNEL:
 				return channel != CHANNEL_EDEFAULT;
-			case EDFDFlowTracking1Package.FLOW__TARGET:
+			case EDFDFlowTrackingPackage.FLOW__TARGET:
 				return target != null && !target.isEmpty();
-			case EDFDFlowTracking1Package.FLOW__SOURCE:
+			case EDFDFlowTrackingPackage.FLOW__SOURCE:
 				return source != null;
-			case EDFDFlowTracking1Package.FLOW__LABEL:
+			case EDFDFlowTrackingPackage.FLOW__LABEL:
 				return label != LABEL_EDEFAULT;
 		}
 		return super.eIsSet(featureID);

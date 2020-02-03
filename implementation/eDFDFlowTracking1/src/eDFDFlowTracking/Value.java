@@ -17,7 +17,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link eDFDFlowTracking.Value#getPriority <em>Priority</em>}</li>
  * </ul>
  *
- * @see eDFDFlowTracking.EDFDFlowTracking1Package#getValue()
+ * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getValue()
  * @model
  * @generated
  */
@@ -34,7 +34,7 @@ public interface Value extends EObject {
 	 * @return the value of the '<em>Objective</em>' attribute.
 	 * @see eDFDFlowTracking.Objective
 	 * @see #setObjective(Objective)
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getValue_Objective()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getValue_Objective()
 	 * @model
 	 * @generated
 	 */
@@ -64,7 +64,7 @@ public interface Value extends EObject {
 	 * @return the value of the '<em>Priority</em>' attribute.
 	 * @see eDFDFlowTracking.Priority
 	 * @see #setPriority(Priority)
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getValue_Priority()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getValue_Priority()
 	 * @model default="H"
 	 * @generated
 	 */

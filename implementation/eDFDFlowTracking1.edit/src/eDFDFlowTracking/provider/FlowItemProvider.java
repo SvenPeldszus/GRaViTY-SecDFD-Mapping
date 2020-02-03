@@ -3,7 +3,7 @@
 package eDFDFlowTracking.provider;
 
 
-import eDFDFlowTracking.EDFDFlowTracking1Package;
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 import eDFDFlowTracking.Flow;
 
 import java.util.Collection;
@@ -66,7 +66,7 @@ public class FlowItemProvider extends ElementItemProvider {
 				 getResourceLocator(),
 				 getString("_UI_Flow_Channel_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Flow_Channel_feature", "_UI_Flow_type"),
-				 EDFDFlowTracking1Package.Literals.FLOW__CHANNEL,
+				 EDFDFlowTrackingPackage.Literals.FLOW__CHANNEL,
 				 true,
 				 false,
 				 false,
@@ -88,7 +88,7 @@ public class FlowItemProvider extends ElementItemProvider {
 				 getResourceLocator(),
 				 getString("_UI_Flow_target_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Flow_target_feature", "_UI_Flow_type"),
-				 EDFDFlowTracking1Package.Literals.FLOW__TARGET,
+				 EDFDFlowTrackingPackage.Literals.FLOW__TARGET,
 				 true,
 				 false,
 				 true,
@@ -110,7 +110,7 @@ public class FlowItemProvider extends ElementItemProvider {
 				 getResourceLocator(),
 				 getString("_UI_Flow_source_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Flow_source_feature", "_UI_Flow_type"),
-				 EDFDFlowTracking1Package.Literals.FLOW__SOURCE,
+				 EDFDFlowTrackingPackage.Literals.FLOW__SOURCE,
 				 true,
 				 false,
 				 true,
@@ -132,7 +132,7 @@ public class FlowItemProvider extends ElementItemProvider {
 				 getResourceLocator(),
 				 getString("_UI_Flow_Label_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Flow_Label_feature", "_UI_Flow_type"),
-				 EDFDFlowTracking1Package.Literals.FLOW__LABEL,
+				 EDFDFlowTrackingPackage.Literals.FLOW__LABEL,
 				 true,
 				 false,
 				 false,
@@ -165,7 +165,7 @@ public class FlowItemProvider extends ElementItemProvider {
 			getString("_UI_Flow_type") :
 			getString("_UI_Flow_type") + " " + label;
 	}
-	
+
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
@@ -179,8 +179,8 @@ public class FlowItemProvider extends ElementItemProvider {
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Flow.class)) {
-			case EDFDFlowTracking1Package.FLOW__CHANNEL:
-			case EDFDFlowTracking1Package.FLOW__LABEL:
+			case EDFDFlowTrackingPackage.FLOW__CHANNEL:
+			case EDFDFlowTrackingPackage.FLOW__LABEL:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

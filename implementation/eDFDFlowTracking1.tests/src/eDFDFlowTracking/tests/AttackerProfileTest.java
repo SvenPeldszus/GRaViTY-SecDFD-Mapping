@@ -3,8 +3,7 @@
 package eDFDFlowTracking.tests;
 
 import eDFDFlowTracking.AttackerProfile;
-import eDFDFlowTracking.EDFDFlowTracking1Factory;
-
+import eDFDFlowTracking.EDFDFlowTrackingFactory;
 import junit.framework.TestCase;
 
 import junit.textui.TestRunner;
@@ -72,7 +71,7 @@ public class AttackerProfileTest extends TestCase {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(EDFDFlowTracking1Factory.eINSTANCE.createAttackerProfile());
+		setFixture(EDFDFlowTrackingFactory.eINSTANCE.createAttackerProfile());
 	}
 
 	/**

@@ -19,7 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link eDFDFlowTracking.Assumption#getLayer <em>Layer</em>}</li>
  * </ul>
  *
- * @see eDFDFlowTracking.EDFDFlowTracking1Package#getAssumption()
+ * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getAssumption()
  * @model
  * @generated
  */
@@ -36,7 +36,7 @@ public interface Assumption extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Objective</em>' attribute list.
 	 * @see eDFDFlowTracking.Objective
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getAssumption_Objective()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getAssumption_Objective()
 	 * @model
 	 * @generated
 	 */
@@ -54,7 +54,7 @@ public interface Assumption extends EObject {
 	 * @return the value of the '<em>Layer</em>' attribute.
 	 * @see eDFDFlowTracking.Layer
 	 * @see #setLayer(Layer)
-	 * @see eDFDFlowTracking.EDFDFlowTracking1Package#getAssumption_Layer()
+	 * @see eDFDFlowTracking.EDFDFlowTrackingPackage#getAssumption_Layer()
 	 * @model
 	 * @generated
 	 */

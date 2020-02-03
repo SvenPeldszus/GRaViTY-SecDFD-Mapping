@@ -3,9 +3,8 @@
 package eDFDFlowTracking.provider;
 
 
-import eDFDFlowTracking.EDFDFlowTracking1Factory;
-import eDFDFlowTracking.EDFDFlowTracking1Package;
-
+import eDFDFlowTracking.EDFDFlowTrackingFactory;
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 import java.util.Collection;
 import java.util.List;
 
@@ -61,7 +60,7 @@ public class ProcessItemProvider extends ElementItemProvider {
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(EDFDFlowTracking1Package.Literals.PROCESS__RESPONSIBILITY);
+			childrenFeatures.add(EDFDFlowTrackingPackage.Literals.PROCESS__RESPONSIBILITY);
 		}
 		return childrenFeatures;
 	}
@@ -103,7 +102,7 @@ public class ProcessItemProvider extends ElementItemProvider {
 			getString("_UI_Process_type") :
 			getString("_UI_Process_type") + " " + label;
 	}
-	
+
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
@@ -117,7 +116,7 @@ public class ProcessItemProvider extends ElementItemProvider {
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(eDFDFlowTracking.Process.class)) {
-			case EDFDFlowTracking1Package.PROCESS__RESPONSIBILITY:
+			case EDFDFlowTrackingPackage.PROCESS__RESPONSIBILITY:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -137,8 +136,8 @@ public class ProcessItemProvider extends ElementItemProvider {
 
 		newChildDescriptors.add
 			(createChildParameter
-				(EDFDFlowTracking1Package.Literals.PROCESS__RESPONSIBILITY,
-				 EDFDFlowTracking1Factory.eINSTANCE.createResponsibility()));
+				(EDFDFlowTrackingPackage.Literals.PROCESS__RESPONSIBILITY,
+				 EDFDFlowTrackingFactory.eINSTANCE.createResponsibility()));
 	}
 
 }

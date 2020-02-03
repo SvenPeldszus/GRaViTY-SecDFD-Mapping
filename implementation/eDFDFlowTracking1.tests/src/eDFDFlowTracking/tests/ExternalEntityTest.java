@@ -2,7 +2,7 @@
  */
 package eDFDFlowTracking.tests;
 
-import eDFDFlowTracking.EDFDFlowTracking1Factory;
+import eDFDFlowTracking.EDFDFlowTrackingFactory;
 import eDFDFlowTracking.ExternalEntity;
 
 import junit.textui.TestRunner;
@@ -53,7 +53,7 @@ public class ExternalEntityTest extends ElementTest {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(EDFDFlowTracking1Factory.eINSTANCE.createExternalEntity());
+		setFixture(EDFDFlowTrackingFactory.eINSTANCE.createExternalEntity());
 	}
 
 	/**

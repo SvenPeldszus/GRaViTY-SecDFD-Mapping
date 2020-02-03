@@ -3,7 +3,7 @@
 package eDFDFlowTracking.impl;
 
 import eDFDFlowTracking.Assumption;
-import eDFDFlowTracking.EDFDFlowTracking1Package;
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 import eDFDFlowTracking.Layer;
 import eDFDFlowTracking.Objective;
 
@@ -81,7 +81,7 @@ public class AssumptionImpl extends MinimalEObjectImpl.Container implements Assu
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return EDFDFlowTracking1Package.Literals.ASSUMPTION;
+		return EDFDFlowTrackingPackage.Literals.ASSUMPTION;
 	}
 
 	/**
@@ -92,7 +92,7 @@ public class AssumptionImpl extends MinimalEObjectImpl.Container implements Assu
 	@Override
 	public EList<Objective> getObjective() {
 		if (objective == null) {
-			objective = new EDataTypeUniqueEList<Objective>(Objective.class, this, EDFDFlowTracking1Package.ASSUMPTION__OBJECTIVE);
+			objective = new EDataTypeUniqueEList<Objective>(Objective.class, this, EDFDFlowTrackingPackage.ASSUMPTION__OBJECTIVE);
 		}
 		return objective;
 	}
@@ -117,7 +117,7 @@ public class AssumptionImpl extends MinimalEObjectImpl.Container implements Assu
 		Layer oldLayer = layer;
 		layer = newLayer == null ? LAYER_EDEFAULT : newLayer;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTracking1Package.ASSUMPTION__LAYER, oldLayer, layer));
+			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTrackingPackage.ASSUMPTION__LAYER, oldLayer, layer));
 	}
 
 	/**
@@ -128,9 +128,9 @@ public class AssumptionImpl extends MinimalEObjectImpl.Container implements Assu
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.ASSUMPTION__OBJECTIVE:
+			case EDFDFlowTrackingPackage.ASSUMPTION__OBJECTIVE:
 				return getObjective();
-			case EDFDFlowTracking1Package.ASSUMPTION__LAYER:
+			case EDFDFlowTrackingPackage.ASSUMPTION__LAYER:
 				return getLayer();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -145,11 +145,11 @@ public class AssumptionImpl extends MinimalEObjectImpl.Container implements Assu
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.ASSUMPTION__OBJECTIVE:
+			case EDFDFlowTrackingPackage.ASSUMPTION__OBJECTIVE:
 				getObjective().clear();
 				getObjective().addAll((Collection<? extends Objective>)newValue);
 				return;
-			case EDFDFlowTracking1Package.ASSUMPTION__LAYER:
+			case EDFDFlowTrackingPackage.ASSUMPTION__LAYER:
 				setLayer((Layer)newValue);
 				return;
 		}
@@ -164,10 +164,10 @@ public class AssumptionImpl extends MinimalEObjectImpl.Container implements Assu
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.ASSUMPTION__OBJECTIVE:
+			case EDFDFlowTrackingPackage.ASSUMPTION__OBJECTIVE:
 				getObjective().clear();
 				return;
-			case EDFDFlowTracking1Package.ASSUMPTION__LAYER:
+			case EDFDFlowTrackingPackage.ASSUMPTION__LAYER:
 				setLayer(LAYER_EDEFAULT);
 				return;
 		}
@@ -182,9 +182,9 @@ public class AssumptionImpl extends MinimalEObjectImpl.Container implements Assu
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.ASSUMPTION__OBJECTIVE:
+			case EDFDFlowTrackingPackage.ASSUMPTION__OBJECTIVE:
 				return objective != null && !objective.isEmpty();
-			case EDFDFlowTracking1Package.ASSUMPTION__LAYER:
+			case EDFDFlowTrackingPackage.ASSUMPTION__LAYER:
 				return layer != LAYER_EDEFAULT;
 		}
 		return super.eIsSet(featureID);

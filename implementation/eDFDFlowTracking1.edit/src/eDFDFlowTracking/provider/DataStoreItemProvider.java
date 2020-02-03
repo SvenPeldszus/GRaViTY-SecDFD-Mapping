@@ -69,7 +69,7 @@ public class DataStoreItemProvider extends ElementItemProvider {
 			getString("_UI_DataStore_type") :
 			getString("_UI_DataStore_type") + " " + label;
 	}
-	
+
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached

@@ -3,7 +3,7 @@
 package eDFDFlowTracking.impl;
 
 import eDFDFlowTracking.Asset;
-import eDFDFlowTracking.EDFDFlowTracking1Package;
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 import eDFDFlowTracking.Responsibility;
 import eDFDFlowTracking.ResponsibilityType;
 
@@ -129,7 +129,7 @@ public class ResponsibilityImpl extends MinimalEObjectImpl.Container implements 
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return EDFDFlowTracking1Package.Literals.RESPONSIBILITY;
+		return EDFDFlowTrackingPackage.Literals.RESPONSIBILITY;
 	}
 
 	/**
@@ -152,7 +152,7 @@ public class ResponsibilityImpl extends MinimalEObjectImpl.Container implements 
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTracking1Package.RESPONSIBILITY__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTrackingPackage.RESPONSIBILITY__NAME, oldName, name));
 	}
 
 	/**
@@ -175,7 +175,7 @@ public class ResponsibilityImpl extends MinimalEObjectImpl.Container implements 
 		int oldNumber = number;
 		number = newNumber;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTracking1Package.RESPONSIBILITY__NUMBER, oldNumber, number));
+			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTrackingPackage.RESPONSIBILITY__NUMBER, oldNumber, number));
 	}
 
 	/**
@@ -186,7 +186,7 @@ public class ResponsibilityImpl extends MinimalEObjectImpl.Container implements 
 	@Override
 	public EList<ResponsibilityType> getAction() {
 		if (action == null) {
-			action = new EDataTypeUniqueEList<ResponsibilityType>(ResponsibilityType.class, this, EDFDFlowTracking1Package.RESPONSIBILITY__ACTION);
+			action = new EDataTypeUniqueEList<ResponsibilityType>(ResponsibilityType.class, this, EDFDFlowTrackingPackage.RESPONSIBILITY__ACTION);
 		}
 		return action;
 	}
@@ -199,7 +199,7 @@ public class ResponsibilityImpl extends MinimalEObjectImpl.Container implements 
 	@Override
 	public EList<Asset> getIncomeassets() {
 		if (incomeassets == null) {
-			incomeassets = new EObjectResolvingEList<Asset>(Asset.class, this, EDFDFlowTracking1Package.RESPONSIBILITY__INCOMEASSETS);
+			incomeassets = new EObjectResolvingEList<Asset>(Asset.class, this, EDFDFlowTrackingPackage.RESPONSIBILITY__INCOMEASSETS);
 		}
 		return incomeassets;
 	}
@@ -212,7 +212,7 @@ public class ResponsibilityImpl extends MinimalEObjectImpl.Container implements 
 	@Override
 	public EList<Asset> getOutcomeassets() {
 		if (outcomeassets == null) {
-			outcomeassets = new EObjectResolvingEList<Asset>(Asset.class, this, EDFDFlowTracking1Package.RESPONSIBILITY__OUTCOMEASSETS);
+			outcomeassets = new EObjectResolvingEList<Asset>(Asset.class, this, EDFDFlowTrackingPackage.RESPONSIBILITY__OUTCOMEASSETS);
 		}
 		return outcomeassets;
 	}
@@ -224,7 +224,7 @@ public class ResponsibilityImpl extends MinimalEObjectImpl.Container implements 
 	 */
 	@Override
 	public eDFDFlowTracking.Process getProcess() {
-		if (eContainerFeatureID() != EDFDFlowTracking1Package.RESPONSIBILITY__PROCESS) return null;
+		if (eContainerFeatureID() != EDFDFlowTrackingPackage.RESPONSIBILITY__PROCESS) return null;
 		return (eDFDFlowTracking.Process)eInternalContainer();
 	}
 
@@ -234,7 +234,7 @@ public class ResponsibilityImpl extends MinimalEObjectImpl.Container implements 
 	 * @generated
 	 */
 	public NotificationChain basicSetProcess(eDFDFlowTracking.Process newProcess, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newProcess, EDFDFlowTracking1Package.RESPONSIBILITY__PROCESS, msgs);
+		msgs = eBasicSetContainer((InternalEObject)newProcess, EDFDFlowTrackingPackage.RESPONSIBILITY__PROCESS, msgs);
 		return msgs;
 	}
 
@@ -245,19 +245,19 @@ public class ResponsibilityImpl extends MinimalEObjectImpl.Container implements 
 	 */
 	@Override
 	public void setProcess(eDFDFlowTracking.Process newProcess) {
-		if (newProcess != eInternalContainer() || (eContainerFeatureID() != EDFDFlowTracking1Package.RESPONSIBILITY__PROCESS && newProcess != null)) {
+		if (newProcess != eInternalContainer() || (eContainerFeatureID() != EDFDFlowTrackingPackage.RESPONSIBILITY__PROCESS && newProcess != null)) {
 			if (EcoreUtil.isAncestor(this, newProcess))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
 			if (newProcess != null)
-				msgs = ((InternalEObject)newProcess).eInverseAdd(this, EDFDFlowTracking1Package.PROCESS__RESPONSIBILITY, eDFDFlowTracking.Process.class, msgs);
+				msgs = ((InternalEObject)newProcess).eInverseAdd(this, EDFDFlowTrackingPackage.PROCESS__RESPONSIBILITY, eDFDFlowTracking.Process.class, msgs);
 			msgs = basicSetProcess(newProcess, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTracking1Package.RESPONSIBILITY__PROCESS, newProcess, newProcess));
+			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTrackingPackage.RESPONSIBILITY__PROCESS, newProcess, newProcess));
 	}
 
 	/**
@@ -268,7 +268,7 @@ public class ResponsibilityImpl extends MinimalEObjectImpl.Container implements 
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.RESPONSIBILITY__PROCESS:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__PROCESS:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetProcess((eDFDFlowTracking.Process)otherEnd, msgs);
@@ -284,7 +284,7 @@ public class ResponsibilityImpl extends MinimalEObjectImpl.Container implements 
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.RESPONSIBILITY__PROCESS:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__PROCESS:
 				return basicSetProcess(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -298,8 +298,8 @@ public class ResponsibilityImpl extends MinimalEObjectImpl.Container implements 
 	@Override
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
-			case EDFDFlowTracking1Package.RESPONSIBILITY__PROCESS:
-				return eInternalContainer().eInverseRemove(this, EDFDFlowTracking1Package.PROCESS__RESPONSIBILITY, eDFDFlowTracking.Process.class, msgs);
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__PROCESS:
+				return eInternalContainer().eInverseRemove(this, EDFDFlowTrackingPackage.PROCESS__RESPONSIBILITY, eDFDFlowTracking.Process.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
@@ -312,17 +312,17 @@ public class ResponsibilityImpl extends MinimalEObjectImpl.Container implements 
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.RESPONSIBILITY__NAME:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__NAME:
 				return getName();
-			case EDFDFlowTracking1Package.RESPONSIBILITY__NUMBER:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__NUMBER:
 				return getNumber();
-			case EDFDFlowTracking1Package.RESPONSIBILITY__ACTION:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__ACTION:
 				return getAction();
-			case EDFDFlowTracking1Package.RESPONSIBILITY__INCOMEASSETS:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__INCOMEASSETS:
 				return getIncomeassets();
-			case EDFDFlowTracking1Package.RESPONSIBILITY__OUTCOMEASSETS:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__OUTCOMEASSETS:
 				return getOutcomeassets();
-			case EDFDFlowTracking1Package.RESPONSIBILITY__PROCESS:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__PROCESS:
 				return getProcess();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -337,25 +337,25 @@ public class ResponsibilityImpl extends MinimalEObjectImpl.Container implements 
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.RESPONSIBILITY__NAME:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__NAME:
 				setName((String)newValue);
 				return;
-			case EDFDFlowTracking1Package.RESPONSIBILITY__NUMBER:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__NUMBER:
 				setNumber((Integer)newValue);
 				return;
-			case EDFDFlowTracking1Package.RESPONSIBILITY__ACTION:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__ACTION:
 				getAction().clear();
 				getAction().addAll((Collection<? extends ResponsibilityType>)newValue);
 				return;
-			case EDFDFlowTracking1Package.RESPONSIBILITY__INCOMEASSETS:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__INCOMEASSETS:
 				getIncomeassets().clear();
 				getIncomeassets().addAll((Collection<? extends Asset>)newValue);
 				return;
-			case EDFDFlowTracking1Package.RESPONSIBILITY__OUTCOMEASSETS:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__OUTCOMEASSETS:
 				getOutcomeassets().clear();
 				getOutcomeassets().addAll((Collection<? extends Asset>)newValue);
 				return;
-			case EDFDFlowTracking1Package.RESPONSIBILITY__PROCESS:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__PROCESS:
 				setProcess((eDFDFlowTracking.Process)newValue);
 				return;
 		}
@@ -370,22 +370,22 @@ public class ResponsibilityImpl extends MinimalEObjectImpl.Container implements 
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.RESPONSIBILITY__NAME:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__NAME:
 				setName(NAME_EDEFAULT);
 				return;
-			case EDFDFlowTracking1Package.RESPONSIBILITY__NUMBER:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__NUMBER:
 				setNumber(NUMBER_EDEFAULT);
 				return;
-			case EDFDFlowTracking1Package.RESPONSIBILITY__ACTION:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__ACTION:
 				getAction().clear();
 				return;
-			case EDFDFlowTracking1Package.RESPONSIBILITY__INCOMEASSETS:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__INCOMEASSETS:
 				getIncomeassets().clear();
 				return;
-			case EDFDFlowTracking1Package.RESPONSIBILITY__OUTCOMEASSETS:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__OUTCOMEASSETS:
 				getOutcomeassets().clear();
 				return;
-			case EDFDFlowTracking1Package.RESPONSIBILITY__PROCESS:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__PROCESS:
 				setProcess((eDFDFlowTracking.Process)null);
 				return;
 		}
@@ -400,17 +400,17 @@ public class ResponsibilityImpl extends MinimalEObjectImpl.Container implements 
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.RESPONSIBILITY__NAME:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case EDFDFlowTracking1Package.RESPONSIBILITY__NUMBER:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__NUMBER:
 				return number != NUMBER_EDEFAULT;
-			case EDFDFlowTracking1Package.RESPONSIBILITY__ACTION:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__ACTION:
 				return action != null && !action.isEmpty();
-			case EDFDFlowTracking1Package.RESPONSIBILITY__INCOMEASSETS:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__INCOMEASSETS:
 				return incomeassets != null && !incomeassets.isEmpty();
-			case EDFDFlowTracking1Package.RESPONSIBILITY__OUTCOMEASSETS:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__OUTCOMEASSETS:
 				return outcomeassets != null && !outcomeassets.isEmpty();
-			case EDFDFlowTracking1Package.RESPONSIBILITY__PROCESS:
+			case EDFDFlowTrackingPackage.RESPONSIBILITY__PROCESS:
 				return getProcess() != null;
 		}
 		return super.eIsSet(featureID);

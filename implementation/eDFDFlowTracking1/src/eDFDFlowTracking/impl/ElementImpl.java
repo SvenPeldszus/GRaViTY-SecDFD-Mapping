@@ -4,7 +4,7 @@ package eDFDFlowTracking.impl;
 
 import eDFDFlowTracking.Asset;
 import eDFDFlowTracking.Assumption;
-import eDFDFlowTracking.EDFDFlowTracking1Package;
+import eDFDFlowTracking.EDFDFlowTrackingPackage;
 import eDFDFlowTracking.Element;
 import eDFDFlowTracking.Flow;
 
@@ -161,7 +161,7 @@ public abstract class ElementImpl extends MinimalEObjectImpl.Container implement
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return EDFDFlowTracking1Package.Literals.ELEMENT;
+		return EDFDFlowTrackingPackage.Literals.ELEMENT;
 	}
 
 	/**
@@ -184,7 +184,7 @@ public abstract class ElementImpl extends MinimalEObjectImpl.Container implement
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTracking1Package.ELEMENT__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTrackingPackage.ELEMENT__NAME, oldName, name));
 	}
 
 	/**
@@ -207,7 +207,7 @@ public abstract class ElementImpl extends MinimalEObjectImpl.Container implement
 		int oldNumber = number;
 		number = newNumber;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTracking1Package.ELEMENT__NUMBER, oldNumber, number));
+			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTrackingPackage.ELEMENT__NUMBER, oldNumber, number));
 	}
 
 	/**
@@ -218,7 +218,7 @@ public abstract class ElementImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public EList<Flow> getOutflows() {
 		if (outflows == null) {
-			outflows = new EObjectContainmentEList<Flow>(Flow.class, this, EDFDFlowTracking1Package.ELEMENT__OUTFLOWS);
+			outflows = new EObjectContainmentEList<Flow>(Flow.class, this, EDFDFlowTrackingPackage.ELEMENT__OUTFLOWS);
 		}
 		return outflows;
 	}
@@ -231,7 +231,7 @@ public abstract class ElementImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public EList<Assumption> getAssumption() {
 		if (assumption == null) {
-			assumption = new EObjectContainmentEList<Assumption>(Assumption.class, this, EDFDFlowTracking1Package.ELEMENT__ASSUMPTION);
+			assumption = new EObjectContainmentEList<Assumption>(Assumption.class, this, EDFDFlowTrackingPackage.ELEMENT__ASSUMPTION);
 		}
 		return assumption;
 	}
@@ -244,7 +244,7 @@ public abstract class ElementImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public EList<Asset> getAssets() {
 		if (assets == null) {
-			assets = new EObjectResolvingEList<Asset>(Asset.class, this, EDFDFlowTracking1Package.ELEMENT__ASSETS);
+			assets = new EObjectResolvingEList<Asset>(Asset.class, this, EDFDFlowTrackingPackage.ELEMENT__ASSETS);
 		}
 		return assets;
 	}
@@ -257,7 +257,7 @@ public abstract class ElementImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public EList<Flow> getInflows() {
 		if (inflows == null) {
-			inflows = new EObjectResolvingEList<Flow>(Flow.class, this, EDFDFlowTracking1Package.ELEMENT__INFLOWS);
+			inflows = new EObjectResolvingEList<Flow>(Flow.class, this, EDFDFlowTrackingPackage.ELEMENT__INFLOWS);
 		}
 		return inflows;
 	}
@@ -282,7 +282,7 @@ public abstract class ElementImpl extends MinimalEObjectImpl.Container implement
 		boolean oldAttacker = attacker;
 		attacker = newAttacker;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTracking1Package.ELEMENT__ATTACKER, oldAttacker, attacker));
+			eNotify(new ENotificationImpl(this, Notification.SET, EDFDFlowTrackingPackage.ELEMENT__ATTACKER, oldAttacker, attacker));
 	}
 
 	/**
@@ -293,9 +293,9 @@ public abstract class ElementImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.ELEMENT__OUTFLOWS:
+			case EDFDFlowTrackingPackage.ELEMENT__OUTFLOWS:
 				return ((InternalEList<?>)getOutflows()).basicRemove(otherEnd, msgs);
-			case EDFDFlowTracking1Package.ELEMENT__ASSUMPTION:
+			case EDFDFlowTrackingPackage.ELEMENT__ASSUMPTION:
 				return ((InternalEList<?>)getAssumption()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -309,19 +309,19 @@ public abstract class ElementImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.ELEMENT__NAME:
+			case EDFDFlowTrackingPackage.ELEMENT__NAME:
 				return getName();
-			case EDFDFlowTracking1Package.ELEMENT__NUMBER:
+			case EDFDFlowTrackingPackage.ELEMENT__NUMBER:
 				return getNumber();
-			case EDFDFlowTracking1Package.ELEMENT__OUTFLOWS:
+			case EDFDFlowTrackingPackage.ELEMENT__OUTFLOWS:
 				return getOutflows();
-			case EDFDFlowTracking1Package.ELEMENT__ASSUMPTION:
+			case EDFDFlowTrackingPackage.ELEMENT__ASSUMPTION:
 				return getAssumption();
-			case EDFDFlowTracking1Package.ELEMENT__ASSETS:
+			case EDFDFlowTrackingPackage.ELEMENT__ASSETS:
 				return getAssets();
-			case EDFDFlowTracking1Package.ELEMENT__INFLOWS:
+			case EDFDFlowTrackingPackage.ELEMENT__INFLOWS:
 				return getInflows();
-			case EDFDFlowTracking1Package.ELEMENT__ATTACKER:
+			case EDFDFlowTrackingPackage.ELEMENT__ATTACKER:
 				return isAttacker();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -336,29 +336,29 @@ public abstract class ElementImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.ELEMENT__NAME:
+			case EDFDFlowTrackingPackage.ELEMENT__NAME:
 				setName((String)newValue);
 				return;
-			case EDFDFlowTracking1Package.ELEMENT__NUMBER:
+			case EDFDFlowTrackingPackage.ELEMENT__NUMBER:
 				setNumber((Integer)newValue);
 				return;
-			case EDFDFlowTracking1Package.ELEMENT__OUTFLOWS:
+			case EDFDFlowTrackingPackage.ELEMENT__OUTFLOWS:
 				getOutflows().clear();
 				getOutflows().addAll((Collection<? extends Flow>)newValue);
 				return;
-			case EDFDFlowTracking1Package.ELEMENT__ASSUMPTION:
+			case EDFDFlowTrackingPackage.ELEMENT__ASSUMPTION:
 				getAssumption().clear();
 				getAssumption().addAll((Collection<? extends Assumption>)newValue);
 				return;
-			case EDFDFlowTracking1Package.ELEMENT__ASSETS:
+			case EDFDFlowTrackingPackage.ELEMENT__ASSETS:
 				getAssets().clear();
 				getAssets().addAll((Collection<? extends Asset>)newValue);
 				return;
-			case EDFDFlowTracking1Package.ELEMENT__INFLOWS:
+			case EDFDFlowTrackingPackage.ELEMENT__INFLOWS:
 				getInflows().clear();
 				getInflows().addAll((Collection<? extends Flow>)newValue);
 				return;
-			case EDFDFlowTracking1Package.ELEMENT__ATTACKER:
+			case EDFDFlowTrackingPackage.ELEMENT__ATTACKER:
 				setAttacker((Boolean)newValue);
 				return;
 		}
@@ -373,25 +373,25 @@ public abstract class ElementImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.ELEMENT__NAME:
+			case EDFDFlowTrackingPackage.ELEMENT__NAME:
 				setName(NAME_EDEFAULT);
 				return;
-			case EDFDFlowTracking1Package.ELEMENT__NUMBER:
+			case EDFDFlowTrackingPackage.ELEMENT__NUMBER:
 				setNumber(NUMBER_EDEFAULT);
 				return;
-			case EDFDFlowTracking1Package.ELEMENT__OUTFLOWS:
+			case EDFDFlowTrackingPackage.ELEMENT__OUTFLOWS:
 				getOutflows().clear();
 				return;
-			case EDFDFlowTracking1Package.ELEMENT__ASSUMPTION:
+			case EDFDFlowTrackingPackage.ELEMENT__ASSUMPTION:
 				getAssumption().clear();
 				return;
-			case EDFDFlowTracking1Package.ELEMENT__ASSETS:
+			case EDFDFlowTrackingPackage.ELEMENT__ASSETS:
 				getAssets().clear();
 				return;
-			case EDFDFlowTracking1Package.ELEMENT__INFLOWS:
+			case EDFDFlowTrackingPackage.ELEMENT__INFLOWS:
 				getInflows().clear();
 				return;
-			case EDFDFlowTracking1Package.ELEMENT__ATTACKER:
+			case EDFDFlowTrackingPackage.ELEMENT__ATTACKER:
 				setAttacker(ATTACKER_EDEFAULT);
 				return;
 		}
@@ -406,19 +406,19 @@ public abstract class ElementImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case EDFDFlowTracking1Package.ELEMENT__NAME:
+			case EDFDFlowTrackingPackage.ELEMENT__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case EDFDFlowTracking1Package.ELEMENT__NUMBER:
+			case EDFDFlowTrackingPackage.ELEMENT__NUMBER:
 				return number != NUMBER_EDEFAULT;
-			case EDFDFlowTracking1Package.ELEMENT__OUTFLOWS:
+			case EDFDFlowTrackingPackage.ELEMENT__OUTFLOWS:
 				return outflows != null && !outflows.isEmpty();
-			case EDFDFlowTracking1Package.ELEMENT__ASSUMPTION:
+			case EDFDFlowTrackingPackage.ELEMENT__ASSUMPTION:
 				return assumption != null && !assumption.isEmpty();
-			case EDFDFlowTracking1Package.ELEMENT__ASSETS:
+			case EDFDFlowTrackingPackage.ELEMENT__ASSETS:
 				return assets != null && !assets.isEmpty();
-			case EDFDFlowTracking1Package.ELEMENT__INFLOWS:
+			case EDFDFlowTrackingPackage.ELEMENT__INFLOWS:
 				return inflows != null && !inflows.isEmpty();
-			case EDFDFlowTracking1Package.ELEMENT__ATTACKER:
+			case EDFDFlowTrackingPackage.ELEMENT__ATTACKER:
 				return attacker != ATTACKER_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
