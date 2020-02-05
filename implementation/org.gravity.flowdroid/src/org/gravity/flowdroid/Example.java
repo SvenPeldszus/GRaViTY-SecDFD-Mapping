@@ -245,36 +245,16 @@ public class Example {
 	}
 
 	private Set<Flow> getTargetFlows(Asset asset, NamedEntity assetsource, Set<Flow> transporterflows) {
-		if (assetsource instanceof ExternalEntity) {
-			transporterflows = ((ExternalEntity) assetsource).getInflows()
-					.parallelStream().filter(inflow -> inflow.getAssets().contains(asset)).collect(Collectors.toSet());
-		}else if (assetsource instanceof Process) {
-			transporterflows = ((Process) assetsource).getInflows()
-					.parallelStream().filter(inflow -> inflow.getAssets().contains(asset)).collect(Collectors.toSet());
-		}else if (assetsource instanceof DataStore){
-			transporterflows = ((DataStore) assetsource).getInflows()
-					.parallelStream().filter(inflow -> inflow.getAssets().contains(asset)).collect(Collectors.toSet());
-		} else {
-			//wrong model, asset source can not be a trust zone or dataflow
-			//TODO: handle later
-		}
+		transporterflows = ((Element) assetsource).getInflows().parallelStream()
+				.filter(inflow -> inflow.getAssets().contains(asset))
+				.collect(Collectors.toSet());
 		return transporterflows;
 	}
 
 	private Set<Flow> getSourceFlows(Asset asset, NamedEntity assetsource, Set<Flow> transporterflows) {
-		if (assetsource instanceof ExternalEntity) {
-			transporterflows = ((ExternalEntity) assetsource).getOutflows()
-					.parallelStream().filter(outflow -> outflow.getAssets().contains(asset)).collect(Collectors.toSet());
-		}else if (assetsource instanceof Process) {
-			transporterflows = ((Process) assetsource).getOutflows()
-					.parallelStream().filter(outflow -> outflow.getAssets().contains(asset)).collect(Collectors.toSet());
-		}else if (assetsource instanceof DataStore){
-			transporterflows = ((DataStore) assetsource).getOutflows()
-					.parallelStream().filter(outflow -> outflow.getAssets().contains(asset)).collect(Collectors.toSet());
-		} else {
-			//wrong model, asset source can not be a trust zone or dataflow
-			//TODO: handle later
-		}
+		transporterflows = ((Element) assetsource).getOutflows().parallelStream()
+				.filter(outflow -> outflow.getAssets().contains(asset))
+				.collect(Collectors.toSet());
 		return transporterflows;
 	}
 }
