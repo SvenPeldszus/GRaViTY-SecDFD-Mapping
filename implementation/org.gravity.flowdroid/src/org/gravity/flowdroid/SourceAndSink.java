@@ -15,13 +15,15 @@ import java.util.ArrayList;
 public class SourceAndSink {
 	final ArrayList<String> sources;
 	final ArrayList<String> sinks;
+	final ArrayList<String> epoint;
 	
 	/**
 	 * 
 	 */
-	public SourceAndSink(ArrayList<String> sources, ArrayList<String> sinks) {
+	public SourceAndSink(ArrayList<String> sources, ArrayList<String> sinks, ArrayList<String> epoint) {
 		this.sources = sources;
 		this.sinks = sinks;
+		this.epoint = epoint;
 	}
 
 }
