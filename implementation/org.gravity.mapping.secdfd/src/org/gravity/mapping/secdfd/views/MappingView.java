@@ -156,6 +156,7 @@ public class MappingView extends ViewPart {
 			trafoJob.join();
 		} catch (InterruptedException e) {
 			LOGGER.log(Level.ERROR, e.getLocalizedMessage(), e);
+			Thread.currentThread().interrupt();
 		}
 
 		pm = getProgramModel(trafoJob);
