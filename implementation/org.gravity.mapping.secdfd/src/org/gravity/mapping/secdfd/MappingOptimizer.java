@@ -81,9 +81,9 @@ public class MappingOptimizer {
 	private Mapping optimize(Map<EObject, Set<EObject>> excludes) {
 		boolean change = false;
 		LOGGER.log(Level.INFO, "\nStart optimization >>>>>\n");
-		HashMap<NamedEntity, Set<TAbstractType>> entityTypeMapping = cache.getEntityTypeMapping();
-		HashMap<Element, Set<TMember>> elementMemberMapping = cache.getElementMemberMapping();
-		HashMap<Element, Set<TSignature>> elementSignatureMapping = cache.getElementSignatureMapping();
+		Map<NamedEntity, Set<TAbstractType>> entityTypeMapping = cache.getEntityTypeMapping();
+		Map<Element, Set<TMember>> elementMemberMapping = cache.getElementMemberMapping();
+		Map<Element, Set<TSignature>> elementSignatureMapping = cache.getElementSignatureMapping();
 
 		for (Entry<NamedEntity, Set<TAbstractType>> entry : entityTypeMapping.entrySet()) {
 			if (entry.getKey() instanceof Element) {
@@ -250,8 +250,8 @@ public class MappingOptimizer {
 	 * @param excludes
 	 */
 	private void removeUnusedAssetMappings(EDFD dfd, Map<EObject, Set<EObject>> excludes) {
-		HashMap<NamedEntity, Set<TAbstractType>> entityTypeMapping = cache.getEntityTypeMapping();
-		HashMap<Element, Set<TMember>> elementMemberMapping = cache.getElementMemberMapping();
+		Map<NamedEntity, Set<TAbstractType>> entityTypeMapping = cache.getEntityTypeMapping();
+		Map<Element, Set<TMember>> elementMemberMapping = cache.getElementMemberMapping();
 		Set<AbstractCorrespondence> assetsToRemove = dfd.getAsset().parallelStream()
 				.flatMap(asset -> helper.getCorrespondences(asset).parallelStream()).collect(Collectors.toSet());
 		for (Entry<Element, Set<TMember>> entry : elementMemberMapping.entrySet()) {
@@ -320,8 +320,8 @@ public class MappingOptimizer {
 	 */
 	private boolean findForwardedFlows(EDFD dfd, Map<EObject, Set<EObject>> excludes) {
 		boolean change = false;
-		HashMap<NamedEntity, Set<TAbstractType>> entityTypeMapping = cache.getEntityTypeMapping();
-		HashMap<Element, Set<TSignature>> elementSignatureMapping = cache.getElementSignatureMapping();
+		Map<NamedEntity, Set<TAbstractType>> entityTypeMapping = cache.getEntityTypeMapping();
+		Map<Element, Set<TSignature>> elementSignatureMapping = cache.getElementSignatureMapping();
 		for (Element sourceElement : dfd.getElements()) {
 			if (!elementSignatureMapping.containsKey(sourceElement)) {
 				continue;
@@ -489,7 +489,7 @@ public class MappingOptimizer {
 	private boolean mapToReturnFlow(Element sourceOfFlow, TSignature calledSignature,
 			Map<EObject, Set<EObject>> excludes) {
 		boolean change = false;
-		HashMap<NamedEntity, Set<TAbstractType>> entityTypeMapping = cache.getEntityTypeMapping();
+		Map<NamedEntity, Set<TAbstractType>> entityTypeMapping = cache.getEntityTypeMapping();
 		TAbstractType returnType = ((TMethodSignature) calledSignature).getReturnType();
 		for (Flow flow : sourceOfFlow.getOutflows()) {
 			Map<TAbstractType, Asset> compatible = new HashMap<>();
@@ -664,7 +664,7 @@ public class MappingOptimizer {
 	 * @return
 	 */
 	private Stream<MappingProcessSignature> mapToSignature(Element node, Set<TMethod> correspondingMethods,
-			HashMap<NamedEntity, Set<TAbstractType>> mapping, Map<EObject, Set<EObject>> excludes) {
+			Map<NamedEntity, Set<TAbstractType>> mapping, Map<EObject, Set<EObject>> excludes) {
 		Map<Asset, Set<TAbstractType>> paramTypes = new HashMap<>();
 		for (Flow flow : node.getInflows()) {
 			for (Asset asset : flow.getAssets()) {
@@ -705,7 +705,7 @@ public class MappingOptimizer {
 	}
 
 	private Stream<Defintion2Element> mapToMembers(Element element, Set<TAbstractType> typescorrespondingToElement,
-			HashMap<NamedEntity, Set<TAbstractType>> typeMapping, Map<EObject, Set<EObject>> excludes) {
+			Map<NamedEntity, Set<TAbstractType>> typeMapping, Map<EObject, Set<EObject>> excludes) {
 		Set<Defintion2Element> correspondingMembers = new HashSet<>();
 		for (TAbstractType type : typescorrespondingToElement) {
 			for (Asset asset : element.getAssets()) {

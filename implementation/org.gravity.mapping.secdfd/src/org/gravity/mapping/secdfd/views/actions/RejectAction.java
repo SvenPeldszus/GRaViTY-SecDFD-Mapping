@@ -29,6 +29,7 @@ public final class RejectAction extends Action {
 		return "Rejects this mapping";
 	}
 
+	@Override
 	public void run() {
 		Stream<?> stream = selection.stream();
 		stream.filter(e -> e instanceof AbstractCorrespondence)

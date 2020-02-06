@@ -60,12 +60,23 @@ public class CorrespondenceHelper {
 
 	private HashMap<EObject, Collection<AbstractCorrespondence>> correspondences = new HashMap<>();
 
-
-
 	public CorrespondenceHelper(Mapping mapping, IJavaProject project, MappingCache cache) {
 		this.mapping = mapping;
 		this.project = project;
 		this.cache = cache;
+		createCorrespondence((TypeGraph) mapping.getSource(), (EDFD) mapping.getTarget());
+		mapping.getUserdefined().forEach(corr -> {
+			addToMap(getSource(corr), corr);
+			addToMap(getTarget(corr), corr);
+		});
+		mapping.getAccepted().forEach(corr -> {
+			addToMap(getSource(corr), corr);
+			addToMap(getTarget(corr), corr);
+		});
+		mapping.getSuggested().forEach(corr -> {
+			addToMap(getSource(corr), corr);
+			addToMap(getTarget(corr), corr);
+		});
 	}
 
 	/**
@@ -80,16 +91,16 @@ public class CorrespondenceHelper {
 	MappingProcessName createCorrespondence(TMethod member, Element element, Integer ranking) {
 		MappingProcessName corr = (MappingProcessName) getCorrespondence(member, element);
 		if (corr != null) {
-			return (MappingProcessName) corr;
-		} else {
-			corr = MappingFactory.eINSTANCE.createMappingProcessName();
-			corr.setSource(member);
-			corr.setTarget(element);
-			addToMap(element, corr);
-			addToMap(member, corr);
-			cache.add(member, element);
-			mapping.getCorrespondences().add(corr);
+			return corr;
 		}
+		corr = MappingFactory.eINSTANCE.createMappingProcessName();
+		corr.setSource(member);
+		corr.setTarget(element);
+		addToMap(element, corr);
+		addToMap(member, corr);
+		cache.add(member, element);
+		mapping.getCorrespondences().add(corr);
+
 		corr.setRanking(ranking);
 		LOGGER.log(Level.INFO, "Create correspondence: " + MappingLabelProvider.prettyPrint(corr));
 		return corr;
@@ -141,7 +152,7 @@ public class CorrespondenceHelper {
 	 */
 	MappingProcessDefinition createCorrespondence(TMethodDefinition member, Element element, Integer ranking,
 			Collection<? extends AbstractMappingBase> derived) {
-		if(element instanceof ExternalEntity) {
+		if (element instanceof ExternalEntity) {
 			return null;
 		}
 		MappingProcessDefinition corr = (MappingProcessDefinition) getCorrespondence(member, element);
@@ -163,21 +174,22 @@ public class CorrespondenceHelper {
 			mapping.getSuggested().add(sigCorr);
 		}
 		corr.getDerived().add(sigCorr);
-		
+
 		TMethodDefinition overriding = member.getOverriding();
-		if(overriding != null && overriding.getDefinedBy() instanceof TInterface){
+		if (overriding != null && overriding.getDefinedBy() instanceof TInterface) {
 			MappingProcessDefinition overCorr = (MappingProcessDefinition) getCorrespondence(overriding, element);
-			if(overCorr == null) {
+			if (overCorr == null) {
 				overCorr = createCorrespondence(overriding, element, ranking, Collections.singletonList(corr));
 				mapping.getSuggested().add(overCorr);
 			}
 		}
-		
+
 		LOGGER.log(Level.INFO, "Create correspondence: " + MappingLabelProvider.prettyPrint(corr));
-		
+
 		try {
 			final Map<String, IType> astTypes = JavaASTUtil.getTypesForProject(project);
-			MarkerUtil.createMarker(astTypes, member, element.getName(), IMarker.PRIORITY_NORMAL, IMarker.SEVERITY_INFO);
+			MarkerUtil.createMarker(astTypes, member, element.getName(), IMarker.PRIORITY_NORMAL,
+					IMarker.SEVERITY_INFO);
 		} catch (JavaModelException e) {
 			LOGGER.log(Level.ERROR, e);
 		}
@@ -208,10 +220,13 @@ public class CorrespondenceHelper {
 
 		if (type instanceof TInterface) {
 			TInterface tInterface = (TInterface) type;
-			tInterface.getImplementedBy().forEach(child -> mapping.getSuggested().add(createCorrespondence(child, entity, ranking)));
-			tInterface.getChildInterfaces().forEach(child -> mapping.getSuggested().add(createCorrespondence(child, entity, ranking)));
+			tInterface.getImplementedBy()
+					.forEach(child -> mapping.getSuggested().add(createCorrespondence(child, entity, ranking)));
+			tInterface.getChildInterfaces()
+					.forEach(child -> mapping.getSuggested().add(createCorrespondence(child, entity, ranking)));
 		} else if (type instanceof TClass) {
-			((TClass) type).getChildClasses().forEach(child -> mapping.getSuggested().add(createCorrespondence(child, entity, ranking)));
+			((TClass) type).getChildClasses()
+					.forEach(child -> mapping.getSuggested().add(createCorrespondence(child, entity, ranking)));
 		}
 		LOGGER.log(Level.INFO, "Create correspondence: " + MappingLabelProvider.prettyPrint(corr));
 		try {
@@ -250,22 +265,20 @@ public class CorrespondenceHelper {
 	 * @return true, if this correspondence is not ignored and not already created
 	 */
 	boolean canCreate(EObject pmObject, EObject dfdObject, Map<EObject, Set<EObject>> excludes) {
-		if(dfdObject instanceof ExternalEntity) {
+		if (dfdObject instanceof ExternalEntity) {
 			return false;
 		}
-		if(excludes.containsKey(dfdObject) && excludes.get(dfdObject).contains(pmObject)) {
+		if (excludes.containsKey(dfdObject) && excludes.get(dfdObject).contains(pmObject)) {
 			return false;
 		}
 		boolean isIgnored = mapping.getIgnored().stream()
-				.filter(ignored -> getSource(ignored).equals(pmObject) && getTarget(ignored).equals(dfdObject))
-				.findAny().isPresent();
+				.anyMatch(ignored -> getSource(ignored).equals(pmObject) && getTarget(ignored).equals(dfdObject));
 		if (isIgnored) {
 			return false;
 		}
 		boolean isPresent = mapping.getCorrespondences().stream()
-				.filter(ignored -> getSource((AbstractCorrespondence) ignored).equals(pmObject)
-						&& getTarget((AbstractCorrespondence) ignored).equals(dfdObject))
-				.findAny().isPresent();
+				.anyMatch(ignored -> getSource((AbstractCorrespondence) ignored).equals(pmObject)
+						&& getTarget((AbstractCorrespondence) ignored).equals(dfdObject));
 		return !isPresent;
 	}
 
@@ -289,7 +302,7 @@ public class CorrespondenceHelper {
 	Collection<AbstractCorrespondence> getCorrespondences(EObject object) {
 		if (correspondences.containsKey(object)) {
 			Collection<AbstractCorrespondence> value = correspondences.get(object);
-			if(value != null) {
+			if (value != null) {
 				return value;
 			}
 			correspondences.remove(object);
@@ -365,11 +378,11 @@ public class CorrespondenceHelper {
 		EObject pmElement = getSource(corr);
 		EObject dfdElement = getTarget(corr);
 		Collection<AbstractCorrespondence> pm2corr = correspondences.get(pmElement);
-		if(pm2corr != null) {
+		if (pm2corr != null) {
 			pm2corr.remove(corr);
 		}
 		Collection<AbstractCorrespondence> dfd2corr = correspondences.get(dfdElement);
-		if(dfd2corr !=null) {
+		if (dfd2corr != null) {
 			dfd2corr.remove(corr);
 		}
 		mapping.getCorrespondences().remove(corr);
@@ -378,9 +391,9 @@ public class CorrespondenceHelper {
 		mapping.getAccepted().remove(corr);
 		mapping.getUserdefined().remove(corr);
 		cache.remove(pmElement, dfdElement);
-		if(corr instanceof AbstractMappingBase) {
-			for(AbstractMappingDerived derived : ((AbstractMappingBase) corr).getDeriving()) {
-				if(derived.getDerived().size() <= 1) {
+		if (corr instanceof AbstractMappingBase) {
+			for (AbstractMappingDerived derived : ((AbstractMappingBase) corr).getDeriving()) {
+				if (derived.getDerived().size() <= 1) {
 					delete(derived);
 				}
 			}

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.core.resources.IFile;
@@ -13,16 +12,11 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.gravity.eclipse.util.EclipseProjectUtil;
 import org.gravity.eclipse.util.JavaProjectUtil;
 import org.gravity.mapping.secdfd.Mapper;
-import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.junit.Test;
 
-import eDFDFlowTracking.EDFD;
 import soot.jimple.infoflow.IInfoflow;
 import soot.jimple.infoflow.Infoflow;
 import soot.jimple.infoflow.InfoflowConfiguration;
@@ -66,14 +60,10 @@ public class Example {
 		IProject project = EclipseProjectUtil.getProjectByName("org.eclipse.equinox.security");
 		IProgressMonitor monitor = new NullProgressMonitor();
 		IFolder gravity = EclipseProjectUtil.getGravityFolder(project, monitor);
-		IFile corr = gravity.getFile("storpassword.corr.xmi");
-		Resource corrRes = new ResourceSetImpl().createResource(URI.createPlatformResourceURI(corr.getLocation().toOSString(), true));
-		corrRes.load(corr.getContents(), Collections.emptyMap());
+		IFile corr = gravity.getFile("storepassword.corr.xmi");
+		Mapper mapper = new Mapper(corr);
 		
-		Mapping mapping = (Mapping) corrRes.getContents().get(0);
-		Mapper mapper = new Mapper(mapping);
-		
-		Map<String, ArrayList<String>> sourcesAndSinks = new SourcesAndSinks().getSourceSinks(mapper, (EDFD) mapping.getTarget());
+		Map<String, ArrayList<String>> sourcesAndSinks = new SourcesAndSinks().getSourceSinks(mapper, mapper.getDFD());
 		
 		soot.G.reset();
 

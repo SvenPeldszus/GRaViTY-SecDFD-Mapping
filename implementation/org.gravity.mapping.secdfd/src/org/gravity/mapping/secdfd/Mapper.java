@@ -15,7 +15,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -29,6 +28,9 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
@@ -90,8 +92,8 @@ public class Mapper {
 	/**
 	 * All types and operations from the program model
 	 */
-	private static List<TAbstractType> types;
-	private static List<TMethod> methods;
+	private List<TAbstractType> types;
+	private List<TMethod> methods;
 
 	private MappingCache cache = new MappingCache();
 
@@ -126,7 +128,7 @@ public class Mapper {
 		initializeMapping(pm, dfd, destination);
 
 		for (Asset asset : dfd.getAsset()) {
-			cache.addAll(mapToType(asset).map(c -> c.getSource()).collect(Collectors.toSet()), asset);
+			cache.addAll(mapToType(asset).map(Type2NamedEntity::getSource).collect(Collectors.toSet()), asset);
 		}
 
 		for (Element node : dfd.getElements()) {
@@ -145,8 +147,24 @@ public class Mapper {
 		optimizer = new MappingOptimizer(helper, cache, mapping);
 	}
 
+	public Mapper(IFile mappingFile) throws IOException, CoreException {
+		this.destination = mappingFile;
+		this.mapping = loadMapping(mappingFile);
+		this.pm = (TypeGraph) mapping.getSource();
+		this.dfd = (EDFD) mapping.getTarget();
+	
+		initMethodsAndTypes(pm);
+		
+		cache.load(mapping);
+		helper = new CorrespondenceHelper(mapping, JavaCore.create(destination.getProject()), cache);
+
+		optimizer = new MappingOptimizer(helper, cache, mapping);
+	}
+
 	/**
-	 * @param pm
+	 * Searches all methods and types in the program model
+	 * 
+	 * @param pm The program model
 	 */
 	private void initMethodsAndTypes(TypeGraph pm) {
 		// Save types and methods from the program model in fields as they are accessed
@@ -156,14 +174,19 @@ public class Mapper {
 		methods = pm.getMethods().stream().filter(m -> !(m instanceof TConstructorName)).collect(Collectors.toList());
 	}
 
-	public Mapper(Mapping mapping) {
-		this.mapping = mapping;
-		this.pm = (TypeGraph) mapping.getSource();
-		this.dfd = (EDFD) mapping.getTarget();
-
-		initMethodsAndTypes(pm);
-		
-		// TODO Auto-generated constructor stub
+	/**
+	 * @param corr
+	 * @return
+	 * @throws IOException
+	 * @throws CoreException
+	 */
+	private Mapping loadMapping(IFile corr) throws IOException, CoreException {
+		String path = corr.getFullPath().toString();
+		ResourceSetImpl rs = new ResourceSetImpl();
+		Resource corrRes = rs.createResource(URI.createPlatformResourceURI(path, true));
+		corrRes.load(corr.getContents(), Collections.emptyMap());
+		EcoreUtil.resolveAll(rs);
+		return (Mapping) corrRes.getContents().get(0);
 	}
 
 	public void addUserdefinedListener(IListener listener) {
@@ -187,7 +210,6 @@ public class Mapper {
 		EList<EObject> contents = pm.eResource().getResourceSet().createResource(uri).getContents();
 		contents.add(mapping);
 		helper = new CorrespondenceHelper(mapping, JavaCore.create(destination.getProject()), cache);
-		helper.createCorrespondence(pm, dfd);
 	}
 
 	/**
@@ -586,9 +608,9 @@ public class Mapper {
 	}
 
 	public void addRandom() {
-		HashMap<Element, Set<TSignature>> elementSignatureMapping = cache.getElementSignatureMapping();
-		HashMap<Element, Set<TMember>> elementMemberMapping = cache.getElementMemberMapping();
-		HashMap<NamedEntity, Set<TAbstractType>> entityTypeMapping = cache.getEntityTypeMapping();
+		Map<Element, Set<TSignature>> elementSignatureMapping = cache.getElementSignatureMapping();
+		Map<Element, Set<TMember>> elementMemberMapping = cache.getElementMemberMapping();
+		Map<NamedEntity, Set<TAbstractType>> entityTypeMapping = cache.getEntityTypeMapping();
 
 //		for (Entry<Element, Set<TSignature>> entry : elementSignatureMapping.entrySet()) {
 //			Element element = entry.getKey();

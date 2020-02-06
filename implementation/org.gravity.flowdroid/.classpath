@@ -2,11 +2,7 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="soot-infoflow-cmd-jar-with-dependencies.jar" sourcepath="/home/speldszus/Downloads/asm-7.1-sources.jar"/>
-	<classpathentry kind="src" path="/eDFDFlowTracking1"/>
-	<classpathentry kind="src" path="/org.xtext.example.mydsl"/>
-	<classpathentry kind="src" path="/org.gravity.mapping.secdfd"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
