@@ -121,11 +121,7 @@ public class Mapper {
 		this.dfd = dfd;
 		this.destination = destination;
 
-		// Save types and methods from the program model in fields as they are accessed
-		// very often
-		types = pm.getOwnedTypes().stream().filter(t -> !"T".equals(t.getTName()))
-				.filter(t -> !"Anonymous".equals(t.getTName())).collect(Collectors.toList());
-		methods = pm.getMethods().stream().filter(m -> !(m instanceof TConstructorName)).collect(Collectors.toList());
+		initMethodsAndTypes(pm);
 
 		initializeMapping(pm, dfd, destination);
 
@@ -147,6 +143,27 @@ public class Mapper {
 			}
 		}
 		optimizer = new MappingOptimizer(helper, cache, mapping);
+	}
+
+	/**
+	 * @param pm
+	 */
+	private void initMethodsAndTypes(TypeGraph pm) {
+		// Save types and methods from the program model in fields as they are accessed
+		// very often
+		types = pm.getOwnedTypes().stream().filter(t -> !"T".equals(t.getTName()))
+				.filter(t -> !"Anonymous".equals(t.getTName())).collect(Collectors.toList());
+		methods = pm.getMethods().stream().filter(m -> !(m instanceof TConstructorName)).collect(Collectors.toList());
+	}
+
+	public Mapper(Mapping mapping) {
+		this.mapping = mapping;
+		this.pm = (TypeGraph) mapping.getSource();
+		this.dfd = (EDFD) mapping.getTarget();
+
+		initMethodsAndTypes(pm);
+		
+		// TODO Auto-generated constructor stub
 	}
 
 	public void addUserdefinedListener(IListener listener) {
