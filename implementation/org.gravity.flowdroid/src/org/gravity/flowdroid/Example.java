@@ -5,18 +5,17 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import soot.jimple.infoflow.IInfoflow;
 import soot.jimple.infoflow.Infoflow;
 import soot.jimple.infoflow.InfoflowConfiguration;
+import soot.jimple.infoflow.InfoflowConfiguration.ImplicitFlowMode;
 import soot.jimple.infoflow.config.IInfoflowConfig;
 import soot.jimple.infoflow.taintWrappers.EasyTaintWrapper;
 import soot.options.Options;
@@ -36,7 +35,7 @@ public class Example {
 
 		ArrayList<String> sinks = new ArrayList<>();
 		sinks.add(print(PrintStream.class.getDeclaredMethod("println", Object.class)));
-		List<String> epoints = new ArrayList<String>();
+		List<String> epoints = new ArrayList<>();
 
 		epoints.add("<keygeneration.KeyGenerator: void main(java.lang.String[])>");
 		infoflow.computeInfoflow(appPath, libPath, epoints, sources, sinks);
@@ -50,18 +49,12 @@ public class Example {
 			@Override
 			public void setSootOptions(Options options, InfoflowConfiguration config) {
 				// explicitly include packages for shorter runtime:
-				List<String> includeList = new LinkedList<String>();
-				includeList.add("java.lang.*");
-				includeList.add("java.util.*");
-				includeList.add("java.io.*");
-				includeList.add("sun.misc.*");
-				includeList.add("java.net.*");
-				includeList.add("javax.servlet.*");
-				includeList.add("javax.crypto.*");
+				List<String> includeList = Arrays.asList("java.lang.*", "java.util.*", "java.io.*", "sun.misc.*",
+						"java.net.*", "javax.servlet.*", "javax.crypto.*");
 				Options.v().set_no_bodies_for_excluded(true);
 				Options.v().set_allow_phantom_refs(true);
 				options.set_include(includeList);
-				options.set_output_format(Options.output_format_none);
+				options.set_output_format(Options.output_format_none);			
 				Options.v().setPhaseOption("jb", "use-original-names:true");
 				Options.v().set_ignore_classpath_errors(true);
 			}
@@ -78,6 +71,7 @@ public class Example {
 			}
 
 		}
+		result.getConfig().setImplicitFlowMode(ImplicitFlowMode.AllImplicitFlows);
 		return result;
 	}
 
