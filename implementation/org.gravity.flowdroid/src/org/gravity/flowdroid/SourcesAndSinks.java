@@ -26,8 +26,12 @@ import eDFDFlowTracking.NamedEntity;
 import eDFDFlowTracking.TrustZone;
 
 public class SourcesAndSinks {
-	public static Set<AbstractCorrespondence> getAcceptedMappings(Mapper mapper, EObject dfdelement) {
-		return mapper.getMapping().getAccepted().parallelStream()
+	public static Set<AbstractCorrespondence> getMappings(Mapper mapper, EObject dfdelement) {
+		EList<AbstractCorrespondence> allcorresp = mapper.getMapping().getUserdefined();
+		allcorresp.addAll(mapper.getMapping().getSuggested());
+		allcorresp.addAll(mapper.getMapping().getAccepted());
+		
+		return allcorresp.parallelStream()
 				.filter(cor -> CorrespondenceHelper.getTarget(cor).equals(dfdelement)).collect(Collectors.toSet());
 	}
 
@@ -98,20 +102,20 @@ public class SourcesAndSinks {
 		attackerelements.addAll(trustzones);
 		
 		for (Element e : attackerelements) {
-			sinks.addAll(getAcceptedMappings(mapper, e));
+			sinks.addAll(getMappings(mapper, e));
 		}
 		return sinks;
 	}
 
 	private Set<AbstractCorrespondence> findEpoints(Mapper mapper, Element element) {
 		//even if only one element on DFD, we can have several mappings, therefore several entry points for the analyzer
-		Set<AbstractCorrespondence> epoints = getAcceptedMappings(mapper, element);
+		Set<AbstractCorrespondence> epoints = getMappings(mapper, element);
 		if (epoints.isEmpty()) {
 			// there is no mapping of epoint element -> get the next elements
 			EList<Flow> transporterflows = element.getOutflows();
 			// collect the processes of the outgoing flows
 			return transporterflows.parallelStream().flatMap(flow -> flow.getTarget().parallelStream())
-			.flatMap(target -> getAcceptedMappings(mapper, target).parallelStream()).collect(Collectors.toSet());
+			.flatMap(target -> getMappings(mapper, target).parallelStream()).collect(Collectors.toSet());
 		}
 		return epoints;
 	}
@@ -120,27 +124,27 @@ public class SourcesAndSinks {
 			List<Element> assettargets) {
 		Set<AbstractCorrespondence> sinks = new HashSet<>();
 		for (Element el : assettargets) {
-			sinks.addAll(getAcceptedMappings(m, el));
+			sinks.addAll(getMappings(m, el));
 
 			if (sinks.isEmpty()) {
 				// there is no mapping of asset source element -> get the previous element
 				Stream<Flow> transporterFlows = getTargetFlows(asset, assetsource);
 				// collect the processes of the incoming flows:
 				sinks.addAll(transporterFlows.flatMap(flow -> flow.getTarget().parallelStream())
-						.flatMap(target -> getAcceptedMappings(m, target).parallelStream()).collect(Collectors.toSet()));
+						.flatMap(target -> getMappings(m, target).parallelStream()).collect(Collectors.toSet()));
 			}
 		}
 		return sinks;
 	}
 
 	private Set<AbstractCorrespondence> findSources(Mapper m, Asset asset, NamedEntity assetsource) {
-		Set<AbstractCorrespondence> sources = getAcceptedMappings(m, assetsource);
+		Set<AbstractCorrespondence> sources = getMappings(m, assetsource);
 		if (sources.isEmpty()) {
 			// there is no mapping of asset source element -> get the next element
 			Stream<Flow> transporterflows = getSourceFlows(asset, assetsource);
 			// collect the processes of the outgoing flows:
 			return transporterflows.flatMap(flow -> flow.getTarget().parallelStream())
-					.flatMap(target -> getAcceptedMappings(m, target).parallelStream()).collect(Collectors.toSet());
+					.flatMap(target -> getMappings(m, target).parallelStream()).collect(Collectors.toSet());
 		}
 		return sources;
 	}
