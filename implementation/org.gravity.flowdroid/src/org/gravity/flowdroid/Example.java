@@ -73,7 +73,7 @@ public class Example {
 		Mapping mapping = (Mapping) corrRes.getContents().get(0);
 		Mapper mapper = new Mapper(mapping);
 		
-		Map<String, ArrayList<String>> sourcesAndSinks = new SourcesAndSinks().getSourceSinks(mapper, (EDFD) mapping.getTarget());
+		SourceAndSink sourcesAndSinks = new SourcesAndSinks().getSourceSinks(mapper, (EDFD) mapping.getTarget());
 		
 		soot.G.reset();
 
@@ -102,7 +102,9 @@ public class Example {
 		epoints.add("<org.eclipse.equinox.internal.security.storage.SecurePreferencesRoot:"
 				+ " org.eclipse.equinox.internal.security.storage.PasswordExt "
 				+ "getPassword(java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer, boolean)>");
-		infoflow.computeInfoflow(appPath, libPath, epoints, sourcesAndSinks.get("sources"), sourcesAndSinks.get("sinks"));
+		
+		
+		infoflow.computeInfoflow(appPath, libPath, epoints, sourcesAndSinks.sources, sourcesAndSinks.sinks);
 		infoflow.getResults();
 	}
 

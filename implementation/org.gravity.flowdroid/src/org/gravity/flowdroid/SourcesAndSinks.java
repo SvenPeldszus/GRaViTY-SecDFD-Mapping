@@ -22,13 +22,12 @@ import eDFDFlowTracking.Flow;
 import eDFDFlowTracking.NamedEntity;
 
 public class SourcesAndSinks {
-
 	public static Set<AbstractCorrespondence> getAcceptedMappings(Mapper mapper, EObject dfdelement) {
 		return mapper.getMapping().getAccepted().parallelStream()
 				.filter(cor -> CorrespondenceHelper.getTarget(cor).equals(dfdelement)).collect(Collectors.toSet());
 	}
 
-	public Map<String, ArrayList<String>> getSourceSinks(Mapper mapper, EDFD dfd) {
+	public SourceAndSink getSourceSinks(Mapper mapper, EDFD dfd) {
 		ArrayList<String> sources = new ArrayList<>();
 		ArrayList<String> sinks = new ArrayList<>();
 
@@ -52,9 +51,8 @@ public class SourcesAndSinks {
 				}
 			}
 		}
-		HashMap<String, ArrayList<String>> sourcesinks = new HashMap<>();
-		sourcesinks.put("sources", sources);
-		sourcesinks.put("sinks", sinks);
+		// new structure for hashmap
+		SourceAndSink sourcesinks = new SourceAndSink(sources, sinks);
 		return sourcesinks;
 	}
 
