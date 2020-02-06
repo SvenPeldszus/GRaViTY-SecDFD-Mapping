@@ -27,33 +27,11 @@ import soot.options.Options;
 
 public class Example {
 
-	/*
-	 * @Test public void test() throws NoSuchMethodException { soot.G.reset();
-	 * 
-	 * IInfoflow infoflow = initInfoflow(false); String appPath =
-	 * "examples/SecureDependencyExample/bin"; String libPath =
-	 * System.getProperty("java.home") + File.separator + "lib" + File.separator +
-	 * "rt.jar";
-	 * 
-	 * ArrayList<String> sources = new ArrayList<>();
-	 * //sources.add("<keygeneration.KeyGenerator: void main(java.lang.String[])>");
-	 * sources.add("<keygeneration.RandomGenerator: java.lang.Double random()>");
-	 * 
-	 * ArrayList<String> sinks = new ArrayList<>();
-	 * //sinks.add("<keygeneration.KeyGenerator: void main(java.lang.String[])>");
-	 * sinks.add(print(PrintStream.class.getDeclaredMethod("println",
-	 * Object.class))); List<String> epoints = new ArrayList<>();
-	 * 
-	 * //epoints.add("<keygeneration.RandomGenerator: java.lang.Double random()>");
-	 * epoints.add("<keygeneration.KeyGenerator: void main(java.lang.String[])>");
-	 * infoflow.computeInfoflow(appPath, libPath, epoints, sources, sinks);
-	 * infoflow.getResults(); }
-	 */
-
 	/**
 	 * Run as JUnit plugin test
-	 * @throws IOException 
-	 * @throws CoreException 
+	 * 
+	 * @throws IOException
+	 * @throws CoreException
 	 */
 	@Test
 	public void testSecureStorage() throws IOException, CoreException {
@@ -62,37 +40,30 @@ public class Example {
 		IFolder gravity = EclipseProjectUtil.getGravityFolder(project, monitor);
 		IFile corr = gravity.getFile("storepassword.corr.xmi");
 		Mapper mapper = new Mapper(corr);
-		
-		Map<String, ArrayList<String>> sourcesAndSinks = new SourcesAndSinks().getSourceSinks(mapper, mapper.getDFD());
-		
+
+		SourceAndSink sourcesAndSinks = new SourcesAndSinks().getSourceSinks(mapper, mapper.getDFD());
+
 		soot.G.reset();
 
 		IInfoflow infoflow = initInfoflow(false);
 		String appPath = JavaProjectUtil.getJavaProject(project).getOutputLocation().toFile().getAbsolutePath();
 		String libPath = System.getProperty("java.home") + File.separator + "lib" + File.separator + "rt.jar";
 
-//		ArrayList<String> sources = new ArrayList<>();
-//		sources.add("<org.eclipse.equinox.internal.security.storage.SecurePreferencesRoot:"
-//				+ " org.eclipse.equinox.internal.security.storage.PasswordExt "
-//				+ "getPassword(java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer, boolean)>");
-//		sources.add("<org.eclipse.equinox.internal.security.storage.SecurePreferencesRoot:"
-//				+ " org.eclipse.equinox.internal.security.storage.PasswordExt "
-//				+ "getModulePassword(java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer)>");
-//		sources.add("<org.eclipse.equinox.internal.security.storage.SecurePreferences:" + " java.lang.float "
-//				+ "getFloat(java.lang.String, java.lang.float, org.eclipse.equinox.internal.security.storage.SecurePreferencesContainer)>");
+// Sources:
+//		<org.eclipse.equinox.internal.security.storage.SecurePreferencesRoot:" org.eclipse.equinox.internal.security.storage.PasswordExt getPassword(java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer, boolean)>
+//		<org.eclipse.equinox.internal.security.storage.SecurePreferencesRoot: org.eclipse.equinox.internal.security.storage.PasswordExt getModulePassword(java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer)>
+//		<org.eclipse.equinox.internal.security.storage.SecurePreferences:" + " java.lang.float getFloat(java.lang.String, java.lang.float, org.eclipse.equinox.internal.security.storage.SecurePreferencesContainer)>
 //
-//		ArrayList<String> sinks = new ArrayList<>();
-//		sinks.add("<org.eclipse.equinox.internal.security.storage.SecurePreferencesRoot:"
-//				+ " org.eclipse.equinox.internal.security.storage.PasswordExt "
-//				+ "getPassword(java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer, boolean)>");
-//		sinks.add("<org.eclipse.equinox.internal.security.storage.JavaEncryption:"
-//				+ "byte[] internalDecrypt(org.eclipse.equinox.internal.security.storage.PasswordExt, org.eclipse.equinox.internal.security.storage.CryptoData)>");
+// Sinks:
+//		<org.eclipse.equinox.internal.security.storage.SecurePreferencesRoot: org.eclipse.equinox.internal.security.storage.PasswordExt getPassword(java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer, boolean)>
+//		<org.eclipse.equinox.internal.security.storage.JavaEncryption: byte[] internalDecrypt(org.eclipse.equinox.internal.security.storage.PasswordExt, org.eclipse.equinox.internal.security.storage.CryptoData)>
 
 		List<String> epoints = new ArrayList<String>();
 		epoints.add("<org.eclipse.equinox.internal.security.storage.SecurePreferencesRoot:"
 				+ " org.eclipse.equinox.internal.security.storage.PasswordExt "
 				+ "getPassword(java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer, boolean)>");
-		infoflow.computeInfoflow(appPath, libPath, epoints, sourcesAndSinks.get("sources"), sourcesAndSinks.get("sinks"));
+
+		infoflow.computeInfoflow(appPath, libPath, epoints, sourcesAndSinks.sources, sourcesAndSinks.sinks);
 		infoflow.getResults();
 	}
 
