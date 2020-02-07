@@ -1,10 +1,8 @@
 package org.gravity.flowdroid;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,9 +19,8 @@ import eDFDFlowTracking.Asset;
 import eDFDFlowTracking.Flow;
 import eDFDFlowTracking.EDFD;
 import eDFDFlowTracking.Element;
-import eDFDFlowTracking.Flow;
+import eDFDFlowTracking.ExternalEntity;
 import eDFDFlowTracking.NamedEntity;
-import eDFDFlowTracking.TrustZone;
 
 public class SourcesAndSinks {
 	public static Set<AbstractCorrespondence> getMappings(Mapper mapper, EObject dfdelement) {
@@ -66,8 +63,16 @@ public class SourcesAndSinks {
 				}
 			}
 		}
+		//fixed: take simply EE (on next process that has a correspondence) as entry points
+		Set<Element> ee = dfd.getElements().parallelStream().filter(ExternalEntity.class::isInstance).collect(Collectors.toSet());
+		for (Element e : ee) {
+			findEpoints(mapper, e).parallelStream()
+			.forEach(c -> 
+			epoints.add(SignatureHelper.getSootSignature((TMethodDefinition) CorrespondenceHelper.getSource(c))));
+		}
 		// search for first flow (0 or 1)
-		Optional<Element> firstflow = dfd.getElements().stream().filter(Flow.class::isInstance).reduce((a,b) -> a.getNumber() > b.getNumber() ? b : a);
+		// Optional<Element> firstflow = dfd.getElements().stream().filter(Flow.class::isInstance).reduce((a,b) -> a.getNumber() > b.getNumber() ? b : a);		
+		/*
 		if(firstflow.isPresent()) {
 			//entry point can be inferred from model
 			firstflow.get();
@@ -75,8 +80,7 @@ public class SourcesAndSinks {
 			.forEach(c -> 
 				epoints.add(SignatureHelper.getSootSignature((TMethodDefinition) CorrespondenceHelper.getSource(c))));
 			;
-		}
-		
+		}*/
 		SourceAndSink sourcesinks = new SourceAndSink(sources, sinks, epoints);
 		return sourcesinks;
 	}
