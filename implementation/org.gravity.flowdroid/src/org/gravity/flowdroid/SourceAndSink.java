@@ -14,16 +14,17 @@ import java.util.Set;
  *
  */
 public class SourceAndSink {
-	
-	private final Set<String> sources;
-	private final Set<String> sinks;
+	final Set<String> sources;
+	final Set<String> sinks;
+	final Set<String> epoint;
 	
 	/**
 	 * Initializes sources and sinks with given values
 	 */
-	public SourceAndSink(Set<String> sources, Set<String> sinks) {
-		this.sources = new HashSet<>(sources);
-		this.sinks = new HashSet<>(sinks);
+	public SourceAndSink(Set<String> sources, Set<String> sinks, Set<String> epoint) {
+		this.sources = sources;
+		this.sinks = sinks;
+		this.epoint = epoint;
 	}
 	
 	/**
@@ -32,6 +33,7 @@ public class SourceAndSink {
 	public SourceAndSink() {
 		this.sources = new HashSet<>();
 		this.sinks = new HashSet<>();
+		this.epoint = new HashSet<>();
 	}
 
 	/**
