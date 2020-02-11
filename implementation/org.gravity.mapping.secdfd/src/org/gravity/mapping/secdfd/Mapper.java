@@ -5,6 +5,7 @@ package org.gravity.mapping.secdfd;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -152,9 +153,9 @@ public class Mapper {
 		this.mapping = loadMapping(mappingFile);
 		this.pm = (TypeGraph) mapping.getSource();
 		this.dfd = (EDFD) mapping.getTarget();
-	
+
 		initMethodsAndTypes(pm);
-		
+
 		cache.load(mapping);
 		helper = new CorrespondenceHelper(mapping, JavaCore.create(destination.getProject()), cache);
 
@@ -578,6 +579,46 @@ public class Mapper {
 	 */
 	public Mapping getMapping() {
 		return mapping;
+	}
+
+	/**
+	 * A getter for mappings for the given process
+	 * 
+	 * @param process the process for which mappings are requested
+	 * @return the mappings
+	 */
+	public Set<TMethodDefinition> getMapping(Process process) {
+		return cache.getElementMemberMapping().getOrDefault(process, Collections.emptySet()).parallelStream()
+				.filter(member -> (member instanceof TMethodDefinition)).map(member -> (TMethodDefinition) member)
+				.collect(Collectors.toSet());
+	}
+
+	/**
+	 * A getter for mappings for the given asset
+	 * 
+	 * @param asset the asset for which mappings are requested
+	 * @return the mappings
+	 */
+	public Collection<TAbstractType> getMapping(Asset asset) {
+		return cache.getEntityTypeMapping().getOrDefault(asset, Collections.emptySet());
+	}
+
+	public Process getMapping(TMethodDefinition method) {
+		Set<Process> processes = helper.getCorrespondences(method).parallelStream()
+				.map(corr -> (Process) CorrespondenceHelper.getTarget(corr)).collect(Collectors.toSet());
+		int size = processes.size();
+		if(size == 1) {
+			return processes.iterator().next();
+		}
+		if(size > 1) {
+			throw new IllegalStateException();
+		}
+		return null;
+	}
+
+	public Set<Asset> getMapping(TAbstractType type) {
+		return helper.getCorrespondences(type).parallelStream()
+				.map(corr -> (Asset) CorrespondenceHelper.getTarget(corr)).collect(Collectors.toSet());
 	}
 
 	/**

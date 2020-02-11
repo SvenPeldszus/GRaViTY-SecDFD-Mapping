@@ -4,14 +4,20 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jdt.core.IJavaProject;
 import org.gravity.eclipse.util.EclipseProjectUtil;
 import org.gravity.eclipse.util.JavaProjectUtil;
 import org.gravity.mapping.secdfd.Mapper;
@@ -22,6 +28,7 @@ import soot.jimple.infoflow.Infoflow;
 import soot.jimple.infoflow.InfoflowConfiguration;
 import soot.jimple.infoflow.InfoflowConfiguration.ImplicitFlowMode;
 import soot.jimple.infoflow.config.IInfoflowConfig;
+import soot.jimple.infoflow.results.InfoflowResults;
 import soot.jimple.infoflow.taintWrappers.EasyTaintWrapper;
 import soot.options.Options;
 
@@ -34,19 +41,45 @@ public class Example {
 	 * @throws CoreException
 	 */
 	@Test
-	public void testSecureStorage() throws IOException, CoreException {
+	public void testSecureStorageCompliance() throws IOException, CoreException {
 		IProject project = EclipseProjectUtil.getProjectByName("org.eclipse.equinox.security");
 		IProgressMonitor monitor = new NullProgressMonitor();
 		IFolder gravity = EclipseProjectUtil.getGravityFolder(project, monitor);
 		IFile corr = gravity.getFile("storepassword.corr.xmi");
 		Mapper mapper = new Mapper(corr);
 
+		new DivergenceCheck().check(mapper);
+	}
+
+	/**
+	 * Run as JUnit plugin test
+	 * 
+	 * @throws IOException
+	 * @throws CoreException
+	 */
+	@Test
+	public void testSecureStorageDF() throws IOException, CoreException {
+		IProject project = EclipseProjectUtil.getProjectByName("org.eclipse.equinox.security");
+		IProgressMonitor monitor = new NullProgressMonitor();
+		IFolder gravity = EclipseProjectUtil.getGravityFolder(project, monitor);
+		IFile corr = gravity.getFile("storepassword.corr.xmi");
+		Mapper mapper = new Mapper(corr);
+
+		new DivergenceCheck().check(mapper);
 		SourceAndSink sourcesAndSinks = new SourcesAndSinks().getSourceSinks(mapper, mapper.getDFD());
 
 		soot.G.reset();
 
 		IInfoflow infoflow = initInfoflow(false);
-		String appPath = JavaProjectUtil.getJavaProject(project).getOutputLocation().toFile().getAbsolutePath();
+		IJavaProject javaProject = JavaProjectUtil.getJavaProject(project);
+		if (!javaProject.isOpen()) {
+			javaProject.open(monitor);
+		}
+		project.build(IncrementalProjectBuilder.FULL_BUILD, monitor);
+
+		IPath outputLocation = javaProject.getOutputLocation();
+		IPath projectLocation = project.getLocation();
+		String appPath = projectLocation.append(outputLocation.removeFirstSegments(1)).toOSString();
 		String libPath = System.getProperty("java.home") + File.separator + "lib" + File.separator + "rt.jar";
 
 // Sources:
@@ -63,8 +96,13 @@ public class Example {
 				+ " org.eclipse.equinox.internal.security.storage.PasswordExt "
 				+ "getPassword(java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer, boolean)>");
 
-		infoflow.computeInfoflow(appPath, libPath, epoints, sourcesAndSinks.sources, sourcesAndSinks.sinks);
-		infoflow.getResults();
+		Set<String> sources = sourcesAndSinks.getSources();
+		System.out.println("Sources:\n" + String.join(",\n", sources));
+		Set<String> sinks = sourcesAndSinks.getSinks();
+		System.out.println("Sinks:\n" + String.join(",\n", sinks));
+		infoflow.computeInfoflow(appPath, libPath, epoints, sources, sinks);
+		InfoflowResults results = infoflow.getResults();
+		results.printResults();
 	}
 
 	protected IInfoflow initInfoflow(boolean useTaintWrapper) {
@@ -85,17 +123,10 @@ public class Example {
 			}
 
 		});
-		if (useTaintWrapper) {
-			EasyTaintWrapper easyWrapper;
-			try {
-				easyWrapper = new EasyTaintWrapper();
-				result.setTaintWrapper(easyWrapper);
-			} catch (IOException e) {
-				System.err.println("Could not initialized Taintwrapper:");
-				e.printStackTrace();
-			}
+		Map<String, Set<String>> taintedMethods = Collections.emptyMap();
+		EasyTaintWrapper easyWrapper = new EasyTaintWrapper(taintedMethods);
+		result.setTaintWrapper(easyWrapper);
 
-		}
 		result.getConfig().setImplicitFlowMode(ImplicitFlowMode.AllImplicitFlows);
 		return result;
 	}

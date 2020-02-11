@@ -1,10 +1,8 @@
 package org.gravity.flowdroid;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -28,8 +26,7 @@ public class SourcesAndSinks {
 	}
 
 	public SourceAndSink getSourceSinks(Mapper mapper, EDFD dfd) {
-		ArrayList<String> sources = new ArrayList<>();
-		ArrayList<String> sinks = new ArrayList<>();
+		SourceAndSink sourceAndSink = new SourceAndSink();
 
 		for (Asset asset : dfd.getAsset()) {
 			if (asset.getValue().stream().anyMatch(value -> "Confidentiality".equals(value.getObjective().getName()))) {
@@ -41,19 +38,28 @@ public class SourcesAndSinks {
 				Set<AbstractCorrespondence> flowSinkCorrespondences = findSinks(mapper, asset, assetsource,
 						assettargets);
 
-				// set all as source for analyzer
-				for (AbstractCorrespondence c : flowSourceCorrespondences) {
-					sinks.add(SignatureHelper.getSootSignature((TMethodDefinition) CorrespondenceHelper.getSource(c)));
-				}
+				addSootSignatures(flowSourceCorrespondences, sourceAndSink.getSources());
 				// set all as sinks for analyzer
-				for (AbstractCorrespondence c : flowSinkCorrespondences) {
-					sinks.add(SignatureHelper.getSootSignature((TMethodDefinition) CorrespondenceHelper.getSource(c)));
-				}
+				addSootSignatures(flowSinkCorrespondences, sourceAndSink.getSinks());
 			}
 		}
 		// new structure for hashmap
-		SourceAndSink sourcesinks = new SourceAndSink(sources, sinks);
-		return sourcesinks;
+		return sourceAndSink;
+	}
+
+	/**
+	 * Adds the signatures of the correspondences to the set
+	 * 
+	 * @param correspondences The correspondences
+	 * @param signatures The set of signatures to be populated
+	 */
+	private void addSootSignatures(Collection<AbstractCorrespondence> correspondences, Set<String> signatures) {
+		for (AbstractCorrespondence c : correspondences) {
+			EObject source = CorrespondenceHelper.getSource(c);
+			if (source instanceof TMethodDefinition) {
+				signatures.add(SignatureHelper.getSootSignature((TMethodDefinition) source));
+			}
+		}
 	}
 
 	private Set<AbstractCorrespondence> findSinks(Mapper m, Asset asset, NamedEntity assetsource,

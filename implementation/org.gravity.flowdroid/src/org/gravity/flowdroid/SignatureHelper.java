@@ -34,19 +34,20 @@ public final class SignatureHelper {
 
 	public static String getSootSignature(TMethodDefinition method) {
 		StringBuilder buffer = new StringBuilder("<");
-		buffer.append(method.getDefinedBy().getSignature());
+		buffer.append(method.getDefinedBy().getFullyQualifiedName());
 		buffer.append(": ");
-		buffer.append(method.getReturnType().getSignature());
+		buffer.append(method.getReturnType().getFullyQualifiedName());
 		buffer.append(' ');
 		buffer.append(method.getSignature().getMethod().getTName());
 		buffer.append('(');
 		TParameter param = method.getSignature().getFirstParameter();
 		while(param != null) {
-			buffer.append(param.getType().getSignature());
+			buffer.append(param.getType().getFullyQualifiedName());
 			TParameter next = param.getNext();
 			if(next!=null) {
 				buffer.append(',');
 			}
+			param = next;
 		}
 		buffer.append(")>");
 		return buffer.toString();

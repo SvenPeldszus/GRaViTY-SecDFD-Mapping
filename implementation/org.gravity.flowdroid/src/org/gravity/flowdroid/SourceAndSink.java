@@ -3,7 +3,8 @@
  */
 package org.gravity.flowdroid;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 
@@ -13,15 +14,38 @@ import java.util.ArrayList;
  *
  */
 public class SourceAndSink {
-	final ArrayList<String> sources;
-	final ArrayList<String> sinks;
+	
+	private final Set<String> sources;
+	private final Set<String> sinks;
 	
 	/**
-	 * 
+	 * Initializes sources and sinks with given values
 	 */
-	public SourceAndSink(ArrayList<String> sources, ArrayList<String> sinks) {
-		this.sources = sources;
-		this.sinks = sinks;
+	public SourceAndSink(Set<String> sources, Set<String> sinks) {
+		this.sources = new HashSet<>(sources);
+		this.sinks = new HashSet<>(sinks);
+	}
+	
+	/**
+	 * Initializes sources and sinks with no values
+	 */
+	public SourceAndSink() {
+		this.sources = new HashSet<>();
+		this.sinks = new HashSet<>();
+	}
+
+	/**
+	 * @return the sources
+	 */
+	public Set<String> getSources() {
+		return sources;
+	}
+
+	/**
+	 * @return the sinks
+	 */
+	public Set<String> getSinks() {
+		return sinks;
 	}
 
 }
