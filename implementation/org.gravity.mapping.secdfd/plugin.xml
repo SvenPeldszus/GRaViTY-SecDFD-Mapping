@@ -17,6 +17,22 @@
         <command commandId="org.gravity.mapping.secdfd.ui.texteditor"
                 label="Map Selection to SecDFD" style="push"/>
     </menuContribution>
+    <menuContribution allPopups="false" locationURI="popup:#CompilationUnitEditorContext?after=additions">
+        <command commandId="org.gravity.mapping.secdfd.ui.addencryptsignature"
+                label="Remember this Encrypt Signature" style="push"/>
+    </menuContribution>
+    <menuContribution allPopups="false" locationURI="popup:#ClassFileEditorContext?after=additions">
+        <command commandId="org.gravity.mapping.secdfd.ui.addencryptsignature"
+                label="Remember this Encrypt Signature" style="push"/>
+    </menuContribution>
+    <menuContribution allPopups="false" locationURI="popup:#CompilationUnitEditorContext?after=additions">
+        <command commandId="org.gravity.mapping.secdfd.ui.adddecryptsignature"
+                label="Remember this Decrypt Signature" style="push"/>
+    </menuContribution>
+    <menuContribution allPopups="false" locationURI="popup:#ClassFileEditorContext?after=additions">
+        <command commandId="org.gravity.mapping.secdfd.ui.adddecryptsignature"
+                label="Remember this Decrypt Signature" style="push"/>
+    </menuContribution>
   </extension>
   <extension point="org.eclipse.ui.commands">
     <command
@@ -28,6 +44,14 @@
             defaultHandler="org.gravity.mapping.secdfd.ui.handler.TextEditorHandler"
             name="Map Selection to SecDFD"
             description="Triggers the mapping of the selected element to an element from a SecDFD" />
+    <command id="org.gravity.mapping.secdfd.ui.addencryptsignature"
+            defaultHandler="org.gravity.mapping.secdfd.ui.handler.AddingSignatureHandler"
+            name="Remember this Encrypt Signature"
+            description="Finds all program model signatures corresponding to the selection and stores them in a file on the running instance." />
+    <command id="org.gravity.mapping.secdfd.ui.adddecryptsignature"
+            defaultHandler="org.gravity.mapping.secdfd.ui.handler.AddingSignatureHandler"
+            name="Remember this Decrypt Signature"
+            description="Finds all program model signatures corresponding to the selection and stores them in a file on the running instance." />
   </extension>
   <extension
          point="org.eclipse.ui.views">

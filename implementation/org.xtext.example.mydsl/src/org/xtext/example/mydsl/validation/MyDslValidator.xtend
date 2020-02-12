@@ -13,6 +13,8 @@ import java.util.Map
 import java.util.Set
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.validation.Check
+import org.xtext.example.mydsl.validation.SProblem.PState
+import eDFDFlowTracking.Process
 
 /**
  * This class contains custom validation rules. 
@@ -23,12 +25,18 @@ class MyDslValidator extends AbstractMyDslValidator {
 	
 	//EObject is the edfd instance, the set of strings are the names of the source elements in the program model
 	static Map<String, Set<String>> map = new HashMap();
+	static Set<SProblem> problems;
    
     def static setMap(Map<String, Set<String>> newMap){
         map = newMap;
     }
+    def static setProblems(Set<SProblem> pr){
+    	problems = pr;
+    }
+    
 	
 	public static val COMPLIANCE_ABSENCE = 'absent in implementation'
+	public static val SECURITY_COMPLIANCE_ABSENCE = 'security absent in implementation'
 	
 	
 	@Check(FAST)
@@ -50,6 +58,23 @@ class MyDslValidator extends AbstractMyDslValidator {
 			}
 		}
 
+	}
+	
+	@Check(FAST)
+	def SecurityAbsenceInImplementation(EObject eobject){
+		if (eobject instanceof Process){
+			for (SProblem sp : problems){
+				if ((sp.dfdElement as Process).name.equals(eobject.name)){
+					if (sp.state == PState.OK){
+						info(sp.description, EDFDFlowTrackingPackage.Literals.NAMED_ENTITY__NAME,
+					SECURITY_COMPLIANCE_ABSENCE);
+					} else {
+						error(sp.description, EDFDFlowTrackingPackage.Literals.NAMED_ENTITY__NAME,
+					SECURITY_COMPLIANCE_ABSENCE);
+					}
+				}
+			}
+		}
 	}
 		
 }

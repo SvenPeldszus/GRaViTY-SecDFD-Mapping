@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
@@ -94,7 +95,7 @@ public class TextEditorHandler extends AbstractHandler {
 	 * @param pm   The program model
 	 * @return the selected element
 	 */
-	private List<EObject> getSelectedPMElement(ASTNode node, TypeGraph pm) {
+	public static List<EObject> getSelectedPMElement(ASTNode node, TypeGraph pm) {
 		switch (node.getNodeType()) {
 		case ASTNode.METHOD_INVOCATION:
 			MethodInvocation invoc = (MethodInvocation) node;
@@ -193,7 +194,7 @@ public class TextEditorHandler extends AbstractHandler {
 	 * @param event An execution event
 	 * @return The selected node
 	 */
-	private ASTNode getSelectedASTNode(ExecutionEvent event) {
+	public static ASTNode getSelectedASTNode(ExecutionEvent event) {
 		ITextEditor editor = (ITextEditor) HandlerUtil.getActiveEditor(event);
 		ITextSelection sel = (ITextSelection) editor.getSelectionProvider().getSelection();
 		ITypeRoot typeRoot = JavaUI.getEditorInputTypeRoot(editor.getEditorInput());

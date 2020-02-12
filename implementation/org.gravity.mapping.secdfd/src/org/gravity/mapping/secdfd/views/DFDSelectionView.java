@@ -24,6 +24,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.part.ViewPart;
+import org.gravity.mapping.secdfd.views.actions.AddingSignatureAction;
 import org.gravity.mapping.secdfd.views.actions.UserdefinedAction;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TFieldDefinition;
@@ -127,6 +128,7 @@ public class DFDSelectionView extends ViewPart {
 			initTree(source.get(0), mappingView);
 		}
 		action.setSource(source);
+		//signatureAction.setSource(source);
 		((DFDSelectionContentProvider) treeViewer.getContentProvider()).updateSouce(source.get(0));
 		treeViewer.refresh(mappingView.getDFDs(), true);
 		treeViewer.getControl().update();
@@ -153,6 +155,7 @@ public class DFDSelectionView extends ViewPart {
 		treeViewer.getControl().setLayoutData(layoutData);
 
 		action = new UserdefinedAction(mappingView);
+		
 		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
 			public void selectionChanged(SelectionChangedEvent event) {

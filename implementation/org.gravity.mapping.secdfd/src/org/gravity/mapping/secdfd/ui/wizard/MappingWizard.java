@@ -14,6 +14,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.gravity.eclipse.ui.GravityUiActivator;
 import org.gravity.eclipse.util.EclipseProjectUtil;
+import org.gravity.mapping.secdfd.ImplementedEncryptionChecker;
 import org.gravity.mapping.secdfd.views.MappingView;
 
 /**
@@ -36,6 +37,8 @@ public class MappingWizard extends org.eclipse.jface.wizard.Wizard {
 	private IJavaProject javaProject;
 
 	private IFolder gravityFolder;
+	
+	
 
 	public MappingWizard() {
 		this(Collections.emptyList());
@@ -82,7 +85,7 @@ public class MappingWizard extends org.eclipse.jface.wizard.Wizard {
 	 * Creates and launches a job for converting the java project into a program
 	 * model
 	 * 
-	 * @return true, if the job could be launched for the selcted project or is
+	 * @return true, if the job could be launched for the selected project or is
 	 *         already running
 	 */
 	private boolean createTrafoJob(IJavaProject javaProject) {

@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.Set;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -48,6 +49,7 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.gravity.eclipse.io.ModelSaver;
 import org.gravity.eclipse.ui.GravityUiActivator;
+import org.gravity.mapping.secdfd.ImplementedEncryptionChecker;
 import org.gravity.mapping.secdfd.Mapper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.ui.wizard.MappingWizard;
@@ -57,6 +59,7 @@ import org.gravity.mapping.secdfd.views.actions.ContinueAction;
 import org.gravity.mapping.secdfd.views.actions.RejectAction;
 import org.gravity.typegraph.basic.TypeGraph;
 import org.xtext.example.mydsl.MyDslStandaloneSetup;
+import org.xtext.example.mydsl.validation.SProblem;
 
 import com.google.inject.Injector;
 
@@ -92,7 +95,7 @@ public class MappingView extends ViewPart {
 
 	private Collection<EDFD> dfds;
 
-	Map<Mapping, Mapper> mappers;
+	private Map<Mapping, Mapper> mappers;
 
 	private ContinueAction continueAction;
 
@@ -116,6 +119,18 @@ public class MappingView extends ViewPart {
 				}
 			}
 
+		});
+		tm.add(new Action("Check process contracts") {
+			public void run() {
+				try {
+					ImplementedEncryptionChecker checker = new ImplementedEncryptionChecker(gravityFolder,
+							pm.getValue(), mappers.values());
+					checker.checkImplementedEncyption();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		});
 		IMenuManager mm = bars.getMenuManager(); // Drop down menu
 		mm.add(new Action("Map project") {
@@ -224,11 +239,11 @@ public class MappingView extends ViewPart {
 		URI pmUri = URI.createURI(pmFile.getLocation().makeRelativeTo(gravityFolder.getLocation()).toString());
 		Resource resource = pm.eResource();
 		if (resource == null) {
-			Optional<Resource> result = this.resourceSet.getResources().parallelStream().filter(r -> r.getURI().equals(pmUri)).findAny();
-			if(result.isPresent()) {
+			Optional<Resource> result = this.resourceSet.getResources().parallelStream()
+					.filter(r -> r.getURI().equals(pmUri)).findAny();
+			if (result.isPresent()) {
 				resource = result.get();
-			}
-			else {
+			} else {
 				resource = this.resourceSet.createResource(pmUri);
 			}
 			resource.getContents().clear();
@@ -298,6 +313,10 @@ public class MappingView extends ViewPart {
 		return this.mappers.keySet();
 	}
 
+	public Map<Mapping, Mapper> getMappers() {
+		return mappers;
+	}
+
 	public void update() {
 		for (Mapper mapper : mappers.values()) {
 			mapper.updateMappingOnFilesystem();
@@ -324,5 +343,9 @@ public class MappingView extends ViewPart {
 	 */
 	public TreeViewer getTree() {
 		return treeViewer;
+	}
+
+	public IFolder getGravityFolder() {
+		return gravityFolder;
 	}
 }

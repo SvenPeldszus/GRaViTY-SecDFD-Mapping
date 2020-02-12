@@ -14,7 +14,8 @@ Require-Bundle: eDFDFlowTracking1,
  org.eclipse.xtext.util,
  org.eclipse.xtend.lib;bundle-version="2.14.0",
  org.antlr.runtime;bundle-version="[3.2.0,3.2.1)",
- org.eclipse.xtext.ecore;bundle-version="2.17.1"
+ org.eclipse.xtext.ecore;bundle-version="2.17.1",
+ org.gravity.typegraph.basic
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.xtext.example.mydsl.parser.antlr.internal,
  org.xtext.example.mydsl.scoping,
