@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.gravity.mapping.secdfd.Mapper;
+import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.views.MappingView;
 import eDFDFlowTracking.EDFD;

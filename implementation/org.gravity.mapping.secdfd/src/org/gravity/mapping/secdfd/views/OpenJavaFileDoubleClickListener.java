@@ -24,12 +24,12 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.gravity.eclipse.util.JavaASTUtil;
-import org.gravity.mapping.secdfd.CorrespondenceHelper;
 import org.gravity.mapping.secdfd.model.mapping.MappingEntityType;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.mapping.secdfd.AbstractCorrespondence;
+import org.gravity.mapping.secdfd.helpers.CorrespondenceHelper;
 
 final class OpenJavaFileDoubleClickListener implements IDoubleClickListener {
 	private final IFolder gravityFolder;

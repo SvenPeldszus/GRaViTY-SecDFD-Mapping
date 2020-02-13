@@ -10,8 +10,8 @@ import java.util.stream.Stream;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.gravity.mapping.secdfd.AbstractCorrespondence;
-import org.gravity.mapping.secdfd.CorrespondenceHelper;
-import org.gravity.mapping.secdfd.Mapper;
+import org.gravity.mapping.secdfd.helpers.CorrespondenceHelper;
+import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.typegraph.basic.TMethodDefinition;
 
 import eDFDFlowTracking.Asset;

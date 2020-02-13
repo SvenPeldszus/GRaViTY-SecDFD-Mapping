@@ -23,6 +23,8 @@ import org.gravity.typegraph.basic.TSignature;
 import org.gravity.typegraph.basic.TypeGraph;
 import org.junit.Test;
 import org.gravity.mapping.secdfd.AbstractCorrespondence;
+import org.gravity.mapping.secdfd.helpers.CorrespondenceHelper;
+import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 
 import eDFDFlowTracking.EDFD;

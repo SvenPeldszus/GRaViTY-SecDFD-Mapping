@@ -9,12 +9,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.gravity.mapping.secdfd.CorrespondenceHelper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.model.mapping.MappingEntityType;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
 import org.gravity.typegraph.basic.TClass;
 import org.gravity.mapping.secdfd.AbstractCorrespondence;
+import org.gravity.mapping.secdfd.helpers.CorrespondenceHelper;
 
 public class MappingContentProvider implements ITreeContentProvider {
 

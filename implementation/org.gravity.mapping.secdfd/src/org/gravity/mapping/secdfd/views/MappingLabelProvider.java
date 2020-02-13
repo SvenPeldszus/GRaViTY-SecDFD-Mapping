@@ -8,7 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
-import org.gravity.mapping.secdfd.CorrespondenceHelper;
+import org.gravity.mapping.secdfd.helpers.CorrespondenceHelper;
 import org.gravity.mapping.secdfd.helpers.RankingHelper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;

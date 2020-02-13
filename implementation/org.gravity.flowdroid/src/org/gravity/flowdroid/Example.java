@@ -20,7 +20,8 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.gravity.eclipse.util.EclipseProjectUtil;
 import org.gravity.eclipse.util.JavaProjectUtil;
-import org.gravity.mapping.secdfd.Mapper;
+import org.gravity.mapping.secdfd.checks.StructuralDivergenceCheck;
+import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.junit.Test;
 
 import soot.jimple.infoflow.IInfoflow;
@@ -48,7 +49,7 @@ public class Example {
 		IFile corr = gravity.getFile("storepassword.corr.xmi");
 		Mapper mapper = new Mapper(corr);
 
-		new DivergenceCheck().check(mapper);
+		new StructuralDivergenceCheck().check(mapper);
 	}
 
 	/**
@@ -65,7 +66,7 @@ public class Example {
 		IFile corr = gravity.getFile("storepassword.corr.xmi");
 		Mapper mapper = new Mapper(corr);
 
-		new DivergenceCheck().check(mapper);
+		new StructuralDivergenceCheck().check(mapper);
 		SourceAndSink sourcesAndSinks = new SourcesAndSinks().getSourceSinks(mapper, mapper.getDFD());
 
 		soot.G.reset();

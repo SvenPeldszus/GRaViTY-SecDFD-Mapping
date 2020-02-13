@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.gravity.mapping.secdfd.ImplementedEncryptionChecker;
+import org.gravity.mapping.secdfd.checks.ImplementedEncryptionCheck;
 import org.gravity.mapping.secdfd.views.MappingView;
 import org.gravity.typegraph.basic.TMethodDefinition;
 
@@ -35,7 +35,7 @@ public final class AddingSignatureAction extends Action {
 	}
 
 	public void run() {
-		ImplementedEncryptionChecker checker = new ImplementedEncryptionChecker(mappingView.getGravityFolder(),
+		ImplementedEncryptionCheck checker = new ImplementedEncryptionCheck(mappingView.getGravityFolder(),
 				mappingView.getProgramModel().getValue(), mappingView.getMappers().values());
 		selectedPMObjects.forEach(sig -> checker.addSignature(encrypt, sig));
 		//mappingView.update();

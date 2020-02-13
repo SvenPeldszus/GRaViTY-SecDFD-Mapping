@@ -7,10 +7,6 @@ import org.gravity.typegraph.basic.TMember;
 
 public class PathSearch {
 	
-	public static void main(String[] args) {
-		
-	}
-	
 	private final TMember destination;
 
 	private final NavigableSet<Step> pending = new TreeSet<>();
