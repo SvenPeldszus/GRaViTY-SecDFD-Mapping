@@ -22,7 +22,8 @@ Require-Bundle: org.gravity.typegraph.basic;bundle-version="1.0.0";visibility:=r
  org.eclipse.ui.workbench.texteditor,
  org.eclipse.jdt.ui,
  org.apache.log4j,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.eclipse.emf.ecore
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
