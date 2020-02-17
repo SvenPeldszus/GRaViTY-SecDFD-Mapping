@@ -44,7 +44,7 @@ import eDFDFlowTracking.ResponsibilityType;
  * @author katjat
  *
  */
-public class ImplementedEncryptionCheck {
+public class EncryptionCheck {
 
 	public static enum Crypto {
 		ENCRYPT("encrypt-signatures.txt"), DECRYPT("decrypt-signatures.txt");
@@ -63,7 +63,7 @@ public class ImplementedEncryptionCheck {
 	/**
 	 * The logger of this class
 	 */
-	private static final Logger LOGGER = Logger.getLogger(ImplementedEncryptionCheck.class);
+	private static final Logger LOGGER = Logger.getLogger(EncryptionCheck.class);
 
 	public static final String MAPPING_MARKER = "org.gravity.mapping.secdfd.markers.java";
 
@@ -92,7 +92,7 @@ public class ImplementedEncryptionCheck {
 	 * @param pm
 	 * @param mappers
 	 */
-	public ImplementedEncryptionCheck(IFolder dest, TypeGraph pm, Collection<Mapper> mappers) {
+	public EncryptionCheck(IFolder dest, TypeGraph pm, Collection<Mapper> mappers) {
 		this.destination = dest;
 		this.mappers = mappers;
 		this.pm = pm;
@@ -274,7 +274,6 @@ public class ImplementedEncryptionCheck {
 
 	/**
 	 * Update the marker data for the DFD
-	 * TODO: debug
 	 */
 	private void updateMarkers() {
 		mappers.forEach(mapper -> {
@@ -286,6 +285,10 @@ public class ImplementedEncryptionCheck {
 				LOGGER.log(Level.ERROR, e);
 			}
 		});
+		
+		//Debug
+		FlowEntryExit fee = new FlowEntryExit(mappers);
+		fee.getEntriesExits();
 	}
 
 	/**

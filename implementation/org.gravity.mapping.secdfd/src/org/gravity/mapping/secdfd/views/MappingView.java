@@ -49,7 +49,7 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.gravity.eclipse.io.ModelSaver;
 import org.gravity.eclipse.ui.GravityUiActivator;
-import org.gravity.mapping.secdfd.checks.ImplementedEncryptionCheck;
+import org.gravity.mapping.secdfd.checks.EncryptionCheck;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.ui.wizard.MappingWizard;
@@ -123,7 +123,7 @@ public class MappingView extends ViewPart {
 		tm.add(new Action("Check process contracts") {
 			public void run() {
 				try {
-					ImplementedEncryptionCheck checker = new ImplementedEncryptionCheck(gravityFolder,
+					EncryptionCheck checker = new EncryptionCheck(gravityFolder,
 							pm.getValue(), mappers.values());
 					checker.checkImplementedEncyption();
 				} catch (IOException e) {
