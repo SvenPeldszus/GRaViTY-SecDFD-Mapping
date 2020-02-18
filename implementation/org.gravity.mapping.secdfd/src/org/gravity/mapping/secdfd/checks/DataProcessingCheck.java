@@ -9,10 +9,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.typegraph.basic.BasicPackage;
 import org.gravity.typegraph.basic.TAbstractFlowElement;
 import org.gravity.typegraph.basic.TAbstractType;
@@ -24,12 +27,15 @@ import org.gravity.typegraph.basic.TMethodSignature;
 import org.gravity.typegraph.basic.TParameter;
 import org.gravity.typegraph.basic.TSignature;
 import org.gravity.typegraph.basic.TypeGraph;
+import org.xtext.example.mydsl.validation.SProblem;
+import org.xtext.example.mydsl.validation.SProblem.PState;
+import org.xtext.example.mydsl.validation.SProblem.PType;
 
 import eDFDFlowTracking.Asset;
 import eDFDFlowTracking.EDFDFlowTrackingFactory;
+import eDFDFlowTracking.Process;
 import eDFDFlowTracking.Responsibility;
 import eDFDFlowTracking.ResponsibilityType;
-
 public class DataProcessingCheck {
 
 	public static void main(String[] args) {
@@ -81,7 +87,7 @@ public class DataProcessingCheck {
 		fwd.getIncomeassets().add(assetAsset);
 		fwd.getIncomeassets().add(assetMain);
 		fwd.getOutcomeassets().add(assetAsset);
-		check(entries, exits, methods, assets, Collections.singleton(fwd ));
+		check(entries, exits, methods, null, Collections.singleton(fwd ));
 	}
 
 	/**
@@ -117,17 +123,21 @@ public class DataProcessingCheck {
 		fwd.setProcess(EDFDFlowTrackingFactory.eINSTANCE.createProcess());
 		fwd.getIncomeassets().add(asset);
 		fwd.getOutcomeassets().add(asset);
-		check(entries, exits, methods, assets, Collections.singleton(fwd ));
+		check(entries, exits, methods, null, Collections.singleton(fwd ));
 	}
 
+
 	/**
+	 * OBSOLETE
+	 * @param problems 
 	 * @param entries
 	 * @param exits
 	 * @param methods
 	 * @param assets
 	 */
-	private static void check(Set<TFlow> entries, Set<TFlow> exits, Set<TMember> methods,
-			Map<TAbstractType, Asset> assets, Set<Responsibility> resposibilities) {
+	public static void check(Set<TFlow> entries, Set<TFlow> exits, Set<? extends TMember> methods,
+			Mapper mapper, Set<Responsibility> resposibilities) {
+		Map<TAbstractType, Asset> assets = mapper.getAssets();
 		Map<Asset, Set<TFlow>> entryMapping = classifyFlows(entries, assets);
 		Map<Asset, Set<TFlow>> exitMapping = classifyFlows(exits, assets);
 
@@ -148,20 +158,26 @@ public class DataProcessingCheck {
 							.collect(Collectors.joining(",\n", "Found the following entry flows:\n", "\n")));
 
 					boolean valid = true;
-					for(Asset inComeAsset : responsibility.getIncomeassets()) {
-						Set<TFlow> expected = entryMapping.computeIfAbsent(inComeAsset, asset -> new HashSet<>());
-						valid &= found.containsAll(expected);
-					}
 					
-					if(!valid) {
+					//absence
+					Set<Asset> foundAssetCommunications = found.stream().flatMap(f -> getCommunicatedAssets(f, assets).stream()).collect(Collectors.toSet());
+					EList<Asset> inComeAssets = responsibility.getIncomeassets();
+					if(!foundAssetCommunications.containsAll(inComeAssets)) {
 						System.err.println("Not all expected flows have been implemented!");
 					}
 
-					Set<Asset> expectedAssets = new HashSet<>(responsibility.getIncomeassets());
-					for(TFlow foundFlow : found) {
-						expectedAssets.removeAll(getCommunicatedAssets(foundFlow, assets));
-					}
-					if(!(valid &= expectedAssets.isEmpty())) {
+					//divergence
+					Set<TAbstractType> incomeAssetTypes = inComeAssets.stream().flatMap(a -> mapper.getMapping(a).stream()).collect(Collectors.toSet());
+					Set<TAbstractType> foundTypes = found.stream().flatMap(f -> getCommunicatedTypes(f).stream()).collect(Collectors.toSet());
+					
+					
+					
+					//TODO: for each asset: is there an exit flow containing asset that is on the entry flow
+					Collections.disjoint(foundTypes, incomeAssetTypes);
+					
+					
+					//TODO: - problem raised when more than one flow enters (for fwd)
+					if(!(valid &= inComeAssets.isEmpty())) {
 						System.err.println("More than the defined asset flows have been implemented!");
 					}
 					if(valid) {
@@ -172,7 +188,7 @@ public class DataProcessingCheck {
 		}
 	}
 
-	private static Set<TFlow> searchBackwards(TFlow exit, Set<TMember> consider) {
+	private static Set<TFlow> searchBackwards(TFlow exit, Set<? extends TMember> methods) {
 		Set<TFlow> found = new HashSet<>();
 		Deque<TAbstractFlowElement> stack = new LinkedList<>();
 		stack.add(exit);
@@ -185,7 +201,7 @@ public class DataProcessingCheck {
 			seen.add(next);
 
 			if (next instanceof TMethodDefinition) {
-				if (consider.contains(next)) {
+				if (methods.contains(next)) {
 					stack.addAll(next.getIncomingFlows());
 				}
 			} else if (next instanceof TMethodSignature) {
@@ -196,7 +212,7 @@ public class DataProcessingCheck {
 			} else if (next instanceof TFlow) {
 				boolean leftProcess = false;
 				for (TMember source : getSourceMember((TFlow) next)) {
-					if (!consider.contains(source)) {
+					if (!methods.contains(source)) {
 						found.add((TFlow) next);
 						leftProcess = true;
 						break;
@@ -269,15 +285,8 @@ public class DataProcessingCheck {
 
 		for (TFlow flow : flows) {
 			Set<Asset> foundAssets = getCommunicatedAssets(flow, assets);
-			switch (foundAssets.size()) {
-			case 1:
-				map.computeIfAbsent(foundAssets.iterator().next(), s -> new HashSet<>()).add(flow);
-				break;
-			case 0:
-				// Not every flow is necessarily communicating an asset
-				break;
-			default:
-				throw new IllegalStateException("One flow has been mapped to multiple assets!");
+			for(Asset asset : foundAssets) {
+				map.computeIfAbsent(asset, s -> new HashSet<>()).add(flow);
 			}
 		}
 
@@ -290,38 +299,51 @@ public class DataProcessingCheck {
 	 * @return
 	 */
 	private static Set<Asset> getCommunicatedAssets(TFlow flow, Map<TAbstractType, Asset> assets) {
+		Set<TAbstractType> foundTypes = getCommunicatedTypes(flow);
 		Set<Asset> foundAssets = new HashSet<>();
+		for(TAbstractType type : foundTypes) {
+			addToAssetsIfMapped(foundAssets, assets, type);
+		}
+		return foundAssets;
+	}
+
+	/**
+	 * @param flow
+	 * @return
+	 */
+	private static Set<TAbstractType> getCommunicatedTypes(TFlow flow) {
+		Set<TAbstractType> foundTypes = new HashSet<>();
 		for (TAbstractFlowElement source : flow.getIncomingFlows()) {
 			if (source instanceof TMethodSignature) {
-				TAbstractType type = ((TMethodSignature) source).getReturnType();
-				addToAssetsIfMapped(foundAssets, assets, type);
+				foundTypes.add(((TMethodSignature) source).getReturnType());
 			} else if (source instanceof TMethodDefinition) {
 				TMethodDefinition def = (TMethodDefinition) source;
 				if (def.getTAnnotation(BasicPackage.eINSTANCE.getTConstructor()).isEmpty()) {
 					throw new IllegalStateException("Method definition has outgoing flow but is not a constructor!");
 				}
 				TAbstractType type = def.getDefinedBy();
-				addToAssetsIfMapped(foundAssets, assets, type);
+				foundTypes.add(type);
 			} else if (source instanceof TParameter) {
 				TAbstractType type = ((TParameter) source).getType();
-				addToAssetsIfMapped(foundAssets, assets, type);
+				foundTypes.add(type);
 			} else if (source instanceof TAccess) {
 				// Skip
 			} else {
+				System.out.println("Unknows source of flow with source: " + source.eClass().getName());
 				throw new IllegalStateException("Unkown source of flow: " + source.eClass().getName());
 			}
 		}
 		for (TAbstractFlowElement target : flow.getOutgoingFlows()) {
 			if (target instanceof TParameter) {
-				TAbstractType type = ((TParameter) target).getType();
-				addToAssetsIfMapped(foundAssets, assets, type);
+				foundTypes.add(((TParameter) target).getType());
 			} else if (target instanceof TAccess) {
 				// Skip
 			} else {
-				throw new IllegalStateException("Unkown source of flow: " + target.eClass().getName());
+				System.out.println("Unknows traget of flow with source: " + target.eClass().getName());
+				throw new IllegalStateException("Unkown target of flow: " + target.eClass().getName());
 			}
 		}
-		return foundAssets;
+		return foundTypes;
 	}
 
 	/**
@@ -338,6 +360,68 @@ public class DataProcessingCheck {
 			return true;
 		}
 		return false;
+	}
+
+	public Set<SProblem> check(Set<TFlow> entries, Set<TFlow> exits, Process p, Mapper mapper,
+			Responsibility responsibility) {
+		Map<TAbstractType, Asset> assets = mapper.getAssets();
+		Map<Asset, Set<TFlow>> exitMapping = classifyFlows(exits, assets);
+		Set<TMethodDefinition> methods = mapper.getMapping(p);
+		Set<SProblem> problems = new HashSet<>();
+
+		for (Asset outComeAsset : responsibility.getOutcomeassets()) {
+			Set<TFlow> outgoingAssetFlows = exitMapping.get(outComeAsset);
+
+			if (outgoingAssetFlows == null || outgoingAssetFlows.isEmpty()) {
+				// absence
+				problems.add(new SProblem(PState.WARNING, PType.FWDJOIN, (EObject) p, methods,
+						"Outgoing asset hasn't been implemented."));
+				System.err.println("Outgoing asset hasn't been implemented: " + outComeAsset);
+				continue;
+			}
+			for (TFlow flow : outgoingAssetFlows) {
+				Set<TFlow> found = searchBackwards(flow, methods);
+
+				System.out.println(found.stream()
+						.map(f -> f.toString() + " - asset: "
+								+ getCommunicatedAssets(f, assets).stream().map(Object::toString)
+										.collect(Collectors.joining(", ")))
+						.collect(Collectors.joining(",\n", "Found the following entry flows:\n", "\n")));
+
+				boolean valid = true;
+				for (Asset expectedAsset : responsibility.getIncomeassets()) {
+					// Exactly one found flow has to communicate this asset
+					int counter = 0;
+					for (TFlow ff : found) {
+						Set<Asset> comma = getCommunicatedAssets(ff, assets);
+						if (comma.contains(expectedAsset)) {
+							counter += 1;
+							if(counter>1) {
+								//TODO: if expectedAsset has been mapped to the same type more than once, check if ok
+								valid = false;
+							}
+						}
+					}
+					if (counter > 1 && !valid) {
+						problems.add(new SProblem(PState.WARNING, PType.FWDJOIN, (EObject) p, methods,
+								"More than one flow is communicating the asset upon process entry (divergence)."));
+						System.err.println(
+								"More than one flow is communicating the asset upon process entry (divergence).");
+					} else if (counter < 1) {
+						valid = false;
+						problems.add(new SProblem(PState.WARNING, PType.FWDJOIN, (EObject) p, methods,
+								"No flow is communicating the asset upon process entry (absence)."));
+						System.err
+								.println("No flow is communicating the asset upon process entry (absence).");
+					} else {
+						valid = true;
+						problems.add(new SProblem(PState.OK, PType.SUCCESS, (EObject) p, methods, "Outgoing asset has correct flow."));
+						System.out.println("Outgoing asset has correct flow: " + outComeAsset);
+					}
+				}
+			}
+		}
+		return problems;
 	}
 
 }

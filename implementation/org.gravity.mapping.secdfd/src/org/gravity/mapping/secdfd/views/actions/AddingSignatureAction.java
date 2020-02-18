@@ -35,6 +35,8 @@ public final class AddingSignatureAction extends Action {
 	public void run() {
 		EncryptionCheck checker = new EncryptionCheck(mappingView.getGravityFolder(),
 				mappingView.getProgramModel().getValue(), mappingView.getMappers().values());
+		//write selection to file, not selectedPMObject
+		
 		selectedPMObjects.forEach(sig -> checker.addSignature(encrypt, sig));
 		//mappingView.update();
 	}

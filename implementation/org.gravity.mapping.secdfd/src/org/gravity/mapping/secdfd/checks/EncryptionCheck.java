@@ -7,7 +7,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -24,6 +26,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.gravity.mapping.secdfd.mapping.Mapper;
+import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TypeGraph;
 import org.xtext.example.mydsl.validation.MyDslValidator;
@@ -31,6 +34,7 @@ import org.xtext.example.mydsl.validation.SProblem;
 import org.xtext.example.mydsl.validation.SProblem.PState;
 import org.xtext.example.mydsl.validation.SProblem.PType;
 
+import eDFDFlowTracking.Asset;
 import eDFDFlowTracking.EDFD;
 import eDFDFlowTracking.Element;
 import eDFDFlowTracking.Process;
@@ -142,10 +146,16 @@ public class EncryptionCheck {
 	public void checkImplementedEncyption() throws IOException {
 		// load signatures from file
 		loadSignaturesFromFile();
+		DataProcessingCheck dataProcessing = new DataProcessingCheck();
+		FlowEntryExit entryExit = new FlowEntryExit(mappers);
+		
+		
+		
 		for (Mapper mapper : mappers) {
 			EDFD dfd = (EDFD) mapper.getDFD();
 			Set<Element> processes = dfd.getElements().parallelStream().filter(Process.class::isInstance)
 					.collect(Collectors.toSet());
+			
 
 			for (Element pr : processes) {
 				Process p = (Process) pr;
@@ -156,10 +166,18 @@ public class EncryptionCheck {
 						EList<ResponsibilityType> ac = res.getAction();
 						for (ResponsibilityType rt : ac) {
 							if (rt == ResponsibilityType.ENCRYPT_OR_HASH && signatures.containsKey(Crypto.ENCRYPT)) {
-								findProblems(mapper, p, rt, true);
+								findProblems(mapper, p, true);
 							}
 							if (rt == ResponsibilityType.DECRYPT && signatures.containsKey(Crypto.DECRYPT)) {
-								findProblems(mapper, p, rt, false);
+								findProblems(mapper, p, false);
+							}
+							if (rt == ResponsibilityType.FORWARD || rt == ResponsibilityType.COPIER) {
+								//run check for fwd
+								problems.addAll(dataProcessing.check(entryExit.entries, entryExit.exits, p, mapper, res));
+							}
+							if (rt == ResponsibilityType.JOINER) {
+								//run check for join
+								problems.addAll(dataProcessing.check(entryExit.entries, entryExit.exits,p , mapper, res));
 							}
 						}
 					}
@@ -175,7 +193,7 @@ public class EncryptionCheck {
 	 * @param rt
 	 * @param isEncrypt
 	 */
-	private void findProblems(Mapper mapper, Process p, ResponsibilityType rt, boolean isEncrypt) {
+	private void findProblems(Mapper mapper, Process p, boolean isEncrypt) {
 		Set<TMethodDefinition> methods = mapper.getMapping(p);
 		if (isEncrypt) {
 			// check if (at least one) correspondence exists with (at least one) encryption
@@ -190,9 +208,12 @@ public class EncryptionCheck {
 			if (!enc)
 				getProblems().add(new SProblem(PState.WARNING, PType.ENCRYPT, (EObject) p, methods,
 						"The encrypt process contract is not implemented."));
-			else
+			else {
+				//TODO: check also that the encrypt if a join in the PM
+				//check(entries, exits, methods, assets, Collections.singleton(join));
 				getProblems().add(new SProblem(PState.OK, PType.ENCRYPT, (EObject) p, methods,
 						"The encrypt process contract is implemented."));
+			}
 		} else {
 			// it is a decrypt
 			boolean enc = methods.parallelStream().anyMatch(c -> {
@@ -201,10 +222,15 @@ public class EncryptionCheck {
 			if (!enc)
 				getProblems().add(new SProblem(PState.WARNING, PType.DECRYPT, (EObject) p, methods,
 						"The decrypt process contract is not implemented."));
-			else
+			else {
+				//TODO: check also that the decrypt if a join in the PM
+				//check(entries, exits, methods, assets, Collections.singleton(join));
 				getProblems().add(new SProblem(PState.OK, PType.DECRYPT, (EObject) p, methods,
 						"The decrypt process contract is implemented."));
+			}
 		}
+		
+		//
 	}
 
 	/**

@@ -15,9 +15,11 @@ import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.typegraph.basic.TMethodDefinition;
 
 import eDFDFlowTracking.Asset;
+import eDFDFlowTracking.DataStore;
 import eDFDFlowTracking.Flow;
 import eDFDFlowTracking.EDFD;
 import eDFDFlowTracking.Element;
+import eDFDFlowTracking.ExternalEntity;
 import eDFDFlowTracking.NamedEntity;
 
 public class SourcesAndSinks {
@@ -36,22 +38,21 @@ public class SourcesAndSinks {
 		for (Asset asset : dfd.getAsset()) {
 			if (asset.getValue().stream().anyMatch(value -> "Confidentiality".equals(value.getObjective().getName()))) {
 				NamedEntity assetsource = asset.getSource();
-				List<Element> assettargets = asset.getTargets();
-
-				Set<AbstractCorrespondence> flowSourceCorrespondences = findSources(mapper, asset, assetsource);
-				
-				//if user has set attacker zone, set those elements as sinks
-				Set<AbstractCorrespondence> flowSinkCorrespondences = findTrustZoneSinks(mapper, asset, dfd);
-				
-				//else, set asset targets as sinks
-				if (flowSinkCorrespondences.isEmpty()) {
-					flowSinkCorrespondences = findSinks(mapper, asset, assetsource,
-							assettargets);					
+				//optimize by only taking entry points (EE, DS)
+				if (assetsource instanceof ExternalEntity || assetsource instanceof DataStore) {
+					List<Element> assettargets = asset.getTargets();
+					//find source correspondences
+					Set<AbstractCorrespondence> flowSourceCorrespondences = findSources(mapper, asset, assetsource);
+					//if user has set attacker zone, find correspondences of those for sinks
+					Set<AbstractCorrespondence> flowSinkCorrespondences = findTrustZoneSinks(mapper, asset, dfd);
+					//else, find correspondences for asset targets and set as sinks
+					if (flowSinkCorrespondences.isEmpty()) {
+						flowSinkCorrespondences = findSinks(mapper, asset, assetsource,
+								assettargets);					
+					}
+					addSootSignatures(flowSourceCorrespondences, sourceAndSink.getSources());
+					addSootSignatures(flowSinkCorrespondences, sourceAndSink.getSinks());
 				}
-
-				addSootSignatures(flowSourceCorrespondences, sourceAndSink.getSources());
-				// set all as sinks for analyzer
-				addSootSignatures(flowSinkCorrespondences, sourceAndSink.getSinks());
 			}
 		}
 		// new structure for hashmap

@@ -771,4 +771,16 @@ public class Mapper {
 		}
 	}
 
+	public Map<TAbstractType, Asset> getAssets() {
+		Set<Asset> dfdassets = dfd.getAsset().stream().collect(Collectors.toSet());
+		//create a hashmap of dfd assets and the mapped java types
+		Map<TAbstractType, Asset> assets = new HashMap<>();
+		for (Asset a : dfdassets) {
+			for (TAbstractType tat : getMapping(a)) {
+				assets.put(tat, a);
+			}
+		}
+		return assets;
+	}
+
 }
