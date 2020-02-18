@@ -5,7 +5,12 @@
 -->
 
 <plugin>
-
+   <extension point="org.eclipse.sirius.componentization">
+    <component class="eDFDFlowTracking.presentation.EDFDFlowTrackingEditorPlugin$Implementation"
+               id="eDFDFlowTracking1.editor"
+	       name="project">
+    </component>
+   </extension>
    <extension point="org.eclipse.ui.newWizards">
       <!-- @generated eDFDFlowTracking -->
       <category
