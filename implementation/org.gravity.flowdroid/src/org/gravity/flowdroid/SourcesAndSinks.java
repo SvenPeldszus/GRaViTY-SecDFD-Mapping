@@ -7,11 +7,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.gravity.mapping.secdfd.AbstractCorrespondence;
 import org.gravity.mapping.secdfd.helpers.CorrespondenceHelper;
 import org.gravity.mapping.secdfd.mapping.Mapper;
+import org.gravity.mapping.secdfd.views.MappingView;
 import org.gravity.typegraph.basic.TMethodDefinition;
 
 import eDFDFlowTracking.Asset;
@@ -22,7 +25,14 @@ import eDFDFlowTracking.Element;
 import eDFDFlowTracking.ExternalEntity;
 import eDFDFlowTracking.NamedEntity;
 
+
 public class SourcesAndSinks {
+	
+	/**
+	 * The logger of this class
+	 */
+	static final Logger LOGGER = Logger.getLogger(SourcesAndSinks.class);
+	
 	public static Set<AbstractCorrespondence> getMappings(Mapper mapper, EObject dfdelement) {
 		EList<AbstractCorrespondence> allcorresp = mapper.getMapping().getUserdefined();
 		allcorresp.addAll(mapper.getMapping().getSuggested());
@@ -47,9 +57,12 @@ public class SourcesAndSinks {
 					Set<AbstractCorrespondence> flowSinkCorrespondences = findTrustZoneSinks(mapper, asset, dfd);
 					//else, find correspondences for asset targets and set as sinks
 					if (flowSinkCorrespondences.isEmpty()) {
-						flowSinkCorrespondences = findSinks(mapper, asset, assetsource,
-								assettargets);					
+						//TODO: raise an issue to developer to model attacker observation in trust zone!
+						LOGGER.log(Level.ERROR, "Modeling attacker observation zones in the SecDFD are required for executing data flow analysis.");
+						//flowSinkCorrespondences = findSinks(mapper, asset, assetsource,
+						//		assettargets);					
 					}
+					//TODO: add all signatures from Susi lists, that are not in conflict with the flowSinkCorrespondences
 					addSootSignatures(flowSourceCorrespondences, sourceAndSink.getSources());
 					addSootSignatures(flowSinkCorrespondences, sourceAndSink.getSinks());
 				}
