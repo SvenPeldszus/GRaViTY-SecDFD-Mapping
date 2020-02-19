@@ -2,8 +2,6 @@
  */
 package org.gravity.mapping.secdfd.model.mapping.impl;
 
-import eDFDFlowTracking.EDFDFlowTrackingPackage;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -27,6 +25,10 @@ import org.gravity.mapping.secdfd.model.mapping.MappingProcessName;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
 
 import org.gravity.typegraph.basic.BasicPackage;
+
+import org.secdfd.model.ModelPackage;
+
+import org.secdfd.model.impl.ModelPackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -140,19 +142,22 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 
 		// Initialize simple dependencies
 		BasicPackage.eINSTANCE.eClass();
-		EDFDFlowTrackingPackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
 		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(SecdfdPackage.eNS_URI);
 		SecdfdPackageImpl theSecdfdPackage = (SecdfdPackageImpl)(registeredPackage instanceof SecdfdPackageImpl ? registeredPackage : SecdfdPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI);
+		ModelPackageImpl theModelPackage = (ModelPackageImpl)(registeredPackage instanceof ModelPackageImpl ? registeredPackage : ModelPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theMappingPackage.createPackageContents();
 		theSecdfdPackage.createPackageContents();
+		theModelPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theMappingPackage.initializePackageContents();
 		theSecdfdPackage.initializePackageContents();
+		theModelPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theMappingPackage.freeze();

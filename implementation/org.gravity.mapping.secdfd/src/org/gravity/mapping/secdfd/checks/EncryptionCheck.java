@@ -26,16 +26,16 @@ import org.eclipse.emf.ecore.EObject;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TypeGraph;
-import org.xtext.example.mydsl.validation.MyDslValidator;
-import org.xtext.example.mydsl.validation.SProblem;
-import org.xtext.example.mydsl.validation.SProblem.PState;
-import org.xtext.example.mydsl.validation.SProblem.PType;
+import org.secdfd.dsl.validation.SecDFDValidator;
+import org.secdfd.dsl.validation.SProblem;
+import org.secdfd.dsl.validation.SProblem.PState;
+import org.secdfd.dsl.validation.SProblem.PType;
 
-import eDFDFlowTracking.EDFD;
-import eDFDFlowTracking.Element;
-import eDFDFlowTracking.Process;
-import eDFDFlowTracking.Responsibility;
-import eDFDFlowTracking.ResponsibilityType;
+import org.secdfd.model.EDFD;
+import org.secdfd.model.Element;
+import org.secdfd.model.Process;
+import org.secdfd.model.Responsibility;
+import org.secdfd.model.ResponsibilityType;
 
 /**
  * A class managing the encryption/decryption signatures and checking their
@@ -288,8 +288,8 @@ public class EncryptionCheck {
 	 */
 	private void updateMarkers() {
 		mappers.forEach(mapper -> {
-			MyDslValidator.setProblems(problems);
-			IFile file = destination.getParent().getFile(new Path("secdfds/"+mapper.getDFD().getName().toString()+".mydsl"));
+			SecDFDValidator.setProblems(problems);
+			IFile file = destination.getParent().getFile(new Path("secdfds/"+mapper.getDFD().getName().toString()+".secdfd"));
 			try {
 				file.touch(new NullProgressMonitor());
 			} catch (CoreException e) {

@@ -7,16 +7,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.swing.JOptionPane;
-
 import org.eclipse.jface.action.Action;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.views.IListener;
 import org.gravity.mapping.secdfd.views.MappingView;
 import org.gravity.mapping.secdfd.AbstractCorrespondence;
 import org.gravity.mapping.secdfd.mapping.Mapper;
-
-import eDFDFlowTracking.EDFD;
 
 public final class ContinueAction extends Action implements IListener {
 

@@ -2,8 +2,6 @@
  */
 package org.gravity.mapping.secdfd.impl;
 
-import eDFDFlowTracking.NamedEntity;
-
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
@@ -16,6 +14,8 @@ import org.gravity.mapping.secdfd.SecdfdPackage;
 import org.gravity.mapping.secdfd.Type2NamedEntity;
 
 import org.gravity.typegraph.basic.TAbstractType;
+
+import org.secdfd.model.NamedEntity;
 
 /**
  * <!-- begin-user-doc -->

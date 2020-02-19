@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="secdfd" nsURI="platform:/plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="secdfd" nsURI="platform:/plugin/org.gravity.mapping.secdfd/model/model.ecore"
     nsPrefix="org.gravity.mapping.secdfd">
   <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
     <details key="basePackage" value="org.gravity.mapping"/>
@@ -11,36 +11,36 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
         eType="ecore:EClass ../../org.gravity.typegraph.basic/model/Basic.ecore#//TMethod"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
-        eType="ecore:EClass ../../eDFDFlowTracking1/model/eDFDFlowTracking1.ecore#//Element"/>
+        eType="ecore:EClass ../../org.secdfd.model/model/model.ecore#//Element"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Type2NamedEntity" eSuperTypes="#//AbstractCorrespondence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
         eType="ecore:EClass ../../org.gravity.typegraph.basic/model/Basic.ecore#//TAbstractType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
-        eType="ecore:EClass ../../eDFDFlowTracking1/model/eDFDFlowTracking1.ecore#//NamedEntity"/>
+        eType="ecore:EClass ../../org.secdfd.model/model/model.ecore#//NamedEntity"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TypeGraph2EDFD" eSuperTypes="#//AbstractCorrespondence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
         eType="ecore:EClass ../../org.gravity.typegraph.basic/model/Basic.ecore#//TypeGraph"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
-        eType="ecore:EClass ../../eDFDFlowTracking1/model/eDFDFlowTracking1.ecore#//EDFD"/>
+        eType="ecore:EClass ../../org.secdfd.model/model/model.ecore#//EDFD"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Defintion2Element" eSuperTypes="#//AbstractCorrespondence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
         eType="ecore:EClass ../../org.gravity.typegraph.basic/model/Basic.ecore#//TMember"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
-        eType="ecore:EClass ../../eDFDFlowTracking1/model/eDFDFlowTracking1.ecore#//Element"/>
+        eType="ecore:EClass ../../org.secdfd.model/model/model.ecore#//Element"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Flow2Access" eSuperTypes="#//AbstractCorrespondence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
         eType="ecore:EClass ../../org.gravity.typegraph.basic/model/Basic.ecore#//TAccess"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
-        eType="ecore:EClass ../../eDFDFlowTracking1/model/eDFDFlowTracking1.ecore#//Flow"/>
+        eType="ecore:EClass ../../org.secdfd.model/model/model.ecore#//Flow"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Signature2Element" eSuperTypes="#//AbstractCorrespondence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
         eType="ecore:EClass ../../org.gravity.typegraph.basic/model/Basic.ecore#//TSignature"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
-        eType="ecore:EClass ../../eDFDFlowTracking1/model/eDFDFlowTracking1.ecore#//Element"/>
+        eType="ecore:EClass ../../org.secdfd.model/model/model.ecore#//Element"/>
   </eClassifiers>
 </ecore:EPackage>

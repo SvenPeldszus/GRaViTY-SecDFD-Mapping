@@ -2,8 +2,6 @@
  */
 package org.gravity.mapping.secdfd.impl;
 
-import eDFDFlowTracking.Element;
-
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
@@ -16,6 +14,8 @@ import org.gravity.mapping.secdfd.Method2Element;
 import org.gravity.mapping.secdfd.SecdfdPackage;
 
 import org.gravity.typegraph.basic.TMethod;
+
+import org.secdfd.model.Element;
 
 /**
  * <!-- begin-user-doc -->

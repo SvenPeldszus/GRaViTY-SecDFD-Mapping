@@ -2,9 +2,9 @@
  */
 package org.gravity.mapping.secdfd;
 
-import eDFDFlowTracking.Element;
-
 import org.gravity.typegraph.basic.TSignature;
+
+import org.secdfd.model.Element;
 
 /**
  * <!-- begin-user-doc -->

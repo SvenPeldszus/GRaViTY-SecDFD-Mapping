@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+   <extension point="org.eclipse.sirius.componentization">
+    <component class="org.secdfd.model.presentation.SecdfdEditorPlugin$Implementation"
+               id="org.secdfd.model.editor"
+	       name="project">
+    </component>
+   </extension>
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated org.secdfd.model -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.secdfd.model.presentation.ModelWizardID"
+            name="%_UI_SecDFDModelWizard_label"
+            class="org.secdfd.model.presentation.ModelModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/SecDFDModelFile.gif">
+         <description>%_UI_SecDFDModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated org.secdfd.model -->
+      <editor
+            id="org.secdfd.model.presentation.SecDFDEditorID"
+            name="%_UI_SecDFDEditor_label"
+            icon="icons/full/obj16/SecDFDModelFile.gif"
+            extensions="edfdflowtracking"
+            class="org.secdfd.model.presentation.ModelEditor"
+            contributorClass="org.secdfd.model.presentation.ModelActionBarContributor">
+      </editor>
+   </extension>
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated secdfd -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.secdfd.model.presentation.ModelModelWizardID"
+            name="%_UI_ModelModelWizard_label"
+            class="org.secdfd.model.presentation.ModelModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/SecDFDModelFile.gif">
+         <description>%_UI_ModelModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated secdfd -->
+      <editor
+            id="org.secdfd.model.presentation.ModelEditorID"
+            name="%_UI_ModelEditor_label"
+            icon="icons/full/obj16/SecDFDModelFile.gif"
+            extensions="model"
+            class="org.secdfd.model.presentation.ModelEditor"
+            contributorClass="org.secdfd.model.presentation.ModelActionBarContributor">
+      </editor>
+   </extension>
+</plugin>

@@ -64,16 +64,16 @@ import org.gravity.mapping.secdfd.AbstractCorrespondence;
 import org.gravity.mapping.secdfd.Method2Element;
 import org.gravity.mapping.secdfd.StringCompare;
 import org.gravity.mapping.secdfd.Type2NamedEntity;
-import org.xtext.example.mydsl.validation.MyDslValidator;
+import org.secdfd.dsl.validation.SecDFDValidator;
 
-import eDFDFlowTracking.Asset;
-import eDFDFlowTracking.DataStore;
-import eDFDFlowTracking.EDFD;
-import eDFDFlowTracking.EDFDFlowTrackingPackage;
-import eDFDFlowTracking.Element;
-import eDFDFlowTracking.ExternalEntity;
-import eDFDFlowTracking.NamedEntity;
-import eDFDFlowTracking.Process;
+import org.secdfd.model.Asset;
+import org.secdfd.model.DataStore;
+import org.secdfd.model.EDFD;
+import org.secdfd.model.ModelPackage;
+import org.secdfd.model.Element;
+import org.secdfd.model.ExternalEntity;
+import org.secdfd.model.NamedEntity;
+import org.secdfd.model.Process;
 
 /**
  * @author speldszus
@@ -137,11 +137,11 @@ public class Mapper {
 
 		for (Element node : dfd.getElements()) {
 			if (node.getName() != null) {
-				if (EDFDFlowTrackingPackage.eINSTANCE.getProcess().isSuperTypeOf(node.eClass())) {
+				if (ModelPackage.eINSTANCE.getProcess().isSuperTypeOf(node.eClass())) {
 					Set<TMethod> correspondingMethods = mapToMethod(node).map(Method2Element::getSource)
 							.collect(Collectors.toSet());
 					cache.addAllMethods(correspondingMethods, node);
-				} else if (EDFDFlowTrackingPackage.eINSTANCE.getDataStore().isSuperTypeOf(node.eClass())) {
+				} else if (ModelPackage.eINSTANCE.getDataStore().isSuperTypeOf(node.eClass())) {
 					Set<TAbstractType> correspondingTypes = mapToType(node).map(Type2NamedEntity::getSource)
 							.collect(Collectors.toSet());
 					cache.addAll(correspondingTypes, node);
@@ -462,7 +462,7 @@ public class Mapper {
 						String pmElementString = MappingLabelProvider.prettyPrint(pmElement);
 						pmElementStrings.add(pmElementString);
 					});
-			MyDslValidator.setMap(map);
+			SecDFDValidator.setMap(map);
 			IFile file = destination.getParent().getFile(new Path(dfd.eResource().getURI().toFileString()));
 			file.touch(new NullProgressMonitor());
 		} catch (CoreException e) {

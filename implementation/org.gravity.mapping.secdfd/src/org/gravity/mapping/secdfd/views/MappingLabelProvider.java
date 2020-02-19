@@ -11,10 +11,6 @@ import org.eclipse.swt.graphics.Image;
 import org.gravity.mapping.secdfd.helpers.CorrespondenceHelper;
 import org.gravity.mapping.secdfd.helpers.RankingHelper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
-import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
-import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
-import org.gravity.mapping.secdfd.model.mapping.AbstractMappingBase;
-import org.gravity.mapping.secdfd.model.mapping.AbstractMappingRanking;
 import org.gravity.typegraph.basic.BasicPackage;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TMember;
@@ -22,9 +18,9 @@ import org.gravity.typegraph.basic.TMethod;
 import org.gravity.typegraph.basic.TSignature;
 import org.gravity.mapping.secdfd.AbstractCorrespondence;
 
-import eDFDFlowTracking.EDFD;
-import eDFDFlowTracking.EDFDFlowTrackingPackage;
-import eDFDFlowTracking.NamedEntity;
+import org.secdfd.model.EDFD;
+import org.secdfd.model.ModelPackage;
+import org.secdfd.model.NamedEntity;
 
 public class MappingLabelProvider implements ILabelProvider {
 
@@ -111,12 +107,12 @@ public class MappingLabelProvider implements ILabelProvider {
 		} else if (BasicPackage.eINSTANCE.getTAbstractType().isSuperTypeOf(sType)) {
 			builder.append("Type: ");
 			builder.append(((TAbstractType) eObject).getFullyQualifiedName());
-		} else if (EDFDFlowTrackingPackage.eINSTANCE.getNamedEntity().isSuperTypeOf(sType)) {
-			if (EDFDFlowTrackingPackage.eINSTANCE.getProcess().isSuperTypeOf(sType)) {
+		} else if (ModelPackage.eINSTANCE.getNamedEntity().isSuperTypeOf(sType)) {
+			if (ModelPackage.eINSTANCE.getProcess().isSuperTypeOf(sType)) {
 				builder.append("Process: ");
-			} else if (EDFDFlowTrackingPackage.eINSTANCE.getAsset().isSuperTypeOf(sType)) {
+			} else if (ModelPackage.eINSTANCE.getAsset().isSuperTypeOf(sType)) {
 				builder.append("Asset: ");
-			} else if (EDFDFlowTrackingPackage.eINSTANCE.getDataStore().isSuperTypeOf(sType)) {
+			} else if (ModelPackage.eINSTANCE.getDataStore().isSuperTypeOf(sType)) {
 				builder.append("DataStore: ");
 			}
 			builder.append(((NamedEntity) eObject).getName());

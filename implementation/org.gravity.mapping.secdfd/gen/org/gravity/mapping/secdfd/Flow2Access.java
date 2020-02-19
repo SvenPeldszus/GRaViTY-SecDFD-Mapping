@@ -2,9 +2,9 @@
  */
 package org.gravity.mapping.secdfd;
 
-import eDFDFlowTracking.Flow;
-
 import org.gravity.typegraph.basic.TAccess;
+
+import org.secdfd.model.Flow;
 
 /**
  * <!-- begin-user-doc -->

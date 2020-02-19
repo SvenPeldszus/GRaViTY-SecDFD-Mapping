@@ -10,8 +10,8 @@ import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessName;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
 
-import eDFDFlowTracking.Asset;
-import eDFDFlowTracking.NamedEntity;
+import org.secdfd.model.Asset;
+import org.secdfd.model.NamedEntity;
 
 public class RankingHelper {
 

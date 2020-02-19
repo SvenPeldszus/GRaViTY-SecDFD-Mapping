@@ -15,8 +15,8 @@ import org.gravity.typegraph.basic.TMethod;
 import org.gravity.typegraph.basic.TMethodSignature;
 import org.gravity.typegraph.basic.TSignature;
 
-import eDFDFlowTracking.Element;
-import eDFDFlowTracking.NamedEntity;
+import org.secdfd.model.Element;
+import org.secdfd.model.NamedEntity;
 
 public class MappingCache {
 	/**

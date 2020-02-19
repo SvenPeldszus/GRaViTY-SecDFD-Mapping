@@ -7,9 +7,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.gravity.mapping.secdfd.mapping.Mapper;
@@ -20,8 +17,8 @@ import org.gravity.typegraph.basic.TMethodDefinition;
 
 import com.google.common.collect.Streams;
 
-import eDFDFlowTracking.EDFD;
-import eDFDFlowTracking.Process;
+import org.secdfd.model.EDFD;
+import org.secdfd.model.Process;
 
 /**
  * 

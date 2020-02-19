@@ -40,10 +40,10 @@ import org.gravity.mapping.secdfd.SecdfdFactory;
 import org.gravity.mapping.secdfd.TypeGraph2EDFD;
 import org.gravity.mapping.secdfd.helpers.CorrespondenceHelper;
 
-import eDFDFlowTracking.EDFD;
-import eDFDFlowTracking.Element;
-import eDFDFlowTracking.ExternalEntity;
-import eDFDFlowTracking.NamedEntity;
+import org.secdfd.model.EDFD;
+import org.secdfd.model.Element;
+import org.secdfd.model.ExternalEntity;
+import org.secdfd.model.NamedEntity;
 
 /**
  * Helper methods for correspondences

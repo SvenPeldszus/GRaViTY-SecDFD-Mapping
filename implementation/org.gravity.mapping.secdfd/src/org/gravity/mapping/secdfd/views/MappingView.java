@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
-import java.util.Set;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -58,12 +57,11 @@ import org.gravity.mapping.secdfd.views.actions.AcceptAction;
 import org.gravity.mapping.secdfd.views.actions.ContinueAction;
 import org.gravity.mapping.secdfd.views.actions.RejectAction;
 import org.gravity.typegraph.basic.TypeGraph;
-import org.xtext.example.mydsl.MyDslStandaloneSetup;
-import org.xtext.example.mydsl.validation.SProblem;
+import org.secdfd.dsl.SecDFDStandaloneSetup;
 
 import com.google.inject.Injector;
 
-import eDFDFlowTracking.EDFD;
+import org.secdfd.model.EDFD;
 
 /**
  * @author speldszus
@@ -268,7 +266,7 @@ public class MappingView extends ViewPart {
 	private Map<IFile, EDFD> loadDFDs(Collection<IFile> files) {
 		Map<IFile, EDFD> loadedDFDs = new HashMap<>();
 		this.dfds = new HashSet<>();
-		Injector injector = new MyDslStandaloneSetup().createInjectorAndDoEMFRegistration();
+		Injector injector = new SecDFDStandaloneSetup().createInjectorAndDoEMFRegistration();
 		XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
 		this.resourceSet = resourceSet;
 		resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);

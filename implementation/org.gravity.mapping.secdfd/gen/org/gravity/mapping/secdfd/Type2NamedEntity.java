@@ -2,9 +2,9 @@
  */
 package org.gravity.mapping.secdfd;
 
-import eDFDFlowTracking.NamedEntity;
-
 import org.gravity.typegraph.basic.TAbstractType;
+
+import org.secdfd.model.NamedEntity;
 
 /**
  * <!-- begin-user-doc -->

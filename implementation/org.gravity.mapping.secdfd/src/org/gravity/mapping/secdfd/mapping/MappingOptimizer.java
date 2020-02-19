@@ -46,13 +46,13 @@ import org.gravity.mapping.secdfd.StringCompare;
 
 import com.google.common.collect.Streams;
 
-import eDFDFlowTracking.Asset;
-import eDFDFlowTracking.DataStore;
-import eDFDFlowTracking.EDFD;
-import eDFDFlowTracking.Element;
-import eDFDFlowTracking.Flow;
-import eDFDFlowTracking.NamedEntity;
-import eDFDFlowTracking.Process;
+import org.secdfd.model.Asset;
+import org.secdfd.model.DataStore;
+import org.secdfd.model.EDFD;
+import org.secdfd.model.Element;
+import org.secdfd.model.Flow;
+import org.secdfd.model.NamedEntity;
+import org.secdfd.model.Process;
 
 public class MappingOptimizer {
 

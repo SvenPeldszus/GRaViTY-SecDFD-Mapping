@@ -2,8 +2,6 @@
  */
 package org.gravity.mapping.secdfd.impl;
 
-import eDFDFlowTracking.EDFDFlowTrackingPackage;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -25,6 +23,10 @@ import org.gravity.mapping.secdfd.model.mapping.MappingPackage;
 import org.gravity.mapping.secdfd.model.mapping.impl.MappingPackageImpl;
 
 import org.gravity.typegraph.basic.BasicPackage;
+
+import org.secdfd.model.ModelPackage;
+
+import org.secdfd.model.impl.ModelPackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -131,19 +133,22 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 
 		// Initialize simple dependencies
 		BasicPackage.eINSTANCE.eClass();
-		EDFDFlowTrackingPackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
 		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(MappingPackage.eNS_URI);
 		MappingPackageImpl theMappingPackage = (MappingPackageImpl)(registeredPackage instanceof MappingPackageImpl ? registeredPackage : MappingPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI);
+		ModelPackageImpl theModelPackage = (ModelPackageImpl)(registeredPackage instanceof ModelPackageImpl ? registeredPackage : ModelPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theSecdfdPackage.createPackageContents();
 		theMappingPackage.createPackageContents();
+		theModelPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theSecdfdPackage.initializePackageContents();
 		theMappingPackage.initializePackageContents();
+		theModelPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theSecdfdPackage.freeze();
@@ -424,7 +429,7 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 
 		// Obtain other dependent packages
 		BasicPackage theBasicPackage = (BasicPackage)EPackage.Registry.INSTANCE.getEPackage(BasicPackage.eNS_URI);
-		EDFDFlowTrackingPackage theEDFDFlowTracking1Package = (EDFDFlowTrackingPackage)EPackage.Registry.INSTANCE.getEPackage(EDFDFlowTrackingPackage.eNS_URI);
+		ModelPackage theModelPackage = (ModelPackage)EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -443,27 +448,27 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 
 		initEClass(method2ElementEClass, Method2Element.class, "Method2Element", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMethod2Element_Source(), theBasicPackage.getTMethod(), null, "source", null, 1, 1, Method2Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getMethod2Element_Target(), theEDFDFlowTracking1Package.getElement(), null, "target", null, 1, 1, Method2Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMethod2Element_Target(), theModelPackage.getElement(), null, "target", null, 1, 1, Method2Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(type2NamedEntityEClass, Type2NamedEntity.class, "Type2NamedEntity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getType2NamedEntity_Source(), theBasicPackage.getTAbstractType(), null, "source", null, 1, 1, Type2NamedEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getType2NamedEntity_Target(), theEDFDFlowTracking1Package.getNamedEntity(), null, "target", null, 1, 1, Type2NamedEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getType2NamedEntity_Target(), theModelPackage.getNamedEntity(), null, "target", null, 1, 1, Type2NamedEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(typeGraph2EDFDEClass, TypeGraph2EDFD.class, "TypeGraph2EDFD", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTypeGraph2EDFD_Source(), theBasicPackage.getTypeGraph(), null, "source", null, 1, 1, TypeGraph2EDFD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTypeGraph2EDFD_Target(), theEDFDFlowTracking1Package.getEDFD(), null, "target", null, 1, 1, TypeGraph2EDFD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTypeGraph2EDFD_Target(), theModelPackage.getEDFD(), null, "target", null, 1, 1, TypeGraph2EDFD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(defintion2ElementEClass, Defintion2Element.class, "Defintion2Element", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getDefintion2Element_Source(), theBasicPackage.getTMember(), null, "source", null, 1, 1, Defintion2Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getDefintion2Element_Target(), theEDFDFlowTracking1Package.getElement(), null, "target", null, 1, 1, Defintion2Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getDefintion2Element_Target(), theModelPackage.getElement(), null, "target", null, 1, 1, Defintion2Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(flow2AccessEClass, Flow2Access.class, "Flow2Access", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getFlow2Access_Source(), theBasicPackage.getTAccess(), null, "source", null, 1, 1, Flow2Access.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getFlow2Access_Target(), theEDFDFlowTracking1Package.getFlow(), null, "target", null, 1, 1, Flow2Access.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFlow2Access_Target(), theModelPackage.getFlow(), null, "target", null, 1, 1, Flow2Access.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(signature2ElementEClass, Signature2Element.class, "Signature2Element", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSignature2Element_Source(), theBasicPackage.getTSignature(), null, "source", null, 1, 1, Signature2Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSignature2Element_Target(), theEDFDFlowTracking1Package.getElement(), null, "target", null, 1, 1, Signature2Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSignature2Element_Target(), theModelPackage.getElement(), null, "target", null, 1, 1, Signature2Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

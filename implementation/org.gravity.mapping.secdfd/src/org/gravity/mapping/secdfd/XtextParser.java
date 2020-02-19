@@ -9,7 +9,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
-import org.xtext.example.mydsl.MyDslStandaloneSetup;
+import org.secdfd.dsl.SecDFDStandaloneSetup;
 
 import com.google.inject.Injector;
 
@@ -22,7 +22,7 @@ public class XtextParser {
     }
     
     private void setupParser() {
-    	Injector injector = new MyDslStandaloneSetup().createInjectorAndDoEMFRegistration();
+    	Injector injector = new SecDFDStandaloneSetup().createInjectorAndDoEMFRegistration();
     	resourceSet = injector.getInstance(XtextResourceSet.class);
     	getResourceSet().addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
     }
@@ -35,7 +35,7 @@ public class XtextParser {
      */
     public EObject parse(InputStream in) throws IOException
     {
-    	Resource resource = getResourceSet().createResource(URI.createURI("dummy:/xtext.mydsl"));
+    	Resource resource = getResourceSet().createResource(URI.createURI("dummy:/xtext.secdfd"));
     	resource.load(in, Collections.emptyMap());
         return resource.getContents().get(0);
     }

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.secdfd.model/src" modelPluginID="org.secdfd.model"
+    modelName="Secdfd" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>model.ecore</foreignModel>
+  <genPackages prefix="Model" basePackage="org.secdfd" disposableProviderFactory="true"
+      ecorePackage="model.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="model.ecore#//Priority">
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//Priority/H"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//Priority/M"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//Priority/L"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="model.ecore#//Channel">
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//Channel/WiFi"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//Channel/VLAN"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//Channel/ETH"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="model.ecore#//ResponsibilityType">
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//ResponsibilityType/Store"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//ResponsibilityType/Comparator"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//ResponsibilityType/Discarder"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//ResponsibilityType/Joiner"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//ResponsibilityType/Copier"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//ResponsibilityType/Splitter"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//ResponsibilityType/Forward"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//ResponsibilityType/EncryptOrHash"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//ResponsibilityType/Decrypt"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//ResponsibilityType/Authenticator"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//ResponsibilityType/Authoriser"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//ResponsibilityType/Verifier"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//ResponsibilityType/User"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="model.ecore#//Objective">
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//Objective/Integrity"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//Objective/Confidentiality"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//Objective/Availability"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//Objective/Accountability"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="model.ecore#//Layer">
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//Layer/Transport"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//Layer/Architectural"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//Layer/Application"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="model.ecore#//AssetType">
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//AssetType/String"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//AssetType/Object"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//AssetType/Number"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//AssetType/Vector"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//AssetType/Boolean"/>
+    </genEnums>
+    <genClasses ecoreClass="model.ecore#//Asset">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Asset/value"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Asset/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Asset/targets"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Asset/Type"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Process">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Process/responsibility"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//EDFD">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//EDFD/asset"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//EDFD/trustzones"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//EDFD/elements"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//DataStore"/>
+    <genClasses ecoreClass="model.ecore#//Flow">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Flow/Channel"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Flow/target"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Flow/source"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Flow/Label"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//ExternalEntity"/>
+    <genClasses image="false" ecoreClass="model.ecore#//Element">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Element/outflows"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Element/assumption"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Element/assets"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Element/inflows"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Element/Attacker"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="model.ecore#//NamedEntity">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//NamedEntity/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//NamedEntity/number"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Value">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Value/Objective"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Value/Priority"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Assumption">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Assumption/Objective"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Assumption/Layer"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//AttackerProfile">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//AttackerProfile/Observation"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//TrustZone">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//TrustZone/elements"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//TrustZone/subzones"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//TrustZone/attackerprofile"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Responsibility">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Responsibility/Action"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Responsibility/incomeassets"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Responsibility/outcomeassets"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//Responsibility/process"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

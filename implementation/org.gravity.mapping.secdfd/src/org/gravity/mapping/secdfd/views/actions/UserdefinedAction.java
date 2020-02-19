@@ -12,7 +12,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.views.MappingView;
-import eDFDFlowTracking.EDFD;
+import org.secdfd.model.EDFD;
 
 public final class UserdefinedAction extends Action {
 	

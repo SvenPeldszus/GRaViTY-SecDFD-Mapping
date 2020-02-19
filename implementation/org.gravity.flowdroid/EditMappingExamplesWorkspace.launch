@@ -1635,15 +1635,15 @@
         <setEntry value="org.w3c.dom.svg@default:default"/>
     </setAttribute>
     <setAttribute key="selected_workspace_bundles">
-        <setEntry value="eDFDFlowTracking1.edit@default:default"/>
-        <setEntry value="eDFDFlowTracking1.editor@default:default"/>
-        <setEntry value="eDFDFlowTracking1.tests@default:default"/>
-        <setEntry value="eDFDFlowTracking1@default:default"/>
-        <setEntry value="org.xtext.example.mydsl.ide@default:default"/>
-        <setEntry value="org.xtext.example.mydsl.tests@default:default"/>
-        <setEntry value="org.xtext.example.mydsl.ui.tests@default:default"/>
-        <setEntry value="org.xtext.example.mydsl.ui@default:default"/>
-        <setEntry value="org.xtext.example.mydsl@default:default"/>
+        <setEntry value="org.secdfd.model.edit@default:default"/>
+        <setEntry value="org.secdfd.model.editor@default:default"/>
+        <setEntry value="org.secdfd.model.tests@default:default"/>
+        <setEntry value="org.secdfd.model@default:default"/>
+        <setEntry value="org.secdfd.dsl.ide@default:default"/>
+        <setEntry value="org.secdfd.dsl.tests@default:default"/>
+        <setEntry value="org.secdfd.dsl.ui.tests@default:default"/>
+        <setEntry value="org.secdfd.dsl.ui@default:default"/>
+        <setEntry value="org.secdfd.dsl@default:default"/>
     </setAttribute>
     <booleanAttribute key="show_selected_only" value="false"/>
     <stringAttribute key="templateConfig" value="${target_home}/configuration/config.ini"/>

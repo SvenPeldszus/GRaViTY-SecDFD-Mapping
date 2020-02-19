@@ -40,7 +40,7 @@ public class SecDFDPage extends WizardPage {
 		list = new Table(container, SWT.CHECK | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 		try {
 			Path projectPath = project.getLocation().toFile().toPath();
-			ExtensionFileVisitor visitor = new ExtensionFileVisitor("mydsl");
+			ExtensionFileVisitor visitor = new ExtensionFileVisitor("secdfd");
 			project.getProject().accept(visitor);
 			for (Path p : visitor.getFiles()) {
 				String string = projectPath.relativize(p).toString();

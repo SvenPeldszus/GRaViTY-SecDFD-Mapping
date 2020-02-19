@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="http://www.secdfd.org/secdfd" nsPrefix="org.secdfd">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+    <details key="basePackage" value="org.secdfd"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EEnum" name="Priority">
+    <eLiterals name="H"/>
+    <eLiterals name="M" value="1"/>
+    <eLiterals name="L" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Asset" eSuperTypes="#//NamedEntity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" upperBound="-1"
+        eType="#//Value" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//Element"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targets" lowerBound="1"
+        upperBound="-1" eType="#//Element"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Type" eType="#//AssetType"
+        defaultValueLiteral="String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Process" eSuperTypes="#//Element">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="responsibility" upperBound="-1"
+        eType="#//Responsibility" containment="true" eOpposite="#//Responsibility/process"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Channel">
+    <eLiterals name="WiFi"/>
+    <eLiterals name="VLAN" value="2"/>
+    <eLiterals name="ETH" value="6"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EDFD" eSuperTypes="#//NamedEntity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="asset" upperBound="-1"
+        eType="#//Asset" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trustzones" upperBound="-1"
+        eType="#//TrustZone" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//Element" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ResponsibilityType">
+    <eLiterals name="Store" value="1"/>
+    <eLiterals name="Comparator" value="2"/>
+    <eLiterals name="Discarder" value="3"/>
+    <eLiterals name="Joiner" value="4"/>
+    <eLiterals name="Copier" value="5"/>
+    <eLiterals name="Splitter" value="6"/>
+    <eLiterals name="Forward" value="7"/>
+    <eLiterals name="EncryptOrHash" value="8"/>
+    <eLiterals name="Decrypt" value="9"/>
+    <eLiterals name="Authenticator" value="10"/>
+    <eLiterals name="Authoriser" value="11"/>
+    <eLiterals name="Verifier" value="13"/>
+    <eLiterals name="User" value="14"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataStore" eSuperTypes="#//Element"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Flow" eSuperTypes="#//Element">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Channel" eType="#//Channel"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" upperBound="-1"
+        eType="#//Element"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//Element"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExternalEntity" eSuperTypes="#//Element"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="Objective">
+    <eLiterals name="Integrity"/>
+    <eLiterals name="Confidentiality" value="1"/>
+    <eLiterals name="Availability" value="2"/>
+    <eLiterals name="Accountability" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Element" abstract="true" eSuperTypes="#//NamedEntity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outflows" upperBound="-1"
+        eType="#//Flow" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assumption" upperBound="-1"
+        eType="#//Assumption" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assets" upperBound="-1"
+        eType="#//Asset"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inflows" upperBound="-1"
+        eType="#//Flow"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Attacker" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedEntity" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Layer">
+    <eLiterals name="Transport"/>
+    <eLiterals name="Architectural" value="1"/>
+    <eLiterals name="Application" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Value">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Objective" eType="#//Objective"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Priority" eType="#//Priority"
+        defaultValueLiteral="H"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Assumption">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Objective" upperBound="-1"
+        eType="#//Objective"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Layer" eType="#//Layer"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttackerProfile" eSuperTypes="#//NamedEntity">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Observation" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrustZone" eSuperTypes="#//Element">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//Element"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subzones" upperBound="-1"
+        eType="#//TrustZone" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attackerprofile" upperBound="-1"
+        eType="#//AttackerProfile" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Responsibility" eSuperTypes="#//NamedEntity">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Action" upperBound="-1"
+        eType="#//ResponsibilityType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomeassets" upperBound="-1"
+        eType="#//Asset"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outcomeassets" upperBound="-1"
+        eType="#//Asset"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="process" eType="#//Process"
+        eOpposite="#//Process/responsibility"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="AssetType">
+    <eLiterals name="String" literal="String"/>
+    <eLiterals name="Object" value="1" literal="Object"/>
+    <eLiterals name="Number" value="2" literal="Number"/>
+    <eLiterals name="Vector" value="3" literal="Vector"/>
+    <eLiterals name="Boolean" value="4" literal="Boolean"/>
+  </eClassifiers>
+</ecore:EPackage>

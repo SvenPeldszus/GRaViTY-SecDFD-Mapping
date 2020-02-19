@@ -29,15 +29,15 @@ import org.gravity.typegraph.basic.TMethodSignature;
 import org.gravity.typegraph.basic.TParameter;
 import org.gravity.typegraph.basic.TSignature;
 import org.gravity.typegraph.basic.TypeGraph;
-import org.xtext.example.mydsl.validation.SProblem;
-import org.xtext.example.mydsl.validation.SProblem.PState;
-import org.xtext.example.mydsl.validation.SProblem.PType;
+import org.secdfd.dsl.validation.SProblem;
+import org.secdfd.dsl.validation.SProblem.PState;
+import org.secdfd.dsl.validation.SProblem.PType;
 
-import eDFDFlowTracking.Asset;
-import eDFDFlowTracking.EDFDFlowTrackingFactory;
-import eDFDFlowTracking.Process;
-import eDFDFlowTracking.Responsibility;
-import eDFDFlowTracking.ResponsibilityType;
+import org.secdfd.model.Asset;
+import org.secdfd.model.ModelFactory;
+import org.secdfd.model.Process;
+import org.secdfd.model.Responsibility;
+import org.secdfd.model.ResponsibilityType;
 
 public class DataProcessingCheck {
 
@@ -60,12 +60,12 @@ public class DataProcessingCheck {
 				.get(0);
 
 		Map<TAbstractType, Asset> assets = new HashMap<>();
-		Asset assetAsset = EDFDFlowTrackingFactory.eINSTANCE.createAsset();
+		Asset assetAsset = ModelFactory.eINSTANCE.createAsset();
 		assetAsset.setName("Asset");
 		TAbstractType assetType = pm.getType("(default package).Asset");
 		assets.put(assetType, assetAsset);
 
-		Asset assetMain = EDFDFlowTrackingFactory.eINSTANCE.createAsset();
+		Asset assetMain = ModelFactory.eINSTANCE.createAsset();
 		assetMain.setName("Main");
 		TAbstractType assetMainType = pm.getType("(default package).Main");
 		assets.put(assetMainType, assetMain);
@@ -82,9 +82,9 @@ public class DataProcessingCheck {
 		TFlow exit = (TFlow) pm.getMethodSignature("exit(Asset):void").getFirstParameter().getIncomingFlows().get(0);
 		Set<TFlow> exits = Collections.singleton(exit);
 
-		Responsibility fwd = EDFDFlowTrackingFactory.eINSTANCE.createResponsibility();
+		Responsibility fwd = ModelFactory.eINSTANCE.createResponsibility();
 		fwd.getAction().add(ResponsibilityType.JOINER);
-		fwd.setProcess(EDFDFlowTrackingFactory.eINSTANCE.createProcess());
+		fwd.setProcess(ModelFactory.eINSTANCE.createProcess());
 		fwd.getIncomeassets().add(assetAsset);
 		fwd.getIncomeassets().add(assetMain);
 		fwd.getOutcomeassets().add(assetAsset);
@@ -101,7 +101,7 @@ public class DataProcessingCheck {
 		TypeGraph pm = (TypeGraph) rs.getResource(URI.createFileURI("instances/ForwardExample.xmi"), true).getContents()
 				.get(0);
 
-		Asset asset = EDFDFlowTrackingFactory.eINSTANCE.createAsset();
+		Asset asset = ModelFactory.eINSTANCE.createAsset();
 		TAbstractType assetType = pm.getType("(default package).Asset");
 
 		Map<TAbstractType, Asset> assets = new HashMap<>();
@@ -119,9 +119,9 @@ public class DataProcessingCheck {
 		TFlow exit = (TFlow) pm.getMethodSignature("exit(Asset):void").getFirstParameter().getIncomingFlows().get(0);
 		Set<TFlow> exits = Collections.singleton(exit);
 
-		Responsibility fwd = EDFDFlowTrackingFactory.eINSTANCE.createResponsibility();
+		Responsibility fwd = ModelFactory.eINSTANCE.createResponsibility();
 		fwd.getAction().add(ResponsibilityType.FORWARD);
-		fwd.setProcess(EDFDFlowTrackingFactory.eINSTANCE.createProcess());
+		fwd.setProcess(ModelFactory.eINSTANCE.createProcess());
 		fwd.getIncomeassets().add(asset);
 		fwd.getOutcomeassets().add(asset);
 		check(entries, exits, methods, null, Collections.singleton(fwd));

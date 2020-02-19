@@ -24,7 +24,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.part.ViewPart;
-import org.gravity.mapping.secdfd.views.actions.AddingSignatureAction;
 import org.gravity.mapping.secdfd.views.actions.UserdefinedAction;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TFieldDefinition;
@@ -32,9 +31,9 @@ import org.gravity.typegraph.basic.TMethodDefinition;
 
 import com.google.common.collect.Streams;
 
-import eDFDFlowTracking.DataStore;
-import eDFDFlowTracking.EDFD;
-import eDFDFlowTracking.Process;
+import org.secdfd.model.DataStore;
+import org.secdfd.model.EDFD;
+import org.secdfd.model.Process;
 
 /**
  * @author speldszus

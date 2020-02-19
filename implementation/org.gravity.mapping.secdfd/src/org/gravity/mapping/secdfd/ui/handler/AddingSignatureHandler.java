@@ -17,7 +17,6 @@ import org.eclipse.ui.PlatformUI;
 import org.gravity.mapping.secdfd.views.MappingView;
 import org.gravity.mapping.secdfd.views.actions.AddingSignatureAction;
 import org.gravity.typegraph.basic.TMethodDefinition;
-import org.gravity.typegraph.basic.TMethodSignature;
 import org.gravity.typegraph.basic.TypeGraph;
 
 /**

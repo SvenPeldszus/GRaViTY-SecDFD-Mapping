@@ -22,13 +22,12 @@ import org.gravity.typegraph.basic.TMethod;
 import org.gravity.typegraph.basic.TSignature;
 import org.gravity.typegraph.basic.TypeGraph;
 import org.junit.Test;
-import org.gravity.mapping.secdfd.AbstractCorrespondence;
 import org.gravity.mapping.secdfd.helpers.CorrespondenceHelper;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 
-import eDFDFlowTracking.EDFD;
-import eDFDFlowTracking.EDFDFlowTrackingPackage;
+import org.secdfd.model.EDFD;
+import org.secdfd.model.ModelPackage;
 
 /**
  * @author speldszus
@@ -46,7 +45,7 @@ public class MapperTest {
 		XtextParser parser = new XtextParser();
 		HashMap<File, EDFD> dfds = new HashMap<>();
 		for (File f : new File("instances").listFiles()) {
-			if (f.toString().endsWith(".mydsl")) {
+			if (f.toString().endsWith(".secdfd")) {
 				dfds.put(f, (EDFD) parser.parse(URI.createFileURI(f.toString())));
 			}
 		}
@@ -117,7 +116,7 @@ public class MapperTest {
 		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION,
 				new XMIResourceFactoryImpl());
 		rs.getPackageRegistry().put(BasicPackage.eNS_URI, BasicPackage.eINSTANCE);
-		rs.getPackageRegistry().put(EDFDFlowTrackingPackage.eNS_URI, EDFDFlowTrackingPackage.eINSTANCE);
+		rs.getPackageRegistry().put(ModelPackage.eNS_URI, ModelPackage.eINSTANCE);
 		return rs;
 	}
 }

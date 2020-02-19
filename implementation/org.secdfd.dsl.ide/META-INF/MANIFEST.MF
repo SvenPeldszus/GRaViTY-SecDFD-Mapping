@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: org.secdfd.dsl.ide
+Bundle-ManifestVersion: 2
+Bundle-Name: SecDFD DSL IDE
+Bundle-Vendor: GU/Chalmers
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: org.secdfd.dsl.ide;singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.secdfd.dsl,
+ org.secdfd.model,
+ org.eclipse.xtext.ide,
+ org.eclipse.xtext.xbase.ide,
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.secdfd.dsl.ide,
+ org.secdfd.dsl.ide.contentassist.antlr,
+ org.secdfd.dsl.ide.contentassist.antlr.internal

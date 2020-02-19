@@ -94,21 +94,21 @@
    </requires>
 
    <plugin
-         id="eDFDFlowTracking1"
+         id="org.secdfd.model"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="eDFDFlowTracking1.edit"
+         id="org.secdfd.model.edit"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="eDFDFlowTracking1.editor"
+         id="org.secdfd.model.editor"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -122,21 +122,21 @@
          unpack="false"/>
 
    <plugin
-         id="org.xtext.example.mydsl"
+         id="org.secdfd.dsl"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.xtext.example.mydsl.ide"
+         id="org.secdfd.dsl.ide"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.xtext.example.mydsl.ui"
+         id="org.secdfd.dsl.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"

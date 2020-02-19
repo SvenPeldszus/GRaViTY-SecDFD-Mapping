@@ -19,13 +19,13 @@ import org.gravity.typegraph.basic.TConstructor;
 import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethodDefinition;
 
-import eDFDFlowTracking.Asset;
-import eDFDFlowTracking.DataStore;
-import eDFDFlowTracking.Flow;
-import eDFDFlowTracking.EDFD;
-import eDFDFlowTracking.Element;
-import eDFDFlowTracking.ExternalEntity;
-import eDFDFlowTracking.NamedEntity;
+import org.secdfd.model.Asset;
+import org.secdfd.model.DataStore;
+import org.secdfd.model.Flow;
+import org.secdfd.model.EDFD;
+import org.secdfd.model.Element;
+import org.secdfd.model.ExternalEntity;
+import org.secdfd.model.NamedEntity;
 
 
 public class SourcesAndSinks {

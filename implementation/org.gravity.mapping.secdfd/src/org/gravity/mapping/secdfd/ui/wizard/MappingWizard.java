@@ -14,7 +14,6 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.gravity.eclipse.ui.GravityUiActivator;
 import org.gravity.eclipse.util.EclipseProjectUtil;
-import org.gravity.mapping.secdfd.checks.EncryptionCheck;
 import org.gravity.mapping.secdfd.views.MappingView;
 
 /**

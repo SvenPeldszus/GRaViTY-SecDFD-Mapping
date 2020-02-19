@@ -75,7 +75,7 @@
   <compilerInjectionEntries content="ruleresult.registerObject(&quot;edfd&quot;, edfd);&#xA;ruleresult.registerObject(&quot;pm&quot;, pm);&#xA;ruleresult.registerObject(&quot;pm2Graph&quot;, pm2Graph);&#xA;">
     <eOperation href="platform:/plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore#//Rules/TypeGraph2EDFD/registerObjects_BWD"/>
   </compilerInjectionEntries>
-  <compilerInjectionEntries content="return true &amp;&amp; org.moflon.util.eMoflonSDMUtil.getFQN(match.getObject(&quot;edfd&quot;).eClass()).equals(&quot;eDFDFlowTracking.EDFD.&quot;);">
+  <compilerInjectionEntries content="return true &amp;&amp; org.moflon.util.eMoflonSDMUtil.getFQN(match.getObject(&quot;edfd&quot;).eClass()).equals(&quot;org.secdfd.model.EDFD.&quot;);">
     <eOperation href="platform:/plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore#//Rules/TypeGraph2EDFD/checkTypes_BWD"/>
   </compilerInjectionEntries>
   <compilerInjectionEntries content="AttributeConstraintsRuleResult ruleResult = org.moflon.tgg.runtime.RuntimeFactory.eINSTANCE.createAttributeConstraintsRuleResult();&#xA;ruleResult.setRule(&quot;TypeGraph2EDFD&quot;);&#x9;&#xA;ruleResult.setSuccess(true);&#xA;&#xA;CSP csp = CspFactory.eINSTANCE.createCSP();&#xA;&#xA;CheckAttributeHelper __helper = new CheckAttributeHelper(__tripleMatch);&#xA;&#xA;&#xA;&#xA;if(csp.check()){ &#xA;&#x9;ruleResult.setSuccess(true);&#xA;} else {&#xA;&#x9;if(csp.check()){ &#xA;&#x9;&#x9;ruleResult.setSuccess(true);&#xA;&#x9;&#x9;ruleResult.setRequiredChange(true);&#xA;&#x9;} else {&#xA;&#x9;&#x9;ruleResult.setSuccess(false);&#xA;&#x9;&#x9;return ruleResult;&#xA;&#x9;}&#x9;&#x9;&#xA;}&#x9;&#xA;&#xA;return ruleResult;">

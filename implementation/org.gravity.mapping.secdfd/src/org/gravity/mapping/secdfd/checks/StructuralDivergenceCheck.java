@@ -8,11 +8,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import eDFDFlowTracking.Asset;
-import eDFDFlowTracking.Element;
-import eDFDFlowTracking.ExternalEntity;
-import eDFDFlowTracking.Flow;
-import eDFDFlowTracking.Process;
+import org.secdfd.model.Asset;
+import org.secdfd.model.Element;
+import org.secdfd.model.ExternalEntity;
+import org.secdfd.model.Flow;
+import org.secdfd.model.Process;
 
 import org.apache.log4j.Logger;
 import org.gravity.mapping.secdfd.mapping.Mapper;
