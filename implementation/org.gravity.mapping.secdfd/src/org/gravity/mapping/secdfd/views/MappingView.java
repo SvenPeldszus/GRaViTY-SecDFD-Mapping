@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
 import java.util.Collection;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -22,7 +21,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
@@ -31,8 +29,6 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.window.Window;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -47,15 +43,17 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.gravity.eclipse.io.ModelSaver;
-import org.gravity.eclipse.ui.GravityUiActivator;
-import org.gravity.mapping.secdfd.checks.EncryptionCheck;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.ui.wizard.MappingWizard;
 import org.gravity.mapping.secdfd.ui.wizard.TrafoJob;
 import org.gravity.mapping.secdfd.views.actions.AcceptAction;
+import org.gravity.mapping.secdfd.views.actions.AcceptAllAction;
+import org.gravity.mapping.secdfd.views.actions.CheckContractsAction;
 import org.gravity.mapping.secdfd.views.actions.ContinueAction;
+import org.gravity.mapping.secdfd.views.actions.MapProjectAction;
 import org.gravity.mapping.secdfd.views.actions.RejectAction;
+import org.gravity.mapping.secdfd.views.actions.RejectAllAction;
 import org.gravity.typegraph.basic.TypeGraph;
 import org.secdfd.dsl.SecDFDStandaloneSetup;
 
@@ -93,7 +91,7 @@ public class MappingView extends ViewPart {
 
 	private Collection<EDFD> dfds;
 
-	private Map<Mapping, Mapper> mappers;
+	private final Map<Mapping, Mapper> mappers = new HashMap<>();
 
 	private ContinueAction continueAction;
 
@@ -107,40 +105,11 @@ public class MappingView extends ViewPart {
 		IActionBars bars = viewSite.getActionBars();
 		IToolBarManager tm = bars.getToolBarManager(); // Buttons on top
 		tm.add((continueAction = new ContinueAction(this)));
-		tm.add(new Action("Accept all") {
-
-			public void run() {
-				for (Mapper mapper : mappers.values()) {
-					Mapping mapping = mapper.getMapping();
-					new ArrayList<>(mapping.getSuggested()).forEach(corr -> mapper.accept(corr));
-					update();
-				}
-			}
-
-		});
-		tm.add(new Action("Check process contracts") {
-			public void run() {
-				try {
-					EncryptionCheck checker = new EncryptionCheck(gravityFolder,
-							pm.getValue(), mappers.values());
-					checker.checkImplementedEncyption();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
+		tm.add(new AcceptAllAction(this));
+		tm.add(new RejectAllAction(this));
+		tm.add(new CheckContractsAction(this));
 		IMenuManager mm = bars.getMenuManager(); // Drop down menu
-		mm.add(new Action("Map project") {
-			@Override
-			public void run() {
-				WizardDialog wizard = new WizardDialog(GravityUiActivator.getShell(),
-						new MappingWizard(Collections.emptyList()));
-				if (wizard.open() == Window.OK) {
-					System.out.println("OK pressed");
-				}
-			}
-		});
+		mm.add(new MapProjectAction());
 	}
 
 	public Mapper getMapper(Mapping mapping) {
@@ -174,7 +143,7 @@ public class MappingView extends ViewPart {
 
 		pm = getProgramModel(trafoJob);
 
-		this.mappers = new HashMap<>();
+		this.mappers.clear();
 		for (Entry<IFile, EDFD> entry : dfds.entrySet()) {
 			IFile key = entry.getKey();
 			String name = key.getName();
@@ -305,9 +274,6 @@ public class MappingView extends ViewPart {
 	}
 
 	public Collection<Mapping> getMappings() {
-		if (this.mappers == null) {
-			this.mappers = new HashMap<>();
-		}
 		return this.mappers.keySet();
 	}
 

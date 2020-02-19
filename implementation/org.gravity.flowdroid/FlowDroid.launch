@@ -17,6 +17,7 @@
 <setEntry value="Symmetric"/>
 <setEntry value="ca.mcgill.sable.soot"/>
 <setEntry value="ca.mcgill.sable.soot.help"/>
+<setEntry value="ca.mcgill.sable.soot.lib"/>
 <setEntry value="carisma.profile.umlsec"/>
 <setEntry value="carisma.profile.umlsec.enc"/>
 <setEntry value="carisma.profile.umlsec.variability"/>
@@ -92,7 +93,7 @@
 <setEntry value="org.gravity.uml.papyrus"/>
 </setAttribute>
 <booleanAttribute key="includeOptional" value="true"/>
-<stringAttribute key="location" value="${workspace_loc:org.gravity.flowdroid/examples}"/>
+<stringAttribute key="location" value="/home/speldszus/workspace/runtime-workspaces/GRaViTY-runtime"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
 <listEntry value="/org.gravity.flowdroid/src/org/gravity/flowdroid/Example.java"/>
 </listAttribute>
@@ -227,6 +228,7 @@
 <setEntry value="org.eclipse.emf.mwe.utils@default:default"/>
 <setEntry value="org.eclipse.emf.mwe2.language@default:default"/>
 <setEntry value="org.eclipse.emf.mwe2.launch@default:default"/>
+<setEntry value="org.eclipse.emf.mwe2.lib@default:default"/>
 <setEntry value="org.eclipse.emf.mwe2.runtime@default:default"/>
 <setEntry value="org.eclipse.emf.transaction@default:default"/>
 <setEntry value="org.eclipse.emf.validation@default:default"/>
@@ -393,6 +395,7 @@
 <setEntry value="org.eclipse.xtext.xbase.testing@default:default"/>
 <setEntry value="org.eclipse.xtext.xbase.ui@default:default"/>
 <setEntry value="org.eclipse.xtext.xbase@default:default"/>
+<setEntry value="org.eclipse.xtext.xtext.generator@default:default"/>
 <setEntry value="org.eclipse.xtext@default:default"/>
 <setEntry value="org.emoflon.core.dependencies@default:default"/>
 <setEntry value="org.emoflon.delta@default:default"/>
@@ -443,11 +446,6 @@
 <setEntry value="org.w3c.dom.svg@default:default"/>
 </setAttribute>
 <setAttribute key="selected_workspace_bundles">
-<setEntry value="ca.mcgill.sable.soot.lib@default:default"/>
-<setEntry value="org.secdfd.model.edit@default:default"/>
-<setEntry value="org.secdfd.model.editor@default:default"/>
-<setEntry value="org.secdfd.model.tests@default:default"/>
-<setEntry value="org.secdfd.model@default:default"/>
 <setEntry value="org.gravity.eclipse.ui@default:default"/>
 <setEntry value="org.gravity.eclipse@default:default"/>
 <setEntry value="org.gravity.flowdroid@default:default"/>
@@ -462,6 +460,10 @@
 <setEntry value="org.secdfd.dsl.ui.tests@default:default"/>
 <setEntry value="org.secdfd.dsl.ui@default:default"/>
 <setEntry value="org.secdfd.dsl@default:default"/>
+<setEntry value="org.secdfd.model.edit@default:default"/>
+<setEntry value="org.secdfd.model.editor@default:default"/>
+<setEntry value="org.secdfd.model.tests@default:default"/>
+<setEntry value="org.secdfd.model@default:default"/>
 </setAttribute>
 <booleanAttribute key="show_selected_only" value="false"/>
 <booleanAttribute key="tracing" value="false"/>

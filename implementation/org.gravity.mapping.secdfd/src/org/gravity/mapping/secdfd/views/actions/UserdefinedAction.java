@@ -44,10 +44,10 @@ public final class UserdefinedAction extends Action {
 		return "Maps this element to the given element from the program model";
 	}
 
+	@Override
 	public void run() {
-		Stream<?> stream = ((IStructuredSelection) selection).toList().stream();
+		Stream<?> stream = selection.toList().stream();
 		stream.filter(e -> !(e instanceof EDFD)).forEach(e -> {
-			// TODO: Add to mapping
 			Optional<Mapping> result = mappingView.getMappings().stream()
 					.filter(c -> c.getTarget().equals(((EObject) e).eContainer())).findAny();
 			if (!result.isPresent()) {

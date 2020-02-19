@@ -115,7 +115,7 @@ public class DFDSelectionView extends ViewPart {
 
 	@Override
 	public void setFocus() {
-
+		parent.setFocus();
 	}
 
 	/**
@@ -127,7 +127,7 @@ public class DFDSelectionView extends ViewPart {
 			initTree(source.get(0), mappingView);
 		}
 		action.setSource(source);
-		//signatureAction.setSource(source);
+		// signatureAction.setSource(source);
 		((DFDSelectionContentProvider) treeViewer.getContentProvider()).updateSouce(source.get(0));
 		treeViewer.refresh(mappingView.getDFDs(), true);
 		treeViewer.getControl().update();
@@ -154,19 +154,16 @@ public class DFDSelectionView extends ViewPart {
 		treeViewer.getControl().setLayoutData(layoutData);
 
 		action = new UserdefinedAction(mappingView);
-		
-		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			public void selectionChanged(SelectionChangedEvent event) {
-				ISelection selection = event.getSelection();
-				if (selection instanceof IStructuredSelection) {
-					action.setSelection((IStructuredSelection) selection);
-					MenuManager menuMgr = new MenuManager();
-					Menu menu = menuMgr.createContextMenu(treeViewer.getControl());
-					treeViewer.getControl().setMenu(menu);
-					getSite().registerContextMenu(menuMgr, treeViewer);
-					menuMgr.add(action);
-				}
+		treeViewer.addSelectionChangedListener((event) -> {
+			ISelection selection = event.getSelection();
+			if (selection instanceof IStructuredSelection) {
+				action.setSelection((IStructuredSelection) selection);
+				MenuManager menuMgr = new MenuManager();
+				Menu menu = menuMgr.createContextMenu(treeViewer.getControl());
+				treeViewer.getControl().setMenu(menu);
+				getSite().registerContextMenu(menuMgr, treeViewer);
+				menuMgr.add(action);
 			}
 		});
 		treeViewer.setInput(mappingView.getDFDs());

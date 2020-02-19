@@ -36,8 +36,6 @@ public class MappingWizard extends org.eclipse.jface.wizard.Wizard {
 	private IJavaProject javaProject;
 
 	private IFolder gravityFolder;
-	
-	
 
 	public MappingWizard() {
 		this(Collections.emptyList());
@@ -131,13 +129,9 @@ public class MappingWizard extends org.eclipse.jface.wizard.Wizard {
 	public boolean performFinish() {
 		final List<IFile> selectedDFDs = pageTwo.getSelection();
 		MappingView mappingView = MappingView.getMappingView();
-		GravityUiActivator.getShell().getDisplay().asyncExec(new Runnable() {
-
-			@Override
-			public void run() {
-				mappingView.populate(gravityFolder, selectedDFDs, trafoJob);
-			}
-		});
+		GravityUiActivator.getShell().getDisplay().asyncExec(() -> 
+			mappingView.populate(gravityFolder, selectedDFDs, trafoJob)
+		);
 		return true;
 	}
 

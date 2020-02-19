@@ -1,9 +1,9 @@
 package org.gravity.mapping.secdfd.helpers;
 
+import java.util.Deque;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
-import java.util.Stack;
-
 import org.gravity.typegraph.basic.TAccess;
 import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethodDefinition;
@@ -33,7 +33,7 @@ public class CallHelper {
 		for(TAccess access : member.getAccessedBy()) {
 			TMember calledBy = access.getTSource();
 			if (calledBy instanceof TMethodDefinition) {
-				Stack<TMethodDefinition> stack = new Stack<>();
+				Deque<TMethodDefinition> stack = new LinkedList<>();
 				stack.add((TMethodDefinition) calledBy);
 				while(!stack.isEmpty()) {
 					TMethodDefinition method = stack.pop();

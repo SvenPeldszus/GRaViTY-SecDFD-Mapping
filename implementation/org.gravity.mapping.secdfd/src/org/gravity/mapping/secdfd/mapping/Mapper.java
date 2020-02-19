@@ -120,7 +120,7 @@ public class Mapper {
 
 	private MappingOptimizer optimizer;
 
-	private Set<IListener> userefinedListeners = new HashSet<>();	
+	private Set<IListener> userefinedListeners = new HashSet<>();
 
 	public Mapper(TypeGraph pm, EDFD dfd, IFile destination) {
 		this.pm = pm;
@@ -179,7 +179,8 @@ public class Mapper {
 	}
 
 	private boolean containsConstructors(TMethod m) {
-		return m.getSignatures().parallelStream().flatMap(sig -> sig.getDefinitions().parallelStream()).anyMatch(def -> TConstructor.isConstructor((TMethodDefinition) def));
+		return m.getSignatures().parallelStream().flatMap(sig -> sig.getDefinitions().parallelStream())
+				.anyMatch(def -> TConstructor.isConstructor((TMethodDefinition) def));
 	}
 
 	/**
@@ -258,55 +259,76 @@ public class Mapper {
 	 * @param corr The correspondence
 	 */
 	public void reject(AbstractCorrespondence corr) {
-		if (mapping.getCorrespondences().contains(corr)) {
-			mapping.getIgnored().add(corr);
-			mapping.getUserdefined().remove(corr);
-			mapping.getSuggested().remove(corr);
-			mapping.getAccepted().remove(corr);
-			EObject pmObject = CorrespondenceHelper.getSource(corr);
-			EObject dfdObject = CorrespondenceHelper.getTarget(corr);
-			if (dfdObject instanceof Process) {
-				if (pmObject instanceof TMember) {
-					Set<TMember> value = cache.getElementMemberMapping().get(dfdObject);
-					if (value != null) {
-						value.remove(pmObject);
-					}
-				} else if (pmObject instanceof TSignature) {
-					Set<TSignature> value = cache.getElementSignatureMapping().get(dfdObject);
-					if (value != null) {
-						value.remove(pmObject);
-					}
-					((TMethodSignature) pmObject).getDefinitions().forEach(definiton -> {
-						helper.getCorrespondences(definiton).forEach(defCorr -> reject(defCorr));
-					});
-				} else if (pmObject instanceof TMethod) {
-					Set<TMethod> value = cache.getElementMethodMapping().get(dfdObject);
-					if (value != null) {
-						value.remove(pmObject);
-					}
-					((TMethod) pmObject).getSignatures().forEach(signature -> {
-						helper.getCorrespondences(signature).forEach(sigCorr -> reject(sigCorr));
-					});
+		reject(corr, false);
+	}
+	/**
+	 * Reject the given correspondence
+	 * 
+	 * @param corr The correspondence
+	 * @param force If the deletion should be done even if it is user defined or accepted
+	 */
+	public void reject(AbstractCorrespondence corr, boolean force) {
+		if (!mapping.getCorrespondences().contains(corr)) {
+			return;
+		}
+
+		EList<AbstractCorrespondence> userdefined = mapping.getUserdefined();
+		EList<AbstractCorrespondence> accepted = mapping.getAccepted();
+		if (!force && (userdefined.contains(corr) || accepted.contains(corr))) {
+			return;
+		}
+		
+		EList<AbstractCorrespondence> ignored = mapping.getIgnored();
+		EList<AbstractCorrespondence> suggested = mapping.getSuggested();
+		
+		ignored.add(corr);
+		userdefined.remove(corr);
+		suggested.remove(corr);
+		accepted.remove(corr);
+		
+		EObject pmObject = CorrespondenceHelper.getSource(corr);
+		EObject dfdObject = CorrespondenceHelper.getTarget(corr);
+		if (dfdObject instanceof Process) {
+			if (pmObject instanceof TMember) {
+				Set<TMember> value = cache.getElementMemberMapping().get(dfdObject);
+				if (value != null) {
+					value.remove(pmObject);
 				}
-			} else if (dfdObject instanceof Asset || dfdObject instanceof DataStore) {
-				if (pmObject instanceof TMember) {
-					Set<TMember> value = cache.getElementMemberMapping().get(dfdObject);
-					if (value != null) {
-						value.remove(pmObject);
-					}
-				} else {
-					Set<TAbstractType> value = cache.getEntityTypeMapping().get(dfdObject);
-					if (value != null) {
-						value.remove(pmObject);
-					}
-					EList<AbstractMappingDerived> deriving = ((MappingEntityType) corr).getDeriving();
-					for (int i = 0; i < deriving.size(); i++) {
-						AbstractMappingDerived derivingCorr = deriving.remove(0);
-						EList<AbstractMappingBase> derivedFrom = derivingCorr.getDerived();
-						derivedFrom.remove(corr);
-						if (derivedFrom.size() == 1) {
-							reject(derivingCorr);
-						}
+			} else if (pmObject instanceof TSignature) {
+				Set<TSignature> value = cache.getElementSignatureMapping().get(dfdObject);
+				if (value != null) {
+					value.remove(pmObject);
+				}
+				((TMethodSignature) pmObject).getDefinitions().forEach(definiton -> {
+					helper.getCorrespondences(definiton).forEach(this::reject);
+				});
+			} else if (pmObject instanceof TMethod) {
+				Set<TMethod> value = cache.getElementMethodMapping().get(dfdObject);
+				if (value != null) {
+					value.remove(pmObject);
+				}
+				((TMethod) pmObject).getSignatures().forEach(signature -> 
+					helper.getCorrespondences(signature).forEach(this::reject)
+				);
+			}
+		} else if (dfdObject instanceof Asset || dfdObject instanceof DataStore) {
+			if (pmObject instanceof TMember) {
+				Set<TMember> value = cache.getElementMemberMapping().get(dfdObject);
+				if (value != null) {
+					value.remove(pmObject);
+				}
+			} else {
+				Set<TAbstractType> value = cache.getEntityTypeMapping().get(dfdObject);
+				if (value != null) {
+					value.remove(pmObject);
+				}
+				EList<AbstractMappingDerived> deriving = ((AbstractMappingBase) corr).getDeriving();
+				for (int i = 0; i < deriving.size(); i++) {
+					AbstractMappingDerived derivingCorr = deriving.remove(0);
+					EList<AbstractMappingBase> derivedFrom = derivingCorr.getDerived();
+					derivedFrom.remove(corr);
+					if (derivedFrom.size() == 1) {
+						reject(derivingCorr);
 					}
 				}
 			}
@@ -614,10 +636,10 @@ public class Mapper {
 		Set<Process> processes = helper.getCorrespondences(method).parallelStream()
 				.map(corr -> (Process) CorrespondenceHelper.getTarget(corr)).collect(Collectors.toSet());
 		int size = processes.size();
-		if(size == 1) {
+		if (size == 1) {
 			return processes.iterator().next();
 		}
-		if(size > 1) {
+		if (size > 1) {
 			throw new IllegalStateException();
 		}
 		return null;
@@ -777,7 +799,7 @@ public class Mapper {
 
 	public Map<TAbstractType, Asset> getAssets() {
 		Set<Asset> dfdassets = dfd.getAsset().stream().collect(Collectors.toSet());
-		//create a hashmap of dfd assets and the mapped java types
+		// create a hashmap of dfd assets and the mapped java types
 		Map<TAbstractType, Asset> assets = new HashMap<>();
 		for (Asset a : dfdassets) {
 			for (TAbstractType tat : getMapping(a)) {

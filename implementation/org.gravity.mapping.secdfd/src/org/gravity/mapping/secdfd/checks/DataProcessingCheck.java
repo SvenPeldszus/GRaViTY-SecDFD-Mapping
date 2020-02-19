@@ -139,7 +139,6 @@ public class DataProcessingCheck {
 	public static void check(Set<TFlow> entries, Set<TFlow> exits, Set<? extends TMember> methods, Mapper mapper,
 			Set<Responsibility> resposibilities) {
 		Map<TAbstractType, Asset> assets = mapper.getAssets();
-		Map<Asset, Set<TFlow>> entryMapping = classifyFlows(entries, assets);
 		Map<Asset, Set<TFlow>> exitMapping = classifyFlows(exits, assets);
 
 		for (Responsibility responsibility : resposibilities) {

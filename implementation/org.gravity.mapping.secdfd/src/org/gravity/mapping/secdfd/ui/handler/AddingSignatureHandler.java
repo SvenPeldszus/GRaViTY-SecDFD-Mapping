@@ -41,7 +41,7 @@ public class AddingSignatureHandler extends AbstractHandler {
 		ASTNode node = TextEditorHandler.getSelectedASTNode(event);
 		TypeGraph pm = mappingView.getProgramModel().getValue();
 		Boolean encrypt = false; 
-		if (event.getCommand().getId().toString().contains("encrypt")) {
+		if (event.getCommand().getId().contains("encrypt")) {
 			encrypt = true;
 		}else encrypt = false;
 		

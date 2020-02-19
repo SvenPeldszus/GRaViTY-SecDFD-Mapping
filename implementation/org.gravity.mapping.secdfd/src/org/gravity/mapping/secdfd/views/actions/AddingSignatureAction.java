@@ -23,7 +23,6 @@ public final class AddingSignatureAction extends Action {
 	private final MappingView mappingView;
 
 	private final Collection<TMethodDefinition> selectedPMObjects;
-	private IStructuredSelection selection;
 	private Boolean encrypt;
 
 	public AddingSignatureAction(MappingView map, Boolean encrypt, Collection<TMethodDefinition> selected) {
@@ -32,6 +31,7 @@ public final class AddingSignatureAction extends Action {
 		this.mappingView = map;
 	}
 
+	@Override
 	public void run() {
 		EncryptionCheck checker = new EncryptionCheck(mappingView.getGravityFolder(),
 				mappingView.getProgramModel().getValue(), mappingView.getMappers().values());
@@ -50,6 +50,5 @@ public final class AddingSignatureAction extends Action {
 	 * @param selection the selection to set
 	 */
 	public void setSelection(IStructuredSelection selection) {
-		this.selection = selection;
 	}
 }

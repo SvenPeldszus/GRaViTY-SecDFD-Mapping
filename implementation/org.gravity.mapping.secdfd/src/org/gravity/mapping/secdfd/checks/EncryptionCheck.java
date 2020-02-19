@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Collection;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import java.util.Map.Entry;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.CoreException;
@@ -46,10 +48,10 @@ import org.secdfd.model.ResponsibilityType;
  */
 public class EncryptionCheck {
 
-	public static enum Crypto {
+	public enum Crypto {
 		ENCRYPT("encrypt-signatures.txt"), DECRYPT("decrypt-signatures.txt");
 
-		public String file;
+		private final String file;
 
 		private Crypto(String file) {
 			this.file = file;
@@ -67,7 +69,7 @@ public class EncryptionCheck {
 
 	public static final String MAPPING_MARKER = "org.gravity.mapping.secdfd.markers.java";
 
-	Map<Crypto, Set<TMethodDefinition>> signatures;
+	EnumMap<Crypto, Set<TMethodDefinition>> signatures;
 
 	Set<SProblem> problems;
 
@@ -97,7 +99,7 @@ public class EncryptionCheck {
 		this.mappers = mappers;
 		this.pm = pm;
 
-		signatures = new HashMap<>();
+		signatures = new EnumMap<>(Crypto.class);
 		problems = new HashSet<>();
 		// write to user displayed file
 		writeSignaturesToFile();
@@ -108,16 +110,16 @@ public class EncryptionCheck {
 	 * @param encrypt
 	 * @param sig
 	 */
-	public void addSignature(Boolean encrypt, TMethodDefinition sig) {
+	public void addSignature(boolean encrypt, TMethodDefinition sig) {
 		try {
 			loadSignaturesFromFile();
 		} catch (IOException e1) {
-			signatures = new HashMap<>();
+			signatures = new EnumMap<>(Crypto.class);
 		}
 		if (encrypt) {
-			signatures.computeIfAbsent(Crypto.ENCRYPT, Set -> new HashSet<>()).add(sig);
+			signatures.computeIfAbsent(Crypto.ENCRYPT, set -> new HashSet<>()).add(sig);
 		} else {
-			signatures.computeIfAbsent(Crypto.DECRYPT, Set -> new HashSet<>()).add(sig);
+			signatures.computeIfAbsent(Crypto.DECRYPT, set -> new HashSet<>()).add(sig);
 		}
 		writeSignaturesToFile();
 	}
@@ -222,7 +224,7 @@ public class EncryptionCheck {
 	 * @throws IOException
 	 */
 	private void loadSignaturesFromFile() throws IOException {
-		signatures = new HashMap<>();
+		signatures = new EnumMap<>(Crypto.class);
 		IOException exception = null;
 		File encryptSignaturesFile = destination.getFile(Crypto.ENCRYPT.getFileName()).getLocation().toFile();
 		if (encryptSignaturesFile.exists()) {
@@ -261,8 +263,8 @@ public class EncryptionCheck {
 				e.printStackTrace();
 			}
 		}
-		for (Crypto k : signatures.keySet()) {
-			File encryptSignaturesFile = destination.getFile(k.getFileName()).getLocation().toFile();
+		for (Entry<Crypto, Set<TMethodDefinition>> entry: signatures.entrySet()) {
+			File encryptSignaturesFile = destination.getFile(entry.getKey().getFileName()).getLocation().toFile();
 			if (!encryptSignaturesFile.exists()) {
 				try {
 					encryptSignaturesFile.createNewFile();
@@ -270,13 +272,10 @@ public class EncryptionCheck {
 					e.printStackTrace();
 				}
 			}
-			FileWriter writer = null;
-			try {
-				writer = new FileWriter(encryptSignaturesFile, false);
-				for (TMethodDefinition obj : signatures.get(k)) {
+			try (FileWriter writer = new FileWriter(encryptSignaturesFile, false)) {
+				for (TMethodDefinition obj : entry.getValue()) {
 					writer.append(obj.getDefinedBy().getFullyQualifiedName() + '.' + obj.getSignatureString() + '\n');
 				}
-				writer.close();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
