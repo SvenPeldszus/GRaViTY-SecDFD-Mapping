@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -30,9 +29,8 @@ import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessName;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
 import org.gravity.typegraph.basic.TAbstractType;
-import org.gravity.typegraph.basic.TAccess;
 import org.gravity.typegraph.basic.TClass;
-import org.gravity.typegraph.basic.TConstructorDefinition;
+import org.gravity.typegraph.basic.TConstructor;
 import org.gravity.typegraph.basic.TFieldDefinition;
 import org.gravity.typegraph.basic.TFieldSignature;
 import org.gravity.typegraph.basic.TInterface;
@@ -157,8 +155,9 @@ public class MappingOptimizer {
 						EList<TMethodDefinition> defs = sig.getMethodDefinitions();
 						if (defs.size() < 3) {
 							defs.forEach(def -> {
-								if(helper.canCreate(def, element, excludes)) {
-									MappingProcessDefinition corr = helper.createCorrespondence(def, element, 70, Collections.emptyList());
+								if (helper.canCreate(def, element, excludes)) {
+									MappingProcessDefinition corr = helper.createCorrespondence(def, element, 70,
+											Collections.emptyList());
 									this.mapping.getSuggested().add(corr);
 								}
 							});
@@ -513,7 +512,8 @@ public class MappingOptimizer {
 							.filter(corr -> corr instanceof MappingProcessSignature)
 							.map(corr -> (TSignature) CorrespondenceHelper.getSource(corr)).collect(Collectors.toSet());
 
-					for (TMethodDefinition calledDefinition : ((TMethodSignature) calledSignature).getMethodDefinitions()) {
+					for (TMethodDefinition calledDefinition : ((TMethodSignature) calledSignature)
+							.getMethodDefinitions()) {
 						for (TMember callingDefiniton : CallHelper.getAllInCalls(calledDefinition)) {
 							TSignature callingSignature = callingDefiniton.getSignature();
 							if (callingSignatures.contains(callingSignature)) {
@@ -720,10 +720,13 @@ public class MappingOptimizer {
 							if (member instanceof TFieldDefinition) {
 								memberType = ((TFieldDefinition) member).getSignature().getType();
 								continue;
-							} else if (member instanceof TConstructorDefinition) {
-								memberType = type;
 							} else {
-								memberType = ((TMethodDefinition) member).getReturnType();
+								TMethodDefinition tMethodDefinition = (TMethodDefinition) member;
+								if (TConstructor.isConstructor(tMethodDefinition)) {
+									memberType = type;
+								} else {
+									memberType = tMethodDefinition.getReturnType();
+								}
 							}
 							if ((memberType.equals(assetType) || memberType.isSuperTypeOf((TAbstractType) assetType))
 									&& helper.canCreate(member, element, excludes)) {

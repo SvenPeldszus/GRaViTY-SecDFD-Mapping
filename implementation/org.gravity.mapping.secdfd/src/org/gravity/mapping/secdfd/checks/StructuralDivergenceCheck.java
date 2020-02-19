@@ -25,6 +25,7 @@ import org.gravity.typegraph.basic.TFlow;
 import org.gravity.typegraph.basic.TInterface;
 import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TMethodSignature;
+import org.gravity.typegraph.basic.TModifier;
 import org.gravity.typegraph.basic.TParameter;
 import org.gravity.typegraph.basic.TSignature;
 import org.gravity.typegraph.basic.TVisibility;
@@ -117,7 +118,8 @@ public class StructuralDivergenceCheck {
 		TAbstractType returnType = method.getSignature().getReturnType();
 		if (typesImplementingAsset.contains(returnType)) {
 			if (!(method.getDefinedBy() instanceof TInterface)) {
-				boolean isPublic = TVisibility.TPUBLIC.equals(method.getTModifier().getTVisibility());
+				TModifier tModifier = method.getTModifier();
+				boolean isPublic = tModifier == null || TVisibility.TPUBLIC.equals(tModifier.getTVisibility());
 				if (isPublic && !flowsToExternal) {
 					String warning = "Public method is returning the asset \"" + asset.getName() + "\": "
 							+ method.getSignatureString();

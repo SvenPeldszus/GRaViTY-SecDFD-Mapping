@@ -51,7 +51,7 @@ import org.gravity.mapping.secdfd.views.Logging;
 import org.gravity.mapping.secdfd.views.MappingLabelProvider;
 import org.gravity.typegraph.basic.BasicFactory;
 import org.gravity.typegraph.basic.TAbstractType;
-import org.gravity.typegraph.basic.TConstructorName;
+import org.gravity.typegraph.basic.TConstructor;
 import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethod;
 import org.gravity.typegraph.basic.TMethodDefinition;
@@ -175,7 +175,11 @@ public class Mapper {
 		// very often
 		types = pm.getOwnedTypes().stream().filter(t -> !"T".equals(t.getTName()))
 				.filter(t -> !"Anonymous".equals(t.getTName())).collect(Collectors.toList());
-		methods = pm.getMethods().stream().filter(m -> !(m instanceof TConstructorName)).collect(Collectors.toList());
+		methods = pm.getMethods().stream().filter(m -> !containsConstructors(m)).collect(Collectors.toList());
+	}
+
+	private boolean containsConstructors(TMethod m) {
+		return m.getSignatures().parallelStream().flatMap(sig -> sig.getDefinitions().parallelStream()).anyMatch(def -> TConstructor.isConstructor((TMethodDefinition) def));
 	}
 
 	/**
