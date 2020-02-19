@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.gravity.typegraph.basic.BasicPackage;
 import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TParameter;
 
@@ -33,6 +34,9 @@ public final class SignatureHelper {
 	}
 
 	public static String getSootSignature(TMethodDefinition method) {
+		if(!method.getTAnnotation(BasicPackage.eINSTANCE.getTConstructor()).isEmpty()){
+			return "";
+		}
 		StringBuilder buffer = new StringBuilder("<");
 		buffer.append(method.getDefinedBy().getFullyQualifiedName());
 		buffer.append(": ");

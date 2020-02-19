@@ -15,6 +15,8 @@ import org.gravity.mapping.secdfd.AbstractCorrespondence;
 import org.gravity.mapping.secdfd.helpers.CorrespondenceHelper;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.mapping.secdfd.views.MappingView;
+import org.gravity.typegraph.basic.TConstructor;
+import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethodDefinition;
 
 import eDFDFlowTracking.Asset;
@@ -81,7 +83,7 @@ public class SourcesAndSinks {
 	private void addSootSignatures(Collection<AbstractCorrespondence> correspondences, Set<String> signatures) {
 		for (AbstractCorrespondence c : correspondences) {
 			EObject source = CorrespondenceHelper.getSource(c);
-			if (source instanceof TMethodDefinition) {
+			if (source instanceof TMethodDefinition && !TConstructor.isConstructor((TMember) source)) {
 				signatures.add(SignatureHelper.getSootSignature((TMethodDefinition) source));
 			}
 		}

@@ -3,8 +3,15 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Flowdroid DF Analysis
 Bundle-SymbolicName: org.gravity.flowdroid;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-ClassPath: flowdroid.jar,
- soot-infoflow-cmd-jar-with-dependencies.jar
+Bundle-ClassPath: .,
+ lib/heros.jar,
+ lib/soot-infoflow-classes.jar,
+ lib/soot.jar,
+ lib/axml.jar,
+ lib/jasmin.jar,
+ lib/java_cup.jar,
+ lib/polyglot.jar,
+ lib/trove.jar
 Export-Package: org.gravity.flowdroid
 Bundle-Vendor: University of Koblenz-Landau and Chalmers and University of Gothenborg
 Bundle-ActivationPolicy: lazy
@@ -15,5 +22,10 @@ Require-Bundle: org.eclipse.core.resources,
  org.gravity.eclipse,
  org.eclipse.jdt.core,
  org.junit,
- org.gravity.mapping.secdfd
+ org.gravity.mapping.secdfd,
+ org.slf4j.api,
+ com.google.guava;bundle-version="27.1.0",
+ org.objectweb.asm;bundle-version="7.0.0",
+ org.objectweb.asm.commons;bundle-version="7.0.0",
+ org.objectweb.asm.tree;bundle-version="7.0.0"
 Automatic-Module-Name: org.gravity.flowdroid
