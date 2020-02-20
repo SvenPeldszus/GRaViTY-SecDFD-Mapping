@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.apache.log4j.Level;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jdt.core.IJavaElement;
@@ -32,10 +32,10 @@ import org.gravity.mapping.secdfd.AbstractCorrespondence;
 import org.gravity.mapping.secdfd.helpers.CorrespondenceHelper;
 
 final class OpenJavaFileDoubleClickListener implements IDoubleClickListener {
-	private final IFolder gravityFolder;
+	private final IProject project;
 
-	OpenJavaFileDoubleClickListener(IFolder gravityFolder) {
-		this.gravityFolder = gravityFolder;
+	OpenJavaFileDoubleClickListener(IProject project) {
+		this.project = project;
 	}
 
 	public void doubleClick(DoubleClickEvent event) {
@@ -79,7 +79,7 @@ final class OpenJavaFileDoubleClickListener implements IDoubleClickListener {
 	private IJavaElement getJavaElement(EObject pmElement) {
 		try {
 			Map<String, IType> astTypes = JavaASTUtil
-					.getTypesForProject(JavaCore.create(gravityFolder.getProject()));
+					.getTypesForProject(JavaCore.create(project));
 
 			IJavaElement javaElement = null;
 			if (pmElement instanceof TMethodDefinition) {

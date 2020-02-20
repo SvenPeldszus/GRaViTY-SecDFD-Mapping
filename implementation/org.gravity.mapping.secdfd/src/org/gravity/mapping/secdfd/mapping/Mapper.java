@@ -241,7 +241,7 @@ public class Mapper {
 			mapping.getAccepted().add(corr);
 			updateRanking(corr, 100);
 			if (corr instanceof AbstractMappingDerived) {
-				((AbstractMappingDerived) corr).getDerived().forEach(parent -> accept(parent));
+				((AbstractMappingDerived) corr).getDerived().forEach(this::accept);
 			}
 			if (corr instanceof MappingProcessDefinition) {
 				helper.getCorrespondences(CorrespondenceHelper.getSource(corr)).forEach(other -> {

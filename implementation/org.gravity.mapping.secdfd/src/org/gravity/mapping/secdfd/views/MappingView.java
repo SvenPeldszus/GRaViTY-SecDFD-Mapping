@@ -16,6 +16,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
@@ -25,9 +26,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -133,18 +132,22 @@ public class MappingView extends ViewPart {
 	public void populate(IFolder gravityFolder, Collection<IFile> dfdFiles, TrafoJob trafoJob) {
 		this.gravityFolder = gravityFolder;
 
-		Map<IFile, EDFD> dfds = loadDFDs(dfdFiles);
+		Map<IFile, EDFD> dfdMap = loadDFDs(dfdFiles);
 		try {
 			trafoJob.join();
 		} catch (InterruptedException e) {
 			LOGGER.log(Level.ERROR, e.getLocalizedMessage(), e);
 			Thread.currentThread().interrupt();
 		}
+		this.pm = getProgramModel(trafoJob);
 
-		pm = getProgramModel(trafoJob);
-
-		this.mappers.clear();
-		for (Entry<IFile, EDFD> entry : dfds.entrySet()) {
+		if (!label.isDisposed()) {
+			label.dispose();
+			createMappingTable(gravityFolder.getProject());
+		}
+		
+		clearMappers();
+		for (Entry<IFile, EDFD> entry : dfdMap.entrySet()) {
 			IFile key = entry.getKey();
 			String name = key.getName();
 			name = name.substring(0, name.length() - key.getFileExtension().length() - 1) + ".corr.xmi";
@@ -154,42 +157,50 @@ public class MappingView extends ViewPart {
 			mapper.optimize();
 			mapper.addUserdefinedListener(continueAction);
 		}
-		if (!label.isDisposed()) {
-			label.dispose();
-			parent.setLayout(new GridLayout(1, false));
-			treeViewer = new TreeViewer(parent, SWT.BORDER);
-			treeViewer.addDoubleClickListener(new OpenJavaFileDoubleClickListener(gravityFolder));
-			MappingContentProvider mappingProvider = new MappingContentProvider();
-			MappingLabelProvider labelProvider = new MappingLabelProvider();
-			treeViewer.setContentProvider(mappingProvider);
-			treeViewer.setLabelProvider(labelProvider);
-			GridData layoutData = new GridData(GridData.FILL_BOTH);
-			layoutData.widthHint = parent.getSize().x - 10;
-			layoutData.heightHint = parent.getSize().y - 10;
-			treeViewer.getControl().setLayoutData(layoutData);
-			treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-				public void selectionChanged(SelectionChangedEvent event) {
-					ISelection selection = event.getSelection();
-					if (selection instanceof IStructuredSelection) {
-						Object selectedElement = ((IStructuredSelection) selection).getFirstElement();
-						labelProvider.getText(mappingProvider.getParent(selectedElement)).equals("suggested");
-
-						MenuManager menuMgr = new MenuManager();
-						Menu menu = menuMgr.createContextMenu(treeViewer.getControl());
-//						menu.setEnabled(enabled);
-						treeViewer.getControl().setMenu(menu);
-						getSite().registerContextMenu(menuMgr, treeViewer);
-						menuMgr.add(new RejectAction(((IStructuredSelection) selection).toList()));
-						menuMgr.add(new AcceptAction(((IStructuredSelection) selection).toList()));
-
-					}
-				}
-			});
-		}
 		treeViewer.setInput(mappers.keySet());
 		treeViewer.refresh();
 		parent.pack();
 		parent.layout(true);
+	}
+
+	/**
+	 * Clears the exisitng mappers
+	 */
+	private void clearMappers() {
+		this.mappers.clear();
+	}
+
+	/**
+	 * @param project The project the table should be linked to
+	 */
+	private void createMappingTable(IProject project) {
+		parent.setLayout(new GridLayout(1, false));
+		treeViewer = new TreeViewer(parent, SWT.BORDER);
+		treeViewer.addDoubleClickListener(new OpenJavaFileDoubleClickListener(project));
+		MappingContentProvider mappingProvider = new MappingContentProvider();
+		MappingLabelProvider labelProvider = new MappingLabelProvider();
+		treeViewer.setContentProvider(mappingProvider);
+		treeViewer.setLabelProvider(labelProvider);
+		GridData layoutData = new GridData(GridData.FILL_BOTH);
+		layoutData.widthHint = parent.getSize().x - 10;
+		layoutData.heightHint = parent.getSize().y - 10;
+		treeViewer.getControl().setLayoutData(layoutData);
+		treeViewer.addSelectionChangedListener(event -> {
+			ISelection selection = event.getSelection();
+			if (selection instanceof IStructuredSelection) {
+				Object selectedElement = ((IStructuredSelection) selection).getFirstElement();
+				labelProvider.getText(mappingProvider.getParent(selectedElement)).equals("suggested");
+
+				MenuManager menuMgr = new MenuManager();
+				Menu menu = menuMgr.createContextMenu(treeViewer.getControl());
+//				menu.setEnabled(enabled);
+				treeViewer.getControl().setMenu(menu);
+				getSite().registerContextMenu(menuMgr, treeViewer);
+				menuMgr.add(new RejectAction(((IStructuredSelection) selection).toList()));
+				menuMgr.add(new AcceptAction(((IStructuredSelection) selection).toList()));
+
+			}
+		});
 	}
 
 	/**

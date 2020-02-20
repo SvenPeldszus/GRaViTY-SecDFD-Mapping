@@ -13,10 +13,8 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -153,9 +151,9 @@ public class DFDSelectionView extends ViewPart {
 		layoutData.heightHint = parent.getSize().y - 10;
 		treeViewer.getControl().setLayoutData(layoutData);
 
-		action = new UserdefinedAction(mappingView);
+		action = new UserdefinedAction(mappingView, this);
 
-		treeViewer.addSelectionChangedListener((event) -> {
+		treeViewer.addSelectionChangedListener(event -> {
 			ISelection selection = event.getSelection();
 			if (selection instanceof IStructuredSelection) {
 				action.setSelection((IStructuredSelection) selection);

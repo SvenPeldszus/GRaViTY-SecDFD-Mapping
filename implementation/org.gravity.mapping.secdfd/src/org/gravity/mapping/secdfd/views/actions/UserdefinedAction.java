@@ -9,8 +9,10 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.PlatformUI;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
+import org.gravity.mapping.secdfd.views.DFDSelectionView;
 import org.gravity.mapping.secdfd.views.MappingView;
 import org.secdfd.model.EDFD;
 
@@ -24,14 +26,18 @@ public final class UserdefinedAction extends Action {
 	/**
 	 * The source element which should be mapped
 	 */
-	List<EObject> source;
+	private List<EObject> source;
 	
 	
 	private final MappingView mappingView;
+	private final DFDSelectionView selectionView;
+
 	private IStructuredSelection selection;
 
-	public UserdefinedAction(MappingView map) {
-		this.mappingView = map;
+	
+	public UserdefinedAction(MappingView mappingView, DFDSelectionView selectionView) {
+		this.mappingView = mappingView;
+		this.selectionView = selectionView;
 	}
 
 	@Override
@@ -58,6 +64,7 @@ public final class UserdefinedAction extends Action {
 			Mapper mapper = mappingView.getMapper(mapping);
 			source.forEach(s -> mapper.userdefined(s, (EObject) e));
 			mappingView.update();
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().hideView(selectionView);
 		});
 	}
 	
