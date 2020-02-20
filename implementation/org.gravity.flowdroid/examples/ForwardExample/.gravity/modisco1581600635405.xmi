@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="ASCII"?>
+<org.gravity.modisco:MGravityModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:java="http://www.eclipse.org/MoDisco/Java/0.2.incubation/java" xmlns:org.gravity.modisco="http://www.gravity-tool.org/modisco" name="ForwardExample" mAbstractMethodDefinitions="//@ownedElements.0/@ownedElements.0/@bodyDeclarations.0 //@ownedElements.0/@ownedElements.1/@bodyDeclarations.0 //@ownedElements.0/@ownedElements.1/@bodyDeclarations.1 //@ownedElements.0/@ownedElements.1/@bodyDeclarations.2 //@ownedElements.0/@ownedElements.1/@bodyDeclarations.3">
+  <ownedElements name="(default package)">
+    <ownedElements xsi:type="org.gravity.modisco:MClass" originalCompilationUnit="//@compilationUnits.0" name="Asset" usagesInTypeAccess="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@expression/@arguments.0/@type //@ownedElements.0/@ownedElements.1/@bodyDeclarations.1/@parameters.0/@type //@ownedElements.0/@ownedElements.1/@bodyDeclarations.2/@returnType //@ownedElements.0/@ownedElements.1/@bodyDeclarations.2/@parameters.0/@type //@ownedElements.0/@ownedElements.1/@bodyDeclarations.3/@parameters.0/@type">
+      <modifier visibility="public"/>
+      <bodyDeclarations xsi:type="org.gravity.modisco:MConstructorDefinition" name="Asset" proxy="true" outgoingFlows="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@expression/@arguments.0/@ownedFlows.0" mSignature="//@mMethodNames.4/@mSignatures.0" usages="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@expression/@arguments.0"/>
+    </ownedElements>
+    <ownedElements xsi:type="org.gravity.modisco:MClass" originalCompilationUnit="//@compilationUnits.1" name="Main" dependencies="//@ownedElements.0/@ownedElements.1 //@ownedElements.0/@ownedElements.0">
+      <modifier visibility="public"/>
+      <bodyDeclarations xsi:type="org.gravity.modisco:MMethodDefinition" originalCompilationUnit="//@compilationUnits.1" name="start" mMethodInvocations="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@expression //@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@expression/@arguments.0" mSignature="//@mMethodNames.3/@mSignatures.0">
+        <modifier visibility="public"/>
+        <body originalCompilationUnit="//@compilationUnits.1">
+          <statements xsi:type="java:ExpressionStatement" originalCompilationUnit="//@compilationUnits.1">
+            <expression xsi:type="org.gravity.modisco:MMethodInvocation" originalCompilationUnit="//@compilationUnits.1" method="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.1" mStaticType="//@ownedElements.0/@ownedElements.1">
+              <arguments xsi:type="org.gravity.modisco:MClassInstanceCreation" originalCompilationUnit="//@compilationUnits.1" method="//@ownedElements.0/@ownedElements.0/@bodyDeclarations.0" incomingFlows="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@expression/@arguments.0/@ownedFlows.0" outgoingFlows="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@expression/@ownedFlows.0">
+                <type type="//@ownedElements.0/@ownedElements.0"/>
+                <ownedFlows flowSource="//@ownedElements.0/@ownedElements.0/@bodyDeclarations.0" flowTarget="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@expression/@arguments.0"/>
+              </arguments>
+              <ownedFlows flowSource="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@expression/@arguments.0" flowTarget="//@mMethodNames.1/@mSignatures.0/@mEntrys.0"/>
+            </expression>
+          </statements>
+        </body>
+        <returnType type="//@orphanTypes.5"/>
+      </bodyDeclarations>
+      <bodyDeclarations xsi:type="org.gravity.modisco:MMethodDefinition" originalCompilationUnit="//@compilationUnits.1" name="method1" usages="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@expression" mMethodInvocations="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.1/@body/@statements.0/@expression //@ownedElements.0/@ownedElements.1/@bodyDeclarations.1/@body/@statements.0/@expression/@arguments.0" mSignature="//@mMethodNames.1/@mSignatures.0">
+        <modifier/>
+        <body originalCompilationUnit="//@compilationUnits.1">
+          <statements xsi:type="java:ExpressionStatement" originalCompilationUnit="//@compilationUnits.1">
+            <expression xsi:type="org.gravity.modisco:MMethodInvocation" originalCompilationUnit="//@compilationUnits.1" method="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3" mStaticType="//@ownedElements.0/@ownedElements.1">
+              <arguments xsi:type="org.gravity.modisco:MMethodInvocation" originalCompilationUnit="//@compilationUnits.1" method="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2" incomingFlows="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.1/@body/@statements.0/@expression/@arguments.0/@ownedFlows.1" outgoingFlows="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.1/@body/@statements.0/@expression/@ownedFlows.0" mStaticType="//@ownedElements.0/@ownedElements.1">
+                <arguments xsi:type="org.gravity.modisco:MSingleVariableAccess" variable="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.1/@parameters.0"/>
+                <ownedFlows flowSource="//@mMethodNames.1/@mSignatures.0/@mEntrys.0" flowTarget="//@mMethodNames.2/@mSignatures.0/@mEntrys.0"/>
+                <ownedFlows flowSource="//@mMethodNames.2/@mSignatures.0" flowTarget="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.1/@body/@statements.0/@expression/@arguments.0"/>
+              </arguments>
+              <ownedFlows flowSource="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.1/@body/@statements.0/@expression/@arguments.0" flowTarget="//@mMethodNames.0/@mSignatures.0/@mEntrys.0"/>
+            </expression>
+          </statements>
+        </body>
+        <parameters xsi:type="org.gravity.modisco:MSingleVariableDeclaration" originalCompilationUnit="//@compilationUnits.1" name="a" usageInVariableAccess="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.1/@body/@statements.0/@expression/@arguments.0/@arguments.0" mEntry="//@mMethodNames.1/@mSignatures.0/@mEntrys.0">
+          <modifier/>
+          <type type="//@ownedElements.0/@ownedElements.0"/>
+        </parameters>
+        <returnType type="//@orphanTypes.5"/>
+      </bodyDeclarations>
+      <bodyDeclarations xsi:type="org.gravity.modisco:MMethodDefinition" originalCompilationUnit="//@compilationUnits.1" name="method2" usages="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.1/@body/@statements.0/@expression/@arguments.0" incomingFlows="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2/@ownedFlows.0" mSignature="//@mMethodNames.2/@mSignatures.0">
+        <modifier/>
+        <body originalCompilationUnit="//@compilationUnits.1">
+          <statements xsi:type="java:ReturnStatement" originalCompilationUnit="//@compilationUnits.1">
+            <expression xsi:type="org.gravity.modisco:MSingleVariableAccess" variable="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2/@parameters.0"/>
+          </statements>
+        </body>
+        <parameters xsi:type="org.gravity.modisco:MSingleVariableDeclaration" originalCompilationUnit="//@compilationUnits.1" name="a" usageInVariableAccess="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2/@body/@statements.0/@expression" mEntry="//@mMethodNames.2/@mSignatures.0/@mEntrys.0">
+          <modifier/>
+          <type type="//@ownedElements.0/@ownedElements.0"/>
+        </parameters>
+        <returnType type="//@ownedElements.0/@ownedElements.0"/>
+        <ownedFlows flowSource="//@mMethodNames.2/@mSignatures.0/@mEntrys.0" flowTarget="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2"/>
+      </bodyDeclarations>
+      <bodyDeclarations xsi:type="org.gravity.modisco:MMethodDefinition" originalCompilationUnit="//@compilationUnits.1" name="exit" usages="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.1/@body/@statements.0/@expression" mSignature="//@mMethodNames.0/@mSignatures.0">
+        <modifier/>
+        <body originalCompilationUnit="//@compilationUnits.1"/>
+        <parameters xsi:type="org.gravity.modisco:MSingleVariableDeclaration" originalCompilationUnit="//@compilationUnits.1" name="a" mEntry="//@mMethodNames.0/@mSignatures.0/@mEntrys.0">
+          <modifier/>
+          <type type="//@ownedElements.0/@ownedElements.0"/>
+        </parameters>
+        <returnType type="//@orphanTypes.5"/>
+      </bodyDeclarations>
+    </ownedElements>
+  </ownedElements>
+  <orphanTypes xsi:type="java:PrimitiveTypeInt" name="int"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeLong" name="long"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeFloat" name="float"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeDouble" name="double"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeBoolean" name="boolean"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeVoid" name="void" usagesInTypeAccess="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@returnType //@ownedElements.0/@ownedElements.1/@bodyDeclarations.1/@returnType //@ownedElements.0/@ownedElements.1/@bodyDeclarations.3/@returnType"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeChar" name="char"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeShort" name="short"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeByte" name="byte"/>
+  <compilationUnits name="Asset.java" originalFilePath="/home/speldszus/workspace/runtime-workspaces/GRaViTY-runtime/ForwardExample/src/Asset.java" types="//@ownedElements.0/@ownedElements.0"/>
+  <compilationUnits name="Main.java" originalFilePath="/home/speldszus/workspace/runtime-workspaces/GRaViTY-runtime/ForwardExample/src/Main.java" types="//@ownedElements.0/@ownedElements.1"/>
+  <mMethodNames mName="exit" mDefinitions="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3">
+    <mSignatures xsi:type="org.gravity.modisco:MMethodSignature" mDefinitions="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3" mFirstEntry="//@mMethodNames.0/@mSignatures.0/@mEntrys.0" returnType="//@orphanTypes.5">
+      <mEntrys incomingFlows="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.1/@body/@statements.0/@expression/@ownedFlows.0" type="//@ownedElements.0/@ownedElements.0" parameters="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3/@parameters.0"/>
+    </mSignatures>
+  </mMethodNames>
+  <mMethodNames mName="method1" mDefinitions="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.1">
+    <mSignatures xsi:type="org.gravity.modisco:MMethodSignature" mDefinitions="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.1" mFirstEntry="//@mMethodNames.1/@mSignatures.0/@mEntrys.0" returnType="//@orphanTypes.5">
+      <mEntrys incomingFlows="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@expression/@ownedFlows.0" outgoingFlows="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.1/@body/@statements.0/@expression/@arguments.0/@ownedFlows.0" type="//@ownedElements.0/@ownedElements.0" parameters="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.1/@parameters.0"/>
+    </mSignatures>
+  </mMethodNames>
+  <mMethodNames mName="method2" mDefinitions="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2">
+    <mSignatures xsi:type="org.gravity.modisco:MMethodSignature" outgoingFlows="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.1/@body/@statements.0/@expression/@arguments.0/@ownedFlows.1" mDefinitions="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2" mFirstEntry="//@mMethodNames.2/@mSignatures.0/@mEntrys.0" returnType="//@ownedElements.0/@ownedElements.0">
+      <mEntrys incomingFlows="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.1/@body/@statements.0/@expression/@arguments.0/@ownedFlows.0" outgoingFlows="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2/@ownedFlows.0" type="//@ownedElements.0/@ownedElements.0" parameters="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2/@parameters.0"/>
+    </mSignatures>
+  </mMethodNames>
+  <mMethodNames mName="start" mDefinitions="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0">
+    <mSignatures xsi:type="org.gravity.modisco:MMethodSignature" mDefinitions="//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0" returnType="//@orphanTypes.5"/>
+  </mMethodNames>
+  <mMethodNames mName="Asset" mDefinitions="//@ownedElements.0/@ownedElements.0/@bodyDeclarations.0">
+    <mSignatures xsi:type="org.gravity.modisco:MMethodSignature" mDefinitions="//@ownedElements.0/@ownedElements.0/@bodyDeclarations.0" returnType="//@ownedElements.0/@ownedElements.0"/>
+  </mMethodNames>
+</org.gravity.modisco:MGravityModel>
