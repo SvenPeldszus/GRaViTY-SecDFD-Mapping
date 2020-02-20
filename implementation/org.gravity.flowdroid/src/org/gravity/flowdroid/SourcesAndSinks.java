@@ -1,5 +1,6 @@
 package org.gravity.flowdroid;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -41,8 +42,9 @@ public class SourcesAndSinks {
 	 * @param mapper
 	 * @param dfd
 	 * @return
+	 * @throws IOException 
 	 */
-	public SourceAndSink getSourceSinks(Mapper mapper, EDFD dfd) {
+	public SourceAndSink getSourceSinks(Mapper mapper, EDFD dfd) throws IOException {
 		SourceAndSink sourceAndSink = new SourceAndSink();
 
 		for (Asset asset : dfd.getAsset()) {
@@ -53,6 +55,8 @@ public class SourcesAndSinks {
 					List<Element> assettargets = asset.getTargets();
 					//find source correspondences
 					Set<AbstractCorrespondence> flowSourceCorrespondences = findSources(mapper, asset, assetsource);
+			
+					
 					//if user has set attacker zone, find correspondences of those for sinks
 					Set<AbstractCorrespondence> flowSinkCorrespondences = SinkFinder.findTrustZoneSinks(mapper, asset, dfd);
 					//else, find correspondences for asset targets and set as sinks
@@ -60,9 +64,9 @@ public class SourcesAndSinks {
 						//TODO: raise an issue to developer to model attacker observation in trust zone!
 						LOGGER.log(Level.ERROR, "Modeling attacker observation zones in the SecDFD are required for executing data flow analysis.");
 						flowSinkCorrespondences = SinkFinder.findSinks(mapper, asset, assetsource,
-								assettargets);					
+								assettargets);
+						flowSinkCorrespondences = SinkFinder.loadSinksFromFile(flowSinkCorrespondences);
 					}
-					//TODO: treat all flows of assets in code that are not part of secDFD as sinks
 					//TODO: add all signatures from Susi lists, that are not in conflict with the flowSinkCorrespondences
 					addSootSignatures(flowSourceCorrespondences, sourceAndSink.getSources());
 					addSootSignatures(flowSinkCorrespondences, sourceAndSink.getSinks());
