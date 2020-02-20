@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.gravity.mapping.secdfd.AbstractCorrespondence;
@@ -39,12 +40,13 @@ public class SourcesAndSinks {
 	
 	/**
 	 * 
+	 * @param gravity 
 	 * @param mapper
 	 * @param dfd
 	 * @return
 	 * @throws IOException 
 	 */
-	public SourceAndSink getSourceSinks(Mapper mapper, EDFD dfd) throws IOException {
+	public SourceAndSink getSourceSinks(IFolder gravity, Mapper mapper, EDFD dfd) throws IOException {
 		SourceAndSink sourceAndSink = new SourceAndSink();
 
 		for (Asset asset : dfd.getAsset()) {
@@ -63,9 +65,10 @@ public class SourcesAndSinks {
 					if (flowSinkCorrespondences.isEmpty()) {
 						//TODO: raise an issue to developer to model attacker observation in trust zone!
 						LOGGER.log(Level.ERROR, "Modeling attacker observation zones in the SecDFD are required for executing data flow analysis.");
+						//TODO: Debug sinks are empty!!!
 						flowSinkCorrespondences = SinkFinder.findSinks(mapper, asset, assetsource,
 								assettargets);
-						flowSinkCorrespondences = SinkFinder.loadSinksFromFile(flowSinkCorrespondences);
+						//flowSinkCorrespondences = SinkFinder.loadSinksFromFile(gravity, flowSinkCorrespondences);
 					}
 					//TODO: add all signatures from Susi lists, that are not in conflict with the flowSinkCorrespondences
 					addSootSignatures(flowSourceCorrespondences, sourceAndSink.getSources());
@@ -74,7 +77,7 @@ public class SourcesAndSinks {
 				}
 			}
 		}
-		// new structure for hashmap
+		addSootSignatures(findEpoints(mapper, mapper.getDFD()), sourceAndSink.getEpoints());
 		return sourceAndSink;
 	}
 
@@ -93,15 +96,24 @@ public class SourcesAndSinks {
 		}
 	}
 
-	private Set<AbstractCorrespondence> findEpoints(Mapper mapper, Element element) {
-		//even if only one element on DFD, we can have several mappings, therefore several entry points for the analyzer
-		Set<AbstractCorrespondence> epoints = SinkFinder.getMappings(mapper, element);
-		if (epoints.isEmpty()) {
-			// there is no mapping of epoint element -> get the next elements
-			EList<Flow> transporterflows = element.getOutflows();
-			// collect the processes of the outgoing flows
-			return transporterflows.parallelStream().flatMap(flow -> flow.getTarget().parallelStream())
-			.flatMap(target -> SinkFinder.getMappings(mapper, target).parallelStream()).collect(Collectors.toSet());
+	public Set<AbstractCorrespondence> findEpoints(Mapper mapper, EDFD dfd) {
+		Set<AbstractCorrespondence> epoints = null;
+		for (Element element : dfd.getElements()) {
+			//TODO: add outgoing from DataStore!
+			if (element instanceof ExternalEntity) {
+				//even if only one element on DFD, we can have several mappings, therefore several entry points for the analyzer
+				epoints = SinkFinder.getMappings(mapper, element);
+				if (epoints.isEmpty()) {
+					// there is no mapping of epoint element -> get the next elements
+					Set<Flow> transporterflows = element.getOutflows().parallelStream()
+							.filter(flow -> flow.getTarget().size()>0).collect(Collectors.toSet());
+					// collect the processes of the outgoing flows					
+					Set<AbstractCorrespondence> e = transporterflows.parallelStream().flatMap(flow -> flow.getTarget().parallelStream())
+							.flatMap(target -> SinkFinder.getMappings(mapper, target).parallelStream()).collect(Collectors.toSet());
+					epoints.addAll(transporterflows.parallelStream().flatMap(flow -> flow.getTarget().parallelStream())
+					.flatMap(target -> SinkFinder.getMappings(mapper, target).parallelStream()).collect(Collectors.toSet()));
+				}				
+			}	
 		}
 		return epoints;
 	}

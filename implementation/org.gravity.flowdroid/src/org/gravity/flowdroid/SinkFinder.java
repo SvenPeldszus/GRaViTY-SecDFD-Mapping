@@ -45,11 +45,6 @@ public final class SinkFinder {
 	 * The Map of Assets and their flows in the program (
 	 */
 	static Map<Asset, Set<TFlow>> assetFlowSlices;
-	
-	/**
-	 * The location at which the SuSi sinks are stored
-	 */
-	private static IFolder destination = "org.gravity.flowdroid";
 
 	/**
 	 *  A class for preparing a list of sinks by:
@@ -65,11 +60,12 @@ public final class SinkFinder {
 	
 	
 	/**
+	 * 1)
 	 * @throws IOException
 	 */
-	static Set<AbstractCorrespondence> loadSinksFromFile(Set<AbstractCorrespondence> sinks) throws IOException {
+	static Set<AbstractCorrespondence> loadSinksFromFile(IFolder gravity, Set<AbstractCorrespondence> sinks) throws IOException {
 		IOException exception = null;
-		File SuSiSinksFile = destination.getFile("Ouput_CatSinks_v0_9.txt").getLocation().toFile();
+		File SuSiSinksFile = gravity.getFile("Ouput_CatSinks_v0_9.txt").getLocation().toFile();
 		if (SuSiSinksFile.exists()) {
 			try {
 				for (String s : Files.readAllLines(SuSiSinksFile.toPath())) {

@@ -42,23 +42,6 @@ public class Example {
 	 * @throws CoreException
 	 */
 	@Test
-	public void testSecureStorageCompliance() throws IOException, CoreException {
-		IProject project = EclipseProjectUtil.getProjectByName("org.eclipse.equinox.security");
-		IProgressMonitor monitor = new NullProgressMonitor();
-		IFolder gravity = EclipseProjectUtil.getGravityFolder(project, monitor);
-		IFile corr = gravity.getFile("storepassword.corr.xmi");
-		Mapper mapper = new Mapper(corr);
-
-		new StructuralDivergenceCheck().check(mapper);
-	}
-
-	/**
-	 * Run as JUnit plugin test
-	 * 
-	 * @throws IOException
-	 * @throws CoreException
-	 */
-	@Test
 	public void testSecureStorageDF() throws IOException, CoreException {
 		IProject project = EclipseProjectUtil.getProjectByName("org.eclipse.equinox.security");
 		IProgressMonitor monitor = new NullProgressMonitor();
@@ -66,8 +49,8 @@ public class Example {
 		IFile corr = gravity.getFile("storepassword.corr.xmi");
 		Mapper mapper = new Mapper(corr);
 
-		new StructuralDivergenceCheck().check(mapper);
-		SourceAndSink sourcesAndSinks = new SourcesAndSinks().getSourceSinks(mapper, mapper.getDFD());
+		//already creates epoints
+		SourceAndSink sourcesAndSinks = new SourcesAndSinks().getSourceSinks(gravity, mapper, mapper.getDFD());
 
 		soot.G.reset();
 
@@ -93,10 +76,11 @@ public class Example {
 //		<org.eclipse.equinox.internal.security.storage.JavaEncryption: byte[] internalDecrypt(org.eclipse.equinox.internal.security.storage.PasswordExt, org.eclipse.equinox.internal.security.storage.CryptoData)>
 
 		List<String> epoints = new ArrayList<String>();
+
 		epoints.add("<org.eclipse.equinox.internal.security.storage.SecurePreferencesRoot:"
 				+ " org.eclipse.equinox.internal.security.storage.PasswordExt "
 				+ "getPassword(java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer, boolean)>");
-
+		
 		Set<String> sources = sourcesAndSinks.getSources();
 		System.out.println("Sources:\n" + String.join(",\n", sources));
 		Set<String> sinks = sourcesAndSinks.getSinks();
