@@ -22,10 +22,8 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
-import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
-import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.NodeFinder;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.PrimitiveType;
@@ -64,7 +62,7 @@ public class TextEditorHandler extends AbstractHandler {
 	/**
 	 * The logger of this class
 	 */
-	private static final Logger LOGGER = Logger.getLogger(TextEditorHandler.class);
+	public static final Logger LOGGER = Logger.getLogger(TextEditorHandler.class);
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -157,7 +155,7 @@ public class TextEditorHandler extends AbstractHandler {
 			if (parent.getNodeType() == ASTNode.FIELD_DECLARATION) {
 				FieldDeclaration field = (FieldDeclaration) parent;
 				String name = ((VariableDeclarationFragment) node).getName().toString();
-				TAbstractType tType = JavaASTUtil.getTClass((TypeDeclaration) field.getParent(), pm);
+				TAbstractType tType = JavaASTUtil.getType((TypeDeclaration) field.getParent(), pm);
 				List<EObject> fieldList = new LinkedList<>(tType.getDefines().stream()
 						.filter(member -> (member instanceof TFieldDefinition))
 						.filter(def -> ((TFieldDefinition) def).getSignature().getField().getTName().equals(name))
@@ -170,7 +168,6 @@ public class TextEditorHandler extends AbstractHandler {
 		case ASTNode.METHOD_DECLARATION:
 			MethodDeclaration method = (MethodDeclaration) node;
 			TMethodSignature tMethodSignature = JavaASTUtil.getTMethodSignature(method, pm);
-			System.out.println(tMethodSignature);
 			TypeDeclaration definingType = (TypeDeclaration) method.getParent();
 			PackageDeclaration containingPackage = ((CompilationUnit) definingType.getParent()).getPackage();
 			String fullyQualifiedName = containingPackage.getName().getFullyQualifiedName() + "." //$NON-NLS-1$
@@ -178,82 +175,14 @@ public class TextEditorHandler extends AbstractHandler {
 			TAbstractType tDeclaringType = pm.getType(fullyQualifiedName);
 			return Collections.singletonList(tMethodSignature.getTDefinition(tDeclaringType));
 		case ASTNode.TYPE_DECLARATION:
-			return Collections.singletonList(typeDeclaration((TypeDeclaration) node, pm));
+			return Collections.singletonList(JavaASTUtil.getType((TypeDeclaration) node, pm));
 		case ASTNode.SIMPLE_TYPE:
-			return Collections.singletonList(simpleType((SimpleType) node, pm));
+			return Collections.singletonList(JavaASTUtil.getType((SimpleType) node, pm));
 		default:
 			LOGGER.error("Unknown ASTNode kind: " + node.getNodeType());
 		}
 
 		return null;
-	}
-
-	/**
-	 * @param typeDeclaration
-	 * @param pm
-	 * @return
-	 */
-	private static TAbstractType typeDeclaration(TypeDeclaration typeDeclaration, TypeGraph pm) {
-		ASTNode tmpASTNode2 = typeDeclaration.getParent();
-		if (tmpASTNode2 instanceof CompilationUnit) {
-			TAbstractType tType = getType((CompilationUnit) tmpASTNode2, typeDeclaration.getName(), pm);
-			if (tType != null) {
-				return tType;
-			}
-		}
-		return JavaASTUtil.getTClass(typeDeclaration, pm);
-	}
-
-	/**
-	 * @param node
-	 * @param pm
-	 * @return
-	 */
-	private static TAbstractType simpleType(SimpleType node, TypeGraph pm) {
-		Name typeName = node.getName();
-		String fullyQualifiedName = typeName.getFullyQualifiedName();
-		if(typeName.isQualifiedName()) {
-			return pm.getType(fullyQualifiedName);
-		}
-		ASTNode root = node.getRoot();
-		if (root instanceof CompilationUnit) {
-			CompilationUnit cu = (CompilationUnit) root;
-			for (Object entry : cu.imports()) {
-				ImportDeclaration imp = (ImportDeclaration) entry;
-				String importedPackage = imp.getName().getFullyQualifiedName();
-				
-				if (imp.isOnDemand()) {
-					TAbstractType type = pm.getType(importedPackage + '.' + typeName);
-					if(type != null) {
-						return type;
-					}
-				} else {
-					String name = importedPackage.substring(importedPackage.lastIndexOf('.') + 1);
-					if(name.equals(fullyQualifiedName)) {
-						return pm.getType(importedPackage);
-					}
-				}
-			}
-			LOGGER.error("Couldn't find SimpleType: "+fullyQualifiedName);
-		}
-		else {
-			LOGGER.error("Root of a SimpleType \"" + fullyQualifiedName
-					+ "\"is not a CompilationUnit but: " + root);
-		}
-		return null;
-	}
-
-	/**
-	 * @param cu
-	 * @param name
-	 * @param pm
-	 * @return
-	 */
-	private static TAbstractType getType(CompilationUnit cu, Name name, TypeGraph pm) {
-		PackageDeclaration childPackage = cu.getPackage();
-		String packageName = childPackage.getName().getFullyQualifiedName();
-		TAbstractType tType = pm.getType(packageName + "." + name); //$NON-NLS-1$
-		return tType;
 	}
 
 	/**
