@@ -12,88 +12,9 @@
 <booleanAttribute key="clearwslog" value="false"/>
 <stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/pde-junit"/>
 <booleanAttribute key="default" value="false"/>
-<setAttribute key="deselected_workspace_bundles">
-<setEntry value="HackEGit"/>
-<setEntry value="Symmetric"/>
-<setEntry value="ca.mcgill.sable.soot"/>
-<setEntry value="ca.mcgill.sable.soot.help"/>
-<setEntry value="ca.mcgill.sable.soot.lib"/>
-<setEntry value="carisma.profile.umlsec"/>
-<setEntry value="carisma.profile.umlsec.enc"/>
-<setEntry value="carisma.profile.umlsec.variability"/>
-<setEntry value="carisma.profile.umlsec.variability.henshin"/>
-<setEntry value="carisma.rt.editor"/>
-<setEntry value="carisma.rt.models"/>
-<setEntry value="de.unikoblenz.emoflon.tgg.mutationtest"/>
-<setEntry value="de.unikoblenz.emoflon.tgg.mutationtest.tests"/>
-<setEntry value="de.unikoblenz.emoflon.tgg.mutationtest.ui"/>
-<setEntry value="metric.correlation.analysis"/>
-<setEntry value="metric.correlation.analysis.dependencies"/>
-<setEntry value="org.eclipse.emf.henshin.adapters.xtext"/>
-<setEntry value="org.eclipse.emf.henshin.diagram"/>
-<setEntry value="org.eclipse.emf.henshin.edit"/>
-<setEntry value="org.eclipse.emf.henshin.editor"/>
-<setEntry value="org.eclipse.emf.henshin.examples"/>
-<setEntry value="org.eclipse.emf.henshin.giraph"/>
-<setEntry value="org.eclipse.emf.henshin.interpreter"/>
-<setEntry value="org.eclipse.emf.henshin.interpreter.ui"/>
-<setEntry value="org.eclipse.emf.henshin.model"/>
-<setEntry value="org.eclipse.emf.henshin.multicda.cda"/>
-<setEntry value="org.eclipse.emf.henshin.multicda.cpa"/>
-<setEntry value="org.eclipse.emf.henshin.multicda.cpa.ui"/>
-<setEntry value="org.eclipse.emf.henshin.rulegen"/>
-<setEntry value="org.eclipse.emf.henshin.rulegen.tests"/>
-<setEntry value="org.eclipse.emf.henshin.rulegen.ui"/>
-<setEntry value="org.eclipse.emf.henshin.statespace"/>
-<setEntry value="org.eclipse.emf.henshin.statespace.explorer"/>
-<setEntry value="org.eclipse.emf.henshin.statespace.external"/>
-<setEntry value="org.eclipse.emf.henshin.tests"/>
-<setEntry value="org.eclipse.emf.henshin.text"/>
-<setEntry value="org.eclipse.emf.henshin.text.ide"/>
-<setEntry value="org.eclipse.emf.henshin.text.tests"/>
-<setEntry value="org.eclipse.emf.henshin.text.transformation"/>
-<setEntry value="org.eclipse.emf.henshin.text.transformation.tests"/>
-<setEntry value="org.eclipse.emf.henshin.text.ui"/>
-<setEntry value="org.eclipse.emf.henshin.trace"/>
-<setEntry value="org.eclipse.emf.henshin.variability"/>
-<setEntry value="org.eclipse.emf.henshin.variability.configuration"/>
-<setEntry value="org.eclipse.emf.henshin.variability.configuration.ui"/>
-<setEntry value="org.eclipse.emf.henshin.variability.mergein"/>
-<setEntry value="org.eclipse.emf.henshin.variability.mergein.evaluation"/>
-<setEntry value="org.eclipse.emf.henshin.variability.mergein.refactoring"/>
-<setEntry value="org.eclipse.emf.henshin.variability.mergein.ui"/>
-<setEntry value="org.eclipse.emf.henshin.variability.multi"/>
-<setEntry value="org.eclipse.emf.henshin.variability.multi.eval"/>
-<setEntry value="org.eclipse.emf.henshin.variability.test"/>
-<setEntry value="org.eclipse.emf.henshin.wrap"/>
-<setEntry value="org.gravity.branding"/>
-<setEntry value="org.gravity.eclipse.tests"/>
-<setEntry value="org.gravity.goblin"/>
-<setEntry value="org.gravity.goblin.tests"/>
-<setEntry value="org.gravity.hulk"/>
-<setEntry value="org.gravity.hulk.annotations"/>
-<setEntry value="org.gravity.hulk.antipatterngraph"/>
-<setEntry value="org.gravity.hulk.refactoringgraph"/>
-<setEntry value="org.gravity.hulk.tests"/>
-<setEntry value="org.gravity.hulk.ui"/>
-<setEntry value="org.gravity.hulk.ui.visualization"/>
-<setEntry value="org.gravity.metrics.sourcemeter"/>
-<setEntry value="org.gravity.neo4j"/>
-<setEntry value="org.gravity.refactorings"/>
-<setEntry value="org.gravity.refactorings.tests"/>
-<setEntry value="org.gravity.refactorings.ui"/>
-<setEntry value="org.gravity.security.analysis"/>
-<setEntry value="org.gravity.security.annotations"/>
-<setEntry value="org.gravity.security.updatesite"/>
-<setEntry value="org.gravity.tgg.modisco.ui"/>
-<setEntry value="org.gravity.tgg.modisco.uml"/>
-<setEntry value="org.gravity.tgg.modisco.uml.tests"/>
-<setEntry value="org.gravity.tgg.tests"/>
-<setEntry value="org.gravity.typegraph.delta.tests"/>
-<setEntry value="org.gravity.uml.papyrus"/>
-</setAttribute>
+<setAttribute key="deselected_workspace_bundles"/>
 <booleanAttribute key="includeOptional" value="true"/>
-<stringAttribute key="location" value="/home/speldszus/workspace/runtime-workspaces/GRaViTY-runtime"/>
+<stringAttribute key="location" value="${workspace_loc}/../runtime-EclipseXtext"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
 <listEntry value="/org.gravity.flowdroid/src/org/gravity/flowdroid/Example.java"/>
 </listAttribute>
@@ -108,6 +29,7 @@
 <booleanAttribute key="org.eclipse.jdt.junit.KEEPRUNNING_ATTR" value="false"/>
 <stringAttribute key="org.eclipse.jdt.junit.TESTNAME" value=""/>
 <stringAttribute key="org.eclipse.jdt.junit.TEST_KIND" value="org.eclipse.jdt.junit.loader.junit4"/>
+<booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.gravity.flowdroid.Example"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog"/>
@@ -128,8 +50,6 @@
 <setEntry value="javax.annotation@default:default"/>
 <setEntry value="javax.inject@default:default"/>
 <setEntry value="javax.servlet@default:default"/>
-<setEntry value="javax.transaction@default:false"/>
-<setEntry value="javax.xml.stream@default:default"/>
 <setEntry value="javax.xml@default:default"/>
 <setEntry value="lpg.runtime.java@default:default"/>
 <setEntry value="net.sourceforge.plantuml.eclipse.imagecontrol@default:default"/>
@@ -143,7 +63,6 @@
 <setEntry value="org.apache.batik.i18n@default:default"/>
 <setEntry value="org.apache.batik.util*1.11.0.v20190515-0436@default:default"/>
 <setEntry value="org.apache.commons.cli@default:default"/>
-<setEntry value="org.apache.commons.fileupload@default:default"/>
 <setEntry value="org.apache.commons.io@default:default"/>
 <setEntry value="org.apache.commons.jxpath@default:default"/>
 <setEntry value="org.apache.commons.lang3@default:default"/>
@@ -179,10 +98,8 @@
 <setEntry value="org.eclipse.core.expressions@default:default"/>
 <setEntry value="org.eclipse.core.externaltools@default:default"/>
 <setEntry value="org.eclipse.core.filebuffers@default:default"/>
-<setEntry value="org.eclipse.core.filesystem.linux.x86_64@default:false"/>
 <setEntry value="org.eclipse.core.filesystem@default:default"/>
 <setEntry value="org.eclipse.core.jobs@default:default"/>
-<setEntry value="org.eclipse.core.net.linux.x86_64@default:false"/>
 <setEntry value="org.eclipse.core.net@default:default"/>
 <setEntry value="org.eclipse.core.resources@default:default"/>
 <setEntry value="org.eclipse.core.runtime@default:true"/>
@@ -205,7 +122,6 @@
 <setEntry value="org.eclipse.e4.ui.dialogs@default:default"/>
 <setEntry value="org.eclipse.e4.ui.model.workbench@default:default"/>
 <setEntry value="org.eclipse.e4.ui.services@default:default"/>
-<setEntry value="org.eclipse.e4.ui.swt.gtk@default:false"/>
 <setEntry value="org.eclipse.e4.ui.widgets@default:default"/>
 <setEntry value="org.eclipse.e4.ui.workbench.addons.swt@default:default"/>
 <setEntry value="org.eclipse.e4.ui.workbench.renderers.swt@default:default"/>
@@ -242,7 +158,6 @@
 <setEntry value="org.eclipse.equinox.frameworkadmin@default:default"/>
 <setEntry value="org.eclipse.equinox.http.jetty@default:default"/>
 <setEntry value="org.eclipse.equinox.http.servlet@default:default"/>
-<setEntry value="org.eclipse.equinox.launcher.gtk.linux.x86_64@default:false"/>
 <setEntry value="org.eclipse.equinox.launcher@default:default"/>
 <setEntry value="org.eclipse.equinox.p2.artifact.repository@default:default"/>
 <setEntry value="org.eclipse.equinox.p2.core@default:default"/>
@@ -263,7 +178,6 @@
 <setEntry value="org.eclipse.equinox.p2.updatesite@default:default"/>
 <setEntry value="org.eclipse.equinox.preferences@default:default"/>
 <setEntry value="org.eclipse.equinox.registry@default:default"/>
-<setEntry value="org.eclipse.equinox.security.linux.x86_64@default:false"/>
 <setEntry value="org.eclipse.equinox.security.ui@default:default"/>
 <setEntry value="org.eclipse.equinox.security@default:default"/>
 <setEntry value="org.eclipse.equinox.simpleconfigurator.manipulator@default:default"/>
@@ -333,7 +247,6 @@
 <setEntry value="org.eclipse.pde.core@default:default"/>
 <setEntry value="org.eclipse.pde.launching@default:default"/>
 <setEntry value="org.eclipse.pde.ui@default:default"/>
-<setEntry value="org.eclipse.rap.rwt@default:default"/>
 <setEntry value="org.eclipse.search@default:default"/>
 <setEntry value="org.eclipse.sirius.common.acceleo.aql@default:default"/>
 <setEntry value="org.eclipse.sirius.common@default:default"/>
@@ -342,7 +255,6 @@
 <setEntry value="org.eclipse.sirius.ext.emf.tx@default:default"/>
 <setEntry value="org.eclipse.sirius.ext.emf@default:default"/>
 <setEntry value="org.eclipse.sirius@default:default"/>
-<setEntry value="org.eclipse.swt.gtk.linux.x86_64@default:false"/>
 <setEntry value="org.eclipse.swt@default:default"/>
 <setEntry value="org.eclipse.team.core@default:default"/>
 <setEntry value="org.eclipse.team.ui@default:default"/>
@@ -429,11 +341,8 @@
 <setEntry value="org.moflon.core.ui@default:default"/>
 <setEntry value="org.moflon.core.utilities@default:default"/>
 <setEntry value="org.moflon.emf.codegen@default:default"/>
-<setEntry value="org.objectweb.asm*7.0.0.v20181030-2244@default:default"/>
-<setEntry value="org.objectweb.asm*7.2.0.v20191010-1910@default:default"/>
-<setEntry value="org.objectweb.asm.commons@default:default"/>
-<setEntry value="org.objectweb.asm.tree*7.0.0.v20181030-2244@default:default"/>
-<setEntry value="org.objectweb.asm.tree*7.2.0.v20191010-1910@default:default"/>
+<setEntry value="org.objectweb.asm.tree@default:default"/>
+<setEntry value="org.objectweb.asm@default:default"/>
 <setEntry value="org.opentest4j@default:default"/>
 <setEntry value="org.sat4j.core@default:default"/>
 <setEntry value="org.sat4j.pb@default:default"/>
@@ -451,9 +360,6 @@
 <setEntry value="org.gravity.flowdroid@default:default"/>
 <setEntry value="org.gravity.mapping.secdfd@default:default"/>
 <setEntry value="org.gravity.modisco@default:default"/>
-<setEntry value="org.gravity.tgg.modisco@default:default"/>
-<setEntry value="org.gravity.typegraph.basic.tests@default:default"/>
-<setEntry value="org.gravity.typegraph.basic.ui@default:default"/>
 <setEntry value="org.gravity.typegraph.basic@default:default"/>
 <setEntry value="org.secdfd.dsl.ide@default:default"/>
 <setEntry value="org.secdfd.dsl.tests@default:default"/>

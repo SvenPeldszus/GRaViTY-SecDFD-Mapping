@@ -17,7 +17,7 @@ public class CheckContractsAction extends Action {
 		try {
 			EncryptionCheck checker = new EncryptionCheck(mappingView.getGravityFolder(),
 					mappingView.getProgramModel().getValue(), mappingView.getMappers().values());
-			checker.checkImplementedEncyption();
+			checker.checkSecurityContracts();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

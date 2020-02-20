@@ -1,1 +1,3 @@
 javax.crypto.Cipher.init(int, Key, AlgorithmParameterSpec):Object
+org.eclipse.equinox.internal.security.storage.JavaEncryption.decrypt(PasswordExt, CryptoData):byte
+org.eclipse.equinox.internal.security.storage.JavaEncryption.internalDecrypt(PasswordExt, CryptoData):byte

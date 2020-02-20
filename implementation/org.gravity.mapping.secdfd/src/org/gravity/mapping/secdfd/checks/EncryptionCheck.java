@@ -136,7 +136,7 @@ public class EncryptionCheck {
 	 * @return
 	 * @throws IOException
 	 */
-	public void checkImplementedEncyption() throws IOException {
+	public void checkSecurityContracts() throws IOException {
 		// load signatures from file
 		loadSignaturesFromFile();
 		DataProcessingCheck dataProcessing = new DataProcessingCheck();
