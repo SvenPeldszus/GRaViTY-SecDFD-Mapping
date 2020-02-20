@@ -46,6 +46,7 @@ import org.gravity.mapping.secdfd.views.DFDSelectionView;
 import org.gravity.mapping.secdfd.views.MappingView;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TFieldDefinition;
+import org.gravity.typegraph.basic.TInterface;
 import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TMethodSignature;
@@ -172,7 +173,6 @@ public class TextEditorHandler extends AbstractHandler {
 			System.out.println(tMethodSignature);
 			TypeDeclaration definingType = (TypeDeclaration) method.getParent();
 			PackageDeclaration containingPackage = ((CompilationUnit) definingType.getParent()).getPackage();
-			;
 			String fullyQualifiedName = containingPackage.getName().getFullyQualifiedName() + "." //$NON-NLS-1$
 					+ definingType.getName();
 			TAbstractType tDeclaringType = pm.getType(fullyQualifiedName);

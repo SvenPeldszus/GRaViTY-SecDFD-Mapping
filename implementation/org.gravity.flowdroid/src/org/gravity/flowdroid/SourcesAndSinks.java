@@ -34,16 +34,14 @@ public class SourcesAndSinks {
 	 * The logger of this class
 	 */
 	static final Logger LOGGER = Logger.getLogger(SourcesAndSinks.class);
-	
-	public static Set<AbstractCorrespondence> getMappings(Mapper mapper, EObject dfdelement) {
-		EList<AbstractCorrespondence> allcorresp = mapper.getMapping().getUserdefined();
-		allcorresp.addAll(mapper.getMapping().getSuggested());
-		allcorresp.addAll(mapper.getMapping().getAccepted());
-		
-		return allcorresp.parallelStream()
-				.filter(cor -> CorrespondenceHelper.getTarget(cor).equals(dfdelement)).collect(Collectors.toSet());
-	}
 
+	
+	/**
+	 * 
+	 * @param mapper
+	 * @param dfd
+	 * @return
+	 */
 	public SourceAndSink getSourceSinks(Mapper mapper, EDFD dfd) {
 		SourceAndSink sourceAndSink = new SourceAndSink();
 
@@ -56,17 +54,19 @@ public class SourcesAndSinks {
 					//find source correspondences
 					Set<AbstractCorrespondence> flowSourceCorrespondences = findSources(mapper, asset, assetsource);
 					//if user has set attacker zone, find correspondences of those for sinks
-					Set<AbstractCorrespondence> flowSinkCorrespondences = findTrustZoneSinks(mapper, asset, dfd);
+					Set<AbstractCorrespondence> flowSinkCorrespondences = SinkFinder.findTrustZoneSinks(mapper, asset, dfd);
 					//else, find correspondences for asset targets and set as sinks
 					if (flowSinkCorrespondences.isEmpty()) {
 						//TODO: raise an issue to developer to model attacker observation in trust zone!
 						LOGGER.log(Level.ERROR, "Modeling attacker observation zones in the SecDFD are required for executing data flow analysis.");
-						//flowSinkCorrespondences = findSinks(mapper, asset, assetsource,
-						//		assettargets);					
+						flowSinkCorrespondences = SinkFinder.findSinks(mapper, asset, assetsource,
+								assettargets);					
 					}
+					//TODO: treat all flows of assets in code that are not part of secDFD as sinks
 					//TODO: add all signatures from Susi lists, that are not in conflict with the flowSinkCorrespondences
 					addSootSignatures(flowSourceCorrespondences, sourceAndSink.getSources());
 					addSootSignatures(flowSinkCorrespondences, sourceAndSink.getSinks());
+					
 				}
 			}
 		}
@@ -89,77 +89,30 @@ public class SourcesAndSinks {
 		}
 	}
 
-	private Set<AbstractCorrespondence> findTrustZoneSinks(Mapper mapper, Asset asset, EDFD dfd) {
-		Set<AbstractCorrespondence> sinks = new HashSet<>();
-		
-		//get trust zones with attacker observation > 0 and contains elements that handle asset
-		Set<Element> trustzones = dfd.getTrustzones().parallelStream()
-		.filter(zone -> zone.getAttackerprofile().parallelStream()
-				.anyMatch(profile -> profile.getObservation()>0)
-				)		
-		.flatMap(zone -> zone.getElements().parallelStream())
-				.filter(el -> el.getAssets().contains(asset))			
-		.collect(Collectors.toSet());
-		
-		//since each Element has an Attacker attribute, easier to do
-		Set<Element> attackerelements = dfd.getElements().parallelStream()
-		.filter(el -> el.getAssets().contains(asset))
-		.filter(el -> el.isAttacker())
-		.collect(Collectors.toSet());
-		//take the union of elements
-		attackerelements.addAll(trustzones);
-		
-		for (Element e : attackerelements) {
-			sinks.addAll(getMappings(mapper, e));
-		}
-		return sinks;
-	}
-
 	private Set<AbstractCorrespondence> findEpoints(Mapper mapper, Element element) {
 		//even if only one element on DFD, we can have several mappings, therefore several entry points for the analyzer
-		Set<AbstractCorrespondence> epoints = getMappings(mapper, element);
+		Set<AbstractCorrespondence> epoints = SinkFinder.getMappings(mapper, element);
 		if (epoints.isEmpty()) {
 			// there is no mapping of epoint element -> get the next elements
 			EList<Flow> transporterflows = element.getOutflows();
 			// collect the processes of the outgoing flows
 			return transporterflows.parallelStream().flatMap(flow -> flow.getTarget().parallelStream())
-			.flatMap(target -> getMappings(mapper, target).parallelStream()).collect(Collectors.toSet());
+			.flatMap(target -> SinkFinder.getMappings(mapper, target).parallelStream()).collect(Collectors.toSet());
 		}
 		return epoints;
 	}
 
-	private Set<AbstractCorrespondence> findSinks(Mapper m, Asset asset, NamedEntity assetsource,
-			List<Element> assettargets) {
-		Set<AbstractCorrespondence> sinks = new HashSet<>();
-		for (Element el : assettargets) {
-			sinks.addAll(getMappings(m, el));
-
-			if (sinks.isEmpty()) {
-				// there is no mapping of asset source element -> get the previous element
-				Stream<Flow> transporterFlows = getTargetFlows(asset, assetsource);
-				// collect the processes of the incoming flows:
-				sinks.addAll(transporterFlows.flatMap(flow -> flow.getTarget().parallelStream())
-						.flatMap(target -> getMappings(m, target).parallelStream()).collect(Collectors.toSet()));
-			}
-		}
-		return sinks;
-	}
 
 	private Set<AbstractCorrespondence> findSources(Mapper m, Asset asset, NamedEntity assetsource) {
-		Set<AbstractCorrespondence> sources = getMappings(m, assetsource);
+		Set<AbstractCorrespondence> sources = SinkFinder.getMappings(m, assetsource);
 		if (sources.isEmpty()) {
 			// there is no mapping of asset source element -> get the next element
 			Stream<Flow> transporterflows = getSourceFlows(asset, assetsource);
 			// collect the processes of the outgoing flows:
 			return transporterflows.flatMap(flow -> flow.getTarget().parallelStream())
-					.flatMap(target -> getMappings(m, target).parallelStream()).collect(Collectors.toSet());
+					.flatMap(target -> SinkFinder.getMappings(m, target).parallelStream()).collect(Collectors.toSet());
 		}
 		return sources;
-	}
-
-	private Stream<Flow> getTargetFlows(Asset asset, NamedEntity assetsource) {
-		return ((Element) assetsource).getInflows().parallelStream()
-				.filter(inflow -> inflow.getAssets().contains(asset)).distinct();
 	}
 
 	private Stream<Flow> getSourceFlows(Asset asset, NamedEntity assetsource) {

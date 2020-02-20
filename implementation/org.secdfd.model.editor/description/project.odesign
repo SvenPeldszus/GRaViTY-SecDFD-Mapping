@@ -33,27 +33,27 @@
         </nodeMappings>
         <nodeMappings name="Asset" domainClass="model::Asset">
           <borderedNodeMappings name="Value" semanticCandidatesExpression="feature:eAllContents" domainClass="model::Value">
-            <style xsi:type="style:LozengeNodeDescription" labelSize="12" labelExpression="feature:Objective" labelPosition="node" resizeKind="NSEW">
+            <style xsi:type="style:LozengeNodeDescription" labelSize="12" labelExpression="feature:Objective" labelPosition="node" resizeKind="NSEW" widthComputationExpression="5" heightComputationExpression="3">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
             </style>
             <conditionnalStyles predicateExpression="[self.Priority = Priority::H/]">
-              <style xsi:type="style:LozengeNodeDescription" labelSize="12" labelExpression="feature:Objective" labelPosition="node" resizeKind="NSEW">
+              <style xsi:type="style:LozengeNodeDescription" labelSize="12" labelExpression="aql:self.Objective.toString().first(2)" labelPosition="node" resizeKind="NSEW" widthComputationExpression="5" heightComputationExpression="3">
                 <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
               </style>
             </conditionnalStyles>
             <conditionnalStyles predicateExpression="[self.Priority = Priority::M/]">
-              <style xsi:type="style:LozengeNodeDescription" labelSize="12" labelExpression="feature:Objective" labelPosition="node" resizeKind="NSEW">
+              <style xsi:type="style:LozengeNodeDescription" labelSize="12" labelExpression="feature:Objective" labelPosition="node" resizeKind="NSEW" widthComputationExpression="5" heightComputationExpression="3">
                 <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='orange']"/>
               </style>
             </conditionnalStyles>
           </borderedNodeMappings>
-          <style xsi:type="style:LozengeNodeDescription" labelSize="12" labelExpression="feature:value" sizeComputationExpression="4" labelPosition="node" resizeKind="NSEW">
+          <style xsi:type="style:LozengeNodeDescription" labelSize="12" sizeComputationExpression="4" labelPosition="node" resizeKind="NSEW" widthComputationExpression="10" heightComputationExpression="3">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
@@ -62,10 +62,10 @@
         <edgeMappings name="Flow" sourceMapping="//@ownedViewpoints[name='eDFD']/@ownedRepresentations[name='extendedDFD']/@defaultLayer/@nodeMappings[name='ExternalEntity'] //@ownedViewpoints[name='eDFD']/@ownedRepresentations[name='extendedDFD']/@defaultLayer/@nodeMappings[name='Process'] //@ownedViewpoints[name='eDFD']/@ownedRepresentations[name='extendedDFD']/@defaultLayer/@nodeMappings[name='DataStore']" targetMapping="//@ownedViewpoints[name='eDFD']/@ownedRepresentations[name='extendedDFD']/@defaultLayer/@nodeMappings[name='ExternalEntity'] //@ownedViewpoints[name='eDFD']/@ownedRepresentations[name='extendedDFD']/@defaultLayer/@nodeMappings[name='Process'] //@ownedViewpoints[name='eDFD']/@ownedRepresentations[name='extendedDFD']/@defaultLayer/@nodeMappings[name='DataStore']" targetFinderExpression="feature:target" sourceFinderExpression="feature:source" domainClass="model::Flow" useDomainElement="true">
           <style sizeComputationExpression="2">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
-            <beginLabelStyleDescription labelSize="12" labelExpression="feature:Channel">
+            <beginLabelStyleDescription labelSize="12">
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </beginLabelStyleDescription>
-            <centerLabelStyleDescription labelSize="12" labelExpression="feature:name">
+            <centerLabelStyleDescription labelSize="12" labelExpression="aql:self.assets->collect(a | a.name)">
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </centerLabelStyleDescription>
           </style>
