@@ -90,14 +90,6 @@
             genModel="model/Mapping.genmodel"/>
    </extension>
 
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated Mapping -->
-      <package
-            uri="http://www.secdfd.org/secdfd"
-            class="org.secdfd.model.ModelPackage"
-            genModel="model/Mapping.genmodel"/>
-   </extension>
-
    <extension
          id="org.gravity.mapping.secdfd.markers.java"
          name="Mapping Marker"

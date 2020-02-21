@@ -76,12 +76,15 @@ public class Example {
 //		<org.eclipse.equinox.internal.security.storage.JavaEncryption: byte[] internalDecrypt(org.eclipse.equinox.internal.security.storage.PasswordExt, org.eclipse.equinox.internal.security.storage.CryptoData)>
 
 		List<String> epoints = new ArrayList<String>();
-
+		
 		epoints.add("<org.eclipse.equinox.internal.security.storage.SecurePreferencesRoot:"
 				+ " org.eclipse.equinox.internal.security.storage.PasswordExt "
 				+ "getPassword(java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer, boolean)>");
-		
+		epoints.addAll(sourcesAndSinks.getEpoints());
 		Set<String> sources = sourcesAndSinks.getSources();
+		sources.add("<org.eclipse.equinox.internal.security.storage.SecurePreferencesRoot: org.eclipse.equinox.internal.security.storage.PasswordExt getPassword(java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer, boolean)>");
+		sources.add("<org.eclipse.equinox.internal.security.storage.SecurePreferencesRoot: org.eclipse.equinox.internal.security.storage.PasswordExt getModulePassword(java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer)>");
+		sources.add("<org.eclipse.equinox.internal.security.storage.SecurePreferences: java.lang.float getFloat(java.lang.String, java.lang.float, org.eclipse.equinox.internal.security.storage.SecurePreferencesContainer)>");
 		System.out.println("Sources:\n" + String.join(",\n", sources));
 		Set<String> sinks = sourcesAndSinks.getSinks();
 		System.out.println("Sinks:\n" + String.join(",\n", sinks));

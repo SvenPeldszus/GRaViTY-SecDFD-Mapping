@@ -55,12 +55,12 @@ public final class SinkFinder {
 	 *
 	 */
 	private SinkFinder() {
-		// This class shouldn't be instantiated
+		
 	}
 	
 	
 	/**
-	 * 1)
+	 * 1) SuSi list
 	 * @throws IOException
 	 */
 	static Set<AbstractCorrespondence> loadSinksFromFile(IFolder gravity, Set<AbstractCorrespondence> sinks) throws IOException {
@@ -88,59 +88,41 @@ public final class SinkFinder {
 	
 
 	/**
-	 * 2) asset final target
-	 * @param m
-	 * @param asset
-	 * @param assetsource
-	 * @param assettargets
-	 * @return
-	 */
-	public static Set<AbstractCorrespondence> findSinks(Mapper m, Asset asset, NamedEntity assetsource,
-			List<Element> assettargets) {
-		Set<AbstractCorrespondence> sinks = new HashSet<>();
-		for (Element el : assettargets) {
-			if (el instanceof ExternalEntity || el instanceof DataStore) {
-				sinks.addAll(getMappings(m, el));
-				if (sinks.isEmpty()) {
-					// there is no mapping of asset source element -> get the previous element
-					Stream<Flow> transporterFlows = getTargetFlows(asset, assetsource);
-					// collect the processes of the incoming flows:
-					sinks.addAll(transporterFlows.flatMap(flow -> flow.getTarget().parallelStream())
-							.flatMap(target -> getMappings(m, target).parallelStream()).collect(Collectors.toSet()));
-				}
-			}
-		}
-		return sinks;
-	}
-	
-	/**
+	 * 2) incoming data flows to DS and EE
 	 * 3) modeler specified trust zones
 	 * @param mapper
-	 * @param asset
 	 * @param dfd
 	 * @return
 	 */
-	public static Set<AbstractCorrespondence> findTrustZoneSinks(Mapper mapper, Asset asset, EDFD dfd) {
+	public static Set<AbstractCorrespondence> findSinks(Mapper mapper, EDFD dfd) {
 		Set<AbstractCorrespondence> sinks = new HashSet<>();
-		//get trust zones with attacker observation > 0 and contains elements that handle asset
-		Set<Element> trustzones = dfd.getTrustzones().parallelStream()
-		.filter(zone -> zone.getAttackerprofile().parallelStream()
-				.anyMatch(profile -> profile.getObservation()>0)
-				)		
-		.flatMap(zone -> zone.getElements().parallelStream())
-				.filter(el -> el.getAssets().contains(asset))			
-		.collect(Collectors.toSet());
+		Set<Element> attackerzones = dfd.getTrustzones().parallelStream().filter(
+				zone -> zone.getAttackerprofile().parallelStream().anyMatch(profile -> profile.getObservation() > 0))
+				.flatMap(zone -> zone.getElements().parallelStream())
+				// .filter(el -> el.getAssets().contains(asset))
+				.collect(Collectors.toSet());
 		
-		//since each Element has an Attacker attribute, easier to do
-		Set<Element> attackerelements = dfd.getElements().parallelStream()
-		.filter(el -> el.getAssets().contains(asset))
-		.filter(el -> el.isAttacker())
-		.collect(Collectors.toSet());
-		//take the union of elements
-		attackerelements.addAll(trustzones);
-		
-		for (Element e : attackerelements) {
-			sinks.addAll(getMappings(mapper, e));
+		//elements with incoming data flow
+		Set<Element> elements = dfd.getElements().parallelStream().filter(el -> !el.getInflows().isEmpty()).collect(Collectors.toSet());
+		for (Element el : elements) {
+			Set<AbstractCorrespondence> mappings = getMappings(mapper, el);
+			if (attackerzones.contains(el) || el.isAttacker()) {
+				sinks.addAll(mappings);
+			} else {
+				if (el instanceof ExternalEntity || el instanceof DataStore) {
+					if (mappings.isEmpty()) {
+						// find mappings of previous element (processes of the incoming flows)
+						sinks.addAll(el.getInflows().parallelStream()
+								.flatMap(flow -> getMappings(mapper, flow.getSource()).parallelStream())
+								.collect(Collectors.toSet()));
+
+					} else {
+						sinks.addAll(mappings);
+					}
+
+				}
+			}
+
 		}
 		return sinks;
 	}
@@ -206,9 +188,10 @@ public final class SinkFinder {
 				.filter(cor -> CorrespondenceHelper.getTarget(cor).equals(dfdelement)).collect(Collectors.toSet());
 	}
 	
-	private static Stream<Flow> getTargetFlows(Asset asset, NamedEntity assetsource) {
+	private static Stream<Flow> getSourceFlows(Asset asset, NamedEntity assetsource) {
 		return ((Element) assetsource).getInflows().parallelStream()
 				.filter(inflow -> inflow.getAssets().contains(asset)).distinct();
 	}
+	
 
 }
