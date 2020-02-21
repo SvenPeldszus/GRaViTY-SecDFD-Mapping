@@ -2,8 +2,6 @@ package org.gravity.flowdroid;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -11,12 +9,10 @@ import java.util.stream.Stream;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFolder;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.gravity.mapping.secdfd.AbstractCorrespondence;
 import org.gravity.mapping.secdfd.helpers.CorrespondenceHelper;
 import org.gravity.mapping.secdfd.mapping.Mapper;
-import org.gravity.mapping.secdfd.views.MappingView;
 import org.gravity.typegraph.basic.TConstructor;
 import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethodDefinition;
@@ -29,22 +25,21 @@ import org.secdfd.model.Element;
 import org.secdfd.model.ExternalEntity;
 import org.secdfd.model.NamedEntity;
 
-
 public class SourcesAndSinks {
-	
+
 	/**
 	 * The logger of this class
 	 */
 	static final Logger LOGGER = Logger.getLogger(SourcesAndSinks.class);
 
-	
 	/**
+	 * Gets entry points, sources and sinks
 	 * 
-	 * @param gravity 
+	 * @param gravity
 	 * @param mapper
 	 * @param dfd
 	 * @return
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public SourceAndSink getSourceSinks(IFolder gravity, Mapper mapper, EDFD dfd) throws IOException {
 		SourceAndSink sourceAndSink = new SourceAndSink();
@@ -59,6 +54,7 @@ public class SourcesAndSinks {
 				if (assetsource instanceof ExternalEntity || assetsource instanceof DataStore) {
 					// find source correspondences
 					Set<AbstractCorrespondence> flowSourceCorrespondences = findSources(mapper, asset, assetsource);
+					// format to soot signature
 					addSootSignatures(flowSourceCorrespondences, sourceAndSink.getSources());
 				}
 
@@ -82,7 +78,7 @@ public class SourcesAndSinks {
 	 * Adds the signatures of the correspondences to the set
 	 * 
 	 * @param correspondences The correspondences
-	 * @param signatures The set of signatures to be populated
+	 * @param signatures      The set of signatures to be populated
 	 */
 	private void addSootSignatures(Collection<AbstractCorrespondence> correspondences, Set<String> signatures) {
 		for (AbstractCorrespondence c : correspondences) {
@@ -93,33 +89,48 @@ public class SourcesAndSinks {
 		}
 	}
 
+	/**
+	 * Finds the entry points of dfd by collecting the correspondences of outgoing
+	 * processes from EE and DS
+	 * 
+	 * @param mapper
+	 * @param dfd
+	 * @return
+	 */
 	public Set<AbstractCorrespondence> findEpoints(Mapper mapper, EDFD dfd) {
 		Set<AbstractCorrespondence> epoints = null;
-		//EE and DS with outgoing flows
-		Set<Element> elements = dfd.getElements().parallelStream()
-				.filter(el -> !el.getOutflows().isEmpty())
-				.filter(el -> (el instanceof ExternalEntity || el instanceof DataStore))
-				.collect(Collectors.toSet());
+		// EE and DS with outgoing flows
+		Set<Element> elements = dfd.getElements().parallelStream().filter(el -> !el.getOutflows().isEmpty())
+				.filter(el -> (el instanceof ExternalEntity || el instanceof DataStore)).collect(Collectors.toSet());
 		for (Element element : elements) {
 			epoints = SinkFinder.getMappings(mapper, element);
 			if (epoints.isEmpty()) {
 				// there is no mapping of epoint element -> get the next elements
 				Set<Flow> transporterflows = element.getOutflows().parallelStream()
-						.filter(flow -> flow.getTarget().size()>0).collect(Collectors.toSet());
-				// collect the processes of the outgoing flows					
+						.filter(flow -> flow.getTarget().size() > 0).collect(Collectors.toSet());
+				// collect the processes of the outgoing flows
 				epoints.addAll(transporterflows.parallelStream().flatMap(flow -> flow.getTarget().parallelStream())
-				.flatMap(target -> SinkFinder.getMappings(mapper, target).parallelStream()).collect(Collectors.toSet()));
-			}				
+						.flatMap(target -> SinkFinder.getMappings(mapper, target).parallelStream())
+						.collect(Collectors.toSet()));
+			}
 		}
 		return epoints;
 	}
 
-
+	/**
+	 * Finds correspondences of assetsource outgoing processes that receive that
+	 * asset
+	 * 
+	 * @param m
+	 * @param asset
+	 * @param assetsource
+	 * @return
+	 */
 	private Set<AbstractCorrespondence> findSources(Mapper m, Asset asset, NamedEntity assetsource) {
 		Set<AbstractCorrespondence> sources = SinkFinder.getMappings(m, assetsource);
 		if (sources.isEmpty()) {
 			// there is no mapping of asset source element -> get the next element
-			Stream<Flow> transporterflows = getSourceFlows(asset, assetsource);
+			Stream<Flow> transporterflows = getTargetFlows(asset, assetsource);
 			// collect the processes of the outgoing flows:
 			return transporterflows.flatMap(flow -> flow.getTarget().parallelStream())
 					.flatMap(target -> SinkFinder.getMappings(m, target).parallelStream()).collect(Collectors.toSet());
@@ -127,7 +138,14 @@ public class SourcesAndSinks {
 		return sources;
 	}
 
-	private Stream<Flow> getSourceFlows(Asset asset, NamedEntity assetsource) {
+	/**
+	 * Gets outgoing flows that communicate that asset
+	 * 
+	 * @param asset
+	 * @param assetsource
+	 * @return
+	 */
+	private Stream<Flow> getTargetFlows(Asset asset, NamedEntity assetsource) {
 		return ((Element) assetsource).getOutflows().parallelStream()
 				.filter(outflow -> outflow.getAssets().contains(asset)).distinct();
 	}

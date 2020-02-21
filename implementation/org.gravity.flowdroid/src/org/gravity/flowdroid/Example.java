@@ -20,7 +20,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.gravity.eclipse.util.EclipseProjectUtil;
 import org.gravity.eclipse.util.JavaProjectUtil;
-import org.gravity.mapping.secdfd.checks.StructuralDivergenceCheck;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.junit.Test;
 
