@@ -66,16 +66,15 @@ public class SourcesAndSinks {
 		}
 		// find sinks
 		Set<AbstractCorrespondence> flowSinkCorrespondences = SinkFinder.findSinks(mapper, dfd);
+		addSootSignatures(flowSinkCorrespondences, sourceAndSink.getSinks());
 		// else, find correspondences for incoming flows to EE and DS
 		if (flowSinkCorrespondences.isEmpty()) {
 			// TODO: raise an issue to developer to model attacker
 			LOGGER.log(Level.ERROR,
 					"No sinks found. Modeling attacker observation zones in the SecDFD are required for executing data flow analysis.");
-			//TODO: Susi
-			// flowSinkCorrespondences = SinkFinder.loadSinksFromFile(gravity,
-			// flowSinkCorrespondences);
 		}
-		addSootSignatures(flowSinkCorrespondences, sourceAndSink.getSinks());
+		Set<String> susisinks = SinkFinder.loadSinksFromFile(gravity);
+		sourceAndSink.getSinks().addAll(susisinks);
 		return sourceAndSink;
 	}
 

@@ -12,6 +12,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -63,17 +65,18 @@ public final class SinkFinder {
 	 * 1) SuSi list
 	 * @throws IOException
 	 */
-	static Set<AbstractCorrespondence> loadSinksFromFile(IFolder gravity, Set<AbstractCorrespondence> sinks) throws IOException {
+	static Set<String> loadSinksFromFile(IFolder gravity) throws IOException {
 		IOException exception = null;
 		File SuSiSinksFile = gravity.getFile("Ouput_CatSinks_v0_9.txt").getLocation().toFile();
+		Set<String> susisinks = new HashSet<>();
 		if (SuSiSinksFile.exists()) {
 			try {
 				for (String s : Files.readAllLines(SuSiSinksFile.toPath())) {
-					//parse file 
-					//	- ignore lines that do not start with "<"
-					//	- skip lines that contain string android
-					// 	- take <thesignatureishere> (SOMEOTHERSTUFF) 
-					//compare signature from susi to correspondence (call getSootSignature) - if sink already present, ignore, else add
+					//parse file
+					if ( (s.indexOf("<") > -1) && (s.indexOf(">") > -1) && !s.contains("android")) {
+						s = s.substring(s.indexOf("<"), s.indexOf(">") + 1);
+						susisinks.add(s);
+					}
 				}
 			} catch (IOException e) {
 				exception = e;
@@ -83,7 +86,7 @@ public final class SinkFinder {
 			throw exception;
 		}
 		
-		return sinks;
+		return susisinks;
 	}
 	
 
