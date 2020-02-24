@@ -9,8 +9,9 @@ public class RandomGenerator implements RandomNumber {
 		return new SecureRandom().nextDouble();
 	}
 	
-	public Double dum() {
-		return new Double(5.0);
+	public Double leaksecret(Double secretRandom) {
+		Double stolensecret = secretRandom + 13.0;
+		return stolensecret;
 	}
 
 }

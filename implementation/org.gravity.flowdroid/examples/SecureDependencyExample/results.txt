@@ -1,0 +1,2 @@
+Found a flow to sink interfaceinvoke random.<keygeneration.RandomNumber: java.lang.Double leaksecret(java.lang.Double)>(secret), from the following sources:
+	- secret = interfaceinvoke random.<keygeneration.RandomNumber: java.lang.Double random()>()

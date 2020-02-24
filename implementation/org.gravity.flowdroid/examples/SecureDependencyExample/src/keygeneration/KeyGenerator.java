@@ -14,7 +14,9 @@ public class KeyGenerator {
 		RandomNumber random = new RandomGenerator();
 		byte[] bytes = new byte[4096];
 		for(int i = 0; i< bytes.length; i += 8) {
-			ByteBuffer.wrap(bytes, i, 8).putDouble(random.random());
+			Double secret = random.random();
+			ByteBuffer.wrap(bytes, i, 8).putDouble(secret);
+			Double a = random.leaksecret(secret);
 		}
 		return new SecretKeySpec(bytes , "AES");
 	}

@@ -1,13 +1,18 @@
 package org.gravity.flowdroid;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -34,6 +39,43 @@ import soot.options.Options;
 
 public class Example {
 
+ 	public void test() throws NoSuchMethodException, IOException {
+		soot.G.reset();
+
+ 		IInfoflow infoflow = initInfoflow(false);
+ 		String appPath = "examples/SecureDependencyExample/bin";
+ 		String libPath = System.getProperty("java.home") + File.separator + "lib" + File.separator + "rt.jar";
+
+ 		ArrayList<String> sources = new ArrayList<>();
+ 		sources.add("<keygeneration.RandomGenerator: java.lang.Double random()>");
+
+ 		ArrayList<String> sinks = new ArrayList<>();
+// 		sinks.add(print(PrintStream.class.getDeclaredMethod("println", Object.class)));
+ 		sinks.add("<keygeneration.RandomGenerator: java.lang.Double leaksecret(java.lang.Double)>");
+ 		List<String> epoints = new ArrayList<String>();
+
+ 		epoints.add("<keygeneration.KeyGenerator: void main(java.lang.String[])>");
+ 		infoflow.computeInfoflow(appPath, libPath, epoints, sources, sinks);
+ 		InfoflowResults res = infoflow.getResults();
+ 		Writer wr;
+ 		wr = new FileWriter("examples/SecureDependencyExample/results.txt");
+ 		res.printResults(wr);
+ 		wr.close();
+ 	}
+	
+	static String print(Method method) {
+ 		StringBuilder buffer = new StringBuilder("<");
+ 		buffer.append(method.getDeclaringClass().getName());
+ 		buffer.append(": ");
+ 		buffer.append(method.getReturnType().getName());
+ 		buffer.append(' ');
+ 		buffer.append(method.getName());
+ 		buffer.append('(');
+ 		buffer.append(Stream.of(method.getParameterTypes()).map(Class::getName).collect(Collectors.joining(",")));
+ 		buffer.append(")>");
+ 		return buffer.toString();
+ 	}
+	
 	/**
 	 * Run as JUnit plugin test
 	 * 
@@ -79,17 +121,22 @@ public class Example {
 		epoints.add("<org.eclipse.equinox.internal.security.storage.SecurePreferencesRoot:"
 				+ " org.eclipse.equinox.internal.security.storage.PasswordExt "
 				+ "getPassword(java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer, boolean)>");
-		epoints.addAll(sourcesAndSinks.getEpoints());
-		Set<String> sources = sourcesAndSinks.getSources();
+		epoints.add("<org.eclipse.equinox.internal.security.storage.PasswordManagement: void setupRecovery(java.lang.String[][], java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer)>");
+		//epoints.addAll(sourcesAndSinks.getEpoints());
+		ArrayList<String> sources = new ArrayList<String>();
+				//sourcesAndSinks.getSources();
 		sources.add("<org.eclipse.equinox.internal.security.storage.SecurePreferencesRoot: org.eclipse.equinox.internal.security.storage.PasswordExt getPassword(java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer, boolean)>");
 		sources.add("<org.eclipse.equinox.internal.security.storage.SecurePreferencesRoot: org.eclipse.equinox.internal.security.storage.PasswordExt getModulePassword(java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer)>");
 		sources.add("<org.eclipse.equinox.internal.security.storage.SecurePreferences: java.lang.float getFloat(java.lang.String, java.lang.float, org.eclipse.equinox.internal.security.storage.SecurePreferencesContainer)>");
-		System.out.println("Sources:\n" + String.join(",\n", sources));
+		//System.out.println("Sources:\n" + String.join(",\n", sources));
 		Set<String> sinks = sourcesAndSinks.getSinks();
-		System.out.println("Sinks:\n" + String.join(",\n", sinks));
+		//System.out.println("Sinks:\n" + String.join(",\n", sinks));
 		infoflow.computeInfoflow(appPath, libPath, epoints, sources, sinks);
 		InfoflowResults results = infoflow.getResults();
-		results.printResults();
+ 		Writer wr;
+ 		wr = new FileWriter("org.eclipse.equinox.security/.gravity/FlowDroid-results.txt");
+ 		results.printResults(wr);
+ 		wr.close();
 	}
 
 	protected IInfoflow initInfoflow(boolean useTaintWrapper) {
