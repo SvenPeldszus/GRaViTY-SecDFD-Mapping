@@ -1,44 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<launchConfiguration type="org.eclipse.pde.ui.JunitLaunchConfig">
+<launchConfiguration type="org.eclipse.pde.ui.RuntimeWorkbench">
 <booleanAttribute key="append.args" value="true"/>
-<stringAttribute key="application" value="org.eclipse.pde.junit.runtime.coretestapplication"/>
-<booleanAttribute key="askclear" value="false"/>
-<booleanAttribute key="automaticAdd" value="true"/>
+<booleanAttribute key="askclear" value="true"/>
+<booleanAttribute key="automaticAdd" value="false"/>
 <booleanAttribute key="automaticValidate" value="true"/>
+<stringAttribute key="bad_container_name" value="/org.secdfd.dsl/.launch/"/>
 <stringAttribute key="bootstrap" value=""/>
 <stringAttribute key="checked" value="[NONE]"/>
-<booleanAttribute key="clearConfig" value="true"/>
+<booleanAttribute key="clearConfig" value="false"/>
 <booleanAttribute key="clearws" value="false"/>
 <booleanAttribute key="clearwslog" value="false"/>
-<stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/pde-junit"/>
+<stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/SecDFDMapping"/>
 <booleanAttribute key="default" value="false"/>
 <setAttribute key="deselected_workspace_bundles"/>
-<booleanAttribute key="includeOptional" value="true"/>
+<booleanAttribute key="includeOptional" value="false"/>
 <stringAttribute key="location" value="${workspace_loc}/../runtime-EclipseXtext"/>
-<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/org.gravity.flowdroid/src/org/gravity/flowdroid/Example.java"/>
+<listAttribute key="org.eclipse.debug.ui.favoriteGroups">
+<listEntry value="org.eclipse.debug.ui.launchGroup.debug"/>
+<listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
 </listAttribute>
-<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
-<listEntry value="1"/>
-</listAttribute>
-<mapAttribute key="org.eclipse.debug.core.preferred_launchers">
-<mapEntry key="[debug]" value="org.eclipse.pde.ui.JunitLaunchConfig"/>
-<mapEntry key="[run]" value="org.eclipse.pde.ui.JunitLaunchConfig"/>
-</mapAttribute>
-<stringAttribute key="org.eclipse.jdt.junit.CONTAINER" value=""/>
-<booleanAttribute key="org.eclipse.jdt.junit.KEEPRUNNING_ATTR" value="false"/>
-<stringAttribute key="org.eclipse.jdt.junit.TESTNAME" value=""/>
-<stringAttribute key="org.eclipse.jdt.junit.TEST_KIND" value="org.eclipse.jdt.junit.loader.junit4"/>
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.gravity.flowdroid.Example"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.gravity.flowdroid"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl}"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-ea -XX:+UseG1GC -XX:+UseStringDeduplication -Xms1g -Xmx6g"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xms512m -Xmx1g"/>
 <stringAttribute key="pde.version" value="3.3"/>
 <stringAttribute key="product" value="org.eclipse.platform.ide"/>
-<booleanAttribute key="run_in_ui_thread" value="true"/>
+<booleanAttribute key="restart" value="true"/>
 <setAttribute key="selected_target_bundles">
 <setEntry value="com.google.guava*27.1.0.v20190517-1946@default:default"/>
 <setEntry value="com.google.inject@default:default"/>
@@ -79,12 +67,10 @@
 <setEntry value="org.apiguardian@default:default"/>
 <setEntry value="org.bouncycastle.bcpg@default:default"/>
 <setEntry value="org.bouncycastle.bcprov@default:default"/>
-<setEntry value="org.eclipse.acceleo.annotations@default:default"/>
 <setEntry value="org.eclipse.acceleo.common@default:default"/>
 <setEntry value="org.eclipse.acceleo.engine@default:default"/>
 <setEntry value="org.eclipse.acceleo.model@default:default"/>
 <setEntry value="org.eclipse.acceleo.profiler@default:default"/>
-<setEntry value="org.eclipse.acceleo.query@default:default"/>
 <setEntry value="org.eclipse.ant.core@default:default"/>
 <setEntry value="org.eclipse.ant.launching@default:default"/>
 <setEntry value="org.eclipse.ant.ui@default:default"/>
@@ -161,8 +147,6 @@
 <setEntry value="org.eclipse.equinox.frameworkadmin@default:default"/>
 <setEntry value="org.eclipse.equinox.http.jetty@default:default"/>
 <setEntry value="org.eclipse.equinox.http.servlet@default:default"/>
-<setEntry value="org.eclipse.equinox.launcher.cocoa.macosx.x86_64@default:false"/>
-<setEntry value="org.eclipse.equinox.launcher@default:default"/>
 <setEntry value="org.eclipse.equinox.p2.artifact.repository@default:default"/>
 <setEntry value="org.eclipse.equinox.p2.core@default:default"/>
 <setEntry value="org.eclipse.equinox.p2.director.app@default:default"/>
@@ -184,7 +168,6 @@
 <setEntry value="org.eclipse.equinox.registry@default:default"/>
 <setEntry value="org.eclipse.equinox.security.macosx@default:false"/>
 <setEntry value="org.eclipse.equinox.security.ui@default:default"/>
-<setEntry value="org.eclipse.equinox.security@default:default"/>
 <setEntry value="org.eclipse.equinox.simpleconfigurator.manipulator@default:default"/>
 <setEntry value="org.eclipse.equinox.simpleconfigurator@1:true"/>
 <setEntry value="org.eclipse.help.base@default:default"/>
@@ -238,6 +221,7 @@
 <setEntry value="org.eclipse.modisco.java.generation@default:default"/>
 <setEntry value="org.eclipse.modisco.java@default:default"/>
 <setEntry value="org.eclipse.modisco.kdm.source.discoverer@default:default"/>
+<setEntry value="org.eclipse.modisco.kdm.source.extension.ui.source"/>
 <setEntry value="org.eclipse.modisco.kdm.source.extension@default:default"/>
 <setEntry value="org.eclipse.modisco.omg.kdm@default:default"/>
 <setEntry value="org.eclipse.modisco.util.atl.core@default:default"/>
@@ -252,8 +236,8 @@
 <setEntry value="org.eclipse.pde.core@default:default"/>
 <setEntry value="org.eclipse.pde.launching@default:default"/>
 <setEntry value="org.eclipse.pde.ui@default:default"/>
+<setEntry value="org.eclipse.platform@default:default"/>
 <setEntry value="org.eclipse.search@default:default"/>
-<setEntry value="org.eclipse.sirius.common.acceleo.aql@default:default"/>
 <setEntry value="org.eclipse.sirius.common@default:default"/>
 <setEntry value="org.eclipse.sirius.ecore.extender@default:default"/>
 <setEntry value="org.eclipse.sirius.ext.base@default:default"/>
@@ -272,6 +256,7 @@
 <setEntry value="org.eclipse.ui.externaltools@default:default"/>
 <setEntry value="org.eclipse.ui.forms@default:default"/>
 <setEntry value="org.eclipse.ui.genericeditor@default:default"/>
+<setEntry value="org.eclipse.ui.ide.application@default:default"/>
 <setEntry value="org.eclipse.ui.ide@default:default"/>
 <setEntry value="org.eclipse.ui.intro@default:default"/>
 <setEntry value="org.eclipse.ui.navigator.resources@default:default"/>
@@ -284,6 +269,7 @@
 <setEntry value="org.eclipse.ui.workbench@default:default"/>
 <setEntry value="org.eclipse.ui@default:default"/>
 <setEntry value="org.eclipse.update.configurator@default:default"/>
+<setEntry value="org.eclipse.urischeme@default:default"/>
 <setEntry value="org.eclipse.xtend.lib.macro@default:default"/>
 <setEntry value="org.eclipse.xtend.lib@default:default"/>
 <setEntry value="org.eclipse.xtend.typesystem.emf@default:default"/>
@@ -348,7 +334,6 @@
 <setEntry value="org.moflon.core.ui@default:default"/>
 <setEntry value="org.moflon.core.utilities@default:default"/>
 <setEntry value="org.moflon.emf.codegen@default:default"/>
-<setEntry value="org.objectweb.asm.tree@default:default"/>
 <setEntry value="org.objectweb.asm@default:default"/>
 <setEntry value="org.opentest4j@default:default"/>
 <setEntry value="org.sat4j.core@default:default"/>
@@ -362,11 +347,9 @@
 <setEntry value="org.w3c.dom.svg@default:default"/>
 </setAttribute>
 <setAttribute key="selected_workspace_bundles">
-<setEntry value="heros@default:default"/>
 <setEntry value="org.eclipse.equinox.security@default:default"/>
 <setEntry value="org.gravity.eclipse.ui@default:default"/>
 <setEntry value="org.gravity.eclipse@default:default"/>
-<setEntry value="org.gravity.flowdroid@default:default"/>
 <setEntry value="org.gravity.mapping.secdfd@default:default"/>
 <setEntry value="org.gravity.modisco@default:default"/>
 <setEntry value="org.gravity.tgg.modisco@default:default"/>
@@ -380,12 +363,13 @@
 <setEntry value="org.secdfd.model.editor@default:default"/>
 <setEntry value="org.secdfd.model.tests@default:default"/>
 <setEntry value="org.secdfd.model@default:default"/>
-<setEntry value="soot-infoflow@default:default"/>
 </setAttribute>
 <booleanAttribute key="show_selected_only" value="false"/>
+<stringAttribute key="templateConfig" value="${target_home}/configuration/config.ini"/>
 <booleanAttribute key="tracing" value="false"/>
 <booleanAttribute key="useCustomFeatures" value="false"/>
 <booleanAttribute key="useDefaultConfig" value="true"/>
-<booleanAttribute key="useDefaultConfigArea" value="false"/>
-<booleanAttribute key="useProduct" value="false"/>
+<booleanAttribute key="useDefaultConfigArea" value="true"/>
+<booleanAttribute key="useProduct" value="true"/>
+<booleanAttribute key="usefeatures" value="false"/>
 </launchConfiguration>

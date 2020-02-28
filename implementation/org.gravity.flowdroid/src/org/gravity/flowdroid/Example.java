@@ -40,7 +40,7 @@ import soot.jimple.infoflow.taintWrappers.EasyTaintWrapper;
 import soot.options.Options;
 
 public class Example {
-	@Test
+	//@Test
  	public void test() throws NoSuchMethodException, IOException {
 		soot.G.reset();
 
@@ -86,7 +86,7 @@ public class Example {
 	 * @throws IOException
 	 * @throws CoreException
 	 */
-	
+	@Test
 	public void testSecureStorageDF() throws IOException, CoreException {
 		IProject project = EclipseProjectUtil.getProjectByName("org.eclipse.equinox.security");
 		IProgressMonitor monitor = new NullProgressMonitor();
@@ -121,23 +121,23 @@ public class Example {
 //		<org.eclipse.equinox.internal.security.storage.SecurePreferencesRoot: org.eclipse.equinox.internal.security.storage.PasswordExt getPassword(java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer, boolean)>
 //		<org.eclipse.equinox.internal.security.storage.JavaEncryption: byte[] internalDecrypt(org.eclipse.equinox.internal.security.storage.PasswordExt, org.eclipse.equinox.internal.security.storage.CryptoData)>
 
-		List<String> epoints = new ArrayList<String>();
+		//List<String> epoints = new ArrayList<String>();
 		
-		epoints.add("<org.eclipse.equinox.internal.security.storage.SecurePreferencesRoot:"
-				+ " org.eclipse.equinox.internal.security.storage.PasswordExt "
-				+ "getPassword(java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer, boolean)>");
-		epoints.add("<org.eclipse.equinox.internal.security.storage.PasswordManagement: void setupRecovery(java.lang.String[][], java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer)>");
+		//epoints.add("<org.eclipse.equinox.internal.security.storage.SecurePreferencesRoot:"
+		//		+ " org.eclipse.equinox.internal.security.storage.PasswordExt "
+		//		+ "getPassword(java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer, boolean)>");
+		//epoints.add("<org.eclipse.equinox.internal.security.storage.PasswordManagement: void setupRecovery(java.lang.String[][], java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer)>");
 		//epoints.addAll(sourcesAndSinks.getEpoints());
 		ArrayList<String> sources = new ArrayList<String>();
 				//sourcesAndSinks.getSources();
-		sources.add("<org.eclipse.equinox.internal.security.storage.SecurePreferencesRoot: org.eclipse.equinox.internal.security.storage.PasswordExt getPassword(java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer, boolean)>");
-		sources.add("<org.eclipse.equinox.internal.security.storage.SecurePreferencesRoot: org.eclipse.equinox.internal.security.storage.PasswordExt getModulePassword(java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer)>");
-		sources.add("<org.eclipse.equinox.internal.security.storage.SecurePreferences: java.lang.float getFloat(java.lang.String, java.lang.float, org.eclipse.equinox.internal.security.storage.SecurePreferencesContainer)>");
+		//sources.add("<org.eclipse.equinox.internal.security.storage.SecurePreferencesRoot: org.eclipse.equinox.internal.security.storage.PasswordExt getPassword(java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer, boolean)>");
+		//sources.add("<org.eclipse.equinox.internal.security.storage.SecurePreferencesRoot: org.eclipse.equinox.internal.security.storage.PasswordExt getModulePassword(java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer)>");
+		//sources.add("<org.eclipse.equinox.internal.security.storage.SecurePreferences: java.lang.float getFloat(java.lang.String, java.lang.float, org.eclipse.equinox.internal.security.storage.SecurePreferencesContainer)>");
 		sources.addAll(sourcesAndSinks.getSources());
 		//System.out.println("Sources:\n" + String.join(",\n", sources));
 		Set<String> sinks = sourcesAndSinks.getSinks();
 		//System.out.println("Sinks:\n" + String.join(",\n", sinks));
-		infoflow.computeInfoflow(appPath, libPath, epoints, sources, sinks);
+		infoflow.computeInfoflow(appPath, libPath, sourcesAndSinks.getEpoints(), sources, sinks);
 		InfoflowResults results = infoflow.getResults();
  		Writer wr;
  		wr = new FileWriter("org.eclipse.equinox.security/.gravity/FlowDroid-results.txt");

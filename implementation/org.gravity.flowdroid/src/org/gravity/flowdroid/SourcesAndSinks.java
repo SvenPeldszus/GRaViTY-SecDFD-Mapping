@@ -2,6 +2,7 @@ package org.gravity.flowdroid;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -9,11 +10,16 @@ import java.util.stream.Stream;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.equinox.security.storage.ISecurePreferences;
 import org.gravity.mapping.secdfd.AbstractCorrespondence;
 import org.gravity.mapping.secdfd.helpers.CorrespondenceHelper;
 import org.gravity.mapping.secdfd.mapping.Mapper;
+import org.gravity.typegraph.basic.TAbstractFlowElement;
+import org.gravity.typegraph.basic.TAccess;
 import org.gravity.typegraph.basic.TConstructor;
+import org.gravity.typegraph.basic.TFlow;
 import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethodDefinition;
 
@@ -77,12 +83,17 @@ public class SourcesAndSinks {
 	/**
 	 * Adds the signatures of the correspondences to the set
 	 * 
-	 * @param correspondences The correspondences
+	 * @param correspondences The correspondences or abstract flow elements
 	 * @param signatures      The set of signatures to be populated
 	 */
-	private void addSootSignatures(Collection<AbstractCorrespondence> correspondences, Set<String> signatures) {
-		for (AbstractCorrespondence c : correspondences) {
-			EObject source = CorrespondenceHelper.getSource(c);
+	private void addSootSignatures(Collection<? extends EObject> correspondenceOrAFE, Set<String> signatures) {
+		for (EObject el : correspondenceOrAFE) {
+			EObject source = null;
+			if (el instanceof AbstractCorrespondence) {
+				source = CorrespondenceHelper.getSource((AbstractCorrespondence) el);
+			} else if (el instanceof TAbstractFlowElement) {
+				source = el;
+			}
 			if (source instanceof TMethodDefinition && !TConstructor.isConstructor((TMember) source)) {
 				signatures.add(SignatureHelper.getSootSignature((TMethodDefinition) source));
 			}
@@ -91,30 +102,60 @@ public class SourcesAndSinks {
 
 	/**
 	 * Finds the entry points of dfd by collecting the correspondences of outgoing
-	 * processes from EE and DS
+	 * processes from EE and DS then backward step through call graph to find the
+	 * root method that calls this process simply following accessedBy in PM
 	 * 
 	 * @param mapper
 	 * @param dfd
 	 * @return
 	 */
-	public Set<AbstractCorrespondence> findEpoints(Mapper mapper, EDFD dfd) {
-		Set<AbstractCorrespondence> epoints = null;
+	public Collection<EObject> findEpoints(Mapper mapper, EDFD dfd) {
+		Set<AbstractCorrespondence> corr_epoints = new HashSet<>();
+		Set<EObject> root_epoints = new HashSet<>();
 		// EE and DS with outgoing flows
 		Set<Element> elements = dfd.getElements().parallelStream().filter(el -> !el.getOutflows().isEmpty())
 				.filter(el -> (el instanceof ExternalEntity || el instanceof DataStore)).collect(Collectors.toSet());
 		for (Element element : elements) {
-			epoints = SinkFinder.getMappings(mapper, element);
-			if (epoints.isEmpty()) {
+			Set<AbstractCorrespondence> corresp = SinkFinder.getMappings(mapper, element);
+			if (corresp.isEmpty()) {
 				// there is no mapping of epoint element -> get the next elements
 				Set<Flow> transporterflows = element.getOutflows().parallelStream()
 						.filter(flow -> flow.getTarget().size() > 0).collect(Collectors.toSet());
 				// collect the processes correspondences of the outgoing flows
-				epoints.addAll(transporterflows.parallelStream().flatMap(flow -> flow.getTarget().parallelStream())
+				corr_epoints.addAll(transporterflows.parallelStream().flatMap(flow -> flow.getTarget().parallelStream())
 						.flatMap(target -> SinkFinder.getMappings(mapper, target).parallelStream())
 						.collect(Collectors.toSet()));
 			}
 		}
-		return epoints;
+		// so far we only found correspondences, need to find root method call (e.g.,
+		// main method) to get entry point
+		Set<TMethodDefinition> methods = corr_epoints.parallelStream()
+				.filter(cor -> (CorrespondenceHelper.getSource(cor) instanceof TMethodDefinition))
+				.map(m -> (TMethodDefinition) CorrespondenceHelper.getSource(m)).collect(Collectors.toSet());
+
+		for (TMethodDefinition m : methods) {
+			// find root of access, backwards search
+			for (TAccess access : m.getAccessedBy()) {
+				root_epoints.add(findRootAccess(access));
+			}
+		}
+		return root_epoints;
+	}
+
+	private TMethodDefinition findRootAccess(TAccess access) {
+		// exit when no incoming flows (EE)
+		EObject el = access.eContainer();
+		if (el instanceof TMethodDefinition) {
+			TMethodDefinition meth = (TMethodDefinition) el;
+			if (meth.getAccessedBy().isEmpty()) {
+				return meth;
+			} else {
+				for (TAccess naccess : meth.getAccessedBy()) {
+					return findRootAccess(naccess);
+				}
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -137,21 +178,19 @@ public class SourcesAndSinks {
 		}
 		return sources;
 	}
-	
+
 	private Set<AbstractCorrespondence> findParameterTaintMethods(Mapper m, Asset asset) {
 		Set<AbstractCorrespondence> paramTaintMethods = SinkFinder.getMappings(m, asset);
-		//find pm method signatures that take mapped type as parameter
+		// find pm method signatures that take mapped type as parameter
 		// filter, will get many FP
-		//set them as parameterTaintMethods for FlowDroid
-		
+		// set them as parameterTaintMethods for FlowDroid
+
 		return paramTaintMethods;
 	}
-	
+
 	private Set<AbstractCorrespondence> findReturnTaintMethods(Mapper m, Asset a) {
 		return null;
 	}
-	
-	
 
 	/**
 	 * Gets outgoing flows that communicate that asset
