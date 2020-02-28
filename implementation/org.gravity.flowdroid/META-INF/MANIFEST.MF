@@ -15,7 +15,5 @@ Require-Bundle: org.eclipse.core.resources,
  org.gravity.eclipse,
  org.eclipse.jdt.core,
  org.junit,
- org.gravity.mapping.secdfd,
- org.slf4j.api,
- com.google.guava;bundle-version="27.1.0"
+ org.gravity.mapping.secdfd
 Automatic-Module-Name: org.gravity.flowdroid
