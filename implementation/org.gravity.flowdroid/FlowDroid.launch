@@ -379,7 +379,6 @@
 <setEntry value="org.secdfd.model.editor@default:default"/>
 <setEntry value="org.secdfd.model.tests@default:default"/>
 <setEntry value="org.secdfd.model@default:default"/>
-<setEntry value="soot-infoflow@default:default"/>
 </setAttribute>
 <booleanAttribute key="show_selected_only" value="false"/>
 <booleanAttribute key="tracing" value="false"/>

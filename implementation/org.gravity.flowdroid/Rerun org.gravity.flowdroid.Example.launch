@@ -27,6 +27,7 @@
 </mapAttribute>
 <stringAttribute key="org.eclipse.jdt.junit.CONTAINER" value=""/>
 <booleanAttribute key="org.eclipse.jdt.junit.KEEPRUNNING_ATTR" value="false"/>
+<stringAttribute key="org.eclipse.jdt.junit.TESTNAME" value=""/>
 <stringAttribute key="org.eclipse.jdt.junit.TEST_KIND" value="org.eclipse.jdt.junit.loader.junit4"/>
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
@@ -97,11 +98,11 @@
 <setEntry value="org.eclipse.core.expressions@default:default"/>
 <setEntry value="org.eclipse.core.externaltools@default:default"/>
 <setEntry value="org.eclipse.core.filebuffers@default:default"/>
-<setEntry value="org.eclipse.core.filesystem.macosx@default:default"/>
+<setEntry value="org.eclipse.core.filesystem.macosx@default:false"/>
 <setEntry value="org.eclipse.core.filesystem@default:default"/>
 <setEntry value="org.eclipse.core.jobs@default:default"/>
 <setEntry value="org.eclipse.core.net@default:default"/>
-<setEntry value="org.eclipse.core.resources.spysupport"/>
+<setEntry value="org.eclipse.core.resources.spysupport@default:false"/>
 <setEntry value="org.eclipse.core.resources@default:default"/>
 <setEntry value="org.eclipse.core.runtime@default:true"/>
 <setEntry value="org.eclipse.core.variables@default:default"/>
@@ -125,7 +126,7 @@
 <setEntry value="org.eclipse.e4.ui.services@default:default"/>
 <setEntry value="org.eclipse.e4.ui.widgets@default:default"/>
 <setEntry value="org.eclipse.e4.ui.workbench.addons.swt@default:default"/>
-<setEntry value="org.eclipse.e4.ui.workbench.renderers.swt.cocoa"/>
+<setEntry value="org.eclipse.e4.ui.workbench.renderers.swt.cocoa@default:false"/>
 <setEntry value="org.eclipse.e4.ui.workbench.renderers.swt@default:default"/>
 <setEntry value="org.eclipse.e4.ui.workbench.swt@default:default"/>
 <setEntry value="org.eclipse.e4.ui.workbench3@default:default"/>
@@ -160,7 +161,7 @@
 <setEntry value="org.eclipse.equinox.frameworkadmin@default:default"/>
 <setEntry value="org.eclipse.equinox.http.jetty@default:default"/>
 <setEntry value="org.eclipse.equinox.http.servlet@default:default"/>
-<setEntry value="org.eclipse.equinox.launcher.cocoa.macosx.x86_64@default:default"/>
+<setEntry value="org.eclipse.equinox.launcher.cocoa.macosx.x86_64@default:false"/>
 <setEntry value="org.eclipse.equinox.launcher@default:default"/>
 <setEntry value="org.eclipse.equinox.p2.artifact.repository@default:default"/>
 <setEntry value="org.eclipse.equinox.p2.core@default:default"/>
@@ -181,7 +182,7 @@
 <setEntry value="org.eclipse.equinox.p2.updatesite@default:default"/>
 <setEntry value="org.eclipse.equinox.preferences@default:default"/>
 <setEntry value="org.eclipse.equinox.registry@default:default"/>
-<setEntry value="org.eclipse.equinox.security.macosx@default:default"/>
+<setEntry value="org.eclipse.equinox.security.macosx@default:false"/>
 <setEntry value="org.eclipse.equinox.security.ui@default:default"/>
 <setEntry value="org.eclipse.equinox.security@default:default"/>
 <setEntry value="org.eclipse.equinox.simpleconfigurator.manipulator@default:default"/>
@@ -259,13 +260,13 @@
 <setEntry value="org.eclipse.sirius.ext.emf.tx@default:default"/>
 <setEntry value="org.eclipse.sirius.ext.emf@default:default"/>
 <setEntry value="org.eclipse.sirius@default:default"/>
-<setEntry value="org.eclipse.swt.cocoa.macosx.x86_64@default:default"/>
+<setEntry value="org.eclipse.swt.cocoa.macosx.x86_64@default:false"/>
 <setEntry value="org.eclipse.swt@default:default"/>
 <setEntry value="org.eclipse.team.core@default:default"/>
 <setEntry value="org.eclipse.team.ui@default:default"/>
 <setEntry value="org.eclipse.text@default:default"/>
 <setEntry value="org.eclipse.ui.cheatsheets@default:default"/>
-<setEntry value="org.eclipse.ui.cocoa"/>
+<setEntry value="org.eclipse.ui.cocoa@default:false"/>
 <setEntry value="org.eclipse.ui.console@default:default"/>
 <setEntry value="org.eclipse.ui.editors@default:default"/>
 <setEntry value="org.eclipse.ui.externaltools@default:default"/>
@@ -378,6 +379,7 @@
 <setEntry value="org.secdfd.model.editor@default:default"/>
 <setEntry value="org.secdfd.model.tests@default:default"/>
 <setEntry value="org.secdfd.model@default:default"/>
+<setEntry value="soot-infoflow@default:default"/>
 </setAttribute>
 <booleanAttribute key="show_selected_only" value="false"/>
 <booleanAttribute key="tracing" value="false"/>

@@ -33,12 +33,14 @@ import soot.jimple.infoflow.Infoflow;
 import soot.jimple.infoflow.InfoflowConfiguration;
 import soot.jimple.infoflow.InfoflowConfiguration.ImplicitFlowMode;
 import soot.jimple.infoflow.config.IInfoflowConfig;
+import soot.jimple.infoflow.entryPointCreators.DefaultEntryPointCreator;
 import soot.jimple.infoflow.results.InfoflowResults;
+import soot.jimple.infoflow.sourcesSinks.manager.DefaultSourceSinkManager;
 import soot.jimple.infoflow.taintWrappers.EasyTaintWrapper;
 import soot.options.Options;
 
 public class Example {
-
+	@Test
  	public void test() throws NoSuchMethodException, IOException {
 		soot.G.reset();
 
@@ -55,7 +57,9 @@ public class Example {
  		List<String> epoints = new ArrayList<String>();
 
  		epoints.add("<keygeneration.KeyGenerator: void main(java.lang.String[])>");
- 		infoflow.computeInfoflow(appPath, libPath, epoints, sources, sinks);
+ 		//infoflow.computeInfoflow(appPath, libPath, epoints, sources, sinks);
+ 		infoflow.computeInfoflow(appPath, libPath, new DefaultEntryPointCreator(epoints), 
+ 				new DefaultSourceSinkManager(sources, sinks, sources, sinks));
  		InfoflowResults res = infoflow.getResults();
  		Writer wr;
  		wr = new FileWriter("examples/SecureDependencyExample/results.txt");
@@ -82,7 +86,7 @@ public class Example {
 	 * @throws IOException
 	 * @throws CoreException
 	 */
-	@Test
+	
 	public void testSecureStorageDF() throws IOException, CoreException {
 		IProject project = EclipseProjectUtil.getProjectByName("org.eclipse.equinox.security");
 		IProgressMonitor monitor = new NullProgressMonitor();
@@ -105,6 +109,7 @@ public class Example {
 		IPath outputLocation = javaProject.getOutputLocation();
 		IPath projectLocation = project.getLocation();
 		String appPath = projectLocation.append(outputLocation.removeFirstSegments(1)).toOSString();
+
 		String libPath = System.getProperty("java.home") + File.separator + "lib" + File.separator + "rt.jar";
 
 // Sources:
@@ -128,6 +133,7 @@ public class Example {
 		sources.add("<org.eclipse.equinox.internal.security.storage.SecurePreferencesRoot: org.eclipse.equinox.internal.security.storage.PasswordExt getPassword(java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer, boolean)>");
 		sources.add("<org.eclipse.equinox.internal.security.storage.SecurePreferencesRoot: org.eclipse.equinox.internal.security.storage.PasswordExt getModulePassword(java.lang.String, org.eclipse.equinox.security.storage.provider.IPreferencesContainer)>");
 		sources.add("<org.eclipse.equinox.internal.security.storage.SecurePreferences: java.lang.float getFloat(java.lang.String, java.lang.float, org.eclipse.equinox.internal.security.storage.SecurePreferencesContainer)>");
+		sources.addAll(sourcesAndSinks.getSources());
 		//System.out.println("Sources:\n" + String.join(",\n", sources));
 		Set<String> sinks = sourcesAndSinks.getSinks();
 		//System.out.println("Sinks:\n" + String.join(",\n", sinks));
@@ -160,6 +166,7 @@ public class Example {
 		Map<String, Set<String>> taintedMethods = Collections.emptyMap();
 		EasyTaintWrapper easyWrapper = new EasyTaintWrapper(taintedMethods);
 		result.setTaintWrapper(easyWrapper);
+		
 
 		result.getConfig().setImplicitFlowMode(ImplicitFlowMode.AllImplicitFlows);
 		return result;

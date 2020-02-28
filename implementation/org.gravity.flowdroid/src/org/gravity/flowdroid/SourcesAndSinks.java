@@ -108,7 +108,7 @@ public class SourcesAndSinks {
 				// there is no mapping of epoint element -> get the next elements
 				Set<Flow> transporterflows = element.getOutflows().parallelStream()
 						.filter(flow -> flow.getTarget().size() > 0).collect(Collectors.toSet());
-				// collect the processes of the outgoing flows
+				// collect the processes correspondences of the outgoing flows
 				epoints.addAll(transporterflows.parallelStream().flatMap(flow -> flow.getTarget().parallelStream())
 						.flatMap(target -> SinkFinder.getMappings(mapper, target).parallelStream())
 						.collect(Collectors.toSet()));
@@ -137,6 +137,21 @@ public class SourcesAndSinks {
 		}
 		return sources;
 	}
+	
+	private Set<AbstractCorrespondence> findParameterTaintMethods(Mapper m, Asset asset) {
+		Set<AbstractCorrespondence> paramTaintMethods = SinkFinder.getMappings(m, asset);
+		//find pm method signatures that take mapped type as parameter
+		// filter, will get many FP
+		//set them as parameterTaintMethods for FlowDroid
+		
+		return paramTaintMethods;
+	}
+	
+	private Set<AbstractCorrespondence> findReturnTaintMethods(Mapper m, Asset a) {
+		return null;
+	}
+	
+	
 
 	/**
 	 * Gets outgoing flows that communicate that asset

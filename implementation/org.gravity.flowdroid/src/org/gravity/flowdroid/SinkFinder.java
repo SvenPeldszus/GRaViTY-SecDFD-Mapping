@@ -80,7 +80,8 @@ public final class SinkFinder {
 	}
 
 	/**
-	 * 2) incoming data flows to DS and EE 3) + if modeler specified trust zones
+	 * 2) incoming data flows to DS and EE 
+	 * 3) + if modeler specified trust zones, attacker attribute
 	 * 
 	 * @param mapper
 	 * @param dfd
