@@ -2,7 +2,9 @@ package org.gravity.flowdroid;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Deque;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -12,14 +14,12 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.equinox.security.storage.ISecurePreferences;
 import org.gravity.mapping.secdfd.AbstractCorrespondence;
 import org.gravity.mapping.secdfd.helpers.CorrespondenceHelper;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.typegraph.basic.TAbstractFlowElement;
 import org.gravity.typegraph.basic.TAccess;
 import org.gravity.typegraph.basic.TConstructor;
-import org.gravity.typegraph.basic.TFlow;
 import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethodDefinition;
 
@@ -30,6 +30,7 @@ import org.secdfd.model.EDFD;
 import org.secdfd.model.Element;
 import org.secdfd.model.ExternalEntity;
 import org.secdfd.model.NamedEntity;
+import org.secdfd.model.Process;
 
 public class SourcesAndSinks {
 
@@ -50,7 +51,10 @@ public class SourcesAndSinks {
 	public SourceAndSink getSourceSinks(IFolder gravity, Mapper mapper, EDFD dfd) throws IOException {
 		SourceAndSink sourceAndSink = new SourceAndSink();
 		// find entry points
-		addSootSignatures(findEpoints(mapper, mapper.getDFD()), sourceAndSink.getEpoints());
+		Set<TMethodDefinition> entryPoints = findEntryPoints(mapper, mapper.getDFD());
+		System.out.println(entryPoints.parallelStream().map(TMethodDefinition::getSignatureString)
+				.collect(Collectors.joining(",\n", "Entry points:\n", "\n")));
+		addSootSignatures(entryPoints, sourceAndSink.getEpoints());
 
 		// find source by confidential assets
 		for (Asset asset : dfd.getAsset()) {
@@ -100,6 +104,37 @@ public class SourcesAndSinks {
 		}
 	}
 
+	public Set<TMethodDefinition> findEntryPoints(Mapper mapper, EDFD dfd) {
+		Set<TMethodDefinition> entryProcesses = dfd.getElements().parallelStream()
+				.filter(ExternalEntity.class::isInstance)
+				.flatMap(external -> Stream.concat(external.getInflows().parallelStream().map(Flow::getSource),
+						external.getOutflows().parallelStream().map(Flow::getTarget)
+								.flatMap(Collection::parallelStream)))
+				.filter(Process.class::isInstance).map(e -> (Process) e).map(mapper::getMapping)
+				.flatMap(Collection::parallelStream).collect(Collectors.toSet());
+
+		Set<TMethodDefinition> epoints = new HashSet<>();
+		Set<TMethodDefinition> seen = new HashSet<>();
+		Deque<TMethodDefinition> definitions = new LinkedList<>(entryProcesses);
+		while (!definitions.isEmpty()) {
+			TMethodDefinition def = definitions.pop();
+			if (seen.contains(def)) {
+				continue;
+			}
+			seen.add(def);
+
+			Set<TMethodDefinition> sources = def.getAccessedBy().parallelStream().map(TAccess::getTSource)
+					.filter(TMethodDefinition.class::isInstance).map(m -> (TMethodDefinition) m)
+					.filter(source -> (!mapper.getMapping(source).isEmpty())).collect(Collectors.toSet());
+			if (sources.isEmpty()) {
+				epoints.add(def);
+			} else {
+				definitions.addAll(sources);
+			}
+		}
+		return epoints;
+	}
+
 	/**
 	 * Finds the entry points of dfd by collecting the correspondences of outgoing
 	 * processes from EE and DS then backward step through call graph to find the
@@ -126,8 +161,9 @@ public class SourcesAndSinks {
 						.collect(Collectors.toSet()));
 			}
 		}
-		// TODO: get methods on top of type hierarchy (e.g., ISecurePreferences on top of the SecurePreferencesWrapper)
-		
+		// TODO: get methods on top of type hierarchy (e.g., ISecurePreferences on top
+		// of the SecurePreferencesWrapper)
+
 		// optionally find other entry points (outside the scenario of the secDFD)
 		// Set<EObject> root_epoints = new HashSet<>();
 		// root_epoints = epoints_outside_secdfd(corr_epoints, root_epoints);
@@ -138,7 +174,7 @@ public class SourcesAndSinks {
 	/**
 	 * @param corr_epoints
 	 * @param root_epoints
-	 * @return 
+	 * @return
 	 */
 	// so far we only found correspondences, need to find root method call (e.g.,
 	// main method) to get entry point
