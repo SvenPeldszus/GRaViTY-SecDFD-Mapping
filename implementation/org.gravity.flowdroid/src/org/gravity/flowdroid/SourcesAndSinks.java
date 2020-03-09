@@ -45,29 +45,28 @@ public class SourcesAndSinks {
 	 * @param gravity
 	 * @param mapper
 	 * @param dfd
-	 * @param susi 
+	 * @param susi
 	 * @return
 	 * @throws IOException
 	 */
-	public SourceAndSink getSourceSinks(IFolder gravity, Mapper mapper, EDFD dfd, boolean susi, Asset asset) throws IOException {
+	public SourceAndSink getSourceSinks(IFolder gravity, Mapper mapper, EDFD dfd, boolean susi, Asset asset)
+			throws IOException {
 		SourceAndSink sourceAndSink = new SourceAndSink();
+		// find sources
+		NamedEntity assetsource = asset.getSource();
+		// only taking EE, DS
+		if (assetsource instanceof ExternalEntity || assetsource instanceof DataStore) {
+			// find source correspondences
+			Set<AbstractCorrespondence> flowSourceCorrespondences = findSources(mapper, asset, assetsource);
+			// format to soot signature
+			addSootSignatures(flowSourceCorrespondences, sourceAndSink.getSources());
+		}
+		if (sourceAndSink.getSources().isEmpty()) return null;
+		
 		// find entry points
 		Set<TMethodDefinition> entryPoints = findEntryPoints(mapper, mapper.getDFD());
 		addSootSignatures(entryPoints, sourceAndSink.getEpoints());
 
-		// find source if confidential assets
-//		for (Asset asset : dfd.getAsset()) {
-			if (asset.getValue().stream().anyMatch(value -> "Confidentiality".equals(value.getObjective().getName()))) {
-				NamedEntity assetsource = asset.getSource();
-				// only taking EE, DS
-				if (assetsource instanceof ExternalEntity || assetsource instanceof DataStore) {
-					// find source correspondences
-					Set<AbstractCorrespondence> flowSourceCorrespondences = findSources(mapper, asset, assetsource);
-					// format to soot signature
-					addSootSignatures(flowSourceCorrespondences, sourceAndSink.getSources());
-//				}
-			}
-		}
 		// find sinks
 		Set<AbstractCorrespondence> flowSinkCorrespondences = SinkFinder.findSinks(mapper, dfd, asset);
 		addSootSignatures(flowSinkCorrespondences, sourceAndSink.getSinks());

@@ -80,9 +80,9 @@ public final class SinkFinder {
 	}
 
 	/**
-	 * 2) incoming data flows to DS and EE per asset.
-	 * 	only add to sinks if on incoming flows the asset is not expected.
-	 * 3) + if modeler specified trust zones, attacker attribute
+	 * 2) incoming data flows to DS and EE per asset. only add to sinks if on
+	 * incoming flows the asset is not expected. 3) + if modeler specified trust
+	 * zones, attacker attribute
 	 * 
 	 * @param mapper
 	 * @param dfd
@@ -92,8 +92,7 @@ public final class SinkFinder {
 		Set<AbstractCorrespondence> sinks = new HashSet<>();
 		Set<Element> attackerzones = dfd.getTrustzones().parallelStream().filter(
 				zone -> zone.getAttackerprofile().parallelStream().anyMatch(profile -> profile.getObservation() > 0))
-				.flatMap(zone -> zone.getElements().parallelStream())
-				.collect(Collectors.toSet());
+				.flatMap(zone -> zone.getElements().parallelStream()).collect(Collectors.toSet());
 
 		// elements with incoming data flow
 		Set<Element> elements = dfd.getElements().parallelStream().filter(el -> !el.getInflows().isEmpty())
@@ -103,19 +102,20 @@ public final class SinkFinder {
 				sinks.addAll(getMappings(mapper, el));
 			} else {
 				if (el instanceof ExternalEntity || el instanceof DataStore) {
-					// if any incoming flow contains current asset, then sink allowed. 
-					// if incoming flows do not contain current asset, then sink not allowed, and its added to the list of sinks.
+					// if any incoming flow contains current asset, then sink allowed.
+					// if incoming flows do not contain current asset, then sink not allowed, and
+					// its added to the list of sinks.
 					if (!el.getInflows().parallelStream().flatMap(inflow -> inflow.getAssets().parallelStream())
 							.collect(Collectors.toSet()).contains(asset)) {
-						if (getMappings(mapper, el).isEmpty()) {
-							// find mappings of previous element (processes of the incoming flows)
-							sinks.addAll(el.getInflows().parallelStream()
-									.flatMap(flow -> getMappings(mapper, flow.getSource()).parallelStream())
-									.collect(Collectors.toSet()));
+//						if (getMappings(mapper, el).isEmpty()) {
+						// find mappings of previous element (processes of the incoming flows)
+						sinks.addAll(el.getInflows().parallelStream()
+								.flatMap(flow -> getMappings(mapper, flow.getSource()).parallelStream())
+								.collect(Collectors.toSet()));
 
-						} else {
-							sinks.addAll(getMappings(mapper, el));
-						}
+//						} else {
+//							sinks.addAll(getMappings(mapper, el));
+//						}
 					}
 
 				}
