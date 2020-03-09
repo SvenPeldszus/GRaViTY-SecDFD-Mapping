@@ -261,11 +261,13 @@ public class Mapper {
 	public void reject(AbstractCorrespondence corr) {
 		reject(corr, false);
 	}
+
 	/**
 	 * Reject the given correspondence
 	 * 
-	 * @param corr The correspondence
-	 * @param force If the deletion should be done even if it is user defined or accepted
+	 * @param corr  The correspondence
+	 * @param force If the deletion should be done even if it is user defined or
+	 *              accepted
 	 */
 	public void reject(AbstractCorrespondence corr, boolean force) {
 		if (!mapping.getCorrespondences().contains(corr)) {
@@ -277,15 +279,15 @@ public class Mapper {
 		if (!force && (userdefined.contains(corr) || accepted.contains(corr))) {
 			return;
 		}
-		
+
 		EList<AbstractCorrespondence> ignored = mapping.getIgnored();
 		EList<AbstractCorrespondence> suggested = mapping.getSuggested();
-		
+
 		ignored.add(corr);
 		userdefined.remove(corr);
 		suggested.remove(corr);
 		accepted.remove(corr);
-		
+
 		EObject pmObject = CorrespondenceHelper.getSource(corr);
 		EObject dfdObject = CorrespondenceHelper.getTarget(corr);
 		if (dfdObject instanceof Process) {
@@ -307,9 +309,8 @@ public class Mapper {
 				if (value != null) {
 					value.remove(pmObject);
 				}
-				((TMethod) pmObject).getSignatures().forEach(signature -> 
-					helper.getCorrespondences(signature).forEach(this::reject)
-				);
+				((TMethod) pmObject).getSignatures()
+						.forEach(signature -> helper.getCorrespondences(signature).forEach(this::reject));
 			}
 		} else if (dfdObject instanceof Asset || dfdObject instanceof DataStore) {
 			if (pmObject instanceof TMember) {
@@ -610,6 +611,22 @@ public class Mapper {
 		return mapping;
 	}
 
+	public Set<? extends EObject> getMapping(Element element) {
+		if (element instanceof DataStore) {
+			DataStore dataStore = (DataStore) element;
+			Stream<TAbstractType> typeStream = cache.getEntityTypeMapping().getOrDefault(dataStore, Collections.emptySet()).parallelStream();
+			Stream<TMember> memberStream = cache.getElementMemberMapping().getOrDefault(dataStore, Collections.emptySet()).parallelStream();
+			return Stream.concat(typeStream, memberStream).collect(Collectors.toSet());
+			
+		} else if (element instanceof Process) {
+			return getMapping((Process) element);
+		} else if (element instanceof ExternalEntity) {
+			return Collections.emptySet();
+		}
+		LOGGER.warn("Didn't consider mapping for: " + element);
+		return Collections.emptySet();
+	}
+
 	/**
 	 * A getter for mappings for the given process
 	 * 
@@ -632,17 +649,9 @@ public class Mapper {
 		return cache.getEntityTypeMapping().getOrDefault(asset, Collections.emptySet());
 	}
 
-	public Process getMapping(TMethodDefinition method) {
-		Set<Process> processes = helper.getCorrespondences(method).parallelStream()
+	public Set<Process> getMapping(TMethodDefinition method) {
+		return helper.getCorrespondences(method).parallelStream()
 				.map(corr -> (Process) CorrespondenceHelper.getTarget(corr)).collect(Collectors.toSet());
-		int size = processes.size();
-		if (size == 1) {
-			return processes.iterator().next();
-		}
-		if (size > 1) {
-			throw new IllegalStateException();
-		}
-		return null;
 	}
 
 	public Set<Asset> getMapping(TAbstractType type) {

@@ -93,12 +93,12 @@ public class StructuralDivergenceCheck {
 					throw new IllegalStateException();
 				}
 				if (relevant) {
-					Process targetProcess = mapper.getMapping((TMethodDefinition) access.getTTarget());
-					if (targetProcess != null && targetProcess != process
-							&& !allowedFlowTargets.contains(targetProcess)) {
-						LOGGER.error("The asset flow from \"" + process.getName() + "\" to \""
-								+ targetProcess.getName() + "\" is not specified in the DFD!");
-					}
+					Set<Process> targetProcesses = mapper.getMapping((TMethodDefinition) access.getTTarget());
+//					if (!targetProcesses.isEmpty() && !targetProcesses.contains(process)
+//							&& !allowedFlowTargets.contains(targetProcess)) {
+//						LOGGER.error("The asset flow from \"" + process.getName() + "\" to \""
+//								+ targetProcess.getName() + "\" is not specified in the DFD!");
+//					}
 				}
 			}
 		}
@@ -136,7 +136,7 @@ public class StructuralDivergenceCheck {
 						return Stream.of(((TAccess) trg).getTSource());
 					}
 					return Stream.of(trg);
-				}).map(trg -> mapper.getMapping((TMethodDefinition) trg)).filter(Objects::nonNull)
+				}).flatMap(trg -> mapper.getMapping((TMethodDefinition) trg).stream())
 						.filter(trg -> trg != process).collect(Collectors.toSet());
 				if (!allowedFlowTargets.containsAll(targets)) {
 					LOGGER.error(targets.stream().filter(t -> !allowedFlowTargets.contains(t)).map(Process::getName)

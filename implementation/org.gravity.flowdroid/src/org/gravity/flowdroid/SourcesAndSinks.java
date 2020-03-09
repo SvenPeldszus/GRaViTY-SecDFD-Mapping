@@ -45,15 +45,14 @@ public class SourcesAndSinks {
 	 * @param gravity
 	 * @param mapper
 	 * @param dfd
+	 * @param susi 
 	 * @return
 	 * @throws IOException
 	 */
-	public SourceAndSink getSourceSinks(IFolder gravity, Mapper mapper, EDFD dfd) throws IOException {
+	public SourceAndSink getSourceSinks(IFolder gravity, Mapper mapper, EDFD dfd, boolean susi) throws IOException {
 		SourceAndSink sourceAndSink = new SourceAndSink();
 		// find entry points
 		Set<TMethodDefinition> entryPoints = findEntryPoints(mapper, mapper.getDFD());
-		System.out.println(entryPoints.parallelStream().map(TMethodDefinition::getSignatureString)
-				.collect(Collectors.joining(",\n", "Entry points:\n", "\n")));
 		addSootSignatures(entryPoints, sourceAndSink.getEpoints());
 
 		// find source by confidential assets
@@ -79,8 +78,10 @@ public class SourcesAndSinks {
 			LOGGER.log(Level.ERROR,
 					"No sinks found. Modeling attacker observation zones in the SecDFD are required for executing data flow analysis.");
 		}
-		Set<String> susisinks = SinkFinder.loadSinksFromFile(gravity);
-		sourceAndSink.getSinks().addAll(susisinks);
+		if (susi) {
+			Set<String> susisinks = SinkFinder.loadSinksFromFile(gravity);
+			sourceAndSink.getSinks().addAll(susisinks);
+		}
 		return sourceAndSink;
 	}
 
@@ -161,7 +162,7 @@ public class SourcesAndSinks {
 						.collect(Collectors.toSet()));
 			}
 
-		}		
+		}
 		// optionally find other entry points (outside the scenario of the secDFD)
 		// Set<EObject> root_epoints = new HashSet<>();
 		// root_epoints = epoints_outside_secdfd(corr_epoints, root_epoints);
