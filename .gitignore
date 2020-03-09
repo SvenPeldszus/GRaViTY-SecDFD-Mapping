@@ -27,3 +27,6 @@ hs_err_pid*
 
 # generated files
 #**/.gravity/*
+
+# Eclipse Runtime Configuration files
+.launch

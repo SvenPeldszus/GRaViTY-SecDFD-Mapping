@@ -160,10 +160,8 @@ public class SourcesAndSinks {
 						.flatMap(target -> SinkFinder.getMappings(mapper, target).parallelStream())
 						.collect(Collectors.toSet()));
 			}
-		}
-		// TODO: get methods on top of type hierarchy (e.g., ISecurePreferences on top
-		// of the SecurePreferencesWrapper)
 
+		}		
 		// optionally find other entry points (outside the scenario of the secDFD)
 		// Set<EObject> root_epoints = new HashSet<>();
 		// root_epoints = epoints_outside_secdfd(corr_epoints, root_epoints);
