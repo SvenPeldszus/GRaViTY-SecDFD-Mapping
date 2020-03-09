@@ -35,7 +35,7 @@
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.gravity.flowdroid"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-ea -XX:+UseG1GC -XX:+UseStringDeduplication -Xms1g -Xmx6g"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-ea -XX:+UseG1GC -XX:+UseStringDeduplication -Xms1g -Xmx1g"/>
 <stringAttribute key="pde.version" value="3.3"/>
 <stringAttribute key="product" value="org.eclipse.platform.ide"/>
 <booleanAttribute key="run_in_ui_thread" value="true"/>
@@ -366,7 +366,7 @@
 <setEntry value="org.eclipse.equinox.security@default:default"/>
 <setEntry value="org.gravity.eclipse.ui@default:default"/>
 <setEntry value="org.gravity.eclipse@default:default"/>
-<setEntry value="org.gravity.flowdroid@default:default"/>
+<setEntry value="org.gravity.flowdroid"/>
 <setEntry value="org.gravity.mapping.secdfd@default:default"/>
 <setEntry value="org.gravity.modisco@default:default"/>
 <setEntry value="org.gravity.tgg.modisco@default:default"/>

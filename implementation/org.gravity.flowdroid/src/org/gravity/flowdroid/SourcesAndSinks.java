@@ -109,12 +109,11 @@ public class SourcesAndSinks {
 	 * @param dfd
 	 * @return
 	 */
-	public Collection<EObject> findEpoints(Mapper mapper, EDFD dfd) {
+	public Set<AbstractCorrespondence> findEpoints(Mapper mapper, EDFD dfd) {
 		Set<AbstractCorrespondence> corr_epoints = new HashSet<>();
-		Set<EObject> root_epoints = new HashSet<>();
 		// EE and DS with outgoing flows
 		Set<Element> elements = dfd.getElements().parallelStream().filter(el -> !el.getOutflows().isEmpty())
-				.filter(el -> (el instanceof ExternalEntity || el instanceof DataStore)).collect(Collectors.toSet());
+				.filter(el -> (el instanceof ExternalEntity)).collect(Collectors.toSet());
 		for (Element element : elements) {
 			Set<AbstractCorrespondence> corresp = SinkFinder.getMappings(mapper, element);
 			if (corresp.isEmpty()) {
@@ -127,8 +126,23 @@ public class SourcesAndSinks {
 						.collect(Collectors.toSet()));
 			}
 		}
-		// so far we only found correspondences, need to find root method call (e.g.,
-		// main method) to get entry point
+		// TODO: get methods on top of type hierarchy (e.g., ISecurePreferences on top of the SecurePreferencesWrapper)
+		
+		// optionally find other entry points (outside the scenario of the secDFD)
+		// Set<EObject> root_epoints = new HashSet<>();
+		// root_epoints = epoints_outside_secdfd(corr_epoints, root_epoints);
+
+		return corr_epoints;
+	}
+
+	/**
+	 * @param corr_epoints
+	 * @param root_epoints
+	 * @return 
+	 */
+	// so far we only found correspondences, need to find root method call (e.g.,
+	// main method) to get entry point
+	private Set<EObject> epoints_outside_secdfd(Set<AbstractCorrespondence> corr_epoints, Set<EObject> root_epoints) {
 		Set<TMethodDefinition> methods = corr_epoints.parallelStream()
 				.filter(cor -> (CorrespondenceHelper.getSource(cor) instanceof TMethodDefinition))
 				.map(m -> (TMethodDefinition) CorrespondenceHelper.getSource(m)).collect(Collectors.toSet());
