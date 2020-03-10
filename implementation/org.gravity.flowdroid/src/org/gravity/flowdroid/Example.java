@@ -93,6 +93,8 @@ public class Example {
 	public void testSecureStorageDF() throws IOException, CoreException {
 		IProject project = EclipseProjectUtil.getProjectByName("org.eclipse.equinox.security");
 		IProgressMonitor monitor = new NullProgressMonitor();
+		project.build(IncrementalProjectBuilder.FULL_BUILD, monitor);
+		
 		IFolder gravity = EclipseProjectUtil.getGravityFolder(project, monitor);
 		IFile corr = gravity.getFile("storepassword.corr.xmi");
 		Mapper mapper = new Mapper(corr);
@@ -105,12 +107,11 @@ public class Example {
 		if (!javaProject.isOpen()) {
 			javaProject.open(monitor);
 		}
-		project.build(IncrementalProjectBuilder.FULL_BUILD, monitor);
+		
 
 		IPath outputLocation = javaProject.getOutputLocation();
 		IPath projectLocation = project.getLocation();
 		String appPath = projectLocation.append(outputLocation.removeFirstSegments(1)).toOSString();
-
 		String libPath = System.getProperty("java.home") + File.separator + "lib" + File.separator + "rt.jar";
 
 		EDFD dfd = mapper.getDFD();
@@ -118,11 +119,11 @@ public class Example {
 			// look for sources, sinks, epoints if confidential asset
 			if (asset.getValue().stream().anyMatch(value -> "Confidentiality".equals(value.getObjective().getName()))) {
 				SourceAndSink sourcesAndSinks = sas.getSourceSinks(gravity, mapper, dfd, false, asset);
-				if (sourcesAndSinks!=null) {
+				if (sourcesAndSinks != null) {
 
 					Set<String> epoints = sourcesAndSinks.getEpoints();
 //					epoints.add("<org.eclipse.equinox.internal.security.storage.SecurePreferencesWrapper: java.lang.String get(java.lang.String,java.lang.String)>");
-//					epoints.add("<org.eclipse.equinox.internal.security.storage.friends.ReEncrypter: void decrypt(org.eclipse.equinox.security.storage.ISecurePreferences)>");
+					epoints.add("<org.eclipse.equinox.internal.security.storage.friends.ReEncrypter: void decrypt(org.eclipse.equinox.security.storage.ISecurePreferences)>");
 
 					Set<String> sources = sourcesAndSinks.getSources();
 //					sources.add("<org.eclipse.equinox.internal.security.storage.SecurePreferencesRoot: org.eclipse.equinox.internal.security.storage.PasswordExt getPassword(java.lang.String,org.eclipse.equinox.security.storage.provider.IPreferencesContainer,boolean)>");
@@ -131,18 +132,28 @@ public class Example {
 					Set<String> sinks = sourcesAndSinks.getSinks();
 //					sinks.add("<org.eclipse.equinox.security.storage.ISecurePreferences: java.lang.String get(java.lang.String,java.lang.String)>");
 
-									
-					gravity.getFile(asset.getName() + "-entrypoints.txt")
-							.create(new ByteArrayInputStream(epoints.parallelStream()
-									.collect(Collectors.joining(",\n", "\nEntry points:\n", "\n")).getBytes()), true,
-									monitor);
-					gravity.getFile(asset.getName() + "-sources.txt").create(new ByteArrayInputStream(
-							sources.parallelStream().collect(Collectors.joining(",\n", "\nSources:\n", "\n")).getBytes()),
+					IFile epointsfile = gravity.getFile(asset.getName() + "-entrypoints.txt");
+					IFile sourcesfile = gravity.getFile(asset.getName() + "-sources.txt");
+					IFile sinksfile = gravity.getFile(asset.getName() + "-sinks.txt");
+					if (epointsfile.exists())
+						epointsfile.delete(true, monitor);
+					if (sourcesfile.exists())
+						sourcesfile.delete(true, monitor);
+					if (sinksfile.exists())
+						sinksfile.delete(true, monitor);
+					epointsfile.create(
+							new ByteArrayInputStream(epoints.parallelStream()
+									.collect(Collectors.joining(",\n", "\nEntry points:\n", "\n")).getBytes()),
 							true, monitor);
-					gravity.getFile(asset.getName() + "-sinks.txt").create(new ByteArrayInputStream(
-							sinks.parallelStream().collect(Collectors.joining(",\n", "\nSinks:\n", "\n")).getBytes()), true,
-							monitor);
-					 
+					sourcesfile.create(
+							new ByteArrayInputStream(sources.parallelStream()
+									.collect(Collectors.joining(",\n", "\nSources:\n", "\n")).getBytes()),
+							true, monitor);
+					sinksfile.create(new ByteArrayInputStream(
+							sinks.parallelStream().collect(Collectors.joining(",\n", "\nSinks:\n", "\n")).getBytes()),
+							true, monitor);
+					
+					
 					infoflow.computeInfoflow(appPath, libPath, epoints, sources, sinks);
 					InfoflowResults results = infoflow.getResults();
 					File file = gravity.getFile(asset.getName() + "-FlowDroid-results.txt").getLocation().toFile();
@@ -152,9 +163,8 @@ public class Example {
 					try (Writer wr = new FileWriter(file)) {
 						results.printResults(wr);
 					}
-				}				
+				}
 			}
-			
 
 		}
 

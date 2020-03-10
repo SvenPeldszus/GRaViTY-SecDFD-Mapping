@@ -61,14 +61,15 @@ public class SourcesAndSinks {
 			// format to soot signature
 			addSootSignatures(flowSourceCorrespondences, sourceAndSink.getSources());
 		}
-		if (sourceAndSink.getSources().isEmpty()) return null;
-		
+		if (sourceAndSink.getSources().isEmpty())
+			return null;
+
 		// find entry points
 		Set<TMethodDefinition> entryPoints = findEntryPoints(mapper, mapper.getDFD());
 		addSootSignatures(entryPoints, sourceAndSink.getEpoints());
 
 		// find sinks
-		Set<AbstractCorrespondence> flowSinkCorrespondences = SinkFinder.findSinks(mapper, dfd, asset);
+		Set<AbstractCorrespondence> flowSinkCorrespondences = SinkFinder.findSinks(mapper, dfd, asset, true);
 		addSootSignatures(flowSinkCorrespondences, sourceAndSink.getSinks());
 		// else, find correspondences for incoming flows to EE and DS
 		if (flowSinkCorrespondences.isEmpty()) {
@@ -100,10 +101,10 @@ public class SourcesAndSinks {
 			if (source instanceof TMethodDefinition && !TConstructor.isConstructor((TMember) source)) {
 				signatures.add(SignatureHelper.getSootSignature((TMethodDefinition) source));
 			}
-			// TODO: if source instance of TClass?
 		}
 	}
 
+	//TODO: if epoint is get from Wrapper, we need to also follow the call graph until root for FlowDroid (also add decrypt from storage.friends.ReEncrypter)
 	public Set<TMethodDefinition> findEntryPoints(Mapper mapper, EDFD dfd) {
 		Set<TMethodDefinition> entryProcesses = dfd.getElements().parallelStream()
 				.filter(ExternalEntity.class::isInstance)
@@ -121,6 +122,7 @@ public class SourcesAndSinks {
 			if (seen.contains(def)) {
 				continue;
 			}
+			definitions.addAll(def.getOverriddenBy());
 			seen.add(def);
 
 			Set<TMethodDefinition> sources = def.getAccessedBy().parallelStream().map(TAccess::getTSource)
