@@ -3,7 +3,6 @@
  */
 package org.gravity.flowdroid;
 
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -25,15 +24,6 @@ public class SourceAndSink {
 		this.sources = sources;
 		this.sinks = sinks;
 		this.epoints = epoint;
-	}
-	
-	/**
-	 * Initializes sources and sinks with no values
-	 */
-	public SourceAndSink() {
-		this.sources = new HashSet<>();
-		this.sinks = new HashSet<>();
-		this.epoints = new HashSet<>();
 	}
 
 	/**

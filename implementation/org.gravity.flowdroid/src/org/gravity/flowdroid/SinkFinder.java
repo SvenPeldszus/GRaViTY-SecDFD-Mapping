@@ -10,7 +10,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.eclipse.core.resources.IFolder;
+
+import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.gravity.mapping.secdfd.AbstractCorrespondence;
@@ -18,6 +19,7 @@ import org.gravity.mapping.secdfd.helpers.CorrespondenceHelper;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.typegraph.basic.TAbstractFlowElement;
 import org.gravity.typegraph.basic.TFlow;
+import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethodDefinition;
 import org.secdfd.model.Asset;
 import org.secdfd.model.Process;
@@ -51,20 +53,20 @@ public final class SinkFinder {
 	/**
 	 * 1) susi list
 	 * 
-	 * @param gravity
+	 * @param file
 	 * @return
 	 * @throws IOException
 	 */
-	static Set<String> loadSinksFromFile(IFolder gravity) throws IOException {
+	static Set<String> loadSinksFromFile(IFile file) throws IOException {
 		IOException exception = null;
-		File SuSiSinksFile = gravity.getFile("Ouput_CatSinks_v0_9.txt").getLocation().toFile();
+		File suSiSinksFile = file.getLocation().toFile();
 		Set<String> susisinks = new HashSet<>();
-		if (SuSiSinksFile.exists()) {
+		if (suSiSinksFile.exists()) {
 			try {
-				for (String s : Files.readAllLines(SuSiSinksFile.toPath())) {
+				for (String s : Files.readAllLines(suSiSinksFile.toPath())) {
 					// parse file
-					if ((s.indexOf("<") > -1) && (s.indexOf(">") > -1) && !s.contains("android")) {
-						s = s.substring(s.indexOf("<"), s.indexOf(">") + 1);
+					if ((s.indexOf('<') > -1) && (s.indexOf('>') > -1) && !s.contains("android")) {
+						s = s.substring(s.indexOf('<'), s.indexOf('>') + 1);
 						susisinks.add(s);
 					}
 				}
@@ -88,9 +90,10 @@ public final class SinkFinder {
 	 * @param dfd
 	 * @return
 	 */
-	public static Set<AbstractCorrespondence> findSinks(Mapper mapper, EDFD dfd, Asset asset,
-			boolean disableReturnTypeCheck) {
-		Set<AbstractCorrespondence> sinks = new HashSet<>();
+	// TODO: split into allowed and forbidden sinks
+	public static Set<? extends TMember> findSinks(Mapper mapper, Asset asset, boolean disableReturnTypeCheck) {
+		EDFD dfd = mapper.getDFD();
+		Set<TMember> sinks = new HashSet<>();
 		Set<Element> attackerzones = dfd.getTrustzones().parallelStream().filter(
 				zone -> zone.getAttackerprofile().parallelStream().anyMatch(profile -> profile.getObservation() > 0))
 				.flatMap(zone -> zone.getElements().parallelStream()).collect(Collectors.toSet());
@@ -100,31 +103,31 @@ public final class SinkFinder {
 				.collect(Collectors.toSet());
 		for (Element el : elements) {
 			if (attackerzones.contains(el) || el.isAttacker()) {
-				sinks.addAll(getMappings(mapper, el));
+				sinks.addAll(mapper.getMapping(el).parallelStream().filter(TMember.class::isInstance)
+						.map(TMember.class::cast).collect(Collectors.toList()));
 			} else {
 				if (el instanceof ExternalEntity || el instanceof DataStore) {
 					// if any incoming flow contains current asset, then sink allowed.
 					if (!el.getInflows().parallelStream().flatMap(inflow -> inflow.getAssets().parallelStream())
 							.collect(Collectors.toSet()).contains(asset)) {
 						// find mappings of previous element (processes of the incoming flows)
-						Set<AbstractCorrespondence> borderProcessCorrespondences = el.getInflows().parallelStream()
-								.flatMap(flow -> getMappings(mapper, flow.getSource()).parallelStream())
-								.collect(Collectors.toSet());
+						Set<TMember> borderProcesses = el.getInflows().parallelStream()
+								.flatMap(flow -> mapper.getMapping(flow.getSource()).parallelStream())
+								.filter(TMember.class::isInstance).map(TMember.class::cast).collect(Collectors.toSet());
 						if (disableReturnTypeCheck) {
-							sinks.addAll(borderProcessCorrespondences);
+							sinks.addAll(borderProcesses);
 						} else {
 							// get mapped types of asset
 							Set<EObject> assetMappedTypes = getMappings(mapper, asset).parallelStream()
-									.map(corr -> CorrespondenceHelper.getSource(corr)).collect(Collectors.toSet());
+									.map(CorrespondenceHelper::getSource).collect(Collectors.toSet());
 
 							// if method definition contains mapped asset type on return value then its a
 							// sink
-							for (AbstractCorrespondence ac : borderProcessCorrespondences) {
-								EObject source = CorrespondenceHelper.getSource(ac);
+							for (TMember source : borderProcesses) {
 								if (source instanceof TMethodDefinition) {
 									if (assetMappedTypes.contains(((TMethodDefinition) source).getReturnType())) {
 										// add to list of not allowed sinks
-										sinks.add(ac);
+										sinks.add(source);
 									}
 								}
 							}
