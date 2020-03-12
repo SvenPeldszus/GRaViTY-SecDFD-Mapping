@@ -1,11 +1,15 @@
 package org.gravity.flowdroid;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -13,7 +17,6 @@ import java.util.stream.Stream;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
-import org.gravity.mapping.secdfd.helpers.CorrespondenceHelper;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TAccess;
@@ -38,7 +41,10 @@ public class SourcesAndSinkFinder {
 
 	private Set<String> entryPoints;
 	private Set<String> susisinks;
+
 	private Mapper mapper;
+
+	private Set<String> baselineSources;
 
 	public SourcesAndSinkFinder(Mapper mapper, boolean susi) throws IOException {
 		this.mapper = mapper;
@@ -47,7 +53,7 @@ public class SourcesAndSinkFinder {
 		Set<TMethodDefinition> entryPointDefinitions = findEntryPoints();
 		this.entryPoints = getSootSignatures(entryPointDefinitions);
 		if (susi) {
-			susisinks = SinkFinder.loadSinksFromFile(mapper.getGravityFolder().getFile("Ouput_CatSinks_v0_9.txt"));
+			susisinks = SinkFinder.loadSinksFromFile(mapper.getGravityFolder().getFile("susiSinks.txt"));
 		} else {
 			susisinks = Collections.emptySet();
 		}
@@ -73,14 +79,18 @@ public class SourcesAndSinkFinder {
 		Set<String> sources = getSootSignatures(flowSourceCorrespondences);
 
 		// find sinks
-		Set<? extends TMember> flowSinkCorrespondences = SinkFinder.findSinks(mapper, asset, true);
+		SinkFinder sinkFinder = new SinkFinder(mapper, asset, false);
+		Set<? extends TMember> flowSinkCorrespondences = sinkFinder.getForbiddensinks();
 		Set<String> sinks = getSootSignatures(flowSinkCorrespondences);
 		if (flowSinkCorrespondences.isEmpty()) {
 			// TODO: raise an issue to developer to model attacker
 			LOGGER.log(Level.ERROR,
 					"No sinks found. Modeling attacker observation zones in the SecDFD are required for executing data flow analysis.");
 		}
-		sinks.addAll(susisinks);
+		// sinks.addAll(susisinks);
+		// add only relevant susi sinks (remove allowed)
+		sinks.addAll(addSinksFromSusiSinks(sinkFinder, susisinks));
+
 		return new SourceAndSink(sources, sinks, entryPoints);
 	}
 
@@ -154,14 +164,16 @@ public class SourcesAndSinkFinder {
 			Stream<Flow> transporterflows = getTargetFlows(asset, assetsource);
 			// collect the processes of the outgoing flows:
 			return transporterflows.flatMap(flow -> flow.getTarget().parallelStream())
-					.flatMap(target -> SinkFinder.getMappings(mapper, target).parallelStream()).map(CorrespondenceHelper::getSource)
-					.filter(TMember.class::isInstance).map(TMember.class::cast).collect(Collectors.toSet());
+					.flatMap(target -> mapper.getMapping(target).parallelStream())
+					.filter(TMember.class::isInstance).map(TMember.class::cast)
+					.collect(Collectors.toSet());
 		}
 		if (assetsource instanceof DataStore) {
 			final Collection<TAbstractType> assetTypes = mapper.getMapping(asset);
-			final Collection<TMember> processMembers = ((DataStore) assetsource).getOutflows().parallelStream().map(Flow::getTarget).flatMap(Collection::parallelStream)
-					.filter(Process.class::isInstance).map(Process.class::cast).map(mapper::getMapping)
-					.flatMap(Collection::parallelStream).collect(Collectors.toSet());
+			final Collection<TMember> processMembers = ((DataStore) assetsource).getOutflows().parallelStream()
+					.map(Flow::getTarget).flatMap(Collection::parallelStream).filter(Process.class::isInstance)
+					.map(Process.class::cast).map(mapper::getMapping).flatMap(Collection::parallelStream)
+					.collect(Collectors.toSet());
 			Set<? extends EObject> pmElements = mapper.getMapping((DataStore) assetsource);
 			Set<TMember> members = pmElements.parallelStream().flatMap(element -> {
 				if (element instanceof TMember) {
@@ -202,6 +214,64 @@ public class SourcesAndSinkFinder {
 	private Stream<Flow> getTargetFlows(Asset asset, NamedEntity assetsource) {
 		return ((Element) assetsource).getOutflows().parallelStream()
 				.filter(outflow -> outflow.getAssets().contains(asset)).distinct();
+	}
+
+	public Map<String, Set<String>> getBaseline() throws IOException {
+		baselineSources = new HashSet<>();
+		Set<String> baselineSinks = new HashSet<>();
+		// susi list
+		baselineSinks.addAll(susisinks);
+		
+		// get sinks from fiel flowdroid-sources-sinks.txt
+		IOException exception = null;
+		File file = mapper.getGravityFolder().getFile("flowdroid-sources-sinks.txt").getLocation().toFile();
+		Set<String> additionalSinks = new HashSet<>();
+		if (file.exists()) {
+			try {
+				for (String s : Files.readAllLines(file.toPath())) {
+					// parse line
+					if (s.endsWith("_SINK_") && (s.indexOf('<') > -1) && (s.indexOf('>') > -1) && !s.contains("android")) {
+						s = s.substring(s.indexOf('<'), s.indexOf('>') + 1);
+						additionalSinks.add(s);
+					}
+					if (s.endsWith("_SOURCE_") && (s.indexOf('<') > -1) && (s.indexOf('>') > -1) && !s.contains("android")) {
+						s = s.substring(s.indexOf('<'), s.indexOf('>') + 1);
+						baselineSources.add(s);
+					}
+				}
+			} catch (IOException e) {
+				exception = e;
+			}
+		}
+		if (exception != null) {
+			throw exception;
+		}
+		
+		Map<String, Set<String>> baseline = new HashMap<>();
+		baseline.put("baselineSources", baselineSources);
+		baseline.put("baselineSinks", baselineSinks);
+		return baseline;
+	}
+	
+	public Set<String> addSinksFromSusiSinks(SinkFinder sinkFinder, Set<String> susisinks) {
+		Set<String> sinks = new HashSet<>();
+		Set<TMember> allowedSinks = sinkFinder.getAllowedsinks();
+		
+		if (allowedSinks != null) {
+			Set<String> allowed = getSootSignatures(allowedSinks);
+			for (String susi : susisinks) {
+				if (!allowed.contains(susi)) {
+					sinks.add(susi);
+				} else {
+					System.out.println("Removed an allowed sink: " + susi);
+				}
+			}
+			return sinks;
+		} else {
+			sinks.addAll(susisinks);
+			return sinks;
+		}
+
 	}
 
 }
