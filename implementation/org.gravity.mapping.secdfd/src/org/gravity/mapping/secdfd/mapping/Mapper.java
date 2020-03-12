@@ -21,6 +21,7 @@ import java.util.stream.Stream;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -126,6 +127,7 @@ public class Mapper {
 		this.pm = pm;
 		this.dfd = dfd;
 		this.destination = destination;
+		
 
 		initMethodsAndTypes(pm);
 
@@ -682,8 +684,12 @@ public class Mapper {
 	 * 
 	 * @return The location
 	 */
-	public IFile getFile() {
+	public IFile getCorrespondenceModelFile() {
 		return destination;
+	}
+
+	public IFolder getGravityFolder() {
+		return (IFolder) destination.getParent();
 	}
 
 	public void addRandom() {
