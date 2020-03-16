@@ -27,7 +27,7 @@ import org.gravity.mapping.secdfd.model.mapping.MappingFactory;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessName;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
-import org.gravity.mapping.secdfd.views.MappingLabelProvider;
+import org.gravity.mapping.secdfd.ui.views.MappingLabelProvider;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TClass;
 import org.gravity.typegraph.basic.TInterface;

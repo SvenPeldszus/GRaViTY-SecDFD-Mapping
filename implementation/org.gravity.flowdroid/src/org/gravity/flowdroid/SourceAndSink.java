@@ -15,15 +15,13 @@ import java.util.Set;
 public class SourceAndSink {
 	final Set<String> sources;
 	final Set<String> sinks;
-	final Set<String> epoints;
 	
 	/**
 	 * Initializes sources and sinks with given values
 	 */
-	public SourceAndSink(Set<String> sources, Set<String> sinks, Set<String> epoint) {
+	public SourceAndSink(Set<String> sources, Set<String> sinks) {
 		this.sources = sources;
 		this.sinks = sinks;
-		this.epoints = epoint;
 	}
 
 	/**
@@ -39,9 +37,4 @@ public class SourceAndSink {
 	public Set<String> getSinks() {
 		return sinks;
 	}
-	
-	public Set<String> getEpoints(){
-		return epoints;
-	}
-
 }

@@ -1,4 +1,4 @@
-package org.gravity.mapping.secdfd.views.actions;
+package org.gravity.mapping.secdfd.ui.views.actions;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 
 import org.eclipse.jface.action.Action;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
-import org.gravity.mapping.secdfd.views.IListener;
-import org.gravity.mapping.secdfd.views.MappingView;
+import org.gravity.mapping.secdfd.ui.views.IListener;
+import org.gravity.mapping.secdfd.ui.views.MappingView;
 import org.gravity.mapping.secdfd.AbstractCorrespondence;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 
@@ -32,6 +32,7 @@ public final class ContinueAction extends Action implements IListener {
 		this.waiting = new HashSet<>();
 	}
 
+	@Override
 	public void run() {
 		for (Mapping mapping : this.mappingView.getMappings()) {
 			if (!userdefined.containsKey(mapping)) {

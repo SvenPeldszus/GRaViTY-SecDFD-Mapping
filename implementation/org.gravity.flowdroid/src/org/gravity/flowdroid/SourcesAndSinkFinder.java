@@ -1,15 +1,16 @@
 package org.gravity.flowdroid;
 
-import java.io.File;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -37,14 +38,16 @@ public class SourcesAndSinkFinder {
 	/**
 	 * The logger of this class
 	 */
-	static final Logger LOGGER = Logger.getLogger(SourcesAndSinkFinder.class);
+	private static final Logger LOGGER = Logger.getLogger(SourcesAndSinkFinder.class);
 
-	private Set<String> entryPoints;
-	private Set<String> susisinks;
+	private static final String SOURCES = "susi/sources.txt";
+	private static final String SINKS = "susi/sinks.txt";
+
+	private final Set<String> entryPoints;
+	private final Set<String> baselineSources;
+	private final Set<String> baselineSinks;
 
 	private Mapper mapper;
-
-	private Set<String> baselineSources;
 
 	public SourcesAndSinkFinder(Mapper mapper, boolean susi) throws IOException {
 		this.mapper = mapper;
@@ -52,11 +55,28 @@ public class SourcesAndSinkFinder {
 		// find entry points
 		Set<TMethodDefinition> entryPointDefinitions = findEntryPoints();
 		this.entryPoints = getSootSignatures(entryPointDefinitions);
+
 		if (susi) {
-			susisinks = SinkFinder.loadSinksFromFile(mapper.getGravityFolder().getFile("susiSinks.txt"));
+			this.baselineSources = read(SOURCES);
+			this.baselineSinks = read(SINKS);
 		} else {
-			susisinks = Collections.emptySet();
+			baselineSources = Collections.emptySet();
+			baselineSinks = Collections.emptySet();
 		}
+	}
+
+	/**
+	 * @param file
+	 * @return
+	 * @throws IOException
+	 */
+	private Set<String> read(String file) throws IOException {
+		Set<String> tmp;
+		URL sourcesEntry = Activator.getInstance().getBundle().getEntry(file);
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(sourcesEntry.openStream()))) {
+			tmp = reader.lines().collect(Collectors.toSet());
+		}
+		return tmp;
 	}
 
 	/**
@@ -79,7 +99,7 @@ public class SourcesAndSinkFinder {
 		Set<String> sources = getSootSignatures(flowSourceCorrespondences);
 
 		// find sinks
-		SinkFinder sinkFinder = new SinkFinder(mapper, asset, false);
+		SinkFinder sinkFinder = new SinkFinder(mapper, asset);
 		Set<? extends TMember> flowSinkCorrespondences = sinkFinder.getForbiddensinks();
 		Set<String> sinks = getSootSignatures(flowSinkCorrespondences);
 		if (flowSinkCorrespondences.isEmpty()) {
@@ -89,9 +109,9 @@ public class SourcesAndSinkFinder {
 		}
 		// sinks.addAll(susisinks);
 		// add only relevant susi sinks (remove allowed)
-		sinks.addAll(addSinksFromSusiSinks(sinkFinder, susisinks));
+		sinks.addAll(getForbiddenSinks(sinkFinder, getBaselineSinks()));
 
-		return new SourceAndSink(sources, sinks, entryPoints);
+		return new SourceAndSink(sources, sinks);
 	}
 
 	/**
@@ -164,9 +184,8 @@ public class SourcesAndSinkFinder {
 			Stream<Flow> transporterflows = getTargetFlows(asset, assetsource);
 			// collect the processes of the outgoing flows:
 			return transporterflows.flatMap(flow -> flow.getTarget().parallelStream())
-					.flatMap(target -> mapper.getMapping(target).parallelStream())
-					.filter(TMember.class::isInstance).map(TMember.class::cast)
-					.collect(Collectors.toSet());
+					.flatMap(target -> mapper.getMapping(target).parallelStream()).filter(TMember.class::isInstance)
+					.map(TMember.class::cast).collect(Collectors.toSet());
 		}
 		if (assetsource instanceof DataStore) {
 			final Collection<TAbstractType> assetTypes = mapper.getMapping(asset);
@@ -175,7 +194,7 @@ public class SourcesAndSinkFinder {
 					.map(Process.class::cast).map(mapper::getMapping).flatMap(Collection::parallelStream)
 					.collect(Collectors.toSet());
 			Set<? extends EObject> pmElements = mapper.getMapping((DataStore) assetsource);
-			Set<TMember> members = pmElements.parallelStream().flatMap(element -> {
+			return pmElements.parallelStream().flatMap(element -> {
 				if (element instanceof TMember) {
 					return Stream.of((TMember) element);
 				} else if (element instanceof TAbstractType) {
@@ -199,7 +218,6 @@ public class SourcesAndSinkFinder {
 					return Stream.empty();
 				}
 			}).collect(Collectors.toSet());
-			return members;
 		}
 		return mapper.getMapping((Process) assetsource);
 	}
@@ -216,48 +234,10 @@ public class SourcesAndSinkFinder {
 				.filter(outflow -> outflow.getAssets().contains(asset)).distinct();
 	}
 
-	public Map<String, Set<String>> getBaseline() throws IOException {
-		baselineSources = new HashSet<>();
-		Set<String> baselineSinks = new HashSet<>();
-		// susi list
-		baselineSinks.addAll(susisinks);
-		
-		// get sinks from fiel flowdroid-sources-sinks.txt
-		IOException exception = null;
-		File file = mapper.getGravityFolder().getFile("flowdroid-sources-sinks.txt").getLocation().toFile();
-		Set<String> additionalSinks = new HashSet<>();
-		if (file.exists()) {
-			try {
-				for (String s : Files.readAllLines(file.toPath())) {
-					// parse line
-					if (s.endsWith("_SINK_") && (s.indexOf('<') > -1) && (s.indexOf('>') > -1) && !s.contains("android")) {
-						s = s.substring(s.indexOf('<'), s.indexOf('>') + 1);
-						additionalSinks.add(s);
-					}
-					if (s.endsWith("_SOURCE_") && (s.indexOf('<') > -1) && (s.indexOf('>') > -1) && !s.contains("android")) {
-						s = s.substring(s.indexOf('<'), s.indexOf('>') + 1);
-						baselineSources.add(s);
-					}
-				}
-			} catch (IOException e) {
-				exception = e;
-			}
-		}
-		if (exception != null) {
-			throw exception;
-		}
-		
-		Map<String, Set<String>> baseline = new HashMap<>();
-		baseline.put("baselineSources", baselineSources);
-		baseline.put("baselineSinks", baselineSinks);
-		return baseline;
-	}
-	
-	public Set<String> addSinksFromSusiSinks(SinkFinder sinkFinder, Set<String> susisinks) {
-		Set<String> sinks = new HashSet<>();
+	public Set<String> getForbiddenSinks(SinkFinder sinkFinder, Set<String> susisinks) {
 		Set<TMember> allowedSinks = sinkFinder.getAllowedsinks();
-		
 		if (allowedSinks != null) {
+			Set<String> sinks = new HashSet<>();
 			Set<String> allowed = getSootSignatures(allowedSinks);
 			for (String susi : susisinks) {
 				if (!allowed.contains(susi)) {
@@ -268,10 +248,27 @@ public class SourcesAndSinkFinder {
 			}
 			return sinks;
 		} else {
-			sinks.addAll(susisinks);
-			return sinks;
+			return new HashSet<>(susisinks);
 		}
 
+	}
+
+	/**
+	 * @return the baselineSinks
+	 */
+	public Set<String> getBaselineSinks() {
+		return baselineSinks;
+	}
+
+	/**
+	 * @return the baselineSources
+	 */
+	public Set<String> getBaselineSources() {
+		return baselineSources;
+	}
+
+	public Set<String> getEntryPoints() {
+		return entryPoints;
 	}
 
 }

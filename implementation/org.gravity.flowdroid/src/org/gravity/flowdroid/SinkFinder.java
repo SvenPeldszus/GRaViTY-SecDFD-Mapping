@@ -3,21 +3,16 @@
  */
 package org.gravity.flowdroid;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.EObject;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TMember;
-import org.gravity.typegraph.basic.TMethodDefinition;
 import org.secdfd.model.Asset;
 import org.secdfd.model.DataStore;
 import org.secdfd.model.EDFD;
@@ -49,11 +44,11 @@ public final class SinkFinder {
 	 * If sink expected, add to allowedSinks
 	 * 
 	 * @param mapper
-	 * @param dfd
+	 * @param asset
 	 * @return
 	 */
-	
-	public SinkFinder(Mapper mapper, Asset asset, boolean disableReturnTypeCheck) {
+
+	public SinkFinder(Mapper mapper, Asset asset) {
 		allowed = new HashSet<>();
 		forbidden = new HashSet<>();
 		EDFD dfd = mapper.getDFD();
@@ -83,8 +78,9 @@ public final class SinkFinder {
 						if (allowed == null)
 							allowed = new HashSet<>();
 						allowed.addAll(borderProcesses);
-						
-						// if DataStore, add all the method signatures that are defined over the mapped Type (.e.g, hashmap.put(..) ) as allowed sinks
+
+						// if DataStore, add all the method signatures that are defined over the mapped
+						// Type (.e.g, hashmap.put(..) ) as allowed sinks
 						if (el instanceof DataStore) {
 							Set<? extends EObject> pmElements = mapper.getMapping(el);
 							Set<TMember> members = pmElements.parallelStream().flatMap(element -> {
@@ -92,7 +88,8 @@ public final class SinkFinder {
 									return Stream.of((TMember) element);
 								} else if (element instanceof TAbstractType) {
 									TAbstractType tType = (TAbstractType) element;
-									return tType.getDefines().parallelStream().filter(defined -> defined instanceof TMember);
+									return tType.getDefines().parallelStream()
+											.filter(defined -> defined instanceof TMember);
 								} else {
 									return Stream.empty();
 								}
@@ -103,68 +100,27 @@ public final class SinkFinder {
 						forbidden.addAll(borderProcesses);
 					}
 					/*
-					 * else {
-						if (disableReturnTypeCheck) {
-							forbidden.addAll(borderProcesses);
-						} else {
-							// get mapped types of asset
-							Set<EObject> assetMappedTypes = mapper.getMapping(asset).parallelStream()
-									.collect(Collectors.toSet());
-							// if method definition contains mapped asset type on return value then its a
-							// sink
-							for (TMember source : borderProcesses) {
-								if (source instanceof TMethodDefinition) {
-									if (assetMappedTypes.contains(((TMethodDefinition) source).getReturnType())) {
-										// add to list of not allowed sinks
-										forbidden.add(source);
-									}
-								}
-							}
-
-						}
-					}
-					*/
+					 * else { if (disableReturnTypeCheck) { forbidden.addAll(borderProcesses); }
+					 * else { // get mapped types of asset Set<EObject> assetMappedTypes =
+					 * mapper.getMapping(asset).parallelStream() .collect(Collectors.toSet()); // if
+					 * method definition contains mapped asset type on return value then its a //
+					 * sink for (TMember source : borderProcesses) { if (source instanceof
+					 * TMethodDefinition) { if (assetMappedTypes.contains(((TMethodDefinition)
+					 * source).getReturnType())) { // add to list of not allowed sinks
+					 * forbidden.add(source); } } }
+					 * 
+					 * } }
+					 */
 
 				}
 			}
 		}
-	}
-
-	/**
-	 * 1) susi list for sinks
-	 * 
-	 * @param file
-	 * @return
-	 * @throws IOException
-	 */
-	static Set<String> loadSinksFromFile(IFile file) throws IOException {
-		IOException exception = null;
-		File suSiSinksFile = file.getLocation().toFile();
-		Set<String> susisinks = new HashSet<>();
-		if (suSiSinksFile.exists()) {
-			try {
-				for (String s : Files.readAllLines(suSiSinksFile.toPath())) {
-					// parse file
-					if ((s.indexOf('<') > -1) && (s.indexOf('>') > -1) && !s.contains("android")) {
-						s = s.substring(s.indexOf('<'), s.indexOf('>') + 1);
-						susisinks.add(s);
-					}
-				}
-			} catch (IOException e) {
-				exception = e;
-			}
-		}
-		if (exception != null) {
-			throw exception;
-		}
-
-		return susisinks;
 	}
 
 	public Set<TMember> getAllowedsinks() {
 		return allowed;
 	}
-	
+
 	public Set<TMember> getForbiddensinks() {
 		return forbidden;
 	}

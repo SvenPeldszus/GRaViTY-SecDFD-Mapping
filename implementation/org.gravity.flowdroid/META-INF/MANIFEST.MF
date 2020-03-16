@@ -20,3 +20,4 @@ Require-Bundle: org.eclipse.core.resources,
  com.google.guava;bundle-version="27.1.0",
  org.eclipse.equinox.security
 Automatic-Module-Name: org.gravity.flowdroid
+Bundle-Activator: org.gravity.flowdroid.Activator

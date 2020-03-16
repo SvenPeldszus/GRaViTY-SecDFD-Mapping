@@ -57,14 +57,14 @@
          point="org.eclipse.ui.views">
       <view
             category="org.gravity.mapping.secdfd.category"
-            class="org.gravity.mapping.secdfd.views.DFDSelectionView"
+            class="org.gravity.mapping.secdfd.ui.views.DFDSelectionView"
             id="org.gravity.mapping.secdfd.view.select"
             name="GRaViTY SecDFD Selection"
             restorable="true">
       </view>
       <view
             category="org.gravity.mapping.secdfd.category"
-            class="org.gravity.mapping.secdfd.views.MappingView"
+            class="org.gravity.mapping.secdfd.ui.views.MappingView"
             id="org.gravity.mapping.secdfd.view"
             name="GRaViTY SecDFD Mappings"
             restorable="true">
@@ -103,5 +103,16 @@
       <super
             type="org.eclipse.core.resources.textmarker">
       </super>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            class="org.gravity.mapping.secdfd.ui.wizard.MappingWizard"
+            id="org.gravity.mapping.secdfd.wizard"
+            name="SecDFD Mapping Wizard">
+         <description>
+            Starts a mapping from SecDFDs in a project to the project's implementation
+         </description>
+      </wizard>
    </extension>
 </plugin>

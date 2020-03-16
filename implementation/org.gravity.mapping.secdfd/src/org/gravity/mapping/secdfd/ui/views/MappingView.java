@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.gravity.mapping.secdfd.views;
+package org.gravity.mapping.secdfd.ui.views;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -44,15 +44,15 @@ import org.eclipse.xtext.resource.XtextResourceSet;
 import org.gravity.eclipse.io.ModelSaver;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
+import org.gravity.mapping.secdfd.ui.views.actions.AcceptAction;
+import org.gravity.mapping.secdfd.ui.views.actions.AcceptAllAction;
+import org.gravity.mapping.secdfd.ui.views.actions.CheckContractsAction;
+import org.gravity.mapping.secdfd.ui.views.actions.ContinueAction;
+import org.gravity.mapping.secdfd.ui.views.actions.MapProjectAction;
+import org.gravity.mapping.secdfd.ui.views.actions.RejectAction;
+import org.gravity.mapping.secdfd.ui.views.actions.RejectAllAction;
 import org.gravity.mapping.secdfd.ui.wizard.MappingWizard;
 import org.gravity.mapping.secdfd.ui.wizard.TrafoJob;
-import org.gravity.mapping.secdfd.views.actions.AcceptAction;
-import org.gravity.mapping.secdfd.views.actions.AcceptAllAction;
-import org.gravity.mapping.secdfd.views.actions.CheckContractsAction;
-import org.gravity.mapping.secdfd.views.actions.ContinueAction;
-import org.gravity.mapping.secdfd.views.actions.MapProjectAction;
-import org.gravity.mapping.secdfd.views.actions.RejectAction;
-import org.gravity.mapping.secdfd.views.actions.RejectAllAction;
 import org.gravity.typegraph.basic.TypeGraph;
 import org.secdfd.dsl.SecDFDStandaloneSetup;
 
@@ -83,8 +83,6 @@ public class MappingView extends ViewPart {
 	private Composite parent;
 
 	private IFolder gravityFolder;
-
-	private ResourceSet resourceSet;
 
 	private Entry<IFile, TypeGraph> pm;
 
@@ -130,22 +128,36 @@ public class MappingView extends ViewPart {
 	 * @param trafoJob      The job creating a program model
 	 */
 	public void populate(IFolder gravityFolder, Collection<IFile> dfdFiles, TrafoJob trafoJob) {
-		this.gravityFolder = gravityFolder;
 
-		Map<IFile, EDFD> dfdMap = loadDFDs(dfdFiles);
+		Map<IFile, EDFD> dfdMap = loadDFDs(dfdFiles, gravityFolder);
+		ResourceSet rs = dfdMap.values().iterator().next().eResource().getResourceSet();
 		try {
 			trafoJob.join();
 		} catch (InterruptedException e) {
 			LOGGER.log(Level.ERROR, e.getLocalizedMessage(), e);
 			Thread.currentThread().interrupt();
 		}
-		this.pm = getProgramModel(trafoJob);
+		Entry<IFile, TypeGraph> pmx = getProgramModel(trafoJob, rs, gravityFolder);
 
+		populate(gravityFolder, dfdMap, pmx);
+	}
+
+	/**
+	 * Populates the view with the given content
+	 * 
+	 * @param gravityFolder The folder holding all temp files
+	 * @param dfdMap        The selected DFDs and the files they are stored in
+	 * @param pm            the File holding the program model and the model
+	 */
+	private void populate(IFolder gravityFolder, Map<IFile, EDFD> dfdMap, Entry<IFile, TypeGraph> pm) {
+		this.gravityFolder = gravityFolder;
+		this.dfds = new HashSet<>(dfdMap.values());
+		this.pm = pm;
 		if (!label.isDisposed()) {
 			label.dispose();
 			createMappingTable(gravityFolder.getProject());
 		}
-		
+
 		clearMappers();
 		for (Entry<IFile, EDFD> entry : dfdMap.entrySet()) {
 			IFile key = entry.getKey();
@@ -211,29 +223,29 @@ public class MappingView extends ViewPart {
 	 * 
 	 * @return The program model
 	 */
-	private Entry<IFile, TypeGraph> getProgramModel(TrafoJob trafoJob) {
-		TypeGraph pm = trafoJob.getPM();
-		IFile pmFile = gravityFolder.getFile(pm.getTName() + ".xmi");
+	private static Entry<IFile, TypeGraph> getProgramModel(TrafoJob trafoJob, ResourceSet rs, IFolder gravityFolder) {
+		TypeGraph model = trafoJob.getPM();
+		IFile pmFile = gravityFolder.getFile(model.getTName() + ".xmi");
 		URI pmUri = URI.createURI(pmFile.getLocation().makeRelativeTo(gravityFolder.getLocation()).toString());
-		Resource resource = pm.eResource();
+		Resource resource = model.eResource();
 		if (resource == null) {
-			Optional<Resource> result = this.resourceSet.getResources().parallelStream()
-					.filter(r -> r.getURI().equals(pmUri)).findAny();
+			Optional<Resource> result = rs.getResources().parallelStream().filter(r -> r.getURI().equals(pmUri))
+					.findAny();
 			if (result.isPresent()) {
 				resource = result.get();
 			} else {
-				resource = this.resourceSet.createResource(pmUri);
+				resource = rs.createResource(pmUri);
 			}
 			resource.getContents().clear();
-			resource.getContents().add(pm);
+			resource.getContents().add(model);
 		} else {
 			resource.setURI(pmUri);
-			this.resourceSet.getResources().add(resource);
+			rs.getResources().add(resource);
 		}
 		if (!pmFile.exists()) {
 			ModelSaver.saveModel(resource, pmFile, new NullProgressMonitor());
 		}
-		return new SimpleEntry<IFile, TypeGraph>(pmFile, pm);
+		return new SimpleEntry<>(pmFile, model);
 	}
 
 	/**
@@ -243,12 +255,10 @@ public class MappingView extends ViewPart {
 	 * 
 	 * @return A stream of DFDs and the files they are stored in
 	 */
-	private Map<IFile, EDFD> loadDFDs(Collection<IFile> files) {
+	private static Map<IFile, EDFD> loadDFDs(Collection<IFile> files, IFolder gravityFolder) {
 		Map<IFile, EDFD> loadedDFDs = new HashMap<>();
-		this.dfds = new HashSet<>();
 		Injector injector = new SecDFDStandaloneSetup().createInjectorAndDoEMFRegistration();
 		XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
-		this.resourceSet = resourceSet;
 		resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
 		for (IFile f : files) {
 			URI uri = URI.createURI(f.getLocation().makeRelativeTo(gravityFolder.getLocation()).toString());
@@ -260,7 +270,6 @@ public class MappingView extends ViewPart {
 				return null;
 			}
 			EDFD dfd = (EDFD) resource.getContents().get(0);
-			this.dfds.add(dfd);
 			loadedDFDs.put(f, dfd);
 		}
 		return loadedDFDs;

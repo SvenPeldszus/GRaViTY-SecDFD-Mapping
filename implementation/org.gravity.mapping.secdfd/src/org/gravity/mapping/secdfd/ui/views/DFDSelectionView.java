@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.gravity.mapping.secdfd.views;
+package org.gravity.mapping.secdfd.ui.views;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -22,7 +22,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.part.ViewPart;
-import org.gravity.mapping.secdfd.views.actions.UserdefinedAction;
+import org.gravity.mapping.secdfd.ui.views.actions.UserdefinedAction;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TFieldDefinition;
 import org.gravity.typegraph.basic.TMethodDefinition;

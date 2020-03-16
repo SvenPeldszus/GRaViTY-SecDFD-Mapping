@@ -1,4 +1,4 @@
-package org.gravity.mapping.secdfd.views;
+package org.gravity.mapping.secdfd.ui.views;
 
 import java.util.Map.Entry;
 
@@ -9,6 +9,7 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 import org.gravity.mapping.secdfd.helpers.CorrespondenceHelper;
+import org.gravity.mapping.secdfd.helpers.Logging;
 import org.gravity.mapping.secdfd.helpers.RankingHelper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.typegraph.basic.BasicPackage;

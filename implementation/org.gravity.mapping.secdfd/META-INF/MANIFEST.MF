@@ -36,13 +36,13 @@ Export-Package: org.gravity.mapping.secdfd,
  org.gravity.mapping.secdfd.model.mapping.impl,
  org.gravity.mapping.secdfd.model.mapping.util,
  org.gravity.mapping.secdfd.ui.handler,
+ org.gravity.mapping.secdfd.ui.views,
+ org.gravity.mapping.secdfd.ui.views.actions,
  org.gravity.mapping.secdfd.ui.wizard,
  org.gravity.mapping.secdfd.util,
  org.secdfd.model,
  org.secdfd.model.impl,
- org.secdfd.model.util,
- org.gravity.mapping.secdfd.views,
- org.gravity.mapping.secdfd.views.actions
+ org.secdfd.model.util
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-Activator: org.gravity.mapping.secdfd.Activator

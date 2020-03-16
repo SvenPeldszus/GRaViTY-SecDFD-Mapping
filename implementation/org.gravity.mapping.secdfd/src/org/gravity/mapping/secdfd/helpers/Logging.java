@@ -1,4 +1,4 @@
-package org.gravity.mapping.secdfd.views;
+package org.gravity.mapping.secdfd.helpers;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,10 +15,11 @@ import java.util.stream.Collectors;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
+import org.gravity.mapping.secdfd.ui.views.MappingLabelProvider;
+import org.gravity.mapping.secdfd.ui.views.MappingView;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TMember;
 import org.gravity.mapping.secdfd.AbstractCorrespondence;
-import org.gravity.mapping.secdfd.helpers.CorrespondenceHelper;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

@@ -1,10 +1,10 @@
-package org.gravity.mapping.secdfd.views.actions;
+package org.gravity.mapping.secdfd.ui.views.actions;
 
 import java.io.IOException;
 
 import org.eclipse.jface.action.Action;
 import org.gravity.mapping.secdfd.checks.EncryptionCheck;
-import org.gravity.mapping.secdfd.views.MappingView;
+import org.gravity.mapping.secdfd.ui.views.MappingView;
 
 public class CheckContractsAction extends Action {
 	private final MappingView mappingView;
