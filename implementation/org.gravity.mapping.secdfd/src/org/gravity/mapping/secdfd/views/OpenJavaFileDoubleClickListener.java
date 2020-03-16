@@ -1,4 +1,4 @@
-package org.gravity.mapping.secdfd.ui.views;
+package org.gravity.mapping.secdfd.views;
 
 import java.util.Map;
 

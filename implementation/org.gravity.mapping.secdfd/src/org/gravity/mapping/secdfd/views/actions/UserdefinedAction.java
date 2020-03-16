@@ -1,4 +1,4 @@
-package org.gravity.mapping.secdfd.ui.views.actions;
+package org.gravity.mapping.secdfd.views.actions;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,8 +12,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.PlatformUI;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
-import org.gravity.mapping.secdfd.ui.views.DFDSelectionView;
-import org.gravity.mapping.secdfd.ui.views.MappingView;
+import org.gravity.mapping.secdfd.views.DFDSelectionView;
+import org.gravity.mapping.secdfd.views.MappingView;
 import org.secdfd.model.EDFD;
 
 public final class UserdefinedAction extends Action {

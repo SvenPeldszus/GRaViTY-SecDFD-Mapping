@@ -1,11 +1,11 @@
-package org.gravity.mapping.secdfd.ui.views.actions;
+package org.gravity.mapping.secdfd.views.actions;
 
 import java.util.Collection;
 import org.apache.log4j.Logger;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.gravity.mapping.secdfd.checks.EncryptionCheck;
-import org.gravity.mapping.secdfd.ui.views.MappingView;
+import org.gravity.mapping.secdfd.views.MappingView;
 import org.gravity.typegraph.basic.TMethodDefinition;
 
 /**
