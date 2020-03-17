@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -125,9 +126,12 @@ public class MappingView extends ViewPart {
 	 * 
 	 * @param gravityFolder The folder holding all temp files
 	 * @param dfdFiles      The selected DFDs
+	 * @param selectedMappings 
 	 * @param trafoJob      The job creating a program model
+	 * @throws CoreException 
+	 * @throws IOException 
 	 */
-	public void populate(IFolder gravityFolder, Collection<IFile> dfdFiles, TrafoJob trafoJob) {
+	public void populate(IFolder gravityFolder, Collection<IFile> dfdFiles, Collection<IFile> selectedMappings, TrafoJob trafoJob) throws IOException, CoreException {
 
 		Map<IFile, EDFD> dfdMap = loadDFDs(dfdFiles, gravityFolder);
 		ResourceSet rs = dfdMap.values().iterator().next().eResource().getResourceSet();
@@ -139,7 +143,7 @@ public class MappingView extends ViewPart {
 		}
 		Entry<IFile, TypeGraph> pmx = getProgramModel(trafoJob, rs, gravityFolder);
 
-		populate(gravityFolder, dfdMap, pmx);
+		populate(gravityFolder, dfdMap, pmx, selectedMappings);
 	}
 
 	/**
@@ -148,8 +152,10 @@ public class MappingView extends ViewPart {
 	 * @param gravityFolder The folder holding all temp files
 	 * @param dfdMap        The selected DFDs and the files they are stored in
 	 * @param pm            the File holding the program model and the model
+	 * @throws CoreException 
+	 * @throws IOException 
 	 */
-	private void populate(IFolder gravityFolder, Map<IFile, EDFD> dfdMap, Entry<IFile, TypeGraph> pm) {
+	private void populate(IFolder gravityFolder, Map<IFile, EDFD> dfdMap, Entry<IFile, TypeGraph> pm, Collection<IFile> selectedMappings) throws IOException, CoreException {
 		this.gravityFolder = gravityFolder;
 		this.dfds = new HashSet<>(dfdMap.values());
 		this.pm = pm;
@@ -169,6 +175,12 @@ public class MappingView extends ViewPart {
 			mapper.optimize();
 			mapper.addUserdefinedListener(continueAction);
 		}
+		ResourceSet rs = pm.getValue().eResource().getResourceSet();
+		for(IFile mappingFile : selectedMappings) {
+			Mapper mapper = new Mapper(mappingFile);
+			mappers.put(mapper.getMapping(), mapper);
+		}
+		
 		treeViewer.setInput(mappers.keySet());
 		treeViewer.refresh();
 		parent.pack();
