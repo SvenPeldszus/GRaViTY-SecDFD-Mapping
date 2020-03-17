@@ -133,8 +133,9 @@ public class MappingView extends ViewPart {
 	 */
 	public void populate(IFolder gravityFolder, Collection<IFile> dfdFiles, Collection<IFile> selectedMappings, TrafoJob trafoJob) throws IOException, CoreException {
 
-		Map<IFile, EDFD> dfdMap = loadDFDs(dfdFiles, gravityFolder);
-		ResourceSet rs = dfdMap.values().iterator().next().eResource().getResourceSet();
+		Map<IFile, EDFD> dfdMap = new HashMap<>(dfdFiles.size());
+				
+		ResourceSet rs = loadDFDs(dfdFiles, gravityFolder, dfdMap);;
 		try {
 			trafoJob.join();
 		} catch (InterruptedException e) {
@@ -171,14 +172,17 @@ public class MappingView extends ViewPart {
 			name = name.substring(0, name.length() - key.getFileExtension().length() - 1) + ".corr.xmi";
 			IFile destination = gravityFolder.getFile(name);
 			Mapper mapper = new Mapper(pm.getValue(), entry.getValue(), destination);
-			mappers.put(mapper.getMapping(), mapper);
 			mapper.optimize();
 			mapper.addUserdefinedListener(continueAction);
+			mappers.put(mapper.getMapping(), mapper);
 		}
+		
 		ResourceSet rs = pm.getValue().eResource().getResourceSet();
 		for(IFile mappingFile : selectedMappings) {
-			Mapper mapper = new Mapper(mappingFile);
+			Mapper mapper = new Mapper(mappingFile, rs);
+			mapper.addUserdefinedListener(continueAction);
 			mappers.put(mapper.getMapping(), mapper);
+			this.dfds.add(mapper.getDFD());
 		}
 		
 		treeViewer.setInput(mappers.keySet());
@@ -238,7 +242,7 @@ public class MappingView extends ViewPart {
 	private static Entry<IFile, TypeGraph> getProgramModel(TrafoJob trafoJob, ResourceSet rs, IFolder gravityFolder) {
 		TypeGraph model = trafoJob.getPM();
 		IFile pmFile = gravityFolder.getFile(model.getTName() + ".xmi");
-		URI pmUri = URI.createURI(pmFile.getLocation().makeRelativeTo(gravityFolder.getLocation()).toString());
+		URI pmUri = URI.createPlatformResourceURI(pmFile.getProject().getName()+'/'+pmFile.getProjectRelativePath().toString(), true);
 		Resource resource = model.eResource();
 		if (resource == null) {
 			Optional<Resource> result = rs.getResources().parallelStream().filter(r -> r.getURI().equals(pmUri))
@@ -267,13 +271,15 @@ public class MappingView extends ViewPart {
 	 * 
 	 * @return A stream of DFDs and the files they are stored in
 	 */
-	private static Map<IFile, EDFD> loadDFDs(Collection<IFile> files, IFolder gravityFolder) {
-		Map<IFile, EDFD> loadedDFDs = new HashMap<>();
+	private static ResourceSet loadDFDs(Collection<IFile> files, IFolder gravityFolder, Map<IFile, EDFD> loadedDFDs) {
+		if(loadedDFDs == null) {
+			loadedDFDs = new HashMap<>();
+		}
 		Injector injector = new SecDFDStandaloneSetup().createInjectorAndDoEMFRegistration();
 		XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
 		resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
 		for (IFile f : files) {
-			URI uri = URI.createURI(f.getLocation().makeRelativeTo(gravityFolder.getLocation()).toString());
+			URI uri = URI.createPlatformResourceURI(f.getProject().getName()+'/'+f.getProjectRelativePath().toString(), true);
 			Resource resource = resourceSet.createResource(uri);
 			try {
 				resource.load(f.getContents(), Collections.emptyMap());
@@ -284,7 +290,7 @@ public class MappingView extends ViewPart {
 			EDFD dfd = (EDFD) resource.getContents().get(0);
 			loadedDFDs.put(f, dfd);
 		}
-		return loadedDFDs;
+		return resourceSet;
 	}
 
 	/**

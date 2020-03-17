@@ -1,6 +1,7 @@
 package org.gravity.mapping.secdfd.ui.wizard;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -9,9 +10,11 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.wizard.IWizardPage;
+import org.gravity.eclipse.io.ExtensionFileVisitor;
 import org.gravity.eclipse.ui.GravityUiActivator;
 import org.gravity.eclipse.util.EclipseProjectUtil;
 import org.gravity.mapping.secdfd.ui.views.MappingView;
@@ -26,7 +29,6 @@ public class MappingWizard extends org.eclipse.jface.wizard.Wizard {
 
 	public static final Logger LOGGER = Logger.getLogger(MappingWizard.class);
 
-	private JavaProjectPage pageOne;
 	private SecDFDPage pageTwo;
 
 	private Collection<IJavaProject> selection;
@@ -36,6 +38,8 @@ public class MappingWizard extends org.eclipse.jface.wizard.Wizard {
 	private IJavaProject javaProject;
 
 	private IFolder gravityFolder;
+
+	private CorrPage corrPage;
 
 	public MappingWizard() {
 		this(Collections.emptyList());
@@ -55,14 +59,44 @@ public class MappingWizard extends org.eclipse.jface.wizard.Wizard {
 	@Override
 	public void addPages() {
 		if (selection.size() != 1) {
-			pageOne = new JavaProjectPage();
-			addPage(pageOne);
-			setForcePreviousAndNextButtons(true);
+			addPage(new JavaProjectPage());
 		} else {
-			createTrafoJob(selection.iterator().next());
-			pageTwo = new SecDFDPage(javaProject);
-			addPage(pageTwo);
+			List<Path> corrFiles = null;
+			IJavaProject project = selection.iterator().next();
+			try {
+				IFolder gravity = EclipseProjectUtil.getGravityFolder(project.getProject(), new NullProgressMonitor());
+				ExtensionFileVisitor visitor = new ExtensionFileVisitor("corr.xmi");
+				gravity.accept(visitor);
+				corrFiles = visitor.getFiles();
+
+			} catch (CoreException | IOException e) {
+				LOGGER.error(e);
+			}
+			if (corrFiles != null && !corrFiles.isEmpty()) {
+				corrPage = new CorrPage(project, corrFiles, this);
+				addPage(corrPage);
+			} 
+			try {
+				createSecDFDPage(project);
+			} catch (CoreException e) {
+				LOGGER.error(e.getLocalizedMessage(), e);
+			}
 		}
+		if(getPageCount() > 0) {
+			setForcePreviousAndNextButtons(true);
+		}
+	}
+
+	/**
+	 * @param project
+	 * @return
+	 * @throws CoreException 
+	 */
+	SecDFDPage createSecDFDPage(IJavaProject project) throws CoreException {
+		pageTwo = new SecDFDPage(project);
+		createTrafoJob(project);
+		addPage(pageTwo);
+		return pageTwo;
 	}
 
 	@Override
@@ -71,7 +105,12 @@ public class MappingWizard extends org.eclipse.jface.wizard.Wizard {
 			if (!createTrafoJob((((JavaProjectPage) page).getProject()))) {
 				return page;
 			}
-			pageTwo = new SecDFDPage(((JavaProjectPage) page).getProject());
+			try {
+				pageTwo = new SecDFDPage(((JavaProjectPage) page).getProject());
+			} catch (CoreException e) {
+				LOGGER.error(e.getLocalizedMessage(), e);
+				return null;
+			}
 			addPage(pageTwo);
 			return pageTwo;
 		}
@@ -122,16 +161,23 @@ public class MappingWizard extends org.eclipse.jface.wizard.Wizard {
 
 	@Override
 	public boolean canFinish() {
-		return pageTwo != null && pageTwo.isPageComplete();
+		return !corrPage.getSelection().isEmpty() || (pageTwo != null && !pageTwo.getSelection().isEmpty());
 	}
 
 	@Override
 	public boolean performFinish() {
-		final List<IFile> selectedDFDs = pageTwo.getSelection();
+		final Collection<IFile> selectedMappings = corrPage.getSelection();
+		final Collection<IFile> selectedDFDs = pageTwo.getSelection();
 		MappingView mappingView = MappingView.getMappingView();
-		GravityUiActivator.getShell().getDisplay().asyncExec(() -> 
-			mappingView.populate(gravityFolder, selectedDFDs, trafoJob)
-		);
+		GravityUiActivator.getShell().getDisplay()
+				.asyncExec(() -> {
+					try {
+						mappingView.populate(gravityFolder, selectedDFDs, selectedMappings, trafoJob);
+					} catch (IOException | CoreException e) {
+						LOGGER.error(e.getLocalizedMessage(), e);
+						throw new IllegalStateException(e);
+					}
+				});
 		return true;
 	}
 
@@ -141,6 +187,13 @@ public class MappingWizard extends org.eclipse.jface.wizard.Wizard {
 			trafoJob.cancel();
 		}
 		return super.performCancel();
+	}
+
+	public SecDFDPage getSecDFDPage(IJavaProject javaProject) throws CoreException {
+		if(pageTwo != null) {
+			return pageTwo;
+		}
+		return createSecDFDPage(javaProject);
 	}
 
 }

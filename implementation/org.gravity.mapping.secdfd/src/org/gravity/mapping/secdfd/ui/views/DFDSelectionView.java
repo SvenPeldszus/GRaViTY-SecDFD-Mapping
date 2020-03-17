@@ -71,7 +71,7 @@ public class DFDSelectionView extends ViewPart {
 					return dfd.getElements().stream().filter(element -> (element instanceof Process)).toArray();
 				}
 			}
-			return null;
+			return new Object[0];
 		}
 
 		@Override

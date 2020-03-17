@@ -2,6 +2,10 @@ package org.gravity.mapping.secdfd.ui.wizard;
 
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IFile;
@@ -24,11 +28,19 @@ public class SecDFDPage extends WizardPage {
 
 	private IProject project;
 	private Table list;
+	private Set<String> selectedDFDs;
+	private Set<String> dfds;
 
-	public SecDFDPage(IJavaProject project) {
+	public SecDFDPage(IJavaProject javaProject) throws CoreException {
 		super("SecDFDs");
 		setDescription("Select the SecDFDs to Map");
-		this.project = project.getProject();
+		this.project = javaProject.getProject();
+		this.selectedDFDs = Collections.emptySet();
+		Path projectPath = this.project.getLocation().toFile().toPath();
+		ExtensionFileVisitor visitor = new ExtensionFileVisitor("secdfd");
+		this.project.getProject().accept(visitor);
+		this.dfds = visitor.getFiles().parallelStream().map(p -> projectPath.relativize(p).toString())
+				.collect(Collectors.toSet());
 	}
 
 	@Override
@@ -38,17 +50,11 @@ public class SecDFDPage extends WizardPage {
 		container.setLayout(layout);
 
 		list = new Table(container, SWT.CHECK | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
-		try {
-			Path projectPath = project.getLocation().toFile().toPath();
-			ExtensionFileVisitor visitor = new ExtensionFileVisitor("secdfd");
-			project.getProject().accept(visitor);
-			for (Path p : visitor.getFiles()) {
-				String string = projectPath.relativize(p).toString();
+		for (String string : dfds) {
+			if (!selectedDFDs.contains(string)) {
 				TableItem item = new TableItem(list, SWT.NONE);
 				item.setText(string);
 			}
-		} catch (CoreException e1) {
-			e1.printStackTrace();
 		}
 
 		list.addSelectionListener(new SelectionListener() {
@@ -68,6 +74,7 @@ public class SecDFDPage extends WizardPage {
 
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
+				// There are no defualt selections
 			}
 		});
 
@@ -80,12 +87,55 @@ public class SecDFDPage extends WizardPage {
 	}
 
 	protected java.util.List<IFile> getSelection() {
-		return Arrays.asList(list.getItems()).stream().filter(i -> {
-			return i.getChecked();
-		}).map(i -> {
-			return i.getText();
-		}).map(f -> {
-			return project.getFile(f);
-		}).collect(Collectors.toList());
+		return Arrays.asList(list.getItems()).stream().filter(TableItem::getChecked).map(TableItem::getText)
+				.map(project::getFile).collect(Collectors.toList());
 	}
+
+	public void setAlreadyTranslated(Set<String> selectedDFDs) {
+		this.selectedDFDs = selectedDFDs;
+		LinkedList<Integer> remove = new LinkedList<>();
+		Set<String> add = new HashSet<>(this.dfds);
+		TableItem[] items = this.list.getItems();
+		for (int i = 0; i < items.length; i++) {
+			String text = items[i].getText();
+			if (selectedDFDs.contains(text)) {
+				remove.push(i);
+			}
+			else {
+			}
+			add.remove(text);
+		}
+		for (int i : remove) {
+			list.remove(i);
+		}
+		add.removeAll(selectedDFDs);
+		for (String string : add) {
+			TableItem item = new TableItem(list, SWT.NONE);
+			item.setText(string);
+		}
+		checkAndSetComplete();
+	}
+
+	/**
+	 * Checks if this page is complete and updates the pages can finish state
+	 */
+	public void checkAndSetComplete() {
+		boolean complete = false;
+		for(TableItem item : list.getItems()) {
+			complete |= item.getChecked();
+		}
+		setPageComplete(complete || list.getItems().length == 0|| !selectedDFDs.isEmpty());
+		getWizard().getContainer().updateButtons();
+	}
+
+	@Override
+	public boolean isPageComplete() {
+		boolean complete = false;
+		for(TableItem item : list.getItems()) {
+			complete |= item.getChecked();
+		}
+		
+		return complete || list.getItems().length == 0|| !selectedDFDs.isEmpty();
+	}
+
 }

@@ -3,6 +3,7 @@ package org.gravity.mapping.secdfd.ui.wizard;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -43,7 +44,7 @@ public class JavaProjectPage extends WizardPage {
 					} catch (CoreException e) {
 						return false;
 					}
-				}).map(p -> p.getName()).iterator();
+				}).map(IResource::getName).iterator();
 		while (iterator.hasNext()) {
 			list.add(iterator.next());
 		}

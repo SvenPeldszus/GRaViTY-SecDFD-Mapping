@@ -30,6 +30,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jdt.core.IType;
@@ -123,11 +124,13 @@ public class Mapper {
 
 	private Set<IListener> userefinedListeners = new HashSet<>();
 
+	private final ResourceSet rs;
+
 	public Mapper(TypeGraph pm, EDFD dfd, IFile destination) {
 		this.pm = pm;
+		this.rs = pm.eResource().getResourceSet();
 		this.dfd = dfd;
 		this.destination = destination;
-		
 
 		initMethodsAndTypes(pm);
 
@@ -153,8 +156,9 @@ public class Mapper {
 		optimizer = new MappingOptimizer(helper, cache, mapping);
 	}
 
-	public Mapper(IFile mappingFile) throws IOException, CoreException {
+	public Mapper(IFile mappingFile, ResourceSet rs) throws IOException, CoreException {
 		this.destination = mappingFile;
+		this.rs = rs;
 		this.mapping = loadMapping(mappingFile);
 		this.pm = (TypeGraph) mapping.getSource();
 		this.dfd = (EDFD) mapping.getTarget();
@@ -165,6 +169,10 @@ public class Mapper {
 		helper = new CorrespondenceManager(mapping, JavaCore.create(destination.getProject()), cache);
 
 		optimizer = new MappingOptimizer(helper, cache, mapping);
+	}
+
+	public Mapper(IFile mappingFile) throws IOException, CoreException {
+		this(mappingFile, new ResourceSetImpl());
 	}
 
 	/**
@@ -182,7 +190,7 @@ public class Mapper {
 
 	private boolean containsConstructors(TMethod m) {
 		return m.getSignatures().parallelStream().flatMap(sig -> sig.getDefinitions().parallelStream())
-				.anyMatch(def -> TConstructor.isConstructor(def));
+				.anyMatch(TConstructor::isConstructor);
 	}
 
 	/**
@@ -193,7 +201,6 @@ public class Mapper {
 	 */
 	private Mapping loadMapping(IFile corr) throws IOException, CoreException {
 		String path = corr.getFullPath().toString();
-		ResourceSetImpl rs = new ResourceSetImpl();
 		Resource corrRes = rs.createResource(URI.createPlatformResourceURI(path, true));
 		corrRes.load(corr.getContents(), Collections.emptyMap());
 		EcoreUtil.resolveAll(rs);
@@ -212,14 +219,24 @@ public class Mapper {
 	 * @param destination The location where the model should be stored
 	 */
 	private void initializeMapping(TypeGraph pm, EDFD dfd, IFile destination) {
-		// Create a correspondence model between the two models
+		URI uri = URI.createPlatformResourceURI(
+				destination.getProject().getName() + '/' + destination.getProjectRelativePath().toString(), true);
+		Resource resource = rs.getResource(uri, true);
+		if (resource == null) {
+			resource = rs.createResource(uri);
+		}
+
+		EList<EObject> contents = resource.getContents();
+		if (!contents.isEmpty()) {
+			contents.clear();
+		}
 		mapping = MappingFactory.eINSTANCE.createMapping();
 		mapping.setSource(pm);
 		mapping.setTarget(dfd);
 		mapping.setName(dfd.getName());
-		URI uri = URI.createURI(destination.toString());
-		EList<EObject> contents = pm.eResource().getResourceSet().createResource(uri).getContents();
 		contents.add(mapping);
+		
+		// Create a correspondence model between the two models
 		helper = new CorrespondenceManager(mapping, JavaCore.create(destination.getProject()), cache);
 	}
 
@@ -489,8 +506,7 @@ public class Mapper {
 			mapping.getCorrespondences().stream()
 					.filter(corr -> corr instanceof MappingProcessDefinition || corr instanceof MappingEntityType)
 					.forEach(corr -> {
-						String dfdElementName = ((NamedEntity) CorrespondenceHelper
-								.getTarget(corr)).getName();
+						String dfdElementName = ((NamedEntity) CorrespondenceHelper.getTarget(corr)).getName();
 						Set<String> pmElementStrings;
 						if (map.containsKey(dfdElementName)) {
 							pmElementStrings = map.get(dfdElementName);
@@ -503,7 +519,17 @@ public class Mapper {
 						pmElementStrings.add(pmElementString);
 					});
 			SecDFDValidator.setMap(map);
-			IFile file = destination.getParent().getFile(new Path(dfd.eResource().getURI().toFileString()));
+			URI uri = dfd.eResource().getURI();
+			IFile file;
+			if(uri.isFile()) {
+				file = destination.getParent().getFile(new Path(uri.toFileString()));
+			}
+			else if(uri.isPlatformResource()) {
+				file = destination.getWorkspace().getRoot().getFile(Path.fromOSString(uri.toPlatformString(true)));
+			}
+			else {
+				throw new IllegalStateException();
+			}
 			file.touch(new NullProgressMonitor());
 		} catch (CoreException e) {
 			LOGGER.log(Level.ERROR, e);
@@ -623,10 +649,12 @@ public class Mapper {
 	public Set<? extends EObject> getMapping(Element element) {
 		if (element instanceof DataStore) {
 			DataStore dataStore = (DataStore) element;
-			Stream<TAbstractType> typeStream = cache.getEntityTypeMapping().getOrDefault(dataStore, Collections.emptySet()).parallelStream();
-			Stream<TMember> memberStream = cache.getElementMemberMapping().getOrDefault(dataStore, Collections.emptySet()).parallelStream();
+			Stream<TAbstractType> typeStream = cache.getEntityTypeMapping()
+					.getOrDefault(dataStore, Collections.emptySet()).parallelStream();
+			Stream<TMember> memberStream = cache.getElementMemberMapping()
+					.getOrDefault(dataStore, Collections.emptySet()).parallelStream();
 			return Stream.concat(typeStream, memberStream).collect(Collectors.toSet());
-			
+
 		} else if (element instanceof Process) {
 			return getMapping((Process) element);
 		} else if (element instanceof ExternalEntity) {
@@ -744,8 +772,7 @@ public class Mapper {
 			}
 
 			Set<TAbstractType> assets = process.getOutflows().parallelStream()
-					.flatMap(flow -> flow.getAssets().parallelStream())
-					.filter(entityTypeMapping::containsKey)
+					.flatMap(flow -> flow.getAssets().parallelStream()).filter(entityTypeMapping::containsKey)
 					.flatMap(asset -> entityTypeMapping.get(asset).parallelStream()).collect(Collectors.toSet());
 
 			Stream<TMethodDefinition> calling = Stream.empty();
@@ -759,12 +786,11 @@ public class Mapper {
 					for (TMethodDefinition caller : CallHelper.getAllInCalls(method).parallelStream()
 							.filter(member -> member instanceof TMethodDefinition)
 							.map(member -> (TMethodDefinition) member).collect(Collectors.toSet())) {
-						process.getOutflows().parallelStream()
-								.flatMap(flow -> flow.getTarget().stream()).forEach(p -> {
-									MappingProcessDefinition newCorr = helper.createCorrespondence(caller, p, 30,
-											Collections.emptySet());
-									mapping.getSuggested().add(newCorr);
-								});
+						process.getOutflows().parallelStream().flatMap(flow -> flow.getTarget().stream()).forEach(p -> {
+							MappingProcessDefinition newCorr = helper.createCorrespondence(caller, p, 30,
+									Collections.emptySet());
+							mapping.getSuggested().add(newCorr);
+						});
 					}
 				}
 			}
