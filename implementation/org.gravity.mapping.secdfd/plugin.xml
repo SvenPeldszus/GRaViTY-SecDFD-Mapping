@@ -36,20 +36,20 @@
   </extension>
   <extension point="org.eclipse.ui.commands">
     <command
-          defaultHandler="org.gravity.mapping.secdfd.handler.MappingHandler"
+          defaultHandler="org.gravity.mapping.secdfd.ui.handler.MappingHandler"
           description="Initializes the mapping between Java source code an SecDFDs"
           id="org.gravity.secdfd.mapping.command"
           name="Map SecDFD"/>
     <command id="org.gravity.mapping.secdfd.ui.texteditor"
-            defaultHandler="org.gravity.mapping.secdfd.handler.TextEditorHandler"
+            defaultHandler="org.gravity.mapping.secdfd.ui.handler.TextEditorHandler"
             name="Map Selection to SecDFD"
             description="Triggers the mapping of the selected element to an element from a SecDFD" />
     <command id="org.gravity.mapping.secdfd.ui.addencryptsignature"
-            defaultHandler="org.gravity.mapping.secdfd.handler.AddingSignatureHandler"
+            defaultHandler="org.gravity.mapping.secdfd.ui.handler.AddingSignatureHandler"
             name="Remember this Encrypt Signature"
             description="Finds all program model signatures corresponding to the selection and stores them in a file on the running instance." />
     <command id="org.gravity.mapping.secdfd.ui.adddecryptsignature"
-            defaultHandler="org.gravity.mapping.secdfd.handler.AddingSignatureHandler"
+            defaultHandler="org.gravity.mapping.secdfd.ui.handler.AddingSignatureHandler"
             name="Remember this Decrypt Signature"
             description="Finds all program model signatures corresponding to the selection and stores them in a file on the running instance." />
   </extension>
@@ -57,14 +57,14 @@
          point="org.eclipse.ui.views">
       <view
             category="org.gravity.mapping.secdfd.category"
-            class="org.gravity.mapping.secdfd.views.DFDSelectionView"
+            class="org.gravity.mapping.secdfd.ui.views.DFDSelectionView"
             id="org.gravity.mapping.secdfd.view.select"
             name="GRaViTY SecDFD Selection"
             restorable="true">
       </view>
       <view
             category="org.gravity.mapping.secdfd.category"
-            class="org.gravity.mapping.secdfd.views.MappingView"
+            class="org.gravity.mapping.secdfd.ui.views.MappingView"
             id="org.gravity.mapping.secdfd.view"
             name="GRaViTY SecDFD Mappings"
             restorable="true">
@@ -107,8 +107,8 @@
    <extension
          point="org.eclipse.ui.newWizards">
       <wizard
-            class="org.gravity.mapping.secdfd.wizard.MappingWizard"
-            id="org.gravity.mapping.secdfd.wizard"
+            class="org.gravity.mapping.secdfd.ui.wizard.MappingWizard"
+            id="org.gravity.mapping.secdfd.ui.wizard"
             name="SecDFD Mapping Wizard">
          <description>
             Starts a mapping from SecDFDs in a project to the project's implementation

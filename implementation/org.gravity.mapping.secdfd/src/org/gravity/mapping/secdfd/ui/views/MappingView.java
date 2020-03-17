@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.gravity.mapping.secdfd.views;
+package org.gravity.mapping.secdfd.ui.views;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -44,15 +44,15 @@ import org.eclipse.xtext.resource.XtextResourceSet;
 import org.gravity.eclipse.io.ModelSaver;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
+import org.gravity.mapping.secdfd.ui.views.actions.AcceptAction;
+import org.gravity.mapping.secdfd.ui.views.actions.AcceptAllAction;
+import org.gravity.mapping.secdfd.ui.views.actions.CheckContractsAction;
+import org.gravity.mapping.secdfd.ui.views.actions.ContinueAction;
+import org.gravity.mapping.secdfd.ui.views.actions.MapProjectAction;
+import org.gravity.mapping.secdfd.ui.views.actions.RejectAction;
+import org.gravity.mapping.secdfd.ui.views.actions.RejectAllAction;
 import org.gravity.mapping.secdfd.ui.wizard.MappingWizard;
 import org.gravity.mapping.secdfd.ui.wizard.TrafoJob;
-import org.gravity.mapping.secdfd.views.actions.AcceptAction;
-import org.gravity.mapping.secdfd.views.actions.AcceptAllAction;
-import org.gravity.mapping.secdfd.views.actions.CheckContractsAction;
-import org.gravity.mapping.secdfd.views.actions.ContinueAction;
-import org.gravity.mapping.secdfd.views.actions.MapProjectAction;
-import org.gravity.mapping.secdfd.views.actions.RejectAction;
-import org.gravity.mapping.secdfd.views.actions.RejectAllAction;
 import org.gravity.typegraph.basic.TypeGraph;
 import org.secdfd.dsl.SecDFDStandaloneSetup;
 

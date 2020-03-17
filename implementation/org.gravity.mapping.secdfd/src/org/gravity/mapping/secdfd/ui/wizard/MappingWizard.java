@@ -14,7 +14,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.gravity.eclipse.ui.GravityUiActivator;
 import org.gravity.eclipse.util.EclipseProjectUtil;
-import org.gravity.mapping.secdfd.views.MappingView;
+import org.gravity.mapping.secdfd.ui.views.MappingView;
 
 /**
  * A wizard for creating a mapping between SecDFDs and a Java implementation

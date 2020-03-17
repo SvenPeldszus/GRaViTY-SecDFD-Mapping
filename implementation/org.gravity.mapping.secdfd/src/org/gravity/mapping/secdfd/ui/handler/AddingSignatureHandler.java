@@ -14,8 +14,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.gravity.mapping.secdfd.views.MappingView;
-import org.gravity.mapping.secdfd.views.actions.AddingSignatureAction;
+import org.gravity.mapping.secdfd.ui.views.MappingView;
+import org.gravity.mapping.secdfd.ui.views.actions.AddingSignatureAction;
 import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TypeGraph;
 

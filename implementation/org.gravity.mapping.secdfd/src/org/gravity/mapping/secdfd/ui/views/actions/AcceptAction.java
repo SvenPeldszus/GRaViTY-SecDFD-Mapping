@@ -1,10 +1,10 @@
-package org.gravity.mapping.secdfd.views.actions;
+package org.gravity.mapping.secdfd.ui.views.actions;
 
 import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.Action;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
-import org.gravity.mapping.secdfd.views.MappingView;
+import org.gravity.mapping.secdfd.ui.views.MappingView;
 import org.gravity.mapping.secdfd.AbstractCorrespondence;
 
 public final class AcceptAction extends Action {
