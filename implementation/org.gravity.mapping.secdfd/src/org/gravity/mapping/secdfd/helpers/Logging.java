@@ -171,6 +171,7 @@ public class Logging {
 		Map<String, Set<String>> map = maps.get(dfdObject.eResource());
 		if (map == null || map.isEmpty()) {
 			init();
+			map = maps.get(dfdObject.eResource());
 		}
 		if (map.isEmpty()) {
 			return "";
