@@ -8,6 +8,7 @@ import java.io.Writer;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -94,9 +95,12 @@ public class DataFlowExperiment {
 		for (Asset asset : mapper.getDFD().getAsset()) {
 			// look for sources, sinks, epoints if confidential asset
 			if (asset.getValue().stream().anyMatch(value -> Objective.CONFIDENTIALITY.equals(value.getObjective()))) {
-				Set<String> sources = finder.getSourceSinks(asset).getSources();
-				Map<String, InfoflowResults> allResults = dfAnalysis.check(sources, sinks, epoints);
-				results.add(new AssetResults(asset, sources, sinks, allResults));
+				Set<String> sources = new HashSet<>();
+				if (finder.getSourceSinks(asset) != null) {
+					sources = finder.getSourceSinks(asset).getSources();
+					Map<String, InfoflowResults> allResults = dfAnalysis.check(sources, sinks, epoints);
+					results.add(new AssetResults(asset, sources, sinks, allResults));
+				}
 			}
 		}
 		IProgressMonitor monitor = new NullProgressMonitor();
@@ -162,6 +166,10 @@ public class DataFlowExperiment {
 				writeReport(create(assetResultOutputFolder, entry.getKey(), monitor), asset.getName(),
 						entry.getValue());
 			}
+			//empty folder
+			//if (assetResultOutputFolder.members().length < 1) {
+			//	assetResultOutputFolder.delete(false, monitor);
+			//}
 		}
 	}
 
@@ -174,13 +182,24 @@ public class DataFlowExperiment {
 	 * @throws IOException
 	 */
 	private void writeReport(IFolder out, String asset, InfoflowResults results) throws IOException {
-		File file = out.getFile(asset + "-FlowDroid-results.txt").getLocation().toFile();
+		// truncate, else too long (Soot signatures)
+		String filename = asset + "-FlowDroid-results.txt";
+		File file = null;
+		if (filename.length() > 200) {
+			file = out.getFile(filename.substring(filename.length() - 200)).getLocation().toFile();
+		} else {
+			file = out.getFile(asset + "-FlowDroid-results.txt").getLocation().toFile();
+		}
 		if (!file.exists() && !file.createNewFile()) {
 			throw new IOException("Couldn't create: " + file.toString());
 		}
 		try (Writer wr = new FileWriter(file)) {
 			results.printResults(wr);
 		}
+		//we just wrote an empty file 
+		//if (file.length()==0) {
+		//	file.delete();
+		//}
 	}
 
 	/**
