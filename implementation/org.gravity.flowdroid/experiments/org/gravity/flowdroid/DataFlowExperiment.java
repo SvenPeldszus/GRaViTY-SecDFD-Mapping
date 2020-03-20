@@ -48,7 +48,7 @@ public class DataFlowExperiment {
 	public DataFlowExperiment(String testName, Mapper mapper, IJavaProject project) throws CoreException {
 		this.mapper = mapper;
 		this.project = project;
-		this.output = create(mapper.getGravityFolder(), "dataflow", new NullProgressMonitor());
+		this.output = create(mapper.getGravityFolder().getFolder("dataflow"), mapper.getDFD().getName(), new NullProgressMonitor());
 		LOGGER.info("Start experiment with: " + testName);
 	}
 
@@ -95,9 +95,9 @@ public class DataFlowExperiment {
 		for (Asset asset : mapper.getDFD().getAsset()) {
 			// look for sources, sinks, epoints if confidential asset
 			if (asset.getValue().stream().anyMatch(value -> Objective.CONFIDENTIALITY.equals(value.getObjective()))) {
-				Set<String> sources = new HashSet<>();
-				if (finder.getSourceSinks(asset) != null) {
-					sources = finder.getSourceSinks(asset).getSources();
+				SourceAndSink sourceSinks = finder.getSourceSinks(asset);
+				if (sourceSinks != null) {
+					Set<String> sources = sourceSinks.getSources();
 					Map<String, InfoflowResults> allResults = dfAnalysis.check(sources, sinks, epoints);
 					results.add(new AssetResults(asset, sources, sinks, allResults));
 				}
@@ -116,7 +116,7 @@ public class DataFlowExperiment {
 	 * 
 	 * @return The experiment data
 	 */
-	@Parameters
+	@Parameters(name = "{0}")
 	public static Collection<Object[]> collectProjects() {
 		IProgressMonitor monitor = new NullProgressMonitor();
 		Collection<Object[]> data = new ArrayList<>(PROJECT_NAMES.length);
@@ -132,6 +132,7 @@ public class DataFlowExperiment {
 
 				// paths for secdfd-gravity tool, setup correspondence model, mapper, dfd
 				IFolder gravity = EclipseProjectUtil.getGravityFolder(project, monitor);
+				create(gravity, "dataflow", monitor);
 				ExtensionFileVisitor visitor = new ExtensionFileVisitor(".corr.xmi");
 				gravity.accept(visitor);
 				for (Path corr : visitor.getFiles()) {

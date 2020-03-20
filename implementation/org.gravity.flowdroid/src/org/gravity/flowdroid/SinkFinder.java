@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TMember;
+import org.gravity.typegraph.basic.TMethodDefinition;
 import org.secdfd.model.Asset;
 import org.secdfd.model.DataStore;
 import org.secdfd.model.EDFD;
@@ -53,68 +54,111 @@ public final class SinkFinder {
 		forbidden = new HashSet<>();
 		EDFD dfd = mapper.getDFD();
 
-		Set<Element> attackerzones = dfd.getTrustzones().parallelStream().filter(
-				zone -> zone.getAttackerprofile().parallelStream().anyMatch(profile -> profile.getObservation() > 0))
-				.flatMap(zone -> zone.getElements().parallelStream()).collect(Collectors.toSet());
+		Set<Element> attackerzones = getAttackerZones(dfd);
 
 		// elements with incoming data flow
-		Set<Element> elements = dfd.getElements().parallelStream().filter(el -> !el.getInflows().isEmpty())
-				.collect(Collectors.toSet());
-		for (Element el : elements) {
-			List<TMember> elementMappings = mapper.getMapping(el).parallelStream().filter(TMember.class::isInstance)
-					.map(TMember.class::cast).collect(Collectors.toList());
+		for (Element el : getElementsWithIncomingFlow(dfd)) {
+			List<TMember> elementMappings = getMapppedTMembers(mapper, el);
 			if (attackerzones.contains(el) || el.isAttacker()) {
 				forbidden.addAll(elementMappings);
-			} else {
-				if (el instanceof ExternalEntity || el instanceof DataStore) {
-					// find mappings of previous element (processes of the incoming flows)
-					final Set<TMember> borderProcesses = el.getInflows().parallelStream()
-							.flatMap(flow -> mapper.getMapping(flow.getSource()).parallelStream())
-							.filter(TMember.class::isInstance).map(TMember.class::cast).collect(Collectors.toSet());
+			} else if (el instanceof ExternalEntity || el instanceof DataStore) {
+				// find mappings of previous element (processes of the incoming flows)
+				final Set<TMember> borderProcesses = getBorderMembers(mapper, el);
 
-					// if any incoming flow contains current asset, then sink allowed.
-					if (el.getInflows().parallelStream().flatMap(inflow -> inflow.getAssets().parallelStream())
-							.collect(Collectors.toSet()).contains(asset)) {
-						if (allowed == null)
-							allowed = new HashSet<>();
-						allowed.addAll(borderProcesses);
+				// if any incoming flow contains current asset, then sink allowed.
+				if (doesIncomingFlowContainAsset(el, asset)) {
+					allowed.addAll(borderProcesses);
 
-						// if DataStore, add all the method signatures that are defined over the mapped
-						// Type (.e.g, hashmap.put(..) ) as allowed sinks
-						if (el instanceof DataStore) {
-							Set<? extends EObject> pmElements = mapper.getMapping(el);
-							Set<TMember> members = pmElements.parallelStream().flatMap(element -> {
-								if (element instanceof TMember) {
-									return Stream.of((TMember) element);
-								} else if (element instanceof TAbstractType) {
-									TAbstractType tType = (TAbstractType) element;
-									return tType.getDefines().parallelStream()
-											.filter(defined -> defined instanceof TMember);
-								} else {
-									return Stream.empty();
-								}
-							}).collect(Collectors.toSet());
-							allowed.addAll(members);
-						}
-					} else {
-						forbidden.addAll(borderProcesses);
+					// if DataStore, add all the method signatures that are defined over the mapped
+					// Type (.e.g, hashmap.put(..) ) as allowed sinks
+					if (el instanceof DataStore) {
+						allowed.addAll(getAllowedSinks(mapper, el));
 					}
-					/*
-					 * else { if (disableReturnTypeCheck) { forbidden.addAll(borderProcesses); }
-					 * else { // get mapped types of asset Set<EObject> assetMappedTypes =
-					 * mapper.getMapping(asset).parallelStream() .collect(Collectors.toSet()); // if
-					 * method definition contains mapped asset type on return value then its a //
-					 * sink for (TMember source : borderProcesses) { if (source instanceof
-					 * TMethodDefinition) { if (assetMappedTypes.contains(((TMethodDefinition)
-					 * source).getReturnType())) { // add to list of not allowed sinks
-					 * forbidden.add(source); } } }
-					 * 
-					 * } }
-					 */
-
+				} else {
+					forbidden.addAll(borderProcesses);
 				}
+
 			}
 		}
+	}
+
+	/**
+	 * @param mapper
+	 * @param element
+	 * @return
+	 */
+	private List<TMember> getMapppedTMembers(Mapper mapper, Element element) {
+		return mapper.getMapping(element).parallelStream().filter(TMember.class::isInstance)
+				.map(TMember.class::cast).collect(Collectors.toList());
+	}
+
+	/**
+	 * @param dfd
+	 * @return
+	 */
+	private Set<Element> getElementsWithIncomingFlow(EDFD dfd) {
+		return dfd.getElements().parallelStream().filter(el -> !el.getInflows().isEmpty())
+				.collect(Collectors.toSet());
+	}
+
+	/**
+	 * @param dfd
+	 * @return
+	 */
+	private Set<Element> getAttackerZones(EDFD dfd) {
+		return dfd.getTrustzones().parallelStream().filter(
+				zone -> zone.getAttackerprofile().parallelStream().anyMatch(profile -> profile.getObservation() > 0))
+				.flatMap(zone -> zone.getElements().parallelStream()).collect(Collectors.toSet());
+	}
+
+	/**
+	 * @param mapper
+	 * @param element
+	 * @return
+	 */
+	private Set<TMember> getBorderMembers(Mapper mapper, Element element) {
+		return element.getInflows().parallelStream()
+				.flatMap(flow -> mapper.getMapping(flow.getSource()).parallelStream()).filter(TMember.class::isInstance)
+				.map(TMember.class::cast).collect(Collectors.toSet());
+	}
+
+	/**
+	 * @param mapper
+	 * @param sinkElement
+	 * @return
+	 */
+	private Set<TMember> getAllowedSinks(Mapper mapper, Element sinkElement) {
+		Set<? extends EObject> pmElements = mapper.getMapping(sinkElement);
+		return pmElements.parallelStream().flatMap(element -> {
+			if (element instanceof TMember) {
+				return Stream.of((TMember) element);
+			} else if (element instanceof TAbstractType) {
+				TAbstractType tType = (TAbstractType) element;
+				return tType.getDefines().parallelStream().filter(defined -> defined instanceof TMember);
+			} else {
+				return Stream.empty();
+			}
+		}).flatMap(member -> {
+			Stream<TMember> stream = Stream.of(member);
+			if (member instanceof TMethodDefinition) {
+				TMethodDefinition current = ((TMethodDefinition) member).getOverriding();
+				while(current != null) {
+					stream = Stream.concat(stream, Stream.of(current));
+				}
+			}
+			return stream;
+		})
+		.collect(Collectors.toSet());
+	}
+
+	/**
+	 * @param element
+	 * @param asset
+	 * @return
+	 */
+	private boolean doesIncomingFlowContainAsset(Element element, Asset asset) {
+		return element.getInflows().parallelStream().flatMap(inflow -> inflow.getAssets().parallelStream())
+				.collect(Collectors.toSet()).contains(asset);
 	}
 
 	public Set<TMember> getAllowedsinks() {

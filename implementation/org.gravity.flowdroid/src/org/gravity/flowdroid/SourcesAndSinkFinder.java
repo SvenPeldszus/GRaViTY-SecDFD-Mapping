@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TAccess;
+import org.gravity.typegraph.basic.TClass;
 import org.gravity.typegraph.basic.TConstructor;
 import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethodDefinition;
@@ -159,7 +160,10 @@ public class SourcesAndSinkFinder {
 					.filter(TMethodDefinition.class::isInstance).map(m -> (TMethodDefinition) m)
 					.filter(source -> (!mapper.getMapping(source).isEmpty())).collect(Collectors.toSet());
 			if (sources.isEmpty()) {
-				epoints.add(def);
+				TAbstractType definedBy = def.getDefinedBy();
+				if(definedBy instanceof TClass) {
+					epoints.add(def);
+				}
 			} else {
 				definitions.addAll(sources);
 			}
