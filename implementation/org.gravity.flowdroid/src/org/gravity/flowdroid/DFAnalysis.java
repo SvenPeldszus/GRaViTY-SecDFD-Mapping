@@ -19,6 +19,7 @@ import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.secdfd.model.Asset;
 import org.secdfd.model.Objective;
 
+import soot.jimple.Stmt;
 import soot.jimple.infoflow.IInfoflow;
 import soot.jimple.infoflow.Infoflow;
 import soot.jimple.infoflow.InfoflowConfiguration.AliasingAlgorithm;
@@ -114,7 +115,9 @@ public class DFAnalysis {
 		MultiMap<ResultSinkInfo, ResultSourceInfo> map = results.getResults();
 		//FIXME: Remove sinks that are allowed sinks
 		for(ResultSinkInfo sink : map.keySet()) {
-			if(!sinks.contains(sink.getDefinition().toString())){
+			String statement = sink.getStmt().toString();
+			String string = statement.substring(statement.indexOf('<'), statement.indexOf('>')+1);
+			if(!sinks.contains(string)){
 				map.remove(sink);
 			}
 		}
