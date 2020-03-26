@@ -38,6 +38,7 @@ import soot.jimple.infoflow.results.InfoflowResults;
 @RunWith(Parameterized.class)
 public class DataFlowExperiment {
 
+	private static final int MAX_VIOLATION = 10;
 	private static final String[] PROJECT_NAMES = new String[] { "org.eclipse.equinox.security" };
 	private static final Logger LOGGER = Logger.getLogger(DataFlowExperiment.class);
 
@@ -60,7 +61,7 @@ public class DataFlowExperiment {
 	 */
 	@Test
 	public void experimentOurConfig() throws IOException, CoreException {
-		Results results = new DFAnalysis(mapper, project, true, 1).checkAllAssets();
+		Results results = new DFAnalysis(mapper, project, true, MAX_VIOLATION).checkAllAssets();
 
 		IProgressMonitor monitor = new NullProgressMonitor();
 		writeResults(results, create(output, "our", monitor), monitor);
@@ -68,7 +69,7 @@ public class DataFlowExperiment {
 
 	@Test
 	public void experimentFlowDroidConfig() throws IOException, CoreException {
-		DFAnalysis dfAnalysis = new DFAnalysis(mapper, project, true, 1);
+		DFAnalysis dfAnalysis = new DFAnalysis(mapper, project, true, MAX_VIOLATION);
 
 		Set<String> sources = dfAnalysis.sas.getBaselineSources();
 		Set<String> sinks = dfAnalysis.sas.getBaselineSinks();
@@ -86,7 +87,7 @@ public class DataFlowExperiment {
 
 	@Test
 	public void experimentFlowDroidConfigAndOurSources() throws IOException, CoreException {
-		DFAnalysis dfAnalysis = new DFAnalysis(mapper, project, true, 1);
+		DFAnalysis dfAnalysis = new DFAnalysis(mapper, project, true, MAX_VIOLATION);
 
 		SourcesAndSinkFinder finder = new SourcesAndSinkFinder(mapper, true);
 		Set<String> sinks = finder.getBaselineSinks();
