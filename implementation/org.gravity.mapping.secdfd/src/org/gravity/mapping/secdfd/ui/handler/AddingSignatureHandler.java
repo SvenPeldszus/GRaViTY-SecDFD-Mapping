@@ -20,7 +20,8 @@ import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TypeGraph;
 
 /**
- * A handler for manually adding source code signature to a file of encryption and decryption signatures
+ * A handler for manually adding source code signature to a file of encryption
+ * and decryption signatures
  * 
  * @author katjat
  *
@@ -30,29 +31,28 @@ public class AddingSignatureHandler extends AbstractHandler {
 	/**
 	 * The logger of this class
 	 */
-	private static final Logger LOGGER = Logger.getLogger(TextEditorHandler.class);
+	private static final Logger LOGGER = Logger.getLogger(AddingSignatureHandler.class);
 
 	private MappingView mappingView;
 	private AddingSignatureAction signatureAction;
-	
-	
+
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ASTNode node = TextEditorHandler.getSelectedASTNode(event);
 		TypeGraph pm = mappingView.getProgramModel().getValue();
-		Boolean encrypt = false; 
-		if (event.getCommand().getId().contains("encrypt")) {
-			encrypt = true;
-		}else encrypt = false;
-		
+		boolean encrypt = event.getCommand().getId().contains("encrypt");
+
+		//TODO: Get signature string from node
 		List<EObject> selected = TextEditorHandler.getSelectedPMElement(node, pm);
 		if (selected == null || selected.isEmpty()) {
 			LOGGER.log(Level.ERROR, "Cannot find element in model: " + node);
 			return null;
 		}
-		
-		//only if method definition/method signature, ignore other user attempts
-		Set<TMethodDefinition> selectedSignatures = selected.parallelStream().filter(TMethodDefinition.class::isInstance).map(e -> (TMethodDefinition) e).collect(Collectors.toSet());
+
+		// only if method definition/method signature, ignore other user attempts
+		Set<TMethodDefinition> selectedSignatures = selected.parallelStream()
+				.filter(TMethodDefinition.class::isInstance).map(e -> (TMethodDefinition) e)
+				.collect(Collectors.toSet());
 		signatureAction = new AddingSignatureAction(mappingView, encrypt, selectedSignatures);
 		signatureAction.run();
 		return null;
