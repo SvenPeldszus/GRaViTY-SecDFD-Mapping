@@ -26,6 +26,7 @@ public class SProblem {
 	private EObject dfdElement;
 	private Set<TMethodDefinition> pmElement;
 	private String description;
+	private Set<TMethodDefinition> signature;
 
 	/**
 	 * 
@@ -36,6 +37,15 @@ public class SProblem {
 		this.dfdElement = dfdElement;
 		this.pmElement = pmElement;
 		this.description = description;
+		this.signature = null;
+	}
+	public SProblem(PState state, PType type, EObject dfdElement, Set<TMethodDefinition> pmElement, String description, Set<TMethodDefinition> signature) {
+		this.state = state;
+		this.type = type;
+		this.dfdElement = dfdElement;
+		this.pmElement = pmElement;
+		this.description = description;
+		this.signature = signature;
 	}
 
 	/**
@@ -99,6 +109,12 @@ public class SProblem {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public Set<TMethodDefinition> getTMethodDefinitions() {
+		return signature;
+	}
+	public void setTMethodDefitions(Set<TMethodDefinition> signature) {
+		this.signature = signature;
 	}
 	
 

@@ -139,12 +139,12 @@ public class EncryptionCheck {
 		loadSignaturesFromFile();
 		DataProcessingCheck dataProcessing = new DataProcessingCheck();
 		FlowEntryExit entryExit = new FlowEntryExit(mappers);
-		
+
 		for (Mapper mapper : mappers) {
 			EDFD dfd = (EDFD) mapper.getDFD();
 			Set<Element> processes = dfd.getElements().parallelStream().filter(Process.class::isInstance)
 					.collect(Collectors.toSet());
-			
+
 			for (Element pr : processes) {
 				Process p = (Process) pr;
 				EList<EObject> a = p.eContents();
@@ -160,12 +160,14 @@ public class EncryptionCheck {
 								findProblems(mapper, p, false);
 							}
 							if (rt == ResponsibilityType.FORWARD || rt == ResponsibilityType.COPIER) {
-								//run check for fwd
-								problems.addAll(dataProcessing.check(entryExit.entries, entryExit.exits, p, mapper, res));
+								// run check for fwd
+								problems.addAll(
+										dataProcessing.check(entryExit.entries, entryExit.exits, p, mapper, res));
 							}
 							if (rt == ResponsibilityType.JOINER) {
-								//run check for join
-								problems.addAll(dataProcessing.check(entryExit.entries, entryExit.exits,p , mapper, res));
+								// run check for join
+								problems.addAll(
+										dataProcessing.check(entryExit.entries, entryExit.exits, p, mapper, res));
 							}
 						}
 					}
@@ -189,16 +191,14 @@ public class EncryptionCheck {
 			boolean enc = methods.parallelStream().anyMatch(c -> {
 				return signatures.get(Crypto.ENCRYPT).contains(c);
 			});
-			// If some correspondences of current process do not contain encrypt signature,
-			// do not report problem
-			// report problem for all correspondence of current process for user to check
-			// manually
 			if (!enc)
 				getProblems().add(new SProblem(PState.WARNING, PType.ENCRYPT, (EObject) p, methods,
 						"The encrypt process contract is not implemented."));
 			else {
+				Set<TMethodDefinition> implementedSignatures = signatures.get(Crypto.ENCRYPT).parallelStream()
+						.filter(sig -> methods.contains(sig)).collect(Collectors.toSet());
 				getProblems().add(new SProblem(PState.OK, PType.ENCRYPT, (EObject) p, methods,
-						"The encrypt process contract is implemented."));
+						"The encrypt process contract is implemented.", implementedSignatures));
 			}
 		} else {
 			// it is a decrypt
@@ -209,12 +209,13 @@ public class EncryptionCheck {
 				getProblems().add(new SProblem(PState.WARNING, PType.DECRYPT, (EObject) p, methods,
 						"The decrypt process contract is not implemented."));
 			else {
-
+				Set<TMethodDefinition> implementedSignatures = signatures.get(Crypto.DECRYPT).parallelStream()
+						.filter(sig -> methods.contains(sig)).collect(Collectors.toSet());
 				getProblems().add(new SProblem(PState.OK, PType.DECRYPT, (EObject) p, methods,
-						"The decrypt process contract is implemented."));
+						"The decrypt process contract is implemented.", implementedSignatures));
 			}
 		}
-		
+
 		//
 	}
 
@@ -261,7 +262,7 @@ public class EncryptionCheck {
 				e.printStackTrace();
 			}
 		}
-		for (Entry<Crypto, Set<TMethodDefinition>> entry: signatures.entrySet()) {
+		for (Entry<Crypto, Set<TMethodDefinition>> entry : signatures.entrySet()) {
 			File encryptSignaturesFile = destination.getFile(entry.getKey().getFileName()).getLocation().toFile();
 			if (!encryptSignaturesFile.exists()) {
 				try {
@@ -286,15 +287,16 @@ public class EncryptionCheck {
 	private void updateMarkers() {
 		mappers.forEach(mapper -> {
 			SecDFDValidator.setProblems(problems);
-			IFile file = destination.getParent().getFile(new Path("secdfds/"+mapper.getDFD().getName().toString()+".secdfd"));
+			IFile file = destination.getParent()
+					.getFile(new Path("secdfds/" + mapper.getDFD().getName().toString() + ".secdfd"));
 			try {
 				file.touch(new NullProgressMonitor());
 			} catch (CoreException e) {
 				LOGGER.log(Level.ERROR, e);
 			}
 		});
-		
-		//Debug
+
+		// Debug
 		FlowEntryExit fee = new FlowEntryExit(mappers);
 		fee.getEntriesExits();
 	}
