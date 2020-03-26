@@ -3,27 +3,10 @@
       {
          "encrypt":[
             {
-               "signature":"javax.crypto.Cipher.doFinal(byte):byte",
                "secdfd":"setpasswordrecovery",
                "element":"Encrypt_data"
             },
             {
-               "signature":"javax.crypto.Cipher.init(int,Key,AlgorithmParameterSpec):Object",
-               "secdfd":"setpasswordrecovery",
-               "element":"Encrypt_data"
-            },
-            {
-               "signature":"org.eclipse.equinox.internal.security.storage.JavaEncryption.encrypt(PasswordExt,byte):CryptoData",
-               "secdfd":"setpasswordrecovery",
-               "element":"Encrypt_data"
-            },
-            {
-               "signature":"org.eclipse.equinox.internal.security.storage.JavaEncryption.internalEncrypt(PasswordExt,byte):CryptoData",
-               "secdfd":"setpasswordrecovery",
-               "element":"Encrypt_data"
-            },
-            {
-               "signature":"java.security.MessageDigest.digest(byte)",
                "secdfd":"setpasswordrecovery",
                "element":"Create_mash_password"
             }
@@ -32,22 +15,6 @@
       {
          "decrypt":[
             {
-               "signature":"javax.crypto.Cipher.doFinal(byte):byte",
-               "secdfd":"storepassword",
-               "element":"Decrypt_data"
-            },
-            {
-               "signature":"javax.crypto.Cipher.init(int,Key,AlgorithmParameterSpec):Object",
-               "secdfd":"storepassword",
-               "element":"Decrypt_data"
-            },
-            {
-               "signature":"org.eclipse.equinox.internal.security.storage.JavaEncryption.decrypt(PasswordExt,CryptoData):byte",
-               "secdfd":"storepassword",
-               "element":"Decrypt_data"
-            },
-            {
-               "signature":"org.eclipse.equinox.internal.security.storage.JavaEncryption.internalDecrypt(PasswordExt,CryptoData):byte",
                "secdfd":"storepassword",
                "element":"Decrypt_data"
             }

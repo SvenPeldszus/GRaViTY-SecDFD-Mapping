@@ -36,6 +36,7 @@ import org.gravity.eclipse.util.JavaProjectUtil;
 import org.gravity.mapping.secdfd.checks.EncryptionCheck;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.mapping.secdfd.ui.views.MappingLabelProvider;
+import org.junit.AfterClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -70,10 +71,10 @@ public class ContractEvaluator {
 
 	private static Map<String, List<Map<String, String>>> absenceGT;
 	private static Map<String, List<Map<String, String>>> convergenceGT;
-
-	public Integer accummulatedTP = 0;
-	public Integer accummulatedFP = 0;
-	public Integer accummulatedFN = 0;
+	public static Integer accummulatedTP = 0;
+	public static Integer accummulatedFP = 0;
+	public static Integer accummulatedFN = 0;
+	
 	public HashSet<String> truePositives = new HashSet<String>();
 	public HashSet<String> falsePositives = new HashSet<String>();
 	public HashSet<String> falseNegatives = new HashSet<String>();
@@ -108,6 +109,7 @@ public class ContractEvaluator {
 							matches.add(problem);
 					}
 					if (matches.size() > 0) {
+						/*
 						for (SProblem match : matches) {
 							if (match.getTMethodDefinitions() != null) {
 								boolean foundit = false;
@@ -124,7 +126,7 @@ public class ContractEvaluator {
 									falseNegatives.add(match.getType().toString() + " convergence: "
 											+ expectedTP.get("signature") + " <-> " + expectedTP.get("element"));
 							}
-						}
+						}*/
 					} else {
 						falseNegatives.add(ctype.toUpperCase() + " convergence: " + expectedTP.get("signature")
 								+ " <-> " + expectedTP.get("element"));
@@ -166,10 +168,10 @@ public class ContractEvaluator {
 			checkAbsence(problem, secdfd, dfdString);
 			// convergence
 		} else if (problem.getState().toString().equals("OK")) {
-			if (problem.getTMethodDefinitions() != null)
+			//if (problem.getTMethodDefinitions() != null)
 				checkConvergence(problem, secdfd, dfdString);
-			else
-				LOGGER.info("All SProblems of convergence must have a list of signatures to the mapped elements.");
+			//else
+			//	LOGGER.info("All SProblems of convergence must have a list of signatures to the mapped elements.");
 		} else {
 			LOGGER.info("Not supported SProblem type yet: " + problem.getState().toString());
 		}
@@ -194,6 +196,8 @@ public class ContractEvaluator {
 				.filter(c -> c.get("secdfd").equals(secdfd.getName())).filter(c -> c.get("element").equals(dfdString))
 				.collect(Collectors.toSet());
 		if (matches.size() > 0) {
+			truePositives.add(problem.getType().toString() + " convergence: " + dfdString);
+			/*
 			for (TMethodDefinition pmObject : problem.getTMethodDefinitions()) {
 				// check if also signature matches
 				stringpm = MappingLabelProvider.prettyPrint(pmObject).toLowerCase();
@@ -207,7 +211,7 @@ public class ContractEvaluator {
 					falsePositives
 							.add(problem.getType().toString() + " convergence: " + pmString + " <-> " + dfdString);
 				}
-			}
+			}*/
 		} else {
 			falsePositives.add(problem.getType().toString() + " convergence: " + dfdString);
 		}
@@ -280,6 +284,7 @@ public class ContractEvaluator {
 						((JsonObject) entry).get("signature").getAsString().toLowerCase().replaceAll(" ", ""));
 				updateGTmap(ctype, newitem, true);
 			} else {
+				// absence
 				updateGTmap(ctype, newitem, false);
 
 			}
@@ -330,6 +335,9 @@ public class ContractEvaluator {
 		countFNAbsence(problems, mapper.getDFD());
 		countFNConvergence(problems, mapper.getDFD());
 
+		accummulatedTP+=truePositives.size();
+		accummulatedFP+=falsePositives.size();
+		accummulatedFN+=falseNegatives.size();
 		// log to file
 		ExperimentHelper.writeToTxt(output,
 				ExperimentHelper.stringBuilder(truePositives, falsePositives, falseNegatives), "results",
@@ -386,6 +394,7 @@ public class ContractEvaluator {
 
 				// read the ground truth
 				readGT(javaProject);
+				// append to object array, added to the data: for every entry also add parameter to the constructor
 
 				ExtensionFileVisitor visitor = new ExtensionFileVisitor(".corr.xmi");
 				gravity.accept(visitor);
@@ -399,6 +408,13 @@ public class ContractEvaluator {
 			}
 		}
 		return data;
+	}
+	
+	@AfterClass
+	public static void printSummary() throws CoreException {
+		for (String i : ExperimentHelper.stringBuilderAccummulated(accummulatedTP, accummulatedFP, accummulatedFN)) {
+			System.out.print(i);
+		}
 	}
 
 }

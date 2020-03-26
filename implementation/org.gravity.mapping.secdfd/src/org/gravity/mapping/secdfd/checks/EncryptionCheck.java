@@ -24,6 +24,9 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.gravity.mapping.secdfd.mapping.Mapper;
+import org.gravity.typegraph.basic.TAccess;
+import org.gravity.typegraph.basic.TCall;
+import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TypeGraph;
 import org.secdfd.dsl.validation.SecDFDValidator;
@@ -132,7 +135,8 @@ public class EncryptionCheck {
 	 */
 	/**
 	 * @return
-	 * @throws IOException
+	 * @throws IOException TODO: extract generic check operation with parameter for
+	 *                     contract type
 	 */
 	public void checkSecurityContracts() throws IOException {
 		// load signatures from file
@@ -186,33 +190,45 @@ public class EncryptionCheck {
 	private void findProblems(Mapper mapper, Process p, boolean isEncrypt) {
 		Set<TMethodDefinition> methods = mapper.getMapping(p);
 		if (isEncrypt) {
-			// check if (at least one) correspondence exists with (at least one) encryption
-			// signature
-			boolean enc = methods.parallelStream().anyMatch(c -> {
-				return signatures.get(Crypto.ENCRYPT).contains(c);
-			});
-			if (!enc)
+			// find all the method definitions that are called by each method in
+			// "methods'; if the list of signatures contains at least one, contract is implemented.
+			boolean flag = false;
+			for (TMethodDefinition method : methods) {
+				Set<TMember> calling = method.getTAccessing().parallelStream().map(m -> m.getTTarget())
+						.filter(target -> target instanceof TMethodDefinition).collect(Collectors.toSet());
+
+				flag = calling.parallelStream().anyMatch(c -> {
+					return signatures.get(Crypto.ENCRYPT).contains(c);
+
+				});
+				if (flag)
+					break;
+			}
+			if (!flag)
 				getProblems().add(new SProblem(PState.WARNING, PType.ENCRYPT, (EObject) p, methods,
 						"The encrypt process contract is not implemented."));
 			else {
-				Set<TMethodDefinition> implementedSignatures = signatures.get(Crypto.ENCRYPT).parallelStream()
-						.filter(sig -> methods.contains(sig)).collect(Collectors.toSet());
 				getProblems().add(new SProblem(PState.OK, PType.ENCRYPT, (EObject) p, methods,
-						"The encrypt process contract is implemented.", implementedSignatures));
+						"The encrypt process contract is implemented."));
 			}
 		} else {
 			// it is a decrypt
-			boolean enc = methods.parallelStream().anyMatch(c -> {
-				return signatures.get(Crypto.DECRYPT).contains(c);
-			});
-			if (!enc)
+			boolean flag = false;
+			for (TMethodDefinition method : methods) {
+				Set<TMember> calling = method.getTAccessing().parallelStream().map(m -> m.getTTarget())
+						.filter(target -> target instanceof TMethodDefinition).collect(Collectors.toSet());
+
+				flag = calling.parallelStream().anyMatch(c -> {
+					return signatures.get(Crypto.ENCRYPT).contains(c);
+
+				});
+			}
+			if (!flag)
 				getProblems().add(new SProblem(PState.WARNING, PType.DECRYPT, (EObject) p, methods,
 						"The decrypt process contract is not implemented."));
 			else {
-				Set<TMethodDefinition> implementedSignatures = signatures.get(Crypto.DECRYPT).parallelStream()
-						.filter(sig -> methods.contains(sig)).collect(Collectors.toSet());
 				getProblems().add(new SProblem(PState.OK, PType.DECRYPT, (EObject) p, methods,
-						"The decrypt process contract is implemented.", implementedSignatures));
+						"The decrypt process contract is implemented."));
 			}
 		}
 
