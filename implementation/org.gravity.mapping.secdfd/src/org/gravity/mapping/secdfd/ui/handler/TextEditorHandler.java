@@ -44,7 +44,6 @@ import org.gravity.mapping.secdfd.ui.views.DFDSelectionView;
 import org.gravity.mapping.secdfd.ui.views.MappingView;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TFieldDefinition;
-import org.gravity.typegraph.basic.TInterface;
 import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TMethodSignature;
@@ -155,8 +154,8 @@ public class TextEditorHandler extends AbstractHandler {
 			if (parent.getNodeType() == ASTNode.FIELD_DECLARATION) {
 				FieldDeclaration field = (FieldDeclaration) parent;
 				String name = ((VariableDeclarationFragment) node).getName().toString();
-				TAbstractType tType = JavaASTUtil.getType((TypeDeclaration) field.getParent(), pm);
-				List<EObject> fieldList = new LinkedList<>(tType.getDefines().stream()
+				TAbstractType tDeclaringType = JavaASTUtil.getType((TypeDeclaration) field.getParent(), pm);
+				List<EObject> fieldList = new LinkedList<>(tDeclaringType.getDefines().stream()
 						.filter(member -> (member instanceof TFieldDefinition))
 						.filter(def -> ((TFieldDefinition) def).getSignature().getField().getTName().equals(name))
 						.collect(Collectors.toList()));
@@ -195,7 +194,7 @@ public class TextEditorHandler extends AbstractHandler {
 		ITextEditor editor = (ITextEditor) HandlerUtil.getActiveEditor(event);
 		ITextSelection sel = (ITextSelection) editor.getSelectionProvider().getSelection();
 		ITypeRoot typeRoot = JavaUI.getEditorInputTypeRoot(editor.getEditorInput());
-		final ASTParser parser = ASTParser.newParser(AST.JLS10);
+		final ASTParser parser = ASTParser.newParser(AST.JLS13);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		if (typeRoot.getElementType() == IJavaElement.CLASS_FILE) {
 			IClassFile icf = typeRoot.getAdapter(IClassFile.class);
@@ -224,7 +223,7 @@ public class TextEditorHandler extends AbstractHandler {
 	}
 
 	protected static CompilationUnit parse(ICompilationUnit icu) {
-		final ASTParser parser = ASTParser.newParser(AST.JLS10);
+		final ASTParser parser = ASTParser.newParser(AST.JLS13);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		parser.setSource(icu);
 		return (CompilationUnit) parser.createAST(null);

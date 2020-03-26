@@ -41,12 +41,18 @@ public final class SignatureHelper {
 		buffer.append(method.getDefinedBy().getFullyQualifiedName());
 		buffer.append(": ");
 		buffer.append(method.getReturnType().getFullyQualifiedName());
+		if(method.isArray()) {
+			buffer.append("[]");
+		}
 		buffer.append(' ');
 		buffer.append(method.getSignature().getMethod().getTName());
 		buffer.append('(');
 		TParameter param = method.getSignature().getFirstParameter();
 		while(param != null) {
 			buffer.append(param.getType().getFullyQualifiedName());
+			if(param.isArray()) {
+				buffer.append("[]");
+			}
 			TParameter next = param.getNext();
 			if(next!=null) {
 				buffer.append(',');

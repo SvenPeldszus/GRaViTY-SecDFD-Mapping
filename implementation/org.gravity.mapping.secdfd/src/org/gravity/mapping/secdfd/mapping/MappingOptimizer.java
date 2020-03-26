@@ -2,6 +2,7 @@ package org.gravity.mapping.secdfd.mapping;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -10,7 +11,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
-import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -74,9 +74,7 @@ public class MappingOptimizer {
 	 * @return The optimized mapping
 	 */
 	public Mapping optimize() {
-		Mapping optimized = optimize(new HashMap<>());
-//		removeBasedOnRanking(optimized.getSuggested());
-		return optimized;
+		return optimize(new HashMap<>());
 	}
 
 	private Mapping optimize(Map<EObject, Set<EObject>> excludes) {
@@ -90,7 +88,7 @@ public class MappingOptimizer {
 			if (entry.getKey() instanceof Element) {
 				Element element = (Element) entry.getKey();
 				Set<TMember> collect = mapToMembers(element, entry.getValue(), entityTypeMapping, excludes)
-						.map(corr -> corr.getSource()).collect(Collectors.toSet());
+						.map(Defintion2Element::getSource).collect(Collectors.toSet());
 				elementMemberMapping.put(element, collect);
 				change |= !collect.isEmpty();
 			}
@@ -99,7 +97,7 @@ public class MappingOptimizer {
 		for (Entry<Element, Set<TMethod>> entry : cache.getElementMethodMapping().entrySet()) {
 			Element node = entry.getKey();
 			Set<TSignature> collect = mapToSignature(node, entry.getValue(), entityTypeMapping, excludes)
-					.map(corr -> corr.getSource()).collect(Collectors.toSet());
+					.map(MappingProcessSignature::getSource).collect(Collectors.toSet());
 			cache.addAllSignatures(collect, node);
 			change |= !collect.isEmpty();
 		}
@@ -180,11 +178,11 @@ public class MappingOptimizer {
 	 * @param values
 	 */
 	private void removeBasedOnRanking(List<AbstractCorrespondence> values) {
-		List<Integer> ranks = values.parallelStream().map(o -> RankingHelper.getRanking(o)).distinct().sorted()
+		List<Integer> ranks = values.parallelStream().map(RankingHelper::getRanking).distinct().sorted()
 				.collect(Collectors.toList());
 		int median = ranks.get(ranks.size() / 2);
 		List<AbstractCorrespondence> remove = values.parallelStream()
-				.filter(o -> RankingHelper.getRanking((AbstractCorrespondence) o) < median)
+				.filter(o -> RankingHelper.getRanking(o) < median)
 				.collect(Collectors.toList());
 		for (int i = 0; i < remove.size(); i++) {
 			helper.delete(remove.remove(0));
@@ -330,7 +328,7 @@ public class MappingOptimizer {
 			}
 			for (Flow flow : sourceElement.getOutflows()) {
 				Set<TAbstractType> assets = flow.getAssets().parallelStream()
-						.filter(asset -> entityTypeMapping.containsKey(asset))
+						.filter(entityTypeMapping::containsKey)
 						.flatMap(asset -> entityTypeMapping.get(asset).parallelStream()).collect(Collectors.toSet());
 
 				for (TSignature sourceSignature : elementSignatureMapping.get(sourceElement)) {
@@ -382,16 +380,15 @@ public class MappingOptimizer {
 								Set<TMember> targetMembers = CallHelper.getAllOutCalls(accessor).parallelStream()
 										.filter(target -> targetSignatures.contains(target.getSignature()))
 										.collect(Collectors.toSet());
-								if (targetMembers.size() > 0 && sourceMember instanceof TMethodDefinition) {
-									if (helper.canCreate(sourceMember, sourceElement, excludes)
-											&& sourceMember instanceof TMethodDefinition) {
-										MappingProcessDefinition corr = helper.createCorrespondence(
-												(TMethodDefinition) sourceMember, sourceElement, 70,
-												Collections.emptySet());
-										mapping.getSuggested().add(corr);
-										cache.add(sourceMember, sourceElement);
-										change = true;
-									}
+								if (!targetMembers.isEmpty() && sourceMember instanceof TMethodDefinition
+										&& helper.canCreate(sourceMember, sourceElement, excludes)) {
+									MappingProcessDefinition corr = helper.createCorrespondence(
+											(TMethodDefinition) sourceMember, sourceElement, 70,
+											Collections.emptySet());
+									mapping.getSuggested().add(corr);
+									cache.add(sourceMember, sourceElement);
+									change = true;
+
 								}
 								for (TMember targetMember : targetMembers) {
 									if (helper.canCreate(targetMember, targetElement, excludes)
@@ -545,7 +542,7 @@ public class MappingOptimizer {
 	private static Set<TAbstractType> getAllParents(TAbstractType type) {
 		Set<TAbstractType> types = new HashSet<>();
 		types.add(type);
-		Stack<TAbstractType> stack = new Stack<>();
+		Deque<TAbstractType> stack = new LinkedList<>();
 		stack.add(type);
 		while (!stack.isEmpty()) {
 			TAbstractType nextType = stack.pop();
@@ -567,7 +564,7 @@ public class MappingOptimizer {
 	public static Set<TAbstractType> getAllChildClasses(TAbstractType type) {
 		Set<TAbstractType> types = new HashSet<>();
 		types.add(type);
-		Stack<TAbstractType> stack = new Stack<>();
+		Deque<TAbstractType> stack = new LinkedList<>();
 		stack.add(type);
 		while (!stack.isEmpty()) {
 			TAbstractType nextType = stack.pop();

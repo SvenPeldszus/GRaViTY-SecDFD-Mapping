@@ -108,6 +108,7 @@ public class SourcesAndSinkFinder {
 			LOGGER.log(Level.ERROR,
 					"No sinks found. Modeling attacker observation zones in the SecDFD are required for executing data flow analysis.");
 		}
+		
 		// sinks.addAll(susisinks);
 		// add only relevant susi sinks (remove allowed)
 		sinks.addAll(getForbiddenSinks(sinkFinder, getBaselineSinks()));
