@@ -1,0 +1,20 @@
+{
+   "contracts":[
+      {
+         "encrypt":[
+            {
+               "secdfd":"encrypt_absence_setpasswordrecovery",
+               "element":"Put_value"
+            }
+         ]
+      },
+      {
+         "decrypt":[
+            {
+               "secdfd":"decrypt_absence_storepassword",
+               "element":"Get_value"
+            }
+         ]
+      }
+   ]
+}

@@ -49,7 +49,7 @@ public class DataFlowExperiment {
 	public DataFlowExperiment(String testName, Mapper mapper, IJavaProject project) throws CoreException {
 		this.mapper = mapper;
 		this.project = project;
-		this.output = create(mapper.getGravityFolder().getFolder("dataflow"), mapper.getDFD().getName(), new NullProgressMonitor());
+		this.output = ExperimentHelper.create(mapper.getGravityFolder().getFolder("dataflow"), mapper.getDFD().getName(), new NullProgressMonitor());
 		LOGGER.info("Start experiment with: " + testName);
 	}
 
@@ -64,7 +64,7 @@ public class DataFlowExperiment {
 		Results results = new DFAnalysis(mapper, project, true, MAX_VIOLATION).checkAllAssets();
 
 		IProgressMonitor monitor = new NullProgressMonitor();
-		writeResults(results, create(output, "our", monitor), monitor);
+		writeResults(results, ExperimentHelper.create(output, "our", monitor), monitor);
 	}
 
 	@Test
@@ -77,7 +77,7 @@ public class DataFlowExperiment {
 		Map<String, InfoflowResults> results = dfAnalysis.check(sources, sinks, epoints);
 
 		NullProgressMonitor monitor = new NullProgressMonitor();
-		IFolder out = create(output, "flowDroid", monitor);
+		IFolder out = ExperimentHelper.create(output, "flowDroid", monitor);
 		write(out, sources, sinks, epoints, monitor);
 		for (Entry<String, InfoflowResults> entry : results.entrySet()) {
 			writeReport(out, entry.getKey(), entry.getValue());
@@ -105,7 +105,7 @@ public class DataFlowExperiment {
 			}
 		}
 		IProgressMonitor monitor = new NullProgressMonitor();
-		writeResults(results, create(output, "flowDroidAndOurSources", monitor), monitor);
+		writeResults(results, ExperimentHelper.create(output, "flowDroidAndOurSources", monitor), monitor);
 
 	}
 
@@ -133,7 +133,7 @@ public class DataFlowExperiment {
 
 				// paths for secdfd-gravity tool, setup correspondence model, mapper, dfd
 				IFolder gravity = EclipseProjectUtil.getGravityFolder(project, monitor);
-				create(gravity, "dataflow", monitor);
+				ExperimentHelper.create(gravity, "dataflow", monitor);
 				ExtensionFileVisitor visitor = new ExtensionFileVisitor(".corr.xmi");
 				gravity.accept(visitor);
 				for (Path corr : visitor.getFiles()) {
@@ -161,11 +161,11 @@ public class DataFlowExperiment {
 			throws CoreException, IOException {
 		for (AssetResults assetResults : results.getResultsPerAsset()) {
 			Asset asset = assetResults.getAsset();
-			IFolder assetResultOutputFolder = create(out, asset.getName(), monitor);
+			IFolder assetResultOutputFolder = ExperimentHelper.create(out, asset.getName(), monitor);
 			write(assetResultOutputFolder, assetResults.getSources(), assetResults.getSinks(),
 					assetResults.getEPoints(), monitor);
 			for (Entry<String, InfoflowResults> entry : assetResults.getSingleResults()) {
-				writeReport(create(assetResultOutputFolder, entry.getKey(), monitor), asset.getName(),
+				writeReport(ExperimentHelper.create(assetResultOutputFolder, entry.getKey(), monitor), asset.getName(),
 						entry.getValue());
 			}
 			//empty folder
@@ -216,45 +216,10 @@ public class DataFlowExperiment {
 	 */
 	private void write(IFolder out, Collection<String> sources, Collection<String> sinks, Collection<String> epoints,
 			IProgressMonitor monitor) throws CoreException {
-		writeToTxt(out, epoints, "entrypoints", monitor);
-		writeToTxt(out, sources, "sources", monitor);
-		writeToTxt(out, sinks, "sinks", monitor);
+		ExperimentHelper.writeToTxt(out, epoints, "entrypoints", monitor, true);
+		ExperimentHelper.writeToTxt(out, sources, "sources", monitor, true);
+		ExperimentHelper.writeToTxt(out, sinks, "sinks", monitor, true);
 	}
 
-	/**
-	 * Writes the data to a txt file
-	 * 
-	 * @param out     The folder in which the file should be stored
-	 * @param lines   The lines that should be written to the file
-	 * @param name    The name of the file
-	 * @param monitor A progress monitor
-	 * @throws CoreException
-	 */
-	private void writeToTxt(IFolder out, Collection<String> lines, String name, IProgressMonitor monitor)
-			throws CoreException {
-		IFile epointsfile = out.getFile(name + ".txt");
-		if (epointsfile.exists()) {
-			epointsfile.delete(true, monitor);
-		}
-		epointsfile.create(new ByteArrayInputStream(
-				lines.parallelStream().collect(Collectors.joining(",\n", '\n' + name + ":\n", "\n")).getBytes()), true,
-				monitor);
-	}
 
-	/**
-	 * Creates a folder with the given name
-	 * 
-	 * @param parent  The parent folder in which the folder should be created
-	 * @param name    The name of the new folder
-	 * @param monitor a progress monitor
-	 * @return The new folder
-	 * @throws CoreException
-	 */
-	private static IFolder create(IFolder parent, String name, IProgressMonitor monitor) throws CoreException {
-		IFolder assetResultOutputFolder = parent.getFolder(name);
-		if (!assetResultOutputFolder.exists()) {
-			assetResultOutputFolder.create(true, true, monitor);
-		}
-		return assetResultOutputFolder;
-	}
 }
