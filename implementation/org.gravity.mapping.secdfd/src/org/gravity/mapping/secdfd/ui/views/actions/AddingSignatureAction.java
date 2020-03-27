@@ -1,12 +1,17 @@
 package org.gravity.mapping.secdfd.ui.views.actions;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.stream.Collectors;
+
 import org.apache.log4j.Logger;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.gravity.mapping.secdfd.checks.EncryptionCheck;
+import org.gravity.mapping.secdfd.checks.ContractCheck;
+import org.gravity.mapping.secdfd.checks.Crypto;
 import org.gravity.mapping.secdfd.ui.views.MappingView;
 import org.gravity.typegraph.basic.TMethodDefinition;
+import org.secdfd.model.ResponsibilityType;
 
 /**
  * 
@@ -33,12 +38,18 @@ public final class AddingSignatureAction extends Action {
 
 	@Override
 	public void run() {
-		EncryptionCheck checker = new EncryptionCheck(mappingView.getGravityFolder(),
-				mappingView.getProgramModel().getValue(), mappingView.getMappers().values());
-		//write selection to file, not selectedPMObject
-		
-		selectedPMObjects.forEach(sig -> checker.addSignature(encrypt, sig));
-		//mappingView.update();
+		ContractCheck checker;
+		if(encrypt) {
+			checker = new ContractCheck(mappingView.getGravityFolder(),
+					mappingView.getProgramModel().getValue(), mappingView.getMappers().values(),
+					Collections.singleton(new Crypto(ResponsibilityType.ENCRYPT_OR_HASH)));
+		}else {
+			checker = new ContractCheck(mappingView.getGravityFolder(),
+					mappingView.getProgramModel().getValue(), mappingView.getMappers().values(),
+					Collections.singleton(new Crypto(ResponsibilityType.DECRYPT)));
+		}
+		selectedPMObjects.forEach(sig -> checker.addSignature(sig));
+		// mappingView.update();
 	}
 
 	@Override

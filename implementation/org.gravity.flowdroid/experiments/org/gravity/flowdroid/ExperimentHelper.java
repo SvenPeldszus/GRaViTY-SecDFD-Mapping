@@ -10,20 +10,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.gravity.mapping.secdfd.helpers.CorrespondenceHelper;
 
 /**
  * @author katjat
  *
  */
 public final class ExperimentHelper {
-
-	private static final Logger LOGGER = Logger.getLogger(CorrespondenceHelper.class);
 
 	private ExperimentHelper() {
 		// This class shouldn't be instantiated
@@ -72,6 +68,12 @@ public final class ExperimentHelper {
 		return assetResultOutputFolder;
 	}
 
+	/**
+	 * @param truePositives
+	 * @param falsePositives
+	 * @param falseNegatives
+	 * @return
+	 */
 	public static Collection<String> stringBuilder(HashSet<String> truePositives, HashSet<String> falsePositives,
 			HashSet<String> falseNegatives) {
 		List<String> built = new ArrayList<String>();
@@ -95,6 +97,12 @@ public final class ExperimentHelper {
 		return built;
 	}
 
+	/**
+	 * @param accummulatedTP
+	 * @param accummulatedFP
+	 * @param accummulatedFN
+	 * @return
+	 */
 	public static Collection<String> stringBuilderAccummulated(Integer accummulatedTP, Integer accummulatedFP, Integer accummulatedFN) {
 		List<String> built = new ArrayList<String>();
 		built.add("\n==================================\n");
