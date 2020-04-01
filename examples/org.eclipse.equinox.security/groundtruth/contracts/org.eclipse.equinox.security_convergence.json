@@ -9,6 +9,14 @@
             {
                "secdfd":"setpasswordrecovery",
                "element":"Create_mash_password"
+            },
+            {
+               "secdfd":"encrypt_absence_setpasswordrecovery",
+               "element":"Encrypt_data"
+            },
+            {
+               "secdfd":"encrypt_absence_setpasswordrecovery",
+               "element":"Create_mash_password"
             }
          ]
       },
@@ -17,7 +25,71 @@
             {
                "secdfd":"storepassword",
                "element":"Decrypt_data"
+            },
+            {
+               "secdfd":"decrypt_absence_storepassword",
+               "element":"Decrypt_data"
             }
+         ]
+      },
+       {
+         "fwdjoin":[
+            {
+               "secdfd":"storepassword",
+               "element":"Find_node"
+            },
+            {
+               "secdfd":"storepassword",
+               "element":"Get_value"
+            },
+            {
+                "secdfd":"storepassword",
+                "element":"Get_Password_External"
+            },
+            {
+               "secdfd":"decrypt_absence_storepassword",
+               "element":"Find_node"
+            },
+            {
+               "secdfd":"decrypt_absence_storepassword",
+               "element":"Get_value"
+            },
+            {
+                "secdfd":"decrypt_absence_storepassword",
+                "element":"Get_Password_External"
+            },
+            {
+               "secdfd":"setpasswordrecovery",
+               "element":"Remove"
+            },
+            {
+               "secdfd":"setpasswordrecovery",
+               "element":"Put_value"
+            },
+            {
+               "secdfd":"setpasswordrecovery",
+               "element":"Find_node"
+            },
+            {
+               "secdfd":"setpasswordrecovery",
+               "element":"Get_Password_External"
+            },
+            {
+               "secdfd":"encrypt_absence_setpasswordrecovery",
+               "element":"Remove"
+            },
+            {
+               "secdfd":"encrypt_absence_setpasswordrecovery",
+               "element":"Put_value"
+            },
+            {
+               "secdfd":"encrypt_absence_setpasswordrecovery",
+               "element":"Find_node"
+            },
+            {
+               "secdfd":"encrypt_absence_setpasswordrecovery",
+               "element":"Get_Password_External"
+            }   
          ]
       }
    ]

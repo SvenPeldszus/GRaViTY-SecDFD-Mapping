@@ -22,6 +22,8 @@ public class CheckContractsAction extends Action {
 		Set<Crypto> tocheck = new HashSet<>();
 		tocheck.add(new Crypto(ResponsibilityType.ENCRYPT_OR_HASH, Optional.ofNullable("encrypt-signatures.txt")));
 		tocheck.add(new Crypto(ResponsibilityType.DECRYPT, Optional.ofNullable("decrypt-signatures.txt")));
+		tocheck.add(new Crypto(ResponsibilityType.FORWARD));
+		tocheck.add(new Crypto(ResponsibilityType.JOINER));
 		
 		ContractCheck checker = new ContractCheck(mappingView.getGravityFolder(),
 				mappingView.getProgramModel().getValue(), mappingView.getMappers().values(), tocheck);

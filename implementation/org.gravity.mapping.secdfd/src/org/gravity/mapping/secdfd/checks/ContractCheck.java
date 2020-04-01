@@ -118,7 +118,7 @@ public class ContractCheck {
 		Set<Process> processes = getRelevantProcesses(mapper, cryptoType.getType());
 		if (processes.isEmpty())
 			return;
-		if (cryptoType.getFileName().isPresent()) {
+		if (cryptoType.getFileName()!=null) {
 			// load signatures from file (encrypt/decrypt)
 			loadSignaturesFromFile(cryptoType);
 			problems.addAll(findProblems(mapper, processes, cryptoType));

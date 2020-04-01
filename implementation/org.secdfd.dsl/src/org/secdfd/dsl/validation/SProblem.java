@@ -15,10 +15,10 @@ import org.gravity.typegraph.basic.TMethodDefinition;
  */
 public class SProblem {
 	public static enum PType{
-		ENCRYPT, DECRYPT, SUCCESS, FWDJOIN;
+		ENCRYPT, DECRYPT, FWDJOIN; //, SUCCESS
 	}
 	public static enum PState{
-		OK, WARNING
+		OK, WARNING;
 	}
 	private PType type;
 	private PState state;

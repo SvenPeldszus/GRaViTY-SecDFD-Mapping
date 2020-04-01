@@ -172,7 +172,7 @@ public class DataProcessingCheck {
 							.flatMap(a -> mapper.getMapping(a).stream()).collect(Collectors.toSet());
 					Set<TAbstractType> foundTypes = found.stream().flatMap(f -> getCommunicatedTypes(f).stream())
 							.collect(Collectors.toSet());
-					
+
 					Collections.disjoint(foundTypes, incomeAssetTypes);
 
 					if (!(valid &= inComeAssets.isEmpty())) {
@@ -379,7 +379,7 @@ public class DataProcessingCheck {
 			if (outgoingAssetFlows == null || outgoingAssetFlows.isEmpty()) {
 				// absence of outgoing flow or asset
 				problems.add(new SProblem(PState.WARNING, PType.FWDJOIN, (EObject) p, methods,
-						"Outgoing asset <"+outComeAsset.getName()+"> from a contract hasn't been implemented."));
+						"Outgoing asset <" + outComeAsset.getName() + "> from a contract hasn't been implemented."));
 				System.err.println("Outgoing asset hasn't been implemented.");
 				continue;
 			}
@@ -401,25 +401,30 @@ public class DataProcessingCheck {
 							counter += 1;
 							if (counter > 1) {
 								// TODO: if expectedAsset has been mapped to the same type more than once, check
-								// if ok
+								// if ok: could be that two parameters are passed of the same type (String asset
+								// A, String asset B)
 							}
 						}
 					}
 					if (counter > 1) {
-						//divergence
+						// divergence
 						problems.add(new SProblem(PState.WARNING, PType.FWDJOIN, (EObject) p, methods,
-								"More than one flow is communicating the asset <"+expectedAsset.getName()+"> upon process entry."));
-						System.err.println(
-								"More than one flow is communicating the asset <"+expectedAsset.getName()+"> upon process entry.");
+								"More than one flow is communicating the asset <" + expectedAsset.getName()
+										+ "> upon process entry."));
+						System.err.println("More than one flow is communicating the asset <" + expectedAsset.getName()
+								+ "> upon process entry.");
 					} else if (counter < 1) {
-						//absence
+						// absence
 						problems.add(new SProblem(PState.WARNING, PType.FWDJOIN, (EObject) p, methods,
-								"No flow is communicating the asset <" +expectedAsset.getName()+ "> upon process entry."));
-						System.err.println("No flow is communicating the asset <"+expectedAsset.getName()+"> upon process entry.");
+								"No flow is communicating the asset <" + expectedAsset.getName()
+										+ "> upon process entry."));
+						System.err.println("No flow is communicating the asset <" + expectedAsset.getName()
+								+ "> upon process entry.");
 					} else {
-						problems.add(new SProblem(PState.OK, PType.SUCCESS, (EObject) p, methods,
-								"Outgoing asset has correct flow."));
-						System.out.println("Outgoing asset has correct flow: <" + outComeAsset.getName()+">");
+						// convergence
+						problems.add(new SProblem(PState.OK, PType.FWDJOIN, (EObject) p, methods,
+								"Outgoing asset <" + outComeAsset.getName() + "> has correct flow."));
+						System.out.println("Outgoing asset has correct flow: <" + outComeAsset.getName() + ">");
 					}
 				}
 			}

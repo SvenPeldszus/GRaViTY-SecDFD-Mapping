@@ -114,7 +114,7 @@ public class DFAnalysis {
 			return results;
 		}
 		MultiMap<ResultSinkInfo, ResultSourceInfo> map = results.getResults();
-		//FIXME: Remove sinks that are allowed sinks
+		//FIXME: Remove sinks that are allowed sinks -> EasyTaintWrapper.txt might be the reason
 		for(ResultSinkInfo sink : map.keySet()) {
 			SootMethod method = sink.getStmt().getInvokeExpr().getMethod();
 			if(!sinks.contains(method.toString())){
