@@ -6,7 +6,6 @@ package org.gravity.flowdroid;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -35,11 +34,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import org.secdfd.dsl.validation.SProblem;
-import org.secdfd.dsl.validation.SProblem.PType;
+import org.secdfd.dsl.validation.SResult;
 import org.secdfd.model.NamedEntity;
-import org.secdfd.model.ResponsibilityType;
-import org.gravity.mapping.secdfd.checks.Crypto;
 
 /**
  * @author katjat
@@ -48,16 +44,11 @@ import org.gravity.mapping.secdfd.checks.Crypto;
 
 @RunWith(Parameterized.class)
 public class ContractEvaluator {
-	public static Set<String> ContractTypes = new HashSet<String>(Arrays.asList("ENCRYPT", "DECRYPT", "FWDJOIN"));
-
-	public static enum ComplianceType {
-		ABSENCE, CONVERGENCE;
-	}
-
 	private static final String[] PROJECT_NAMES = new String[] { "org.eclipse.equinox.security" };
 	private static final Logger LOGGER = Logger.getLogger(ContractEvaluator.class);
 
 	private Mapper mapper;
+	private ContractCheck checker;
 	private IFolder output;
 	private Map<String, List<Map<String, String>>> absenceGT;
 	private Map<String, List<Map<String, String>>> convergenceGT;
@@ -79,6 +70,12 @@ public class ContractEvaluator {
 	public ContractEvaluator(String testName, Mapper mapper, Map<String, List<Map<String, String>>> absenceGT,
 			Map<String, List<Map<String, String>>> convergenceGT) throws CoreException {
 		this.mapper = mapper;
+		try {
+			this.checker = new ContractCheck(mapper.getGravityFolder(), mapper.getPM(), Collections.singleton(mapper),
+					"encrypt-signatures.txt", "decrypt-signatures.txt");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		this.output = ExperimentHelper.create(mapper.getGravityFolder().getFolder("contracts"),
 				mapper.getDFD().getName(), new NullProgressMonitor());
 		this.absenceGT = absenceGT;
@@ -97,145 +94,61 @@ public class ContractEvaluator {
 	 */
 	@Test
 	public void valdiateDecrypt() throws IOException, CoreException {
-		Set<Crypto> tocheck = new HashSet<>();
-		tocheck.add(new Crypto(ResponsibilityType.DECRYPT, Optional.ofNullable("decrypt-signatures.txt")));
-		ContractCheck checker = new ContractCheck(mapper.getGravityFolder(), mapper.getPM(),
-				Collections.singleton(mapper), tocheck);
-
 		try {
-			checker.checkSecurityContracts();
+			checker.checkDecryptContract();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Set<SProblem> problems = checker.getProblems();
-
-		// count TP,FP,FN
-		problems.forEach(problem -> {
-			if (problem.getType().toString().toLowerCase().contains("decrypt")) {
-				countTPandFP(problem, mapper.getDFD().getName());
-			}
-		});
-		countFN(problems, mapper.getDFD().getName(), SProblem.PType.DECRYPT);
-
-		accummulatedTP += truePositives.size();
-		accummulatedFP += falsePositives.size();
-		accummulatedFN += falseNegatives.size();
-		// log to file
-		ExperimentHelper.writeToTxt(output,
-				ExperimentHelper.stringBuilder(truePositives, falsePositives, falseNegatives), "decrypt-results",
-				new NullProgressMonitor(), false);
+		validateContract("decrypt-results");
 	}
 
 	/**
-	 * Run checks for encrypt
-	 * 
 	 * @throws IOException
 	 * @throws CoreException
 	 */
 	@Test
-	public void validateEncrypt() throws IOException, CoreException {
-		Set<Crypto> tocheck = new HashSet<>();
-		tocheck.add(new Crypto(ResponsibilityType.ENCRYPT_OR_HASH, Optional.ofNullable("encrypt-signatures.txt")));
-		ContractCheck checker = new ContractCheck(mapper.getGravityFolder(), mapper.getPM(),
-				Collections.singleton(mapper), tocheck);
-
+	public void valdiateEncrypt() throws IOException, CoreException {
 		try {
-			checker.checkSecurityContracts();
+			checker.checkEncryptContract();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Set<SProblem> problems = checker.getProblems();
-
-		// count TP,FP,FN
-		problems.forEach(problem -> {
-			if (problem.getType().toString().toLowerCase().contains("encrypt")) {
-				countTPandFP(problem, mapper.getDFD().getName());
-			}
-		});
-		countFN(problems, mapper.getDFD().getName(), SProblem.PType.ENCRYPT);
-
-		accummulatedTP += truePositives.size();
-		accummulatedFP += falsePositives.size();
-		accummulatedFN += falseNegatives.size();
-		// log to file
-		ExperimentHelper.writeToTxt(output,
-				ExperimentHelper.stringBuilder(truePositives, falsePositives, falseNegatives), "encrypt-results",
-				new NullProgressMonitor(), false);
+		validateContract("encrypt-results");
 	}
 
 	/**
-	 * Run checks for forward
-	 * 
 	 * @throws IOException
 	 * @throws CoreException
 	 */
 	@Test
-	public void validateForward() throws IOException, CoreException {
-		Set<Crypto> tocheck = new HashSet<>();
-		tocheck.add(new Crypto(ResponsibilityType.FORWARD));
-		ContractCheck checker = new ContractCheck(mapper.getGravityFolder(), mapper.getPM(),
-				Collections.singleton(mapper), tocheck);
-
+	public void valdiateForward() throws IOException, CoreException {
 		try {
-			checker.checkSecurityContracts();
+			checker.checkForwardContract();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Set<SProblem> problems = checker.getProblems();
-
-		// count TP,FP,FN
-		problems.forEach(problem -> {
-			if (problem.getType().toString().toLowerCase().contains("fwdjoin")) {
-				countTPandFP(problem, mapper.getDFD().getName());
-			}
-		});
-		countFN(problems, mapper.getDFD().getName(), SProblem.PType.FWDJOIN);
-
-		accummulatedTP += truePositives.size();
-		accummulatedFP += falsePositives.size();
-		accummulatedFN += falseNegatives.size();
-		// log to file
-		ExperimentHelper.writeToTxt(output,
-				ExperimentHelper.stringBuilder(truePositives, falsePositives, falseNegatives), "forward-results",
-				new NullProgressMonitor(), false);
+		validateContract("forward-results");
 	}
-	
+
 	/**
-	 * Run checks for join
-	 * 
-	 * @throws IOException
 	 * @throws CoreException
 	 */
-	// @Test
-	public void validateJoin() throws IOException, CoreException {
-		Set<Crypto> tocheck = new HashSet<>();
-		tocheck.add(new Crypto(ResponsibilityType.JOINER));
-		
-		ContractCheck checker = new ContractCheck(mapper.getGravityFolder(), mapper.getPM(),
-				Collections.singleton(mapper), tocheck);
-
-		try {
-			checker.checkSecurityContracts();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		Set<SProblem> problems = checker.getProblems();
+	private void validateContract(String resultFileName) throws CoreException {
+		Set<SResult> results = checker.getProblems();
+		String SecDFDName = mapper.getDFD().getName();
 
 		// count TP,FP,FN
-		problems.forEach(problem -> {
-			if (problem.getType().toString().toLowerCase().contains("fwdjoin")) {
-				countTPandFP(problem, mapper.getDFD().getName());
-			}
+		results.forEach(result -> {
+			countTPandFP(result, SecDFDName);
 		});
-		// TODO: decide to either split into forward and join, or process as the same responsibility in GT
-		//countFN(problems, mapper.getDFD().getName(), SProblem.PType.FWDJOIN);
+		if (!results.isEmpty()) countFN(results, SecDFDName);
 
 		accummulatedTP += truePositives.size();
 		accummulatedFP += falsePositives.size();
 		accummulatedFN += falseNegatives.size();
 		// log to file
 		ExperimentHelper.writeToTxt(output,
-				ExperimentHelper.stringBuilder(truePositives, falsePositives, falseNegatives), "join-results",
+				ExperimentHelper.stringBuilder(truePositives, falsePositives, falseNegatives), resultFileName,
 				new NullProgressMonitor(), false);
 	}
 
@@ -245,15 +158,19 @@ public class ContractEvaluator {
 	 * @param problem
 	 * @param secdfdName
 	 */
-	private void countTPandFP(SProblem problem, String secdfdName) {
-		if (problem.getState().toString().equals("WARNING")) {
-			check(problem, secdfdName, absenceGT);
-		} else if (problem.getState().toString().equals("OK")) {
-			check(problem, secdfdName, convergenceGT);
-		} else {
-			LOGGER.info("Not supported SProblem type yet: " + problem.getState().toString());
+	private void countTPandFP(SResult problem, String secdfdName) {
+		String resultState = problem.getState().toString();
+		switch (resultState) {
+		case "WARNING":
+			count(problem, secdfdName, absenceGT);
+			break;
+		case "SUCCESS":
+			count(problem, secdfdName, convergenceGT);
+			break;
+		default:
+			LOGGER.info("Not supported result state: " + resultState);
+			break;
 		}
-
 	}
 
 	/**
@@ -261,7 +178,7 @@ public class ContractEvaluator {
 	 * @param secdfdName
 	 * @param groundtruth
 	 */
-	private void check(SProblem problem, String secdfdName, Map<String, List<Map<String, String>>> groundtruth) {
+	private void count(SResult problem, String secdfdName, Map<String, List<Map<String, String>>> groundtruth) {
 		String dfdElementName = ((NamedEntity) problem.getDfdElement()).getName().toLowerCase();
 		String ctype = problem.getType().toString().toLowerCase();
 		if (groundtruth.get(ctype) == null) {
@@ -279,48 +196,55 @@ public class ContractEvaluator {
 	}
 
 	/**
-	 * @param problems
+	 * @param results
 	 * @param secdfdName
 	 * @param encryptOrHash
 	 */
-	private void countFN(Set<SProblem> problems, String secdfdName, PType ctype) {
-		countFN(problems, secdfdName, absenceGT, "absence", ctype);
-		countFN(problems, secdfdName, convergenceGT, "convergence", ctype);
+	private void countFN(Set<SResult> results, String secdfdName) {
+		countFN(results, secdfdName, absenceGT, "absence");
+		countFN(results, secdfdName, convergenceGT, "convergence");
 	}
 
 	/**
-	 * @param problems
+	 * @param results
 	 * @param secdfdName
 	 * @param groundtruth
 	 * @param FNType
 	 * @param contractType
 	 */
-	private void countFN(Set<SProblem> problems, String secdfdName, Map<String, List<Map<String, String>>> groundtruth,
-			String FNType, PType contractType) {
-		for (String ctype : groundtruth.keySet()) {
-			if (contractType.toString().toLowerCase().contains(ctype)) {
-				for (Map<String, String> expectedTP : groundtruth.get(ctype)) {
-					if (expectedTP.get("secdfd").equals(secdfdName)) {
-						Set<SProblem> matches = new HashSet<SProblem>();
-						for (SProblem problem : problems) {
-							String dfdString = MappingLabelProvider.prettyPrint(problem.getDfdElement()).toLowerCase();
-							dfdString = dfdString.substring(dfdString.indexOf(':') + 1).replaceAll(" ", "");
-							if (dfdString.equals(expectedTP.get("element")))
-								matches.add(problem);
-						}
-						if (matches.isEmpty())
-							addFN(FNType, ctype, expectedTP);
+	private void countFN(Set<SResult> results, String secdfdName, Map<String, List<Map<String, String>>> groundtruth,
+			String FNType) {
+		String ctype = results.parallelStream().findAny().get().getType().getName().toLowerCase();
+		
+		List<Map<String, String>> entries = groundtruth.get(ctype);
+
+		if (entries!=null) {
+			for (Map<String, String> expectedTP : entries) {
+				if (expectedTP.get("secdfd").equals(secdfdName)) {
+					Set<SResult> matches = new HashSet<SResult>();
+					for (SResult result : results) {
+						String dfdString = MappingLabelProvider.prettyPrint(result.getDfdElement()).toLowerCase();
+						dfdString = dfdString.substring(dfdString.indexOf(':') + 1).replaceAll(" ", "");
+						if (dfdString.equals(expectedTP.get("element")))
+							matches.add(result);
+
 					}
+					if (matches.isEmpty())
+						addFN(FNType, ctype, expectedTP);
 				}
+
 			}
+		} else {
+			LOGGER.info("Ground truth does not contain any expected TPS for this contract.");
 		}
+
 	}
 
 	/**
 	 * @param problem
 	 * @param dfdElementName
 	 */
-	private void addTP(SProblem problem, String dfdElementName) {
+	private void addTP(SResult problem, String dfdElementName) {
 		truePositives.add("Problem type: " + problem.getType().toString() + ", Problem state: " + problem.getState()
 				+ ", Element: " + dfdElementName);
 	}
@@ -329,7 +253,7 @@ public class ContractEvaluator {
 	 * @param problem
 	 * @param dfdElementName
 	 */
-	private void addFP(SProblem problem, String dfdElementName) {
+	private void addFP(SResult problem, String dfdElementName) {
 		falsePositives.add("Problem type: " + problem.getType().toString() + ", Problem state: " + problem.getState()
 				+ ", Element: " + dfdElementName);
 	}

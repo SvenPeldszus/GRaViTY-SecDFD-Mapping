@@ -29,9 +29,8 @@ import org.gravity.typegraph.basic.TMethodSignature;
 import org.gravity.typegraph.basic.TParameter;
 import org.gravity.typegraph.basic.TSignature;
 import org.gravity.typegraph.basic.TypeGraph;
-import org.secdfd.dsl.validation.SProblem;
-import org.secdfd.dsl.validation.SProblem.PState;
-import org.secdfd.dsl.validation.SProblem.PType;
+import org.secdfd.dsl.validation.SResult;
+import org.secdfd.dsl.validation.SResult.PState;
 
 import org.secdfd.model.Asset;
 import org.secdfd.model.ModelFactory;
@@ -88,7 +87,7 @@ public class DataProcessingCheck {
 		fwd.getIncomeassets().add(assetAsset);
 		fwd.getIncomeassets().add(assetMain);
 		fwd.getOutcomeassets().add(assetAsset);
-		check(entries, exits, methods, null, Collections.singleton(fwd));
+		//check(entries, exits, methods, null, Collections.singleton(fwd));
 	}
 
 	/**
@@ -124,66 +123,7 @@ public class DataProcessingCheck {
 		fwd.setProcess(ModelFactory.eINSTANCE.createProcess());
 		fwd.getIncomeassets().add(asset);
 		fwd.getOutcomeassets().add(asset);
-		check(entries, exits, methods, null, Collections.singleton(fwd));
-	}
-
-	/**
-	 * OBSOLETE
-	 * 
-	 * @param problems
-	 * @param entries
-	 * @param exits
-	 * @param methods
-	 * @param assets
-	 */
-	public static void check(Set<TFlow> entries, Set<TFlow> exits, Set<? extends TMember> methods, Mapper mapper,
-			Set<Responsibility> resposibilities) {
-		Map<TAbstractType, Asset> assets = mapper.getAssets();
-		Map<Asset, Set<TFlow>> exitMapping = classifyFlows(exits, assets);
-
-		for (Responsibility responsibility : resposibilities) {
-			for (Asset outComeAsset : responsibility.getOutcomeassets()) {
-				Set<TFlow> outgoingAssetFlows = exitMapping.get(outComeAsset);
-				if (outgoingAssetFlows == null || outgoingAssetFlows.isEmpty()) {
-					System.err.println("Outgoing asset hasn't been implemented: " + outComeAsset);
-					continue;
-				}
-				for (TFlow flow : outgoingAssetFlows) {
-					Set<TFlow> found = searchBackwards(flow, methods);
-
-					System.out.println(found.stream()
-							.map(f -> f.toString() + " - asset: "
-									+ getCommunicatedAssets(f, assets).stream().map(Object::toString)
-											.collect(Collectors.joining(", ")))
-							.collect(Collectors.joining(",\n", "Found the following entry flows:\n", "\n")));
-
-					boolean valid = true;
-
-					// absence
-					Set<Asset> foundAssetCommunications = found.stream()
-							.flatMap(f -> getCommunicatedAssets(f, assets).stream()).collect(Collectors.toSet());
-					EList<Asset> inComeAssets = responsibility.getIncomeassets();
-					if (!foundAssetCommunications.containsAll(inComeAssets)) {
-						System.err.println("Not all expected flows have been implemented!");
-					}
-
-					// divergence
-					Set<TAbstractType> incomeAssetTypes = inComeAssets.stream()
-							.flatMap(a -> mapper.getMapping(a).stream()).collect(Collectors.toSet());
-					Set<TAbstractType> foundTypes = found.stream().flatMap(f -> getCommunicatedTypes(f).stream())
-							.collect(Collectors.toSet());
-
-					Collections.disjoint(foundTypes, incomeAssetTypes);
-
-					if (!(valid &= inComeAssets.isEmpty())) {
-						System.err.println("More than the defined asset flows have been implemented!");
-					}
-					if (valid) {
-						System.out.println("Outgoing asset has correct flow: " + outComeAsset);
-					}
-				}
-			}
-		}
+		//check(entries, exits, methods, null, Collections.singleton(fwd));
 	}
 
 	private static Set<TFlow> searchBackwards(TFlow exit, Set<? extends TMember> methods) {
@@ -366,19 +306,19 @@ public class DataProcessingCheck {
 		return false;
 	}
 
-	public Set<SProblem> check(Set<TFlow> entries, Set<TFlow> exits, Process p, Mapper mapper,
+	public Set<SResult> check(Set<TFlow> entries, Set<TFlow> exits, Process p, Mapper mapper,
 			Responsibility responsibility) {
 		Map<TAbstractType, Asset> assets = mapper.getAssets();
 		Map<Asset, Set<TFlow>> exitMapping = classifyFlows(exits, assets);
 		Set<TMethodDefinition> methods = mapper.getMapping(p);
-		Set<SProblem> problems = new HashSet<>();
+		Set<SResult> problems = new HashSet<>();
 
 		for (Asset outComeAsset : responsibility.getOutcomeassets()) {
 			Set<TFlow> outgoingAssetFlows = exitMapping.get(outComeAsset);
 
 			if (outgoingAssetFlows == null || outgoingAssetFlows.isEmpty()) {
 				// absence of outgoing flow or asset
-				problems.add(new SProblem(PState.WARNING, PType.FWDJOIN, (EObject) p, methods,
+				problems.add(new SResult(PState.WARNING, ResponsibilityType.FORWARD, (EObject) p, methods,
 						"Outgoing asset <" + outComeAsset.getName() + "> from a contract hasn't been implemented."));
 				System.err.println("Outgoing asset hasn't been implemented.");
 				continue;
@@ -408,21 +348,21 @@ public class DataProcessingCheck {
 					}
 					if (counter > 1) {
 						// divergence
-						problems.add(new SProblem(PState.WARNING, PType.FWDJOIN, (EObject) p, methods,
+						problems.add(new SResult(PState.WARNING, ResponsibilityType.FORWARD, (EObject) p, methods,
 								"More than one flow is communicating the asset <" + expectedAsset.getName()
 										+ "> upon process entry."));
 						System.err.println("More than one flow is communicating the asset <" + expectedAsset.getName()
 								+ "> upon process entry.");
 					} else if (counter < 1) {
 						// absence
-						problems.add(new SProblem(PState.WARNING, PType.FWDJOIN, (EObject) p, methods,
+						problems.add(new SResult(PState.WARNING, ResponsibilityType.FORWARD, (EObject) p, methods,
 								"No flow is communicating the asset <" + expectedAsset.getName()
 										+ "> upon process entry."));
 						System.err.println("No flow is communicating the asset <" + expectedAsset.getName()
 								+ "> upon process entry.");
 					} else {
 						// convergence
-						problems.add(new SProblem(PState.OK, PType.FWDJOIN, (EObject) p, methods,
+						problems.add(new SResult(PState.SUCCESS, ResponsibilityType.FORWARD, (EObject) p, methods,
 								"Outgoing asset <" + outComeAsset.getName() + "> has correct flow."));
 						System.out.println("Outgoing asset has correct flow: <" + outComeAsset.getName() + ">");
 					}

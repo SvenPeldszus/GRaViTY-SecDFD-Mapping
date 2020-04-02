@@ -1,7 +1,7 @@
 {
    "contracts":[
       {
-         "encrypt":[
+         "encryptorhash":[
             {
                "secdfd":"encrypt_absence_setpasswordrecovery",
                "element":"Put_value"
@@ -17,7 +17,7 @@
          ]
       },
       {
-         "fwdjoin":[
+         "forward":[
             {
                "secdfd":"storepassword",
                "element":"Find_node"

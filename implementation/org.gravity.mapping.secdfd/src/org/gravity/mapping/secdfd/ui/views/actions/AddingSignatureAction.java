@@ -1,14 +1,11 @@
 package org.gravity.mapping.secdfd.ui.views.actions;
 
+import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.stream.Collectors;
-
 import org.apache.log4j.Logger;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.gravity.mapping.secdfd.checks.ContractCheck;
-import org.gravity.mapping.secdfd.checks.Crypto;
 import org.gravity.mapping.secdfd.ui.views.MappingView;
 import org.gravity.typegraph.basic.TMethodDefinition;
 import org.secdfd.model.ResponsibilityType;
@@ -28,28 +25,26 @@ public final class AddingSignatureAction extends Action {
 	private final MappingView mappingView;
 
 	private final Collection<TMethodDefinition> selectedPMObjects;
-	private Boolean encrypt;
+	private ResponsibilityType rs;
 
-	public AddingSignatureAction(MappingView map, Boolean encrypt, Collection<TMethodDefinition> selected) {
+	public AddingSignatureAction(MappingView map, ResponsibilityType rs, Collection<TMethodDefinition> selected) {
 		this.selectedPMObjects = selected;
-		this.encrypt = encrypt;
+		this.rs = rs;
 		this.mappingView = map;
 	}
 
 	@Override
 	public void run() {
-		ContractCheck checker;
-		if(encrypt) {
-			checker = new ContractCheck(mappingView.getGravityFolder(),
+		try {
+			ContractCheck checker = new ContractCheck(mappingView.getGravityFolder(),
 					mappingView.getProgramModel().getValue(), mappingView.getMappers().values(),
-					Collections.singleton(new Crypto(ResponsibilityType.ENCRYPT_OR_HASH)));
-		}else {
-			checker = new ContractCheck(mappingView.getGravityFolder(),
-					mappingView.getProgramModel().getValue(), mappingView.getMappers().values(),
-					Collections.singleton(new Crypto(ResponsibilityType.DECRYPT)));
+					"encrypt-signatures.txt", "decrypt-signatures.txt");
+			selectedPMObjects.forEach(sig -> checker.addSignature(sig, rs));
+			// mappingView.update();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		selectedPMObjects.forEach(sig -> checker.addSignature(sig));
-		// mappingView.update();
+
 	}
 
 	@Override

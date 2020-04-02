@@ -11,12 +11,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import java.util.Map.Entry;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.CoreException;
@@ -24,14 +24,11 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.ecore.EObject;
 import org.gravity.mapping.secdfd.mapping.Mapper;
-import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TypeGraph;
+import org.secdfd.dsl.validation.SResult;
+import org.secdfd.dsl.validation.SResult.PState;
 import org.secdfd.dsl.validation.SecDFDValidator;
-import org.secdfd.dsl.validation.SProblem;
-import org.secdfd.dsl.validation.SProblem.PState;
-import org.secdfd.dsl.validation.SProblem.PType;
-
 import org.secdfd.model.Process;
 import org.secdfd.model.Responsibility;
 import org.secdfd.model.ResponsibilityType;
@@ -52,79 +49,65 @@ public class ContractCheck {
 
 	public static final String MAPPING_MARKER = "org.gravity.mapping.secdfd.markers.java";
 
-	Map<Crypto, Set<TMethodDefinition>> signatures;
+	Map<ResponsibilityType, Set<TMethodDefinition>> signatures;
 
-	Set<SProblem> problems;
+	Set<SResult> results;
 
 	/**
 	 * The location at which the signatures should be stored
 	 */
 	private IFolder destination;
+	private Map<ResponsibilityType, String> files;
 	/**
 	 * The correspondence model
 	 */
 	private Collection<Mapper> mappers;
 
 	private TypeGraph pm;
-	private Collection<Crypto> crypto;
 
-	/**
-	 * @param dest
-	 * @param pm
-	 * @param mappers
-	 */
-	/**
-	 * @param dest
-	 * @param pm
-	 * @param mappers
-	 */
-	public ContractCheck(IFolder dest, TypeGraph pm, Collection<Mapper> mappers, Collection<Crypto> crypto) {
+	public ContractCheck(IFolder dest, TypeGraph pm, Collection<Mapper> mappers, String encryptFilename,
+			String decryptFilename) throws IOException {
 		this.destination = dest;
 		this.mappers = mappers;
 		this.pm = pm;
-		this.crypto = crypto;
+		this.files = new HashMap<>();
+		files.put(ResponsibilityType.ENCRYPT_OR_HASH, encryptFilename);
+		files.put(ResponsibilityType.DECRYPT, decryptFilename);
 
-		signatures = new HashMap<>();
-		problems = new HashSet<>();
+		signatures = loadSignaturesFromFile();
+		results = new HashSet<>();
 		// write to user displayed file
-		writeSignaturesToFile();
+		// writeSignaturesToFile();
 	}
 
-	/*
-	 * 1) find existing correspondences for secDFD 'encrypt/decrypt' contracts on
-	 * processes 2) if correspondences include at least one implementation
-	 * (TMethodImpl) with signature, consider it implemented (we don't care how
-	 * correct it is implemented) ?3) optional extension: propagate encrypted values
-	 * FlowDroid
-	 *
-	 */
-	/**
-	 * @return
-	 * @throws IOException
-	 */
-	public void checkSecurityContracts() throws IOException {
+	public void checkDecryptContract() throws IOException {
 		mappers.forEach(mapper -> {
-			crypto.forEach(c -> {
-				try {
-					checkContract(mapper, c);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			});
+			ResponsibilityType contractType = ResponsibilityType.DECRYPT;
+			Set<Process> processes = getRelevantProcesses(mapper, contractType);
+			if (processes.isEmpty())
+				return;
+			results.addAll(findResults(mapper, processes, contractType));
 		});
+		updateMarkers();
 	}
-
-	private void checkContract(Mapper mapper, Crypto cryptoType) throws IOException {
-		Set<Process> processes = getRelevantProcesses(mapper, cryptoType.getType());
-		if (processes.isEmpty())
-			return;
-		if (cryptoType.getFileName()!=null) {
-			// load signatures from file (encrypt/decrypt)
-			loadSignaturesFromFile(cryptoType);
-			problems.addAll(findProblems(mapper, processes, cryptoType));
-		} else {
-			// some other contract type (fwd, join,...) to be refined when fwd/join check is
-			// cleaned
+	
+	public void checkEncryptContract() throws IOException {
+		mappers.forEach(mapper -> {
+			ResponsibilityType contractType = ResponsibilityType.ENCRYPT_OR_HASH;
+			Set<Process> processes = getRelevantProcesses(mapper, contractType);
+			if (processes.isEmpty())
+				return;
+			results.addAll(findResults(mapper, processes, contractType));
+		});
+		updateMarkers();
+	}
+	
+	public void checkForwardContract() throws IOException {
+		mappers.forEach(mapper -> {
+			ResponsibilityType contractType = ResponsibilityType.FORWARD;
+			Set<Process> processes = getRelevantProcesses(mapper, contractType);
+			if (processes.isEmpty())
+				return;
 			DataProcessingCheck dataProcessing = new DataProcessingCheck();
 			FlowEntryExit entryExit = new FlowEntryExit(mappers);
 			processes.forEach(p -> {
@@ -132,56 +115,48 @@ public class ContractCheck {
 						.filter(Responsibility.class::isInstance).map(r -> (Responsibility) r)
 						.collect(Collectors.toSet());
 				responsibilities.forEach(res -> {
-					problems.addAll(dataProcessing.check(entryExit.entries, entryExit.exits, p, mapper, res));
+					results.addAll(dataProcessing.check(entryExit.entries, entryExit.exits, p, mapper, res));
 				});
 			});
-		}
+		});
 		updateMarkers();
 	}
 
-	/**
-	 * @param cryptoType
-	 * @throws IOException
-	 */
-	private void loadSignaturesFromFile(Crypto cryptoType) throws IOException {
-		signatures = new HashMap<>();
-		IOException exception = null;
-		File signaturesFile = destination.getFile(cryptoType.getFileName().get()).getLocation().toFile();
-		if (signaturesFile.exists()) {
-			try {
-				for (String s : Files.readAllLines(signaturesFile.toPath())) {
-					signatures.computeIfAbsent(cryptoType, Set -> new HashSet<TMethodDefinition>())
-							.add(pm.getMethodDefinition(s));
-				}
-			} catch (IOException e) {
-				exception = e;
+	private void checkContract(ResponsibilityType contractType) throws IOException {
+		mappers.forEach(mapper -> {
+			Set<Process> processes = getRelevantProcesses(mapper, contractType);
+			if (processes.isEmpty())
+				return;
+			switch (contractType) {
+			case ENCRYPT_OR_HASH:
+				results.addAll(findResults(mapper, processes, contractType));
+				break;
+			case DECRYPT:
+				results.addAll(findResults(mapper, processes, contractType));
+				break;
+			case FORWARD:
+				DataProcessingCheck dataProcessing = new DataProcessingCheck();
+				FlowEntryExit entryExit = new FlowEntryExit(mappers);
+				processes.forEach(p -> {
+					Set<Responsibility> responsibilities = p.eContents().parallelStream()
+							.filter(Responsibility.class::isInstance).map(r -> (Responsibility) r)
+							.collect(Collectors.toSet());
+					responsibilities.forEach(res -> {
+						results.addAll(dataProcessing.check(entryExit.entries, entryExit.exits, p, mapper, res));
+					});
+				});
+				break;
+			case JOINER:
+				break;
+			default:
+				LOGGER.info("Not supported contract type: " + contractType.getName());
+				break;
 			}
-		}
-		if (exception != null) {
-			throw exception;
-		}
+			updateMarkers();
+		});
 	}
 
-	/**
-	 * @param sig
-	 */
-	public void addSignature(TMethodDefinition sig) {
-		if (crypto.size() > 1) {
-			LOGGER.info("Signature can only be added to a single contract type at a time.");
-			return;
-		} else {
-			Crypto type = crypto.stream().findAny().get();
-			try {
-				loadSignaturesFromFile(type);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			signatures.computeIfAbsent(type, set -> new HashSet<>()).add(sig);
-			writeSignaturesToFile();
-		}
-	}
-
-	public Set<Process> getRelevantProcesses(Mapper mapper, ResponsibilityType resType) {
+	private Set<Process> getRelevantProcesses(Mapper mapper, ResponsibilityType resType) {
 		Set<Process> relevantProcesses = new HashSet<>();
 		Set<Process> processes = mapper.getDFD().getElements().parallelStream().filter(Process.class::isInstance)
 				.map(p -> (Process) p).collect(Collectors.toSet());
@@ -202,18 +177,14 @@ public class ContractCheck {
 	/**
 	 * @param mapper
 	 * @param processes
-	 * @param resType
-	 * @return A set of contract violations (problems) for resType contract.
+	 * @param contractType
+	 * @return A set of contract violations (results) for resType contract.
 	 *         Currently this supports encrypt and decrypt contract types
 	 */
-	private Set<SProblem> findProblems(Mapper mapper, Set<Process> processes, Crypto resType) {
-		Set<SProblem> problems = new HashSet<>();
-		PType problemType;
-		if (resType.getType().getName().toUpperCase().contains("ENCRYPT")) {
-			problemType = PType.ENCRYPT;
-		} else {
-			problemType = PType.DECRYPT;
-		}
+	private Set<SResult> findResults(Mapper mapper, Set<Process> processes, ResponsibilityType ctype) {
+		Set<SResult> problems = new HashSet<>();
+		Set<TMethodDefinition> definitions = signatures.get(ctype);
+
 		// find all the method definitions that are called by each method in
 		// "methods'; if the list of signatures contains at least one, contract is
 		// implemented.
@@ -221,27 +192,73 @@ public class ContractCheck {
 			Set<TMethodDefinition> methods = mapper.getMapping(p);
 			boolean flag = false;
 			for (TMethodDefinition method : methods) {
-				Set<TMember> calling = method.getTAccessing().parallelStream().map(m -> m.getTTarget())
-						.filter(target -> target instanceof TMethodDefinition).collect(Collectors.toSet());
-				flag = calling.parallelStream().anyMatch(c -> {
-					return signatures.get(resType).contains(c);
-				});
+				flag = method.getTAccessing().parallelStream().map(m -> m.getTTarget())
+						.filter(target -> target instanceof TMethodDefinition).anyMatch(c -> {
+							return definitions.contains(c);
+						});
 
 				if (flag) {
-					problems.add(new SProblem(PState.OK, problemType, (EObject) p, methods,
-							"The " + resType.getType().getName() + " contract is implemented."));
+					problems.add(new SResult(PState.SUCCESS, ctype, (EObject) p, methods,
+							"The " + ctype.getName() + " contract is implemented."));
 					return;
 				}
 			}
-			problems.add(new SProblem(PState.WARNING, problemType, (EObject) p, methods,
-					"The " + resType.getType().getName() + " contract is not implemented."));
+			problems.add(new SResult(PState.WARNING, ctype, (EObject) p, methods,
+					"The " + ctype.getName() + " contract is not implemented."));
 		});
 		return problems;
 	}
 
 	/**
+	 * @param contractType
+	 * @throws IOException
+	 */
+	private void loadSignaturesFromFile(ResponsibilityType contractType) throws IOException {
+		signatures = new HashMap<>();
+		IOException exception = null;
+		File signaturesFile = destination.getFile(files.get(contractType)).getLocation().toFile();
+		if (signaturesFile.exists()) {
+			try {
+				for (String s : Files.readAllLines(signaturesFile.toPath())) {
+					signatures.computeIfAbsent(contractType, Set -> new HashSet<TMethodDefinition>())
+							.add(pm.getMethodDefinition(s));
+				}
+			} catch (IOException e) {
+				exception = e;
+			}
+		}
+		if (exception != null) {
+			throw exception;
+		}
+	}
+
+	private Map<ResponsibilityType, Set<TMethodDefinition>> loadSignaturesFromFile() throws IOException {
+		Map<ResponsibilityType, Set<TMethodDefinition>> sigs = new HashMap<>();
+		IOException exception = null;
+		for (Entry<ResponsibilityType, String> entry : files.entrySet()) {
+			File filename = destination.getFile(entry.getValue()).getLocation().toFile();
+			if (filename.exists()) {
+				try {
+					for (String s : Files.readAllLines(filename.toPath())) {
+						sigs.computeIfAbsent(entry.getKey(), Set -> new HashSet<TMethodDefinition>())
+								.add(pm.getMethodDefinition(s));
+					}
+				} catch (IOException e) {
+					exception = e;
+				}
+			}
+		}
+		if (exception != null) {
+			throw exception;
+		}
+		return sigs;
+	}
+
+	/**
 	 * Prepare a file for the user to see all the en/decryption signatures at
 	 * runtime
+	 * 
+	 * @param contractType
 	 * 
 	 */
 	private void writeSignaturesToFile() {
@@ -253,16 +270,16 @@ public class ContractCheck {
 				e.printStackTrace();
 			}
 		}
-		for (Entry<Crypto, Set<TMethodDefinition>> entry : signatures.entrySet()) {
-			File encryptSignaturesFile = destination.getFile(entry.getKey().getFileName().get()).getLocation().toFile();
-			if (!encryptSignaturesFile.exists()) {
+		for (Entry<ResponsibilityType, Set<TMethodDefinition>> entry : signatures.entrySet()) {
+			File signaturesFile = destination.getFile(files.get(entry.getKey())).getLocation().toFile();
+			if (!signaturesFile.exists()) {
 				try {
-					encryptSignaturesFile.createNewFile();
+					signaturesFile.createNewFile();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-			try (FileWriter writer = new FileWriter(encryptSignaturesFile, false)) {
+			try (FileWriter writer = new FileWriter(signaturesFile, false)) {
 				for (TMethodDefinition obj : entry.getValue()) {
 					writer.append(obj.getDefinedBy().getFullyQualifiedName() + '.' + obj.getSignatureString() + '\n');
 				}
@@ -273,11 +290,25 @@ public class ContractCheck {
 	}
 
 	/**
+	 * @param sig
+	 */
+	public void addSignature(TMethodDefinition sig, ResponsibilityType contractType) {
+		try {
+			loadSignaturesFromFile(contractType);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		signatures.computeIfAbsent(contractType, set -> new HashSet<>()).add(sig);
+		writeSignaturesToFile();
+	
+	}
+
+	/**
 	 * Update the marker data for the DFD
 	 */
 	private void updateMarkers() {
 		mappers.forEach(mapper -> {
-			SecDFDValidator.setProblems(problems);
+			SecDFDValidator.setProblems(results);
 			IFile file = destination.getParent()
 					.getFile(new Path("secdfds/" + mapper.getDFD().getName().toString() + ".secdfd"));
 			try {
@@ -293,10 +324,10 @@ public class ContractCheck {
 	}
 
 	/**
-	 * @return the problems
+	 * @return the results
 	 */
-	public Set<SProblem> getProblems() {
-		return problems;
+	public Set<SResult> getProblems() {
+		return results;
 	}
 
 }

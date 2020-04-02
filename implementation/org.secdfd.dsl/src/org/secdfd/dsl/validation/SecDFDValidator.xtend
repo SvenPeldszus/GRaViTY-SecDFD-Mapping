@@ -13,7 +13,7 @@ import java.util.Map
 import java.util.Set
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.validation.Check
-import org.secdfd.dsl.validation.SProblem.PState
+import org.secdfd.dsl.validation.SResult.PState
 
 /**
  * This class contains custom validation rules. 
@@ -24,12 +24,12 @@ class SecDFDValidator extends AbstractSecDFDValidator {
 	
 	//EObject is the edfd instance, the set of strings are the names of the source elements in the program model
 	static Map<String, Set<String>> map = new HashMap();
-	static Set<SProblem> problems;
+	static Set<SResult> problems;
    
     def static setMap(Map<String, Set<String>> newMap){
         map = newMap;
     }
-    def static setProblems(Set<SProblem> pr){
+    def static setProblems(Set<SResult> pr){
     	problems = pr;
     }
     
@@ -62,13 +62,13 @@ class SecDFDValidator extends AbstractSecDFDValidator {
 	@Check(FAST)
 	def SecurityAbsenceInImplementation(EObject eobject){
 		if (eobject instanceof Process){
-			for (SProblem sp : problems){
-				if ((sp.dfdElement as Process).name.equals(eobject.name)){
-					if (sp.state == PState.OK){
-						info(sp.description, ModelPackage.Literals.NAMED_ENTITY__NAME,
+			for (SResult sp : problems){
+				if ((sp.getDfdElement as Process).name.equals(eobject.name)){
+					if (sp.getState == PState.SUCCESS){
+						info(sp.getDescription, ModelPackage.Literals.NAMED_ENTITY__NAME,
 					SECURITY_COMPLIANCE_ABSENCE);
 					} else {
-						error(sp.description, ModelPackage.Literals.NAMED_ENTITY__NAME,
+						error(sp.getDescription, ModelPackage.Literals.NAMED_ENTITY__NAME,
 					SECURITY_COMPLIANCE_ABSENCE);
 					}
 				}
