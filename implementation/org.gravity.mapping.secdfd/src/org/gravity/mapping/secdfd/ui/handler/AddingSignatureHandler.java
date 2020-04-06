@@ -18,6 +18,7 @@ import org.gravity.mapping.secdfd.ui.views.MappingView;
 import org.gravity.mapping.secdfd.ui.views.actions.AddingSignatureAction;
 import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TypeGraph;
+import org.secdfd.model.ResponsibilityType;
 
 /**
  * A handler for manually adding source code signature to a file of encryption
@@ -41,8 +42,12 @@ public class AddingSignatureHandler extends AbstractHandler {
 		ASTNode node = TextEditorHandler.getSelectedASTNode(event);
 		TypeGraph pm = mappingView.getProgramModel().getValue();
 		boolean encrypt = event.getCommand().getId().contains("encrypt");
+		ResponsibilityType rs = null;
+		if (encrypt) rs = ResponsibilityType.ENCRYPT_OR_HASH;
+		else rs = ResponsibilityType.DECRYPT;
 
 		//TODO: Get signature string from node
+		
 		List<EObject> selected = TextEditorHandler.getSelectedPMElement(node, pm);
 		if (selected == null || selected.isEmpty()) {
 			LOGGER.log(Level.ERROR, "Cannot find element in model: " + node);
@@ -53,7 +58,7 @@ public class AddingSignatureHandler extends AbstractHandler {
 		Set<TMethodDefinition> selectedSignatures = selected.parallelStream()
 				.filter(TMethodDefinition.class::isInstance).map(e -> (TMethodDefinition) e)
 				.collect(Collectors.toSet());
-		signatureAction = new AddingSignatureAction(mappingView, encrypt, selectedSignatures);
+		signatureAction = new AddingSignatureAction(mappingView, rs, selectedSignatures);
 		signatureAction.run();
 		return null;
 	}

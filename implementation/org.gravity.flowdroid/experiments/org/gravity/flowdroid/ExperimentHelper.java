@@ -10,20 +10,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.gravity.mapping.secdfd.helpers.CorrespondenceHelper;
 
 /**
  * @author katjat
  *
  */
 public final class ExperimentHelper {
-
-	private static final Logger LOGGER = Logger.getLogger(CorrespondenceHelper.class);
 
 	private ExperimentHelper() {
 		// This class shouldn't be instantiated
@@ -72,6 +68,12 @@ public final class ExperimentHelper {
 		return assetResultOutputFolder;
 	}
 
+	/**
+	 * @param truePositives
+	 * @param falsePositives
+	 * @param falseNegatives
+	 * @return
+	 */
 	public static Collection<String> stringBuilder(HashSet<String> truePositives, HashSet<String> falsePositives,
 			HashSet<String> falseNegatives) {
 		List<String> built = new ArrayList<String>();
@@ -92,21 +94,27 @@ public final class ExperimentHelper {
 				+ '\n');
 		built.add(
 				"Recall = " + ((double) truePositives.size()) / (truePositives.size() + falseNegatives.size()) + '\n');
-		// accummulatedTP += truePositives.size();
-		// accummulatedFP += falsePositives.size();
-		// accummulatedFN += falseNegatives.size();
 		return built;
 	}
 
-	/*
-	 * private Collection<String> stringBuilderAccummulated() { List<String> built =
-	 * new ArrayList<String>(); built.add("TP = " + accummulatedTP + "\n");
-	 * built.add("FP = " + accummulatedFP + "\n"); built.add("FN = " +
-	 * accummulatedFN + "\n");
-	 * built.add("\n\n\n==================================\n");
-	 * built.add("Precision = " + ((double) accummulatedTP) / (accummulatedFP +
-	 * accummulatedTP) + '\n'); built.add("Recall = " + ((double) accummulatedTP) /
-	 * (accummulatedFN + accummulatedTP)); return built; }
+	/**
+	 * @param accummulatedTP
+	 * @param accummulatedFP
+	 * @param accummulatedFN
+	 * @return
 	 */
+	public static Collection<String> stringBuilderAccummulated(Integer accummulatedTP, Integer accummulatedFP, Integer accummulatedFN) {
+		List<String> built = new ArrayList<String>();
+		built.add("\n==================================\n");
+		built.add("Contract validation in current workspace: \n");
+		built.add("TP = " + accummulatedTP + "\n");
+		built.add("FP = " + accummulatedFP + "\n");
+		built.add("FN = " + accummulatedFN + "\n");
+		built.add("\n\n");
+		built.add("Precision = " + ((double) accummulatedTP) / (accummulatedFP + accummulatedTP) + '\n');
+		built.add("Recall = " + ((double) accummulatedTP) / (accummulatedFN + accummulatedTP));
+		built.add("\n==================================\n");
+		return built;
+	}
 
 }

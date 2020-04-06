@@ -1,7 +1,7 @@
 {
    "contracts":[
       {
-         "encrypt":[
+         "encryptorhash":[
             {
                "secdfd":"encrypt_absence_setpasswordrecovery",
                "element":"Put_value"
@@ -13,6 +13,50 @@
             {
                "secdfd":"decrypt_absence_storepassword",
                "element":"Get_value"
+            }
+         ]
+      },
+      {
+         "forward":[
+            {
+               "secdfd":"storepassword",
+               "element":"Find_node"
+            },
+            {
+               "secdfd":"storepassword",
+               "element":"Get_value"
+            },
+            {
+               "secdfd":"decrypt_absence_storepassword",
+               "element":"Find_node"
+            },
+            {
+               "secdfd":"decrypt_absence_storepassword",
+               "element":"Get_value"
+            },
+            {
+               "secdfd":"setpasswordrecovery",
+               "element":"Remove"
+            },
+            {
+               "secdfd":"setpasswordrecovery",
+               "element":"Put_value"
+            },
+            {
+               "secdfd":"setpasswordrecovery",
+               "element":"Find_node"
+            },
+            {
+               "secdfd":"encrypt_absence_setpasswordrecovery",
+               "element":"Remove"
+            },
+            {
+               "secdfd":"encrypt_absence_setpasswordrecovery",
+               "element":"Put_value"
+            },
+            {
+               "secdfd":"encrypt_absence_setpasswordrecovery",
+               "element":"Find_node"
             }
          ]
       }

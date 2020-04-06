@@ -7,45 +7,32 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.gravity.typegraph.basic.TMethodDefinition;
+import org.secdfd.model.ResponsibilityType;
 
 /**
  * A class representing the Problem reported to the user regarding security compliance issue 
  * @author katjat
  *
  */
-public class SProblem {
-	public static enum PType{
-		ENCRYPT, DECRYPT, SUCCESS, FWDJOIN;
-	}
+public class SResult {
 	public static enum PState{
-		OK, WARNING
+		SUCCESS, WARNING, ERROR;
 	}
-	private PType type;
+	private ResponsibilityType type; 
 	private PState state;
-	//TODO: optimize by making dfdelement key for easy access when creating markers?
 	private EObject dfdElement;
 	private Set<TMethodDefinition> pmElement;
 	private String description;
-	private Set<TMethodDefinition> signature;
 
 	/**
 	 * 
 	 */
-	public SProblem(PState state, PType type, EObject dfdElement, Set<TMethodDefinition> pmElement, String description) {
+	public SResult(PState state, ResponsibilityType type, EObject dfdElement, Set<TMethodDefinition> pmElement, String description) {
 		this.state = state;
 		this.type = type;
 		this.dfdElement = dfdElement;
 		this.pmElement = pmElement;
 		this.description = description;
-		this.signature = null;
-	}
-	public SProblem(PState state, PType type, EObject dfdElement, Set<TMethodDefinition> pmElement, String description, Set<TMethodDefinition> signature) {
-		this.state = state;
-		this.type = type;
-		this.dfdElement = dfdElement;
-		this.pmElement = pmElement;
-		this.description = description;
-		this.signature = signature;
 	}
 
 	/**
@@ -58,14 +45,14 @@ public class SProblem {
 	/**
 	 * @return the type
 	 */
-	public PType getType() {
+	public ResponsibilityType getType() {
 		return type;
 	}
 
 	/**
 	 * @param type the type to set
 	 */
-	public void setType(PType type) {
+	public void setType(ResponsibilityType type) {
 		this.type = type;
 	}
 
@@ -110,12 +97,4 @@ public class SProblem {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Set<TMethodDefinition> getTMethodDefinitions() {
-		return signature;
-	}
-	public void setTMethodDefitions(Set<TMethodDefinition> signature) {
-		this.signature = signature;
-	}
-	
-
 }
