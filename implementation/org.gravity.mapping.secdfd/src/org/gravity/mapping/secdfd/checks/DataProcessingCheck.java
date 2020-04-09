@@ -1,6 +1,5 @@
 package org.gravity.mapping.secdfd.checks;
 
-import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,12 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.typegraph.basic.BasicPackage;
 import org.gravity.typegraph.basic.TAbstractFlowElement;
@@ -28,102 +22,80 @@ import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TMethodSignature;
 import org.gravity.typegraph.basic.TParameter;
 import org.gravity.typegraph.basic.TSignature;
-import org.gravity.typegraph.basic.TypeGraph;
 import org.secdfd.dsl.validation.SResult;
 import org.secdfd.dsl.validation.SResult.PState;
 
 import org.secdfd.model.Asset;
-import org.secdfd.model.ModelFactory;
 import org.secdfd.model.Process;
 import org.secdfd.model.Responsibility;
 import org.secdfd.model.ResponsibilityType;
 
 public class DataProcessingCheck {
 
-	public static void main(String[] args) {
-		System.out.println("Test success:");
-		fwdCorrect();
-
-		System.out.println("\nTest fail:");
-		joinFailIsFwd();
-	}
-
-	/**
-	 * 
-	 */
-	private static void joinFailIsFwd() {
-		ResourceSet rs = new ResourceSetImpl();
-		rs.getPackageRegistry().put(BasicPackage.eNS_URI, BasicPackage.eINSTANCE);
-		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
-		TypeGraph pm = (TypeGraph) rs.getResource(URI.createFileURI("instances/ForwardExample.xmi"), true).getContents()
-				.get(0);
-
-		Map<TAbstractType, Asset> assets = new HashMap<>();
-		Asset assetAsset = ModelFactory.eINSTANCE.createAsset();
-		assetAsset.setName("Asset");
-		TAbstractType assetType = pm.getType("(default package).Asset");
-		assets.put(assetType, assetAsset);
-
-		Asset assetMain = ModelFactory.eINSTANCE.createAsset();
-		assetMain.setName("Main");
-		TAbstractType assetMainType = pm.getType("(default package).Main");
-		assets.put(assetMainType, assetMain);
-
-		Set<TMember> methods = new HashSet<>();
-		TMethodDefinition method1 = pm.getMethodDefinition("(default package).Main.method1(Asset):void");
-		methods.add(method1);
-		TMethodDefinition method2 = pm.getMethodDefinition("(default package).Main.method2(Asset):Asset");
-		methods.add(method2);
-
-		TFlow entry = (TFlow) method1.getSignature().getFirstParameter().getIncomingFlows().get(0);
-		Set<TFlow> entries = Collections.singleton(entry);
-
-		TFlow exit = (TFlow) pm.getMethodSignature("exit(Asset):void").getFirstParameter().getIncomingFlows().get(0);
-		Set<TFlow> exits = Collections.singleton(exit);
-
-		Responsibility fwd = ModelFactory.eINSTANCE.createResponsibility();
-		fwd.getAction().add(ResponsibilityType.JOINER);
-		fwd.setProcess(ModelFactory.eINSTANCE.createProcess());
-		fwd.getIncomeassets().add(assetAsset);
-		fwd.getIncomeassets().add(assetMain);
-		fwd.getOutcomeassets().add(assetAsset);
-		//check(entries, exits, methods, null, Collections.singleton(fwd));
-	}
-
-	/**
-	 * 
-	 */
-	private static void fwdCorrect() {
-		ResourceSet rs = new ResourceSetImpl();
-		rs.getPackageRegistry().put(BasicPackage.eNS_URI, BasicPackage.eINSTANCE);
-		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
-		TypeGraph pm = (TypeGraph) rs.getResource(URI.createFileURI("instances/ForwardExample.xmi"), true).getContents()
-				.get(0);
-
-		Asset asset = ModelFactory.eINSTANCE.createAsset();
-		TAbstractType assetType = pm.getType("(default package).Asset");
-
-		Map<TAbstractType, Asset> assets = new HashMap<>();
-		assets.put(assetType, asset);
-
-		Set<TMember> methods = new HashSet<>();
-		TMethodDefinition method1 = pm.getMethodDefinition("(default package).Main.method1(Asset):void");
-		methods.add(method1);
-		TMethodDefinition method2 = pm.getMethodDefinition("(default package).Main.method2(Asset):Asset");
-		methods.add(method2);
-
-		TFlow entry = (TFlow) method1.getSignature().getFirstParameter().getIncomingFlows().get(0);
-		Set<TFlow> entries = Collections.singleton(entry);
-
-		TFlow exit = (TFlow) pm.getMethodSignature("exit(Asset):void").getFirstParameter().getIncomingFlows().get(0);
-		Set<TFlow> exits = Collections.singleton(exit);
-
-		Responsibility fwd = ModelFactory.eINSTANCE.createResponsibility();
-		fwd.getAction().add(ResponsibilityType.FORWARD);
-		fwd.setProcess(ModelFactory.eINSTANCE.createProcess());
-		fwd.getIncomeassets().add(asset);
-		fwd.getOutcomeassets().add(asset);
-		//check(entries, exits, methods, null, Collections.singleton(fwd));
+	public Set<SResult> check(Set<TFlow> entries, Set<TFlow> exits, Process process, Mapper mapper,
+			Responsibility responsibility) {
+		Map<TAbstractType, Asset> assets = mapper.getAssets();
+		Map<Asset, Set<TFlow>> exitMapping = classifyFlows(exits, assets);
+		Set<TMethodDefinition> methods = mapper.getMapping(process);
+		Set<SResult> problems = new HashSet<>();
+	
+		for (Asset outComeAsset : responsibility.getOutcomeassets()) {
+			Set<TFlow> outgoingAssetFlows = exitMapping.get(outComeAsset);
+	
+			if (outgoingAssetFlows == null || outgoingAssetFlows.isEmpty()) {
+				// absence of outgoing flow or asset
+				problems.add(new SResult(PState.WARNING, ResponsibilityType.FORWARD, (EObject) process, methods,
+						"Outgoing asset <" + outComeAsset.getName() + "> from a contract hasn't been implemented."));
+				System.err.println("Outgoing asset hasn't been implemented.");
+				continue;
+			}
+			for (TFlow flow : outgoingAssetFlows) {
+				Set<TFlow> found = searchBackwards(flow, methods);
+	
+				System.out.println(found.stream()
+						.map(f -> f.toString() + " - asset: "
+								+ getCommunicatedAssets(f, assets).stream().map(Object::toString)
+										.collect(Collectors.joining(", ")))
+						.collect(Collectors.joining(",\n", "Found the following entry flows:\n", "\n")));
+	
+				for (Asset expectedAsset : responsibility.getIncomeassets()) {
+					// Exactly one found flow has to communicate this asset
+					int counter = 0;
+					for (TFlow ff : found) {
+						Set<Asset> comma = getCommunicatedAssets(ff, assets);
+						if (comma.contains(expectedAsset)) {
+							counter += 1;
+							if (counter > 1) {
+								// TODO: if expectedAsset has been mapped to the same type more than once, check
+								// if ok: could be that two parameters are passed of the same type (String asset
+								// A, String asset B)
+							}
+						}
+					}
+					if (counter > 1) {
+						// divergence
+						problems.add(new SResult(PState.WARNING, ResponsibilityType.FORWARD, (EObject) process, methods,
+								"More than one flow is communicating the asset <" + expectedAsset.getName()
+										+ "> upon process entry."));
+						System.err.println("More than one flow is communicating the asset <" + expectedAsset.getName()
+								+ "> upon process entry.");
+					} else if (counter < 1) {
+						// absence
+						problems.add(new SResult(PState.WARNING, ResponsibilityType.FORWARD, (EObject) process, methods,
+								"No flow is communicating the asset <" + expectedAsset.getName()
+										+ "> upon process entry."));
+						System.err.println("No flow is communicating the asset <" + expectedAsset.getName()
+								+ "> upon process entry.");
+					} else {
+						// convergence
+						problems.add(new SResult(PState.SUCCESS, ResponsibilityType.FORWARD, (EObject) process, methods,
+								"Outgoing asset <" + outComeAsset.getName() + "> has correct flow."));
+						System.out.println("Outgoing asset has correct flow: <" + outComeAsset.getName() + ">");
+					}
+				}
+			}
+		}
+		return problems;
 	}
 
 	private static Set<TFlow> searchBackwards(TFlow exit, Set<? extends TMember> methods) {
@@ -183,39 +155,6 @@ public class DataProcessingCheck {
 			}
 		}
 		return members;
-	}
-
-	private static Set<TFlow> searchBackwards(TFlow exit, Set<TFlow> entries, Set<TMember> consider) {
-		Set<TFlow> found = new HashSet<>();
-		Deque<TAbstractFlowElement> stack = new LinkedList<>();
-		stack.add(exit);
-		Set<TAbstractFlowElement> seen = new HashSet<>();
-		while (!stack.isEmpty()) {
-			TAbstractFlowElement next = stack.pop();
-			if (seen.contains(next)) {
-				continue;
-			}
-			seen.add(next);
-			if (next instanceof TMethodDefinition) {
-				if (consider.contains(next)) {
-					stack.addAll(next.getIncomingFlows());
-				}
-			} else if (next instanceof TMethodSignature) {
-				stack.addAll(next.getIncomingFlows());
-				stack.addAll(((TMethodSignature) next).getDefinitions());
-			} else if (next instanceof TParameter || next instanceof TAccess) {
-				stack.addAll(next.getIncomingFlows());
-			} else if (next instanceof TFlow) {
-				if (entries.contains(next)) {
-					found.add((TFlow) next);
-				} else {
-					stack.addAll(next.getIncomingFlows());
-				}
-			} else {
-				throw new IllegalStateException("Flow to not supported element: " + next.eClass().getName());
-			}
-		}
-		return found;
 	}
 
 	static Map<Asset, Set<TFlow>> classifyFlows(Set<TFlow> flows, Map<TAbstractType, Asset> assets) {
@@ -304,72 +243,6 @@ public class DataProcessingCheck {
 			return true;
 		}
 		return false;
-	}
-
-	public Set<SResult> check(Set<TFlow> entries, Set<TFlow> exits, Process p, Mapper mapper,
-			Responsibility responsibility) {
-		Map<TAbstractType, Asset> assets = mapper.getAssets();
-		Map<Asset, Set<TFlow>> exitMapping = classifyFlows(exits, assets);
-		Set<TMethodDefinition> methods = mapper.getMapping(p);
-		Set<SResult> problems = new HashSet<>();
-
-		for (Asset outComeAsset : responsibility.getOutcomeassets()) {
-			Set<TFlow> outgoingAssetFlows = exitMapping.get(outComeAsset);
-
-			if (outgoingAssetFlows == null || outgoingAssetFlows.isEmpty()) {
-				// absence of outgoing flow or asset
-				problems.add(new SResult(PState.WARNING, ResponsibilityType.FORWARD, (EObject) p, methods,
-						"Outgoing asset <" + outComeAsset.getName() + "> from a contract hasn't been implemented."));
-				System.err.println("Outgoing asset hasn't been implemented.");
-				continue;
-			}
-			for (TFlow flow : outgoingAssetFlows) {
-				Set<TFlow> found = searchBackwards(flow, methods);
-
-				System.out.println(found.stream()
-						.map(f -> f.toString() + " - asset: "
-								+ getCommunicatedAssets(f, assets).stream().map(Object::toString)
-										.collect(Collectors.joining(", ")))
-						.collect(Collectors.joining(",\n", "Found the following entry flows:\n", "\n")));
-
-				for (Asset expectedAsset : responsibility.getIncomeassets()) {
-					// Exactly one found flow has to communicate this asset
-					int counter = 0;
-					for (TFlow ff : found) {
-						Set<Asset> comma = getCommunicatedAssets(ff, assets);
-						if (comma.contains(expectedAsset)) {
-							counter += 1;
-							if (counter > 1) {
-								// TODO: if expectedAsset has been mapped to the same type more than once, check
-								// if ok: could be that two parameters are passed of the same type (String asset
-								// A, String asset B)
-							}
-						}
-					}
-					if (counter > 1) {
-						// divergence
-						problems.add(new SResult(PState.WARNING, ResponsibilityType.FORWARD, (EObject) p, methods,
-								"More than one flow is communicating the asset <" + expectedAsset.getName()
-										+ "> upon process entry."));
-						System.err.println("More than one flow is communicating the asset <" + expectedAsset.getName()
-								+ "> upon process entry.");
-					} else if (counter < 1) {
-						// absence
-						problems.add(new SResult(PState.WARNING, ResponsibilityType.FORWARD, (EObject) p, methods,
-								"No flow is communicating the asset <" + expectedAsset.getName()
-										+ "> upon process entry."));
-						System.err.println("No flow is communicating the asset <" + expectedAsset.getName()
-								+ "> upon process entry.");
-					} else {
-						// convergence
-						problems.add(new SResult(PState.SUCCESS, ResponsibilityType.FORWARD, (EObject) p, methods,
-								"Outgoing asset <" + outComeAsset.getName() + "> has correct flow."));
-						System.out.println("Outgoing asset has correct flow: <" + outComeAsset.getName() + ">");
-					}
-				}
-			}
-		}
-		return problems;
 	}
 
 }
