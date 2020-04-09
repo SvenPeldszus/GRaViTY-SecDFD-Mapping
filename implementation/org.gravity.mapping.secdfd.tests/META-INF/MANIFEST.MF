@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.gravity.mapping.secdfd.tests;singleton:=true
+Automatic-Module-Name: org.gravity.mapping.secdfd
+Bundle-Name: %pluginName
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: .
+Bundle-ManifestVersion: 2
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Require-Bundle: org.junit,
+ org.secdfd.dsl,
+ org.eclipse.xtext,
+ org.gravity.mapping.secdfd

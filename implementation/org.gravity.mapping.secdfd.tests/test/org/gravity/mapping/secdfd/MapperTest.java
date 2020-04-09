@@ -15,6 +15,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.gravity.mapping.secdfd.helpers.CorrespondenceHelper;
+import org.gravity.mapping.secdfd.mapping.Mapper;
+import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.typegraph.basic.BasicPackage;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TMember;
@@ -22,10 +25,7 @@ import org.gravity.typegraph.basic.TMethod;
 import org.gravity.typegraph.basic.TSignature;
 import org.gravity.typegraph.basic.TypeGraph;
 import org.junit.Test;
-import org.gravity.mapping.secdfd.helpers.CorrespondenceHelper;
-import org.gravity.mapping.secdfd.mapping.Mapper;
-import org.gravity.mapping.secdfd.model.mapping.Mapping;
-
+import org.secdfd.dsl.XtextParser;
 import org.secdfd.model.EDFD;
 import org.secdfd.model.ModelPackage;
 
