@@ -22,6 +22,8 @@
     <!--<sonar.projectKey>gravity</sonar.projectKey>-->
     <sonar.coverage.jacoco.xmlReportPaths>${jacoco.aggregate.reportPaths}/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     <sonar.junit.reportPaths>${maven.multiModuleProjectDirectory}/target/surefire-reports</sonar.junit.reportPaths>
+    
+    <xtext.version>2.21.0</xtext.version>
   </properties>
 	
   <modules>
@@ -105,6 +107,24 @@
               <arch>x86_64</arch>
             </environment>
           </environments>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.xtend</groupId>
+        <artifactId>xtend-maven-plugin</artifactId>
+        <version>${xtext.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>
+              <goal>xtend-install-debug-info</goal>
+              <goal>testCompile</goal>
+              <goal>xtend-test-install-debug-info</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <outputDirectory>xtend-gen</outputDirectory>
         </configuration>
       </plugin>
     </plugins>
