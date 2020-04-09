@@ -17,6 +17,10 @@ import org.secdfd.model.ModelFactory;
  */
 public class EDFDTest extends TestCase {
 
+	public void test() {
+		//TODO: Implement test here
+	}
+
 	/**
 	 * The fixture for this EDFD test case.
 	 * <!-- begin-user-doc -->

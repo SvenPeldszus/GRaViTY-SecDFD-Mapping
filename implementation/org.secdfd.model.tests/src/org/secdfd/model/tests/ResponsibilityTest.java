@@ -17,6 +17,10 @@ import org.secdfd.model.Responsibility;
  */
 public class ResponsibilityTest extends TestCase {
 
+	public void test() {
+		//TODO: Implement test here
+	}
+
 	/**
 	 * The fixture for this Responsibility test case.
 	 * <!-- begin-user-doc -->

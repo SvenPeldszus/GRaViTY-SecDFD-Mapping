@@ -14,6 +14,10 @@ import org.secdfd.model.NamedEntity;
  */
 public abstract class NamedEntityTest extends TestCase {
 
+	public void test() {
+		//TODO: Implement test here
+	}
+
 	/**
 	 * The fixture for this Named Entity test case.
 	 * <!-- begin-user-doc -->

@@ -15,6 +15,10 @@ import org.secdfd.model.ModelFactory;
  */
 public class ExternalEntityTest extends ElementTest {
 
+	public void test() {
+		//TODO: Implement test here
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

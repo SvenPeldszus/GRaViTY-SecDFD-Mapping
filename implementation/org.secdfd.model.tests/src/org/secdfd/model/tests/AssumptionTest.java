@@ -17,6 +17,10 @@ import org.secdfd.model.ModelFactory;
  */
 public class AssumptionTest extends TestCase {
 
+	public void test() {
+		//TODO: Implement test here
+	}
+
 	/**
 	 * The fixture for this Assumption test case.
 	 * <!-- begin-user-doc -->

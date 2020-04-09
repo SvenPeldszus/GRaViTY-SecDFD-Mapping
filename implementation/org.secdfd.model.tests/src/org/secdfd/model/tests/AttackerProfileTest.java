@@ -17,6 +17,10 @@ import org.secdfd.model.ModelFactory;
  */
 public class AttackerProfileTest extends TestCase {
 
+	public void test() {
+		//TODO: Implement test here
+	}
+
 	/**
 	 * The fixture for this Attacker Profile test case.
 	 * <!-- begin-user-doc -->

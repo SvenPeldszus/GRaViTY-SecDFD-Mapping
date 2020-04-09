@@ -14,6 +14,10 @@ import org.secdfd.model.Element;
  */
 public abstract class ElementTest extends TestCase {
 
+	public void test() {
+		//TODO: Implement test here
+	}
+
 	/**
 	 * The fixture for this Element test case.
 	 * <!-- begin-user-doc -->

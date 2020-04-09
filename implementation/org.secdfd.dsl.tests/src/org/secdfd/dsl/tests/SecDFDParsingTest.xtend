@@ -21,7 +21,7 @@ class SecDFDParsingTest {
 	@Test
 	def void loadModel() {
 		val result = parseHelper.parse('''
-			Hello Xtext!
+			EDFD Test []
 		''')
 		Assertions.assertNotNull(result)
 		val errors = result.eResource.errors

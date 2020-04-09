@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-SymbolicName: org.gravity.mapping.secdfd;singleton:=true
 Automatic-Module-Name: org.gravity.mapping.secdfd
 Bundle-Name: %pluginName
-Bundle-Version: 0.0.1.qualifier
+Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .,
  lib/commons-text-1.6.jar,
  lib/gson.jar,
