@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.secdfd.dsl.validation.SResult;
 import org.secdfd.model.NamedEntity;
+import org.secdfd.model.ResponsibilityType;
 
 /**
  * @author katjat
@@ -49,6 +51,7 @@ public class ContractEvaluator {
 
 	private Mapper mapper;
 	private ContractCheck checker;
+	private ContractInjector injector;
 	private IFolder output;
 	private Map<String, List<Map<String, String>>> absenceGT;
 	private Map<String, List<Map<String, String>>> convergenceGT;
@@ -80,6 +83,7 @@ public class ContractEvaluator {
 				mapper.getDFD().getName(), new NullProgressMonitor());
 		this.absenceGT = absenceGT;
 		this.convergenceGT = convergenceGT;
+		this.injector = new ContractInjector(output, new HashMap<>(), mapper, absenceGT, convergenceGT);
 		this.truePositives = new HashSet<String>();
 		this.falsePositives = new HashSet<String>();
 		this.falseNegatives = new HashSet<String>();
@@ -87,12 +91,30 @@ public class ContractEvaluator {
 	}
 
 	/**
+	 * @throws IOException
+	 * @throws CoreException
+	 * 
+	 * First inject contracts, then validate Decrypt
+	 */
+	@Test
+	public void injectAndValdiateDecrypt() throws IOException, CoreException {
+		injector.getInjectTask().put(ResponsibilityType.DECRYPT, 5);
+		try {
+			injector.performTasks();
+			checker.checkDecryptContract();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		validateContract("injected-decrypt-results");
+	}
+	
+	/**
 	 * Run checks for decrypt contracts
 	 * 
 	 * @throws IOException
 	 * @throws CoreException
 	 */
-	@Test
+	//@Test
 	public void valdiateDecrypt() throws IOException, CoreException {
 		try {
 			checker.checkDecryptContract();
@@ -106,7 +128,7 @@ public class ContractEvaluator {
 	 * @throws IOException
 	 * @throws CoreException
 	 */
-	@Test
+	//@Test
 	public void valdiateEncrypt() throws IOException, CoreException {
 		try {
 			checker.checkEncryptContract();
@@ -120,7 +142,7 @@ public class ContractEvaluator {
 	 * @throws IOException
 	 * @throws CoreException
 	 */
-	@Test
+	//@Test
 	public void valdiateForward() throws IOException, CoreException {
 		try {
 			checker.checkForwardContract();
@@ -128,6 +150,20 @@ public class ContractEvaluator {
 			e.printStackTrace();
 		}
 		validateContract("forward-results");
+	}
+	
+	/**
+	 * @throws IOException
+	 * @throws CoreException
+	 */
+	//@Test
+	public void valdiateJoin() throws IOException, CoreException {
+		try {
+			checker.checkJoinContract();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		validateContract("join-results");
 	}
 
 	/**

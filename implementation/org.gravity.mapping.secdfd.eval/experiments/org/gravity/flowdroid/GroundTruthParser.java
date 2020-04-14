@@ -6,18 +6,23 @@ package org.gravity.flowdroid;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
 import org.eclipse.jdt.core.IJavaProject;
+
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 /**
- * @author katjat 
+ * @author katjat
  *
  */
 public final class GroundTruthParser {
@@ -107,6 +112,41 @@ public final class GroundTruthParser {
 		}
 		groundtruth.put(ctype, items);
 		return groundtruth;
+	}
+	
+
+    private static JsonElement toJSON(Object object) throws JsonIOException {
+        if (object instanceof HashMap) {
+            JsonObject json = new JsonObject();
+            HashMap<?, ?> map = (HashMap<?, ?>) object;
+            for (Object key : map.keySet()) {
+                json.add(key.toString(), toJSON(map.get(key)));
+            }
+            return json;
+        } else if (object instanceof Iterable) {
+            JsonArray json = new JsonArray();
+            for (Object value : ((Iterable<?>)object)) {
+                json.add(toJSON(value));
+            }
+            return json;
+        } else {
+            return (JsonElement) object;
+        }
+    }
+
+
+	public static void updateGTFile(File file, Map<String, List<Map<String, String>>> newContent) {
+		if (file.exists()) {
+			//Write JSON file
+	        try (FileWriter f = new FileWriter(file.toString())) {
+	        	f.write(toJSON(newContent).toString());
+	            f.flush();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+		} else {
+			LOGGER.info("The ground truth file does not exist.");
+		}
 	}
 
 }

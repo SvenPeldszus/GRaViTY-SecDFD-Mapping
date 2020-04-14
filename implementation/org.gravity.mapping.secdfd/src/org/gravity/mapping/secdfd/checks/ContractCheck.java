@@ -121,39 +121,26 @@ public class ContractCheck {
 		});
 		updateMarkers();
 	}
-
-	private void checkContract(ResponsibilityType contractType) throws IOException {
+	
+	// Katja: copy of fwd check for now
+	public void checkJoinContract() throws IOException {
 		mappers.forEach(mapper -> {
+			ResponsibilityType contractType = ResponsibilityType.JOINER;
 			Set<Process> processes = getRelevantProcesses(mapper, contractType);
 			if (processes.isEmpty())
 				return;
-			switch (contractType) {
-			case ENCRYPT_OR_HASH:
-				results.addAll(findResults(mapper, processes, contractType));
-				break;
-			case DECRYPT:
-				results.addAll(findResults(mapper, processes, contractType));
-				break;
-			case FORWARD:
-				DataProcessingCheck dataProcessing = new DataProcessingCheck();
-				FlowEntryExit entryExit = new FlowEntryExit(mappers);
-				processes.forEach(p -> {
-					Set<Responsibility> responsibilities = p.eContents().parallelStream()
-							.filter(Responsibility.class::isInstance).map(r -> (Responsibility) r)
-							.collect(Collectors.toSet());
-					responsibilities.forEach(res -> {
-						results.addAll(dataProcessing.check(entryExit.entries, entryExit.exits, p, mapper, res));
-					});
+			DataProcessingCheck dataProcessing = new DataProcessingCheck();
+			FlowEntryExit entryExit = new FlowEntryExit(mappers);
+			processes.forEach(p -> {
+				Set<Responsibility> responsibilities = p.eContents().parallelStream()
+						.filter(Responsibility.class::isInstance).map(r -> (Responsibility) r)
+						.collect(Collectors.toSet());
+				responsibilities.forEach(res -> {
+					results.addAll(dataProcessing.check(entryExit.entries, entryExit.exits, p, mapper, res));
 				});
-				break;
-			case JOINER:
-				break;
-			default:
-				LOGGER.info("Not supported contract type: " + contractType.getName());
-				break;
-			}
-			updateMarkers();
+			});
 		});
+		updateMarkers();
 	}
 
 	private Set<Process> getRelevantProcesses(Mapper mapper, ResponsibilityType resType) {
