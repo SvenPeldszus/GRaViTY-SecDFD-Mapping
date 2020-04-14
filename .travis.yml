@@ -12,4 +12,4 @@ addons:
     token: ${SONAR_TOKEN]
 script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-  - mvn clean verify sonar:sonar -fae -Pcoverage -Dsonar.projectKey=GRaViTY-SecDFD-Mapping -Dmaven.javadoc.skip=true -DtrimStackTrace=false
+  - mvn clean verify sonar:sonar -fae -Dsonar.projectKey=GRaViTY-SecDFD-Mapping -Dmaven.javadoc.skip=true -DtrimStackTrace=false
