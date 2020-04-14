@@ -614,7 +614,7 @@
     </signatures>
   </methods>
   <methods tName="getBytes">
-    <signatures outgoingFlows="//@methods.26/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1 //@methods.293/@signatures.2/@definitions.0/@tAccessing.5/@ownedFlows.0 //@methods.185/@signatures.0/@definitions.0/@tAccessing.3/@ownedFlows.0 //@methods.293/@signatures.2/@definitions.0/@tAccessing.3/@ownedFlows.1 //@methods.267/@signatures.0/@definitions.0/@tAccessing.8/@ownedFlows.0 //@methods.293/@signatures.2/@definitions.0/@tAccessing.16/@ownedFlows.1 //@methods.213/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.1 //@methods.181/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0 //@methods.101/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.0" returnType="//@ownedTypes.34" firstParameter="//@methods.26/@signatures.0/@parameters.0">
+    <signatures outgoingFlows="//@methods.26/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1 //@methods.293/@signatures.2/@definitions.0/@tAccessing.5/@ownedFlows.0 //@methods.185/@signatures.0/@definitions.0/@tAccessing.3/@ownedFlows.0 //@methods.293/@signatures.2/@definitions.0/@tAccessing.3/@ownedFlows.1 //@methods.267/@signatures.0/@definitions.0/@tAccessing.8/@ownedFlows.0 //@methods.293/@signatures.2/@definitions.0/@tAccessing.16/@ownedFlows.1 //@methods.213/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.1 //@methods.181/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0 //@methods.101/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.0" upperBound="-1" returnType="//@ownedTypes.34" firstParameter="//@methods.26/@signatures.0/@parameters.0">
       <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.26/@signatures.0/@definitions.0/@ownedFlows.1 //@methods.26/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.1 //@methods.26/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0 //@methods.26/@signatures.0/@definitions.0/@tAccessing.8/@ownedFlows.0" definedBy="//@ownedTypes.193" accessedBy="//@methods.181/@signatures.0/@definitions.0/@tAccessing.0 //@methods.213/@signatures.0/@definitions.0/@tAccessing.2 //@methods.293/@signatures.2/@definitions.0/@tAccessing.3 //@methods.293/@signatures.2/@definitions.0/@tAccessing.5 //@methods.101/@signatures.0/@definitions.0/@tAccessing.1 //@methods.267/@signatures.0/@definitions.0/@tAccessing.8 //@methods.185/@signatures.0/@definitions.0/@tAccessing.3 //@methods.293/@signatures.2/@definitions.0/@tAccessing.16" returnType="//@ownedTypes.34">
         <ownedFlows incomingFlows="//@methods.26/@signatures.0/@parameters.0" outgoingFlows="//@methods.26/@signatures.0/@definitions.0/@tAccessing.2"/>
         <ownedFlows incomingFlows="//@methods.26/@signatures.0/@parameters.0" outgoingFlows="//@methods.26/@signatures.0/@definitions.0"/>
@@ -658,11 +658,11 @@
         </tAccessing>
         <tModifier tVisibility="TPublic" isStatic="true"/>
       </definitions>
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.59" accessedBy="//@methods.26/@signatures.0/@definitions.0/@tAccessing.0" returnType="//@ownedTypes.34"/>
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.59" accessedBy="//@methods.26/@signatures.0/@definitions.0/@tAccessing.0" upperBound="-1" returnType="//@ownedTypes.34"/>
       <parameters incomingFlows="//@methods.26/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.2 //@methods.293/@signatures.2/@definitions.0/@tAccessing.16/@ownedFlows.0 //@methods.101/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.1 //@methods.181/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1 //@methods.293/@signatures.2/@definitions.0/@tAccessing.5/@ownedFlows.1 //@methods.213/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.0 //@methods.267/@signatures.0/@definitions.0/@tAccessing.8/@ownedFlows.1 //@methods.293/@signatures.2/@definitions.0/@tAccessing.3/@ownedFlows.0 //@methods.185/@signatures.0/@definitions.0/@tAccessing.3/@ownedFlows.1" outgoingFlows="//@methods.26/@signatures.0/@definitions.0/@ownedFlows.2 //@methods.26/@signatures.0/@definitions.0/@ownedFlows.1 //@methods.26/@signatures.0/@definitions.0/@ownedFlows.0" type="//@ownedTypes.59"/>
     </signatures>
-    <signatures outgoingFlows="//@methods.26/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.0" returnType="//@ownedTypes.34">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.59" accessedBy="//@methods.26/@signatures.0/@definitions.0/@tAccessing.2" returnType="//@ownedTypes.34"/>
+    <signatures outgoingFlows="//@methods.26/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.0" upperBound="-1" returnType="//@ownedTypes.34">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.59" accessedBy="//@methods.26/@signatures.0/@definitions.0/@tAccessing.2" upperBound="-1" returnType="//@ownedTypes.34"/>
     </signatures>
   </methods>
   <methods tName="PBEParameterSpec">
@@ -812,7 +812,7 @@
         <tModifier tVisibility="TPublic"/>
       </definitions>
       <parameters incomingFlows="//@methods.32/@signatures.1/@definitions.1/@tAccessing.0/@ownedFlows.1" outgoingFlows="//@methods.32/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1" next="//@methods.32/@signatures.0/@parameters.3" previous="//@methods.32/@signatures.0/@parameters.1" type="//@ownedTypes.19"/>
-      <parameters incomingFlows="//@methods.32/@signatures.1/@definitions.1/@tAccessing.0/@ownedFlows.2" outgoingFlows="//@methods.32/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.1" next="//@methods.32/@signatures.0/@parameters.0" previous="//@methods.32/@signatures.0/@parameters.2" type="//@ownedTypes.34"/>
+      <parameters incomingFlows="//@methods.32/@signatures.1/@definitions.1/@tAccessing.0/@ownedFlows.2" outgoingFlows="//@methods.32/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.1" upperBound="-1" next="//@methods.32/@signatures.0/@parameters.0" previous="//@methods.32/@signatures.0/@parameters.2" type="//@ownedTypes.34"/>
       <parameters incomingFlows="//@methods.32/@signatures.1/@definitions.1/@tAccessing.0/@ownedFlows.0" outgoingFlows="//@methods.32/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.2" next="//@methods.32/@signatures.0/@parameters.1" type="//@ownedTypes.59"/>
       <parameters incomingFlows="//@methods.32/@signatures.1/@definitions.1/@tAccessing.0/@ownedFlows.3" outgoingFlows="//@methods.32/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" previous="//@methods.32/@signatures.0/@parameters.0" type="//@ownedTypes.190"/>
     </signatures>
@@ -838,7 +838,7 @@
         <tModifier tVisibility="TPublic"/>
       </definitions>
       <parameters outgoingFlows="//@methods.32/@signatures.1/@definitions.1/@tAccessing.0/@ownedFlows.1" previous="//@methods.32/@signatures.1/@parameters.1" type="//@ownedTypes.19"/>
-      <parameters outgoingFlows="//@methods.32/@signatures.1/@definitions.1/@tAccessing.0/@ownedFlows.2" next="//@methods.32/@signatures.1/@parameters.0" previous="//@methods.32/@signatures.1/@parameters.2" type="//@ownedTypes.34"/>
+      <parameters outgoingFlows="//@methods.32/@signatures.1/@definitions.1/@tAccessing.0/@ownedFlows.2" upperBound="-1" next="//@methods.32/@signatures.1/@parameters.0" previous="//@methods.32/@signatures.1/@parameters.2" type="//@ownedTypes.34"/>
       <parameters outgoingFlows="//@methods.32/@signatures.1/@definitions.1/@tAccessing.0/@ownedFlows.0" next="//@methods.32/@signatures.1/@parameters.1" type="//@ownedTypes.59"/>
     </signatures>
   </methods>
@@ -853,9 +853,9 @@
     </signatures>
   </methods>
   <methods tName="digest">
-    <signatures outgoingFlows="//@methods.181/@signatures.0/@definitions.0/@tAccessing.11/@ownedFlows.2" returnType="//@ownedTypes.34" firstParameter="//@methods.35/@signatures.0/@parameters.0">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.103" accessedBy="//@methods.181/@signatures.0/@definitions.0/@tAccessing.11" returnType="//@ownedTypes.34"/>
-      <parameters incomingFlows="//@methods.181/@signatures.0/@definitions.0/@tAccessing.11/@ownedFlows.0" type="//@ownedTypes.34"/>
+    <signatures outgoingFlows="//@methods.181/@signatures.0/@definitions.0/@tAccessing.11/@ownedFlows.2" upperBound="-1" returnType="//@ownedTypes.34" firstParameter="//@methods.35/@signatures.0/@parameters.0">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.103" accessedBy="//@methods.181/@signatures.0/@definitions.0/@tAccessing.11" upperBound="-1" returnType="//@ownedTypes.34"/>
+      <parameters incomingFlows="//@methods.181/@signatures.0/@definitions.0/@tAccessing.11/@ownedFlows.0" upperBound="-1" type="//@ownedTypes.34"/>
     </signatures>
   </methods>
   <methods tName="encodeBase64">
@@ -868,7 +868,7 @@
         </tAccessing>
         <tModifier tVisibility="TPublic" isStatic="true"/>
       </definitions>
-      <parameters incomingFlows="//@methods.181/@signatures.0/@definitions.0/@tAccessing.12/@ownedFlows.0" outgoingFlows="//@methods.36/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" type="//@ownedTypes.34"/>
+      <parameters incomingFlows="//@methods.181/@signatures.0/@definitions.0/@tAccessing.12/@ownedFlows.0" outgoingFlows="//@methods.36/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" upperBound="-1" type="//@ownedTypes.34"/>
     </signatures>
   </methods>
   <methods tName="encode">
@@ -921,7 +921,7 @@
         </tAccessing>
         <tModifier tVisibility="TPublic" isStatic="true"/>
       </definitions>
-      <parameters incomingFlows="//@methods.32/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.1 //@methods.248/@signatures.1/@definitions.3/@tAccessing.0/@ownedFlows.0 //@methods.248/@signatures.1/@definitions.3/@tAccessing.4/@ownedFlows.1 //@methods.36/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" outgoingFlows="//@methods.37/@signatures.0/@definitions.0/@ownedFlows.1 //@methods.37/@signatures.0/@definitions.0/@ownedFlows.0 //@methods.37/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.19 //@methods.37/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.12 //@methods.37/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.20 //@methods.37/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.16 //@methods.37/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.13 //@methods.37/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.7 //@methods.37/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.10 //@methods.37/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.5" type="//@ownedTypes.34"/>
+      <parameters incomingFlows="//@methods.32/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.1 //@methods.248/@signatures.1/@definitions.3/@tAccessing.0/@ownedFlows.0 //@methods.248/@signatures.1/@definitions.3/@tAccessing.4/@ownedFlows.1 //@methods.36/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" outgoingFlows="//@methods.37/@signatures.0/@definitions.0/@ownedFlows.1 //@methods.37/@signatures.0/@definitions.0/@ownedFlows.0 //@methods.37/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.19 //@methods.37/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.12 //@methods.37/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.20 //@methods.37/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.16 //@methods.37/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.13 //@methods.37/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.7 //@methods.37/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.10 //@methods.37/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.5" upperBound="-1" type="//@ownedTypes.34"/>
     </signatures>
     <signatures outgoingFlows="//@methods.284/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.2" returnType="//@ownedTypes.59" firstParameter="//@methods.37/@signatures.1/@parameters.0">
       <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.37/@signatures.1/@definitions.0/@ownedFlows.5 //@methods.37/@signatures.1/@definitions.0/@ownedFlows.1 //@methods.37/@signatures.1/@definitions.0/@ownedFlows.3 //@methods.37/@signatures.1/@definitions.0/@tAccessing.6/@ownedFlows.0 //@methods.37/@signatures.1/@definitions.0/@tAccessing.5/@ownedFlows.1 //@methods.37/@signatures.1/@definitions.0/@tAccessing.5/@ownedFlows.3 //@methods.37/@signatures.1/@definitions.0/@tAccessing.5/@ownedFlows.0 //@methods.37/@signatures.1/@definitions.0/@tAccessing.6/@ownedFlows.1 //@methods.37/@signatures.1/@definitions.0/@tAccessing.6/@ownedFlows.3 //@methods.37/@signatures.1/@definitions.0/@tAccessing.4/@ownedFlows.1 //@methods.37/@signatures.1/@definitions.0/@tAccessing.15/@ownedFlows.0 //@methods.37/@signatures.1/@definitions.0/@tAccessing.12/@ownedFlows.0 //@methods.37/@signatures.1/@definitions.0/@tAccessing.11/@ownedFlows.1 //@methods.37/@signatures.1/@definitions.0/@tAccessing.10/@ownedFlows.0" definedBy="//@ownedTypes.203" accessedBy="//@methods.284/@signatures.0/@definitions.0/@tAccessing.0" returnType="//@ownedTypes.59">
@@ -1342,8 +1342,8 @@
     </signatures>
   </methods>
   <methods tName="getProviders">
-    <signatures outgoingFlows="//@methods.317/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1" returnType="//@ownedTypes.116">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.64" accessedBy="//@methods.317/@signatures.0/@definitions.0/@tAccessing.0" returnType="//@ownedTypes.116"/>
+    <signatures outgoingFlows="//@methods.317/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1" upperBound="-1" returnType="//@ownedTypes.116">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.64" accessedBy="//@methods.317/@signatures.0/@definitions.0/@tAccessing.0" upperBound="-1" returnType="//@ownedTypes.116"/>
     </signatures>
   </methods>
   <methods tName="getDefaultPassword">
@@ -1661,7 +1661,7 @@
         <tAccessing xsi:type="org.gravity.typegraph.basic:TCall" tTarget="//@methods.264/@signatures.0/@definitions.0" staticType="//@ownedTypes.214"/>
         <tModifier tVisibility="TPublic"/>
       </definitions>
-      <parameters type="//@ownedTypes.163"/>
+      <parameters upperBound="-1" type="//@ownedTypes.163"/>
     </signatures>
     <signatures returnType="//@ownedTypes.0" firstParameter="//@methods.66/@signatures.1/@parameters.0">
       <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.214" returnType="//@ownedTypes.0">
@@ -1669,7 +1669,7 @@
         <tAccessing xsi:type="org.gravity.typegraph.basic:TCall" tTarget="//@methods.264/@signatures.0/@definitions.0" staticType="//@ownedTypes.214"/>
         <tModifier tVisibility="TPublic"/>
       </definitions>
-      <parameters type="//@ownedTypes.155"/>
+      <parameters upperBound="-1" type="//@ownedTypes.155"/>
     </signatures>
   </methods>
   <methods tName="parseInt">
@@ -2230,7 +2230,7 @@
         </tAccessing>
         <tModifier/>
       </definitions>
-      <parameters incomingFlows="//@methods.316/@signatures.1/@definitions.0/@tAccessing.1/@ownedFlows.3 //@methods.101/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1" outgoingFlows="//@methods.79/@signatures.0/@definitions.0/@tAccessing.4/@ownedFlows.1" previous="//@methods.79/@signatures.0/@parameters.1" type="//@ownedTypes.34"/>
+      <parameters incomingFlows="//@methods.316/@signatures.1/@definitions.0/@tAccessing.1/@ownedFlows.3 //@methods.101/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1" outgoingFlows="//@methods.79/@signatures.0/@definitions.0/@tAccessing.4/@ownedFlows.1" upperBound="-1" previous="//@methods.79/@signatures.0/@parameters.1" type="//@ownedTypes.34"/>
       <parameters incomingFlows="//@methods.101/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.2 //@methods.316/@signatures.1/@definitions.0/@tAccessing.1/@ownedFlows.1" outgoingFlows="//@methods.79/@signatures.0/@definitions.0/@ownedFlows.0 //@methods.79/@signatures.0/@definitions.0/@ownedFlows.1" next="//@methods.79/@signatures.0/@parameters.0" type="//@ownedTypes.199"/>
     </signatures>
   </methods>
@@ -3429,8 +3429,8 @@
     </signatures>
   </methods>
   <methods tName="getByteArray">
-    <signatures returnType="//@ownedTypes.34" firstParameter="//@methods.131/@signatures.0/@parameters.1">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.185" returnType="//@ownedTypes.34">
+    <signatures upperBound="-1" returnType="//@ownedTypes.34" firstParameter="//@methods.131/@signatures.0/@parameters.1">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.185" upperBound="-1" returnType="//@ownedTypes.34">
         <tModifier tVisibility="TPublic"/>
       </definitions>
       <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.131/@signatures.0/@definitions.1/@tAccessing.0/@ownedFlows.3" definedBy="//@ownedTypes.202" returnType="//@ownedTypes.34">
@@ -3451,11 +3451,11 @@
         </tAccessing>
         <tModifier tVisibility="TPublic"/>
       </definitions>
-      <parameters outgoingFlows="//@methods.131/@signatures.0/@definitions.1/@tAccessing.0/@ownedFlows.1" previous="//@methods.131/@signatures.0/@parameters.1" type="//@ownedTypes.34"/>
+      <parameters outgoingFlows="//@methods.131/@signatures.0/@definitions.1/@tAccessing.0/@ownedFlows.1" upperBound="-1" previous="//@methods.131/@signatures.0/@parameters.1" type="//@ownedTypes.34"/>
       <parameters outgoingFlows="//@methods.131/@signatures.0/@definitions.1/@tAccessing.0/@ownedFlows.4" next="//@methods.131/@signatures.0/@parameters.0" type="//@ownedTypes.59"/>
     </signatures>
-    <signatures outgoingFlows="//@methods.131/@signatures.0/@definitions.1/@tAccessing.0/@ownedFlows.0" returnType="//@ownedTypes.34" firstParameter="//@methods.131/@signatures.1/@parameters.1">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.131/@signatures.1/@definitions.0/@ownedFlows.0 //@methods.131/@signatures.1/@definitions.0/@tAccessing.1/@ownedFlows.0 //@methods.131/@signatures.1/@definitions.0/@tAccessing.2/@ownedFlows.0" definedBy="//@ownedTypes.212" accessedBy="//@methods.131/@signatures.0/@definitions.1/@tAccessing.0" returnType="//@ownedTypes.34">
+    <signatures outgoingFlows="//@methods.131/@signatures.0/@definitions.1/@tAccessing.0/@ownedFlows.0" upperBound="-1" returnType="//@ownedTypes.34" firstParameter="//@methods.131/@signatures.1/@parameters.1">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.131/@signatures.1/@definitions.0/@ownedFlows.0 //@methods.131/@signatures.1/@definitions.0/@tAccessing.1/@ownedFlows.0 //@methods.131/@signatures.1/@definitions.0/@tAccessing.2/@ownedFlows.0" definedBy="//@ownedTypes.212" accessedBy="//@methods.131/@signatures.0/@definitions.1/@tAccessing.0" upperBound="-1" returnType="//@ownedTypes.34">
         <ownedFlows incomingFlows="//@methods.131/@signatures.1/@parameters.0" outgoingFlows="//@methods.131/@signatures.1/@definitions.0"/>
         <tAccessing xsi:type="org.gravity.typegraph.basic:TCall" incomingFlows="//@methods.131/@signatures.1/@definitions.0/@tAccessing.0/@ownedFlows.0" outgoingFlows="//@methods.131/@signatures.1/@definitions.0/@tAccessing.2/@ownedFlows.2" tTarget="//@methods.260/@signatures.3/@definitions.0" staticType="//@ownedTypes.212">
           <ownedFlows incomingFlows="//@methods.260/@signatures.3" outgoingFlows="//@methods.131/@signatures.1/@definitions.0/@tAccessing.0"/>
@@ -3474,7 +3474,7 @@
         </tAccessing>
         <tModifier tVisibility="TPublic"/>
       </definitions>
-      <parameters incomingFlows="//@methods.131/@signatures.0/@definitions.1/@tAccessing.0/@ownedFlows.1" outgoingFlows="//@methods.131/@signatures.1/@definitions.0/@ownedFlows.0" next="//@methods.131/@signatures.1/@parameters.2" previous="//@methods.131/@signatures.1/@parameters.1" type="//@ownedTypes.34"/>
+      <parameters incomingFlows="//@methods.131/@signatures.0/@definitions.1/@tAccessing.0/@ownedFlows.1" outgoingFlows="//@methods.131/@signatures.1/@definitions.0/@ownedFlows.0" upperBound="-1" next="//@methods.131/@signatures.1/@parameters.2" previous="//@methods.131/@signatures.1/@parameters.1" type="//@ownedTypes.34"/>
       <parameters incomingFlows="//@methods.131/@signatures.0/@definitions.1/@tAccessing.0/@ownedFlows.4" outgoingFlows="//@methods.131/@signatures.1/@definitions.0/@tAccessing.1/@ownedFlows.1 //@methods.131/@signatures.1/@definitions.0/@tAccessing.0/@ownedFlows.1" next="//@methods.131/@signatures.1/@parameters.0" type="//@ownedTypes.59"/>
       <parameters incomingFlows="//@methods.131/@signatures.0/@definitions.1/@tAccessing.0/@ownedFlows.2" outgoingFlows="//@methods.131/@signatures.1/@definitions.0/@tAccessing.0/@ownedFlows.2" previous="//@methods.131/@signatures.1/@parameters.0" type="//@ownedTypes.190"/>
     </signatures>
@@ -3549,8 +3549,8 @@
     </signatures>
   </methods>
   <methods tName="split">
-    <signatures outgoingFlows="//@methods.115/@signatures.0/@definitions.0/@tAccessing.4/@ownedFlows.1 //@methods.137/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1" returnType="//@ownedTypes.59" firstParameter="//@methods.135/@signatures.0/@parameters.0">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.59" accessedBy="//@methods.137/@signatures.0/@definitions.0/@tAccessing.0 //@methods.115/@signatures.0/@definitions.0/@tAccessing.4" returnType="//@ownedTypes.59"/>
+    <signatures outgoingFlows="//@methods.115/@signatures.0/@definitions.0/@tAccessing.4/@ownedFlows.1 //@methods.137/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1" upperBound="-1" returnType="//@ownedTypes.59" firstParameter="//@methods.135/@signatures.0/@parameters.0">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.59" accessedBy="//@methods.137/@signatures.0/@definitions.0/@tAccessing.0 //@methods.115/@signatures.0/@definitions.0/@tAccessing.4" upperBound="-1" returnType="//@ownedTypes.59"/>
       <parameters type="//@ownedTypes.59"/>
     </signatures>
   </methods>
@@ -3641,8 +3641,8 @@
     </signatures>
   </methods>
   <methods tName="getFederatedConfigs">
-    <signatures outgoingFlows="//@methods.261/@signatures.0/@definitions.1/@tAccessing.8/@ownedFlows.1" returnType="//@ownedTypes.150">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.139/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.1 //@methods.139/@signatures.0/@definitions.0/@tAccessing.4/@ownedFlows.1" definedBy="//@ownedTypes.210" accessedBy="//@methods.261/@signatures.0/@definitions.1/@tAccessing.8" returnType="//@ownedTypes.150">
+    <signatures outgoingFlows="//@methods.261/@signatures.0/@definitions.1/@tAccessing.8/@ownedFlows.1" upperBound="-1" returnType="//@ownedTypes.150">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.139/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.1 //@methods.139/@signatures.0/@definitions.0/@tAccessing.4/@ownedFlows.1" definedBy="//@ownedTypes.210" accessedBy="//@methods.261/@signatures.0/@definitions.1/@tAccessing.8" upperBound="-1" returnType="//@ownedTypes.150">
         <tAccessing xsi:type="org.gravity.typegraph.basic:TCall" incomingFlows="//@methods.139/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.1 //@methods.139/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" outgoingFlows="//@methods.139/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1" tTarget="//@methods.251/@signatures.0/@definitions.0" staticType="//@ownedTypes.213">
           <ownedFlows incomingFlows="//@methods.251/@signatures.0" outgoingFlows="//@methods.139/@signatures.0/@definitions.0/@tAccessing.0"/>
           <ownedFlows incomingFlows="//@methods.139/@signatures.0/@definitions.0/@tAccessing.0" outgoingFlows="//@methods.139/@signatures.0/@definitions.0/@tAccessing.3"/>
@@ -3801,8 +3801,8 @@
     </signatures>
   </methods>
   <methods tName="toCharArray">
-    <signatures outgoingFlows="//@methods.258/@signatures.0/@definitions.0/@tAccessing.6/@ownedFlows.0 //@methods.244/@signatures.1/@definitions.0/@tAccessing.1/@ownedFlows.1 //@methods.237/@signatures.1/@definitions.0/@tAccessing.0/@ownedFlows.3 //@fields.68/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0 //@methods.275/@signatures.0/@definitions.0/@tAccessing.22/@ownedFlows.0 //@methods.213/@signatures.0/@definitions.0/@tAccessing.15/@ownedFlows.0 //@fields.70/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1 //@methods.258/@signatures.1/@definitions.0/@tAccessing.6/@ownedFlows.0" returnType="//@ownedTypes.17">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.59" accessedBy="//@fields.68/@signatures.0/@definitions.0/@tAccessing.0 //@methods.237/@signatures.1/@definitions.0/@tAccessing.0 //@fields.70/@signatures.0/@definitions.0/@tAccessing.0 //@methods.213/@signatures.0/@definitions.0/@tAccessing.15 //@methods.258/@signatures.0/@definitions.0/@tAccessing.6 //@methods.258/@signatures.1/@definitions.0/@tAccessing.6 //@methods.275/@signatures.0/@definitions.0/@tAccessing.22 //@methods.244/@signatures.1/@definitions.0/@tAccessing.1" returnType="//@ownedTypes.17"/>
+    <signatures outgoingFlows="//@methods.258/@signatures.0/@definitions.0/@tAccessing.6/@ownedFlows.0 //@methods.244/@signatures.1/@definitions.0/@tAccessing.1/@ownedFlows.1 //@methods.237/@signatures.1/@definitions.0/@tAccessing.0/@ownedFlows.3 //@fields.68/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0 //@methods.275/@signatures.0/@definitions.0/@tAccessing.22/@ownedFlows.0 //@methods.213/@signatures.0/@definitions.0/@tAccessing.15/@ownedFlows.0 //@fields.70/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1 //@methods.258/@signatures.1/@definitions.0/@tAccessing.6/@ownedFlows.0" upperBound="-1" returnType="//@ownedTypes.17">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.59" accessedBy="//@fields.68/@signatures.0/@definitions.0/@tAccessing.0 //@methods.237/@signatures.1/@definitions.0/@tAccessing.0 //@fields.70/@signatures.0/@definitions.0/@tAccessing.0 //@methods.213/@signatures.0/@definitions.0/@tAccessing.15 //@methods.258/@signatures.0/@definitions.0/@tAccessing.6 //@methods.258/@signatures.1/@definitions.0/@tAccessing.6 //@methods.275/@signatures.0/@definitions.0/@tAccessing.22 //@methods.244/@signatures.1/@definitions.0/@tAccessing.1" upperBound="-1" returnType="//@ownedTypes.17"/>
     </signatures>
   </methods>
   <methods tName="getProperty">
@@ -3868,7 +3868,7 @@
   <methods tName="valueOf">
     <signatures outgoingFlows="//@fields.112/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1" returnType="//@ownedTypes.59" firstParameter="//@methods.147/@signatures.0/@parameters.0">
       <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.59" accessedBy="//@fields.112/@signatures.0/@definitions.0/@tAccessing.0" returnType="//@ownedTypes.59"/>
-      <parameters incomingFlows="//@fields.112/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" type="//@ownedTypes.17"/>
+      <parameters incomingFlows="//@fields.112/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" upperBound="-1" type="//@ownedTypes.17"/>
     </signatures>
   </methods>
   <methods tName="putDouble">
@@ -3972,7 +3972,7 @@
     </signatures>
   </methods>
   <methods tName="keys">
-    <signatures outgoingFlows="//@methods.153/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1 //@methods.331/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.0" returnType="//@ownedTypes.59">
+    <signatures outgoingFlows="//@methods.153/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1 //@methods.331/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.0" upperBound="-1" returnType="//@ownedTypes.59">
       <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.153/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" definedBy="//@ownedTypes.202" returnType="//@ownedTypes.59">
         <tAnnotation type="//@ownedTypes.84"/>
         <tAccessing xsi:type="org.gravity.typegraph.basic:TCall" incomingFlows="//@methods.153/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1 //@methods.153/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.0" outgoingFlows="//@methods.153/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" tTarget="//@methods.153/@signatures.0/@definitions.1" staticType="//@ownedTypes.212">
@@ -4009,7 +4009,7 @@
         </tAccessing>
         <tModifier tVisibility="TPublic"/>
       </definitions>
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.185" accessedBy="//@methods.331/@signatures.0/@definitions.0/@tAccessing.1" returnType="//@ownedTypes.59">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.185" accessedBy="//@methods.331/@signatures.0/@definitions.0/@tAccessing.1" upperBound="-1" returnType="//@ownedTypes.59">
         <tModifier tVisibility="TPublic"/>
       </definitions>
     </signatures>
@@ -4572,8 +4572,8 @@
     </signatures>
   </methods>
   <methods tName="getData">
-    <signatures outgoingFlows="//@methods.260/@signatures.3/@definitions.0/@tAccessing.3/@ownedFlows.0 //@methods.260/@signatures.3/@definitions.0/@tAccessing.0/@ownedFlows.1 //@methods.182/@signatures.0/@definitions.0/@tAccessing.10/@ownedFlows.0" returnType="//@ownedTypes.34">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.169/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1" definedBy="//@ownedTypes.215" accessedBy="//@methods.260/@signatures.3/@definitions.0/@tAccessing.0 //@methods.260/@signatures.3/@definitions.0/@tAccessing.3 //@methods.182/@signatures.0/@definitions.0/@tAccessing.10" returnType="//@ownedTypes.34">
+    <signatures outgoingFlows="//@methods.260/@signatures.3/@definitions.0/@tAccessing.3/@ownedFlows.0 //@methods.260/@signatures.3/@definitions.0/@tAccessing.0/@ownedFlows.1 //@methods.182/@signatures.0/@definitions.0/@tAccessing.10/@ownedFlows.0" upperBound="-1" returnType="//@ownedTypes.34">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.169/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1" definedBy="//@ownedTypes.215" accessedBy="//@methods.260/@signatures.3/@definitions.0/@tAccessing.0 //@methods.260/@signatures.3/@definitions.0/@tAccessing.3 //@methods.182/@signatures.0/@definitions.0/@tAccessing.10" upperBound="-1" returnType="//@ownedTypes.34">
         <tAccessing xsi:type="org.gravity.typegraph.basic:TRead" incomingFlows="//@methods.169/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" outgoingFlows="//@methods.169/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1" tTarget="//@fields.137/@signatures.0/@definitions.0">
           <ownedFlows incomingFlows="//@fields.137/@signatures.0" outgoingFlows="//@methods.169/@signatures.0/@definitions.0/@tAccessing.0"/>
           <ownedFlows incomingFlows="//@methods.169/@signatures.0/@definitions.0/@tAccessing.0" outgoingFlows="//@methods.169/@signatures.0/@definitions.0"/>
@@ -5182,12 +5182,12 @@
         </tAccessing>
         <tModifier isStatic="true"/>
       </definitions>
-      <parameters incomingFlows="//@methods.258/@signatures.0/@definitions.0/@tAccessing.5/@ownedFlows.0 //@methods.213/@signatures.0/@definitions.0/@tAccessing.13/@ownedFlows.1" outgoingFlows="//@methods.181/@signatures.0/@definitions.0/@ownedFlows.0 //@methods.181/@signatures.0/@definitions.0/@ownedFlows.1" type="//@ownedTypes.59"/>
+      <parameters incomingFlows="//@methods.258/@signatures.0/@definitions.0/@tAccessing.5/@ownedFlows.0 //@methods.213/@signatures.0/@definitions.0/@tAccessing.13/@ownedFlows.1" outgoingFlows="//@methods.181/@signatures.0/@definitions.0/@ownedFlows.0 //@methods.181/@signatures.0/@definitions.0/@ownedFlows.1" upperBound="-1" type="//@ownedTypes.59"/>
     </signatures>
   </methods>
   <methods tName="internalDecrypt">
-    <signatures outgoingFlows="//@methods.101/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.0 //@methods.331/@signatures.2/@definitions.0/@tAccessing.1/@ownedFlows.2" returnType="//@ownedTypes.34" firstParameter="//@methods.182/@signatures.0/@parameters.1">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.182/@signatures.0/@definitions.0/@tAccessing.6/@ownedFlows.0" definedBy="//@ownedTypes.194" accessedBy="//@methods.101/@signatures.0/@definitions.0/@tAccessing.2 //@methods.331/@signatures.2/@definitions.0/@tAccessing.1" returnType="//@ownedTypes.34">
+    <signatures outgoingFlows="//@methods.101/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.0 //@methods.331/@signatures.2/@definitions.0/@tAccessing.1/@ownedFlows.2" upperBound="-1" returnType="//@ownedTypes.34" firstParameter="//@methods.182/@signatures.0/@parameters.1">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.182/@signatures.0/@definitions.0/@tAccessing.6/@ownedFlows.0" definedBy="//@ownedTypes.194" accessedBy="//@methods.101/@signatures.0/@definitions.0/@tAccessing.2 //@methods.331/@signatures.2/@definitions.0/@tAccessing.1" upperBound="-1" returnType="//@ownedTypes.34">
         <ownedFlows incomingFlows="//@methods.182/@signatures.0/@parameters.1" outgoingFlows="//@methods.182/@signatures.0/@definitions.0/@tAccessing.7"/>
         <ownedFlows incomingFlows="//@methods.182/@signatures.0/@parameters.0" outgoingFlows="//@methods.182/@signatures.0/@definitions.0/@tAccessing.13"/>
         <ownedFlows incomingFlows="//@methods.182/@signatures.0/@parameters.0" outgoingFlows="//@methods.182/@signatures.0/@definitions.0/@tAccessing.10"/>
@@ -6074,8 +6074,8 @@
     </signatures>
   </methods>
   <methods tName="getSalt">
-    <signatures outgoingFlows="//@methods.182/@signatures.0/@definitions.0/@tAccessing.13/@ownedFlows.0" returnType="//@ownedTypes.34">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.205/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" definedBy="//@ownedTypes.215" accessedBy="//@methods.182/@signatures.0/@definitions.0/@tAccessing.13" returnType="//@ownedTypes.34">
+    <signatures outgoingFlows="//@methods.182/@signatures.0/@definitions.0/@tAccessing.13/@ownedFlows.0" upperBound="-1" returnType="//@ownedTypes.34">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.205/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" definedBy="//@ownedTypes.215" accessedBy="//@methods.182/@signatures.0/@definitions.0/@tAccessing.13" upperBound="-1" returnType="//@ownedTypes.34">
         <tAccessing xsi:type="org.gravity.typegraph.basic:TRead" incomingFlows="//@methods.205/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1" outgoingFlows="//@methods.205/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" tTarget="//@fields.60/@signatures.0/@definitions.0">
           <ownedFlows incomingFlows="//@methods.205/@signatures.0/@definitions.0/@tAccessing.0" outgoingFlows="//@methods.205/@signatures.0/@definitions.0"/>
           <ownedFlows incomingFlows="//@fields.60/@signatures.0" outgoingFlows="//@methods.205/@signatures.0/@definitions.0/@tAccessing.0"/>
@@ -6093,8 +6093,8 @@
     </signatures>
   </methods>
   <methods tName="getRoles">
-    <signatures returnType="//@ownedTypes.102">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.207/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" definedBy="//@ownedTypes.208" returnType="//@ownedTypes.102">
+    <signatures upperBound="-1" returnType="//@ownedTypes.102">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.207/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" definedBy="//@ownedTypes.208" upperBound="-1" returnType="//@ownedTypes.102">
         <tAnnotation type="//@ownedTypes.84"/>
         <tAccessing xsi:type="org.gravity.typegraph.basic:TRead" incomingFlows="//@methods.207/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1" outgoingFlows="//@methods.207/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" tTarget="//@fields.189/@signatures.0/@definitions.0">
           <ownedFlows incomingFlows="//@methods.207/@signatures.0/@definitions.0/@tAccessing.0" outgoingFlows="//@methods.207/@signatures.0/@definitions.0"/>
@@ -6333,7 +6333,7 @@
         <tModifier tVisibility="TPublic" isStatic="true"/>
       </definitions>
       <parameters incomingFlows="//@methods.213/@signatures.0/@definitions.1/@tAccessing.0/@ownedFlows.2" outgoingFlows="//@methods.213/@signatures.0/@definitions.0/@tAccessing.23/@ownedFlows.3 //@methods.213/@signatures.0/@definitions.0/@tAccessing.24/@ownedFlows.2 //@methods.213/@signatures.0/@definitions.1/@tAccessing.0/@ownedFlows.0 //@methods.213/@signatures.0/@definitions.1/@tAccessing.0/@ownedFlows.2" next="//@methods.213/@signatures.0/@parameters.2" previous="//@methods.213/@signatures.0/@parameters.1" type="//@ownedTypes.59"/>
-      <parameters incomingFlows="//@methods.213/@signatures.0/@definitions.1/@tAccessing.0/@ownedFlows.1" outgoingFlows="//@methods.213/@signatures.0/@definitions.1/@tAccessing.0/@ownedFlows.1 //@methods.213/@signatures.0/@definitions.0/@tAccessing.13/@ownedFlows.1 //@methods.213/@signatures.0/@definitions.0/@ownedFlows.1 //@methods.213/@signatures.0/@definitions.0/@tAccessing.3/@ownedFlows.2 //@methods.213/@signatures.0/@definitions.0/@ownedFlows.2" next="//@methods.213/@signatures.0/@parameters.0" type="//@ownedTypes.59"/>
+      <parameters incomingFlows="//@methods.213/@signatures.0/@definitions.1/@tAccessing.0/@ownedFlows.1" outgoingFlows="//@methods.213/@signatures.0/@definitions.1/@tAccessing.0/@ownedFlows.1 //@methods.213/@signatures.0/@definitions.0/@tAccessing.13/@ownedFlows.1 //@methods.213/@signatures.0/@definitions.0/@ownedFlows.1 //@methods.213/@signatures.0/@definitions.0/@tAccessing.3/@ownedFlows.2 //@methods.213/@signatures.0/@definitions.0/@ownedFlows.2" upperBound="-1" next="//@methods.213/@signatures.0/@parameters.0" type="//@ownedTypes.59"/>
       <parameters incomingFlows="//@methods.213/@signatures.0/@definitions.1/@tAccessing.0/@ownedFlows.0" outgoingFlows="//@methods.213/@signatures.0/@definitions.0/@ownedFlows.0 //@methods.213/@signatures.0/@definitions.0/@tAccessing.23/@ownedFlows.0 //@methods.293/@signatures.2/@definitions.0/@ownedFlows.2" previous="//@methods.213/@signatures.0/@parameters.0" type="//@ownedTypes.204"/>
     </signatures>
   </methods>
@@ -6620,8 +6620,8 @@
     </signatures>
   </methods>
   <methods tName="childrenNames">
-    <signatures outgoingFlows="//@methods.331/@signatures.0/@definitions.0/@tAccessing.5/@ownedFlows.0 //@methods.228/@signatures.0/@definitions.2/@tAccessing.0/@ownedFlows.0" returnType="//@ownedTypes.59">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.185" accessedBy="//@methods.331/@signatures.0/@definitions.0/@tAccessing.5" returnType="//@ownedTypes.59">
+    <signatures outgoingFlows="//@methods.331/@signatures.0/@definitions.0/@tAccessing.5/@ownedFlows.0 //@methods.228/@signatures.0/@definitions.2/@tAccessing.0/@ownedFlows.0" upperBound="-1" returnType="//@ownedTypes.59">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.185" accessedBy="//@methods.331/@signatures.0/@definitions.0/@tAccessing.5" upperBound="-1" returnType="//@ownedTypes.59">
         <tModifier tVisibility="TPublic"/>
       </definitions>
       <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.228/@signatures.0/@definitions.1/@tAccessing.1/@ownedFlows.0 //@methods.228/@signatures.0/@definitions.1/@tAccessing.0/@ownedFlows.1 //@methods.228/@signatures.0/@definitions.1/@tAccessing.3/@ownedFlows.1 //@methods.228/@signatures.0/@definitions.1/@tAccessing.4/@ownedFlows.0" definedBy="//@ownedTypes.212" accessedBy="//@methods.228/@signatures.0/@definitions.2/@tAccessing.0" returnType="//@ownedTypes.59">
@@ -6723,8 +6723,8 @@
     </signatures>
   </methods>
   <methods tName="getPasswordRecoveryQuestions">
-    <signatures returnType="//@ownedTypes.59" firstParameter="//@methods.230/@signatures.0/@parameters.1">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.230/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.2" definedBy="//@ownedTypes.224" returnType="//@ownedTypes.59">
+    <signatures upperBound="-1" returnType="//@ownedTypes.59" firstParameter="//@methods.230/@signatures.0/@parameters.1">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.230/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.2" definedBy="//@ownedTypes.224" upperBound="-1" returnType="//@ownedTypes.59">
         <ownedFlows incomingFlows="//@methods.230/@signatures.0/@parameters.1"/>
         <tAccessing xsi:type="org.gravity.typegraph.basic:TCall" incomingFlows="//@methods.230/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1" outgoingFlows="//@methods.230/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.2" tTarget="//@methods.230/@signatures.1/@definitions.0" staticType="//@ownedTypes.207">
           <ownedFlows incomingFlows="//@methods.230/@signatures.0/@parameters.0" outgoingFlows="//@methods.230/@signatures.1/@parameters.0"/>
@@ -6744,8 +6744,8 @@
       <parameters outgoingFlows="//@methods.230/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" previous="//@methods.230/@signatures.0/@parameters.1" type="//@ownedTypes.59"/>
       <parameters outgoingFlows="//@methods.230/@signatures.0/@definitions.0/@ownedFlows.0" next="//@methods.230/@signatures.0/@parameters.0" type="//@ownedTypes.185"/>
     </signatures>
-    <signatures outgoingFlows="//@methods.230/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1" returnType="//@ownedTypes.59" firstParameter="//@methods.230/@signatures.1/@parameters.1">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.230/@signatures.1/@definitions.0/@tAccessing.7/@ownedFlows.0 //@methods.230/@signatures.1/@definitions.0/@tAccessing.2/@ownedFlows.0 //@methods.230/@signatures.1/@definitions.0/@tAccessing.3/@ownedFlows.2" definedBy="//@ownedTypes.207" accessedBy="//@methods.230/@signatures.0/@definitions.0/@tAccessing.0" returnType="//@ownedTypes.59">
+    <signatures outgoingFlows="//@methods.230/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1" upperBound="-1" returnType="//@ownedTypes.59" firstParameter="//@methods.230/@signatures.1/@parameters.1">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.230/@signatures.1/@definitions.0/@tAccessing.7/@ownedFlows.0 //@methods.230/@signatures.1/@definitions.0/@tAccessing.2/@ownedFlows.0 //@methods.230/@signatures.1/@definitions.0/@tAccessing.3/@ownedFlows.2" definedBy="//@ownedTypes.207" accessedBy="//@methods.230/@signatures.0/@definitions.0/@tAccessing.0" upperBound="-1" returnType="//@ownedTypes.59">
         <tAccessing xsi:type="org.gravity.typegraph.basic:TCall" incomingFlows="//@methods.230/@signatures.1/@definitions.0/@tAccessing.0/@ownedFlows.0" outgoingFlows="//@methods.230/@signatures.1/@definitions.0/@tAccessing.2/@ownedFlows.3 //@methods.230/@signatures.1/@definitions.0/@tAccessing.2/@ownedFlows.5" tTarget="//@methods.248/@signatures.4/@definitions.0" staticType="//@ownedTypes.112">
           <ownedFlows incomingFlows="//@methods.248/@signatures.4" outgoingFlows="//@methods.230/@signatures.1/@definitions.0/@tAccessing.0"/>
         </tAccessing>
@@ -6980,8 +6980,8 @@
       </definitions>
       <parameters incomingFlows="//@methods.240/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" outgoingFlows="//@methods.237/@signatures.0/@definitions.0/@ownedFlows.5 //@methods.237/@signatures.0/@definitions.0/@ownedFlows.7 //@methods.237/@signatures.0/@definitions.0/@ownedFlows.0 //@methods.237/@signatures.0/@definitions.0/@ownedFlows.2 //@methods.237/@signatures.0/@definitions.0/@ownedFlows.4 //@methods.237/@signatures.0/@definitions.0/@ownedFlows.6 //@methods.237/@signatures.0/@definitions.0/@ownedFlows.3 //@methods.237/@signatures.0/@definitions.0/@ownedFlows.1" type="//@ownedTypes.59"/>
     </signatures>
-    <signatures outgoingFlows="//@methods.131/@signatures.1/@definitions.0/@tAccessing.2/@ownedFlows.1 //@methods.296/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.2 //@methods.140/@signatures.1/@definitions.0/@tAccessing.0/@ownedFlows.1 //@methods.140/@signatures.1/@definitions.0/@tAccessing.11/@ownedFlows.4" returnType="//@ownedTypes.34" firstParameter="//@methods.237/@signatures.1/@parameters.0">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.237/@signatures.1/@definitions.0/@ownedFlows.0 //@methods.237/@signatures.1/@definitions.0/@tAccessing.7/@ownedFlows.0 //@methods.237/@signatures.1/@definitions.0/@tAccessing.1/@ownedFlows.1 //@methods.237/@signatures.1/@definitions.0/@tAccessing.0/@ownedFlows.0 //@methods.237/@signatures.1/@definitions.0/@tAccessing.3/@ownedFlows.2 //@methods.237/@signatures.1/@definitions.0/@tAccessing.0/@ownedFlows.4 //@methods.237/@signatures.1/@definitions.0/@tAccessing.5/@ownedFlows.1 //@methods.237/@signatures.1/@definitions.0/@tAccessing.3/@ownedFlows.0 //@methods.237/@signatures.1/@definitions.0/@tAccessing.0/@ownedFlows.2 //@methods.237/@signatures.1/@definitions.0/@tAccessing.0/@ownedFlows.1 //@methods.237/@signatures.1/@definitions.0/@tAccessing.4/@ownedFlows.1 //@methods.237/@signatures.1/@definitions.0/@tAccessing.5/@ownedFlows.2 //@methods.237/@signatures.1/@definitions.0/@tAccessing.0/@ownedFlows.5 //@methods.237/@signatures.1/@definitions.0/@tAccessing.8/@ownedFlows.0 //@methods.237/@signatures.1/@definitions.0/@tAccessing.10/@ownedFlows.0 //@methods.237/@signatures.1/@definitions.0/@tAccessing.9/@ownedFlows.0" definedBy="//@ownedTypes.195" accessedBy="//@methods.140/@signatures.1/@definitions.0/@tAccessing.0 //@methods.296/@signatures.0/@definitions.0/@tAccessing.0 //@methods.131/@signatures.1/@definitions.0/@tAccessing.2 //@methods.140/@signatures.1/@definitions.0/@tAccessing.11" returnType="//@ownedTypes.34">
+    <signatures outgoingFlows="//@methods.131/@signatures.1/@definitions.0/@tAccessing.2/@ownedFlows.1 //@methods.296/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.2 //@methods.140/@signatures.1/@definitions.0/@tAccessing.0/@ownedFlows.1 //@methods.140/@signatures.1/@definitions.0/@tAccessing.11/@ownedFlows.4" upperBound="-1" returnType="//@ownedTypes.34" firstParameter="//@methods.237/@signatures.1/@parameters.0">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.237/@signatures.1/@definitions.0/@ownedFlows.0 //@methods.237/@signatures.1/@definitions.0/@tAccessing.7/@ownedFlows.0 //@methods.237/@signatures.1/@definitions.0/@tAccessing.1/@ownedFlows.1 //@methods.237/@signatures.1/@definitions.0/@tAccessing.0/@ownedFlows.0 //@methods.237/@signatures.1/@definitions.0/@tAccessing.3/@ownedFlows.2 //@methods.237/@signatures.1/@definitions.0/@tAccessing.0/@ownedFlows.4 //@methods.237/@signatures.1/@definitions.0/@tAccessing.5/@ownedFlows.1 //@methods.237/@signatures.1/@definitions.0/@tAccessing.3/@ownedFlows.0 //@methods.237/@signatures.1/@definitions.0/@tAccessing.0/@ownedFlows.2 //@methods.237/@signatures.1/@definitions.0/@tAccessing.0/@ownedFlows.1 //@methods.237/@signatures.1/@definitions.0/@tAccessing.4/@ownedFlows.1 //@methods.237/@signatures.1/@definitions.0/@tAccessing.5/@ownedFlows.2 //@methods.237/@signatures.1/@definitions.0/@tAccessing.0/@ownedFlows.5 //@methods.237/@signatures.1/@definitions.0/@tAccessing.8/@ownedFlows.0 //@methods.237/@signatures.1/@definitions.0/@tAccessing.10/@ownedFlows.0 //@methods.237/@signatures.1/@definitions.0/@tAccessing.9/@ownedFlows.0" definedBy="//@ownedTypes.195" accessedBy="//@methods.140/@signatures.1/@definitions.0/@tAccessing.0 //@methods.296/@signatures.0/@definitions.0/@tAccessing.0 //@methods.131/@signatures.1/@definitions.0/@tAccessing.2 //@methods.140/@signatures.1/@definitions.0/@tAccessing.11" upperBound="-1" returnType="//@ownedTypes.34">
         <ownedFlows incomingFlows="//@methods.237/@signatures.1/@parameters.0" outgoingFlows="//@methods.237/@signatures.1/@definitions.0"/>
         <ownedFlows incomingFlows="//@methods.237/@signatures.1/@parameters.0" outgoingFlows="//@methods.237/@signatures.1/@definitions.0/@tAccessing.0"/>
         <tAccessing xsi:type="org.gravity.typegraph.basic:TCall" incomingFlows="//@methods.237/@signatures.1/@definitions.0/@ownedFlows.1 //@methods.237/@signatures.1/@definitions.0/@tAccessing.0/@ownedFlows.3" outgoingFlows="//@methods.237/@signatures.1/@definitions.0/@tAccessing.0/@ownedFlows.1 //@methods.237/@signatures.1/@definitions.0/@tAccessing.0/@ownedFlows.2 //@methods.237/@signatures.1/@definitions.0/@tAccessing.2/@ownedFlows.9 //@methods.237/@signatures.1/@definitions.0/@tAccessing.2/@ownedFlows.1 //@methods.237/@signatures.1/@definitions.0/@tAccessing.2/@ownedFlows.3 //@methods.237/@signatures.1/@definitions.0/@tAccessing.2/@ownedFlows.16 //@methods.237/@signatures.1/@definitions.0/@tAccessing.0/@ownedFlows.0 //@methods.237/@signatures.1/@definitions.0/@tAccessing.0/@ownedFlows.4 //@methods.237/@signatures.1/@definitions.0/@tAccessing.0/@ownedFlows.5" tTarget="//@methods.141/@signatures.0/@definitions.0" staticType="//@ownedTypes.59">
@@ -7505,8 +7505,8 @@
     </signatures>
   </methods>
   <methods tName="getConfigurations">
-    <signatures outgoingFlows="//@methods.139/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" returnType="//@ownedTypes.150">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.251/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0 //@methods.251/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.0 //@methods.251/@signatures.0/@definitions.0/@tAccessing.3/@ownedFlows.0 //@methods.251/@signatures.0/@definitions.0/@tAccessing.5/@ownedFlows.0" definedBy="//@ownedTypes.213" accessedBy="//@methods.139/@signatures.0/@definitions.0/@tAccessing.0" returnType="//@ownedTypes.150">
+    <signatures outgoingFlows="//@methods.139/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" upperBound="-1" returnType="//@ownedTypes.150">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.251/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0 //@methods.251/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.0 //@methods.251/@signatures.0/@definitions.0/@tAccessing.3/@ownedFlows.0 //@methods.251/@signatures.0/@definitions.0/@tAccessing.5/@ownedFlows.0" definedBy="//@ownedTypes.213" accessedBy="//@methods.139/@signatures.0/@definitions.0/@tAccessing.0" upperBound="-1" returnType="//@ownedTypes.150">
         <tAccessing xsi:type="org.gravity.typegraph.basic:TCall" incomingFlows="//@methods.251/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1 //@methods.251/@signatures.0/@definitions.0/@tAccessing.6/@ownedFlows.2" outgoingFlows="//@methods.251/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.1 //@methods.251/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" tTarget="//@methods.133/@signatures.0/@definitions.0" staticType="//@ownedTypes.155">
           <ownedFlows incomingFlows="//@methods.251/@signatures.0/@definitions.0/@tAccessing.0" outgoingFlows="//@methods.251/@signatures.0/@definitions.0"/>
           <ownedFlows incomingFlows="//@methods.133/@signatures.0" outgoingFlows="//@methods.251/@signatures.0/@definitions.0/@tAccessing.0"/>
@@ -7703,7 +7703,7 @@
         <tModifier tVisibility="TPublic" isStatic="true"/>
       </definitions>
       <parameters incomingFlows="//@methods.258/@signatures.1/@definitions.0/@tAccessing.1/@ownedFlows.0" outgoingFlows="//@methods.258/@signatures.0/@definitions.0/@tAccessing.3/@ownedFlows.0" previous="//@methods.258/@signatures.0/@parameters.2" type="//@ownedTypes.59"/>
-      <parameters incomingFlows="//@methods.258/@signatures.1/@definitions.0/@tAccessing.1/@ownedFlows.5" outgoingFlows="//@methods.258/@signatures.0/@definitions.0/@tAccessing.5/@ownedFlows.0" next="//@methods.258/@signatures.0/@parameters.2" type="//@ownedTypes.59"/>
+      <parameters incomingFlows="//@methods.258/@signatures.1/@definitions.0/@tAccessing.1/@ownedFlows.5" outgoingFlows="//@methods.258/@signatures.0/@definitions.0/@tAccessing.5/@ownedFlows.0" upperBound="-1" next="//@methods.258/@signatures.0/@parameters.2" type="//@ownedTypes.59"/>
       <parameters incomingFlows="//@methods.258/@signatures.1/@definitions.0/@tAccessing.1/@ownedFlows.4" outgoingFlows="//@methods.258/@signatures.0/@definitions.0/@tAccessing.3/@ownedFlows.3 //@methods.258/@signatures.0/@definitions.0/@ownedFlows.0" next="//@methods.258/@signatures.0/@parameters.0" previous="//@methods.258/@signatures.0/@parameters.1" type="//@ownedTypes.216"/>
     </signatures>
     <signatures returnType="//@ownedTypes.59" firstParameter="//@methods.258/@signatures.1/@parameters.1">
@@ -7743,7 +7743,7 @@
         <tModifier tVisibility="TPublic" isStatic="true"/>
       </definitions>
       <parameters outgoingFlows="//@methods.258/@signatures.1/@definitions.0/@tAccessing.1/@ownedFlows.0 //@methods.258/@signatures.1/@definitions.0/@tAccessing.5/@ownedFlows.0 //@methods.258/@signatures.1/@definitions.0/@tAccessing.2/@ownedFlows.2" previous="//@methods.258/@signatures.1/@parameters.2" type="//@ownedTypes.59"/>
-      <parameters outgoingFlows="//@methods.258/@signatures.1/@definitions.0/@tAccessing.1/@ownedFlows.5" next="//@methods.258/@signatures.1/@parameters.2" type="//@ownedTypes.59"/>
+      <parameters outgoingFlows="//@methods.258/@signatures.1/@definitions.0/@tAccessing.1/@ownedFlows.5" upperBound="-1" next="//@methods.258/@signatures.1/@parameters.2" type="//@ownedTypes.59"/>
       <parameters outgoingFlows="//@methods.258/@signatures.1/@definitions.0/@ownedFlows.0" next="//@methods.258/@signatures.1/@parameters.0" previous="//@methods.258/@signatures.1/@parameters.1" type="//@ownedTypes.185"/>
     </signatures>
   </methods>
@@ -7892,8 +7892,8 @@
     </signatures>
   </methods>
   <methods tName="getAppConfigurationEntry">
-    <signatures outgoingFlows="//@methods.261/@signatures.0/@definitions.1/@tAccessing.10/@ownedFlows.6" returnType="//@ownedTypes.159" firstParameter="//@methods.261/@signatures.0/@parameters.0">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.150" accessedBy="//@methods.261/@signatures.0/@definitions.1/@tAccessing.10" overriddenBy="//@methods.261/@signatures.0/@definitions.1" returnType="//@ownedTypes.159"/>
+    <signatures outgoingFlows="//@methods.261/@signatures.0/@definitions.1/@tAccessing.10/@ownedFlows.6" upperBound="-1" returnType="//@ownedTypes.159" firstParameter="//@methods.261/@signatures.0/@parameters.0">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.150" accessedBy="//@methods.261/@signatures.0/@definitions.1/@tAccessing.10" upperBound="-1" overriddenBy="//@methods.261/@signatures.0/@definitions.1" returnType="//@ownedTypes.159"/>
       <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.261/@signatures.0/@definitions.1/@tAccessing.10/@ownedFlows.0 //@methods.261/@signatures.0/@definitions.1/@tAccessing.10/@ownedFlows.5 //@methods.261/@signatures.0/@definitions.1/@tAccessing.10/@ownedFlows.3 //@methods.261/@signatures.0/@definitions.1/@tAccessing.17/@ownedFlows.2 //@methods.261/@signatures.0/@definitions.1/@tAccessing.4/@ownedFlows.1 //@methods.261/@signatures.0/@definitions.1/@tAccessing.8/@ownedFlows.0 //@methods.261/@signatures.0/@definitions.1/@tAccessing.17/@ownedFlows.1 //@methods.261/@signatures.0/@definitions.1/@tAccessing.10/@ownedFlows.1 //@methods.261/@signatures.0/@definitions.1/@tAccessing.10/@ownedFlows.7 //@methods.261/@signatures.0/@definitions.1/@tAccessing.17/@ownedFlows.0 //@methods.261/@signatures.0/@definitions.1/@tAccessing.13/@ownedFlows.2 //@methods.261/@signatures.0/@definitions.1/@tAccessing.10/@ownedFlows.4 //@methods.261/@signatures.0/@definitions.1/@tAccessing.17/@ownedFlows.5 //@methods.261/@signatures.0/@definitions.1/@tAccessing.24/@ownedFlows.1 //@methods.261/@signatures.0/@definitions.1/@tAccessing.25/@ownedFlows.1" definedBy="//@ownedTypes.210" overriding="//@methods.261/@signatures.0/@definitions.0" returnType="//@ownedTypes.159">
         <tAnnotation type="//@ownedTypes.84"/>
         <tAccessing xsi:type="org.gravity.typegraph.basic:TCall" incomingFlows="//@methods.261/@signatures.0/@definitions.1/@tAccessing.0/@ownedFlows.0" outgoingFlows="//@methods.261/@signatures.0/@definitions.1/@tAccessing.0/@ownedFlows.1" tTarget="//@methods.319/@signatures.0/@definitions.0" staticType="//@ownedTypes.198">
@@ -8421,7 +8421,7 @@
         </tAccessing>
         <tModifier tVisibility="TPublic" isStatic="true"/>
       </definitions>
-      <parameters outgoingFlows="//@methods.270/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.4" next="//@methods.270/@signatures.0/@parameters.1" previous="//@methods.270/@signatures.0/@parameters.2" type="//@ownedTypes.102"/>
+      <parameters outgoingFlows="//@methods.270/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.4" upperBound="-1" next="//@methods.270/@signatures.0/@parameters.1" previous="//@methods.270/@signatures.0/@parameters.2" type="//@ownedTypes.102"/>
       <parameters outgoingFlows="//@methods.270/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1" previous="//@methods.270/@signatures.0/@parameters.0" type="//@ownedTypes.59"/>
       <parameters outgoingFlows="//@methods.270/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" next="//@methods.270/@signatures.0/@parameters.0" type="//@ownedTypes.59"/>
     </signatures>
@@ -8856,9 +8856,9 @@
     </signatures>
   </methods>
   <methods tName="doFinal">
-    <signatures outgoingFlows="//@methods.182/@signatures.0/@definitions.0/@tAccessing.6/@ownedFlows.2 //@methods.79/@signatures.0/@definitions.0/@tAccessing.4/@ownedFlows.0" returnType="//@ownedTypes.34" firstParameter="//@methods.281/@signatures.0/@parameters.0">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.95" accessedBy="//@methods.79/@signatures.0/@definitions.0/@tAccessing.4 //@methods.182/@signatures.0/@definitions.0/@tAccessing.6" returnType="//@ownedTypes.34"/>
-      <parameters incomingFlows="//@methods.79/@signatures.0/@definitions.0/@tAccessing.4/@ownedFlows.1 //@methods.182/@signatures.0/@definitions.0/@tAccessing.6/@ownedFlows.1" type="//@ownedTypes.34"/>
+    <signatures outgoingFlows="//@methods.182/@signatures.0/@definitions.0/@tAccessing.6/@ownedFlows.2 //@methods.79/@signatures.0/@definitions.0/@tAccessing.4/@ownedFlows.0" upperBound="-1" returnType="//@ownedTypes.34" firstParameter="//@methods.281/@signatures.0/@parameters.0">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.95" accessedBy="//@methods.79/@signatures.0/@definitions.0/@tAccessing.4 //@methods.182/@signatures.0/@definitions.0/@tAccessing.6" upperBound="-1" returnType="//@ownedTypes.34"/>
+      <parameters incomingFlows="//@methods.79/@signatures.0/@definitions.0/@tAccessing.4/@ownedFlows.1 //@methods.182/@signatures.0/@definitions.0/@tAccessing.6/@ownedFlows.1" upperBound="-1" type="//@ownedTypes.34"/>
     </signatures>
   </methods>
   <methods tName="longValue">
@@ -9131,7 +9131,7 @@
         </tAccessing>
         <tModifier tVisibility="TPublic" isStatic="true"/>
       </definitions>
-      <parameters incomingFlows="//@methods.101/@signatures.0/@definitions.0/@tAccessing.4/@ownedFlows.0 //@methods.258/@signatures.0/@definitions.0/@tAccessing.8/@ownedFlows.1 //@methods.267/@signatures.0/@definitions.0/@tAccessing.28/@ownedFlows.1 //@methods.260/@signatures.3/@definitions.0/@tAccessing.4/@ownedFlows.0 //@methods.260/@signatures.3/@definitions.0/@tAccessing.15/@ownedFlows.2" outgoingFlows="//@methods.292/@signatures.0/@definitions.0/@ownedFlows.0 //@methods.292/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.0 //@methods.292/@signatures.0/@definitions.0/@tAccessing.3/@ownedFlows.2" type="//@ownedTypes.34"/>
+      <parameters incomingFlows="//@methods.101/@signatures.0/@definitions.0/@tAccessing.4/@ownedFlows.0 //@methods.258/@signatures.0/@definitions.0/@tAccessing.8/@ownedFlows.1 //@methods.267/@signatures.0/@definitions.0/@tAccessing.28/@ownedFlows.1 //@methods.260/@signatures.3/@definitions.0/@tAccessing.4/@ownedFlows.0 //@methods.260/@signatures.3/@definitions.0/@tAccessing.15/@ownedFlows.2" outgoingFlows="//@methods.292/@signatures.0/@definitions.0/@ownedFlows.0 //@methods.292/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.0 //@methods.292/@signatures.0/@definitions.0/@tAccessing.3/@ownedFlows.2" upperBound="-1" type="//@ownedTypes.34"/>
     </signatures>
     <signatures outgoingFlows="//@methods.115/@signatures.0/@definitions.0/@tAccessing.3/@ownedFlows.1" returnType="//@ownedTypes.59" firstParameter="//@methods.292/@signatures.1/@parameters.2">
       <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.186" accessedBy="//@methods.115/@signatures.0/@definitions.0/@tAccessing.3" returnType="//@ownedTypes.59"/>
@@ -9347,8 +9347,8 @@
     </signatures>
   </methods>
   <methods tName="decodeBase64">
-    <signatures returnType="//@ownedTypes.34" firstParameter="//@methods.296/@signatures.0/@parameters.0">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.296/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" definedBy="//@ownedTypes.178" returnType="//@ownedTypes.34">
+    <signatures upperBound="-1" returnType="//@ownedTypes.34" firstParameter="//@methods.296/@signatures.0/@parameters.0">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.296/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" definedBy="//@ownedTypes.178" upperBound="-1" returnType="//@ownedTypes.34">
         <tAccessing xsi:type="org.gravity.typegraph.basic:TCall" incomingFlows="//@methods.296/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.2" outgoingFlows="//@methods.296/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" tTarget="//@methods.237/@signatures.1/@definitions.0" staticType="//@ownedTypes.195">
           <ownedFlows incomingFlows="//@methods.296/@signatures.0/@definitions.0/@tAccessing.0" outgoingFlows="//@methods.296/@signatures.0/@definitions.0"/>
           <ownedFlows incomingFlows="//@methods.296/@signatures.0/@parameters.0" outgoingFlows="//@methods.237/@signatures.1/@parameters.0"/>
@@ -10256,7 +10256,7 @@
         </tAccessing>
         <tModifier tVisibility="TPublic"/>
       </definitions>
-      <parameters incomingFlows="//@methods.213/@signatures.0/@definitions.0/@tAccessing.8/@ownedFlows.0 //@methods.293/@signatures.2/@definitions.0/@tAccessing.22/@ownedFlows.0 //@methods.185/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.2 //@methods.267/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.7" outgoingFlows="//@methods.316/@signatures.1/@definitions.0/@tAccessing.1/@ownedFlows.3" previous="//@methods.316/@signatures.1/@parameters.1" type="//@ownedTypes.34"/>
+      <parameters incomingFlows="//@methods.213/@signatures.0/@definitions.0/@tAccessing.8/@ownedFlows.0 //@methods.293/@signatures.2/@definitions.0/@tAccessing.22/@ownedFlows.0 //@methods.185/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.2 //@methods.267/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.7" outgoingFlows="//@methods.316/@signatures.1/@definitions.0/@tAccessing.1/@ownedFlows.3" upperBound="-1" previous="//@methods.316/@signatures.1/@parameters.1" type="//@ownedTypes.34"/>
       <parameters incomingFlows="//@methods.293/@signatures.2/@definitions.0/@tAccessing.22/@ownedFlows.1 //@methods.185/@signatures.0/@definitions.0/@tAccessing.12/@ownedFlows.1 //@methods.267/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.6 //@methods.213/@signatures.0/@definitions.0/@tAccessing.8/@ownedFlows.2 //@methods.267/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.3 //@methods.267/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.8" outgoingFlows="//@methods.316/@signatures.1/@definitions.0/@tAccessing.1/@ownedFlows.1" next="//@methods.316/@signatures.1/@parameters.0" type="//@ownedTypes.199"/>
     </signatures>
   </methods>
@@ -10447,7 +10447,7 @@
         <tAccessing xsi:type="org.gravity.typegraph.basic:TCall" tTarget="//@methods.264/@signatures.0/@definitions.0" staticType="//@ownedTypes.214"/>
         <tModifier tVisibility="TPublic"/>
       </definitions>
-      <parameters type="//@ownedTypes.155"/>
+      <parameters upperBound="-1" type="//@ownedTypes.155"/>
     </signatures>
     <signatures returnType="//@ownedTypes.0" firstParameter="//@methods.321/@signatures.1/@parameters.0">
       <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.214" returnType="//@ownedTypes.0">
@@ -10457,7 +10457,7 @@
         <tAccessing xsi:type="org.gravity.typegraph.basic:TCall" tTarget="//@methods.264/@signatures.0/@definitions.0" staticType="//@ownedTypes.214"/>
         <tModifier tVisibility="TPublic"/>
       </definitions>
-      <parameters type="//@ownedTypes.163"/>
+      <parameters upperBound="-1" type="//@ownedTypes.163"/>
     </signatures>
   </methods>
   <methods tName="release">
@@ -10729,8 +10729,8 @@
         <tModifier tVisibility="TPublic"/>
       </definitions>
     </signatures>
-    <signatures outgoingFlows="//@methods.258/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.0 //@methods.267/@signatures.0/@definitions.0/@tAccessing.10/@ownedFlows.1 //@methods.260/@signatures.3/@definitions.0/@tAccessing.14/@ownedFlows.0" returnType="//@ownedTypes.34" firstParameter="//@methods.331/@signatures.2/@parameters.0">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.331/@signatures.2/@definitions.0/@tAccessing.1/@ownedFlows.1" definedBy="//@ownedTypes.194" accessedBy="//@methods.258/@signatures.0/@definitions.0/@tAccessing.2 //@methods.267/@signatures.0/@definitions.0/@tAccessing.10 //@methods.260/@signatures.3/@definitions.0/@tAccessing.14" returnType="//@ownedTypes.34">
+    <signatures outgoingFlows="//@methods.258/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.0 //@methods.267/@signatures.0/@definitions.0/@tAccessing.10/@ownedFlows.1 //@methods.260/@signatures.3/@definitions.0/@tAccessing.14/@ownedFlows.0" upperBound="-1" returnType="//@ownedTypes.34" firstParameter="//@methods.331/@signatures.2/@parameters.0">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.331/@signatures.2/@definitions.0/@tAccessing.1/@ownedFlows.1" definedBy="//@ownedTypes.194" accessedBy="//@methods.258/@signatures.0/@definitions.0/@tAccessing.2 //@methods.267/@signatures.0/@definitions.0/@tAccessing.10 //@methods.260/@signatures.3/@definitions.0/@tAccessing.14" upperBound="-1" returnType="//@ownedTypes.34">
         <tAccessing xsi:type="org.gravity.typegraph.basic:TCall" tTarget="//@methods.96/@signatures.0/@definitions.1" staticType="//@ownedTypes.194"/>
         <tAccessing xsi:type="org.gravity.typegraph.basic:TCall" incomingFlows="//@methods.331/@signatures.2/@definitions.0/@tAccessing.1/@ownedFlows.2" outgoingFlows="//@methods.331/@signatures.2/@definitions.0/@tAccessing.1/@ownedFlows.1" tTarget="//@methods.182/@signatures.0/@definitions.0" staticType="//@ownedTypes.194">
           <ownedFlows incomingFlows="//@methods.331/@signatures.2/@parameters.0" outgoingFlows="//@methods.182/@signatures.0/@parameters.1"/>
@@ -10977,7 +10977,7 @@
     </signatures>
   </fields>
   <fields tName="EMPTY_STRING_ARRAY">
-    <signatures outgoingFlows="//@methods.153/@signatures.0/@definitions.1/@tAccessing.5/@ownedFlows.0 //@methods.228/@signatures.0/@definitions.1/@tAccessing.4/@ownedFlows.1" type="//@ownedTypes.59">
+    <signatures outgoingFlows="//@methods.153/@signatures.0/@definitions.1/@tAccessing.5/@ownedFlows.0 //@methods.228/@signatures.0/@definitions.1/@tAccessing.4/@ownedFlows.1" upperBound="-1" type="//@ownedTypes.59">
       <definitions xsi:type="org.gravity.typegraph.basic:TFieldDefinition" definedBy="//@ownedTypes.212" accessedBy="//@methods.228/@signatures.0/@definitions.1/@tAccessing.4 //@methods.153/@signatures.0/@definitions.1/@tAccessing.5">
         <tModifier isStatic="true"/>
       </definitions>
@@ -11358,7 +11358,7 @@
     </signatures>
   </fields>
   <fields tName="salt">
-    <signatures outgoingFlows="//@methods.205/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1 //@methods.248/@signatures.1/@definitions.3/@tAccessing.14/@ownedFlows.1 //@methods.248/@signatures.1/@definitions.3/@tAccessing.16/@ownedFlows.0" type="//@ownedTypes.34">
+    <signatures outgoingFlows="//@methods.205/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1 //@methods.248/@signatures.1/@definitions.3/@tAccessing.14/@ownedFlows.1 //@methods.248/@signatures.1/@definitions.3/@tAccessing.16/@ownedFlows.0" upperBound="-1" type="//@ownedTypes.34">
       <definitions xsi:type="org.gravity.typegraph.basic:TFieldDefinition" incomingFlows="//@methods.140/@signatures.1/@definitions.0/@tAccessing.21/@ownedFlows.0 //@methods.140/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0 //@methods.140/@signatures.1/@definitions.0/@tAccessing.18/@ownedFlows.0" definedBy="//@ownedTypes.215" accessedBy="//@methods.140/@signatures.0/@definitions.0/@tAccessing.0 //@methods.205/@signatures.0/@definitions.0/@tAccessing.0 //@methods.140/@signatures.1/@definitions.0/@tAccessing.18 //@methods.248/@signatures.1/@definitions.3/@tAccessing.14 //@methods.248/@signatures.1/@definitions.3/@tAccessing.16 //@methods.140/@signatures.1/@definitions.0/@tAccessing.21">
         <tModifier/>
       </definitions>
@@ -11441,7 +11441,7 @@
     </signatures>
   </fields>
   <fields tName="encodeTable">
-    <signatures outgoingFlows="//@methods.37/@signatures.0/@definitions.0/@tAccessing.3/@ownedFlows.0 //@methods.37/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.0 //@methods.37/@signatures.0/@definitions.0/@tAccessing.4/@ownedFlows.0 //@methods.37/@signatures.0/@definitions.0/@tAccessing.5/@ownedFlows.0" type="//@ownedTypes.17">
+    <signatures outgoingFlows="//@methods.37/@signatures.0/@definitions.0/@tAccessing.3/@ownedFlows.0 //@methods.37/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.0 //@methods.37/@signatures.0/@definitions.0/@tAccessing.4/@ownedFlows.0 //@methods.37/@signatures.0/@definitions.0/@tAccessing.5/@ownedFlows.0" upperBound="-1" type="//@ownedTypes.17">
       <definitions xsi:type="org.gravity.typegraph.basic:TFieldDefinition" incomingFlows="//@fields.70/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" definedBy="//@ownedTypes.195" accessedBy="//@methods.37/@signatures.0/@definitions.0/@tAccessing.2 //@methods.37/@signatures.0/@definitions.0/@tAccessing.3 //@methods.37/@signatures.0/@definitions.0/@tAccessing.4 //@methods.37/@signatures.0/@definitions.0/@tAccessing.5">
         <tAccessing xsi:type="org.gravity.typegraph.basic:TCall" incomingFlows="//@fields.70/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1" outgoingFlows="//@fields.70/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" tTarget="//@methods.141/@signatures.0/@definitions.0">
           <ownedFlows incomingFlows="//@fields.70/@signatures.0/@definitions.0/@tAccessing.0" outgoingFlows="//@fields.70/@signatures.0/@definitions.0"/>
@@ -11752,7 +11752,7 @@
     </signatures>
   </fields>
   <fields tName="decodeTable">
-    <signatures outgoingFlows="//@methods.237/@signatures.2/@definitions.0/@tAccessing.1/@ownedFlows.1" type="//@ownedTypes.34">
+    <signatures outgoingFlows="//@methods.237/@signatures.2/@definitions.0/@tAccessing.1/@ownedFlows.1" upperBound="-1" type="//@ownedTypes.34">
       <definitions xsi:type="org.gravity.typegraph.basic:TFieldDefinition" definedBy="//@ownedTypes.195" accessedBy="//@methods.237/@signatures.2/@definitions.0/@tAccessing.1">
         <tModifier isStatic="true"/>
       </definitions>
@@ -11981,7 +11981,7 @@
     </signatures>
   </fields>
   <fields tName="encryptedData">
-    <signatures outgoingFlows="//@methods.169/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0 //@methods.248/@signatures.1/@definitions.3/@tAccessing.15/@ownedFlows.0 //@methods.248/@signatures.1/@definitions.3/@tAccessing.10/@ownedFlows.1" type="//@ownedTypes.34">
+    <signatures outgoingFlows="//@methods.169/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0 //@methods.248/@signatures.1/@definitions.3/@tAccessing.15/@ownedFlows.0 //@methods.248/@signatures.1/@definitions.3/@tAccessing.10/@ownedFlows.1" upperBound="-1" type="//@ownedTypes.34">
       <definitions xsi:type="org.gravity.typegraph.basic:TFieldDefinition" incomingFlows="//@methods.140/@signatures.1/@definitions.0/@tAccessing.19/@ownedFlows.1 //@methods.140/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.1 //@methods.140/@signatures.1/@definitions.0/@tAccessing.20/@ownedFlows.0" definedBy="//@ownedTypes.215" accessedBy="//@methods.248/@signatures.1/@definitions.3/@tAccessing.10 //@methods.169/@signatures.0/@definitions.0/@tAccessing.0 //@methods.140/@signatures.0/@definitions.0/@tAccessing.2 //@methods.140/@signatures.1/@definitions.0/@tAccessing.19 //@methods.140/@signatures.1/@definitions.0/@tAccessing.20 //@methods.248/@signatures.1/@definitions.3/@tAccessing.15">
         <tModifier/>
       </definitions>
@@ -12108,7 +12108,7 @@
     </signatures>
   </fields>
   <fields tName="federatedConfigs">
-    <signatures outgoingFlows="//@methods.139/@signatures.0/@definitions.0/@tAccessing.4/@ownedFlows.0 //@methods.139/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.0 //@methods.113/@signatures.1/@definitions.0/@tAccessing.6/@ownedFlows.0 //@methods.113/@signatures.1/@definitions.0/@tAccessing.5/@ownedFlows.1" type="//@ownedTypes.150">
+    <signatures outgoingFlows="//@methods.139/@signatures.0/@definitions.0/@tAccessing.4/@ownedFlows.0 //@methods.139/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.0 //@methods.113/@signatures.1/@definitions.0/@tAccessing.6/@ownedFlows.0 //@methods.113/@signatures.1/@definitions.0/@tAccessing.5/@ownedFlows.1" upperBound="-1" type="//@ownedTypes.150">
       <definitions xsi:type="org.gravity.typegraph.basic:TFieldDefinition" incomingFlows="//@methods.139/@signatures.0/@definitions.0/@tAccessing.3/@ownedFlows.0" definedBy="//@ownedTypes.210" accessedBy="//@methods.113/@signatures.1/@definitions.0/@tAccessing.5 //@methods.113/@signatures.1/@definitions.0/@tAccessing.6 //@methods.139/@signatures.0/@definitions.0/@tAccessing.2 //@methods.139/@signatures.0/@definitions.0/@tAccessing.3 //@methods.139/@signatures.0/@definitions.0/@tAccessing.4">
         <tAnnotation xsi:type="annotations:TTextAnnotation" text="// shoudl keep a cache that corresponds to what's in the registry and update it on registry "/>
         <tAnnotation xsi:type="annotations:TTextAnnotation" text="// events"/>
@@ -12371,7 +12371,7 @@
     </signatures>
   </fields>
   <fields tName="roles">
-    <signatures outgoingFlows="//@methods.266/@signatures.0/@definitions.1/@tAccessing.3/@ownedFlows.0 //@methods.266/@signatures.0/@definitions.1/@tAccessing.2/@ownedFlows.1 //@methods.207/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1 //@methods.266/@signatures.0/@definitions.1/@tAccessing.1/@ownedFlows.1" type="//@ownedTypes.102">
+    <signatures outgoingFlows="//@methods.266/@signatures.0/@definitions.1/@tAccessing.3/@ownedFlows.0 //@methods.266/@signatures.0/@definitions.1/@tAccessing.2/@ownedFlows.1 //@methods.207/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1 //@methods.266/@signatures.0/@definitions.1/@tAccessing.1/@ownedFlows.1" upperBound="-1" type="//@ownedTypes.102">
       <definitions xsi:type="org.gravity.typegraph.basic:TFieldDefinition" incomingFlows="//@methods.95/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.1 //@methods.95/@signatures.1/@definitions.0/@tAccessing.2/@ownedFlows.0" definedBy="//@ownedTypes.208" accessedBy="//@methods.266/@signatures.0/@definitions.1/@tAccessing.1 //@methods.266/@signatures.0/@definitions.1/@tAccessing.2 //@methods.95/@signatures.1/@definitions.0/@tAccessing.2 //@methods.95/@signatures.0/@definitions.0/@tAccessing.1 //@methods.266/@signatures.0/@definitions.1/@tAccessing.3 //@methods.207/@signatures.0/@definitions.0/@tAccessing.0">
         <tModifier/>
       </definitions>
@@ -12525,7 +12525,7 @@
     </signatures>
   </fields>
   <fields tName="configCache">
-    <signatures outgoingFlows="//@methods.113/@signatures.1/@definitions.0/@tAccessing.8/@ownedFlows.1 //@methods.261/@signatures.0/@definitions.1/@tAccessing.23/@ownedFlows.1 //@methods.261/@signatures.0/@definitions.1/@tAccessing.22/@ownedFlows.1" type="//@ownedTypes.76">
+    <signatures outgoingFlows="//@methods.113/@signatures.1/@definitions.0/@tAccessing.8/@ownedFlows.1 //@methods.261/@signatures.0/@definitions.1/@tAccessing.23/@ownedFlows.1 //@methods.261/@signatures.0/@definitions.1/@tAccessing.22/@ownedFlows.1" upperBound="-1" type="//@ownedTypes.76">
       <definitions xsi:type="org.gravity.typegraph.basic:TFieldDefinition" incomingFlows="//@fields.210/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1" definedBy="//@ownedTypes.210" accessedBy="//@methods.261/@signatures.0/@definitions.1/@tAccessing.22 //@methods.261/@signatures.0/@definitions.1/@tAccessing.23 //@methods.113/@signatures.1/@definitions.0/@tAccessing.8">
         <tAccessing xsi:type="org.gravity.typegraph.basic:TCall" incomingFlows="//@fields.210/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0" outgoingFlows="//@fields.210/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1" tTarget="//@methods.236/@signatures.0/@definitions.0">
           <ownedFlows incomingFlows="//@methods.236/@signatures.0/@definitions.0" outgoingFlows="//@fields.210/@signatures.0/@definitions.0/@tAccessing.0"/>
