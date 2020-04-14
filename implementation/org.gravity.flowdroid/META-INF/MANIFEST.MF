@@ -5,7 +5,8 @@ Bundle-SymbolicName: org.gravity.flowdroid;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .,
  lib/soot-infoflow-trunk.jar
-Export-Package: org.gravity.flowdroid
+Export-Package: org.gravity.flowdroid,
+ soot.jimple.infoflow.results
 Bundle-Vendor: University of Koblenz-Landau and Chalmers and University of Gothenborg
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

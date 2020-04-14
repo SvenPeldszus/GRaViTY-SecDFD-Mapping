@@ -24,7 +24,8 @@ Require-Bundle: org.gravity.typegraph.basic;bundle-version="1.0.0";visibility:=r
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: org.gravity.mapping.secdfd,
+Export-Package: com.google.gson,
+ org.gravity.mapping.secdfd,
  org.gravity.mapping.secdfd.checks,
  org.gravity.mapping.secdfd.helpers,
  org.gravity.mapping.secdfd.impl,

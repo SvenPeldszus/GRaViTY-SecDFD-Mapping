@@ -44,8 +44,7 @@ public final class TrafoJob extends Job {
 	protected IStatus run(IProgressMonitor monitor) {
 		try {
 			try {
-				IFile file = EclipseProjectUtil.getGravityFolder(javaProject.getProject(), monitor)
-						.getFile(javaProject.getProject().getName() + ".xmi");
+				IFile file = getProgramModelFile(monitor);
 				if (file.exists()) {
 					Resource resource = new ResourceSetImpl().createResource(URI.createURI(file.getName()));
 					resource.load(file.getContents(), Collections.emptyMap());
@@ -61,6 +60,16 @@ public final class TrafoJob extends Job {
 			new Status(Status.ERROR, Activator.PLUGIN_ID, e.getMessage(), e);
 		}
 		return Status.OK_STATUS;
+	}
+
+	/**
+	 * @param monitor
+	 * @return
+	 * @throws IOException
+	 */
+	private IFile getProgramModelFile(IProgressMonitor monitor) throws IOException {
+		return EclipseProjectUtil.getGravityFolder(javaProject.getProject(), monitor)
+				.getFile(javaProject.getProject().getName() + ".xmi");
 	}
 
 	/**
