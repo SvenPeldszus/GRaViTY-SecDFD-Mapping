@@ -3,13 +3,19 @@
  */
 package org.gravity.flowdroid;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.Random;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.emf.ecore.EObject;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.secdfd.model.Asset;
 import org.secdfd.model.EDFD;
@@ -35,96 +41,116 @@ public class ContractInjector {
 	private static final Logger LOGGER = Logger.getLogger(ContractInjector.class);
 
 	/**
-	 * The location of ground truth files
-	 */
-	private IFolder destination;
-
-	/**
 	 * The correspondence model
 	 */
 	private Mapper mapper;
 	private Map<String, List<Map<String, String>>> absenceGT;
 	private Map<String, List<Map<String, String>>> convergenceGT;
-	private Map<ResponsibilityType, Integer> injectTask;
+	private Map<ResponsibilityType, Integer> injectTasks;
+	private Set<Responsibility> injected;
 
 	/**
 	 * Constructor
 	 */
-	public ContractInjector(IFolder destination, HashMap<ResponsibilityType, Integer> injectTask, Mapper mapper,
+	public ContractInjector(IFolder destination, HashMap<ResponsibilityType, Integer> injectTasks, Mapper mapper,
 			Map<String, List<Map<String, String>>> absenceGT, Map<String, List<Map<String, String>>> convergenceGT) {
-		this.destination = destination;
-		this.injectTask = injectTask;
+		this.injectTasks = injectTasks;
 		this.mapper = mapper;
 		this.absenceGT = absenceGT;
 		this.convergenceGT = convergenceGT;
-	}
-
-	public Map<ResponsibilityType, Integer> getInjectTask() {
-		return injectTask;
-	}
-
-	public void setInjectTask(Map<ResponsibilityType, Integer> injectTask) {
-		this.injectTask = injectTask;
-	}
-
-	public void performTasks() {
-		EDFD secdfd = mapper.getDFD();
-		injectTask.keySet().forEach(key -> {
-			Integer amount = injectTask.get(key);
-			while (amount > 0) {
-				// get a random process
-				Optional<Process> randProcess = secdfd.getElements().parallelStream().filter(Process.class::isInstance)
-						.map(p -> (Process) p).findAny();
-				if (randProcess.isPresent()) {
-					if (!inConvergenceGT(secdfd, randProcess, key)) {
-						// inject contract
-						inject(key, randProcess.get(), secdfd);
-						// add to absenceGT map
-						Map<String, String> newEntry = new HashMap<>();
-						newEntry.put("secdfd", secdfd.getName().toLowerCase());
-						newEntry.put("element", randProcess.get().getName().toLowerCase());
-						absenceGT.get(key.getName().toLowerCase()).add(newEntry);
-					} else
-						break;
-					amount--;
-				}
-			}
-			// remove finished tasks
-			injectTask.remove(key);
-		});
-
-		// update GT file
-		GroundTruthParser.updateGTFile(
-				destination.getFile(secdfd.getName().toLowerCase() + ".json").getLocation().toFile(), convergenceGT);
+		this.injected = new HashSet<>();
 	}
 
 	/**
-	 * @param secdfd
-	 * @param randProcess
-	 * @param item
+	 * @return the injectTasks
 	 */
-	private boolean inConvergenceGT(EDFD secdfd, Optional<Process> randProcess, ResponsibilityType key) {
-		List<Map<String, String>> items = convergenceGT.get(key.getName().toLowerCase());
-		for (Map<String, String> item : items) {
-			if (item.get("secdfd").contains(secdfd.getName().toLowerCase())
-					&& item.get("element").contains(randProcess.get().getName().toLowerCase())) {
+	public Map<ResponsibilityType, Integer> getInjectTask() {
+		return injectTasks;
+	}
+
+	/**
+	 * @return the injected
+	 */
+	public Set<Responsibility> getInjected() {
+		return injected;
+	}
+
+	public Map<String, List<Map<String, String>>> performTasks() {
+		EDFD secdfd = mapper.getDFD();
+		injectTasks.keySet().forEach(key -> {
+			Integer amount = injectTasks.get(key);
+			Integer skipped = 0;
+			while (amount > 0) {
+				// get a random process, which does not have contract 'key' in convergenceGT
+				Process randProcess = (Process) getRandom(
+						secdfd.getElements().parallelStream().filter(Process.class::isInstance).map(p -> (Process) p)
+								.filter(p -> !inGT(secdfd, p, key, convergenceGT)).collect(Collectors.toSet()));
+				String keyStringLC = key.getName().toLowerCase();
+				if (randProcess != null) {
+					// try a randomly generated responsibility
+					Responsibility r = generateResponsibility(key, randProcess, secdfd);
+					// try to inject contract
+					if (!inModel(r, randProcess)) {
+						randProcess.getResponsibility().add(r);
+						injected.add(r);
+						// try to add to absenceGT map
+						if (!inGT(secdfd, randProcess, key, absenceGT)) {
+							Map<String, String> newEntry = new HashMap<>();
+							newEntry.put("secdfd", secdfd.getName().toLowerCase());
+							newEntry.put("element", randProcess.getName().toLowerCase());
+							//absenceGT.get(keyStringLC).add(newEntry);
+							List<Map<String, String>> existingEntries = absenceGT.get(keyStringLC);
+							if (existingEntries!=null) {
+								existingEntries.add(newEntry);
+							} else {
+								List<Map<String, String>> newList = new ArrayList<>();
+								newList.add(newEntry);
+								absenceGT.put(keyStringLC, newList);
+							}
+						}
+					} else {
+						skipped++;
+						LOGGER.info(
+								"Generated responsibility already exists in the model and will be skipped. The amount of injected contracts will be less than specified.");
+					}
+					amount--;
+				} else {
+					// inject will not be possible
+					skipped = amount;
+					amount = 0;
+					LOGGER.info("SecDFD only contains processes for which there is a convergence of contract "
+							+ keyStringLC + ".");
+				}
+			}
+			LOGGER.info("Skipped " + skipped + " inject tasks.");
+		});
+		// remove finished tasks
+		injectTasks.clear();
+		return absenceGT;
+	}
+
+	private boolean inModel(Responsibility r, Process randProcess) {
+		for (Responsibility res : randProcess.getResponsibility()) {
+			if (res.getAction().containsAll(r.getAction()) && res.getIncomeassets().containsAll(r.getIncomeassets())
+					&& res.getOutcomeassets().containsAll(r.getOutcomeassets())) {
+				// already part of this process
 				return true;
 			}
 		}
 		return false;
-
 	}
 
-	private void inject(ResponsibilityType key, Process randProcess, EDFD secdfd) {
+	private Responsibility generateResponsibility(ResponsibilityType key, Process randProcess, EDFD secdfd) {
 		Responsibility r = ModelFactory.eINSTANCE.createResponsibility();
-		Asset a = randProcess.getAssets().parallelStream().findAny().get();
-		Asset c = randProcess.getAssets().parallelStream().findAny().get();
-		r.setProcess(randProcess);
+		Set<EObject> assets = randProcess.getAssets().parallelStream().map(a -> (EObject) a)
+				.collect(Collectors.toSet());
+		Asset a = (Asset) getRandom(assets);
+		Asset c = (Asset) getRandom(assets);
 		r.getAction().add(key);
 		r.getIncomeassets().add(a);
 		switch (key) {
 		case JOINER:
-			Asset b = randProcess.getAssets().parallelStream().findAny().get();
+			Asset b = (Asset) getRandom(assets);
 			r.setName("Injected Join");
 			r.getIncomeassets().add(b);
 			r.getOutcomeassets().add(c);
@@ -138,15 +164,39 @@ public class ContractInjector {
 			r.getOutcomeassets().add(c);
 			break;
 		case DECRYPT:
-			r.setName("Injected Encrypt");
+			r.setName("Injected Decrypt");
 			r.getOutcomeassets().add(c);
 			break;
 		default:
-			r.setName("Injected Other Responsibility");
+			r.setName("Injected Other");
 			r.getOutcomeassets().add(c);
 			break;
 		}
-		randProcess.getResponsibility().add(r);
-		// if secdfd files are rewritten, we loose the mappings
+		return r;
+	}
+
+	private EObject getRandom(Collection<EObject> setOfElements) {
+		int item = new Random().nextInt(setOfElements.size());
+		int i = 0;
+		for (EObject obj : setOfElements) {
+			if (i == item)
+				return obj;
+			i++;
+		}
+		return null;
+	}
+
+	private boolean inGT(EDFD secdfd, Process randProcess, ResponsibilityType key,
+			Map<String, List<Map<String, String>>> GT) {
+		List<Map<String, String>> items = GT.get(key.getName().toLowerCase());
+		if (items != null) {
+			for (Map<String, String> item : items) {
+				if (item.get("secdfd").contains(secdfd.getName().toLowerCase())
+						&& item.get("element").contains(randProcess.getName().toLowerCase())) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

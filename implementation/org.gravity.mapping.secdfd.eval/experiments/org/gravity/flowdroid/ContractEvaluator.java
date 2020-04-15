@@ -37,6 +37,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.secdfd.dsl.validation.SResult;
 import org.secdfd.model.NamedEntity;
+import org.secdfd.model.Responsibility;
 import org.secdfd.model.ResponsibilityType;
 
 /**
@@ -52,6 +53,7 @@ public class ContractEvaluator {
 	private Mapper mapper;
 	private ContractCheck checker;
 	private ContractInjector injector;
+	private Set<Responsibility> injected;
 	private IFolder output;
 	private Map<String, List<Map<String, String>>> absenceGT;
 	private Map<String, List<Map<String, String>>> convergenceGT;
@@ -84,9 +86,10 @@ public class ContractEvaluator {
 		this.absenceGT = absenceGT;
 		this.convergenceGT = convergenceGT;
 		this.injector = new ContractInjector(output, new HashMap<>(), mapper, absenceGT, convergenceGT);
-		this.truePositives = new HashSet<String>();
-		this.falsePositives = new HashSet<String>();
-		this.falseNegatives = new HashSet<String>();
+		this.injected = new HashSet<>();
+		this.truePositives = new HashSet<>();
+		this.falsePositives = new HashSet<>();
+		this.falseNegatives = new HashSet<>();
 		LOGGER.info("Start validation with: " + testName);
 	}
 
@@ -100,12 +103,70 @@ public class ContractEvaluator {
 	public void injectAndValdiateDecrypt() throws IOException, CoreException {
 		injector.getInjectTask().put(ResponsibilityType.DECRYPT, 5);
 		try {
-			injector.performTasks();
+			absenceGT = injector.performTasks();
+			injected = injector.getInjected();
 			checker.checkDecryptContract();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		validateContract("injected-decrypt-results");
+	}
+
+	/**
+	 * @throws IOException
+	 * @throws CoreException
+	 * 
+	 * First inject contracts, then validate Encrypt
+	 */
+	@Test
+	public void injectAndValdiateEncrypt() throws IOException, CoreException {
+		injector.getInjectTask().put(ResponsibilityType.ENCRYPT_OR_HASH, 5);
+		try {
+			absenceGT = injector.performTasks();
+			injected = injector.getInjected();
+			checker.checkEncryptContract();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		validateContract("injected-encrypt-results");
+	}
+	
+	/**
+	 * @throws IOException
+	 * @throws CoreException
+	 * 
+	 * First inject contracts, then validate Join
+	 */
+	@Test
+	public void injectAndValdiateJoin() throws IOException, CoreException {
+		injector.getInjectTask().put(ResponsibilityType.JOINER, 5);
+		try {
+			absenceGT = injector.performTasks();
+			injected = injector.getInjected();
+			checker.checkJoinContract();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		validateContract("injected-join-results");
+	}
+	
+	/**
+	 * @throws IOException
+	 * @throws CoreException
+	 * 
+	 * First inject contracts, then validate Encrypt
+	 */
+	@Test
+	public void injectAndValdiateForwards() throws IOException, CoreException {
+		injector.getInjectTask().put(ResponsibilityType.FORWARD, 5);
+		try {
+			absenceGT = injector.performTasks();
+			injected = injector.getInjected();
+			checker.checkForwardContract();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		validateContract("injected-forward-results");
 	}
 	
 	/**
@@ -114,7 +175,7 @@ public class ContractEvaluator {
 	 * @throws IOException
 	 * @throws CoreException
 	 */
-	//@Test
+	// @Test
 	public void valdiateDecrypt() throws IOException, CoreException {
 		try {
 			checker.checkDecryptContract();
@@ -128,7 +189,7 @@ public class ContractEvaluator {
 	 * @throws IOException
 	 * @throws CoreException
 	 */
-	//@Test
+	// @Test
 	public void valdiateEncrypt() throws IOException, CoreException {
 		try {
 			checker.checkEncryptContract();
@@ -142,7 +203,7 @@ public class ContractEvaluator {
 	 * @throws IOException
 	 * @throws CoreException
 	 */
-	//@Test
+	// @Test
 	public void valdiateForward() throws IOException, CoreException {
 		try {
 			checker.checkForwardContract();
@@ -151,12 +212,12 @@ public class ContractEvaluator {
 		}
 		validateContract("forward-results");
 	}
-	
+
 	/**
 	 * @throws IOException
 	 * @throws CoreException
 	 */
-	//@Test
+	// @Test
 	public void valdiateJoin() throws IOException, CoreException {
 		try {
 			checker.checkJoinContract();
@@ -177,15 +238,26 @@ public class ContractEvaluator {
 		results.forEach(result -> {
 			countTPandFP(result, SecDFDName);
 		});
-		if (!results.isEmpty()) countFN(results, SecDFDName);
+		if (!results.isEmpty())
+			countFN(results, SecDFDName);
 
 		accummulatedTP += truePositives.size();
 		accummulatedFP += falsePositives.size();
 		accummulatedFN += falseNegatives.size();
+
+		// build a string
+		Collection<String> toWrite = ExperimentHelper.stringBuilder(truePositives, falsePositives, falseNegatives);
+		if (injected.size() > 0) {
+			toWrite.add("\nInjected " + injected.size() + " responsibilities: \n");
+			for (Responsibility r : injected) {
+				toWrite.add("Name: " + r.getName() + ", Process: " + r.getProcess().getName() + ", Incoming assets: "
+						+ r.getIncomeassets().toString() + ", Ougoing assets: " + r.getOutcomeassets().toString()
+						+ "\n");
+			}
+
+		}
 		// log to file
-		ExperimentHelper.writeToTxt(output,
-				ExperimentHelper.stringBuilder(truePositives, falsePositives, falseNegatives), resultFileName,
-				new NullProgressMonitor(), false);
+		ExperimentHelper.writeToTxt(output, toWrite, resultFileName, new NullProgressMonitor(), false);
 	}
 
 	// ========================================================================
@@ -251,10 +323,10 @@ public class ContractEvaluator {
 	private void countFN(Set<SResult> results, String secdfdName, Map<String, List<Map<String, String>>> groundtruth,
 			String FNType) {
 		String ctype = results.parallelStream().findAny().get().getType().getName().toLowerCase();
-		
+
 		List<Map<String, String>> entries = groundtruth.get(ctype);
 
-		if (entries!=null) {
+		if (entries != null) {
 			for (Map<String, String> expectedTP : entries) {
 				if (expectedTP.get("secdfd").equals(secdfdName)) {
 					Set<SResult> matches = new HashSet<SResult>();
