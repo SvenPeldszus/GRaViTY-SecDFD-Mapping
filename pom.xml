@@ -8,19 +8,22 @@
   <packaging>pom</packaging>
   
   <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+
     <tycho-version>1.6.0</tycho-version>
     <jacoco.version>0.8.5</jacoco.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     
-    <jacoco.aggregate.reportPaths>${maven.multiModuleProjectDirectory}/org.gravity.coverage/target/jacoco-aggregate/</jacoco.aggregate.reportPaths>
+    <jacoco.aggregate.reportPaths>${maven.multiModuleProjectDirectory}/org.gravity.secdfd.coverage/target/jacoco-aggregate/</jacoco.aggregate.reportPaths>
    
     <sonar.language>java</sonar.language>
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
-    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-    <sonar.organization>svenpeldszus-github</sonar.organization>
     <sonar.coverage.jacoco.xmlReportPaths>${jacoco.aggregate.reportPaths}/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     <sonar.junit.reportPaths>${maven.multiModuleProjectDirectory}/target/surefire-reports</sonar.junit.reportPaths>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    <sonar.organization>svenpeldszus-github</sonar.organization>
     
     <xtext.version>2.21.0</xtext.version>
   </properties>
@@ -111,9 +114,6 @@
              <goals>
                <goal>prepare-agent-integration</goal>
              </goals>
-             <configuration>
-               <propertyName>surefireArgLine</propertyName>
-             </configuration>
            </execution>
            <execution>
              <id>post-integration-test</id>

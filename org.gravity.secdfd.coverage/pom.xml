@@ -47,59 +47,71 @@
        <version>1.0.0-SNAPSHOT</version>
       <scope>compile</scope>
      </dependency>
-    <dependency>
+     <dependency>
+        <groupId>org.gravity.secdfd</groupId>
+        <artifactId>org.gravity.mapping.secdfd.eval</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <scope>compile</scope>
+     </dependency>
+     <dependency>
+        <groupId>org.gravity.secdfd</groupId>
+        <artifactId>org.gravity.mapping.secdfd.tests</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <scope>compile</scope>
+     </dependency>
+     <dependency>
         <groupId>org.gravity.secdfd</groupId>
         <artifactId>org.secdfd.dsl</artifactId>
        <version>1.0.0-SNAPSHOT</version>
       <scope>compile</scope>
      </dependency>
-    <dependency>
+     <dependency>
         <groupId>org.gravity.secdfd</groupId>
         <artifactId>org.secdfd.dsl.ide</artifactId>
        <version>1.0.0-SNAPSHOT</version>
       <scope>compile</scope>
      </dependency>
-    <dependency>
+     <dependency>
         <groupId>org.gravity.secdfd</groupId>
         <artifactId>org.secdfd.dsl.tests</artifactId>
        <version>1.0.0-SNAPSHOT</version>
       <scope>compile</scope>
      </dependency>
-    <dependency>
+     <dependency>
         <groupId>org.gravity.secdfd</groupId>
         <artifactId>org.secdfd.dsl.ui</artifactId>
        <version>1.0.0-SNAPSHOT</version>
       <scope>compile</scope>
      </dependency>
-    <dependency>
+     <dependency>
         <groupId>org.gravity.secdfd</groupId>
         <artifactId>org.secdfd.dsl.ui.tests</artifactId>
        <version>1.0.0-SNAPSHOT</version>
       <scope>compile</scope>
      </dependency>
-    <dependency>
+     <dependency>
         <groupId>org.gravity.secdfd</groupId>
         <artifactId>org.secdfd.model</artifactId>
        <version>1.0.0-SNAPSHOT</version>
       <scope>compile</scope>
      </dependency>
-    <dependency>
+     <dependency>
         <groupId>org.gravity.secdfd</groupId>
         <artifactId>org.secdfd.model.edit</artifactId>
        <version>1.0.0-SNAPSHOT</version>
       <scope>compile</scope>
      </dependency>
-    <dependency>
+     <dependency>
         <groupId>org.gravity.secdfd</groupId>
         <artifactId>org.secdfd.model.editor</artifactId>
-       <version>1.0.0-SNAPSHOT</version>
-      <scope>compile</scope>
+        <version>1.0.0-SNAPSHOT</version>
+        <scope>compile</scope>
      </dependency>
-    <dependency>
+     <dependency>
         <groupId>org.gravity.secdfd</groupId>
         <artifactId>org.secdfd.model.tests</artifactId>
-       <version>1.0.0-SNAPSHOT</version>
-      <scope>compile</scope>
+        <version>1.0.0-SNAPSHOT</version>
+        <scope>compile</scope>
      </dependency>
   </dependencies>
 </project>
