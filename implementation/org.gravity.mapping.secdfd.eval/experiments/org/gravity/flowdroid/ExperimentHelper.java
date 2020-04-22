@@ -6,8 +6,10 @@ package org.gravity.flowdroid;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IFile;
@@ -69,33 +71,35 @@ public final class ExperimentHelper {
 	}
 
 	/**
-	 * @param truePositives
-	 * @param falsePositives
-	 * @param falseNegatives
+	 * @param tps
+	 * @param fps
+	 * @param fns
 	 * @return
 	 */
-	public static Collection<String> stringBuilder(HashSet<String> truePositives, HashSet<String> falsePositives,
-			HashSet<String> falseNegatives) {
+	public static Collection<String> stringBuilder(Set<String> tps, Set<String> fps,
+			Set<String> fns) {
 		List<String> built = new ArrayList<String>();
 		built.add("True Positives: \n" + "==================================\n");
-		for (String i : truePositives) {
+		for (String i : tps) {
 			built.add(i + '\n');
 		}
 		built.add("\n\nFalse Positives: \n" + "==================================\n");
-		for (String i : falsePositives) {
+		for (String i : fps) {
 			built.add(i + '\n');
 		}
 		built.add("\n\nFalse Negatives: \n" + "==================================\n");
-		for (String i : falseNegatives) {
+		for (String i : fns) {
 			built.add(i + '\n');
 		}
 		built.add("\n\n\n==================================\n");
-		built.add("Precision = " + ((double) truePositives.size()) / (truePositives.size() + falsePositives.size())
+		built.add("Precision = " + ((double) tps.size()) / (tps.size() + fps.size())
 				+ '\n');
 		built.add(
-				"Recall = " + ((double) truePositives.size()) / (truePositives.size() + falseNegatives.size()) + '\n');
+				"Recall = " + ((double) tps.size()) / (tps.size() + fns.size()) + '\n');
 		return built;
 	}
+	
+
 
 	/**
 	 * @param accummulatedTP
@@ -114,6 +118,43 @@ public final class ExperimentHelper {
 		built.add("Precision = " + ((double) accummulatedTP) / (accummulatedFP + accummulatedTP) + '\n');
 		built.add("Recall = " + ((double) accummulatedTP) / (accummulatedFN + accummulatedTP));
 		built.add("\n==================================\n");
+		return built;
+	}
+
+	public static Collection<String> stringBuilderAccummulated(Integer accummulatedTP, Integer accummulatedFP,
+			Integer accummulatedFN, Integer accFNAllowedSinks) {
+		List<String> built = new ArrayList<String>();
+		built.addAll(stringBuilderAccummulated(accummulatedTP, accummulatedFP, accummulatedFN));
+		built.add(built.size()-4, "FN from allowed sinks = " + accFNAllowedSinks + "\n");
+		return built;
+	}
+
+	public static Collection<String> stringBuilder(HashMap<String, String> tps, HashMap<String, String> fps,
+			HashMap<String, String> fns) {
+		List<String> built = new ArrayList<String>();
+		built.add("True Positives: \n" + "==================================\n");
+		if (!tps.isEmpty()) {
+			tps.keySet().forEach(key -> {
+				built.add("Source: " + key + "\nSink: " + tps.get(key)+"\n\n");
+			});
+		} else built.add("None.\n");
+		built.add("\n\nFalse Positives: \n" + "==================================\n");
+		if (!fps.isEmpty()) {
+		fps.keySet().forEach(key -> {
+			built.add("Source: " + key + "\nSink: " + fps.get(key)+"\n\n");
+		});
+		} else built.add("None.\n");
+		built.add("\n\nFalse Negatives: \n" + "==================================\n");
+		if (!fns.isEmpty()) {
+		fns.keySet().forEach(key -> {
+			built.add("Source: " + key + "\nSink: " + fns.get(key)+"\n\n");
+		});
+		} else built.add("None.\n");
+		built.add("\n\n\n==================================\n");
+		built.add("Precision = " + ((double) tps.size()) / (tps.size() + fps.size())
+				+ '\n');
+		built.add(
+				"Recall = " + ((double) tps.size()) / (tps.size() + fns.size()) + '\n');
 		return built;
 	}
 
