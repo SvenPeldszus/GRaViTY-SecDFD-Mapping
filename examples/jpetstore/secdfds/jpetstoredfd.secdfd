@@ -36,12 +36,6 @@ EDFD jpetstoredfd[
 				values: [H I], [H C]
 				source: Customer
 				targets: Authenticate,
-		//customer view are all the final Strings defined in ActionBean classes that call viewXXX();
-//		Asset customer_view 
-//				type: String
-//				values: [H I], [H C]
-//				source: Handle_Customer_Actions
-//				targets: Customer,
 		Asset keyword 
 				type: String
 				values: [L I]
@@ -52,7 +46,7 @@ EDFD jpetstoredfd[
 				values: [H C], [H I], [M Av]
 				source: Purchase_Order
 				targets: Orders_And_ProductsDB,
-		Asset cart 
+		Asset cart // is the same as itemlist...
 				type: Object
 				values: [H I], [M Av]
 				source: CartDB
@@ -84,27 +78,13 @@ EDFD jpetstoredfd[
 			outgoing flows: read_product_list [num: 1 assets: product targets: Search_Products]	
 		],
 		Process Authenticate[
+			responsibilities: [password, username Joiner:: account_info]
 			assets: password, username, account_info
 			incoming flows: "Customer.customer_login"
 			outgoing flows: info_to_manage_account [num: 1 assets: account_info targets: Manage_Account]
 		],
-//		Process Update_View[
-//			assets: customer_view
-//			incoming flows: "jpetstoredfd.Handle_Customer_Actions.update_content"
-//			outgoing flows: provide_content [num: 1 assets: customer_view targets: Customer]
-//		],
-//		Process Handle_Customer_Actions[
-//			assets: account_info, itemID, item, keyword, product, username, customer_view
-//			incoming flows: "jpetstoredfd.Authenticate.info_to_frontend",
-//							"jpetstoredfd.AddRemove_Items.provide_item_list",
-//							"jpetstoredfd.Search_Products.provide_product_list"
-//			outgoing flows: ---update_content [num: 1 assets: customer_view targets: Update_View],
-//							manage_cart [num: 1 assets: itemID targets: AddRemove_Items],
-//							browse_catalog [num: 1 assets: keyword targets: Search_Products],
-//							initiate_confirm_purchase [num: 1 assets: username targets: Purchase_Order],
-//							manage_account [num: 1 assets: account_info targets: Manage_Account]
-//		],		
 		Process Search_Products[
+			responsibilities: [product Forward:: product] //anything else doesn't make sense...
 			assets: keyword, product, productID
 			incoming flows: "jpetstoredfd.Customer.browse_catalog",
 							"jpetstoredfd.Orders_And_ProductsDB.read_product_list"
@@ -112,6 +92,7 @@ EDFD jpetstoredfd[
 							provide_product_list [num: 1 assets: product targets: Customer]
 		],	
 		Process Purchase_Order[
+			responsibilities: [username, account_info, cart Joiner:: order]
 			assets: username, account_info, cart, order
 			incoming flows: "jpetstoredfd.CartDB.read_cart",
 							"jpetstoredfd.AccountDB.read_account_info",
@@ -119,6 +100,8 @@ EDFD jpetstoredfd[
 			outgoing flows: send_order [num: 1 assets: order targets: Orders_And_ProductsDB]
 		],
 		Process AddRemove_Items[
+			responsibilities: [itemID Forward:: itemID],
+							  [item Forward:: item]
 			assets: itemID, item
 			incoming flows: "jpetstoredfd.CartDB.read_cart_items",
 							"jpetstoredfd.Customer.manage_cart"
@@ -126,6 +109,7 @@ EDFD jpetstoredfd[
 							provide_item_list [num: 1 assets: item targets: Customer]
 		],
 		Process Manage_Account[
+			responsibilities: [account_info Forward:: account_info]
 			assets: account_info
 			incoming flows: "jpetstoredfd.Customer.manage_account"
 			outgoing flows: write_account_info [num: 1 assets: account_info targets: AccountDB]
