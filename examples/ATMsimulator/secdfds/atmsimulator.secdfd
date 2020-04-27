@@ -94,7 +94,8 @@ EDFD atmsimulator[
 		],
 		Process Update_Display[
 			responsibilities: [status, balance, account Joiner:: display_view],
-							  [card, balance Forward:: card, balance],
+							  [balance Forward:: balance],
+							  [card Forward:: card],
 							  //both for deposit and withdrawal
 							  [keyboard_input, balance Joiner:: amount],
 							  [account Forward:: account],
