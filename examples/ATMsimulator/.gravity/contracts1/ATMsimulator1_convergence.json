@@ -1,0 +1,60 @@
+{
+   "contracts":[
+      {
+         "joiner":[
+            {
+               "secdfd":"atmsimulator1",
+               "element":"Update_Display_Perform_Session"
+            },
+            {
+               "secdfd":"atmsimulator1",
+               "element":"Network_Bank"
+            },
+            {
+                "secdfd": "atmsimulator1", 
+                "element": "Perform_Transaction"
+            },
+            {
+               "secdfd":"atmsimulator1",
+               "element":"Check_Balance"
+            },
+            {
+               "secdfd":"atmsimulator1",
+               "element":"Transfer"
+            },
+            {
+                "secdfd":"atmsimulator1",
+                "element":"Deposit"
+            },
+            {
+               "secdfd":"atmsimulator1",
+               "element":"Withdraw"
+            },
+         ]
+      },
+       {
+         "forward":[
+            {
+               "secdfd":"atmsimulator1",
+               "element":"Retain_Card"
+            },
+            {
+                "secdfd":"atmsimulator1",
+                "element":"Read_Card_Verify_PIN"
+            },
+            {
+               "secdfd":"atmsimulator1",
+               "element":"Network_Bank"
+            },
+            {
+                "secdfd": "atmsimulator1", 
+                "element": "Perform_Transaction"
+            },
+            {
+                 "secdfd":"atmsimulator1",
+                 "element":"Print_receipt"
+            },
+         ]
+      }
+   ]
+}

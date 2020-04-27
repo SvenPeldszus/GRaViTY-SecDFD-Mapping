@@ -1,0 +1,157 @@
+EDFD atmsimulator[
+	assets:
+		Asset card
+				type: Object
+				values: [H Av]
+				source: Customer
+				targets: Read_Card_Verify_PIN,
+		Asset PIN
+				type: Object
+				values: [H C], [H I]
+				source: Customer
+				targets: Read_Card_Verify_PIN, Bank,
+		Asset keyboard_input 
+				type: String
+				values: [H I], [H C]
+				source: Customer
+				targets: Update_Display_Perform_Session,
+		Asset display_view 
+				type: String
+				values: [H I], [H C], [H Av]
+				source: Perform_Transaction
+				targets: Customer, Update_Display_Perform_Session,
+		Asset status 
+				type: Object
+				values: [H I], [H C], [M Av]
+				source: Bank
+				targets: Update_Display_Perform_Session, Read_Card_Verify_PIN, Perform_Transaction,
+		Asset account 
+				type: Object
+				values: [H I], [H C]
+				source: Read_Card_Verify_PIN
+				targets: Update_Display_Perform_Session, Transfer, Deposit, Withdraw, Check_Balance,
+		Asset amount 
+				//integer (Number) is the same as money! just an int
+				type: Object
+				values: [H I]
+				source: Update_Display_Perform_Session
+				targets: Deposit, Withdraw, Transfer, Check_Balance,
+		Asset message 
+				type: Object
+				values: [H I], [H C], [H Av]
+				source: Update_Display_Perform_Session
+				targets: Network_Bank,	
+		Asset receipt 
+				type: Object
+				values: [L Av]
+				source: Perform_Transaction
+				targets: Customer
+	elements:
+		ExternalEntity Customer[
+			assets: keyboard_input, display_view, card, receipt, PIN
+			incoming flows: "Print_receipt.print_return_card", 
+							"Update_Display_Perform_Session.refresh_display"
+			outgoing flows: insert_card_and_PIN [num: 1  assets: card, PIN targets: Read_Card_Verify_PIN],
+							use_keyboard [num: 1 assets: card, keyboard_input targets: Update_Display_Perform_Session]
+		],
+		ExternalEntity Bank[
+			assets: status, message
+			incoming flows: "Network_Bank.send_requested_tr_message", 
+							"Read_Card_Verify_PIN.check_PIN"
+			outgoing flows: PIN_status [num: 1  assets: status targets: Read_Card_Verify_PIN],
+							tr_status [num: 1 assets: status targets: Network_Bank]
+		],
+		Process Retain_Card[
+			responsibilities: [status Forward:: status]
+			assets: status
+			incoming flows: "Read_Card_Verify_PIN.wrong_four_times"
+			outgoing flows: wrong_four_times_notify [num: 1 assets: status targets: Update_Display_Perform_Session]
+		],
+		Process Update_Display_Perform_Session[
+			responsibilities: [account, keyboard_input Joiner:: message],
+							  [status, display_view Joiner:: display_view]
+			assets: keyboard_input, display_view, status, account, message
+			incoming flows: "Customer.use_keyboard",
+							"Retain_Card.wrong_four_times_notify",
+							"Read_Card_Verify_PIN.right_PIN",
+							"Perform_Transaction.update_view"
+			outgoing flows: refresh_display [num: 1 assets: display_view targets: Customer],
+							get_specifics_from_customer [num: 1 assets: message targets: Perform_Transaction]
+		],
+		Process Perform_Transaction[
+			responsibilities: [receipt Forward:: receipt], //on all incoming flows with receipt
+							  [message Forward:: message],
+							  [status Joiner:: display_view],
+							  // should be Splitter
+							  [message Forward:: account],
+							  [message Forward:: amount]
+			assets: message, display_view, receipt, account, amount, status
+			incoming flows: "Network_Bank.bank_tr_approval",
+							"Update_Display_Perform_Session.get_specifics_from_customer",
+							 "Check_Balance.generate_balance_r",
+							 "Deposit.generate_deposit_r",
+							 "Transfer.generate_transfer_r",
+							 "Withdraw.generate_withdraw_r"
+			outgoing flows: update_view [num: 1 assets: display_view targets: Update_Display_Perform_Session],
+			print_r [num: 1 assets: receipt targets: Print_receipt],
+			message_to_network [num:1 assets: message targets: Network_Bank],
+			new_withdraw [num: 1 assets: amount targets: Withdraw],
+			new_deposit [num: 1 assets: amount targets: Deposit],
+			new_check_balance [num: 1 assets: account targets: Check_Balance],
+			new_transfer [num: 1 assets: account targets: Transfer]
+		],
+		Process Read_Card_Verify_PIN[
+			responsibilities: [card Forward:: account],
+						  	  [PIN Forward:: PIN],
+						  	  [card Forward:: card],
+						  	  [status Forward:: status]
+			assets: status, PIN, card, account
+			incoming flows: "Customer.insert_card_and_PIN", 
+							"Bank.PIN_status"
+			outgoing flows: wrong_four_times [num: 1 assets: status targets: Retain_Card],
+							right_PIN [num: 1 assets: status, account targets: Update_Display_Perform_Session],
+							check_PIN [num: 1 assets: account, PIN targets: Bank]
+		],	
+		Process Print_receipt[
+			responsibilities: [receipt Forward:: receipt]
+			assets: receipt
+			incoming flows: "Perform_Transaction.print_r"
+			outgoing flows: print_return_card [num: 1 assets: receipt targets: Customer]
+		],
+		Process Check_Balance[
+			responsibilities: [account, amount Joiner:: receipt]
+			assets: account, amount, receipt
+			incoming flows: "Perform_Transaction.new_check_balance"
+			outgoing flows: generate_balance_r [num: 1 assets: receipt targets: Perform_Transaction]
+		],
+		Process Transfer[
+			responsibilities: [account, amount Joiner:: receipt]
+			assets: account, amount, receipt
+			incoming flows: "Perform_Transaction.new_transfer"
+			outgoing flows: generate_transfer_r [num: 1 assets: receipt targets: Perform_Transaction]
+		],
+		Process Deposit[
+			responsibilities: [account, amount Joiner:: receipt],
+							  [account, amount, receipt Joiner:: message]
+			assets: message, account, amount, receipt
+			incoming flows: "Perform_Transaction.new_deposit"
+			outgoing flows: generate_deposit_r [num: 1 assets: receipt targets: Perform_Transaction],
+							inform_bank [num: 1 assets: message targets: Network_Bank]
+		],
+		Process Withdraw[
+			responsibilities: [account, amount Joiner:: receipt]
+			assets: account, amount, receipt
+			incoming flows: "Perform_Transaction.new_withdraw"
+			outgoing flows: generate_withdraw_r [num: 1 assets: receipt targets: Perform_Transaction]
+		],
+		Process Network_Bank[
+			responsibilities: [status Forward:: status],
+				  			  [message Forward:: message]
+			assets: status, message
+			incoming flows: "Perform_Transaction.message_to_network", 
+							"Bank.tr_status",
+							"Deposit.inform_bank"
+			outgoing flows: send_requested_tr_message [num: 1 assets: message targets: Bank],
+							bank_tr_approval [num: 1 assets: status targets: Perform_Transaction]
+		]
+]

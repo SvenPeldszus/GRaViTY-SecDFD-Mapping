@@ -1,0 +1,30 @@
+{
+   "contracts":[
+      {
+         "encryptorhash":[
+            {
+            }
+         ]
+      },
+      {
+         "decrypt":[
+            {
+            }
+         ]
+      },
+      {
+         "forward":[
+             {
+                 
+             }
+         ]
+      },
+      {  
+         "joiner":[
+             {
+                 
+             }
+         ]
+      }
+   ]
+}
