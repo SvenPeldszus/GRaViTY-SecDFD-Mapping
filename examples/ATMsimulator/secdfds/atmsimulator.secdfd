@@ -77,7 +77,7 @@ EDFD atmsimulator[
 							"atmsimulator.Dispense_Cash.money_to_customer"
 			outgoing flows: insert_card_and_PIN [num: 1  assets: card, PIN targets: Read_Card_Verify_PIN],
 							//insert_envelope [num: 1 assets: envelope targets: Accept_Envelope],
-							use_keyboard [num: 1 assets: keyboard_input targets: Update_Display]
+							use_keyboard [num: 1 assets: card, keyboard_input targets: Update_Display]
 		],
 		ExternalEntity Bank[
 			assets: transaction, status, balance
@@ -87,11 +87,18 @@ EDFD atmsimulator[
 							tr_status [num: 1 assets: status targets: Network_Bank]
 		],
 		Process Retain_Card[
+			responsibilities: [status Forward:: status]
 			assets: status
 			incoming flows: "atmsimulator.Read_Card_Verify_PIN.wrong_four_times"
 			outgoing flows: wrong_four_times_notify [num: 1 assets: status targets: Update_Display]
 		],
 		Process Update_Display[
+			responsibilities: [status, balance, account Joiner:: display_view],
+							  [card, balance Forward:: card, balance],
+							  //both for deposit and withdrawal
+							  [keyboard_input, balance Joiner:: amount],
+							  [account Forward:: account],
+							  [account, amount Joiner:: message]
 			assets: keyboard_input, display_view, status, balance, account, message, amount
 			incoming flows: "atmsimulator.Customer.use_keyboard",
 							"atmsimulator.Retain_Card.wrong_four_times_notify",
@@ -105,9 +112,12 @@ EDFD atmsimulator[
 							transfer_from_to [num: 1 assets: message targets: Transfer],
 							deposit_amount [num: 1 assets: amount targets: Deposit],
 							withdraw_amount [num: 1 assets: amount targets: Withdraw],
-							print_reciept [num: 1 assets: keyboard_input targets: Eject_Card_Print_Receipt]
+							print_reciept [num: 1 assets: card, balance targets: Eject_Card_Print_Receipt]
 		],
 		Process Read_Card_Verify_PIN[
+			responsibilities: [card, PIN Joiner:: account],
+						  	  [PIN Forward:: PIN],
+						  	  [status Forward:: status]
 			assets: status, PIN, card, account
 			incoming flows: "atmsimulator.Customer.insert_card_and_PIN", 
 							"atmsimulator.Bank.PIN_status"
@@ -121,11 +131,16 @@ EDFD atmsimulator[
 //			outgoing flows: count_the_amount [num: 1 assets: amount targets: Deposit]
 //		],	
 		Process Eject_Card_Print_Receipt[
-			assets: card, receipt
+			responsibilities: [card, balance Joiner:: receipt],
+							  [card Discarder:: ]
+			//fixed: receipt includes this.atm, this.balances, this.card, so card needs to flow: Customer - Update display - receipt printer
+			assets: receipt, card, balance
 			incoming flows: "atmsimulator.Update_Display.print_reciept"
-			outgoing flows: print_return_card [num: 1 assets: receipt,card targets: Customer]
+			outgoing flows: print_return_card [num: 1 assets: receipt targets: Customer]
 		],
 		Process Check_Balance[
+			responsibilities: [balance Forward:: balance],
+							  [account Forward:: account]
 			assets: account, balance
 			incoming flows: "atmsimulator.Update_Display.balance_for_account",
 							"atmsimulator.Network_Bank.balance_to_check_balance"
@@ -133,6 +148,8 @@ EDFD atmsimulator[
 							balance_to_display [num: 1 assets: balance targets: Update_Display]
 		],
 		Process Transfer[
+			responsibilities: [status Forward:: status],
+							  [message Forward:: message]
 			assets: status, message
 			incoming flows: "atmsimulator.Update_Display.transfer_from_to",
 							"atmsimulator.Network_Bank.status_to_transfer"
@@ -140,6 +157,8 @@ EDFD atmsimulator[
 							transfer_status_to_display [num: 1 assets: status targets: Update_Display]
 		],
 		Process Deposit[
+			responsibilities: [status Forward:: status],
+				  			  [amount Forward:: amount]
 			assets: status, amount
 			incoming flows: "atmsimulator.Update_Display.deposit_amount",
 							//"atmsimulator.Accept_Envelope.count_the_amount",
@@ -148,12 +167,16 @@ EDFD atmsimulator[
 							deposit_status_to_display [num: 1 assets: status targets: Update_Display]
 		],
 		Process Dispense_Cash[
+			responsibilities: [status Forward:: status],
+				  			  [amount Joiner:: money]
 			assets: status, amount, money
 			incoming flows: "Withdraw.withdraw_status_to_display"
 			outgoing flows: money_to_customer [num: 1 assets: money targets: Customer],
 							dispense_status_to_display [num: 1 assets: status targets: Update_Display]
 		],
 		Process Withdraw[
+			responsibilities: [amount Forward:: amount],
+				  			  [status Forward:: status]
 			assets: amount, status
 			incoming flows: "atmsimulator.Update_Display.withdraw_amount",
 							"atmsimulator.Network_Bank.status_to_withdraw"
@@ -161,6 +184,14 @@ EDFD atmsimulator[
 							withdraw_status_to_display [num: 1 assets: status targets: Update_Display]
 		],
 		Process Network_Bank[
+			responsibilities: //transfer
+							  [message Joiner:: transaction],
+							  //check balance
+				  			  [account Joiner:: transaction],
+				  			  //deposit & withdraw
+				  			  [amount Joiner:: transaction],
+				  			  [status Forward:: status],
+				  			  [balance Forward:: balance]
 			assets: status, amount, message, account, balance, transaction
 			incoming flows: "atmsimulator.Bank.tr_status",
 							"atmsimulator.Check_Balance.balance_for_account_tr",
