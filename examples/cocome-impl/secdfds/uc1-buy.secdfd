@@ -1,0 +1,89 @@
+EDFD uc1 [
+	assets: 
+		Asset barcode
+			type: Number
+			values: [H C], [H I]
+			source: cashier
+			targets: scan_product_barcode, 
+		Asset scan_barcode_event
+			type: Object
+			values: [H C], [H I]
+			source: scan_product_barcode	
+			targets: publish, on_barcode_event,
+		Asset start_sale_event
+			type: Object
+			values: [H C], [H I]
+			source: start_sale
+			targets: publish, 
+		Asset total_change_event
+			type: Object
+			values: [H C], [H I]
+			source: on_barcode_event	
+			targets: publish,
+		Asset finish_sale_event
+			type: Object
+			values: [H C], [H I]
+			source: finish_sale	
+			targets: publish,
+		Asset product_with_stock_item
+			type: Object
+			values: [H C], [H I]
+			source: get_product_stock_item	
+			targets: on_barcode_event, get_sales_price,
+		Asset price
+			type: Number
+			values: [H C], [H I]
+			source: get_sales_price	
+			targets: on_barcode_event
+	elements:
+		ExternalEntity cashier [
+			assets: barcode
+			outgoing flows: scan [num: 0 assets: barcode source: cashier targets: scan_product_barcode]
+			attacker: false
+		],
+		Process start_sale [
+			assets: start_sale_event
+			outgoing flows: push_start [num: 0 assets: start_sale_event source: start_sale targets: publish]
+		],
+		Process scan_product_barcode [
+			assets: barcode
+			incoming flows: "cashier.scan"
+			outgoing flows: push_scan [num: 0 assets: scan_barcode_event source: scan_product_barcode targets: publish]
+		],
+		Process publish [
+			responsibilities: [scan_barcode_event Forward:: scan_barcode_event]
+			assets: start_sale_event, scan_barcode_event, total_change_event, finish_sale_event
+			incoming flows: "start_sale.push_start", 
+			"scan_product_barcode.push_scan", 
+			"on_barcode_event.push_change",
+			"finish_sale.push_finish"
+			outgoing flows: notify_backend [num: 0 assets: scan_barcode_event source: publish targets: on_barcode_event]
+		],
+		Process on_barcode_event [
+			responsibilities: [product_with_stock_item Forward:: product_with_stock_item]
+			assets: barcode, product_with_stock_item, price, total_change_event
+			incoming flows: "get_product_stock_item.fwd_product", "get_sales_price.fwd_price", "publish.notify_backend"
+			outgoing flows:	get_product [num: 0 assets: barcode source: on_barcode_event targets: get_product_stock_item],
+				get_price [num: 0 assets: product_with_stock_item source: on_barcode_event targets: get_sales_price],
+				push_change [num: 0 assets: total_change_event source: on_barcode_event targets: publish]
+		],
+		Process get_product_stock_item [
+			responsibilities: [product_with_stock_item Forward:: product_with_stock_item]
+			assets: barcode, product_with_stock_item
+			incoming flows: "on_barcode_event.get_product", "store_query.query_result"
+			outgoing flows: fwd_product [num: 0 assets: product_with_stock_item source: get_product_stock_item targets: on_barcode_event]
+		],
+		Process get_sales_price [
+			assets: product_with_stock_item, price
+			incoming flows: "on_barcode_event.get_price"
+			outgoing flows: fwd_price [num: 0 assets: price source: get_sales_price targets: on_barcode_event]
+		],
+		Process finish_sale [
+			assets: finish_sale_event
+			outgoing flows: push_finish [num: 0 assets: finish_sale_event source: finish_sale targets: publish]
+		],
+		DataStore store_query [
+			assets: product_with_stock_item
+			outgoing flows: query_result [num: 0 assets: product_with_stock_item source: store_query targets: get_product_stock_item]
+		]
+]
