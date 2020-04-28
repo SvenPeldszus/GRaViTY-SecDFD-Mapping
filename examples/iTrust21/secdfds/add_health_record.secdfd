@@ -1,0 +1,120 @@
+EDFD add_health_record [
+	assets:
+		Asset pid
+			type: Number
+			values: [H C], [H I]
+			source: registered_employee
+			targets: create_record,
+		Asset record_form
+			type: Object
+			values: [H C], [H I]
+			source: registered_employee
+			targets: create_record,
+		Asset record
+			type: Object
+			values: [H C], [H I]
+			source: registered_employee
+			targets: create_record, db,
+		Asset ovID
+			type: Number
+			values: [H C], [H I]
+			source: registered_employee
+			targets: create_record,
+		Asset office_visit
+			type: Object
+			values: [H C], [H I]
+			source: db
+			targets: create_record,
+		Asset patient_age
+			type: Number
+			values: [H C], [H I]
+			source: add_record
+			targets: create_record,
+		Asset sucessfully_stored
+			type: String
+			values: [H I]
+			source: create_record
+			targets: registered_employee
+	elements:
+		ExternalEntity registered_employee [
+			assets: pid, record_form, ovID
+			incoming flows: "create_record.inform_employee"
+			outgoing flows: add_from_form [
+				num: 0 
+				assets: pid, record_form, ovID 
+				source: registered_employee 
+				targets: add_record
+			]
+			attacker: false
+		],
+		Process add_record [
+			responsibilities: [pid Forward:: pid], 
+							  [office_visit Forward:: office_visit], 
+							  [record_form Forward:: record_form],
+							  [ovID Forward:: ovID]
+			assets: pid, record_form, ovID, office_visit
+			incoming flows: "registered_employee.add_from_form", 
+							"get_office_visit.provide_age" 
+			outgoing flows: fetch_patient_age [
+				num: 0 
+				assets: ovID
+				source: add_record 
+				targets: get_office_visit
+			],
+			generate_new_record [
+				num: 0
+				assets: pid, record_form, office_visit, office_visit, patient_age
+				source: add_record 
+				targets: create_record
+			]
+		],
+		Process get_office_visit [
+			responsibilities: [pid Forward:: pid],
+							  [office_visit Forward:: office_visit]
+			assets: pid, office_visit
+			incoming flows: "add_record.fetch_patient_age",
+							"db.db_check_result"
+			outgoing flows: db_check [
+				num: 0
+				assets: pid
+				source: get_office_visit 
+				targets: db
+			],
+			provide_age [
+				num: 0
+				assets: office_visit
+				source: get_office_visit 
+				targets: add_record
+			]
+		],
+		Process create_record [
+			responsibilities: [patient_age, record_form Joiner:: record], // for form validation 
+							  [pid, record_form, office_visit Joiner:: record],
+							  [pid Forward:: pid]
+			assets: pid, office_visit, record, ovID, patient_age
+			incoming flows: "add_record.generate_new_record"
+			outgoing flows: db_put [
+				num: 0
+				assets: pid, record
+				source: create_record 
+				targets: db
+			],
+			inform_employee [
+				num: 0
+				assets: sucessfully_stored
+				source: create_record
+				targets: registered_employee
+			]
+		],
+		DataStore db [
+			assets: pid, office_visit, record
+			incoming flows: "get_office_visit.db_check",
+							"create_record.db_put"
+			outgoing flows: db_check_result [
+				num: 0 
+				assets: office_visit
+				source: db 
+				targets: get_office_visit
+			]
+		] 
+]

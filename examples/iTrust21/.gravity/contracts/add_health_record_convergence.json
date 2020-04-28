@@ -1,0 +1,28 @@
+{
+   "contracts":[
+      {
+         "forward":[
+            {
+               "secdfd":"add_health_record",
+               "element":"add_record"
+            },
+            {
+                "secdfd":"add_health_record",
+                "element":"get_office_visit"
+            },
+            {
+                "secdfd":"add_health_record",
+                "element":"create_record"
+            }
+         ]
+      },
+      {  
+         "joiner":[
+            {
+               "secdfd":"add_health_record",
+               "element":"create_record"
+            }
+         ]
+      }
+   ]
+}
