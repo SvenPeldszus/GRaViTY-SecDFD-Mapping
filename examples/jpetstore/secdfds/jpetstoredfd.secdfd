@@ -54,42 +54,42 @@ EDFD jpetstoredfd[
 	elements:
 		ExternalEntity Customer[
 			assets: account_info, username, password, itemID, keyword
-			outgoing flows: customer_login [num: 1  assets: password, username, account_info targets: Authenticate],
-							manage_cart [num: 1 assets: itemID targets: AddRemove_Items],
-							browse_catalog [num: 1 assets: keyword targets: Search_Products],
-							initiate_confirm_purchase [num: 1 assets: username targets: Purchase_Order],
-							manage_account [num: 1 assets: account_info targets: Manage_Account]
+			outgoing flows: customer_login [num: 1  assets: password, username, account_info source: Customer targets: Authenticate],
+							manage_cart [num: 1 assets: itemID source: Customer targets: AddRemove_Items],
+							browse_catalog [num: 1 assets: keyword source: Customer targets: Search_Products],
+							initiate_confirm_purchase [num: 1 assets: username source: Customer targets: Purchase_Order],
+							manage_account [num: 1 assets: account_info source: Customer targets: Manage_Account]
 		],
 		DataStore CartDB[
 			assets: itemID,item, cart
 			incoming flows: "AddRemove_Items.add_or_remove"
-			outgoing flows: read_cart_items [num: 1 assets: item targets: AddRemove_Items],
-							read_cart [num: 1 assets: cart targets: Purchase_Order]	
+			outgoing flows: read_cart_items [num: 1 assets: item source: CartDB targets: AddRemove_Items],
+							read_cart [num: 1 assets: cart source: CartDB targets: Purchase_Order]	
 		],
 		DataStore AccountDB[
 			assets: account_info
 			incoming flows: "jpetstoredfd.Manage_Account.write_account_info"
-			outgoing flows: read_account_info [num: 1 assets: account_info targets: Purchase_Order]	
+			outgoing flows: read_account_info [num: 1 assets: account_info source: AccountDB targets: Purchase_Order]	
 		],
 		DataStore Orders_And_ProductsDB[
 			assets: order, product, productID
 			incoming flows: "jpetstoredfd.Purchase_Order.send_order", 
 							"jpetstoredfd.Search_Products.read_products"
-			outgoing flows: read_product_list [num: 1 assets: product targets: Search_Products]	
+			outgoing flows: read_product_list [num: 1 assets: product source: Orders_And_ProductsDB targets: Search_Products]	
 		],
 		Process Authenticate[
 			responsibilities: [password, username Joiner:: account_info]
 			assets: password, username, account_info
 			incoming flows: "Customer.customer_login"
-			outgoing flows: info_to_manage_account [num: 1 assets: account_info targets: Manage_Account]
+			outgoing flows: info_to_manage_account [num: 1 assets: account_info source: Authenticate targets: Manage_Account]
 		],
 		Process Search_Products[
 			responsibilities: [product Forward:: product] //anything else doesn't make sense...
 			assets: keyword, product, productID
 			incoming flows: "jpetstoredfd.Customer.browse_catalog",
 							"jpetstoredfd.Orders_And_ProductsDB.read_product_list"
-			outgoing flows: read_products [num: 1 assets: productID targets: Orders_And_ProductsDB],
-							provide_product_list [num: 1 assets: product targets: Customer]
+			outgoing flows: read_products [num: 1 assets: productID source: Search_Products targets: Orders_And_ProductsDB],
+							provide_product_list [num: 1 assets: product source: Search_Products targets: Customer]
 		],	
 		Process Purchase_Order[
 			responsibilities: [username, account_info, cart Joiner:: order]
@@ -97,7 +97,7 @@ EDFD jpetstoredfd[
 			incoming flows: "jpetstoredfd.CartDB.read_cart",
 							"jpetstoredfd.AccountDB.read_account_info",
 							"jpetstoredfd.Customer.initiate_confirm_purchase"
-			outgoing flows: send_order [num: 1 assets: order targets: Orders_And_ProductsDB]
+			outgoing flows: send_order [num: 1 assets: order source: Purchase_Order targets: Orders_And_ProductsDB]
 		],
 		Process AddRemove_Items[
 			responsibilities: [itemID Forward:: itemID],
@@ -105,13 +105,13 @@ EDFD jpetstoredfd[
 			assets: itemID, item
 			incoming flows: "jpetstoredfd.CartDB.read_cart_items",
 							"jpetstoredfd.Customer.manage_cart"
-			outgoing flows: add_or_remove [num: 1 assets: itemID targets: CartDB],
-							provide_item_list [num: 1 assets: item targets: Customer]
+			outgoing flows: add_or_remove [num: 1 assets: itemID source: AddRemove_Items targets: CartDB],
+							provide_item_list [num: 1 assets: item source: AddRemove_Items targets: Customer]
 		],
 		Process Manage_Account[
 			responsibilities: [account_info Forward:: account_info]
 			assets: account_info
 			incoming flows: "jpetstoredfd.Customer.manage_account"
-			outgoing flows: write_account_info [num: 1 assets: account_info targets: AccountDB]
+			outgoing flows: write_account_info [num: 1 assets: account_info source: Manage_Account targets: AccountDB]
 		]
 ]

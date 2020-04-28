@@ -51,21 +51,21 @@ EDFD atmsimulator[
 			assets: keyboard_input, display_view, card, receipt, PIN
 			incoming flows: "Print_receipt.print_return_card", 
 							"Update_Display_Perform_Session.refresh_display"
-			outgoing flows: insert_card_and_PIN [num: 1  assets: card, PIN targets: Read_Card_Verify_PIN],
-							use_keyboard [num: 1 assets: card, keyboard_input targets: Update_Display_Perform_Session]
+			outgoing flows: insert_card_and_PIN [num: 1  assets: card, PIN source: Customer targets: Read_Card_Verify_PIN],
+							use_keyboard [num: 1 assets: card, keyboard_input source: Customer targets: Update_Display_Perform_Session]
 		],
 		ExternalEntity Bank[
 			assets: status, message
 			incoming flows: "Network_Bank.send_requested_tr_message", 
 							"Read_Card_Verify_PIN.check_PIN"
-			outgoing flows: PIN_status [num: 1  assets: status targets: Read_Card_Verify_PIN],
-							tr_status [num: 1 assets: status targets: Network_Bank]
+			outgoing flows: PIN_status [num: 1  assets: status source: Bank targets: Read_Card_Verify_PIN],
+							tr_status [num: 1 assets: status source: Bank targets: Network_Bank]
 		],
 		Process Retain_Card[
 			responsibilities: [status Forward:: status]
 			assets: status
 			incoming flows: "Read_Card_Verify_PIN.wrong_four_times"
-			outgoing flows: wrong_four_times_notify [num: 1 assets: status targets: Update_Display_Perform_Session]
+			outgoing flows: wrong_four_times_notify [num: 1 assets: status source: Retain_Card targets: Update_Display_Perform_Session]
 		],
 		Process Update_Display_Perform_Session[
 			responsibilities: [account, keyboard_input Joiner:: message],
@@ -75,8 +75,8 @@ EDFD atmsimulator[
 							"Retain_Card.wrong_four_times_notify",
 							"Read_Card_Verify_PIN.right_PIN",
 							"Perform_Transaction.update_view"
-			outgoing flows: refresh_display [num: 1 assets: display_view targets: Customer],
-							get_specifics_from_customer [num: 1 assets: message targets: Perform_Transaction]
+			outgoing flows: refresh_display [num: 1 assets: display_view source: Update_Display_Perform_Session targets: Customer],
+							get_specifics_from_customer [num: 1 assets: message source: Update_Display_Perform_Session targets: Perform_Transaction]
 		],
 		Process Perform_Transaction[
 			responsibilities: [receipt Forward:: receipt], //on all incoming flows with receipt
@@ -92,13 +92,13 @@ EDFD atmsimulator[
 							 "Deposit.generate_deposit_r",
 							 "Transfer.generate_transfer_r",
 							 "Withdraw.generate_withdraw_r"
-			outgoing flows: update_view [num: 1 assets: display_view targets: Update_Display_Perform_Session],
-			print_r [num: 1 assets: receipt targets: Print_receipt],
-			message_to_network [num:1 assets: message targets: Network_Bank],
-			new_withdraw [num: 1 assets: amount targets: Withdraw],
-			new_deposit [num: 1 assets: amount targets: Deposit],
-			new_check_balance [num: 1 assets: account targets: Check_Balance],
-			new_transfer [num: 1 assets: account targets: Transfer]
+			outgoing flows: update_view [num: 1 assets: display_view source: Perform_Transaction targets: Update_Display_Perform_Session],
+			print_r [num: 1 assets: receipt source: Perform_Transaction targets: Print_receipt],
+			message_to_network [num:1 assets: message source: Perform_Transaction targets: Network_Bank],
+			new_withdraw [num: 1 assets: amount source: Perform_Transaction targets: Withdraw],
+			new_deposit [num: 1 assets: amount source: Perform_Transaction targets: Deposit],
+			new_check_balance [num: 1 assets: account source: Perform_Transaction targets: Check_Balance],
+			new_transfer [num: 1 assets: account source: Perform_Transaction targets: Transfer]
 		],
 		Process Read_Card_Verify_PIN[
 			responsibilities: [card Forward:: account],
@@ -108,41 +108,41 @@ EDFD atmsimulator[
 			assets: status, PIN, card, account
 			incoming flows: "Customer.insert_card_and_PIN", 
 							"Bank.PIN_status"
-			outgoing flows: wrong_four_times [num: 1 assets: status targets: Retain_Card],
-							right_PIN [num: 1 assets: status, account targets: Update_Display_Perform_Session],
-							check_PIN [num: 1 assets: account, PIN targets: Bank]
+			outgoing flows: wrong_four_times [num: 1 assets: status source: Read_Card_Verify_PIN targets: Retain_Card],
+							right_PIN [num: 1 assets: status, account source: Read_Card_Verify_PIN targets: Update_Display_Perform_Session],
+							check_PIN [num: 1 assets: account, PIN source: Read_Card_Verify_PIN targets: Bank]
 		],	
 		Process Print_receipt[
 			responsibilities: [receipt Forward:: receipt]
 			assets: receipt
 			incoming flows: "Perform_Transaction.print_r"
-			outgoing flows: print_return_card [num: 1 assets: receipt targets: Customer]
+			outgoing flows: print_return_card [num: 1 assets: receipt source: Print_receipt targets: Customer]
 		],
 		Process Check_Balance[
 			responsibilities: [account, amount Joiner:: receipt]
 			assets: account, amount, receipt
 			incoming flows: "Perform_Transaction.new_check_balance"
-			outgoing flows: generate_balance_r [num: 1 assets: receipt targets: Perform_Transaction]
+			outgoing flows: generate_balance_r [num: 1 assets: receipt source: Check_Balance targets: Perform_Transaction]
 		],
 		Process Transfer[
 			responsibilities: [account, amount Joiner:: receipt]
 			assets: account, amount, receipt
 			incoming flows: "Perform_Transaction.new_transfer"
-			outgoing flows: generate_transfer_r [num: 1 assets: receipt targets: Perform_Transaction]
+			outgoing flows: generate_transfer_r [num: 1 assets: receipt source: Transfer targets: Perform_Transaction]
 		],
 		Process Deposit[
 			responsibilities: [account, amount Joiner:: receipt],
 							  [account, amount, receipt Joiner:: message]
 			assets: message, account, amount, receipt
 			incoming flows: "Perform_Transaction.new_deposit"
-			outgoing flows: generate_deposit_r [num: 1 assets: receipt targets: Perform_Transaction],
-							inform_bank [num: 1 assets: message targets: Network_Bank]
+			outgoing flows: generate_deposit_r [num: 1 assets: receipt source: Deposit targets: Perform_Transaction],
+							inform_bank [num: 1 assets: message source: Deposit targets: Network_Bank]
 		],
 		Process Withdraw[
 			responsibilities: [account, amount Joiner:: receipt]
 			assets: account, amount, receipt
 			incoming flows: "Perform_Transaction.new_withdraw"
-			outgoing flows: generate_withdraw_r [num: 1 assets: receipt targets: Perform_Transaction]
+			outgoing flows: generate_withdraw_r [num: 1 assets: receipt source: Withdraw targets: Perform_Transaction]
 		],
 		Process Network_Bank[
 			responsibilities: [status Forward:: status],
@@ -151,7 +151,7 @@ EDFD atmsimulator[
 			incoming flows: "Perform_Transaction.message_to_network", 
 							"Bank.tr_status",
 							"Deposit.inform_bank"
-			outgoing flows: send_requested_tr_message [num: 1 assets: message targets: Bank],
-							bank_tr_approval [num: 1 assets: status targets: Perform_Transaction]
+			outgoing flows: send_requested_tr_message [num: 1 assets: message source: Network_Bank targets: Bank],
+							bank_tr_approval [num: 1 assets: status source: Network_Bank targets: Perform_Transaction]
 		]
 ]
