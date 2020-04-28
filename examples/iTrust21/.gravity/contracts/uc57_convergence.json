@@ -1,0 +1,45 @@
+{
+   "contracts":[
+      {
+         "encryptorhash":[
+            {
+               "secdfd":"uc57",
+               "element":"authentificate_password"
+            },
+            {
+                "secdfd":"uc57",
+                "element":"reset_password"
+            }
+         ]
+      },
+      {
+         "decrypt":[
+            {
+            }
+         ]
+      },
+      {
+         "forward":[
+             {
+               "secdfd":"uc57",
+               "element":"authentificate_password"
+            },
+            {
+                "secdfd":"uc57",
+                "element":"reset_password"
+            },
+            {
+                "secdfd":"uc57",
+                "element":"change_password"
+            }
+         ]
+      },
+      {  
+         "joiner":[
+             {
+                 
+             }
+         ]
+      }
+   ]
+}
