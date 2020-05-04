@@ -11,6 +11,14 @@
                "element":"Create_mash_password"
             },
             {
+               "secdfd":"rogue_setpasswordrecovery",
+               "element":"Encrypt_data"
+            },
+            {
+               "secdfd":"rogue_setpasswordrecovery",
+               "element":"Create_mash_password"
+            },
+            {
                "secdfd":"encrypt_absence_setpasswordrecovery",
                "element":"Encrypt_data"
             },
@@ -24,6 +32,10 @@
          "decrypt":[
             {
                "secdfd":"storepassword",
+               "element":"Decrypt_data"
+            },
+            {
+               "secdfd":"rogue_storepassword",
                "element":"Decrypt_data"
             },
             {
@@ -46,6 +58,19 @@
                 "secdfd":"storepassword",
                 "element":"Get_Password_External"
             },
+            {
+               "secdfd":"rogue_storepassword",
+               "element":"Find_node"
+            },
+            {
+               "secdfd":"rogue_storepassword",
+               "element":"Get_value"
+            },
+            {
+                "secdfd":"rogue_storepassword",
+                "element":"Get_Password_External"
+            },
+             
             {
                "secdfd":"decrypt_absence_storepassword",
                "element":"Find_node"
@@ -72,6 +97,22 @@
             },
             {
                "secdfd":"setpasswordrecovery",
+               "element":"Get_Password_External"
+            },
+            {
+               "secdfd":"rogue_setpasswordrecovery",
+               "element":"Remove"
+            },
+            {
+               "secdfd":"rogue_setpasswordrecovery",
+               "element":"Put_value"
+            },
+            {
+               "secdfd":"rogue_setpasswordrecovery",
+               "element":"Find_node"
+            },
+            {
+               "secdfd":"rogue_setpasswordrecovery",
                "element":"Get_Password_External"
             },
             {

@@ -1,0 +1,32 @@
+{
+   "contracts":[
+      {
+         "joiner":[
+            {
+               "secdfd":"jpetstore",
+               "element":"Authenticate"
+            },
+            {
+                "secdfd":"jpetstore",
+                "element":"Purchase_Order"
+            }
+         ]
+      },
+       {
+         "forward":[
+            {
+               "secdfd":"jpetstore",
+               "element":"Search_Products"
+            },
+            {
+               "secdfd":"jpetstore",
+               "element":"AddRemove_Items"
+            },
+            {
+                "secdfd":"jpetstore",
+                "element":"Manage_Account"
+            }
+         ]
+      }
+   ]
+}

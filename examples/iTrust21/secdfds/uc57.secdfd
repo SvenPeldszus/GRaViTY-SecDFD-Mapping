@@ -43,7 +43,11 @@ EDFD uc57_change_password [
 			attacker: false
 		],
 		Process change_password [
-			assets: id, old_password
+			responsibilities: [id Forward:: id], 
+							  [old_password Forward:: old_password], 
+							  [new_password Forward:: new_password],
+							  [validity User:: id, new_password] //not sure if needed
+			assets: id, old_password, new_password, validity
 			incoming flows: "registered_user.change",
 				"authentificate_password.check_result"
 			outgoing flows: check [
@@ -60,7 +64,10 @@ EDFD uc57_change_password [
 			]
 		],
 		Process authentificate_password [
-			assets: id, old_password
+			responsibilities: [id Forward:: id],
+							  [validity Forward:: validity],
+							  [old_password EncryptOrHash:: old_password_hashed]
+			assets: id, old_password, validity, old_password_hashed
 			incoming flows: "change_password.check",
 				"db.db_check_result"
 			outgoing flows: db_check [
@@ -77,7 +84,9 @@ EDFD uc57_change_password [
 			]
 		],
 		Process reset_password [
-			assets: id, old_password
+			responsibilities: [id Forward:: id], 
+							  [new_password EncryptOrHash:: new_password_hashed]
+			assets: id, new_password, new_password_hashed
 			incoming flows: "change_password.reset"
 			outgoing flows: db_put [
 				num: 6 

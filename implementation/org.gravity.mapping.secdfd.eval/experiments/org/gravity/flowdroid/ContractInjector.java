@@ -49,8 +49,15 @@ public class ContractInjector {
 	private Map<ResponsibilityType, Integer> injectTasks;
 	private Set<Responsibility> injected;
 
+	// if we want to inject a data flow leak, we need to remove a confidential asset
+	// from the data flow going into a sink. This results in a forbidden sink (not
+	// whitelist), for which FlowDroid id run.
+	//private Map<String, Set<String>> possibleLeaks;
+	//private Integer removeTasks;
+	//private Set<Objective> injectedE;
+
 	/**
-	 * Constructor
+	 * Constructor (contracts)
 	 */
 	public ContractInjector(IFolder destination, HashMap<ResponsibilityType, Integer> injectTasks, Mapper mapper,
 			Map<String, List<Map<String, String>>> absenceGT, Map<String, List<Map<String, String>>> convergenceGT) {
@@ -60,6 +67,18 @@ public class ContractInjector {
 		this.convergenceGT = convergenceGT;
 		this.injected = new HashSet<>();
 	}
+
+	/**
+	 * Constructor (data flow leaks)
+	 */
+	/*
+	public ContractInjector(IFolder destination, Integer removeTasks, Mapper mapper) {
+		this.removeTasks = removeTasks;
+		this.mapper = mapper;
+		this.possibleLeaks = new HashMap<>();
+		possibleLeaks.put(mapper.getDFD().getName(), new HashSet<>());
+		this.injectedE = new HashSet<>();
+	}*/
 
 	/**
 	 * @return the injectTasks
@@ -74,6 +93,7 @@ public class ContractInjector {
 	public Set<Responsibility> getInjected() {
 		return injected;
 	}
+
 
 	public Map<String, List<Map<String, String>>> performTasks() {
 		EDFD secdfd = mapper.getDFD();
@@ -98,9 +118,9 @@ public class ContractInjector {
 							Map<String, String> newEntry = new HashMap<>();
 							newEntry.put("secdfd", secdfd.getName().toLowerCase());
 							newEntry.put("element", randProcess.getName().toLowerCase());
-							//absenceGT.get(keyStringLC).add(newEntry);
+							// absenceGT.get(keyStringLC).add(newEntry);
 							List<Map<String, String>> existingEntries = absenceGT.get(keyStringLC);
-							if (existingEntries!=null) {
+							if (existingEntries != null) {
 								existingEntries.add(newEntry);
 							} else {
 								List<Map<String, String>> newList = new ArrayList<>();
@@ -121,6 +141,7 @@ public class ContractInjector {
 					LOGGER.info("SecDFD only contains processes for which there is a convergence of contract "
 							+ keyStringLC + ".");
 				}
+
 			}
 			LOGGER.info("Skipped " + skipped + " inject tasks.");
 		});
@@ -128,6 +149,48 @@ public class ContractInjector {
 		injectTasks.clear();
 		return absenceGT;
 	}
+
+	/**
+	 * @param allowedSinksMap: This map is populated with sink that are allowed per
+	 *                         asset. It was filled during source sink finding. The
+	 *                         allowed sinks are there, because the asset is
+	 *                         expected to flow to that sink (e.g., HasMap put
+	 *                         operation). The assets with allowed sinks are
+	 *                         candidates for removal to inject leaks.
+	 * @return 
+	 * @return
+	 */
+	/*
+	public DFAnalysis performRemovalTasks(DFAnalysis dfAnalysis) {
+		String SecDFDName = mapper.getDFD().getName();
+		Map<Asset, List<String>> allowedSinksMap = dfAnalysis.getAllowedMap();
+		while (removeTasks > 0) {
+			Set<EObject> assets = allowedSinksMap.keySet().parallelStream()
+					.filter(asset -> !allowedSinksMap.get(asset).isEmpty()).filter(EObject.class::isInstance)
+					.map(a -> (EObject) a).collect(Collectors.toSet());
+			if (assets.isEmpty()) {
+				LOGGER.info("SecDFD does not contain a single asset which has allowed sinks.");
+				removeTasks = 0;
+				return dfAnalysis;
+			}
+			Asset randomAsset = (Asset) getRandom(assets);
+			// get random allowed sink
+			List<String> allowedSinks = allowedSinksMap.get(randomAsset);
+			String randomAllowedSink = allowedSinks
+					.get(ThreadLocalRandom.current().nextInt(0, allowedSinks.size() + 1));
+
+			// remove from allowed sinks
+			dfAnalysis.getAllowedMap().get(randomAsset).remove(randomAllowedSink);
+			// add to forbidden sinks
+			
+			
+			// add to ground truth
+			possibleLeaks.get(SecDFDName).add(randomAllowedSink);
+
+			removeTasks--;
+		}
+		return dfAnalysis;
+	}*/
 
 	private boolean inModel(Responsibility r, Process randProcess) {
 		for (Responsibility res : randProcess.getResponsibility()) {

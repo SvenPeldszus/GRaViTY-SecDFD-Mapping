@@ -2,7 +2,6 @@ package org.gravity.flowdroid;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -36,6 +35,10 @@ public class AssetResults {
 
 	public Set<Entry<String, InfoflowResults>> getSingleResults() {
 		return allResults.entrySet();
+	}
+	
+	public Map<String, InfoflowResults> getResults() {
+		return allResults;
 	}
 
 	/**

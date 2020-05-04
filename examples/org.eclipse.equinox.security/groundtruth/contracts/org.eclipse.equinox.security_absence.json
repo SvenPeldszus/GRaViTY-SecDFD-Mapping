@@ -27,6 +27,14 @@
                "element":"Get_value"
             },
             {
+               "secdfd":"rogue_storepassword",
+               "element":"Find_node"
+            },
+            {
+               "secdfd":"rogue_storepassword",
+               "element":"Get_value"
+            },
+            {
                "secdfd":"decrypt_absence_storepassword",
                "element":"Find_node"
             },
@@ -44,6 +52,18 @@
             },
             {
                "secdfd":"setpasswordrecovery",
+               "element":"Find_node"
+            },
+            {
+               "secdfd":"rogue_setpasswordrecovery",
+               "element":"Remove"
+            },
+            {
+               "secdfd":"rogue_setpasswordrecovery",
+               "element":"Put_value"
+            },
+            {
+               "secdfd":"rogue_setpasswordrecovery",
                "element":"Find_node"
             },
             {

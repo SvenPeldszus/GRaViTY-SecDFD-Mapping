@@ -1,0 +1,25 @@
+{
+   "contracts":[
+      {
+         "forward":[
+            {
+               "secdfd":"uc1-buy",
+               "element":"publish"
+            },
+            {
+                "secdfd":"uc1-buy",
+                "element":"on_barcode_event"
+            },
+            {
+                "secdfd":"uc1-buy",
+                "element":"get_product_stock_item"
+            }
+         ]
+      },
+      {  
+         "joiner":[
+            
+         ]
+      }
+   ]
+}

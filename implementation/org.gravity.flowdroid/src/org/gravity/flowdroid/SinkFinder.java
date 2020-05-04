@@ -75,6 +75,7 @@ public final class SinkFinder {
 						allowed.addAll(getAllowedSinks(mapper, el));
 					}
 				} else {
+					// FIXME: only add as forbidden is the return type is the same as the mapped asset type?
 					forbidden.addAll(borderProcesses);
 				}
 

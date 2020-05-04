@@ -1,9 +1,7 @@
 package org.gravity.flowdroid;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Collection;
@@ -102,7 +100,11 @@ public class SourcesAndSinkFinder {
 		// find sinks
 		SinkFinder sinkFinder = new SinkFinder(mapper, asset);
 		Set<? extends TMember> flowSinkCorrespondences = sinkFinder.getForbiddensinks();
+		Set<? extends TMember> flowAllowedSinkCorrespondences = sinkFinder.getAllowedsinks();
 		Set<String> sinks = getSootSignatures(flowSinkCorrespondences);
+		// remember also allowed sinks
+		//Set<String> allowed = getSootSignatures(flowAllowedSinkCorrespondences);
+		
 		if (flowSinkCorrespondences.isEmpty()) {
 			// TODO: raise an issue to developer to model attacker
 			LOGGER.log(Level.ERROR,
@@ -113,7 +115,7 @@ public class SourcesAndSinkFinder {
 		// add only relevant susi sinks (remove allowed)
 		sinks.addAll(getForbiddenSinks(sinkFinder, getBaselineSinks()));
 
-		return new SourceAndSink(sources, sinks);
+		return new SourceAndSink(sources, sinks, flowAllowedSinkCorrespondences);
 	}
 
 	/**
@@ -121,7 +123,7 @@ public class SourcesAndSinkFinder {
 	 * 
 	 * @param correspondenceOrAFE The correspondences or abstract flow elements
 	 */
-	private Set<String> getSootSignatures(Collection<? extends TMember> correspondenceOrAFE) {
+	public Set<String> getSootSignatures(Collection<? extends TMember> correspondenceOrAFE) {
 		Set<String> signatures = new HashSet<>(correspondenceOrAFE.size());
 		for (TMember source : correspondenceOrAFE) {
 			if (source instanceof TMethodDefinition && !TConstructor.isConstructor(source)) {

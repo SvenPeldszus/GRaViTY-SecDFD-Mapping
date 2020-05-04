@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component id="org.eclipse.equinox.security" modificationStamp="29" version="1.2">
+    <package visibility="1">
+        <fragment handle="=org.eclipse.equinox.security/src&lt;org.eclipse.equinox.security.auth"/>
+        <type handle="=org.eclipse.equinox.security/src&lt;org.eclipse.equinox.security.auth{ILoginContext.java[ILoginContext" modificationStamp="69" restrictions="1" visibility="0"/>
+        <type handle="=org.eclipse.equinox.security/src&lt;org.eclipse.equinox.security.auth{ILoginContextListener.java[ILoginContextListener" modificationStamp="70" restrictions="1" visibility="0"/>
+        <type handle="=org.eclipse.equinox.security/src&lt;org.eclipse.equinox.security.auth{LoginContextFactory.java[LoginContextFactory" modificationStamp="71" restrictions="4" visibility="0"/>
+    </package>
+    <package visibility="1">
+        <fragment handle="=org.eclipse.equinox.security/src&lt;org.eclipse.equinox.security.auth.credentials"/>
+        <type handle="=org.eclipse.equinox.security/src&lt;org.eclipse.equinox.security.auth.credentials{CredentialsFactory.java[CredentialsFactory" modificationStamp="75" restrictions="4" visibility="0"/>
+        <type handle="=org.eclipse.equinox.security/src&lt;org.eclipse.equinox.security.auth.credentials{IPrivateCredential.java[IPrivateCredential" modificationStamp="76" restrictions="1" visibility="0"/>
+        <type handle="=org.eclipse.equinox.security/src&lt;org.eclipse.equinox.security.auth.credentials{IPublicCredential.java[IPublicCredential" modificationStamp="77" restrictions="1" visibility="0"/>
+    </package>
+    <package visibility="1">
+        <fragment handle="=org.eclipse.equinox.security/src&lt;org.eclipse.equinox.security.auth.module"/>
+        <type handle="=org.eclipse.equinox.security/src&lt;org.eclipse.equinox.security.auth.module{ExtensionLoginModule.java[ExtensionLoginModule" modificationStamp="79" restrictions="4" visibility="0"/>
+    </package>
+    <package visibility="1">
+        <fragment handle="=org.eclipse.equinox.security/src&lt;org.eclipse.equinox.security.storage.provider"/>
+        <type handle="=org.eclipse.equinox.security/src&lt;org.eclipse.equinox.security.storage.provider{IPreferencesContainer.java[IPreferencesContainer" modificationStamp="65" restrictions="3" visibility="0"/>
+        <type handle="=org.eclipse.equinox.security/src&lt;org.eclipse.equinox.security.storage.provider{IProviderHints.java[IProviderHints" modificationStamp="66" restrictions="3" visibility="0"/>
+        <type handle="=org.eclipse.equinox.security/src&lt;org.eclipse.equinox.security.storage.provider{PasswordProvider.java[PasswordProvider" modificationStamp="67" restrictions="0" visibility="0"/>
+    </package>
+    <package visibility="1">
+        <fragment handle="=org.eclipse.equinox.security/src&lt;org.eclipse.equinox.security.storage"/>
+        <type handle="=org.eclipse.equinox.security/src&lt;org.eclipse.equinox.security.storage{EncodingUtils.java[EncodingUtils" modificationStamp="59" restrictions="0" visibility="0"/>
+        <type handle="=org.eclipse.equinox.security/src&lt;org.eclipse.equinox.security.storage{ISecurePreferences.java[ISecurePreferences" modificationStamp="60" restrictions="3" visibility="0"/>
+        <type handle="=org.eclipse.equinox.security/src&lt;org.eclipse.equinox.security.storage{SecurePreferencesFactory.java[SecurePreferencesFactory" modificationStamp="61" restrictions="4" visibility="0"/>
+        <type handle="=org.eclipse.equinox.security/src&lt;org.eclipse.equinox.security.storage{StorageException.java[StorageException" modificationStamp="62" restrictions="0" visibility="0"/>
+    </package>
+</component>

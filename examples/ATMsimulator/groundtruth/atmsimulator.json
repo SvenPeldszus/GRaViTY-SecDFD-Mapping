@@ -22,7 +22,7 @@
 
 	{"pm": "atm.physical.CardReader.retainCard():void", "secdfd": "Retain_Card"},
 	{"pm": "simulation.Simulation.retainCard():void", "secdfd": "Retain_Card"},
-
+    
 	{"pm": "simulation.SimDisplay.clearDisplay():void", "secdfd": "Update_Display"},
 	{"pm": "simulation.SimDisplay.display(String):void", "secdfd": "Update_Display"},
 	{"pm": "simulation.Simulation.clearDisplay():void", "secdfd": "Update_Display"},
