@@ -26,8 +26,6 @@ import org.gravity.typegraph.basic.BasicPackage;
 
 import org.secdfd.model.ModelPackage;
 
-import org.secdfd.model.impl.ModelPackageImpl;
-
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model <b>Package</b>.
@@ -133,22 +131,19 @@ public class SecdfdPackageImpl extends EPackageImpl implements SecdfdPackage {
 
 		// Initialize simple dependencies
 		BasicPackage.eINSTANCE.eClass();
+		ModelPackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
 		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(MappingPackage.eNS_URI);
 		MappingPackageImpl theMappingPackage = (MappingPackageImpl)(registeredPackage instanceof MappingPackageImpl ? registeredPackage : MappingPackage.eINSTANCE);
-		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI);
-		ModelPackageImpl theModelPackage = (ModelPackageImpl)(registeredPackage instanceof ModelPackageImpl ? registeredPackage : ModelPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theSecdfdPackage.createPackageContents();
 		theMappingPackage.createPackageContents();
-		theModelPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theSecdfdPackage.initializePackageContents();
 		theMappingPackage.initializePackageContents();
-		theModelPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theSecdfdPackage.freeze();

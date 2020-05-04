@@ -40,7 +40,7 @@ public interface MappingPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://org.gravity.mapping.secdfd/mapping";
+	String eNS_URI = "http://www.gravity-mapping-secdfd.org/mapping";
 
 	/**
 	 * The package namespace name.

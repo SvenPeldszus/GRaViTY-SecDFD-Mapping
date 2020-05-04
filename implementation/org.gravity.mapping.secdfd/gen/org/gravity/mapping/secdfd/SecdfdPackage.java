@@ -37,7 +37,7 @@ public interface SecdfdPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "platform:/plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore";
+	String eNS_URI = "platform:/plugin/org.gravity.mapping.secdfd/model/model.ecore";
 
 	/**
 	 * The package namespace name.

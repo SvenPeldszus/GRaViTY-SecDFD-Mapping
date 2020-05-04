@@ -77,7 +77,7 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated Mapping -->
       <package
-            uri="http://org.gravity.mapping.secdfd/mapping"
+            uri="http://www.gravity-mapping-secdfd.org/mapping"
             class="org.gravity.mapping.secdfd.model.mapping.MappingPackage"
             genModel="model/Mapping.genmodel"/>
    </extension>
@@ -85,7 +85,7 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated Mapping -->
       <package
-            uri="platform:/plugin/org.gravity.mapping.secdfd/model/Secdfd.ecore"
+            uri="platform:/plugin/org.gravity.mapping.secdfd/model/model.ecore"
             class="org.gravity.mapping.secdfd.SecdfdPackage"
             genModel="model/Mapping.genmodel"/>
    </extension>
