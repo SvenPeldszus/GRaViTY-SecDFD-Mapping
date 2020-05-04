@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="ASCII"?>
+<org.gravity.mapping.secdfd.model:Mapping xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:org.gravity.mapping.secdfd="platform:/plugin/org.gravity.mapping.secdfd/model/model.ecore" xmlns:org.gravity.mapping.secdfd.model="http://www.gravity-mapping-secdfd.org/mapping" xmlns:org.gravity.typegraph.basic="http://www.gravity-tool.org/typegraph/basic" xmlns:org.secdfd="http://www.secdfd.org/secdfd"  suggested="//@correspondences.1 //@correspondences.2 //@correspondences.3 //@correspondences.4 //@correspondences.5 //@correspondences.6 //@correspondences.7 //@correspondences.8 //@correspondences.9 //@correspondences.11 //@correspondences.13 //@correspondences.12 //@correspondences.10 //@correspondences.14 //@correspondences.15 //@correspondences.16 //@correspondences.17 //@correspondences.18 //@correspondences.20 //@correspondences.21 //@correspondences.22 //@correspondences.23 //@correspondences.19 //@correspondences.24 //@correspondences.25 //@correspondences.26 //@correspondences.27 //@correspondences.28 //@correspondences.29 //@correspondences.30 //@correspondences.31 //@correspondences.32 //@correspondences.33 //@correspondences.34 //@correspondences.35 //@correspondences.36 //@correspondences.37 //@correspondences.38 //@correspondences.39 //@correspondences.40 //@correspondences.41 //@correspondences.42 //@correspondences.43 //@correspondences.44 //@correspondences.45 //@correspondences.46 //@correspondences.47 //@correspondences.48 //@correspondences.49 //@correspondences.50 //@correspondences.51 //@correspondences.52" name="atmsimulator">
+  <source href="ATMsimulator.xmi#/"/>
+  <target href="../secdfds/atmsimulator.mydsl#atmsimulator"/>
+  <correspondences xsi:type="org.gravity.mapping.secdfd:TypeGraph2EDFD">
+    <source href="ATMsimulator.xmi#/"/>
+    <target href="../secdfds/atmsimulator.mydsl#atmsimulator"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.4"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/atmsimulator.mydsl#card"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="50">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.51"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/atmsimulator.mydsl#card"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="50">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.75"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/atmsimulator.mydsl#card"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="50">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.81"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/atmsimulator.mydsl#card"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="50">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.109"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/atmsimulator.mydsl#card"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="66">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.92"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/atmsimulator.mydsl#PIN"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.38"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/atmsimulator.mydsl#money"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100" deriving="//@correspondences.45 //@correspondences.50">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.67"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/atmsimulator.mydsl#keyboard_input"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.67"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/atmsimulator.mydsl#display_view"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100" deriving="//@correspondences.46 //@correspondences.47 //@correspondences.48 //@correspondences.49">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.22"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/atmsimulator.mydsl#status"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.21"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/atmsimulator.mydsl#status"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.43"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/atmsimulator.mydsl#status"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.92"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/atmsimulator.mydsl#status"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="50">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.140"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/atmsimulator.mydsl#account"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.34"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/atmsimulator.mydsl#balance"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100" deriving="//@correspondences.47">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.2"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/atmsimulator.mydsl#message"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="50">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.24"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/atmsimulator.mydsl#receipt"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.72"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/atmsimulator.mydsl#receipt"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.25"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/atmsimulator.mydsl#transaction"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.10"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/atmsimulator.mydsl#transaction"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.8"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/atmsimulator.mydsl#transaction"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.31"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/atmsimulator.mydsl#transaction"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.90"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/atmsimulator.mydsl#transaction"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50">
+    <source href="ATMsimulator.xmi#//@methods.60"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Retain_Card"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50">
+    <source href="ATMsimulator.xmi#//@methods.81"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Retain_Card"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100">
+    <source href="ATMsimulator.xmi#//@methods.88"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Retain_Card"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50">
+    <source href="ATMsimulator.xmi#//@methods.128"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Retain_Card"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50">
+    <source href="ATMsimulator.xmi#//@methods.134"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Retain_Card"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50">
+    <source href="ATMsimulator.xmi#//@methods.183"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Retain_Card"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50">
+    <source href="ATMsimulator.xmi#//@methods.3"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Update_Display"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@correspondences.45">
+    <source href="ATMsimulator.xmi#//@methods.125"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Update_Display"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="60">
+    <source href="ATMsimulator.xmi#//@methods.105"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Read_Card_Verify_PIN"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50">
+    <source href="ATMsimulator.xmi#//@methods.60"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Eject_Card_Print_Receipt"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@correspondences.50">
+    <source href="ATMsimulator.xmi#//@methods.73"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Eject_Card_Print_Receipt"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50">
+    <source href="ATMsimulator.xmi#//@methods.189"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Eject_Card_Print_Receipt"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50">
+    <source href="ATMsimulator.xmi#//@methods.84"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Check_Balance"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.47">
+    <source href="ATMsimulator.xmi#//@methods.62"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Transfer"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@correspondences.49">
+    <source href="ATMsimulator.xmi#//@methods.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Deposit"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@correspondences.48">
+    <source href="ATMsimulator.xmi#//@methods.140"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Deposit"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100">
+    <source href="ATMsimulator.xmi#//@methods.39"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Dispense_Cash"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="66">
+    <source href="ATMsimulator.xmi#//@methods.146"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Dispense_Cash"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="66">
+    <source href="ATMsimulator.xmi#//@methods.227"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Dispense_Cash"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.46">
+    <source href="ATMsimulator.xmi#//@methods.37"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Withdraw"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50">
+    <source href="ATMsimulator.xmi#//@methods.178"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Network_Bank"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.8 //@correspondences.31">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.125/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Update_Display"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.10 //@correspondences.43" deriving="//@correspondences.52">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.37/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Withdraw"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.16 //@correspondences.10 //@correspondences.37" deriving="//@correspondences.51">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.62/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Transfer"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.10 //@correspondences.39">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.140/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Deposit"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.10 //@correspondences.38">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.0/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Deposit"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.8 //@correspondences.34">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.73/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Eject_Card_Print_Receipt"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.47">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.62/@signatures.0/@definitions.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Transfer"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.46">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.37/@signatures.0/@definitions.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/atmsimulator.mydsl#Withdraw"/>
+  </correspondences>
+</org.gravity.mapping.secdfd.model:Mapping>

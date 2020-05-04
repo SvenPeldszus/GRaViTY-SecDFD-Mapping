@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="ASCII"?>
+<org.gravity.mapping.secdfd.model:Mapping xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:org.gravity.mapping.secdfd="platform:/plugin/org.gravity.mapping.secdfd/model/model.ecore" xmlns:org.gravity.mapping.secdfd.model="http://www.gravity-mapping-secdfd.org/mapping" xmlns:org.gravity.typegraph.basic="http://www.gravity-tool.org/typegraph/basic" xmlns:org.secdfd="http://www.secdfd.org/secdfd"  suggested="//@correspondences.1 //@correspondences.2 //@correspondences.3 //@correspondences.4 //@correspondences.5 //@correspondences.6 //@correspondences.7 //@correspondences.8 //@correspondences.9 //@correspondences.10 //@correspondences.11 //@correspondences.12 //@correspondences.13 //@correspondences.14 //@correspondences.15 //@correspondences.16 //@correspondences.17 //@correspondences.18 //@correspondences.19 //@correspondences.20 //@correspondences.21 //@correspondences.22 //@correspondences.23 //@correspondences.24 //@correspondences.25 //@correspondences.26 //@correspondences.27 //@correspondences.28 //@correspondences.29 //@correspondences.30 //@correspondences.31 //@correspondences.32 //@correspondences.33 //@correspondences.34 //@correspondences.37 //@correspondences.36 //@correspondences.35 //@correspondences.40 //@correspondences.39 //@correspondences.38 //@correspondences.41 //@correspondences.42 //@correspondences.43 //@correspondences.44 //@correspondences.45 //@correspondences.46 //@correspondences.47 //@correspondences.48 //@correspondences.49 //@correspondences.50 //@correspondences.51 //@correspondences.52 //@correspondences.53 //@correspondences.54 //@correspondences.55 //@correspondences.56 //@correspondences.57 //@correspondences.58 //@correspondences.59 //@correspondences.60 //@correspondences.61 //@correspondences.62 //@correspondences.63 //@correspondences.64 //@correspondences.65 //@correspondences.66 //@correspondences.67 //@correspondences.68 //@correspondences.69 //@correspondences.70 //@correspondences.71 //@correspondences.72 //@correspondences.73 //@correspondences.74 //@correspondences.75 //@correspondences.76 //@correspondences.77 //@correspondences.78 //@correspondences.79 //@correspondences.80 //@correspondences.81 //@correspondences.82 //@correspondences.83" name="uc57_change_password">
+  <source href="iTrust21.0.xmi#/"/>
+  <target href="../secdfds/uc57.mydsl#uc57_change_password"/>
+  <correspondences xsi:type="org.gravity.mapping.secdfd:TypeGraph2EDFD">
+    <source href="iTrust21.0.xmi#/"/>
+    <target href="../secdfds/uc57.mydsl#uc57_change_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="90" deriving="//@correspondences.61 //@correspondences.64">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="iTrust21.0.xmi#//@ownedTypes.152"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/uc57.mydsl#id"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="90" deriving="//@correspondences.41 //@correspondences.42 //@correspondences.44 //@correspondences.45 //@correspondences.48 //@correspondences.49 //@correspondences.51 //@correspondences.52 //@correspondences.55 //@correspondences.57 //@correspondences.59 //@correspondences.60 //@correspondences.65">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="iTrust21.0.xmi#//@ownedTypes.146"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/uc57.mydsl#id"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="90">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="iTrust21.0.xmi#//@ownedTypes.203"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/uc57.mydsl#id"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="90">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="iTrust21.0.xmi#//@ownedTypes.638"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/uc57.mydsl#id"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100" deriving="//@correspondences.42 //@correspondences.43 //@correspondences.44 //@correspondences.45 //@correspondences.46 //@correspondences.47 //@correspondences.48 //@correspondences.49 //@correspondences.50 //@correspondences.51 //@correspondences.52 //@correspondences.53 //@correspondences.54 //@correspondences.55">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="iTrust21.0.xmi#//@ownedTypes.160"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/uc57.mydsl#old_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100" deriving="//@correspondences.42 //@correspondences.43 //@correspondences.44 //@correspondences.45 //@correspondences.46 //@correspondences.47 //@correspondences.48 //@correspondences.56 //@correspondences.57 //@correspondences.58 //@correspondences.59 //@correspondences.60 //@correspondences.61 //@correspondences.62 //@correspondences.63 //@correspondences.64 //@correspondences.65">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="iTrust21.0.xmi#//@ownedTypes.160"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/uc57.mydsl#new_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="iTrust21.0.xmi#//@ownedTypes.160"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/uc57.mydsl#old_password_hashed"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="iTrust21.0.xmi#//@ownedTypes.160"/>
+    <target xsi:type="eDFDFlowTracking:Asset" href="../secdfds/uc57.mydsl#new_password_hashed"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@correspondences.44 //@correspondences.45">
+    <source href="iTrust21.0.xmi#//@methods.160"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#change_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@correspondences.41">
+    <source href="iTrust21.0.xmi#//@methods.832"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#change_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@correspondences.46">
+    <source href="iTrust21.0.xmi#//@methods.1514"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#change_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@correspondences.42">
+    <source href="iTrust21.0.xmi#//@methods.1553"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#change_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.48">
+    <source href="iTrust21.0.xmi#//@methods.1884"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#change_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@correspondences.43">
+    <source href="iTrust21.0.xmi#//@methods.1935"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#change_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@correspondences.47">
+    <source href="iTrust21.0.xmi#//@methods.2007"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#change_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@correspondences.51 //@correspondences.52">
+    <source href="iTrust21.0.xmi#//@methods.160"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#authentificate_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@correspondences.53">
+    <source href="iTrust21.0.xmi#//@methods.1514"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#authentificate_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.49">
+    <source href="iTrust21.0.xmi#//@methods.1553"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#authentificate_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@correspondences.55">
+    <source href="iTrust21.0.xmi#//@methods.1884"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#authentificate_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@correspondences.50">
+    <source href="iTrust21.0.xmi#//@methods.1935"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#authentificate_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@correspondences.54">
+    <source href="iTrust21.0.xmi#//@methods.2007"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#authentificate_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.59 //@correspondences.60">
+    <source href="iTrust21.0.xmi#//@methods.160"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50">
+    <source href="iTrust21.0.xmi#//@methods.395"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50">
+    <source href="iTrust21.0.xmi#//@methods.742"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@correspondences.61">
+    <source href="iTrust21.0.xmi#//@methods.1016"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@correspondences.64">
+    <source href="iTrust21.0.xmi#//@methods.1074"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@correspondences.62">
+    <source href="iTrust21.0.xmi#//@methods.1514"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@correspondences.57">
+    <source href="iTrust21.0.xmi#//@methods.1553"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@correspondences.56">
+    <source href="iTrust21.0.xmi#//@methods.1857"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@correspondences.65">
+    <source href="iTrust21.0.xmi#//@methods.1884"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@correspondences.58">
+    <source href="iTrust21.0.xmi#//@methods.1935"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@correspondences.63">
+    <source href="iTrust21.0.xmi#//@methods.2007"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="50">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="iTrust21.0.xmi#//@ownedTypes.276"/>
+    <target xsi:type="eDFDFlowTracking:DataStore" href="../secdfds/uc57.mydsl#db"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="50">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="iTrust21.0.xmi#//@ownedTypes.448"/>
+    <target xsi:type="eDFDFlowTracking:DataStore" href="../secdfds/uc57.mydsl#db"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.36">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="iTrust21.0.xmi#//@methods.2324/@signatures.0/@definitions.0"/>
+    <target xsi:type="eDFDFlowTracking:DataStore" href="../secdfds/uc57.mydsl#db"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.37" deriving="//@correspondences.35">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.2324/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:DataStore" href="../secdfds/uc57.mydsl#db"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="90" deriving="//@correspondences.36">
+    <source href="iTrust21.0.xmi#//@methods.2324"/>
+    <target xsi:type="eDFDFlowTracking:DataStore" href="../secdfds/uc57.mydsl#db"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.39">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="iTrust21.0.xmi#//@methods.106/@signatures.0/@definitions.0"/>
+    <target xsi:type="eDFDFlowTracking:DataStore" href="../secdfds/uc57.mydsl#db"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.40" deriving="//@correspondences.38">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.106/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:DataStore" href="../secdfds/uc57.mydsl#db"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="90" deriving="//@correspondences.39">
+    <source href="iTrust21.0.xmi#//@methods.106"/>
+    <target xsi:type="eDFDFlowTracking:DataStore" href="../secdfds/uc57.mydsl#db"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.2 //@correspondences.10">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.832/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#change_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.6 //@correspondences.5 //@correspondences.2 //@correspondences.12" deriving="//@correspondences.71">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.1553/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#change_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.6 //@correspondences.5 //@correspondences.14">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.1935/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#change_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.6 //@correspondences.5 //@correspondences.2 //@correspondences.9" deriving="//@correspondences.72">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.160/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#change_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.6 //@correspondences.5 //@correspondences.2 //@correspondences.9" deriving="//@correspondences.73">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.160/@signatures.1"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#change_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.6 //@correspondences.5 //@correspondences.11">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.1514/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#change_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.6 //@correspondences.5 //@correspondences.15" deriving="//@correspondences.79">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.2007/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#change_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.6 //@correspondences.5 //@correspondences.2 //@correspondences.13" deriving="//@correspondences.66">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.1884/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#change_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.5 //@correspondences.2 //@correspondences.18" deriving="//@correspondences.67">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.1553/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#authentificate_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.5 //@correspondences.20">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.1935/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#authentificate_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.5 //@correspondences.2 //@correspondences.16" deriving="//@correspondences.68">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.160/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#authentificate_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.5 //@correspondences.2 //@correspondences.16" deriving="//@correspondences.81">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.160/@signatures.1"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#authentificate_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.5 //@correspondences.17">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.1514/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#authentificate_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.5 //@correspondences.21" deriving="//@correspondences.74">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.2007/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#authentificate_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.5 //@correspondences.2 //@correspondences.19" deriving="//@correspondences.80">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.1884/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#authentificate_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.6 //@correspondences.29" deriving="//@correspondences.77">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.1857/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.6 //@correspondences.2 //@correspondences.28" deriving="//@correspondences.69">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.1553/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.6 //@correspondences.31">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.1935/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.6 //@correspondences.2 //@correspondences.22" deriving="//@correspondences.70">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.160/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.6 //@correspondences.2 //@correspondences.22" deriving="//@correspondences.83">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.160/@signatures.1"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.1 //@correspondences.6 //@correspondences.25" deriving="//@correspondences.75">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.1016/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.6 //@correspondences.27">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.1514/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.6 //@correspondences.32" deriving="//@correspondences.76">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.2007/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.1 //@correspondences.6 //@correspondences.26" deriving="//@correspondences.78">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.1074/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.6 //@correspondences.2 //@correspondences.30" deriving="//@correspondences.82">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="iTrust21.0.xmi#//@methods.1884/@signatures.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.48">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="iTrust21.0.xmi#//@methods.1884/@signatures.0/@definitions.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#change_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.49">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="iTrust21.0.xmi#//@methods.1553/@signatures.0/@definitions.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#authentificate_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.51">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="iTrust21.0.xmi#//@methods.160/@signatures.0/@definitions.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#authentificate_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.57">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="iTrust21.0.xmi#//@methods.1553/@signatures.0/@definitions.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.59">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="iTrust21.0.xmi#//@methods.160/@signatures.0/@definitions.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.42">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="iTrust21.0.xmi#//@methods.1553/@signatures.0/@definitions.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#change_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.44">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="iTrust21.0.xmi#//@methods.160/@signatures.0/@definitions.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#change_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.45">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="iTrust21.0.xmi#//@methods.160/@signatures.1/@definitions.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#change_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.54">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="iTrust21.0.xmi#//@methods.2007/@signatures.0/@definitions.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#authentificate_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.61">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="iTrust21.0.xmi#//@methods.1016/@signatures.0/@definitions.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.63">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="iTrust21.0.xmi#//@methods.2007/@signatures.0/@definitions.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.56">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="iTrust21.0.xmi#//@methods.1857/@signatures.0/@definitions.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.64">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="iTrust21.0.xmi#//@methods.1074/@signatures.0/@definitions.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.47">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="iTrust21.0.xmi#//@methods.2007/@signatures.0/@definitions.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#change_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.55">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="iTrust21.0.xmi#//@methods.1884/@signatures.0/@definitions.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#authentificate_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.52">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="iTrust21.0.xmi#//@methods.160/@signatures.1/@definitions.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#authentificate_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.65">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="iTrust21.0.xmi#//@methods.1884/@signatures.0/@definitions.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.60">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="iTrust21.0.xmi#//@methods.160/@signatures.1/@definitions.0"/>
+    <target xsi:type="eDFDFlowTracking:Process" href="../secdfds/uc57.mydsl#reset_password"/>
+  </correspondences>
+</org.gravity.mapping.secdfd.model:Mapping>

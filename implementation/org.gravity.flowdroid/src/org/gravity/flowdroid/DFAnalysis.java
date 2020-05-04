@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
@@ -116,7 +117,8 @@ public class DFAnalysis {
 		// try to inject a leak
 		if (leaksToInject > 0) {
 			if (allowed.size() > 0) {
-				TMethodDefinition randomAllowedSink = (TMethodDefinition) allowed.get(ThreadLocalRandom.current().nextInt(0, allowed.size()));
+				TMethodDefinition randomAllowedSink = (TMethodDefinition) allowed
+						.get(ThreadLocalRandom.current().nextInt(0, allowed.size()));
 				Set<TMethodDefinition> allMappedSinks = correspondingProcessAlsoMappedTo(randomAllowedSink);
 				// remove a random allowed sink, and sinks also mapped to the same process
 				allMappedSinks.forEach(sink -> {
