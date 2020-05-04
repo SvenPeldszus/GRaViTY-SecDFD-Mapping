@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
@@ -20,7 +19,6 @@ import org.secdfd.model.Asset;
 import org.secdfd.model.Objective;
 
 import soot.SootMethod;
-import soot.jimple.Stmt;
 import soot.jimple.infoflow.IInfoflow;
 import soot.jimple.infoflow.Infoflow;
 import soot.jimple.infoflow.InfoflowConfiguration.AliasingAlgorithm;

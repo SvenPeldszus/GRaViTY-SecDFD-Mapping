@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.Set;
 
@@ -140,13 +139,9 @@ public class ContractEvaluator {
 	@Test
 	public void injectAndValdiateJoin() throws IOException, CoreException {
 		injector.getInjectTask().put(ResponsibilityType.JOINER, 5);
-		try {
-			absenceGT = injector.performTasks();
-			injected = injector.getInjected();
-			checker.checkJoinContract();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		absenceGT = injector.performTasks();
+		injected = injector.getInjected();
+		checker.checkJoinContract();
 		validateContract("injected-join-results");
 	}
 	
@@ -159,13 +154,9 @@ public class ContractEvaluator {
 	@Test
 	public void injectAndValdiateForwards() throws IOException, CoreException {
 		injector.getInjectTask().put(ResponsibilityType.FORWARD, 5);
-		try {
-			absenceGT = injector.performTasks();
-			injected = injector.getInjected();
-			checker.checkForwardContract();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		absenceGT = injector.performTasks();
+		injected = injector.getInjected();
+		checker.checkForwardContract();
 		validateContract("injected-forward-results");
 	}
 	
@@ -205,11 +196,7 @@ public class ContractEvaluator {
 	 */
 	// @Test
 	public void valdiateForward() throws IOException, CoreException {
-		try {
-			checker.checkForwardContract();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		checker.checkForwardContract();
 		validateContract("forward-results");
 	}
 
@@ -219,11 +206,7 @@ public class ContractEvaluator {
 	 */
 	// @Test
 	public void valdiateJoin() throws IOException, CoreException {
-		try {
-			checker.checkJoinContract();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		checker.checkJoinContract();
 		validateContract("join-results");
 	}
 

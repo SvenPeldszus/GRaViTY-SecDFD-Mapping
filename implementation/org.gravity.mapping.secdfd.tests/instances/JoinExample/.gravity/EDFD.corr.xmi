@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="ASCII"?>
+<org.gravity.mapping.secdfd.model:Mapping xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:org.gravity.mapping.secdfd="platform:/plugin/org.gravity.mapping.secdfd/model/model.ecore" xmlns:org.gravity.mapping.secdfd.model="http://www.gravity-mapping-secdfd.org/mapping" xmlns:org.gravity.typegraph.basic="http://www.gravity-tool.org/typegraph/basic" xmlns:org.secdfd="http://www.secdfd.org/secdfd" userdefined="//@correspondences.4 //@correspondences.2 //@correspondences.7 //@correspondences.3 //@correspondences.9 //@correspondences.10 //@correspondences.11 //@correspondences.1 //@correspondences.13 //@correspondences.14 //@correspondences.15 //@correspondences.16 //@correspondences.17 //@correspondences.18 //@correspondences.19 //@correspondences.20 //@correspondences.21 //@correspondences.22 //@correspondences.23 //@correspondences.24 //@correspondences.25 //@correspondences.26 //@correspondences.27" suggested="//@correspondences.1 //@correspondences.2 //@correspondences.3 //@correspondences.4 //@correspondences.6 //@correspondences.5 //@correspondences.7 //@correspondences.10 //@correspondences.9 //@correspondences.11 //@correspondences.15 //@correspondences.14 //@correspondences.18 //@correspondences.17 //@correspondences.21 //@correspondences.20 //@correspondences.24 //@correspondences.23" name="ForwardExample">
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.5">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.3/@signatures.0/@definitions.0"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#exit"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.4">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.1/@signatures.0/@definitions.0"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#join"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.7">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.6/@signatures.0/@definitions.0"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#exit"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.9">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#generateString"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.11">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.2/@signatures.0/@definitions.0"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#generateAsset"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TInterface" href="JoinExample.xmi#//@ownedTypes.14"/>
+    <target xsi:type="org.secdfd:Asset" href="../EDFD.secdfd#2nd-Asset"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TInterface" href="JoinExample.xmi#//@ownedTypes.14"/>
+    <target xsi:type="org.secdfd:Asset" href="../EDFD.secdfd#joined-Asset"/>
+  </ignored>
+  <source href="JoinExample.xmi#/"/>
+  <target href="../EDFD.secdfd#ForwardExample"/>
+  <correspondences xsi:type="org.gravity.mapping.secdfd:TypeGraph2EDFD">
+    <source href="JoinExample.xmi#/"/>
+    <target href="../EDFD.secdfd#ForwardExample"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@correspondences.11">
+    <source href="JoinExample.xmi#//@methods.2"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#generateAsset"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.4">
+    <source href="JoinExample.xmi#//@methods.1"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#join"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.7">
+    <source href="JoinExample.xmi#//@methods.6"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#exit"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.2" deriving="//@ignored.1">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="JoinExample.xmi#//@methods.1/@signatures.0"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#join"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.6" deriving="//@ignored.0">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="JoinExample.xmi#//@methods.3/@signatures.0"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#exit"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@correspondences.5">
+    <source href="JoinExample.xmi#//@methods.3"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#exit"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.3" deriving="//@ignored.2">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="JoinExample.xmi#//@methods.6/@signatures.0"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#exit"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd:TypeGraph2EDFD">
+    <source href="JoinExample.xmi#/"/>
+    <target href="../EDFD.secdfd#ForwardExample"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.10" deriving="//@ignored.3">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="JoinExample.xmi#//@methods.5/@signatures.0"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#generateString"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.9">
+    <source href="JoinExample.xmi#//@methods.5"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#generateString"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.1" deriving="//@ignored.4">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="JoinExample.xmi#//@methods.2/@signatures.0"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#generateAsset"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd:TypeGraph2EDFD">
+    <source href="JoinExample.xmi#/"/>
+    <target href="../EDFD.secdfd#ForwardExample"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.14">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.1/@signatures.0/@definitions.0"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#generateString"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.15" deriving="//@correspondences.13">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="JoinExample.xmi#//@methods.1/@signatures.0"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#generateString"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.14">
+    <source href="JoinExample.xmi#//@methods.1"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#generateString"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.17">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.3/@signatures.0/@definitions.0"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#generateAsset"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.18" deriving="//@correspondences.16">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="JoinExample.xmi#//@methods.3/@signatures.0"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#generateAsset"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.17">
+    <source href="JoinExample.xmi#//@methods.3"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#generateAsset"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.20">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#join"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.21" deriving="//@correspondences.19">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="JoinExample.xmi#//@methods.0/@signatures.0"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#join"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.20">
+    <source href="JoinExample.xmi#//@methods.0"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#join"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.23">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.4/@signatures.0/@definitions.0"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#exit"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.24" deriving="//@correspondences.22">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="JoinExample.xmi#//@methods.4/@signatures.0"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#exit"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.23">
+    <source href="JoinExample.xmi#//@methods.4"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#exit"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.13"/>
+    <target xsi:type="org.secdfd:Asset" href="../EDFD.secdfd#joined-Asset"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.13"/>
+    <target xsi:type="org.secdfd:Asset" href="../EDFD.secdfd#2nd-Asset"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.11"/>
+    <target xsi:type="org.secdfd:Asset" href="../EDFD.secdfd#1st-Asset"/>
+  </correspondences>
+</org.gravity.mapping.secdfd.model:Mapping>

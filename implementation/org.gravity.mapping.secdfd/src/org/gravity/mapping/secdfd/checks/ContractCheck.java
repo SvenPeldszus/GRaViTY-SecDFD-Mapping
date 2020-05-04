@@ -102,20 +102,20 @@ public class ContractCheck {
 		updateMarkers();
 	}
 	
-	public void checkForwardContract() throws IOException {
+	public void checkForwardContract() {
 		mappers.forEach(mapper -> {
 			ResponsibilityType contractType = ResponsibilityType.FORWARD;
 			Set<Process> processes = getRelevantProcesses(mapper, contractType);
 			if (processes.isEmpty())
 				return;
 			DataProcessingCheck dataProcessing = new DataProcessingCheck();
-			FlowEntryExit entryExit = new FlowEntryExit(mappers);
-			processes.forEach(p -> {
-				Set<Responsibility> responsibilities = p.eContents().parallelStream()
+			processes.forEach(process -> {
+				Set<Responsibility> responsibilities = process.eContents().parallelStream()
 						.filter(Responsibility.class::isInstance).map(r -> (Responsibility) r)
 						.collect(Collectors.toSet());
 				responsibilities.forEach(res -> {
-					results.addAll(dataProcessing.check(entryExit.entries, entryExit.exits, p, mapper, res));
+					FlowEntryExit entryExit = FlowEntryExit.getEntriesExits(mapper, process);
+					results.addAll(dataProcessing.check(entryExit.getEntries(), entryExit.getExits(), process, mapper, res));
 				});
 			});
 		});
@@ -123,20 +123,20 @@ public class ContractCheck {
 	}
 	
 	// Katja: copy of fwd check for now
-	public void checkJoinContract() throws IOException {
+	public void checkJoinContract() {
 		mappers.forEach(mapper -> {
 			ResponsibilityType contractType = ResponsibilityType.JOINER;
 			Set<Process> processes = getRelevantProcesses(mapper, contractType);
 			if (processes.isEmpty())
 				return;
 			DataProcessingCheck dataProcessing = new DataProcessingCheck();
-			FlowEntryExit entryExit = new FlowEntryExit(mappers);
-			processes.forEach(p -> {
-				Set<Responsibility> responsibilities = p.eContents().parallelStream()
+			processes.forEach(process -> {
+				Set<Responsibility> responsibilities = process.eContents().parallelStream()
 						.filter(Responsibility.class::isInstance).map(r -> (Responsibility) r)
 						.collect(Collectors.toSet());
 				responsibilities.forEach(res -> {
-					results.addAll(dataProcessing.check(entryExit.entries, entryExit.exits, p, mapper, res));
+					FlowEntryExit entryExit = FlowEntryExit.getEntriesExits(mapper, process);
+					results.addAll(dataProcessing.check(entryExit.getEntries(), entryExit.getExits(), process, mapper, res));
 				});
 			});
 		});
@@ -306,8 +306,7 @@ public class ContractCheck {
 		});
 
 		// Debug
-		FlowEntryExit fee = new FlowEntryExit(mappers);
-		fee.getEntriesExits();
+		Map<Process, FlowEntryExit> fee = FlowEntryExit.getEntriesExits(mappers);
 	}
 
 	/**

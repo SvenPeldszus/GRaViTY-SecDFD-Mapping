@@ -1,0 +1,46 @@
+EDFD ForwardExample [ 
+	assets: 
+		Asset "1st-Asset" 
+			type: Object 
+			source: generateAsset 
+			targets: join, 
+		Asset "2nd-Asset" 
+			type: String 
+			source: generateString 
+			targets: join, 
+		Asset "joined-Asset" 
+			type: String 
+			source: join 
+			targets: exit 
+	elements: 
+		Process generateAsset [ 
+			assets: "1st-Asset" 
+			outgoing flows: "1st-incoming" [ 
+				assets: "1st-Asset" 
+				source: generateAsset 
+				targets: join
+			]
+		],
+		Process generateString [
+			assets: "2nd-Asset" 
+			outgoing flows:  "2nd-incoming" [ 
+				assets: "2nd-Asset" 
+				source: generateString 
+				targets: join
+			]
+		] , 
+		Process join [ 
+			responsibilities: [ 
+				"1st-Asset", "2nd-Asset" Joiner :: "joined-Asset" 
+			] 
+			assets: "joined-Asset" 
+			outgoing flows: leaving [ 
+				assets: "joined-Asset" 
+				source: join 
+				targets: exit
+			]
+		] , 
+		Process exit [ 
+			
+		]
+]

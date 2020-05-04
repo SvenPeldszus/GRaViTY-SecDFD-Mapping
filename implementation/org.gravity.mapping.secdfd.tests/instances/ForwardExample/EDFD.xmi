@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<org.secdfd:EDFD
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:org.secdfd="http://www.secdfd.org/secdfd"
+    name="ForwardExample">
+  <asset name="1st"
+      source="start"
+      targets="main"/>
+  <asset name="2nd"
+      source="main"
+      targets="stop"/>
+  <elements
+      xsi:type="org.secdfd:Process"
+      name="start"
+      assets="1st">
+    <outflows
+        name="entering"
+        assets="1st"
+        target="main"
+        source="start"/>
+  </elements>
+  <elements
+      xsi:type="org.secdfd:Process"
+      name="main"
+      assets="2nd">
+    <outflows
+        name="leaving"
+        assets="2nd"
+        target="stop"
+        source="main"/>
+    <responsibility
+        incomeassets="1st"
+        outcomeassets="2nd">
+      <Action>Forward</Action>
+    </responsibility>
+  </elements>
+  <elements
+      xsi:type="org.secdfd:Process"
+      name="stop"/>
+</org.secdfd:EDFD>

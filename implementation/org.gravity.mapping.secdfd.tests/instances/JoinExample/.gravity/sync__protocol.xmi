@@ -1,0 +1,1187 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:java="http://www.eclipse.org/MoDisco/Java/0.2.incubation/java" xmlns:org.gravity.modisco="http://www.gravity-tool.org/modisco" xmlns:org.gravity.tgg.modisco="platform:/resource/org.gravity.tgg.modisco/model/Modisco.ecore" xmlns:org.gravity.typegraph.basic="http://www.gravity-tool.org/typegraph/basic">
+  <org.gravity.tgg.modisco:ModelToPg__Marker>
+    <CREATE__SRC__mModel href="src.xmi#/"/>
+    <CREATE__TRG__tPG href="JoinExample.xmi#/"/>
+    <CREATE__CORR__mModelToTPG href="corr.xmi#/0"/>
+  </org.gravity.tgg.modisco:ModelToPg__Marker>
+  <org.gravity.tgg.modisco:PrimitiveTypeIsLong__Marker>
+    <CONTEXT__SRC__eModel href="src.xmi#/"/>
+    <CREATE__SRC__ePrimitiveType href="src.xmi#//@orphanTypes.1"/>
+    <CREATE__TRG__tPrimitiveClass href="JoinExample.xmi#//@ownedTypes.0"/>
+    <CONTEXT__TRG__typeGraph href="JoinExample.xmi#/"/>
+    <CONTEXT__CORR__eModelToTypeGraph href="corr.xmi#/0"/>
+    <CREATE__CORR__ePrimitiveTypeToTPrimitiveClass href="corr.xmi#/1"/>
+    <CREATE__CORR__typeToTAbstractType href="corr.xmi#/2"/>
+  </org.gravity.tgg.modisco:PrimitiveTypeIsLong__Marker>
+  <org.gravity.tgg.modisco:PrimitiveTypeIsBoolean__Marker>
+    <CONTEXT__SRC__eModel href="src.xmi#/"/>
+    <CREATE__SRC__ePrimitiveType href="src.xmi#//@orphanTypes.4"/>
+    <CREATE__TRG__tPrimitiveClass href="JoinExample.xmi#//@ownedTypes.1"/>
+    <CONTEXT__TRG__typeGraph href="JoinExample.xmi#/"/>
+    <CONTEXT__CORR__eModelToTypeGraph href="corr.xmi#/0"/>
+    <CREATE__CORR__ePrimitiveTypeToTPrimitiveClass href="corr.xmi#/3"/>
+    <CREATE__CORR__typeToTAbstractType href="corr.xmi#/4"/>
+  </org.gravity.tgg.modisco:PrimitiveTypeIsBoolean__Marker>
+  <org.gravity.tgg.modisco:PrimitiveTypeIsShort__Marker>
+    <CONTEXT__SRC__eModel href="src.xmi#/"/>
+    <CREATE__SRC__ePrimitiveType href="src.xmi#//@orphanTypes.7"/>
+    <CREATE__TRG__tPrimitiveClass href="JoinExample.xmi#//@ownedTypes.2"/>
+    <CONTEXT__TRG__typeGraph href="JoinExample.xmi#/"/>
+    <CONTEXT__CORR__eModelToTypeGraph href="corr.xmi#/0"/>
+    <CREATE__CORR__ePrimitiveTypeToTPrimitiveClass href="corr.xmi#/5"/>
+    <CREATE__CORR__typeToTAbstractType href="corr.xmi#/6"/>
+  </org.gravity.tgg.modisco:PrimitiveTypeIsShort__Marker>
+  <org.gravity.tgg.modisco:PrimitiveTypeIsByte__Marker>
+    <CONTEXT__SRC__eModel href="src.xmi#/"/>
+    <CREATE__SRC__ePrimitiveType href="src.xmi#//@orphanTypes.8"/>
+    <CREATE__TRG__tPrimitiveClass href="JoinExample.xmi#//@ownedTypes.3"/>
+    <CONTEXT__TRG__typeGraph href="JoinExample.xmi#/"/>
+    <CONTEXT__CORR__eModelToTypeGraph href="corr.xmi#/0"/>
+    <CREATE__CORR__ePrimitiveTypeToTPrimitiveClass href="corr.xmi#/7"/>
+    <CREATE__CORR__typeToTAbstractType href="corr.xmi#/8"/>
+  </org.gravity.tgg.modisco:PrimitiveTypeIsByte__Marker>
+  <org.gravity.tgg.modisco:MethodName__Marker>
+    <CONTEXT__SRC__mModel href="src.xmi#/"/>
+    <CREATE__SRC__mName href="src.xmi#//@mMethodNames.5"/>
+    <CONTEXT__TRG__pg href="JoinExample.xmi#/"/>
+    <CREATE__TRG__tName href="JoinExample.xmi#//@methods.0"/>
+    <CREATE__CORR__mNameToTName href="corr.xmi#/9"/>
+    <CONTEXT__CORR__modelToPg href="corr.xmi#/0"/>
+  </org.gravity.tgg.modisco:MethodName__Marker>
+  <org.gravity.tgg.modisco:MethodName__Marker>
+    <CONTEXT__SRC__mModel href="src.xmi#/"/>
+    <CREATE__SRC__mName href="src.xmi#//@mMethodNames.1"/>
+    <CONTEXT__TRG__pg href="JoinExample.xmi#/"/>
+    <CREATE__TRG__tName href="JoinExample.xmi#//@methods.1"/>
+    <CREATE__CORR__mNameToTName href="corr.xmi#/10"/>
+    <CONTEXT__CORR__modelToPg href="corr.xmi#/0"/>
+  </org.gravity.tgg.modisco:MethodName__Marker>
+  <org.gravity.tgg.modisco:MethodName__Marker>
+    <CONTEXT__SRC__mModel href="src.xmi#/"/>
+    <CREATE__SRC__mName href="src.xmi#//@mMethodNames.3"/>
+    <CONTEXT__TRG__pg href="JoinExample.xmi#/"/>
+    <CREATE__TRG__tName href="JoinExample.xmi#//@methods.2"/>
+    <CREATE__CORR__mNameToTName href="corr.xmi#/11"/>
+    <CONTEXT__CORR__modelToPg href="corr.xmi#/0"/>
+  </org.gravity.tgg.modisco:MethodName__Marker>
+  <org.gravity.tgg.modisco:MethodName__Marker>
+    <CONTEXT__SRC__mModel href="src.xmi#/"/>
+    <CREATE__SRC__mName href="src.xmi#//@mMethodNames.0"/>
+    <CONTEXT__TRG__pg href="JoinExample.xmi#/"/>
+    <CREATE__TRG__tName href="JoinExample.xmi#//@methods.3"/>
+    <CREATE__CORR__mNameToTName href="corr.xmi#/12"/>
+    <CONTEXT__CORR__modelToPg href="corr.xmi#/0"/>
+  </org.gravity.tgg.modisco:MethodName__Marker>
+  <org.gravity.tgg.modisco:MethodName__Marker>
+    <CONTEXT__SRC__mModel href="src.xmi#/"/>
+    <CREATE__SRC__mName href="src.xmi#//@mMethodNames.2"/>
+    <CONTEXT__TRG__pg href="JoinExample.xmi#/"/>
+    <CREATE__TRG__tName href="JoinExample.xmi#//@methods.4"/>
+    <CREATE__CORR__mNameToTName href="corr.xmi#/13"/>
+    <CONTEXT__CORR__modelToPg href="corr.xmi#/0"/>
+  </org.gravity.tgg.modisco:MethodName__Marker>
+  <org.gravity.tgg.modisco:MethodName__Marker>
+    <CONTEXT__SRC__mModel href="src.xmi#/"/>
+    <CREATE__SRC__mName href="src.xmi#//@mMethodNames.4"/>
+    <CONTEXT__TRG__pg href="JoinExample.xmi#/"/>
+    <CREATE__TRG__tName href="JoinExample.xmi#//@methods.5"/>
+    <CREATE__CORR__mNameToTName href="corr.xmi#/14"/>
+    <CONTEXT__CORR__modelToPg href="corr.xmi#/0"/>
+  </org.gravity.tgg.modisco:MethodName__Marker>
+  <org.gravity.tgg.modisco:MethodName__Marker>
+    <CONTEXT__SRC__mModel href="src.xmi#/"/>
+    <CREATE__SRC__mName href="src.xmi#//@mMethodNames.6"/>
+    <CONTEXT__TRG__pg href="JoinExample.xmi#/"/>
+    <CREATE__TRG__tName href="JoinExample.xmi#//@methods.6"/>
+    <CREATE__CORR__mNameToTName href="corr.xmi#/15"/>
+    <CONTEXT__CORR__modelToPg href="corr.xmi#/0"/>
+  </org.gravity.tgg.modisco:MethodName__Marker>
+  <org.gravity.tgg.modisco:PackageToPGPackage__Marker>
+    <CONTEXT__SRC__mModel href="src.xmi#/"/>
+    <CREATE__SRC__mPackage href="src.xmi#//@ownedElements.0"/>
+    <CREATE__TRG__tPackage href="JoinExample.xmi#//@packages.0"/>
+    <CONTEXT__TRG__typeGraph href="JoinExample.xmi#/"/>
+    <CONTEXT__CORR__mModelToTypeGraph href="corr.xmi#/0"/>
+    <CREATE__CORR__mPackageToTPackage href="corr.xmi#/16"/>
+  </org.gravity.tgg.modisco:PackageToPGPackage__Marker>
+  <org.gravity.tgg.modisco:PackageToPGPackage__Marker>
+    <CONTEXT__SRC__mModel href="src.xmi#/"/>
+    <CREATE__SRC__mPackage href="src.xmi#//@ownedElements.1"/>
+    <CREATE__TRG__tPackage href="JoinExample.xmi#//@packages.1"/>
+    <CONTEXT__TRG__typeGraph href="JoinExample.xmi#/"/>
+    <CONTEXT__CORR__mModelToTypeGraph href="corr.xmi#/0"/>
+    <CREATE__CORR__mPackageToTPackage href="corr.xmi#/17"/>
+  </org.gravity.tgg.modisco:PackageToPGPackage__Marker>
+  <org.gravity.tgg.modisco:FieldName__Marker>
+    <CREATE__SRC__mFieldName href="src.xmi#//@mFieldNames.0"/>
+    <CONTEXT__SRC__model href="src.xmi#/"/>
+    <CREATE__TRG__tField href="JoinExample.xmi#//@fields.0"/>
+    <CONTEXT__TRG__typeGraph href="JoinExample.xmi#/"/>
+    <CREATE__CORR__eFieldDeclarationToTField href="corr.xmi#/18"/>
+    <CONTEXT__CORR__modelToTypeGraph href="corr.xmi#/0"/>
+  </org.gravity.tgg.modisco:FieldName__Marker>
+  <org.gravity.tgg.modisco:PrimitiveTypeIsChar__Marker>
+    <CONTEXT__SRC__eModel href="src.xmi#/"/>
+    <CREATE__SRC__ePrimitiveType href="src.xmi#//@orphanTypes.6"/>
+    <CREATE__TRG__tPrimitiveClass href="JoinExample.xmi#//@ownedTypes.4"/>
+    <CONTEXT__TRG__typeGraph href="JoinExample.xmi#/"/>
+    <CONTEXT__CORR__eModelToTypeGraph href="corr.xmi#/0"/>
+    <CREATE__CORR__ePrimitiveTypeToTPrimitiveClass href="corr.xmi#/19"/>
+    <CREATE__CORR__typeToTAbstractType href="corr.xmi#/20"/>
+  </org.gravity.tgg.modisco:PrimitiveTypeIsChar__Marker>
+  <org.gravity.tgg.modisco:TypeParameter__Marker>
+    <CONTEXT__SRC__eModel href="src.xmi#/"/>
+    <CREATE__SRC__typeParameter href="src.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.1/@typeParameters.0"/>
+    <CONTEXT__TRG__pg href="JoinExample.xmi#/"/>
+    <CREATE__TRG__tClass href="JoinExample.xmi#//@ownedTypes.5"/>
+    <CREATE__CORR__eAnonymousClassDeclarationToTClass href="corr.xmi#/21"/>
+    <CONTEXT__CORR__eModelToPg href="corr.xmi#/0"/>
+  </org.gravity.tgg.modisco:TypeParameter__Marker>
+  <org.gravity.tgg.modisco:PrimitiveTypeIsFloat__Marker>
+    <CONTEXT__SRC__eModel href="src.xmi#/"/>
+    <CREATE__SRC__ePrimitiveType href="src.xmi#//@orphanTypes.2"/>
+    <CREATE__TRG__tPrimitiveClass href="JoinExample.xmi#//@ownedTypes.6"/>
+    <CONTEXT__TRG__typeGraph href="JoinExample.xmi#/"/>
+    <CONTEXT__CORR__eModelToTypeGraph href="corr.xmi#/0"/>
+    <CREATE__CORR__ePrimitiveTypeToTPrimitiveClass href="corr.xmi#/22"/>
+    <CREATE__CORR__typeToTAbstractType href="corr.xmi#/23"/>
+  </org.gravity.tgg.modisco:PrimitiveTypeIsFloat__Marker>
+  <org.gravity.tgg.modisco:PrimitiveTypeIsDouble__Marker>
+    <CONTEXT__SRC__eModel href="src.xmi#/"/>
+    <CREATE__SRC__ePrimitiveType href="src.xmi#//@orphanTypes.3"/>
+    <CREATE__TRG__tPrimitiveClass href="JoinExample.xmi#//@ownedTypes.7"/>
+    <CONTEXT__TRG__typeGraph href="JoinExample.xmi#/"/>
+    <CONTEXT__CORR__eModelToTypeGraph href="corr.xmi#/0"/>
+    <CREATE__CORR__ePrimitiveTypeToTPrimitiveClass href="corr.xmi#/24"/>
+    <CREATE__CORR__typeToTAbstractType href="corr.xmi#/25"/>
+  </org.gravity.tgg.modisco:PrimitiveTypeIsDouble__Marker>
+  <org.gravity.tgg.modisco:PrimitiveTypesIsVoid__Marker>
+    <CONTEXT__SRC__eModel href="src.xmi#/"/>
+    <CREATE__SRC__ePrimitiveType href="src.xmi#//@orphanTypes.5"/>
+    <CREATE__TRG__tPrimitiveClass href="JoinExample.xmi#//@ownedTypes.8"/>
+    <CONTEXT__TRG__typeGraph href="JoinExample.xmi#/"/>
+    <CONTEXT__CORR__eModelToTypeGraph href="corr.xmi#/0"/>
+    <CREATE__CORR__ePrimitiveTypeToTPrimitiveClass href="corr.xmi#/26"/>
+    <CREATE__CORR__typeToTAbstractType href="corr.xmi#/27"/>
+  </org.gravity.tgg.modisco:PrimitiveTypesIsVoid__Marker>
+  <org.gravity.tgg.modisco:PrimitiveTypeIsInt__Marker>
+    <CONTEXT__SRC__eModel href="src.xmi#/"/>
+    <CREATE__SRC__ePrimitiveType href="src.xmi#//@orphanTypes.0"/>
+    <CREATE__TRG__tPrimitiveClass href="JoinExample.xmi#//@ownedTypes.9"/>
+    <CONTEXT__TRG__typeGraph href="JoinExample.xmi#/"/>
+    <CONTEXT__CORR__eModelToTypeGraph href="corr.xmi#/0"/>
+    <CREATE__CORR__ePrimitiveTypeToTPrimitiveClass href="corr.xmi#/28"/>
+    <CREATE__CORR__typeToTAbstractType href="corr.xmi#/29"/>
+  </org.gravity.tgg.modisco:PrimitiveTypeIsInt__Marker>
+  <org.gravity.tgg.modisco:Class__Marker>
+    <CONTEXT__SRC__mPackage href="src.xmi#//@ownedElements.0"/>
+    <CREATE__SRC__mType href="src.xmi#//@ownedElements.0/@ownedElements.1"/>
+    <CONTEXT__TRG__pg href="JoinExample.xmi#/"/>
+    <CONTEXT__TRG__tPackage href="JoinExample.xmi#//@packages.0"/>
+    <CREATE__TRG__tType href="JoinExample.xmi#//@ownedTypes.10"/>
+    <CREATE__CORR__mBodyToTAnnotation href="corr.xmi#/30"/>
+    <CREATE__CORR__mClassDeclarationToTClass href="corr.xmi#/31"/>
+    <CONTEXT__CORR__mPackageToTPackage href="corr.xmi#/16"/>
+    <CREATE__CORR__mTypeToTType href="corr.xmi#/32"/>
+  </org.gravity.tgg.modisco:Class__Marker>
+  <org.gravity.tgg.modisco:Class__Marker>
+    <CONTEXT__SRC__mPackage href="src.xmi#//@ownedElements.0"/>
+    <CREATE__SRC__mType href="src.xmi#//@ownedElements.0/@ownedElements.0"/>
+    <CONTEXT__TRG__pg href="JoinExample.xmi#/"/>
+    <CONTEXT__TRG__tPackage href="JoinExample.xmi#//@packages.0"/>
+    <CREATE__TRG__tType href="JoinExample.xmi#//@ownedTypes.11"/>
+    <CREATE__CORR__mBodyToTAnnotation href="corr.xmi#/33"/>
+    <CREATE__CORR__mClassDeclarationToTClass href="corr.xmi#/34"/>
+    <CONTEXT__CORR__mPackageToTPackage href="corr.xmi#/16"/>
+    <CREATE__CORR__mTypeToTType href="corr.xmi#/35"/>
+  </org.gravity.tgg.modisco:Class__Marker>
+  <org.gravity.tgg.modisco:SubPackageToPGPackage__Marker>
+    <CREATE__SRC__mPackage href="src.xmi#//@ownedElements.1/@ownedPackages.1"/>
+    <CONTEXT__SRC__mParentPackage href="src.xmi#//@ownedElements.1"/>
+    <CONTEXT__TRG__tParent href="JoinExample.xmi#//@packages.1"/>
+    <CREATE__TRG__tSub href="JoinExample.xmi#//@packages.1/@subpackage.0"/>
+    <CONTEXT__TRG__typeGraph href="JoinExample.xmi#/"/>
+    <CREATE__CORR__mPackageToTSub href="corr.xmi#/36"/>
+    <CONTEXT__CORR__mParentPackageToTParent href="corr.xmi#/17"/>
+  </org.gravity.tgg.modisco:SubPackageToPGPackage__Marker>
+  <org.gravity.tgg.modisco:SubPackageToPGPackage__Marker>
+    <CREATE__SRC__mPackage href="src.xmi#//@ownedElements.1/@ownedPackages.0"/>
+    <CONTEXT__SRC__mParentPackage href="src.xmi#//@ownedElements.1"/>
+    <CONTEXT__TRG__tParent href="JoinExample.xmi#//@packages.1"/>
+    <CREATE__TRG__tSub href="JoinExample.xmi#//@packages.1/@subpackage.1"/>
+    <CONTEXT__TRG__typeGraph href="JoinExample.xmi#/"/>
+    <CREATE__CORR__mPackageToTSub href="corr.xmi#/37"/>
+    <CONTEXT__CORR__mParentPackageToTParent href="corr.xmi#/17"/>
+  </org.gravity.tgg.modisco:SubPackageToPGPackage__Marker>
+  <org.gravity.tgg.modisco:MethodSignatureSingleReturn__Marker>
+    <CONTEXT__SRC__mName href="src.xmi#//@mMethodNames.4"/>
+    <CREATE__SRC__mSignature href="src.xmi#//@mMethodNames.4/@mSignatures.0"/>
+    <CONTEXT__SRC__mType xsi:type="java:PrimitiveTypeVoid" href="src.xmi#//@orphanTypes.5"/>
+    <CONTEXT__TRG__tName href="JoinExample.xmi#//@methods.5"/>
+    <CREATE__TRG__tSignature href="JoinExample.xmi#//@methods.5/@signatures.0"/>
+    <CONTEXT__TRG__tType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.8"/>
+    <CREATE__CORR__mFlowElementToTFlowElement href="corr.xmi#/38"/>
+    <CONTEXT__CORR__mNameToTName href="corr.xmi#/14"/>
+    <CREATE__CORR__mSignatureToTSignature href="corr.xmi#/39"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/27"/>
+  </org.gravity.tgg.modisco:MethodSignatureSingleReturn__Marker>
+  <org.gravity.tgg.modisco:MethodSignatureSingleReturn__Marker>
+    <CONTEXT__SRC__mName href="src.xmi#//@mMethodNames.2"/>
+    <CREATE__SRC__mSignature href="src.xmi#//@mMethodNames.2/@mSignatures.0"/>
+    <CONTEXT__SRC__mType xsi:type="java:PrimitiveTypeVoid" href="src.xmi#//@orphanTypes.5"/>
+    <CONTEXT__TRG__tName href="JoinExample.xmi#//@methods.4"/>
+    <CREATE__TRG__tSignature href="JoinExample.xmi#//@methods.4/@signatures.0"/>
+    <CONTEXT__TRG__tType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.8"/>
+    <CREATE__CORR__mFlowElementToTFlowElement href="corr.xmi#/40"/>
+    <CONTEXT__CORR__mNameToTName href="corr.xmi#/13"/>
+    <CREATE__CORR__mSignatureToTSignature href="corr.xmi#/41"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/27"/>
+  </org.gravity.tgg.modisco:MethodSignatureSingleReturn__Marker>
+  <org.gravity.tgg.modisco:TypesVisibility__Marker>
+    <CREATE__SRC__mModifier href="src.xmi#//@ownedElements.0/@ownedElements.1/@modifier"/>
+    <CONTEXT__SRC__mType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.0/@ownedElements.1"/>
+    <CREATE__TRG__tModifier href="JoinExample.xmi#//@ownedTypes.10/@tModifier"/>
+    <CONTEXT__TRG__tType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.10"/>
+    <CREATE__CORR__mModifierToTModifier href="corr.xmi#/42"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/32"/>
+  </org.gravity.tgg.modisco:TypesVisibility__Marker>
+  <org.gravity.tgg.modisco:MethodSignatureSingleReturn__Marker>
+    <CONTEXT__SRC__mName href="src.xmi#//@mMethodNames.6"/>
+    <CREATE__SRC__mSignature href="src.xmi#//@mMethodNames.6/@mSignatures.0"/>
+    <CONTEXT__SRC__mType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.0/@ownedElements.1"/>
+    <CONTEXT__TRG__tName href="JoinExample.xmi#//@methods.6"/>
+    <CREATE__TRG__tSignature href="JoinExample.xmi#//@methods.6/@signatures.0"/>
+    <CONTEXT__TRG__tType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.10"/>
+    <CREATE__CORR__mFlowElementToTFlowElement href="corr.xmi#/43"/>
+    <CONTEXT__CORR__mNameToTName href="corr.xmi#/15"/>
+    <CREATE__CORR__mSignatureToTSignature href="corr.xmi#/44"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/32"/>
+  </org.gravity.tgg.modisco:MethodSignatureSingleReturn__Marker>
+  <org.gravity.tgg.modisco:TypesVisibility__Marker>
+    <CREATE__SRC__mModifier href="src.xmi#//@ownedElements.0/@ownedElements.0/@modifier"/>
+    <CONTEXT__SRC__mType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.0/@ownedElements.0"/>
+    <CREATE__TRG__tModifier href="JoinExample.xmi#//@ownedTypes.11/@tModifier"/>
+    <CONTEXT__TRG__tType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.11"/>
+    <CREATE__CORR__mModifierToTModifier href="corr.xmi#/45"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/35"/>
+  </org.gravity.tgg.modisco:TypesVisibility__Marker>
+  <org.gravity.tgg.modisco:MethodSignatureSingleReturn__Marker>
+    <CONTEXT__SRC__mName href="src.xmi#//@mMethodNames.3"/>
+    <CREATE__SRC__mSignature href="src.xmi#//@mMethodNames.3/@mSignatures.0"/>
+    <CONTEXT__SRC__mType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.0/@ownedElements.0"/>
+    <CONTEXT__TRG__tName href="JoinExample.xmi#//@methods.2"/>
+    <CREATE__TRG__tSignature href="JoinExample.xmi#//@methods.2/@signatures.0"/>
+    <CONTEXT__TRG__tType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.11"/>
+    <CREATE__CORR__mFlowElementToTFlowElement href="corr.xmi#/46"/>
+    <CONTEXT__CORR__mNameToTName href="corr.xmi#/11"/>
+    <CREATE__CORR__mSignatureToTSignature href="corr.xmi#/47"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/35"/>
+  </org.gravity.tgg.modisco:MethodSignatureSingleReturn__Marker>
+  <org.gravity.tgg.modisco:MethodSignatureSingleReturn__Marker>
+    <CONTEXT__SRC__mName href="src.xmi#//@mMethodNames.0"/>
+    <CREATE__SRC__mSignature href="src.xmi#//@mMethodNames.0/@mSignatures.0"/>
+    <CONTEXT__SRC__mType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.0/@ownedElements.0"/>
+    <CONTEXT__TRG__tName href="JoinExample.xmi#//@methods.3"/>
+    <CREATE__TRG__tSignature href="JoinExample.xmi#//@methods.3/@signatures.0"/>
+    <CONTEXT__TRG__tType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.11"/>
+    <CREATE__CORR__mFlowElementToTFlowElement href="corr.xmi#/48"/>
+    <CONTEXT__CORR__mNameToTName href="corr.xmi#/12"/>
+    <CREATE__CORR__mSignatureToTSignature href="corr.xmi#/49"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/35"/>
+  </org.gravity.tgg.modisco:MethodSignatureSingleReturn__Marker>
+  <org.gravity.tgg.modisco:Interface__Marker>
+    <CONTEXT__SRC__mPackage href="src.xmi#//@ownedElements.1/@ownedPackages.1"/>
+    <CREATE__SRC__mType href="src.xmi#//@ownedElements.1/@ownedPackages.1/@ownedElements.0"/>
+    <CONTEXT__TRG__pg href="JoinExample.xmi#/"/>
+    <CONTEXT__TRG__tPackage href="JoinExample.xmi#//@packages.1/@subpackage.0"/>
+    <CREATE__TRG__tType href="JoinExample.xmi#//@ownedTypes.12"/>
+    <CREATE__CORR__mBodyToTAnnotation href="corr.xmi#/50"/>
+    <CREATE__CORR__mInterfaceDeclarationtoTInterface href="corr.xmi#/51"/>
+    <CONTEXT__CORR__mPackageToTPackage href="corr.xmi#/36"/>
+    <CREATE__CORR__mTypeToTType href="corr.xmi#/52"/>
+  </org.gravity.tgg.modisco:Interface__Marker>
+  <org.gravity.tgg.modisco:Class__Marker>
+    <CONTEXT__SRC__mPackage href="src.xmi#//@ownedElements.1/@ownedPackages.0"/>
+    <CREATE__SRC__mType href="src.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
+    <CONTEXT__TRG__pg href="JoinExample.xmi#/"/>
+    <CONTEXT__TRG__tPackage href="JoinExample.xmi#//@packages.1/@subpackage.1"/>
+    <CREATE__TRG__tType href="JoinExample.xmi#//@ownedTypes.13"/>
+    <CREATE__CORR__mBodyToTAnnotation href="corr.xmi#/53"/>
+    <CREATE__CORR__mClassDeclarationToTClass href="corr.xmi#/54"/>
+    <CONTEXT__CORR__mPackageToTPackage href="corr.xmi#/37"/>
+    <CREATE__CORR__mTypeToTType href="corr.xmi#/55"/>
+  </org.gravity.tgg.modisco:Class__Marker>
+  <org.gravity.tgg.modisco:Interface__Marker>
+    <CONTEXT__SRC__mPackage href="src.xmi#//@ownedElements.1/@ownedPackages.0"/>
+    <CREATE__SRC__mType href="src.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.2"/>
+    <CONTEXT__TRG__pg href="JoinExample.xmi#/"/>
+    <CONTEXT__TRG__tPackage href="JoinExample.xmi#//@packages.1/@subpackage.1"/>
+    <CREATE__TRG__tType href="JoinExample.xmi#//@ownedTypes.14"/>
+    <CREATE__CORR__mBodyToTAnnotation href="corr.xmi#/56"/>
+    <CREATE__CORR__mInterfaceDeclarationtoTInterface href="corr.xmi#/57"/>
+    <CONTEXT__CORR__mPackageToTPackage href="corr.xmi#/37"/>
+    <CREATE__CORR__mTypeToTType href="corr.xmi#/58"/>
+  </org.gravity.tgg.modisco:Interface__Marker>
+  <org.gravity.tgg.modisco:Interface__Marker>
+    <CONTEXT__SRC__mPackage href="src.xmi#//@ownedElements.1/@ownedPackages.0"/>
+    <CREATE__SRC__mType href="src.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.1"/>
+    <CONTEXT__TRG__pg href="JoinExample.xmi#/"/>
+    <CONTEXT__TRG__tPackage href="JoinExample.xmi#//@packages.1/@subpackage.1"/>
+    <CREATE__TRG__tType href="JoinExample.xmi#//@ownedTypes.15"/>
+    <CREATE__CORR__mBodyToTAnnotation href="corr.xmi#/59"/>
+    <CREATE__CORR__mInterfaceDeclarationtoTInterface href="corr.xmi#/60"/>
+    <CONTEXT__CORR__mPackageToTPackage href="corr.xmi#/37"/>
+    <CREATE__CORR__mTypeToTType href="corr.xmi#/61"/>
+  </org.gravity.tgg.modisco:Interface__Marker>
+  <org.gravity.tgg.modisco:MethodDefinitionReturnSingle__Marker>
+    <CREATE__SRC__mDefinition href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0"/>
+    <CONTEXT__SRC__mSignature href="src.xmi#//@mMethodNames.4/@mSignatures.0"/>
+    <CONTEXT__SRC__mType xsi:type="java:PrimitiveTypeVoid" href="src.xmi#//@orphanTypes.5"/>
+    <CREATE__SRC__mTypeAccess href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@returnType"/>
+    <CREATE__TRG__tDefinition href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0"/>
+    <CONTEXT__TRG__tMethodSignature href="JoinExample.xmi#//@methods.5/@signatures.0"/>
+    <CONTEXT__TRG__tType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.8"/>
+    <CREATE__CORR__mBodyToTAnnotation href="corr.xmi#/62"/>
+    <CREATE__CORR__mDefinitionToTMember href="corr.xmi#/63"/>
+    <CREATE__CORR__mFlowElementToTFlowElement href="corr.xmi#/64"/>
+    <CONTEXT__CORR__mSignatureToTMethodSignature href="corr.xmi#/39"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/27"/>
+  </org.gravity.tgg.modisco:MethodDefinitionReturnSingle__Marker>
+  <org.gravity.tgg.modisco:MethodDefinitionReturnSingle__Marker>
+    <CREATE__SRC__mDefinition href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.4"/>
+    <CONTEXT__SRC__mSignature href="src.xmi#//@mMethodNames.2/@mSignatures.0"/>
+    <CONTEXT__SRC__mType xsi:type="java:PrimitiveTypeVoid" href="src.xmi#//@orphanTypes.5"/>
+    <CREATE__SRC__mTypeAccess href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.4/@returnType"/>
+    <CREATE__TRG__tDefinition href="JoinExample.xmi#//@methods.4/@signatures.0/@definitions.0"/>
+    <CONTEXT__TRG__tMethodSignature href="JoinExample.xmi#//@methods.4/@signatures.0"/>
+    <CONTEXT__TRG__tType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.8"/>
+    <CREATE__CORR__mBodyToTAnnotation href="corr.xmi#/65"/>
+    <CREATE__CORR__mDefinitionToTMember href="corr.xmi#/66"/>
+    <CREATE__CORR__mFlowElementToTFlowElement href="corr.xmi#/67"/>
+    <CONTEXT__CORR__mSignatureToTMethodSignature href="corr.xmi#/41"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/27"/>
+  </org.gravity.tgg.modisco:MethodDefinitionReturnSingle__Marker>
+  <org.gravity.tgg.modisco:ConstructorDefinition__Marker>
+    <CREATE__SRC__mDefinition href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.5"/>
+    <CONTEXT__SRC__mSignature href="src.xmi#//@mMethodNames.6/@mSignatures.0"/>
+    <CREATE__TRG__tAnnotation href="JoinExample.xmi#//@methods.6/@signatures.0/@definitions.0/@tAnnotation.0"/>
+    <CREATE__TRG__tDefinition href="JoinExample.xmi#//@methods.6/@signatures.0/@definitions.0"/>
+    <CONTEXT__TRG__tMethodSignature href="JoinExample.xmi#//@methods.6/@signatures.0"/>
+    <CREATE__CORR__mBodyToTAnnotation href="corr.xmi#/68"/>
+    <CREATE__CORR__mDefinitionToTMember href="corr.xmi#/69"/>
+    <CREATE__CORR__mFlowElementToTFlowElement href="corr.xmi#/70"/>
+    <CONTEXT__CORR__mSignatureToTMethodSignature href="corr.xmi#/44"/>
+  </org.gravity.tgg.modisco:ConstructorDefinition__Marker>
+  <org.gravity.tgg.modisco:ConstructorDefinition__Marker>
+    <CREATE__SRC__mDefinition href="src.xmi#//@ownedElements.0/@ownedElements.0/@bodyDeclarations.1"/>
+    <CONTEXT__SRC__mSignature href="src.xmi#//@mMethodNames.3/@mSignatures.0"/>
+    <CREATE__TRG__tAnnotation href="JoinExample.xmi#//@methods.2/@signatures.0/@definitions.0/@tAnnotation.0"/>
+    <CREATE__TRG__tDefinition href="JoinExample.xmi#//@methods.2/@signatures.0/@definitions.0"/>
+    <CONTEXT__TRG__tMethodSignature href="JoinExample.xmi#//@methods.2/@signatures.0"/>
+    <CREATE__CORR__mBodyToTAnnotation href="corr.xmi#/71"/>
+    <CREATE__CORR__mDefinitionToTMember href="corr.xmi#/72"/>
+    <CREATE__CORR__mFlowElementToTFlowElement href="corr.xmi#/73"/>
+    <CONTEXT__CORR__mSignatureToTMethodSignature href="corr.xmi#/47"/>
+  </org.gravity.tgg.modisco:ConstructorDefinition__Marker>
+  <org.gravity.tgg.modisco:MethodDefinitionReturnSingle__Marker>
+    <CREATE__SRC__mDefinition href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2"/>
+    <CONTEXT__SRC__mSignature href="src.xmi#//@mMethodNames.0/@mSignatures.0"/>
+    <CONTEXT__SRC__mType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.0/@ownedElements.0"/>
+    <CREATE__SRC__mTypeAccess href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2/@returnType"/>
+    <CREATE__TRG__tDefinition href="JoinExample.xmi#//@methods.3/@signatures.0/@definitions.0"/>
+    <CONTEXT__TRG__tMethodSignature href="JoinExample.xmi#//@methods.3/@signatures.0"/>
+    <CONTEXT__TRG__tType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.11"/>
+    <CREATE__CORR__mBodyToTAnnotation href="corr.xmi#/74"/>
+    <CREATE__CORR__mDefinitionToTMember href="corr.xmi#/75"/>
+    <CREATE__CORR__mFlowElementToTFlowElement href="corr.xmi#/76"/>
+    <CONTEXT__CORR__mSignatureToTMethodSignature href="corr.xmi#/49"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/35"/>
+  </org.gravity.tgg.modisco:MethodDefinitionReturnSingle__Marker>
+  <org.gravity.tgg.modisco:MethodParameterSingleType__Marker>
+    <CREATE__SRC__mEntry href="src.xmi#//@mMethodNames.2/@mSignatures.0/@mEntrys.0"/>
+    <CONTEXT__SRC__mSignature href="src.xmi#//@mMethodNames.2/@mSignatures.0"/>
+    <CONTEXT__SRC__mType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
+    <CONTEXT__TRG__tAbstractType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.13"/>
+    <CREATE__TRG__tParameter href="JoinExample.xmi#//@methods.4/@signatures.0/@parameters.0"/>
+    <CONTEXT__TRG__tSiganture href="JoinExample.xmi#//@methods.4/@signatures.0"/>
+    <CREATE__CORR__mEntryToTParameter href="corr.xmi#/77"/>
+    <CREATE__CORR__mFlowElementToTFlowElement href="corr.xmi#/78"/>
+    <CONTEXT__CORR__mSignatureToTSignature href="corr.xmi#/41"/>
+    <CONTEXT__CORR__mTypeToTAbstractType href="corr.xmi#/55"/>
+  </org.gravity.tgg.modisco:MethodParameterSingleType__Marker>
+  <org.gravity.tgg.modisco:MethodSignatureSingleReturn__Marker>
+    <CONTEXT__SRC__mName href="src.xmi#//@mMethodNames.5"/>
+    <CREATE__SRC__mSignature href="src.xmi#//@mMethodNames.5/@mSignatures.0"/>
+    <CONTEXT__SRC__mType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
+    <CONTEXT__TRG__tName href="JoinExample.xmi#//@methods.0"/>
+    <CREATE__TRG__tSignature href="JoinExample.xmi#//@methods.0/@signatures.0"/>
+    <CONTEXT__TRG__tType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.13"/>
+    <CREATE__CORR__mFlowElementToTFlowElement href="corr.xmi#/79"/>
+    <CONTEXT__CORR__mNameToTName href="corr.xmi#/9"/>
+    <CREATE__CORR__mSignatureToTSignature href="corr.xmi#/80"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/55"/>
+  </org.gravity.tgg.modisco:MethodSignatureSingleReturn__Marker>
+  <org.gravity.tgg.modisco:MethodSignatureSingleReturn__Marker>
+    <CONTEXT__SRC__mName href="src.xmi#//@mMethodNames.1"/>
+    <CREATE__SRC__mSignature href="src.xmi#//@mMethodNames.1/@mSignatures.0"/>
+    <CONTEXT__SRC__mType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
+    <CONTEXT__TRG__tName href="JoinExample.xmi#//@methods.1"/>
+    <CREATE__TRG__tSignature href="JoinExample.xmi#//@methods.1/@signatures.0"/>
+    <CONTEXT__TRG__tType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.13"/>
+    <CREATE__CORR__mFlowElementToTFlowElement href="corr.xmi#/81"/>
+    <CONTEXT__CORR__mNameToTName href="corr.xmi#/10"/>
+    <CREATE__CORR__mSignatureToTSignature href="corr.xmi#/82"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/55"/>
+  </org.gravity.tgg.modisco:MethodSignatureSingleReturn__Marker>
+  <org.gravity.tgg.modisco:FieldSignature__Marker>
+    <CONTEXT__SRC__mFieldName href="src.xmi#//@mFieldNames.0"/>
+    <CREATE__SRC__mSignature href="src.xmi#//@mFieldNames.0/@mSignatures.0"/>
+    <CONTEXT__SRC__mType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
+    <CONTEXT__TRG__tField href="JoinExample.xmi#//@fields.0"/>
+    <CREATE__TRG__tSignature href="JoinExample.xmi#//@fields.0/@signatures.0"/>
+    <CONTEXT__TRG__tType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.13"/>
+    <CONTEXT__CORR__eFieldDeclarationToTField href="corr.xmi#/18"/>
+    <CREATE__CORR__mFlowElementToTFlowElement href="corr.xmi#/83"/>
+    <CREATE__CORR__mSignatureToTSignature href="corr.xmi#/84"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/55"/>
+  </org.gravity.tgg.modisco:FieldSignature__Marker>
+  <org.gravity.tgg.modisco:ClassImplementsInterface__Marker>
+    <CONTEXT__SRC__eClassDeclaration href="src.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
+    <CONTEXT__SRC__eSuperInterface xsi:type="java:InterfaceDeclaration" href="src.xmi#//@ownedElements.1/@ownedPackages.1/@ownedElements.0"/>
+    <CREATE__SRC__eTypeAccess href="src.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.0/@superInterfaces.0"/>
+    <CONTEXT__TRG__tClass href="JoinExample.xmi#//@ownedTypes.13"/>
+    <CONTEXT__TRG__tSuperInterface href="JoinExample.xmi#//@ownedTypes.12"/>
+    <CONTEXT__CORR__eClassDeclarationToTClass href="corr.xmi#/54"/>
+    <CONTEXT__CORR__eSuperInterfaceToTSuperInterface href="corr.xmi#/52"/>
+  </org.gravity.tgg.modisco:ClassImplementsInterface__Marker>
+  <org.gravity.tgg.modisco:ArrayTypeToClass__Marker>
+    <CREATE__SRC__eArrayType href="src.xmi#//@orphanTypes.9"/>
+    <CONTEXT__SRC__eModel href="src.xmi#/"/>
+    <CONTEXT__SRC__eType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
+    <CREATE__SRC__eTypeAccess href="src.xmi#//@orphanTypes.9/@elementType"/>
+    <CONTEXT__TRG__tArrayClass xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.13"/>
+    <CONTEXT__TRG__typeGraph href="JoinExample.xmi#/"/>
+    <CONTEXT__CORR__eModelToTypeGraph href="corr.xmi#/0"/>
+    <CONTEXT__CORR__eTypeToTArrayClass href="corr.xmi#/55"/>
+  </org.gravity.tgg.modisco:ArrayTypeToClass__Marker>
+  <org.gravity.tgg.modisco:ClassImplementsInterface__Marker>
+    <CONTEXT__SRC__eClassDeclaration href="src.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
+    <CONTEXT__SRC__eSuperInterface xsi:type="java:InterfaceDeclaration" href="src.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.2"/>
+    <CREATE__SRC__eTypeAccess href="src.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.0/@superInterfaces.2"/>
+    <CONTEXT__TRG__tClass href="JoinExample.xmi#//@ownedTypes.13"/>
+    <CONTEXT__TRG__tSuperInterface href="JoinExample.xmi#//@ownedTypes.14"/>
+    <CONTEXT__CORR__eClassDeclarationToTClass href="corr.xmi#/54"/>
+    <CONTEXT__CORR__eSuperInterfaceToTSuperInterface href="corr.xmi#/58"/>
+  </org.gravity.tgg.modisco:ClassImplementsInterface__Marker>
+  <org.gravity.tgg.modisco:ClassImplementsInterface__Marker>
+    <CONTEXT__SRC__eClassDeclaration href="src.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
+    <CONTEXT__SRC__eSuperInterface xsi:type="java:InterfaceDeclaration" href="src.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.1"/>
+    <CREATE__SRC__eTypeAccess href="src.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.0/@superInterfaces.1"/>
+    <CONTEXT__TRG__tClass href="JoinExample.xmi#//@ownedTypes.13"/>
+    <CONTEXT__TRG__tSuperInterface href="JoinExample.xmi#//@ownedTypes.15"/>
+    <CONTEXT__CORR__eClassDeclarationToTClass href="corr.xmi#/54"/>
+    <CONTEXT__CORR__eSuperInterfaceToTSuperInterface href="corr.xmi#/61"/>
+  </org.gravity.tgg.modisco:ClassImplementsInterface__Marker>
+  <org.gravity.tgg.modisco:LinkDefinitionToType__Marker>
+    <CONTEXT__SRC__mDefinition xsi:type="org.gravity.modisco:MMethodDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0"/>
+    <CONTEXT__SRC__mSignature xsi:type="org.gravity.modisco:MMethodSignature" href="src.xmi#//@mMethodNames.4/@mSignatures.0"/>
+    <CONTEXT__SRC__mType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.0/@ownedElements.1"/>
+    <CONTEXT__TRG__tDefinition xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0"/>
+    <CONTEXT__TRG__tSignature xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="JoinExample.xmi#//@methods.5/@signatures.0"/>
+    <CONTEXT__TRG__tType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.10"/>
+    <CONTEXT__CORR__mDefinitionToTMember href="corr.xmi#/63"/>
+    <CONTEXT__CORR__mSignatureToTSignature href="corr.xmi#/39"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/32"/>
+  </org.gravity.tgg.modisco:LinkDefinitionToType__Marker>
+  <org.gravity.tgg.modisco:MethodInvocation__Marker>
+    <CREATE__SRC__invocation href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.2/@expression"/>
+    <CONTEXT__SRC__mMember xsi:type="org.gravity.modisco:MMethodDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0"/>
+    <CONTEXT__SRC__mMethod xsi:type="org.gravity.modisco:MMethodDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.4"/>
+    <CREATE__TRG__tAccess href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.0"/>
+    <CONTEXT__TRG__tMember xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0"/>
+    <CONTEXT__TRG__tMethod xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.4/@signatures.0/@definitions.0"/>
+    <CREATE__CORR__invocationToTAccess href="corr.xmi#/85"/>
+    <CREATE__CORR__mFlowElementToTFlowElement href="corr.xmi#/86"/>
+    <CONTEXT__CORR__mMemberToTMember href="corr.xmi#/63"/>
+    <CONTEXT__CORR__mMethodToTMethod href="corr.xmi#/66"/>
+  </org.gravity.tgg.modisco:MethodInvocation__Marker>
+  <org.gravity.tgg.modisco:LinkDefinitionToType__Marker>
+    <CONTEXT__SRC__mDefinition xsi:type="org.gravity.modisco:MMethodDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.4"/>
+    <CONTEXT__SRC__mSignature xsi:type="org.gravity.modisco:MMethodSignature" href="src.xmi#//@mMethodNames.2/@mSignatures.0"/>
+    <CONTEXT__SRC__mType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.0/@ownedElements.1"/>
+    <CONTEXT__TRG__tDefinition xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.4/@signatures.0/@definitions.0"/>
+    <CONTEXT__TRG__tSignature xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="JoinExample.xmi#//@methods.4/@signatures.0"/>
+    <CONTEXT__TRG__tType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.10"/>
+    <CONTEXT__CORR__mDefinitionToTMember href="corr.xmi#/66"/>
+    <CONTEXT__CORR__mSignatureToTSignature href="corr.xmi#/41"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/32"/>
+  </org.gravity.tgg.modisco:LinkDefinitionToType__Marker>
+  <org.gravity.tgg.modisco:ClassInstanceCreation__Marker>
+    <CREATE__SRC__invocation href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@fragments.0/@initializer"/>
+    <CONTEXT__SRC__mMember xsi:type="org.gravity.modisco:MMethodDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0"/>
+    <CONTEXT__SRC__mMethod xsi:type="org.gravity.modisco:MConstructorDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.5"/>
+    <CREATE__TRG__tAccess href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.1"/>
+    <CONTEXT__TRG__tMember xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0"/>
+    <CONTEXT__TRG__tMethod xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.6/@signatures.0/@definitions.0"/>
+    <CREATE__CORR__invocationToTAccess href="corr.xmi#/87"/>
+    <CREATE__CORR__mFlowElementToTFlowElement href="corr.xmi#/88"/>
+    <CONTEXT__CORR__mMemberToTMember href="corr.xmi#/63"/>
+    <CONTEXT__CORR__mMethodToTMethod href="corr.xmi#/69"/>
+  </org.gravity.tgg.modisco:ClassInstanceCreation__Marker>
+  <org.gravity.tgg.modisco:LinkDefinitionToType__Marker>
+    <CONTEXT__SRC__mDefinition xsi:type="org.gravity.modisco:MConstructorDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.5"/>
+    <CONTEXT__SRC__mSignature xsi:type="org.gravity.modisco:MMethodSignature" href="src.xmi#//@mMethodNames.6/@mSignatures.0"/>
+    <CONTEXT__SRC__mType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.0/@ownedElements.1"/>
+    <CONTEXT__TRG__tDefinition xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.6/@signatures.0/@definitions.0"/>
+    <CONTEXT__TRG__tSignature xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="JoinExample.xmi#//@methods.6/@signatures.0"/>
+    <CONTEXT__TRG__tType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.10"/>
+    <CONTEXT__CORR__mDefinitionToTMember href="corr.xmi#/69"/>
+    <CONTEXT__CORR__mSignatureToTSignature href="corr.xmi#/44"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/32"/>
+  </org.gravity.tgg.modisco:LinkDefinitionToType__Marker>
+  <org.gravity.tgg.modisco:LinkDefinitionToType__Marker>
+    <CONTEXT__SRC__mDefinition xsi:type="org.gravity.modisco:MConstructorDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.0/@bodyDeclarations.1"/>
+    <CONTEXT__SRC__mSignature xsi:type="org.gravity.modisco:MMethodSignature" href="src.xmi#//@mMethodNames.3/@mSignatures.0"/>
+    <CONTEXT__SRC__mType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.0/@ownedElements.0"/>
+    <CONTEXT__TRG__tDefinition xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.2/@signatures.0/@definitions.0"/>
+    <CONTEXT__TRG__tSignature xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="JoinExample.xmi#//@methods.2/@signatures.0"/>
+    <CONTEXT__TRG__tType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.11"/>
+    <CONTEXT__CORR__mDefinitionToTMember href="corr.xmi#/72"/>
+    <CONTEXT__CORR__mSignatureToTSignature href="corr.xmi#/47"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/35"/>
+  </org.gravity.tgg.modisco:LinkDefinitionToType__Marker>
+  <org.gravity.tgg.modisco:ClassInstanceCreation__Marker>
+    <CREATE__SRC__invocation href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2/@body/@statements.0/@expression"/>
+    <CONTEXT__SRC__mMember xsi:type="org.gravity.modisco:MMethodDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2"/>
+    <CONTEXT__SRC__mMethod xsi:type="org.gravity.modisco:MConstructorDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.0/@bodyDeclarations.1"/>
+    <CREATE__TRG__tAccess href="JoinExample.xmi#//@methods.3/@signatures.0/@definitions.0/@tAccessing.0"/>
+    <CONTEXT__TRG__tMember xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.3/@signatures.0/@definitions.0"/>
+    <CONTEXT__TRG__tMethod xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.2/@signatures.0/@definitions.0"/>
+    <CREATE__CORR__invocationToTAccess href="corr.xmi#/89"/>
+    <CREATE__CORR__mFlowElementToTFlowElement href="corr.xmi#/90"/>
+    <CONTEXT__CORR__mMemberToTMember href="corr.xmi#/75"/>
+    <CONTEXT__CORR__mMethodToTMethod href="corr.xmi#/72"/>
+  </org.gravity.tgg.modisco:ClassInstanceCreation__Marker>
+  <org.gravity.tgg.modisco:MethodInvocation__Marker>
+    <CREATE__SRC__invocation href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@arguments.0"/>
+    <CONTEXT__SRC__mMember xsi:type="org.gravity.modisco:MMethodDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0"/>
+    <CONTEXT__SRC__mMethod xsi:type="org.gravity.modisco:MMethodDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2"/>
+    <CREATE__TRG__tAccess href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.2"/>
+    <CONTEXT__TRG__tMember xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0"/>
+    <CONTEXT__TRG__tMethod xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.3/@signatures.0/@definitions.0"/>
+    <CREATE__CORR__invocationToTAccess href="corr.xmi#/91"/>
+    <CREATE__CORR__mFlowElementToTFlowElement href="corr.xmi#/92"/>
+    <CONTEXT__CORR__mMemberToTMember href="corr.xmi#/63"/>
+    <CONTEXT__CORR__mMethodToTMethod href="corr.xmi#/75"/>
+  </org.gravity.tgg.modisco:MethodInvocation__Marker>
+  <org.gravity.tgg.modisco:LinkDefinitionToType__Marker>
+    <CONTEXT__SRC__mDefinition xsi:type="org.gravity.modisco:MMethodDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2"/>
+    <CONTEXT__SRC__mSignature xsi:type="org.gravity.modisco:MMethodSignature" href="src.xmi#//@mMethodNames.0/@mSignatures.0"/>
+    <CONTEXT__SRC__mType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.0/@ownedElements.1"/>
+    <CONTEXT__TRG__tDefinition xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.3/@signatures.0/@definitions.0"/>
+    <CONTEXT__TRG__tSignature xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="JoinExample.xmi#//@methods.3/@signatures.0"/>
+    <CONTEXT__TRG__tType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.10"/>
+    <CONTEXT__CORR__mDefinitionToTMember href="corr.xmi#/75"/>
+    <CONTEXT__CORR__mSignatureToTSignature href="corr.xmi#/49"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/32"/>
+  </org.gravity.tgg.modisco:LinkDefinitionToType__Marker>
+  <org.gravity.tgg.modisco:MethodParameterLinkFirst__Marker>
+    <CONTEXT__SRC__mEntry href="src.xmi#//@mMethodNames.2/@mSignatures.0/@mEntrys.0"/>
+    <CONTEXT__SRC__mParameterList href="src.xmi#//@mMethodNames.2/@mSignatures.0"/>
+    <CONTEXT__TRG__tMethodSignature href="JoinExample.xmi#//@methods.4/@signatures.0"/>
+    <CONTEXT__TRG__tParameter href="JoinExample.xmi#//@methods.4/@signatures.0/@parameters.0"/>
+    <CONTEXT__CORR__eSingleVariableDeclarationToTParameter href="corr.xmi#/77"/>
+    <CONTEXT__CORR__mmethodSignatureToTMethodSignature href="corr.xmi#/41"/>
+  </org.gravity.tgg.modisco:MethodParameterLinkFirst__Marker>
+  <org.gravity.tgg.modisco:MethodParameterSingleType__Marker>
+    <CREATE__SRC__mEntry href="src.xmi#//@mMethodNames.5/@mSignatures.0/@mEntrys.1"/>
+    <CONTEXT__SRC__mSignature href="src.xmi#//@mMethodNames.5/@mSignatures.0"/>
+    <CONTEXT__SRC__mType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
+    <CONTEXT__TRG__tAbstractType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.13"/>
+    <CREATE__TRG__tParameter href="JoinExample.xmi#//@methods.0/@signatures.0/@parameters.0"/>
+    <CONTEXT__TRG__tSiganture href="JoinExample.xmi#//@methods.0/@signatures.0"/>
+    <CREATE__CORR__mEntryToTParameter href="corr.xmi#/93"/>
+    <CREATE__CORR__mFlowElementToTFlowElement href="corr.xmi#/94"/>
+    <CONTEXT__CORR__mSignatureToTSignature href="corr.xmi#/80"/>
+    <CONTEXT__CORR__mTypeToTAbstractType href="corr.xmi#/55"/>
+  </org.gravity.tgg.modisco:MethodParameterSingleType__Marker>
+  <org.gravity.tgg.modisco:MethodParameterSingleType__Marker>
+    <CREATE__SRC__mEntry href="src.xmi#//@mMethodNames.5/@mSignatures.0/@mEntrys.0"/>
+    <CONTEXT__SRC__mSignature href="src.xmi#//@mMethodNames.5/@mSignatures.0"/>
+    <CONTEXT__SRC__mType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.0/@ownedElements.0"/>
+    <CONTEXT__TRG__tAbstractType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.11"/>
+    <CREATE__TRG__tParameter href="JoinExample.xmi#//@methods.0/@signatures.0/@parameters.1"/>
+    <CONTEXT__TRG__tSiganture href="JoinExample.xmi#//@methods.0/@signatures.0"/>
+    <CREATE__CORR__mEntryToTParameter href="corr.xmi#/95"/>
+    <CREATE__CORR__mFlowElementToTFlowElement href="corr.xmi#/96"/>
+    <CONTEXT__CORR__mSignatureToTSignature href="corr.xmi#/80"/>
+    <CONTEXT__CORR__mTypeToTAbstractType href="corr.xmi#/35"/>
+  </org.gravity.tgg.modisco:MethodParameterSingleType__Marker>
+  <org.gravity.tgg.modisco:MethodDefinitionReturnSingle__Marker>
+    <CREATE__SRC__mDefinition href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3"/>
+    <CONTEXT__SRC__mSignature href="src.xmi#//@mMethodNames.5/@mSignatures.0"/>
+    <CONTEXT__SRC__mType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
+    <CREATE__SRC__mTypeAccess href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3/@returnType"/>
+    <CREATE__TRG__tDefinition href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0"/>
+    <CONTEXT__TRG__tMethodSignature href="JoinExample.xmi#//@methods.0/@signatures.0"/>
+    <CONTEXT__TRG__tType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.13"/>
+    <CREATE__CORR__mBodyToTAnnotation href="corr.xmi#/97"/>
+    <CREATE__CORR__mDefinitionToTMember href="corr.xmi#/98"/>
+    <CREATE__CORR__mFlowElementToTFlowElement href="corr.xmi#/99"/>
+    <CONTEXT__CORR__mSignatureToTMethodSignature href="corr.xmi#/80"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/55"/>
+  </org.gravity.tgg.modisco:MethodDefinitionReturnSingle__Marker>
+  <org.gravity.tgg.modisco:MethodDefinitionReturnSingle__Marker>
+    <CREATE__SRC__mDefinition href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.1"/>
+    <CONTEXT__SRC__mSignature href="src.xmi#//@mMethodNames.1/@mSignatures.0"/>
+    <CONTEXT__SRC__mType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
+    <CREATE__SRC__mTypeAccess href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.1/@returnType"/>
+    <CREATE__TRG__tDefinition href="JoinExample.xmi#//@methods.1/@signatures.0/@definitions.0"/>
+    <CONTEXT__TRG__tMethodSignature href="JoinExample.xmi#//@methods.1/@signatures.0"/>
+    <CONTEXT__TRG__tType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.13"/>
+    <CREATE__CORR__mBodyToTAnnotation href="corr.xmi#/100"/>
+    <CREATE__CORR__mDefinitionToTMember href="corr.xmi#/101"/>
+    <CREATE__CORR__mFlowElementToTFlowElement href="corr.xmi#/102"/>
+    <CONTEXT__CORR__mSignatureToTMethodSignature href="corr.xmi#/82"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/55"/>
+  </org.gravity.tgg.modisco:MethodDefinitionReturnSingle__Marker>
+  <org.gravity.tgg.modisco:FieldDefinition__Marker>
+    <CREATE__SRC__mDefinition href="src.xmi#//@ownedElements.0/@ownedElements.0/@bodyDeclarations.0"/>
+    <CONTEXT__SRC__mSignature href="src.xmi#//@mFieldNames.0/@mSignatures.0"/>
+    <CREATE__TRG__tDefinition href="JoinExample.xmi#//@fields.0/@signatures.0/@definitions.0"/>
+    <CONTEXT__TRG__tFieldSignature href="JoinExample.xmi#//@fields.0/@signatures.0"/>
+    <CREATE__CORR__mBodyToTAnnotation href="corr.xmi#/103"/>
+    <CREATE__CORR__mDefinitionToTDefinition href="corr.xmi#/104"/>
+    <CREATE__CORR__mDefinitionToTMember href="corr.xmi#/105"/>
+    <CONTEXT__CORR__mSignatureToTFieldSignature href="corr.xmi#/84"/>
+  </org.gravity.tgg.modisco:FieldDefinition__Marker>
+  <org.gravity.tgg.modisco:MethodParameterArrayType__Marker>
+    <CREATE__SRC__mEntry href="src.xmi#//@mMethodNames.4/@mSignatures.0/@mEntrys.0"/>
+    <CONTEXT__SRC__mSignature href="src.xmi#//@mMethodNames.4/@mSignatures.0"/>
+    <CONTEXT__SRC__mType href="src.xmi#//@orphanTypes.9"/>
+    <CONTEXT__SRC__mTypeAccess href="src.xmi#//@orphanTypes.9/@elementType"/>
+    <CONTEXT__SRC__mTypeOfArray xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
+    <CONTEXT__TRG__tAbstractType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.13"/>
+    <CREATE__TRG__tParameter href="JoinExample.xmi#//@methods.5/@signatures.0/@parameters.0"/>
+    <CONTEXT__TRG__tSiganture href="JoinExample.xmi#//@methods.5/@signatures.0"/>
+    <CREATE__CORR__mEntryToTParameter href="corr.xmi#/106"/>
+    <CREATE__CORR__mFlowElementToTFlowElement href="corr.xmi#/107"/>
+    <CONTEXT__CORR__mSignatureToTSignature href="corr.xmi#/39"/>
+    <CONTEXT__CORR__mTypeToTAbstractType href="corr.xmi#/55"/>
+  </org.gravity.tgg.modisco:MethodParameterArrayType__Marker>
+  <org.gravity.tgg.modisco:MemberInClassVisibility__Marker>
+    <CONTEXT__SRC__mClass href="src.xmi#//@ownedElements.0/@ownedElements.1"/>
+    <CONTEXT__SRC__mDefinition xsi:type="org.gravity.modisco:MMethodDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0"/>
+    <CREATE__SRC__mModifier href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@modifier"/>
+    <CONTEXT__TRG__tClass href="JoinExample.xmi#//@ownedTypes.10"/>
+    <CONTEXT__TRG__tMember xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0"/>
+    <CREATE__TRG__tModifier href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tModifier"/>
+    <CONTEXT__CORR__defToMember href="corr.xmi#/63"/>
+    <CREATE__CORR__mModifierToTModifier href="corr.xmi#/108"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/32"/>
+  </org.gravity.tgg.modisco:MemberInClassVisibility__Marker>
+  <org.gravity.tgg.modisco:Flow__Marker>
+    <CREATE__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.2/@expression/@ownedFlows.0"/>
+    <CONTEXT__SRC__mOwner xsi:type="org.gravity.modisco:MMethodInvocation" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.2/@expression"/>
+    <CREATE__TRG__tFlow href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0"/>
+    <CONTEXT__TRG__tOwner xsi:type="org.gravity.typegraph.basic:TCall" href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.0"/>
+    <CREATE__CORR__mFlowToTFlow href="corr.xmi#/109"/>
+    <CONTEXT__CORR__mOwnerToTOwner href="corr.xmi#/86"/>
+  </org.gravity.tgg.modisco:Flow__Marker>
+  <org.gravity.tgg.modisco:MethodInvocationStaticType__Marker>
+    <CONTEXT__SRC__invocation href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.2/@expression"/>
+    <CONTEXT__SRC__mStaticType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.0/@ownedElements.1"/>
+    <CONTEXT__TRG__tAccess href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.0"/>
+    <CONTEXT__TRG__tStaticType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.10"/>
+    <CONTEXT__CORR__invocationToTAccess href="corr.xmi#/85"/>
+    <CONTEXT__CORR__mStaticTypeTotStaticType href="corr.xmi#/32"/>
+  </org.gravity.tgg.modisco:MethodInvocationStaticType__Marker>
+  <org.gravity.tgg.modisco:MemberInClassVisibility__Marker>
+    <CONTEXT__SRC__mClass href="src.xmi#//@ownedElements.0/@ownedElements.1"/>
+    <CONTEXT__SRC__mDefinition xsi:type="org.gravity.modisco:MMethodDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.4"/>
+    <CREATE__SRC__mModifier href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.4/@modifier"/>
+    <CONTEXT__TRG__tClass href="JoinExample.xmi#//@ownedTypes.10"/>
+    <CONTEXT__TRG__tMember xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.4/@signatures.0/@definitions.0"/>
+    <CREATE__TRG__tModifier href="JoinExample.xmi#//@methods.4/@signatures.0/@definitions.0/@tModifier"/>
+    <CONTEXT__CORR__defToMember href="corr.xmi#/66"/>
+    <CREATE__CORR__mModifierToTModifier href="corr.xmi#/110"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/32"/>
+  </org.gravity.tgg.modisco:MemberInClassVisibility__Marker>
+  <org.gravity.tgg.modisco:Flow__Marker>
+    <CREATE__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@fragments.0/@initializer/@ownedFlows.0"/>
+    <CONTEXT__SRC__mOwner xsi:type="org.gravity.modisco:MClassInstanceCreation" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@fragments.0/@initializer"/>
+    <CREATE__TRG__tFlow href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.0"/>
+    <CONTEXT__TRG__tOwner xsi:type="org.gravity.typegraph.basic:TCall" href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.1"/>
+    <CREATE__CORR__mFlowToTFlow href="corr.xmi#/111"/>
+    <CONTEXT__CORR__mOwnerToTOwner href="corr.xmi#/88"/>
+  </org.gravity.tgg.modisco:Flow__Marker>
+  <org.gravity.tgg.modisco:Flow__Marker>
+    <CREATE__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2/@body/@statements.0/@expression/@ownedFlows.1"/>
+    <CONTEXT__SRC__mOwner xsi:type="org.gravity.modisco:MClassInstanceCreation" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2/@body/@statements.0/@expression"/>
+    <CREATE__TRG__tFlow href="JoinExample.xmi#//@methods.3/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0"/>
+    <CONTEXT__TRG__tOwner xsi:type="org.gravity.typegraph.basic:TCall" href="JoinExample.xmi#//@methods.3/@signatures.0/@definitions.0/@tAccessing.0"/>
+    <CREATE__CORR__mFlowToTFlow href="corr.xmi#/112"/>
+    <CONTEXT__CORR__mOwnerToTOwner href="corr.xmi#/90"/>
+  </org.gravity.tgg.modisco:Flow__Marker>
+  <org.gravity.tgg.modisco:Flow__Marker>
+    <CREATE__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2/@body/@statements.0/@expression/@ownedFlows.0"/>
+    <CONTEXT__SRC__mOwner xsi:type="org.gravity.modisco:MClassInstanceCreation" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2/@body/@statements.0/@expression"/>
+    <CREATE__TRG__tFlow href="JoinExample.xmi#//@methods.3/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1"/>
+    <CONTEXT__TRG__tOwner xsi:type="org.gravity.typegraph.basic:TCall" href="JoinExample.xmi#//@methods.3/@signatures.0/@definitions.0/@tAccessing.0"/>
+    <CREATE__CORR__mFlowToTFlow href="corr.xmi#/113"/>
+    <CONTEXT__CORR__mOwnerToTOwner href="corr.xmi#/90"/>
+  </org.gravity.tgg.modisco:Flow__Marker>
+  <org.gravity.tgg.modisco:Flow__Marker>
+    <CREATE__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@arguments.0/@ownedFlows.0"/>
+    <CONTEXT__SRC__mOwner xsi:type="org.gravity.modisco:MMethodInvocation" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@arguments.0"/>
+    <CREATE__TRG__tFlow href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.0"/>
+    <CONTEXT__TRG__tOwner xsi:type="org.gravity.typegraph.basic:TCall" href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.2"/>
+    <CREATE__CORR__mFlowToTFlow href="corr.xmi#/114"/>
+    <CONTEXT__CORR__mOwnerToTOwner href="corr.xmi#/92"/>
+  </org.gravity.tgg.modisco:Flow__Marker>
+  <org.gravity.tgg.modisco:MethodInvocationStaticType__Marker>
+    <CONTEXT__SRC__invocation href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@arguments.0"/>
+    <CONTEXT__SRC__mStaticType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.0/@ownedElements.1"/>
+    <CONTEXT__TRG__tAccess href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.2"/>
+    <CONTEXT__TRG__tStaticType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.10"/>
+    <CONTEXT__CORR__invocationToTAccess href="corr.xmi#/91"/>
+    <CONTEXT__CORR__mStaticTypeTotStaticType href="corr.xmi#/32"/>
+  </org.gravity.tgg.modisco:MethodInvocationStaticType__Marker>
+  <org.gravity.tgg.modisco:MemberInClassVisibility__Marker>
+    <CONTEXT__SRC__mClass href="src.xmi#//@ownedElements.0/@ownedElements.1"/>
+    <CONTEXT__SRC__mDefinition xsi:type="org.gravity.modisco:MMethodDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2"/>
+    <CREATE__SRC__mModifier href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2/@modifier"/>
+    <CONTEXT__TRG__tClass href="JoinExample.xmi#//@ownedTypes.10"/>
+    <CONTEXT__TRG__tMember xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.3/@signatures.0/@definitions.0"/>
+    <CREATE__TRG__tModifier href="JoinExample.xmi#//@methods.3/@signatures.0/@definitions.0/@tModifier"/>
+    <CONTEXT__CORR__defToMember href="corr.xmi#/75"/>
+    <CREATE__CORR__mModifierToTModifier href="corr.xmi#/115"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/32"/>
+  </org.gravity.tgg.modisco:MemberInClassVisibility__Marker>
+  <org.gravity.tgg.modisco:MethodParameterLinkFirst__Marker>
+    <CONTEXT__SRC__mEntry href="src.xmi#//@mMethodNames.5/@mSignatures.0/@mEntrys.0"/>
+    <CONTEXT__SRC__mParameterList href="src.xmi#//@mMethodNames.5/@mSignatures.0"/>
+    <CONTEXT__TRG__tMethodSignature href="JoinExample.xmi#//@methods.0/@signatures.0"/>
+    <CONTEXT__TRG__tParameter href="JoinExample.xmi#//@methods.0/@signatures.0/@parameters.1"/>
+    <CONTEXT__CORR__eSingleVariableDeclarationToTParameter href="corr.xmi#/95"/>
+    <CONTEXT__CORR__mmethodSignatureToTMethodSignature href="corr.xmi#/80"/>
+  </org.gravity.tgg.modisco:MethodParameterLinkFirst__Marker>
+  <org.gravity.tgg.modisco:MethodParameterLink__Marker>
+    <CONTEXT__SRC__mEntry href="src.xmi#//@mMethodNames.5/@mSignatures.0/@mEntrys.1"/>
+    <CONTEXT__SRC__mPrevEntry href="src.xmi#//@mMethodNames.5/@mSignatures.0/@mEntrys.0"/>
+    <CONTEXT__TRG__tParameter href="JoinExample.xmi#//@methods.0/@signatures.0/@parameters.0"/>
+    <CONTEXT__TRG__tPrevParameter href="JoinExample.xmi#//@methods.0/@signatures.0/@parameters.1"/>
+    <CONTEXT__CORR__eSingleVariableDeclarationToTParameter href="corr.xmi#/93"/>
+    <CONTEXT__CORR__mmethodSignatureToTMethodSignature href="corr.xmi#/95"/>
+  </org.gravity.tgg.modisco:MethodParameterLink__Marker>
+  <org.gravity.tgg.modisco:Flow__Marker>
+    <CREATE__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3/@ownedFlows.0"/>
+    <CONTEXT__SRC__mOwner xsi:type="org.gravity.modisco:MMethodDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3"/>
+    <CREATE__TRG__tFlow href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0/@ownedFlows.0"/>
+    <CONTEXT__TRG__tOwner xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0"/>
+    <CREATE__CORR__mFlowToTFlow href="corr.xmi#/116"/>
+    <CONTEXT__CORR__mOwnerToTOwner href="corr.xmi#/99"/>
+  </org.gravity.tgg.modisco:Flow__Marker>
+  <org.gravity.tgg.modisco:MethodInvocation__Marker>
+    <CREATE__SRC__invocation href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer"/>
+    <CONTEXT__SRC__mMember xsi:type="org.gravity.modisco:MMethodDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0"/>
+    <CONTEXT__SRC__mMethod xsi:type="org.gravity.modisco:MMethodDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3"/>
+    <CREATE__TRG__tAccess href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.3"/>
+    <CONTEXT__TRG__tMember xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0"/>
+    <CONTEXT__TRG__tMethod xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0"/>
+    <CREATE__CORR__invocationToTAccess href="corr.xmi#/117"/>
+    <CREATE__CORR__mFlowElementToTFlowElement href="corr.xmi#/118"/>
+    <CONTEXT__CORR__mMemberToTMember href="corr.xmi#/63"/>
+    <CONTEXT__CORR__mMethodToTMethod href="corr.xmi#/98"/>
+  </org.gravity.tgg.modisco:MethodInvocation__Marker>
+  <org.gravity.tgg.modisco:LinkDefinitionToType__Marker>
+    <CONTEXT__SRC__mDefinition xsi:type="org.gravity.modisco:MMethodDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3"/>
+    <CONTEXT__SRC__mSignature xsi:type="org.gravity.modisco:MMethodSignature" href="src.xmi#//@mMethodNames.5/@mSignatures.0"/>
+    <CONTEXT__SRC__mType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.0/@ownedElements.1"/>
+    <CONTEXT__TRG__tDefinition xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0"/>
+    <CONTEXT__TRG__tSignature xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="JoinExample.xmi#//@methods.0/@signatures.0"/>
+    <CONTEXT__TRG__tType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.10"/>
+    <CONTEXT__CORR__mDefinitionToTMember href="corr.xmi#/98"/>
+    <CONTEXT__CORR__mSignatureToTSignature href="corr.xmi#/80"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/32"/>
+  </org.gravity.tgg.modisco:LinkDefinitionToType__Marker>
+  <org.gravity.tgg.modisco:MethodInvocation__Marker>
+    <CREATE__SRC__invocation href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@arguments.1"/>
+    <CONTEXT__SRC__mMember xsi:type="org.gravity.modisco:MMethodDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0"/>
+    <CONTEXT__SRC__mMethod xsi:type="org.gravity.modisco:MMethodDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.1"/>
+    <CREATE__TRG__tAccess href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.4"/>
+    <CONTEXT__TRG__tMember xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0"/>
+    <CONTEXT__TRG__tMethod xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.1/@signatures.0/@definitions.0"/>
+    <CREATE__CORR__invocationToTAccess href="corr.xmi#/119"/>
+    <CREATE__CORR__mFlowElementToTFlowElement href="corr.xmi#/120"/>
+    <CONTEXT__CORR__mMemberToTMember href="corr.xmi#/63"/>
+    <CONTEXT__CORR__mMethodToTMethod href="corr.xmi#/101"/>
+  </org.gravity.tgg.modisco:MethodInvocation__Marker>
+  <org.gravity.tgg.modisco:LinkDefinitionToType__Marker>
+    <CONTEXT__SRC__mDefinition xsi:type="org.gravity.modisco:MMethodDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.1"/>
+    <CONTEXT__SRC__mSignature xsi:type="org.gravity.modisco:MMethodSignature" href="src.xmi#//@mMethodNames.1/@mSignatures.0"/>
+    <CONTEXT__SRC__mType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.0/@ownedElements.1"/>
+    <CONTEXT__TRG__tDefinition xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.1/@signatures.0/@definitions.0"/>
+    <CONTEXT__TRG__tSignature xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="JoinExample.xmi#//@methods.1/@signatures.0"/>
+    <CONTEXT__TRG__tType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.10"/>
+    <CONTEXT__CORR__mDefinitionToTMember href="corr.xmi#/101"/>
+    <CONTEXT__CORR__mSignatureToTSignature href="corr.xmi#/82"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/32"/>
+  </org.gravity.tgg.modisco:LinkDefinitionToType__Marker>
+  <org.gravity.tgg.modisco:VariableDeclarationFragment__Marker>
+    <CONTEXT__SRC__mDefinition href="src.xmi#//@ownedElements.0/@ownedElements.0/@bodyDeclarations.0"/>
+    <CREATE__SRC__varDeclFragment href="src.xmi#//@ownedElements.0/@ownedElements.0/@bodyDeclarations.0/@fragments.0"/>
+    <CONTEXT__TRG__tDefinition href="JoinExample.xmi#//@fields.0/@signatures.0/@definitions.0"/>
+    <CONTEXT__CORR__eFieldDeclarationToTFieldDefinition href="corr.xmi#/105"/>
+    <CREATE__CORR__varDeclFragmentToTFieldDefinition href="corr.xmi#/121"/>
+  </org.gravity.tgg.modisco:VariableDeclarationFragment__Marker>
+  <org.gravity.tgg.modisco:LinkDefinitionToType__Marker>
+    <CONTEXT__SRC__mDefinition xsi:type="org.gravity.modisco:MFieldDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.0/@bodyDeclarations.0"/>
+    <CONTEXT__SRC__mSignature xsi:type="org.gravity.modisco:MFieldSignature" href="src.xmi#//@mFieldNames.0/@mSignatures.0"/>
+    <CONTEXT__SRC__mType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.0/@ownedElements.0"/>
+    <CONTEXT__TRG__tDefinition xsi:type="org.gravity.typegraph.basic:TFieldDefinition" href="JoinExample.xmi#//@fields.0/@signatures.0/@definitions.0"/>
+    <CONTEXT__TRG__tSignature xsi:type="org.gravity.typegraph.basic:TFieldSignature" href="JoinExample.xmi#//@fields.0/@signatures.0"/>
+    <CONTEXT__TRG__tType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.11"/>
+    <CONTEXT__CORR__mDefinitionToTMember href="corr.xmi#/105"/>
+    <CONTEXT__CORR__mSignatureToTSignature href="corr.xmi#/84"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/35"/>
+  </org.gravity.tgg.modisco:LinkDefinitionToType__Marker>
+  <org.gravity.tgg.modisco:MethodParameterLinkFirst__Marker>
+    <CONTEXT__SRC__mEntry href="src.xmi#//@mMethodNames.4/@mSignatures.0/@mEntrys.0"/>
+    <CONTEXT__SRC__mParameterList href="src.xmi#//@mMethodNames.4/@mSignatures.0"/>
+    <CONTEXT__TRG__tMethodSignature href="JoinExample.xmi#//@methods.5/@signatures.0"/>
+    <CONTEXT__TRG__tParameter href="JoinExample.xmi#//@methods.5/@signatures.0/@parameters.0"/>
+    <CONTEXT__CORR__eSingleVariableDeclarationToTParameter href="corr.xmi#/106"/>
+    <CONTEXT__CORR__mmethodSignatureToTMethodSignature href="corr.xmi#/39"/>
+  </org.gravity.tgg.modisco:MethodParameterLinkFirst__Marker>
+  <org.gravity.tgg.modisco:OutgoingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.2/@expression/@ownedFlows.0"/>
+    <CONTEXT__SRC__mTarget xsi:type="org.gravity.modisco:MEntry" href="src.xmi#//@mMethodNames.2/@mSignatures.0/@mEntrys.0"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0"/>
+    <CONTEXT__TRG__tTarget xsi:type="org.gravity.typegraph.basic:TParameter" href="JoinExample.xmi#//@methods.4/@signatures.0/@parameters.0"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/109"/>
+    <CONTEXT__CORR__mTargetToTTarget href="corr.xmi#/78"/>
+  </org.gravity.tgg.modisco:OutgoingFlow__Marker>
+  <org.gravity.tgg.modisco:OutgoingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@fragments.0/@initializer/@ownedFlows.0"/>
+    <CONTEXT__SRC__mTarget xsi:type="org.gravity.modisco:MClassInstanceCreation" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@fragments.0/@initializer"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.0"/>
+    <CONTEXT__TRG__tTarget xsi:type="org.gravity.typegraph.basic:TCall" href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.1"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/111"/>
+    <CONTEXT__CORR__mTargetToTTarget href="corr.xmi#/88"/>
+  </org.gravity.tgg.modisco:OutgoingFlow__Marker>
+  <org.gravity.tgg.modisco:IncomingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@fragments.0/@initializer/@ownedFlows.0"/>
+    <CONTEXT__SRC__mSource xsi:type="org.gravity.modisco:MConstructorDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.5"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.1/@ownedFlows.0"/>
+    <CONTEXT__TRG__tSource xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.6/@signatures.0/@definitions.0"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/111"/>
+    <CONTEXT__CORR__mSourceToTSource href="corr.xmi#/70"/>
+  </org.gravity.tgg.modisco:IncomingFlow__Marker>
+  <org.gravity.tgg.modisco:OutgoingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2/@body/@statements.0/@expression/@ownedFlows.1"/>
+    <CONTEXT__SRC__mTarget xsi:type="org.gravity.modisco:MMethodDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.3/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0"/>
+    <CONTEXT__TRG__tTarget xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.3/@signatures.0/@definitions.0"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/112"/>
+    <CONTEXT__CORR__mTargetToTTarget href="corr.xmi#/76"/>
+  </org.gravity.tgg.modisco:OutgoingFlow__Marker>
+  <org.gravity.tgg.modisco:IncomingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2/@body/@statements.0/@expression/@ownedFlows.1"/>
+    <CONTEXT__SRC__mSource xsi:type="org.gravity.modisco:MClassInstanceCreation" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2/@body/@statements.0/@expression"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.3/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0"/>
+    <CONTEXT__TRG__tSource xsi:type="org.gravity.typegraph.basic:TCall" href="JoinExample.xmi#//@methods.3/@signatures.0/@definitions.0/@tAccessing.0"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/112"/>
+    <CONTEXT__CORR__mSourceToTSource href="corr.xmi#/90"/>
+  </org.gravity.tgg.modisco:IncomingFlow__Marker>
+  <org.gravity.tgg.modisco:OutgoingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2/@body/@statements.0/@expression/@ownedFlows.0"/>
+    <CONTEXT__SRC__mTarget xsi:type="org.gravity.modisco:MClassInstanceCreation" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2/@body/@statements.0/@expression"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.3/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1"/>
+    <CONTEXT__TRG__tTarget xsi:type="org.gravity.typegraph.basic:TCall" href="JoinExample.xmi#//@methods.3/@signatures.0/@definitions.0/@tAccessing.0"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/113"/>
+    <CONTEXT__CORR__mTargetToTTarget href="corr.xmi#/90"/>
+  </org.gravity.tgg.modisco:OutgoingFlow__Marker>
+  <org.gravity.tgg.modisco:IncomingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.2/@body/@statements.0/@expression/@ownedFlows.0"/>
+    <CONTEXT__SRC__mSource xsi:type="org.gravity.modisco:MConstructorDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.0/@bodyDeclarations.1"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.3/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1"/>
+    <CONTEXT__TRG__tSource xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.2/@signatures.0/@definitions.0"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/113"/>
+    <CONTEXT__CORR__mSourceToTSource href="corr.xmi#/73"/>
+  </org.gravity.tgg.modisco:IncomingFlow__Marker>
+  <org.gravity.tgg.modisco:OutgoingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@arguments.0/@ownedFlows.0"/>
+    <CONTEXT__SRC__mTarget xsi:type="org.gravity.modisco:MMethodInvocation" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@arguments.0"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.0"/>
+    <CONTEXT__TRG__tTarget xsi:type="org.gravity.typegraph.basic:TCall" href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.2"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/114"/>
+    <CONTEXT__CORR__mTargetToTTarget href="corr.xmi#/92"/>
+  </org.gravity.tgg.modisco:OutgoingFlow__Marker>
+  <org.gravity.tgg.modisco:IncomingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@arguments.0/@ownedFlows.0"/>
+    <CONTEXT__SRC__mSource xsi:type="org.gravity.modisco:MMethodSignature" href="src.xmi#//@mMethodNames.0/@mSignatures.0"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.2/@ownedFlows.0"/>
+    <CONTEXT__TRG__tSource xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="JoinExample.xmi#//@methods.3/@signatures.0"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/114"/>
+    <CONTEXT__CORR__mSourceToTSource href="corr.xmi#/48"/>
+  </org.gravity.tgg.modisco:IncomingFlow__Marker>
+  <org.gravity.tgg.modisco:OutgoingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3/@ownedFlows.0"/>
+    <CONTEXT__SRC__mTarget xsi:type="org.gravity.modisco:MMethodDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0/@ownedFlows.0"/>
+    <CONTEXT__TRG__tTarget xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/116"/>
+    <CONTEXT__CORR__mTargetToTTarget href="corr.xmi#/99"/>
+  </org.gravity.tgg.modisco:OutgoingFlow__Marker>
+  <org.gravity.tgg.modisco:IncomingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3/@ownedFlows.0"/>
+    <CONTEXT__SRC__mSource xsi:type="org.gravity.modisco:MEntry" href="src.xmi#//@mMethodNames.5/@mSignatures.0/@mEntrys.1"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0/@ownedFlows.0"/>
+    <CONTEXT__TRG__tSource xsi:type="org.gravity.typegraph.basic:TParameter" href="JoinExample.xmi#//@methods.0/@signatures.0/@parameters.0"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/116"/>
+    <CONTEXT__CORR__mSourceToTSource href="corr.xmi#/94"/>
+  </org.gravity.tgg.modisco:IncomingFlow__Marker>
+  <org.gravity.tgg.modisco:Flow__Marker>
+    <CREATE__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@ownedFlows.1"/>
+    <CONTEXT__SRC__mOwner xsi:type="org.gravity.modisco:MMethodInvocation" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer"/>
+    <CREATE__TRG__tFlow href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.3/@ownedFlows.0"/>
+    <CONTEXT__TRG__tOwner xsi:type="org.gravity.typegraph.basic:TCall" href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.3"/>
+    <CREATE__CORR__mFlowToTFlow href="corr.xmi#/122"/>
+    <CONTEXT__CORR__mOwnerToTOwner href="corr.xmi#/118"/>
+  </org.gravity.tgg.modisco:Flow__Marker>
+  <org.gravity.tgg.modisco:Flow__Marker>
+    <CREATE__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@ownedFlows.2"/>
+    <CONTEXT__SRC__mOwner xsi:type="org.gravity.modisco:MMethodInvocation" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer"/>
+    <CREATE__TRG__tFlow href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.3/@ownedFlows.1"/>
+    <CONTEXT__TRG__tOwner xsi:type="org.gravity.typegraph.basic:TCall" href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.3"/>
+    <CREATE__CORR__mFlowToTFlow href="corr.xmi#/123"/>
+    <CONTEXT__CORR__mOwnerToTOwner href="corr.xmi#/118"/>
+  </org.gravity.tgg.modisco:Flow__Marker>
+  <org.gravity.tgg.modisco:Flow__Marker>
+    <CREATE__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@ownedFlows.0"/>
+    <CONTEXT__SRC__mOwner xsi:type="org.gravity.modisco:MMethodInvocation" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer"/>
+    <CREATE__TRG__tFlow href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.3/@ownedFlows.2"/>
+    <CONTEXT__TRG__tOwner xsi:type="org.gravity.typegraph.basic:TCall" href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.3"/>
+    <CREATE__CORR__mFlowToTFlow href="corr.xmi#/124"/>
+    <CONTEXT__CORR__mOwnerToTOwner href="corr.xmi#/118"/>
+  </org.gravity.tgg.modisco:Flow__Marker>
+  <org.gravity.tgg.modisco:IncomingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.2/@expression/@ownedFlows.0"/>
+    <CONTEXT__SRC__mSource xsi:type="org.gravity.modisco:MMethodInvocation" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0"/>
+    <CONTEXT__TRG__tSource xsi:type="org.gravity.typegraph.basic:TCall" href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.3"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/109"/>
+    <CONTEXT__CORR__mSourceToTSource href="corr.xmi#/118"/>
+  </org.gravity.tgg.modisco:IncomingFlow__Marker>
+  <org.gravity.tgg.modisco:MethodInvocationStaticType__Marker>
+    <CONTEXT__SRC__invocation href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer"/>
+    <CONTEXT__SRC__mStaticType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.0/@ownedElements.1"/>
+    <CONTEXT__TRG__tAccess href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.3"/>
+    <CONTEXT__TRG__tStaticType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.10"/>
+    <CONTEXT__CORR__invocationToTAccess href="corr.xmi#/117"/>
+    <CONTEXT__CORR__mStaticTypeTotStaticType href="corr.xmi#/32"/>
+  </org.gravity.tgg.modisco:MethodInvocationStaticType__Marker>
+  <org.gravity.tgg.modisco:MemberInClassVisibility__Marker>
+    <CONTEXT__SRC__mClass href="src.xmi#//@ownedElements.0/@ownedElements.1"/>
+    <CONTEXT__SRC__mDefinition xsi:type="org.gravity.modisco:MMethodDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3"/>
+    <CREATE__SRC__mModifier href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3/@modifier"/>
+    <CONTEXT__TRG__tClass href="JoinExample.xmi#//@ownedTypes.10"/>
+    <CONTEXT__TRG__tMember xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0"/>
+    <CREATE__TRG__tModifier href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0/@tModifier"/>
+    <CONTEXT__CORR__defToMember href="corr.xmi#/98"/>
+    <CREATE__CORR__mModifierToTModifier href="corr.xmi#/125"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/32"/>
+  </org.gravity.tgg.modisco:MemberInClassVisibility__Marker>
+  <org.gravity.tgg.modisco:Flow__Marker>
+    <CREATE__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@arguments.1/@ownedFlows.0"/>
+    <CONTEXT__SRC__mOwner xsi:type="org.gravity.modisco:MMethodInvocation" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@arguments.1"/>
+    <CREATE__TRG__tFlow href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.4/@ownedFlows.0"/>
+    <CONTEXT__TRG__tOwner xsi:type="org.gravity.typegraph.basic:TCall" href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.4"/>
+    <CREATE__CORR__mFlowToTFlow href="corr.xmi#/126"/>
+    <CONTEXT__CORR__mOwnerToTOwner href="corr.xmi#/120"/>
+  </org.gravity.tgg.modisco:Flow__Marker>
+  <org.gravity.tgg.modisco:MethodInvocationStaticType__Marker>
+    <CONTEXT__SRC__invocation href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@arguments.1"/>
+    <CONTEXT__SRC__mStaticType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.0/@ownedElements.1"/>
+    <CONTEXT__TRG__tAccess href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.4"/>
+    <CONTEXT__TRG__tStaticType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.10"/>
+    <CONTEXT__CORR__invocationToTAccess href="corr.xmi#/119"/>
+    <CONTEXT__CORR__mStaticTypeTotStaticType href="corr.xmi#/32"/>
+  </org.gravity.tgg.modisco:MethodInvocationStaticType__Marker>
+  <org.gravity.tgg.modisco:MemberInClassVisibility__Marker>
+    <CONTEXT__SRC__mClass href="src.xmi#//@ownedElements.0/@ownedElements.1"/>
+    <CONTEXT__SRC__mDefinition xsi:type="org.gravity.modisco:MMethodDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.1"/>
+    <CREATE__SRC__mModifier href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.1/@modifier"/>
+    <CONTEXT__TRG__tClass href="JoinExample.xmi#//@ownedTypes.10"/>
+    <CONTEXT__TRG__tMember xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.1/@signatures.0/@definitions.0"/>
+    <CREATE__TRG__tModifier href="JoinExample.xmi#//@methods.1/@signatures.0/@definitions.0/@tModifier"/>
+    <CONTEXT__CORR__defToMember href="corr.xmi#/101"/>
+    <CREATE__CORR__mModifierToTModifier href="corr.xmi#/127"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/32"/>
+  </org.gravity.tgg.modisco:MemberInClassVisibility__Marker>
+  <org.gravity.tgg.modisco:MemberInClassVisibility__Marker>
+    <CONTEXT__SRC__mClass href="src.xmi#//@ownedElements.0/@ownedElements.0"/>
+    <CONTEXT__SRC__mDefinition xsi:type="org.gravity.modisco:MFieldDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.0/@bodyDeclarations.0"/>
+    <CREATE__SRC__mModifier href="src.xmi#//@ownedElements.0/@ownedElements.0/@bodyDeclarations.0/@modifier"/>
+    <CONTEXT__TRG__tClass href="JoinExample.xmi#//@ownedTypes.11"/>
+    <CONTEXT__TRG__tMember xsi:type="org.gravity.typegraph.basic:TFieldDefinition" href="JoinExample.xmi#//@fields.0/@signatures.0/@definitions.0"/>
+    <CREATE__TRG__tModifier href="JoinExample.xmi#//@fields.0/@signatures.0/@definitions.0/@tModifier"/>
+    <CONTEXT__CORR__defToMember href="corr.xmi#/105"/>
+    <CREATE__CORR__mModifierToTModifier href="corr.xmi#/128"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/35"/>
+  </org.gravity.tgg.modisco:MemberInClassVisibility__Marker>
+  <org.gravity.tgg.modisco:FieldAccessRead__Marker>
+    <CREATE__SRC__mAccess href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3/@body/@statements.0/@expression/@expression/@leftOperand"/>
+    <CONTEXT__SRC__mField href="src.xmi#//@ownedElements.0/@ownedElements.0/@bodyDeclarations.0"/>
+    <CONTEXT__SRC__mMember xsi:type="org.gravity.modisco:MMethodDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3"/>
+    <CONTEXT__SRC__mType xsi:type="org.gravity.modisco:MClass" href="src.xmi#//@ownedElements.0/@ownedElements.0"/>
+    <CONTEXT__SRC__varDeclFrag href="src.xmi#//@ownedElements.0/@ownedElements.0/@bodyDeclarations.0/@fragments.0"/>
+    <CREATE__TRG__tAccess href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0/@tAccessing.0"/>
+    <CONTEXT__TRG__tField href="JoinExample.xmi#//@fields.0/@signatures.0/@definitions.0"/>
+    <CONTEXT__TRG__tMember xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0"/>
+    <CONTEXT__TRG__tType xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.11"/>
+    <CREATE__CORR__mAccessToTAccess href="corr.xmi#/129"/>
+    <CREATE__CORR__mFlowOwnerToTFlowOwner href="corr.xmi#/130"/>
+    <CONTEXT__CORR__mMemberToTMember href="corr.xmi#/98"/>
+    <CONTEXT__CORR__mMethodToTMethod href="corr.xmi#/105"/>
+    <CONTEXT__CORR__mTypeToTType href="corr.xmi#/35"/>
+  </org.gravity.tgg.modisco:FieldAccessRead__Marker>
+  <org.gravity.tgg.modisco:OutgoingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@ownedFlows.1"/>
+    <CONTEXT__SRC__mTarget xsi:type="org.gravity.modisco:MEntry" href="src.xmi#//@mMethodNames.5/@mSignatures.0/@mEntrys.1"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.3/@ownedFlows.0"/>
+    <CONTEXT__TRG__tTarget xsi:type="org.gravity.typegraph.basic:TParameter" href="JoinExample.xmi#//@methods.0/@signatures.0/@parameters.0"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/122"/>
+    <CONTEXT__CORR__mTargetToTTarget href="corr.xmi#/94"/>
+  </org.gravity.tgg.modisco:OutgoingFlow__Marker>
+  <org.gravity.tgg.modisco:IncomingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@ownedFlows.1"/>
+    <CONTEXT__SRC__mSource xsi:type="org.gravity.modisco:MMethodInvocation" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@arguments.1"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.3/@ownedFlows.0"/>
+    <CONTEXT__TRG__tSource xsi:type="org.gravity.typegraph.basic:TCall" href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.4"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/122"/>
+    <CONTEXT__CORR__mSourceToTSource href="corr.xmi#/120"/>
+  </org.gravity.tgg.modisco:IncomingFlow__Marker>
+  <org.gravity.tgg.modisco:OutgoingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@ownedFlows.2"/>
+    <CONTEXT__SRC__mTarget xsi:type="org.gravity.modisco:MMethodInvocation" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.3/@ownedFlows.1"/>
+    <CONTEXT__TRG__tTarget xsi:type="org.gravity.typegraph.basic:TCall" href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.3"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/123"/>
+    <CONTEXT__CORR__mTargetToTTarget href="corr.xmi#/118"/>
+  </org.gravity.tgg.modisco:OutgoingFlow__Marker>
+  <org.gravity.tgg.modisco:IncomingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@ownedFlows.2"/>
+    <CONTEXT__SRC__mSource xsi:type="org.gravity.modisco:MMethodSignature" href="src.xmi#//@mMethodNames.5/@mSignatures.0"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.3/@ownedFlows.1"/>
+    <CONTEXT__TRG__tSource xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="JoinExample.xmi#//@methods.0/@signatures.0"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/123"/>
+    <CONTEXT__CORR__mSourceToTSource href="corr.xmi#/79"/>
+  </org.gravity.tgg.modisco:IncomingFlow__Marker>
+  <org.gravity.tgg.modisco:OutgoingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@ownedFlows.0"/>
+    <CONTEXT__SRC__mTarget xsi:type="org.gravity.modisco:MEntry" href="src.xmi#//@mMethodNames.5/@mSignatures.0/@mEntrys.0"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.3/@ownedFlows.2"/>
+    <CONTEXT__TRG__tTarget xsi:type="org.gravity.typegraph.basic:TParameter" href="JoinExample.xmi#//@methods.0/@signatures.0/@parameters.1"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/124"/>
+    <CONTEXT__CORR__mTargetToTTarget href="corr.xmi#/96"/>
+  </org.gravity.tgg.modisco:OutgoingFlow__Marker>
+  <org.gravity.tgg.modisco:IncomingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@ownedFlows.0"/>
+    <CONTEXT__SRC__mSource xsi:type="org.gravity.modisco:MMethodInvocation" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@arguments.0"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.3/@ownedFlows.2"/>
+    <CONTEXT__TRG__tSource xsi:type="org.gravity.typegraph.basic:TCall" href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.2"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/124"/>
+    <CONTEXT__CORR__mSourceToTSource href="corr.xmi#/92"/>
+  </org.gravity.tgg.modisco:IncomingFlow__Marker>
+  <org.gravity.tgg.modisco:OutgoingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@arguments.1/@ownedFlows.0"/>
+    <CONTEXT__SRC__mTarget xsi:type="org.gravity.modisco:MMethodInvocation" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@arguments.1"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.4/@ownedFlows.0"/>
+    <CONTEXT__TRG__tTarget xsi:type="org.gravity.typegraph.basic:TCall" href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.4"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/126"/>
+    <CONTEXT__CORR__mTargetToTTarget href="corr.xmi#/120"/>
+  </org.gravity.tgg.modisco:OutgoingFlow__Marker>
+  <org.gravity.tgg.modisco:IncomingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@arguments.1/@ownedFlows.0"/>
+    <CONTEXT__SRC__mSource xsi:type="org.gravity.modisco:MMethodSignature" href="src.xmi#//@mMethodNames.1/@mSignatures.0"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.5/@signatures.0/@definitions.0/@tAccessing.4/@ownedFlows.0"/>
+    <CONTEXT__TRG__tSource xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="JoinExample.xmi#//@methods.1/@signatures.0"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/126"/>
+    <CONTEXT__CORR__mSourceToTSource href="corr.xmi#/81"/>
+  </org.gravity.tgg.modisco:IncomingFlow__Marker>
+  <org.gravity.tgg.modisco:Flow__Marker>
+    <CREATE__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3/@body/@statements.0/@expression/@expression/@leftOperand/@ownedFlows.1"/>
+    <CONTEXT__SRC__mOwner xsi:type="org.gravity.modisco:MSingleVariableAccess" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3/@body/@statements.0/@expression/@expression/@leftOperand"/>
+    <CREATE__TRG__tFlow href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0"/>
+    <CONTEXT__TRG__tOwner xsi:type="org.gravity.typegraph.basic:TRead" href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0/@tAccessing.0"/>
+    <CREATE__CORR__mFlowToTFlow href="corr.xmi#/131"/>
+    <CONTEXT__CORR__mOwnerToTOwner href="corr.xmi#/130"/>
+  </org.gravity.tgg.modisco:Flow__Marker>
+  <org.gravity.tgg.modisco:Flow__Marker>
+    <CREATE__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3/@body/@statements.0/@expression/@expression/@leftOperand/@ownedFlows.0"/>
+    <CONTEXT__SRC__mOwner xsi:type="org.gravity.modisco:MSingleVariableAccess" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3/@body/@statements.0/@expression/@expression/@leftOperand"/>
+    <CREATE__TRG__tFlow href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1"/>
+    <CONTEXT__TRG__tOwner xsi:type="org.gravity.typegraph.basic:TRead" href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0/@tAccessing.0"/>
+    <CREATE__CORR__mFlowToTFlow href="corr.xmi#/132"/>
+    <CONTEXT__CORR__mOwnerToTOwner href="corr.xmi#/130"/>
+  </org.gravity.tgg.modisco:Flow__Marker>
+  <org.gravity.tgg.modisco:Flow__Marker>
+    <CREATE__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3/@body/@statements.0/@expression/@expression/@leftOperand/@ownedFlows.2"/>
+    <CONTEXT__SRC__mOwner xsi:type="org.gravity.modisco:MSingleVariableAccess" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3/@body/@statements.0/@expression/@expression/@leftOperand"/>
+    <CREATE__TRG__tFlow href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.2"/>
+    <CONTEXT__TRG__tOwner xsi:type="org.gravity.typegraph.basic:TRead" href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0/@tAccessing.0"/>
+    <CREATE__CORR__mFlowToTFlow href="corr.xmi#/133"/>
+    <CONTEXT__CORR__mOwnerToTOwner href="corr.xmi#/130"/>
+  </org.gravity.tgg.modisco:Flow__Marker>
+  <org.gravity.tgg.modisco:OutgoingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3/@body/@statements.0/@expression/@expression/@leftOperand/@ownedFlows.1"/>
+    <CONTEXT__SRC__mTarget xsi:type="org.gravity.modisco:MSingleVariableAccess" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3/@body/@statements.0/@expression/@expression/@leftOperand"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0"/>
+    <CONTEXT__TRG__tTarget xsi:type="org.gravity.typegraph.basic:TRead" href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0/@tAccessing.0"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/131"/>
+    <CONTEXT__CORR__mTargetToTTarget href="corr.xmi#/130"/>
+  </org.gravity.tgg.modisco:OutgoingFlow__Marker>
+  <org.gravity.tgg.modisco:IncomingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3/@body/@statements.0/@expression/@expression/@leftOperand/@ownedFlows.1"/>
+    <CONTEXT__SRC__mSource xsi:type="org.gravity.modisco:MFieldSignature" href="src.xmi#//@mFieldNames.0/@mSignatures.0"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.0"/>
+    <CONTEXT__TRG__tSource xsi:type="org.gravity.typegraph.basic:TFieldSignature" href="JoinExample.xmi#//@fields.0/@signatures.0"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/131"/>
+    <CONTEXT__CORR__mSourceToTSource href="corr.xmi#/83"/>
+  </org.gravity.tgg.modisco:IncomingFlow__Marker>
+  <org.gravity.tgg.modisco:OutgoingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3/@body/@statements.0/@expression/@expression/@leftOperand/@ownedFlows.0"/>
+    <CONTEXT__SRC__mTarget xsi:type="org.gravity.modisco:MSingleVariableAccess" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3/@body/@statements.0/@expression/@expression/@leftOperand"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1"/>
+    <CONTEXT__TRG__tTarget xsi:type="org.gravity.typegraph.basic:TRead" href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0/@tAccessing.0"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/132"/>
+    <CONTEXT__CORR__mTargetToTTarget href="corr.xmi#/130"/>
+  </org.gravity.tgg.modisco:OutgoingFlow__Marker>
+  <org.gravity.tgg.modisco:IncomingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3/@body/@statements.0/@expression/@expression/@leftOperand/@ownedFlows.0"/>
+    <CONTEXT__SRC__mSource xsi:type="org.gravity.modisco:MEntry" href="src.xmi#//@mMethodNames.5/@mSignatures.0/@mEntrys.0"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.1"/>
+    <CONTEXT__TRG__tSource xsi:type="org.gravity.typegraph.basic:TParameter" href="JoinExample.xmi#//@methods.0/@signatures.0/@parameters.1"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/132"/>
+    <CONTEXT__CORR__mSourceToTSource href="corr.xmi#/96"/>
+  </org.gravity.tgg.modisco:IncomingFlow__Marker>
+  <org.gravity.tgg.modisco:OutgoingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3/@body/@statements.0/@expression/@expression/@leftOperand/@ownedFlows.2"/>
+    <CONTEXT__SRC__mTarget xsi:type="org.gravity.modisco:MMethodDefinition" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.2"/>
+    <CONTEXT__TRG__tTarget xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/133"/>
+    <CONTEXT__CORR__mTargetToTTarget href="corr.xmi#/99"/>
+  </org.gravity.tgg.modisco:OutgoingFlow__Marker>
+  <org.gravity.tgg.modisco:IncomingFlow__Marker>
+    <CONTEXT__SRC__mFlow href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3/@body/@statements.0/@expression/@expression/@leftOperand/@ownedFlows.2"/>
+    <CONTEXT__SRC__mSource xsi:type="org.gravity.modisco:MSingleVariableAccess" href="src.xmi#//@ownedElements.0/@ownedElements.1/@bodyDeclarations.3/@body/@statements.0/@expression/@expression/@leftOperand"/>
+    <CONTEXT__TRG__tFlow href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0/@tAccessing.0/@ownedFlows.2"/>
+    <CONTEXT__TRG__tSource xsi:type="org.gravity.typegraph.basic:TRead" href="JoinExample.xmi#//@methods.0/@signatures.0/@definitions.0/@tAccessing.0"/>
+    <CONTEXT__CORR__mFlowToTFlow href="corr.xmi#/133"/>
+    <CONTEXT__CORR__mSourceToTSource href="corr.xmi#/130"/>
+  </org.gravity.tgg.modisco:IncomingFlow__Marker>
+</xmi:XMI>

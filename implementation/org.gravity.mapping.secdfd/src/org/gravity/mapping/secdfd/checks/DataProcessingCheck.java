@@ -9,6 +9,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
+import org.gravity.mapping.secdfd.helpers.AssetHelper;
+import org.gravity.mapping.secdfd.helpers.FlowHelper;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.typegraph.basic.BasicPackage;
 import org.gravity.typegraph.basic.TAbstractFlowElement;
@@ -34,7 +36,7 @@ public class DataProcessingCheck {
 
 	public Set<SResult> check(Set<TFlow> entries, Set<TFlow> exits, Process process, Mapper mapper,
 			Responsibility responsibility) {
-		Map<TAbstractType, Asset> assets = mapper.getAssets();
+		Map<TAbstractType, Set<Asset>> assets = mapper.getAssets();
 		Map<Asset, Set<TFlow>> exitMapping = classifyFlows(exits, assets);
 		Set<TMethodDefinition> methods = mapper.getMapping(process);
 		Set<SResult> problems = new HashSet<>();
@@ -54,7 +56,7 @@ public class DataProcessingCheck {
 	
 				System.out.println(found.stream()
 						.map(f -> f.toString() + " - asset: "
-								+ getCommunicatedAssets(f, assets).stream().map(Object::toString)
+								+ AssetHelper.getCommunicatedAssets(f, assets).stream().map(Object::toString)
 										.collect(Collectors.joining(", ")))
 						.collect(Collectors.joining(",\n", "Found the following entry flows:\n", "\n")));
 	
@@ -62,7 +64,7 @@ public class DataProcessingCheck {
 					// Exactly one found flow has to communicate this asset
 					int counter = 0;
 					for (TFlow ff : found) {
-						Set<Asset> comma = getCommunicatedAssets(ff, assets);
+						Set<Asset> comma = AssetHelper.getCommunicatedAssets(ff, assets);
 						if (comma.contains(expectedAsset)) {
 							counter += 1;
 							if (counter > 1) {
@@ -121,7 +123,7 @@ public class DataProcessingCheck {
 				stack.addAll(next.getIncomingFlows());
 			} else if (next instanceof TFlow) {
 				boolean leftProcess = false;
-				for (TMember source : getSourceMember((TFlow) next)) {
+				for (TMember source : FlowHelper.getSourceMember((TFlow) next)) {
 					if (!methods.contains(source)) {
 						found.add((TFlow) next);
 						leftProcess = true;
@@ -138,111 +140,19 @@ public class DataProcessingCheck {
 		return found;
 	}
 
-	private static Set<TMember> getSourceMember(TFlow next) {
-		Set<TMember> members = new HashSet<>();
-		for (TAbstractFlowElement source : next.getIncomingFlows()) {
-			if (source instanceof TMember) {
-				members.add((TMember) source);
-			} else if (source instanceof TParameter) {
-				members.addAll(((TMethodSignature) ((TParameter) source).eContainer()).getDefinitions());
-			} else if (source instanceof TFlow) {
-				members.addAll(getSourceMember((TFlow) source));
-			} else if (source instanceof TAccess) {
-				members.addAll(((TAccess) source).getIncomingFlows().stream()
-						.flatMap(in -> getSourceMember((TFlow) in).stream()).collect(Collectors.toSet()));
-			} else if (source instanceof TSignature) {
-				members.addAll(((TSignature) source).getDefinitions());
-			}
-		}
-		return members;
-	}
+	
 
-	static Map<Asset, Set<TFlow>> classifyFlows(Set<TFlow> flows, Map<TAbstractType, Asset> assets) {
+	private Map<Asset, Set<TFlow>> classifyFlows(Set<TFlow> flows, Map<TAbstractType, Set<Asset>> assets) {
 		Map<Asset, Set<TFlow>> map = new HashMap<>();
 
 		for (TFlow flow : flows) {
-			Set<Asset> foundAssets = getCommunicatedAssets(flow, assets);
+			Set<Asset> foundAssets = AssetHelper.getCommunicatedAssets(flow, assets);
 			for (Asset asset : foundAssets) {
 				map.computeIfAbsent(asset, s -> new HashSet<>()).add(flow);
 			}
 		}
 
 		return map;
-	}
-
-	/**
-	 * @param flow
-	 * @param assets
-	 * @return
-	 */
-	private static Set<Asset> getCommunicatedAssets(TFlow flow, Map<TAbstractType, Asset> assets) {
-		Set<TAbstractType> foundTypes = getCommunicatedTypes(flow);
-		Set<Asset> foundAssets = new HashSet<>();
-		for (TAbstractType type : foundTypes) {
-			addToAssetsIfMapped(foundAssets, assets, type);
-		}
-		return foundAssets;
-	}
-
-	/**
-	 * @param flow
-	 * @return
-	 */
-	private static Set<TAbstractType> getCommunicatedTypes(TFlow flow) {
-		Set<TAbstractType> foundTypes = new HashSet<>();
-		for (TAbstractFlowElement source : flow.getIncomingFlows()) {
-			if (source instanceof TMethodSignature) {
-				foundTypes.add(((TMethodSignature) source).getReturnType());
-			} else if (source instanceof TMethodDefinition) {
-				TMethodDefinition def = (TMethodDefinition) source;
-				if (def.getTAnnotation(BasicPackage.eINSTANCE.getTConstructor()).isEmpty()) {
-					throw new IllegalStateException("Method definition has outgoing flow but is not a constructor!");
-				}
-				TAbstractType type = def.getDefinedBy();
-				foundTypes.add(type);
-			} else if (source instanceof TParameter) {
-				TAbstractType type = ((TParameter) source).getType();
-				foundTypes.add(type);
-			} else if (source instanceof TFieldDefinition) {
-				foundTypes.add(((TFieldDefinition) source).getSignature().getType());
-			} else if (source instanceof TFieldSignature) {
-				foundTypes.add(((TFieldSignature) source).getType());
-			} else if (source instanceof TAccess) {
-				// Skip
-			} else {
-				throw new IllegalStateException("Unkown source of flow: " + source.eClass().getName());
-			}
-		}
-		for (TAbstractFlowElement target : flow.getOutgoingFlows()) {
-			if (target instanceof TParameter) {
-				foundTypes.add(((TParameter) target).getType());
-			} else if (target instanceof TAccess || target instanceof TMethodDefinition) {
-				// Skip
-			} else if (target instanceof TFieldDefinition) {
-				foundTypes.add(((TFieldDefinition) target).getSignature().getType());
-			} else if (target instanceof TFieldSignature) {
-				foundTypes.add(((TFieldSignature) target).getType());
-			} else {
-				throw new IllegalStateException("Unkown target of flow: " + target.eClass().getName());
-			}
-		}
-		return foundTypes;
-	}
-
-	/**
-	 * @param assets  The set of assets the types corresponding asset should be
-	 *                added to
-	 * @param mapping A mapping of all assets
-	 * @param type    The type whose corresponding asset should be added to the set
-	 * @return true, if the asset was mapped
-	 */
-	private static boolean addToAssetsIfMapped(Set<Asset> assets, Map<TAbstractType, Asset> mapping,
-			TAbstractType type) {
-		if (mapping.containsKey(type)) {
-			assets.add(mapping.get(type));
-			return true;
-		}
-		return false;
 	}
 
 }

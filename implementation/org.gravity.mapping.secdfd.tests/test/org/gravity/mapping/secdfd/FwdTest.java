@@ -1,64 +1,133 @@
 package org.gravity.mapping.secdfd;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.gravity.typegraph.basic.BasicPackage;
-import org.gravity.typegraph.basic.TAbstractType;
-import org.gravity.typegraph.basic.TFlow;
-import org.gravity.typegraph.basic.TMember;
-import org.gravity.typegraph.basic.TMethodDefinition;
-import org.gravity.typegraph.basic.TypeGraph;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.util.EList;
+import org.gravity.eclipse.io.ExtensionFileVisitor;
+import org.gravity.eclipse.util.EclipseProjectUtil;
+import org.gravity.mapping.secdfd.checks.FwdJoinCheck;
+import org.gravity.mapping.secdfd.mapping.Mapper;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.secdfd.dsl.validation.SResult;
+import org.secdfd.dsl.validation.SResult.PState;
 import org.secdfd.model.Asset;
+import org.secdfd.model.Element;
 import org.secdfd.model.ModelFactory;
+import org.secdfd.model.Process;
 import org.secdfd.model.Responsibility;
 import org.secdfd.model.ResponsibilityType;
 
 public class FwdTest {
+	
+	private static Map<String, IProject> projects;
+
+	@BeforeClass
+	public static void initialize() throws CoreException {
+		projects = EclipseProjectUtil.importProjects(new File("instances"), new NullProgressMonitor()).parallelStream()
+				.collect(Collectors.toMap(project -> project.getName(), project -> project));
+	}
 
 	/**
+	 * @throws CoreException
+	 * @throws IOException
 	 * 
 	 */
 	@Test
-	public void fwdCorrect() {
-		ResourceSet rs = new ResourceSetImpl();
-		rs.getPackageRegistry().put(BasicPackage.eNS_URI, BasicPackage.eINSTANCE);
-		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
-		TypeGraph pm = (TypeGraph) rs.getResource(URI.createFileURI("instances/ForwardExample.xmi"), true).getContents()
-				.get(0);
+	public void fwdCorrect() throws IOException, CoreException {
+		Mapper mapper = initMapper("ForwardExample");
+		Process processMain = getProcess("main", mapper);
+
+		// Perform the test
+		SResult status = new FwdJoinCheck(mapper).check(processMain);
+		assertEquals(PState.SUCCESS, status.getState());
+	}
+
+	/**
+	 * @throws CoreException
+	 * @throws IOException
+	 * 
+	 */
+	@Test
+	public void joinCorrect() throws IOException, CoreException {
+		Mapper mapper = initMapper("JoinExample");
+		Process processMain = getProcess("join", mapper);
+
+		// Perform the test
+		SResult status = new FwdJoinCheck(mapper).check(processMain);
+		assertEquals(PState.SUCCESS, status.getState());
+	}
 	
+	/**
+	 * @throws CoreException
+	 * @throws IOException
+	 * 
+	 */
+	@Test
+	public void joinIsFwd() throws IOException, CoreException {
+		Mapper mapper = initMapper("ForwardExample");
+		Process processMain = getProcess("main", mapper);
+		Responsibility fwd = processMain.getResponsibility().get(0);
+		
 		Asset asset = ModelFactory.eINSTANCE.createAsset();
-		TAbstractType assetType = pm.getType("(default package).Asset");
-	
-		Map<TAbstractType, Asset> assets = new HashMap<>();
-		assets.put(assetType, asset);
-	
-		Set<TMember> methods = new HashSet<>();
-		TMethodDefinition method1 = pm.getMethodDefinition("(default package).Main.method1(Asset):void");
-		methods.add(method1);
-		TMethodDefinition method2 = pm.getMethodDefinition("(default package).Main.method2(Asset):Asset");
-		methods.add(method2);
-	
-		TFlow entry = (TFlow) method1.getSignature().getFirstParameter().getIncomingFlows().get(0);
-		Set<TFlow> entries = Collections.singleton(entry);
-	
-		TFlow exit = (TFlow) pm.getMethodSignature("exit(Asset):void").getFirstParameter().getIncomingFlows().get(0);
-		Set<TFlow> exits = Collections.singleton(exit);
-	
-		Responsibility fwd = ModelFactory.eINSTANCE.createResponsibility();
-		fwd.getAction().add(ResponsibilityType.FORWARD);
-		fwd.setProcess(ModelFactory.eINSTANCE.createProcess());
+		asset.setName("InjectedAsset");
 		fwd.getIncomeassets().add(asset);
-		fwd.getOutcomeassets().add(asset);
-		//check(entries, exits, methods, null, Collections.singleton(fwd));
+		
+		EList<ResponsibilityType> actions = fwd.getAction();
+		actions.clear();
+		actions.add(ResponsibilityType.JOINER);
+		
+		// Perform the test
+		SResult status = new FwdJoinCheck(mapper).check(processMain);
+		assertEquals(PState.ERROR, status.getState());
+	}
+
+
+	/**
+	 * Searches for a process with the given name
+	 * 
+	 * @param processName
+	 * @param mapper
+	 * @return
+	 */
+	private Process getProcess(String processName, Mapper mapper) {
+		Optional<Element> result = mapper.getDFD().getElements().parallelStream()
+				.filter(p -> processName.equals(p.getName())).findAny();
+		assertTrue(result.isPresent());
+		return (Process) result.get();
+	}
+
+	/**
+	 * Initializes a mapper for the project with the given name
+	 * 
+	 * @param name The project name
+	 * @return The mapper
+	 * @throws IOException
+	 * @throws CoreException
+	 */
+	private Mapper initMapper(String name) throws IOException, CoreException {
+		assertTrue(projects.containsKey(name));
+		IProject project = projects.get(name);
+		IFolder gravity = EclipseProjectUtil.getGravityFolder(project, new NullProgressMonitor());
+		ExtensionFileVisitor visitor = new ExtensionFileVisitor(".corr.xmi");
+		gravity.accept(visitor);
+		List<Path> files = visitor.getFiles();
+		assertEquals(1, files.size());
+		Mapper mapper = new Mapper(gravity.getFile(files.get(0).getFileName().toString()));
+		return mapper;
 	}
 
 }

@@ -173,7 +173,7 @@ public class Logging {
 			init();
 			map = maps.get(dfdObject.eResource());
 		}
-		if (map.isEmpty()) {
+		if (map == null || map.isEmpty()) {
 			return "";
 		}
 

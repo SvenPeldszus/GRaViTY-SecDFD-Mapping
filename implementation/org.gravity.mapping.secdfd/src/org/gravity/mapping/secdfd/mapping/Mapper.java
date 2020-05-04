@@ -156,10 +156,16 @@ public class Mapper {
 		optimizer = new MappingOptimizer(helper, cache, mapping);
 	}
 
-	public Mapper(IFile mappingFile, ResourceSet rs) throws IOException, CoreException {
+	/**
+	 * Initializes the mapper with an existing mapping
+	 *
+	 * @param mapping An existing mapping
+	 * @param mappingFile The file containing the mapping
+	 */
+	public Mapper(Mapping mapping, IFile mappingFile) {
+		this.mapping = mapping;
 		this.destination = mappingFile;
-		this.rs = rs;
-		this.mapping = loadMapping(mappingFile);
+		this.rs = mapping.eResource().getResourceSet();
 		this.pm = (TypeGraph) mapping.getSource();
 		this.dfd = (EDFD) mapping.getTarget();
 
@@ -170,9 +176,34 @@ public class Mapper {
 
 		optimizer = new MappingOptimizer(helper, cache, mapping);
 	}
+	
+	/**
+	 * Initializes the mapper from a file with an existing mapping
+	 * 
+	 * @param mappingFile The file containing the mapping
+	 * @param rs The resource set which should be used
+	 * @throws IOException
+	 * @throws CoreException
+	 */
+	public Mapper(IFile mappingFile, ResourceSet rs) throws IOException, CoreException {
+		this(loadMapping(mappingFile, rs), mappingFile);
+	}
 
+	/**
+	 * Initializes the mapper from a file with an existing mapping using a new resource set
+	 * 
+	 * @param mappingFile The file containing the mapping
+	 * @throws IOException
+	 * @throws CoreException
+	 */
 	public Mapper(IFile mappingFile) throws IOException, CoreException {
 		this(mappingFile, new ResourceSetImpl());
+	}
+
+	protected Mapper(ResourceSet rs, TypeGraph pm, EDFD dfd) {
+		this.rs = rs;
+		this.pm = pm;
+		this.dfd = dfd;
 	}
 
 	/**
@@ -194,12 +225,15 @@ public class Mapper {
 	}
 
 	/**
-	 * @param corr
-	 * @return
+	 * Loads an existing mapping from the file system
+	 * 
+	 * @param corr The file containing the mapping
+	 * @param rs The resource set into which the mapping should be loaded
+	 * @return The loaded mapping
 	 * @throws IOException
 	 * @throws CoreException
 	 */
-	private Mapping loadMapping(IFile corr) throws IOException, CoreException {
+	private static Mapping loadMapping(IFile corr, ResourceSet rs) throws IOException, CoreException {
 		String path = corr.getFullPath().toString();
 		Resource corrRes = rs.createResource(URI.createPlatformResourceURI(path, true));
 		corrRes.load(corr.getContents(), Collections.emptyMap());
@@ -221,8 +255,11 @@ public class Mapper {
 	private void initializeMapping(TypeGraph pm, EDFD dfd, IFile destination) {
 		URI uri = URI.createPlatformResourceURI(
 				destination.getProject().getName() + '/' + destination.getProjectRelativePath().toString(), true);
-		Resource resource = rs.getResource(uri, true);
-		if (resource == null) {
+		Resource resource;
+		if(destination.exists()) {
+			resource = rs.getResource(uri, true);
+		}
+		else {
 			resource = rs.createResource(uri);
 		}
 
@@ -589,15 +626,8 @@ public class Mapper {
 		case OBJECT:
 			return mapToType((NamedEntity) asset);
 		case STRING:
-			TPackage lang = pm.getPackage(new String[] { "java", "lang" });
-			TAbstractType string = lang.getOwnedTypes().parallelStream().filter(t -> "String".equals(t.getTName()))
-					.findAny().orElse(null);
-			if (string == null) {
-				string = BasicFactory.eINSTANCE.createTClass();
-				string.setTName("String");
-				lang.getOwnedTypes().add(string);
-			}
-			if (helper.canCreate(string, asset, Collections.emptyMap())) {
+			TAbstractType string = pm.getType("java.lang.String");
+			if (string != null && helper.canCreate(string, asset, Collections.emptyMap())) {
 				Type2NamedEntity corr = helper.createCorrespondence(string, asset, 100);
 				mapping.getSuggested().add(corr);
 				list.add(corr);
@@ -843,13 +873,13 @@ public class Mapper {
 		}
 	}
 
-	public Map<TAbstractType, Asset> getAssets() {
+	public Map<TAbstractType, Set<Asset>> getAssets() {
 		Set<Asset> dfdassets = dfd.getAsset().stream().collect(Collectors.toSet());
 		// create a hashmap of dfd assets and the mapped java types
-		Map<TAbstractType, Asset> assets = new HashMap<>();
+		Map<TAbstractType, Set<Asset>> assets = new HashMap<>();
 		for (Asset a : dfdassets) {
-			for (TAbstractType tat : getMapping(a)) {
-				assets.put(tat, a);
+			for (TAbstractType type : getMapping(a)) {
+				assets.computeIfAbsent(type, x -> new HashSet<Asset>()).add(a);
 			}
 		}
 		return assets;

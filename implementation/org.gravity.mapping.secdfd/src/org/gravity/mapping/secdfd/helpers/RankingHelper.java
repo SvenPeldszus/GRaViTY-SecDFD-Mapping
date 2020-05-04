@@ -50,36 +50,40 @@ public class RankingHelper {
 				.concat(corr.getTarget().getInflows().parallelStream(), corr.getTarget().getOutflows().parallelStream())
 				.flatMap(flow -> flow.getAssets().parallelStream()).count();
 		int matchedAssets = 0;
-		for(AbstractMappingBase derivedFrom : corr.getDerived()) {
-			if(derivedFrom instanceof MappingProcessName) {
+		for (AbstractMappingBase derivedFrom : corr.getDerived()) {
+			if (derivedFrom instanceof MappingProcessName) {
 				nameRanking = getRanking(derivedFrom);
-			}
-			else {
+			} else {
 				matchedAssets++;
 			}
 		}
-		int assetRanking = (int) ((matchedAssets * 100) / assets);
+		int assetRanking;
+		if (assets == 0) {
+			assetRanking = matchedAssets == 0 ? 1 : 0;
+		} else {
+			assetRanking = (int) ((matchedAssets * 100) / assets);
+		}
 		return (nameRanking + assetRanking) / 2;
 	}
-	
+
 	public static int getRanking(MappingProcessDefinition corr) {
 		Mapping mapping = (Mapping) corr.eContainer();
 		if (mapping.getUserdefined().contains(corr) || mapping.getAccepted().contains(corr)) {
 			return 100;
 		}
 		int signatureRanking = 0;
-		for(AbstractMappingBase derivedFrom : corr.getDerived()) {
-			if(derivedFrom instanceof MappingProcessSignature) {
+		for (AbstractMappingBase derivedFrom : corr.getDerived()) {
+			if (derivedFrom instanceof MappingProcessSignature) {
 				signatureRanking = getRanking((MappingProcessSignature) derivedFrom);
 			}
 		}
 		return signatureRanking;
 	}
-	
+
 	public static int getRanking(MappingEntityType corr) {
 		int nameRanking = corr.getRanking();
 		NamedEntity dfdElement = corr.getTarget();
-		if(dfdElement instanceof Asset) {
+		if (dfdElement instanceof Asset) {
 			int numMappedUsages = corr.getDeriving().size();
 			int numUsages = ((Asset) dfdElement).getTargets().size() + 1;
 			int assetRanking = Math.min(100, (100 * numMappedUsages) / numUsages);

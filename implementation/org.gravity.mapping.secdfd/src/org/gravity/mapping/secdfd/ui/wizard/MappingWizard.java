@@ -75,14 +75,14 @@ public class MappingWizard extends org.eclipse.jface.wizard.Wizard {
 			if (corrFiles != null && !corrFiles.isEmpty()) {
 				corrPage = new CorrPage(project, corrFiles, this);
 				addPage(corrPage);
-			} 
+			}
 			try {
 				createSecDFDPage(project);
 			} catch (CoreException e) {
 				LOGGER.error(e.getLocalizedMessage(), e);
 			}
 		}
-		if(getPageCount() > 0) {
+		if (getPageCount() > 0) {
 			setForcePreviousAndNextButtons(true);
 		}
 	}
@@ -90,7 +90,7 @@ public class MappingWizard extends org.eclipse.jface.wizard.Wizard {
 	/**
 	 * @param project
 	 * @return
-	 * @throws CoreException 
+	 * @throws CoreException
 	 */
 	SecDFDPage createSecDFDPage(IJavaProject project) throws CoreException {
 		pageTwo = new SecDFDPage(project);
@@ -161,23 +161,23 @@ public class MappingWizard extends org.eclipse.jface.wizard.Wizard {
 
 	@Override
 	public boolean canFinish() {
-		return !corrPage.getSelection().isEmpty() || (pageTwo != null && !pageTwo.getSelection().isEmpty());
+		return (corrPage != null && !corrPage.getSelection().isEmpty())
+				|| (pageTwo != null && !pageTwo.getSelection().isEmpty());
 	}
 
 	@Override
 	public boolean performFinish() {
-		final Collection<IFile> selectedMappings = corrPage.getSelection();
+		final Collection<IFile> selectedMappings = corrPage == null ? Collections.emptyList() : corrPage.getSelection();
 		final Collection<IFile> selectedDFDs = pageTwo.getSelection();
 		MappingView mappingView = MappingView.getMappingView();
-		GravityUiActivator.getShell().getDisplay()
-				.asyncExec(() -> {
-					try {
-						mappingView.populate(gravityFolder, selectedDFDs, selectedMappings, trafoJob);
-					} catch (IOException | CoreException e) {
-						LOGGER.error(e.getLocalizedMessage(), e);
-						throw new IllegalStateException(e);
-					}
-				});
+		GravityUiActivator.getShell().getDisplay().asyncExec(() -> {
+			try {
+				mappingView.populate(gravityFolder, selectedDFDs, selectedMappings, trafoJob);
+			} catch (IOException | CoreException e) {
+				LOGGER.error(e.getLocalizedMessage(), e);
+				throw new IllegalStateException(e);
+			}
+		});
 		return true;
 	}
 
@@ -190,7 +190,7 @@ public class MappingWizard extends org.eclipse.jface.wizard.Wizard {
 	}
 
 	public SecDFDPage getSecDFDPage(IJavaProject javaProject) throws CoreException {
-		if(pageTwo != null) {
+		if (pageTwo != null) {
 			return pageTwo;
 		}
 		return createSecDFDPage(javaProject);
