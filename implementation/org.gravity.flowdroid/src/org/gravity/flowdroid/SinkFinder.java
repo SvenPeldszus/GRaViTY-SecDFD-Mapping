@@ -75,8 +75,8 @@ public final class SinkFinder {
 						allowed.addAll(getAllowedSinks(mapper, el));
 					}
 				} else {
-					// FIXME: only add as forbidden is the return type is the same as the mapped asset type?
-					forbidden.addAll(borderProcesses);
+					// only add if it was in attacker zone -> DFD is not detailed enough
+					//forbidden.addAll(borderProcesses);
 				}
 
 			}
