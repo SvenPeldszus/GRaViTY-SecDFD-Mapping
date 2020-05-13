@@ -226,7 +226,9 @@ public class SourcesAndSinkFinder {
 				}
 			}).collect(Collectors.toSet());
 		}
-		return mapper.getMapping((Process) assetsource);
+		// do not infer sources if the asset source is a process, only consider EE and DS
+		return new HashSet<>();
+		//return mapper.getMapping((Process) assetsource);
 	}
 
 	/**
