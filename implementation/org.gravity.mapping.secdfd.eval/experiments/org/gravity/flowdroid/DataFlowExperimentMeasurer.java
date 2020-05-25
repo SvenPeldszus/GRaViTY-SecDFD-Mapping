@@ -7,14 +7,18 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jdt.core.IJavaProject;
 import org.gravity.flowdroid.DataFlowExperiment.TestCaseID;
 import soot.jimple.infoflow.results.DataFlowResult;
 import soot.jimple.infoflow.results.InfoflowResults;
 
 public class DataFlowExperimentMeasurer {
+	private static final Logger LOGGER = Logger.getLogger(DataFlowExperimentMeasurer.class);
 
 	private Map<TestCaseID, Map<String, Set<String>>> allExperiments;
 	private Map<TestCaseID, Map<String, Set<String>>> truePositives;
@@ -173,10 +177,19 @@ public class DataFlowExperimentMeasurer {
 	}
 
 	private void getFN(Set<String> secdfdResults, TestCaseID testcaseid, String secdfdName) {
-		possibleLeaks.get(testcaseid).get(secdfdName).forEach(sink -> {
-			//for now I only have sinks
-			if (!secdfdResults.contains(sink)) addFN(sink, testcaseid, secdfdName);
-		});
+		if (possibleLeaks.containsKey(testcaseid)) {
+			if (possibleLeaks.get(testcaseid).containsKey(secdfdName)) {
+				possibleLeaks.get(testcaseid).get(secdfdName).forEach(sink -> {
+					//for now I only have sinks
+					if (!secdfdResults.contains(sink)) addFN(sink, testcaseid, secdfdName);
+				});
+			} else {
+				LOGGER.info("No false negatives.");
+			}
+		} else{
+			LOGGER.info("No false negatives.");
+		}
+		
 	}
 
 

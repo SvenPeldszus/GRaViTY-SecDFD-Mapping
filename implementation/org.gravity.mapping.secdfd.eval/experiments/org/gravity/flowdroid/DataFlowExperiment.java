@@ -7,6 +7,9 @@ import java.io.Writer;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -14,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -48,7 +52,7 @@ public class DataFlowExperiment {
 	private Mapper mapper;
 	private IJavaProject project;
 	private IFolder output;
-	private static DataFlowExperimentMeasurer measurer;
+	private static Map<IJavaProject, DataFlowExperimentMeasurer> projectMeasurers;
 
 	public DataFlowExperiment(String testName, Mapper mapper, IJavaProject project, DataFlowExperimentMeasurer measurer)
 			throws CoreException {
@@ -56,11 +60,12 @@ public class DataFlowExperiment {
 		this.project = project;
 		this.output = ExperimentHelper.create(mapper.getGravityFolder().getFolder("dataflow"),
 				mapper.getDFD().getName(), new NullProgressMonitor());
-		DataFlowExperiment.measurer = measurer;
+		// DataFlowExperiment.measurer = measurer;
+		DataFlowExperiment.projectMeasurers.put(project, measurer);
 		LOGGER.info("Start experiment with: " + testName);
 	}
 
-	//@Test
+	@Test
 	public void experimentFlowDroidConfig() throws IOException, CoreException {
 		DFAnalysis dfAnalysis = new DFAnalysis(mapper, project, true, MAX_VIOLATION);
 
@@ -74,7 +79,8 @@ public class DataFlowExperiment {
 		IFolder out = ExperimentHelper.create(output, "flowDroid", monitor);
 		write(out, sources, sinks, epoints, monitor);
 
-		measurer.setCurrentExperimentResults(TestCaseID.FDSourceSink, mapper.getDFD().getName(), results, out);
+		projectMeasurers.get(project).setCurrentExperimentResults(TestCaseID.FDSourceSink, mapper.getDFD().getName(),
+				results, out);
 
 		for (Entry<String, InfoflowResults> entry : results.entrySet()) {
 			writeReport(out, entry.getKey(), entry.getValue());
@@ -91,31 +97,33 @@ public class DataFlowExperiment {
 	@Test
 	public void experimentOurConfig() throws IOException, CoreException {
 		DFAnalysis dfAnalysis = new DFAnalysis(mapper, project, true, MAX_VIOLATION);
-		//inject 0 leaks
+		// inject 0 leaks
 		Results results = dfAnalysis.checkAllAssets(0);
 
 		IProgressMonitor monitor = new NullProgressMonitor();
 		IFolder destination = ExperimentHelper.create(output, "our", monitor);
-		writeResults(results, destination, monitor);
+		// writeResults(results, destination, monitor);
 
-		measurer.setCurrentExperimentResults(TestCaseID.OptSourceSink, mapper.getDFD().getName(), results, destination);
+		projectMeasurers.get(project).setCurrentExperimentResults(TestCaseID.OptSourceSink, mapper.getDFD().getName(),
+				results, destination);
 	}
 
 	@Test
 	public void experimentOurConfigInjectLeaks() throws IOException, CoreException {
 		DFAnalysis dfAnalysis = new DFAnalysis(mapper, project, true, MAX_VIOLATION);
-		
-		//try to inject 5 leaks in total
+
+		// try to inject 5 leaks in total
 		Results results = dfAnalysis.checkAllAssets(5);
-		
+
 		IProgressMonitor monitor = new NullProgressMonitor();
 		IFolder destination = ExperimentHelper.create(output, "our", monitor);
-		writeResults(results, destination, monitor);
+		// writeResults(results, destination, monitor);
 
-		measurer.setCurrentExperimentResults(TestCaseID.OptSourceSinkInject, mapper.getDFD().getName(), dfAnalysis.getPossibleLeaks(), results, destination);
+		projectMeasurers.get(project).setCurrentExperimentResults(TestCaseID.OptSourceSinkInject,
+				mapper.getDFD().getName(), dfAnalysis.getPossibleLeaks(), results, destination);
 	}
 
-	//@Test
+	@Test
 	public void experimentFlowDroidConfigAndOurSources() throws IOException, CoreException {
 		DFAnalysis dfAnalysis = new DFAnalysis(mapper, project, true, MAX_VIOLATION);
 
@@ -136,10 +144,10 @@ public class DataFlowExperiment {
 		}
 		IProgressMonitor monitor = new NullProgressMonitor();
 		IFolder destination = ExperimentHelper.create(output, "flowDroidAndOurSources", monitor);
-		writeResults(results, destination, monitor);
+		// writeResults(results, destination, monitor);
 
-		measurer.setCurrentExperimentResults(TestCaseID.FDSourceOptSink, mapper.getDFD().getName(), results,
-				destination);
+		projectMeasurers.get(project).setCurrentExperimentResults(TestCaseID.FDSourceOptSink, mapper.getDFD().getName(),
+				results, destination);
 
 	}
 
@@ -155,6 +163,7 @@ public class DataFlowExperiment {
 	public static Collection<Object[]> collectProjects() {
 		IProgressMonitor monitor = new NullProgressMonitor();
 		Collection<Object[]> data = new ArrayList<>(PROJECT_NAMES.length);
+		projectMeasurers = new HashMap<IJavaProject, DataFlowExperimentMeasurer>();
 		for (String projectName : PROJECT_NAMES) {
 			try {
 				IProject project = EclipseProjectUtil.getProjectByName(projectName);
@@ -187,32 +196,75 @@ public class DataFlowExperiment {
 	}
 
 	/**
-	 * @param dfAnalysis
-	 * @param results
-	 * @param destination
-	 * @throws CoreException
+	 * For each analyzed project this method counts the tps,fps,fns and creates a
+	 * String 'build', saving it to report file. Also creates a local map for counting
+	 * all the tps,fps,fns for each executed configuration, prints it to the
+	 * standard output.
 	 */
 	@AfterClass
 	public static void measureTestConfigurations() throws CoreException {
-		// TODO: count measures compared to GT (which is a secure model - no violation)
-		// ->inject leaks into models, compare to GT with a injected leaks
-		measurer.calculateMeasures();
-		for (TestCaseID id : measurer.getExecutedTestCaseIDs()) {
-			System.out.println("Summary for configuration run: " + id + "\n=============================\n");
-			Map<String, Set<String>> tps = measurer.getTruePositives().get(id);
-			Map<String, Set<String>> fps = measurer.getFalsePositives().get(id);
-			Map<String, Set<String>> fns = measurer.getFalseNegatives().get(id);
-			
-			for (String secdfdName : tps.keySet()){
-				String fpsprint = "";
-				for (String pair : fps.get(secdfdName)) {
-					fpsprint+="\nSource: " + pair.split(", ")[0] + "\nSink: "+ pair.split(", ")[1];
-				}				
-				System.out.print("Secdfd: " + secdfdName + "\nTP = " + tps.get(secdfdName).size() + "\n" + "FP = " + fps.get(secdfdName).size()
-						+ "\n" + "FN = " + fns.get(secdfdName).size() + "\n" + fpsprint +"\n");
+		IProgressMonitor monitor = new NullProgressMonitor();
+		Map<TestCaseID, ArrayList<Integer>> perConfig = new HashMap<>();
 
+		// print name of all executed projects
+		System.out.print("Analyzed projects: \n");
+		for (IJavaProject measuredProject : projectMeasurers.keySet()) {
+			IProject measuredIProject = measuredProject.getProject();
+			System.out.print(measuredIProject.getName() + "\n");
+
+			DataFlowExperimentMeasurer measurer = projectMeasurers.get(measuredProject);
+			measurer.calculateMeasures();
+			String build = "";
+
+			for (TestCaseID id : measurer.getExecutedTestCaseIDs()) {
+				Map<String, Set<String>> tps = measurer.getTruePositives().get(id);
+				Map<String, Set<String>> fps = measurer.getFalsePositives().get(id);
+				Map<String, Set<String>> fns = measurer.getFalseNegatives().get(id);
+				if (!perConfig.containsKey(id)) {
+					ArrayList<Integer> newlist = new ArrayList<Integer>();
+					newlist.add(0, 0);
+					newlist.add(1, 0);
+					newlist.add(2, 0);
+					perConfig.put(id, newlist);
+				}
+				ArrayList<Integer> list = perConfig.get(id);
+
+				build += "Summary for configuration run: " + id + "\n=============================\n";
+				for (String secdfdName : tps.keySet()) {
+					String fpsprint = "";
+					for (String pair : fps.get(secdfdName)) {
+						fpsprint += "\nFalse Positives: \nSource: " + pair.split(", ")[0] + "\nSink: "
+								+ pair.split(", ")[1];
+					}
+					int tpsSize = tps.get(secdfdName).size();
+					int fpsSize = fps.get(secdfdName).size();
+					int fnsSize = fns.get(secdfdName).size();
+					build += "Secdfd: " + secdfdName + "\nTP = " + tpsSize + "\n" + "FP = " + fpsSize + "\n" + "FN = "
+							+ fnsSize + "\n" + fpsprint + "\n";
+					// add to list for all projects of this configuration
+					list.add(0, list.get(0) + tpsSize);
+					list.add(1, list.get(1) + fpsSize);
+					list.add(2, list.get(2) + fnsSize);
+
+				}
+
+				// write report file for current project
+				IFolder reportFolder = measuredIProject.getFolder("report");
+				if (!reportFolder.exists()) {
+					reportFolder.create(true, true, monitor);
+				}
+				IFolder configFolder = ExperimentHelper.create(reportFolder, id.toString(), monitor);
+				ExperimentHelper.writeToTxt(configFolder, Collections.singleton(build), measuredIProject.getName(),
+						monitor, false);
 			}
+		}
 
+		for (TestCaseID k : perConfig.keySet()) {
+			Integer tps = perConfig.get(k).get(0);
+			Integer fps = perConfig.get(k).get(1);
+			Integer fns = perConfig.get(k).get(2);
+			System.out.print(
+					"\nConfiguration " + k + ":\n" + "TPs = " + tps + ", FPs = " + fps + ", FNs = " + fns + "\n\n");
 		}
 
 	}
