@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -17,7 +16,6 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -38,16 +36,16 @@ import soot.jimple.infoflow.results.InfoflowResults;
 @RunWith(Parameterized.class)
 public class DataFlowExperiment {
 	public enum TestCaseID {
-		FDSourceSink, FDSourceOptSink, OptSourceSink, OptSourceSinkInject;
+		FDSourceSink, FDSourceOptSink, OptSourceSink, OptSourceSinkInject, OptSourceSinkInjectLabels;
 	}
 
-	private static final int MAX_VIOLATION = 10;
+	private static final int MAX_VIOLATION = 10; //100
 	private static final String[] PROJECT_NAMES = new String[] { "org.eclipse.equinox.security" };
 	private static final Logger LOGGER = Logger.getLogger(DataFlowExperiment.class);
-	public static Integer accummulatedTP = 0;
-	public static Integer accummulatedFP = 0;
-	public static Integer accummulatedFN = 0;
-	public static Integer accFNAllowedSinks = 0;
+//	public static Integer accummulatedTP = 0;
+//	public static Integer accummulatedFP = 0;
+//	public static Integer accummulatedFN = 0;
+//	public static Integer accFNAllowedSinks = 0;
 
 	private Mapper mapper;
 	private IJavaProject project;
@@ -121,6 +119,20 @@ public class DataFlowExperiment {
 
 		projectMeasurers.get(project).setCurrentExperimentResults(TestCaseID.OptSourceSinkInject,
 				mapper.getDFD().getName(), dfAnalysis.getPossibleLeaks(), results, destination);
+	}
+	
+	public void experimentOurconfigInjectLabels() throws IOException, CoreException {
+		DFAnalysis dfAnalysis = new DFAnalysis(mapper, project, true, MAX_VIOLATION);
+
+		// try to inject 5 labels in total
+		Results results = dfAnalysis.checkAllAssetsInject(5);
+
+		IProgressMonitor monitor = new NullProgressMonitor();
+		IFolder destination = ExperimentHelper.create(output, "our", monitor);
+		// writeResults(results, destination, monitor);
+
+		//projectMeasurers.get(project).setCurrentExperimentResults(TestCaseID.OptSourceSinkInjectLabels,
+		//		mapper.getDFD().getName(), dfAnalysis.getPossibleLeaks(), results, destination);
 	}
 
 	@Test
@@ -214,7 +226,6 @@ public class DataFlowExperiment {
 
 			DataFlowExperimentMeasurer measurer = projectMeasurers.get(measuredProject);
 			measurer.calculateMeasures();
-			String build = "";
 
 			for (TestCaseID id : measurer.getExecutedTestCaseIDs()) {
 				Map<String, Set<String>> tps = measurer.getTruePositives().get(id);
@@ -229,6 +240,7 @@ public class DataFlowExperiment {
 				}
 				ArrayList<Integer> list = perConfig.get(id);
 
+				String build = "";
 				build += "Summary for configuration run: " + id + "\n=============================\n";
 				for (String secdfdName : tps.keySet()) {
 					String fpsprint = "";

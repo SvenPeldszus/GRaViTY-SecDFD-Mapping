@@ -21,6 +21,7 @@ import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethodDefinition;
 import org.secdfd.model.Asset;
+import org.secdfd.model.EDFD;
 import org.secdfd.model.Objective;
 import org.secdfd.model.Process;
 
@@ -87,6 +88,26 @@ public class DFAnalysis {
 		// try to inject 5 leaks by setting allowed sinks (if any) as forbidden in
 		// checkAsset() call
 		this.leaksToInject = toInject;
+		Results results = new Results();
+		for (Asset asset : mapper.getDFD().getAsset()) {
+			// look for sources, sinks, epoints if confidential asset
+			if (asset.getValue().stream().anyMatch(value -> Objective.CONFIDENTIALITY.equals(value.getObjective()))) {
+				results.add(checkAsset(asset));
+			}
+		}
+		if (leaksToInject > 0)
+			LOGGER.info("Did not manage to inject: " + leaksToInject
+					+ "more leaks. The SecDFD could not contain enough valid candidate elements (confidential assets flowing to a DS/EE).");
+		return results;
+	}
+	
+	public Results checkAllAssetsInject(Integer toInject) {
+		// try to inject 5 high labels 
+		this.leaksToInject = toInject;
+		EDFD dfd = mapper.getDFD();
+		//find non-confidential assets that exit the system
+		
+		
 		Results results = new Results();
 		for (Asset asset : mapper.getDFD().getAsset()) {
 			// look for sources, sinks, epoints if confidential asset
