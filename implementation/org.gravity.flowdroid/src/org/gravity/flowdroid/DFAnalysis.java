@@ -9,21 +9,33 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethodDefinition;
 import org.secdfd.model.Asset;
+import org.secdfd.model.DataStore;
 import org.secdfd.model.EDFD;
+import org.secdfd.model.ExternalEntity;
+import org.secdfd.model.ModelFactory;
 import org.secdfd.model.Objective;
+import org.secdfd.model.Priority;
 import org.secdfd.model.Process;
+import org.secdfd.model.Responsibility;
+import org.secdfd.model.ResponsibilityType;
+import org.secdfd.model.Value;
+
+import com.google.common.collect.Sets;
 
 import soot.SootMethod;
 import soot.jimple.infoflow.IInfoflow;
@@ -44,25 +56,19 @@ public class DFAnalysis {
 	private String appPath;
 	private String libPath;
 	SourcesAndSinkFinder sas;
-	// we dont need this map
-	// private Map<Asset, List<String>> allowedSinks;
-	private Integer leaksToInject;
+	private Integer allowedSinksToRemove;
 	private Set<String> possibleLeaks;
 
 	public Set<String> getPossibleLeaks() {
 		return possibleLeaks;
 	}
-
+	
 	/**
 	 * @return the sas
 	 */
 	public SourcesAndSinkFinder getSas() {
 		return sas;
 	}
-
-	/*
-	 * public Map<Asset, List<String>> getAllowedMap() { return allowedSinks; }
-	 */
 
 	private int limit;
 
@@ -74,7 +80,6 @@ public class DFAnalysis {
 		// get base line sources (FlowDroid published sources) and sinks (FlowDroid
 		// sinks + SuSi list of sinks) for experiment
 		this.sas = new SourcesAndSinkFinder(mapper, susi);
-		// this.allowedSinks = new HashMap<>();
 		this.possibleLeaks = new HashSet<>();
 
 		// set up paths for application and library to pass to flowdroid
@@ -86,8 +91,7 @@ public class DFAnalysis {
 
 	public Results checkAllAssets(Integer toInject) {
 		// try to inject 5 leaks by setting allowed sinks (if any) as forbidden in
-		// checkAsset() call
-		this.leaksToInject = toInject;
+		this.allowedSinksToRemove = toInject;
 		Results results = new Results();
 		for (Asset asset : mapper.getDFD().getAsset()) {
 			// look for sources, sinks, epoints if confidential asset
@@ -95,32 +99,114 @@ public class DFAnalysis {
 				results.add(checkAsset(asset));
 			}
 		}
-		if (leaksToInject > 0)
-			LOGGER.info("Did not manage to inject: " + leaksToInject
+		if (allowedSinksToRemove > 0)
+			LOGGER.info("Did not manage to inject: " + allowedSinksToRemove
 					+ "more leaks. The SecDFD could not contain enough valid candidate elements (confidential assets flowing to a DS/EE).");
 		return results;
 	}
-	
-	public Results checkAllAssetsInject(Integer toInject) {
-		// try to inject 5 high labels 
-		this.leaksToInject = toInject;
-		EDFD dfd = mapper.getDFD();
-		//find non-confidential assets that exit the system
-		
-		
+	 
+	/**
+	 * try to inject high labels (as many as candidates)
+	 * @return
+	 */
+	public Results checkAllAssetsInject() {
+		this.allowedSinksToRemove = 0; //FIXME: removing allowed sinks even needed?
 		Results results = new Results();
-		for (Asset asset : mapper.getDFD().getAsset()) {
+		EDFD dfd = mapper.getDFD();
+		Set<Asset> candidates = getAssetsForInjection(dfd);
+		
+		
+		if (!candidates.isEmpty()) {
+			injectAndCheckAssets(candidates).forEach(res -> {
+				results.add(res);	
+			});
+		} else {
+			LOGGER.info("Found no candidate asset to inject a high label. Proceeding as usual...");
+		}
+		
+		
+		//check remaining assets
+		EList<Asset> rest = dfd.getAsset();
+		rest.removeAll(candidates);
+		for (Asset asset : rest) {
 			// look for sources, sinks, epoints if confidential asset
 			if (asset.getValue().stream().anyMatch(value -> Objective.CONFIDENTIALITY.equals(value.getObjective()))) {
 				results.add(checkAsset(asset));
 			}
 		}
-		if (leaksToInject > 0)
-			LOGGER.info("Did not manage to inject: " + leaksToInject
-					+ "more leaks. The SecDFD could not contain enough valid candidate elements (confidential assets flowing to a DS/EE).");
 		return results;
 	}
 
+	/**
+	 * @param candidates
+	 * @return Set of asset results 
+	 */
+	private Set<AssetResults> injectAndCheckAssets(Set<Asset> candidates) {
+		Set<AssetResults> allRes = new HashSet<>();
+			//inject confidentiality high		
+			modifyCandidates(candidates);
+			candidates.forEach(asset -> {
+				
+				// look for sources, sinks, epoints, run FlowDroid
+				AssetResults result = checkAsset(asset);
+				
+				//flatten results
+				Set<MultiMap<ResultSinkInfo, ResultSourceInfo>> infoflowres = result.getSingleResults()
+						.parallelStream()
+						.map(res -> res.getValue())
+						.map(r -> r.getResults())
+						.collect(Collectors.toSet());
+				
+				infoflowres.remove(null);
+				//remember all source,sink pairs as possible leaks
+				infoflowres.forEach(map -> {
+					for (ResultSinkInfo sink : map.keySet()) {
+						String sinkMethod = sink.getStmt().getInvokeExpr().getMethod().getSignature();
+						Set<String> sourceMethods = map.get(sink).parallelStream()
+								.map(s -> s.getStmt().getInvokeExpr().getMethod().getSignature())
+								.collect(Collectors.toSet());
+						//add all pairs to 'expected FPs'
+						sourceMethods.forEach(source -> {
+							possibleLeaks.add(source+", "+sinkMethod);
+						});
+					}
+				});
+				allRes.add(result);
+			});
+		return allRes;
+	}
+
+	/**
+	 * @param nonconfidentialAssets
+	 * 
+	 */
+	private void modifyCandidates(Set<Asset> nonconfidentialAssets) {
+		nonconfidentialAssets.forEach(asset -> {
+			Value injectedValue = ModelFactory.eINSTANCE.createValue();
+			injectedValue.setObjective(Objective.CONFIDENTIALITY);
+			injectedValue.setPriority(Priority.H);
+			asset.getValue().add(injectedValue);
+			LOGGER.info("Injected high confidentiality label to asset: "+asset.getName());
+		});
+	}
+
+	/**
+	 * @param dfd
+	 * @return Set<Asset>
+	 * 	find non-confidential assets that exit the system (i.e., the asset target is EE or DS)
+	 *	for storepassword.secdfd -> fieldID 
+	 *	for setpasswordrecovery.secdfd -> path
+	 */
+	private Set<Asset> getAssetsForInjection(EDFD dfd) {
+		Set<Asset> nonconfidentialAssets = dfd.getAsset().parallelStream()
+			.filter(asset -> asset.getValue().stream()
+					.noneMatch(value -> Objective.CONFIDENTIALITY.equals(value.getObjective())))
+			.filter(asset -> asset.getTargets().stream()
+					.anyMatch(target -> (target instanceof ExternalEntity) || (target instanceof DataStore)))
+			.collect(Collectors.toSet());
+		return nonconfidentialAssets;
+	}
+	
 	/**
 	 * @param asset The asset to check
 	 * @return The results of the DF-analysis per entry point
@@ -136,7 +222,7 @@ public class DFAnalysis {
 		List<String> sinks = new ArrayList<>(sourcesAndSinks.getSinks());
 		List<? extends TMember> allowed = new ArrayList<>(sourcesAndSinks.getAllowed());
 		// try to inject a leak
-		if (leaksToInject > 0) {
+		if (allowedSinksToRemove > 0) {
 			if (allowed.size() > 0) {
 				TMethodDefinition randomAllowedSink = (TMethodDefinition) allowed
 						.get(ThreadLocalRandom.current().nextInt(0, allowed.size()));
@@ -151,7 +237,7 @@ public class DFAnalysis {
 				});
 				// removal of allMappedSinks from allowed sinks = removing confidential asset of
 				// the data flow going into EE or DS
-				leaksToInject--;
+				allowedSinksToRemove--;
 			}
 		}
 		// allowedSinks.put(asset, allowed);

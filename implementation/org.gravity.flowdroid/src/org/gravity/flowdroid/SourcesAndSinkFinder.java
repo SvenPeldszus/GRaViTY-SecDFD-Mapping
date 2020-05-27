@@ -102,8 +102,6 @@ public class SourcesAndSinkFinder {
 		Set<? extends TMember> flowSinkCorrespondences = sinkFinder.getForbiddensinks();
 		Set<? extends TMember> flowAllowedSinkCorrespondences = sinkFinder.getAllowedsinks();
 		Set<String> sinks = getSootSignatures(flowSinkCorrespondences);
-		// remember also allowed sinks
-		//Set<String> allowed = getSootSignatures(flowAllowedSinkCorrespondences);
 		
 		if (flowSinkCorrespondences.isEmpty()) {
 			// TODO: raise an issue to developer to model attacker
@@ -226,9 +224,9 @@ public class SourcesAndSinkFinder {
 				}
 			}).collect(Collectors.toSet());
 		}
-		// do not infer sources if the asset source is a process, only consider EE and DS
-		return new HashSet<>();
-		//return mapper.getMapping((Process) assetsource);
+		// do not infer sources if the asset source is a process, only consider EE and DS?
+		//return new HashSet<>();
+		return mapper.getMapping((Process) assetsource);
 	}
 
 	/**
