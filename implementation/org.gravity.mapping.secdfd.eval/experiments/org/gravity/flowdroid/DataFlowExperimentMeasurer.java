@@ -1,6 +1,5 @@
 package org.gravity.flowdroid;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -8,11 +7,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.jdt.core.IJavaProject;
 import org.gravity.flowdroid.DataFlowExperiment.TestCaseID;
 import soot.jimple.infoflow.results.DataFlowResult;
 import soot.jimple.infoflow.results.InfoflowResults;
@@ -20,84 +14,88 @@ import soot.jimple.infoflow.results.InfoflowResults;
 public class DataFlowExperimentMeasurer {
 	private static final Logger LOGGER = Logger.getLogger(DataFlowExperimentMeasurer.class);
 
-	private Map<TestCaseID, Map<String, Set<String>>> allExperiments;
-	private Map<TestCaseID, Map<String, Set<String>>> truePositives;
-	private Map<TestCaseID, Map<String, Set<String>>> falsePositives;
-	private Map<TestCaseID, Map<String, Set<String>>> falseNegatives;
-	private Map<TestCaseID, Map<String, Set<String>>> possibleLeaks;
-	private IFolder output;
+	/*
+	 * violations found for all experiment of current project
+	 * the key String is TestCaseID + secdfdName
+	 */
+	private Map<String, Set<String>> allExperiments;
+	/*
+	 * all true injected violations found for all experiment of current project
+	 */
+	private Map<String, Set<String>> injectedTruePositives;
+	private Map<String, Set<String>> falsePositives;
+	private Map<String, Set<String>> injectedFalseNegatives;
+	// injected, expected false positives for current project
+	private Map<String, Set<String>> possibleLeaks;
 
 	
 	public DataFlowExperimentMeasurer() {
 		this.allExperiments = new HashMap<>();
-		this.truePositives = new HashMap<>();
+		this.injectedTruePositives = new HashMap<>();
 		this.falsePositives = new HashMap<>();
-		this.falseNegatives = new HashMap<>();
+		this.injectedFalseNegatives = new HashMap<>();
 		this.possibleLeaks = new HashMap<>();
-		this.output = null;
 	}
 
-	public Collection<TestCaseID> getExecutedTestCaseIDs() {
+	public Set<String> getExecutedExperiments(){
 		return allExperiments.keySet();
 	}
-
-	/**
-	 * @return the truePositives
-	 */
-	public Map<TestCaseID, Map<String, Set<String>>> getTruePositives() {
-		return truePositives;
+	
+	public Set<String> getExecutedExperimentTestCaseIDs(){
+		return allExperiments.keySet().parallelStream().map(k -> k.split(", ")[0]).collect(Collectors.toSet());
 	}
-
+	
+	
+	/**
+	 * @return 
+	 * @return the injectedTruePositives
+	 */
+	public Map<String, Set<String>> getTruePositives() {
+		return injectedTruePositives;
+	}
+	
 	/**
 	 * @return the falsePositives
 	 */
-	public Map<TestCaseID, Map<String, Set<String>>> getFalsePositives() {
+	public Map<String, Set<String>> getFalsePositives() {
 		return falsePositives;
 	}
 
 	/**
-	 * @return the falseNegatives
+	 * @return the injectedFalseNegatives
 	 */
-	public Map<TestCaseID, Map<String, Set<String>>> getFalseNegatives() {
-		return falseNegatives;
+	public Map<String, Set<String>> getFalseNegatives() {
+		return injectedFalseNegatives;
 	}
 
 	/**
 	 * @param string
 	 * @param set    current experiment results
 	 */
-	public void setCurrentExperimentResults(TestCaseID id, String secdfd, Results results, IFolder out) {
-		setCurrentExperimentResults(id, secdfd, flattenAssetResultsForSecDFD(results), out);
+	public void setCurrentExperimentResults(TestCaseID id, String secdfd, Results results) {
+		setCurrentExperimentResults(id, secdfd, flattenAssetResultsForSecDFD(results));
 	}
 	
-	public void setCurrentExperimentResults(TestCaseID fdsourcesink, String secdfd, Map<String, InfoflowResults> results,
-			IFolder out) {
-		setCurrentExperimentResults(fdsourcesink, secdfd, flatten(results), out);
+	public void setCurrentExperimentResults(TestCaseID fdsourcesink, String secdfd, Map<String, InfoflowResults> results) {
+		setCurrentExperimentResults(fdsourcesink, secdfd, flatten(results));
 	}
 	
 	public void setCurrentExperimentResults(TestCaseID testcaseid, String secdfd, Set<String> possible,
-			Results results, IFolder destination) {
-		possibleLeaks.put(testcaseid, new HashMap<>());
-		possibleLeaks.get(testcaseid).put(secdfd, possible);
-		setCurrentExperimentResults(testcaseid, secdfd, results, destination);
+			Results results) {
+		String key = testcaseid.toString() + ", " + secdfd;
+		possibleLeaks.put(key, possible);
+		setCurrentExperimentResults(testcaseid, secdfd, results);
 	}
 
-	public void setCurrentExperimentResults(TestCaseID id, String secdfd, Set<String> results,
-			IFolder out) {
-		Map<String, Set<String>> secdfdRes = new HashMap<>();
-		secdfdRes.put(secdfd, results);
-		allExperiments.put(id, secdfdRes);
-		output = out;
-		truePositives.put(id, new HashMap<>());
-		truePositives.get(id).put(secdfd, new HashSet<>());
-		falsePositives.put(id, new HashMap<>());
-		falsePositives.get(id).put(secdfd, new HashSet<>());
-		falseNegatives.put(id, new HashMap<>());
-		falseNegatives.get(id).put(secdfd, new HashSet<>());
-		if (!possibleLeaks.containsKey(id)) {
+	public void setCurrentExperimentResults(TestCaseID testcaseid, String secdfd, Set<String> results) {
+		String key = testcaseid.toString() + ", " + secdfd;
+		allExperiments.put(key, results);
+		injectedTruePositives.put(key, new HashSet<>());
+		falsePositives.put(key, new HashSet<>());
+		injectedFalseNegatives.put(key, new HashSet<>());
+		if (possibleLeaks.isEmpty()) {
 			// this run has no injected leaks -> initialize empty map (ground truth is empty, secure model)
-			possibleLeaks.put(id, new HashMap<>());
-			possibleLeaks.get(id).put(secdfd, new HashSet<>());
+			possibleLeaks.put(key, new HashSet<>());
 		}
 	}
 
@@ -144,7 +142,7 @@ public class DataFlowExperimentMeasurer {
 	}
 
 	/**
-	 * Populates the truePositives and falseNegatives maps. Results of each asset
+	 * Populates the injectedTruePositives and injectedFalseNegatives maps. Results of each asset
 	 * are compared to FDSourceSink. Criteria for TP: same entry point & sink
 	 * definition.
 	 * 
@@ -152,44 +150,24 @@ public class DataFlowExperimentMeasurer {
 	 * 
 	 */
 	public void calculateMeasures() {
-		// go through all experiment
-		allExperiments.keySet().forEach(testcaseid -> {
-			Map<String, Set<String>> testCaseResults = allExperiments.get(testcaseid);
-			testCaseResults.keySet().forEach(secdfdName -> {
-				Set<String> secdfdResults = testCaseResults.get(secdfdName);
-				secdfdResults.forEach(sourceSinkPair -> {
-					getTPFP(secdfdResults, testcaseid, secdfdName);
-					getFN(secdfdResults, testcaseid, secdfdName);
-				});
-				try {
-					ExperimentHelper.writeToTxt(output,
-							ExperimentHelper.stringBuilder(truePositives.get(testcaseid).get(secdfdName),
-									falsePositives.get(testcaseid).get(secdfdName),
-									falseNegatives.get(testcaseid).get(secdfdName)),
-							"performance", new NullProgressMonitor(), false);
-				} catch (CoreException e) {
-					e.printStackTrace();
-				}
+		// go through all executed experiments
+		allExperiments.keySet().forEach(key -> {
+			Set<String> secdfdResults = allExperiments.get(key);
+			secdfdResults.forEach(sourceSinkPair -> {
+				getTPFP(sourceSinkPair, key);
 			});
-
+			getFN(secdfdResults, key);			
 		});
-
 	}
 
-	private void getFN(Set<String> secdfdResults, TestCaseID testcaseid, String secdfdName) {
-		if (possibleLeaks.containsKey(testcaseid)) {
-			if (possibleLeaks.get(testcaseid).containsKey(secdfdName)) {
-				possibleLeaks.get(testcaseid).get(secdfdName).forEach(sink -> {
-					//for now I only have sinks
-					if (!secdfdResults.contains(sink)) addFN(sink, testcaseid, secdfdName);
-				});
-			} else {
-				LOGGER.info("No false negatives.");
+	private void getFN(Set<String> secdfdResults, String key) {
+		Set<String> possiblePairs = possibleLeaks.get(key);
+		possiblePairs.forEach(pair -> {
+			if (!secdfdResults.contains(pair)) {
+				addFN(pair, key);
 			}
-		} else{
-			LOGGER.info("No false negatives.");
-		}
-		
+		});
+		LOGGER.info("No false negatives.");
 	}
 
 
@@ -199,34 +177,24 @@ public class DataFlowExperimentMeasurer {
 	 * @param testcaseid
 	 * @param secdfdName
 	 */
-	private void getTPFP(Set<String> sourceSinkPairs, TestCaseID testcaseid, String secdfdName) {
-		sourceSinkPairs.forEach(pair -> {
-			if (inPossibleLeaks(pair, testcaseid, secdfdName)) {
-				addTP(pair, testcaseid, secdfdName);
-			} else {
-				addFP(pair, testcaseid, secdfdName);
-			}
-		});
-
+	private void getTPFP(String sourceSinkPair, String key) {
+		if (inPossibleLeaks(sourceSinkPair, key)) addTP(sourceSinkPair, key);
+		else addFP(sourceSinkPair, key);
 	}
 
-	private void addTP(String pair, TestCaseID testcaseid, String secdfdName) {
-		truePositives.get(testcaseid).get(secdfdName).add(pair);
+	private void addTP(String pair, String key) {
+		injectedTruePositives.get(key).add(pair);
 	}
-	private void addFP(String pair, TestCaseID testcaseid, String secdfdName) {
-		falsePositives.get(testcaseid).get(secdfdName).add(pair);
+
+	private void addFP(String pair, String key) {
+		falsePositives.get(key).add(pair);
 	}
-	private void addFN(String pair, TestCaseID testcaseid, String secdfdName) {
-		falseNegatives.get(testcaseid).get(secdfdName).add(pair);
+
+	private void addFN(String pair, String key) {
+		injectedFalseNegatives.get(key).add(pair);
 	}
-	
-	private boolean inPossibleLeaks(String pair, TestCaseID testcaseid, String secdfdName) {
-		if (possibleLeaks.containsKey(testcaseid)) {
-			if (possibleLeaks.get(testcaseid).containsKey(secdfdName)) {
-				String sink = pair.split(", ")[1];
-				return possibleLeaks.get(testcaseid).get(secdfdName).contains(sink);
-			}
-		}
-		return false;
+
+	private boolean inPossibleLeaks(String pair, String key) {
+		return possibleLeaks.get(key).contains(pair);
 	}
 }
