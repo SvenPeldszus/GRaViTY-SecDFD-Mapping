@@ -16,16 +16,18 @@ public class AssetResults {
 	private final Map<String, InfoflowResults> allResults;
 	private final Collection<String> sources;
 	private final Collection<String> sinks;
+	private final Collection<String> forbiddenSinks;
 
-	public AssetResults(Asset asset, Collection<String> sources, Collection<String> sinks, Map<String, InfoflowResults> allResults) {
-		this(asset, sources, sinks);
+	public AssetResults(Asset asset, Collection<String> sources, Collection<String> sinks, Collection<String> forbiddensinks, Map<String, InfoflowResults> allResults) {
+		this(asset, sources, sinks, forbiddensinks);
 		this.allResults.putAll(allResults);
 	}
 	
-	public AssetResults(Asset asset, Collection<String> sources, Collection<String> sinks) {
+	public AssetResults(Asset asset, Collection<String> sources, Collection<String> sinks, Collection<String> forbiddensinks) {
 		this.asset = asset;
 		this.sources = sources;
 		this.sinks = sinks;
+		this.forbiddenSinks = forbiddensinks;
 		this.allResults = new HashMap<>();
 	}
 
@@ -62,6 +64,10 @@ public class AssetResults {
 		return sinks;
 	}
 
+	public Collection<String> getForbiddenSinks() {
+		return forbiddenSinks;
+	}
+	
 	public Set<String> getEPoints() {
 		return allResults.keySet();
 	}

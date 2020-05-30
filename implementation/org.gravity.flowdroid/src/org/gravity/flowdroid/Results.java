@@ -18,7 +18,7 @@ public class Results {
 
 	public Results(Asset a, Map<String, InfoflowResults> allResults) {
 		this.resultsPerAsset = new HashMap<>();
-		AssetResults emptyAsset = new AssetResults(a, null, null, allResults);
+		AssetResults emptyAsset = new AssetResults(a, null, null, null, allResults);
 		resultsPerAsset.put(a, emptyAsset);
 	}
 	

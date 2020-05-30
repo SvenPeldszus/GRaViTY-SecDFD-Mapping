@@ -40,7 +40,7 @@ public class DataFlowExperiment {
 		FDSourceSink, FDSourceOptSink, OptSourceSink, OptSourceSinkInject, OptSourceSinkInjectLabels;
 	}
 
-	private static final int MAX_VIOLATION = 10; // TODO: 100
+	private static final int MAX_VIOLATION = 100;
 	private static final String[] PROJECT_NAMES = new String[] { "org.eclipse.equinox.security" };
 	private static final Logger LOGGER = Logger.getLogger(DataFlowExperiment.class);
 
@@ -84,16 +84,16 @@ public class DataFlowExperiment {
 
 		Map<String, InfoflowResults> results = dfAnalysis.check(sources, sinks, epoints);
 
-		NullProgressMonitor monitor = new NullProgressMonitor();
-		IFolder out = ExperimentHelper.create(output, "flowDroid", monitor);
-		write(out, sources, sinks, epoints, monitor);
+//		NullProgressMonitor monitor = new NullProgressMonitor();
+//		IFolder out = ExperimentHelper.create(output, "flowDroid", monitor);
+//		write(out, sources, sinks, epoints, monitor);
 
 		projectMeasurers.get(project).setCurrentExperimentResults(TestCaseID.FDSourceSink, mapper.getDFD().getName(),
 				results);
 
-		for (Entry<String, InfoflowResults> entry : results.entrySet()) {
-			writeReport(out, entry.getKey(), entry.getValue());
-		}
+//		for (Entry<String, InfoflowResults> entry : results.entrySet()) {
+//			writeReport(out, entry.getKey(), entry.getValue());
+//		}
 
 	}
 
@@ -109,8 +109,8 @@ public class DataFlowExperiment {
 		// inject 0 leaks
 		Results results = dfAnalysis.checkAllAssets(0);
 
-		IProgressMonitor monitor = new NullProgressMonitor();
-		IFolder destination = ExperimentHelper.create(output, "our", monitor);
+//		IProgressMonitor monitor = new NullProgressMonitor();
+//		IFolder destination = ExperimentHelper.create(output, "our", monitor);
 		// writeResults(results, destination, monitor);
 
 		projectMeasurers.get(project).setCurrentExperimentResults(TestCaseID.OptSourceSink, mapper.getDFD().getName(),
@@ -138,12 +138,12 @@ public class DataFlowExperiment {
 				if (sourceSinks != null) {
 					Set<String> sources = sourceSinks.getSources();
 					Map<String, InfoflowResults> allResults = dfAnalysis.check(sources, sinks, epoints);
-					results.add(new AssetResults(asset, sources, sinks, allResults));
+					results.add(new AssetResults(asset, sources, sinks, finder.getForbiddenSinks(),  allResults));
 				}
 			}
 		}
-		IProgressMonitor monitor = new NullProgressMonitor();
-		IFolder destination = ExperimentHelper.create(output, "flowDroidAndOurSources", monitor);
+//		IProgressMonitor monitor = new NullProgressMonitor();
+//		IFolder destination = ExperimentHelper.create(output, "flowDroidAndOurSources", monitor);
 		// writeResults(results, destination, monitor);
 
 		projectMeasurers.get(project).setCurrentExperimentResults(TestCaseID.FDSourceOptSink, mapper.getDFD().getName(),
@@ -187,8 +187,8 @@ public class DataFlowExperiment {
 		// try to inject labels
 		Results results = dfAnalysis.checkAllAssetsInject();
 
-		IProgressMonitor monitor = new NullProgressMonitor();
-		IFolder destination = ExperimentHelper.create(output, "our", monitor);
+		//IProgressMonitor monitor = new NullProgressMonitor();
+		//IFolder destination = ExperimentHelper.create(output, "our", monitor);
 		// writeResults(results, destination, monitor);
 
 		projectMeasurers.get(project).setCurrentExperimentResults(TestCaseID.OptSourceSinkInjectLabels,
@@ -254,7 +254,7 @@ public class DataFlowExperiment {
 		Map<String, ArrayList<Integer>> perConfig = new HashMap<>();
 
 		// print name of all executed projects
-		System.out.print("Analyzed projects: \n");
+		System.out.print("Max violation: " + MAX_VIOLATION + ", Analyzed projects:\n");
 		for (IJavaProject measuredProject : projectMeasurers.keySet()) {
 			IProject measuredIProject = measuredProject.getProject();
 			System.out.print(measuredIProject.getName() + "\n");

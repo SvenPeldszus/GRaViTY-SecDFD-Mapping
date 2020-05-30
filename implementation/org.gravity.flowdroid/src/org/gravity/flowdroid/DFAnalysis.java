@@ -147,9 +147,14 @@ public class DFAnalysis {
 			modifyCandidates(candidates);
 			candidates.forEach(asset -> {
 				
-				// look for sources, sinks, epoints, run FlowDroid
-				AssetResults result = checkAsset(asset);
+				// look for sources, sinks, epoints, put all allowed to forbidden, run FlowDroid
+				AssetResults result = checkAssetRemoveAllowed(asset);
+				// forbidden by deriving from DFD - not SuSi sinks
+				Collection<String> forbidden = result.getForbiddenSinks();
 				
+	
+				//an expected TP = source and forbidden sink matches (not sinks from susi, the one we derive)
+				//but for secure storage the forbidden sink is empty for injections, because writing to DS is allowed sink (fieldId, path)
 				//flatten results
 				Set<MultiMap<ResultSinkInfo, ResultSourceInfo>> infoflowres = result.getSingleResults()
 						.parallelStream()
@@ -165,10 +170,15 @@ public class DFAnalysis {
 						Set<String> sourceMethods = map.get(sink).parallelStream()
 								.map(s -> s.getStmt().getInvokeExpr().getMethod().getSignature())
 								.collect(Collectors.toSet());
-						//add all pairs to 'expected FPs'
-						sourceMethods.forEach(source -> {
-							possibleLeaks.add(source+", "+sinkMethod);
-						});
+						if (forbidden.contains(sinkMethod)) {
+							//add all pairs to 'expected FPs'
+							sourceMethods.forEach(source -> {
+								//this is always true...
+								if (result.getSources().contains(source)) {
+									possibleLeaks.add(source+", "+sinkMethod);
+								}
+							});							
+						}
 					}
 				});
 				allRes.add(result);
@@ -215,11 +225,12 @@ public class DFAnalysis {
 		// calculate source and sinks for the asset
 		SourceAndSink sourcesAndSinks = sas.getSourceSinks(asset);
 		if (sourcesAndSinks == null) {
-			return new AssetResults(asset, Collections.emptyList(), Collections.emptyList(), Collections.emptyMap());
+			return new AssetResults(asset, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyMap());
 		}
 
 		List<String> sources = new ArrayList<>(sourcesAndSinks.getSources());
 		List<String> sinks = new ArrayList<>(sourcesAndSinks.getSinks());
+		List<String> forbinnedSinks = new ArrayList<>(sourcesAndSinks.getForbiddenSinks());
 		List<? extends TMember> allowed = new ArrayList<>(sourcesAndSinks.getAllowed());
 		// try to inject a leak
 		if (allowedSinksToRemove > 0) {
@@ -243,13 +254,40 @@ public class DFAnalysis {
 		// allowedSinks.put(asset, allowed);
 
 		if (sources.isEmpty()) {
-			return new AssetResults(asset, sources, sinks, Collections.emptyMap());
+			return new AssetResults(asset, sources, sinks, forbinnedSinks, Collections.emptyMap());
 		}
 
 		Set<String> epoints = sas.getEntryPoints();
 		// injection need to happen before this call
 		Map<String, InfoflowResults> map = check(sources, sinks, epoints);
-		return new AssetResults(asset, sources, sinks, map);
+		return new AssetResults(asset, sources, sinks, forbinnedSinks, map);
+	}
+	
+	private AssetResults checkAssetRemoveAllowed(Asset asset) {
+		// calculate source and sinks for the asset
+		SourceAndSink sourcesAndSinks = sas.getSourceSinks(asset);
+		if (sourcesAndSinks == null) {
+			return new AssetResults(asset, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyMap());
+		}
+
+		List<String> sources = new ArrayList<>(sourcesAndSinks.getSources());
+		List<String> sinks = new ArrayList<>(sourcesAndSinks.getSinks());
+		List<String> forbinnedSinks = new ArrayList<>(sourcesAndSinks.getForbiddenSinks());
+		List<? extends TMember> allowed = new ArrayList<>(sourcesAndSinks.getAllowed());
+		
+		for (TMember allowedsink : allowed) {
+			sinks.add(SignatureHelper.getSootSignature((TMethodDefinition)allowedsink));
+			forbinnedSinks.add(SignatureHelper.getSootSignature((TMethodDefinition)allowedsink));
+		}
+		
+		if (sources.isEmpty()) {
+			return new AssetResults(asset, sources, sinks, forbinnedSinks, Collections.emptyMap());
+		}
+		
+		Set<String> epoints = sas.getEntryPoints();
+		
+		Map<String, InfoflowResults> map = check(sources, sinks, epoints);
+		return new AssetResults(asset, sources, sinks, forbinnedSinks, map);
 	}
 
 	private Set<TMethodDefinition> correspondingProcessAlsoMappedTo(TMethodDefinition randomAllowedSink) {

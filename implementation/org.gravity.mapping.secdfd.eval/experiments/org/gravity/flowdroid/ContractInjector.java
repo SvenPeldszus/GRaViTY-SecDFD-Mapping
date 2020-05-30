@@ -68,17 +68,6 @@ public class ContractInjector {
 		this.injected = new HashSet<>();
 	}
 
-	/**
-	 * Constructor (data flow leaks)
-	 */
-	/*
-	public ContractInjector(IFolder destination, Integer removeTasks, Mapper mapper) {
-		this.removeTasks = removeTasks;
-		this.mapper = mapper;
-		this.possibleLeaks = new HashMap<>();
-		possibleLeaks.put(mapper.getDFD().getName(), new HashSet<>());
-		this.injectedE = new HashSet<>();
-	}*/
 
 	/**
 	 * @return the injectTasks

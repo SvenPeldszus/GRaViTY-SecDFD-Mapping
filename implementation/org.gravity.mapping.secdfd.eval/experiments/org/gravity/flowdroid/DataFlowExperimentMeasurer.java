@@ -93,7 +93,7 @@ public class DataFlowExperimentMeasurer {
 		injectedTruePositives.put(key, new HashSet<>());
 		falsePositives.put(key, new HashSet<>());
 		injectedFalseNegatives.put(key, new HashSet<>());
-		if (possibleLeaks.isEmpty()) {
+		if (!possibleLeaks.containsKey(key)) {
 			// this run has no injected leaks -> initialize empty map (ground truth is empty, secure model)
 			possibleLeaks.put(key, new HashSet<>());
 		}

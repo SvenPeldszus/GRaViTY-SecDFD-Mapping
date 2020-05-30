@@ -7,14 +7,20 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.xml.crypto.Data;
+
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.typegraph.basic.TAbstractType;
@@ -31,9 +37,20 @@ import org.secdfd.model.Element;
 import org.secdfd.model.ExternalEntity;
 import org.secdfd.model.NamedEntity;
 import org.secdfd.model.Process;
+import org.secdfd.model.Responsibility;
 
 public class SourcesAndSinkFinder {
 
+	public class Pair {
+		private NamedEntity element;
+		private Asset asset;
+		
+		Pair (NamedEntity el, Asset as){
+			this.element = el;
+			this.asset = as;
+		}
+	}
+	
 	/**
 	 * The logger of this class
 	 */
@@ -45,11 +62,13 @@ public class SourcesAndSinkFinder {
 	private final Set<String> entryPoints;
 	private final Set<String> baselineSources;
 	private final Set<String> baselineSinks;
+	private Set<String> forbiddenSinks;
 
 	private Mapper mapper;
 
 	public SourcesAndSinkFinder(Mapper mapper, boolean susi) throws IOException {
 		this.mapper = mapper;
+		this.forbiddenSinks = new HashSet<>();
 
 		// find entry points
 		Set<TMethodDefinition> entryPointDefinitions = findEntryPoints();
@@ -88,9 +107,9 @@ public class SourcesAndSinkFinder {
 	 * @throws IOException
 	 */
 	public SourceAndSink getSourceSinks(Asset asset) {
-		// find sources
 		// find source correspondences
-		Set<? extends TMember> flowSourceCorrespondences = findSources(asset);
+		//Set<? extends TMember> flowSourceCorrespondences = findSources(asset);
+		Set<? extends TMember> flowSourceCorrespondences = findSourcesBackwards(asset);
 		if (flowSourceCorrespondences.isEmpty()) {
 			return null;
 		}
@@ -102,18 +121,19 @@ public class SourcesAndSinkFinder {
 		Set<? extends TMember> flowSinkCorrespondences = sinkFinder.getForbiddensinks();
 		Set<? extends TMember> flowAllowedSinkCorrespondences = sinkFinder.getAllowedsinks();
 		Set<String> sinks = getSootSignatures(flowSinkCorrespondences);
-		
+
 		if (flowSinkCorrespondences.isEmpty()) {
 			// TODO: raise an issue to developer to model attacker
 			LOGGER.log(Level.ERROR,
 					"No sinks found. Modeling attacker observation zones in the SecDFD are required for executing data flow analysis.");
 		}
-		
+
 		// sinks.addAll(susisinks);
 		// add only relevant susi sinks (remove allowed)
 		sinks.addAll(getForbiddenSinks(sinkFinder, getBaselineSinks()));
-
-		return new SourceAndSink(sources, sinks, flowAllowedSinkCorrespondences);
+		// remember also just the DFD derievd sinks
+		forbiddenSinks = getSootSignatures(flowSinkCorrespondences);
+		return new SourceAndSink(sources, sinks, forbiddenSinks, flowAllowedSinkCorrespondences);
 	}
 
 	/**
@@ -162,7 +182,7 @@ public class SourcesAndSinkFinder {
 					.filter(source -> (!mapper.getMapping(source).isEmpty())).collect(Collectors.toSet());
 			if (sources.isEmpty()) {
 				TAbstractType definedBy = def.getDefinedBy();
-				if(definedBy instanceof TClass) {
+				if (definedBy instanceof TClass) {
 					epoints.add(def);
 				}
 			} else {
@@ -170,6 +190,109 @@ public class SourcesAndSinkFinder {
 			}
 		}
 		return epoints;
+	}
+
+	// When looking for sources - if Process has a contact for asset, follow backwards
+	private Set<? extends TMember> findSourcesBackwards(Asset asset) {
+		NamedEntity assetsource = asset.getSource();
+		Set<TMember> allSources = new HashSet<>();
+		Set<NamedEntity> seen = new HashSet<>();
+
+		Deque<Pair> elementsToCheck = new LinkedList<Pair>();
+		Pair firstPair = new Pair(assetsource, asset);
+		elementsToCheck.add(firstPair);
+
+		while (!elementsToCheck.isEmpty()) {
+			Pair c = elementsToCheck.pop();
+			NamedEntity currentEl = c.element;
+			Asset currentAs = c.asset;
+			if (seen.contains(currentEl)) {
+				continue;
+			}
+			// if process possibly go backwards
+			if (currentEl instanceof Process) {
+				// incoming assets to contract are possible to track backwards (if multiple incoming assets -- join, conservatively follow
+				// all paths)
+				Set<Asset> assetsToFollow = ((Process) currentEl).getResponsibility().parallelStream()
+						.filter(r -> r.getOutcomeassets().contains(currentAs)).flatMap(contract -> contract.getIncomeassets().stream())
+						.collect(Collectors.toSet());
+				if (!assetsToFollow.isEmpty()) {
+					for (Asset toFollow : assetsToFollow) {
+						Set<NamedEntity> checkAlso = ((Process) currentEl).getInflows().parallelStream()
+								.filter(dataflow -> dataflow.getAssets().contains(toFollow))
+								.map(flow -> flow.getSource()).collect(Collectors.toSet());
+						for (NamedEntity el : checkAlso) {
+							elementsToCheck.add(new Pair(el, toFollow));
+						}
+					}
+				} else {
+					// the asset can't be traced backwards anymore
+					allSources.addAll(mapper.getMapping((Process) assetsource));
+				}
+			}
+			// if DS or EE, get sources as usual
+			if (currentEl instanceof ExternalEntity) {
+				allSources.addAll(findEntitySources(currentAs, currentEl));
+			}
+			if (currentEl instanceof DataStore) {
+				allSources.addAll(findStoreSources(currentAs, currentEl));
+			}
+			seen.add(currentEl);
+		}
+		return allSources;
+
+	}
+
+	/**
+	 * @param asset
+	 * @param currentEl
+	 */
+	private Set<? extends TMember> findStoreSources(Asset asset, NamedEntity currentEl) {
+		final Collection<TAbstractType> assetTypes = mapper.getMapping(asset);
+		final Collection<TMember> processMembers = ((DataStore) currentEl).getOutflows().parallelStream()
+				.map(Flow::getTarget).flatMap(Collection::parallelStream).filter(Process.class::isInstance)
+				.map(Process.class::cast).map(mapper::getMapping).flatMap(Collection::parallelStream)
+				.collect(Collectors.toSet());
+		Set<? extends EObject> pmElements = mapper.getMapping((DataStore) currentEl);
+		return pmElements.parallelStream().flatMap(element -> {
+			if (element instanceof TMember) {
+				return Stream.of((TMember) element);
+			} else if (element instanceof TAbstractType) {
+				TAbstractType tType = (TAbstractType) element;
+				return tType.getDefines().parallelStream().filter(defined -> {
+					if (defined instanceof TMethodDefinition) {
+						TMethodDefinition method = (TMethodDefinition) defined;
+						return assetTypes.contains(method.getReturnType());
+					} else {
+						return false;
+					}
+				}).map(TMethodDefinition.class::cast).filter(method -> {
+					for (TAccess accessing : method.getAccessedBy()) {
+						if (processMembers.contains(accessing.getTSource())) {
+							return true;
+						}
+					}
+					return false;
+				});
+			} else {
+				return Stream.empty();
+			}
+		}).collect(Collectors.toSet());
+
+	}
+
+	/**
+	 * @param asset
+	 * @param currentEl
+	 */
+	private Set<? extends TMember> findEntitySources(Asset asset, NamedEntity currentEl) {
+		// there is no mapping of EE source element -> get the next element
+		Stream<Flow> transporterflows = getTargetFlows(asset, currentEl);
+		// collect the processes of the outgoing flows:
+		return transporterflows.flatMap(flow -> flow.getTarget().parallelStream())
+				.flatMap(target -> mapper.getMapping(target).parallelStream()).filter(TMember.class::isInstance)
+				.map(TMember.class::cast).collect(Collectors.toSet());
+
 	}
 
 	/**
@@ -181,7 +304,7 @@ public class SourcesAndSinkFinder {
 	 * @param assetsource
 	 * @return
 	 */
-	// TODO: Improve
+	// OLD
 	private Set<? extends TMember> findSources(Asset asset) {
 		NamedEntity assetsource = asset.getSource();
 		if (assetsource instanceof ExternalEntity) {
@@ -224,9 +347,11 @@ public class SourcesAndSinkFinder {
 				}
 			}).collect(Collectors.toSet());
 		}
-		// do not infer sources if the asset source is a process, only consider EE and DS?
-		//return new HashSet<>();
+		// do not infer sources if the asset source is a process, only consider EE and
+		// DS?
+		// return new HashSet<>();
 		return mapper.getMapping((Process) assetsource);
+
 	}
 
 	/**
@@ -265,6 +390,10 @@ public class SourcesAndSinkFinder {
 	 */
 	public Set<String> getBaselineSinks() {
 		return baselineSinks;
+	}
+	
+	public Set<String> getForbiddenSinks(){
+		return forbiddenSinks;
 	}
 
 	/**
