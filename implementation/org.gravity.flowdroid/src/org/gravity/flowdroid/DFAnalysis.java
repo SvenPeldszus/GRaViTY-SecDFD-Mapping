@@ -147,14 +147,18 @@ public class DFAnalysis {
 			modifyCandidates(candidates);
 			candidates.forEach(asset -> {
 				
+
+				/*
+				 * an expected FP = source and forbidden sink matches (not sinks from susi, the one we derive)
+				but for secure storage the forbidden sink is empty for injections, because writing to DS is allowed sink (fieldId, path)
+				 */
+				
 				// look for sources, sinks, epoints, put all allowed to forbidden, run FlowDroid
 				AssetResults result = checkAssetRemoveAllowed(asset);
 				// forbidden by deriving from DFD - not SuSi sinks
 				Collection<String> forbidden = result.getForbiddenSinks();
 				
-	
-				//an expected TP = source and forbidden sink matches (not sinks from susi, the one we derive)
-				//but for secure storage the forbidden sink is empty for injections, because writing to DS is allowed sink (fieldId, path)
+
 				//flatten results
 				Set<MultiMap<ResultSinkInfo, ResultSourceInfo>> infoflowres = result.getSingleResults()
 						.parallelStream()
@@ -173,7 +177,6 @@ public class DFAnalysis {
 						if (forbidden.contains(sinkMethod)) {
 							//add all pairs to 'expected FPs'
 							sourceMethods.forEach(source -> {
-								//this is always true...
 								if (result.getSources().contains(source)) {
 									possibleLeaks.add(source+", "+sinkMethod);
 								}

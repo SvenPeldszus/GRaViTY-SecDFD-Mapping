@@ -40,7 +40,7 @@ public class DataFlowExperiment {
 		FDSourceSink, FDSourceOptSink, OptSourceSink, OptSourceSinkInject, OptSourceSinkInjectLabels;
 	}
 
-	private static final int MAX_VIOLATION = 100;
+	private static final int MAX_VIOLATION = 10;
 	private static final String[] PROJECT_NAMES = new String[] { "org.eclipse.equinox.security" };
 	private static final Logger LOGGER = Logger.getLogger(DataFlowExperiment.class);
 
@@ -74,7 +74,7 @@ public class DataFlowExperiment {
 	 * @throws IOException
 	 * @throws CoreException
 	 */
-	@Test
+	//@Test
 	public void experimentFlowDroidConfig() throws IOException, CoreException {
 		DFAnalysis dfAnalysis = new DFAnalysis(mapper, project, true, MAX_VIOLATION);
 
@@ -103,7 +103,7 @@ public class DataFlowExperiment {
 	 * @throws IOException
 	 * @throws CoreException
 	 */
-	@Test
+	//@Test
 	public void experimentOurConfig() throws IOException, CoreException {
 		DFAnalysis dfAnalysis = new DFAnalysis(mapper, project, true, MAX_VIOLATION);
 		// inject 0 leaks
@@ -123,7 +123,7 @@ public class DataFlowExperiment {
 	 * @throws IOException
 	 * @throws CoreException
 	 */
-	@Test
+	//@Test
 	public void experimentFlowDroidConfigAndOurSources() throws IOException, CoreException {
 		DFAnalysis dfAnalysis = new DFAnalysis(mapper, project, true, MAX_VIOLATION);
 
