@@ -30,7 +30,7 @@
 
 	{"pm": "atm.physical.CardReader.readCard():Card", "secdfd": "Read_Card_Verify_PIN"},
 	{"pm": "banking.Status.isInvalidPIN():boolean", "secdfd": "Read_Card_Verify_PIN"},
-	{"pm": "simulation.SimulatedBank.InvalidPIN", "secdfd": "Read_Card_Verify_PIN"},
+	{"pm": "simulation.SimulatedBank.InvalidPIN", "secdfd": "Status"},
 	{"pm": "simulation.Simulation.readCard():Card", "secdfd": "Read_Card_Verify_PIN"},
 
 	{"pm": "atm.physical.CardReader.ejectCard():void", "secdfd": "Eject_Card_Print_Receipt"},
@@ -52,7 +52,6 @@
 	{"pm": "simulation.Simulation.dispenseCash(Money):void", "secdfd": "Dispense_Cash"},
 
 	{"pm": "simulation.SimulatedBank.withdrawal(Message,Balances):Status", "secdfd": "Withdraw"},
-	{"pm": "simulation.Simulation.sendMessage(Message,Balances):Status", "secdfd": "Withdraw"},
 
 	{"pm": "simulation.Simulation.sendMessage(Message,Balances):Status", "secdfd": "Network_Bank"},
 	{"pm": "atm.physical.NetworkToBank.sendMessage(Message,Balances):Status", "secdfd": "Network_Bank"}

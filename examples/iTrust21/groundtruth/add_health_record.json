@@ -14,6 +14,6 @@
     {"pm": "edu.ncsu.csc.itrust.beans.OfficeVisitBean", "secdfd": "office_visit"},
 	{"pm": "edu.ncsu.csc.itrust.beans.forms.HealthRecordForm", "secdfd": "record_form"},
 	{"pm": "edu.ncsu.csc.itrust.beans.HealthRecord", "secdfd": "record"},
-    {"pm": "String", "secdfd": "sucessfully_stored"},
+    {"pm": "java.lang.String", "secdfd": "sucessfully_stored"},
 	{"pm": "java.sql.Connection", "secdfd": "db"}
 ]}

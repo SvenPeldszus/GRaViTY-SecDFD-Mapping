@@ -14,7 +14,7 @@
 	
 	{"pm": "double", "secdfd": "price"},
 	
-	{"pm": "org.cocome.tradingsystem.cashdeskline.cashdesk.cashboxcontroller.impl.CashBoxControllerEventHandlerImpl.sendSaleStartedEvent(SaleStartedEnvent):void", "secdfd": "start_sale"},
+	{"pm": "org.cocome.tradingsystem.cashdeskline.cashdesk.cashboxcontroller.impl.CashBoxControllerEventHandlerImpl.sendSaleStartedEvent(SaleStartedEvent):void", "secdfd": "start_sale"},
 	
 	{"pm": "org.cocome.tradingsystem.cashdeskline.cashdesk.scannercontroller.impl.ScannerControllerEventHandlerImpl.sendProductBarcodeScannedEvent(ProductBarcodeScannedEvent):void", "secdfd": "scan_product_barcode"},
 
@@ -29,7 +29,7 @@
 
 	{"pm": "org.cocome.tradingsystem.inventory.application.store.StockItemTO.getSalesPrice():double", "secdfd": "get_sales_price"},
 
-	{"pm": "org.cocome.tradingsystem.cashdeskline.cashdesk.scannercontroller.impl.ScannerControllerEventHandlerImpl.sendFinishedSaleEvent(SaleFinishedEvent):void", "secdfd": "finish_sale"},
+	{"pm": "org.cocome.tradingsystem.cashdeskline.cashdesk.cashboxcontroller.impl.CashBoxControllerEventHandlerImpl.sendFinishedSaleEvent(SaleFinishedEvent):void", "secdfd": "finish_sale"},
 
 	{"pm": "org.cocome.tradingsystem.inventory.data.store.StoreQueryIf", "secdfd": "store_query"},
 	{"pm": "org.cocome.tradingsystem.inventory.data.store.StoreQueryIf.queryProductById(long,PersistanceContext):Product", "secdfd": "store_query"},
