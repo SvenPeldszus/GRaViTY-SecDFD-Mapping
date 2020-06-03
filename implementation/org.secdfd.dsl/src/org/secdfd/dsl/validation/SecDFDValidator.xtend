@@ -14,6 +14,7 @@ import java.util.Set
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.validation.Check
 import org.secdfd.dsl.validation.SResult.PState
+import java.util.Collections
 
 /**
  * This class contains custom validation rules. 
@@ -24,7 +25,7 @@ class SecDFDValidator extends AbstractSecDFDValidator {
 	
 	//EObject is the edfd instance, the set of strings are the names of the source elements in the program model
 	static Map<String, Set<String>> map = new HashMap();
-	static Set<SResult> problems;
+	static Set<SResult> problems = Collections.emptySet;
    
     def static setMap(Map<String, Set<String>> newMap){
         map = newMap;
