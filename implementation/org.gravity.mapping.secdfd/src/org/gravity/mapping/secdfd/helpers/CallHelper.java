@@ -12,36 +12,38 @@ public class CallHelper {
 
 	public static Set<TMember> getAllOutCalls(TMember member) {
 		Set<TMember> calledMembers = new HashSet<>();
-		for(TAccess access : member.getTAccessing()) {
+		for (TAccess access : member.getTAccessing()) {
 			TMember called = access.getTTarget();
 			if (called instanceof TMethodDefinition) {
-				TMethodDefinition method = (TMethodDefinition) called;
-				while(method != null) {
-					calledMembers.add(called);
-					method = method.getOverriding();
+				Deque<TMethodDefinition> stack = new LinkedList<>();
+				stack.add((TMethodDefinition) called);
+				while (!stack.isEmpty()) {
+					TMethodDefinition method = stack.pop();
+					if (!calledMembers.contains(method)) {
+						calledMembers.add(method);
+						stack.addAll(method.getOverriddenBy());
+					}
 				}
-			}
-			else {
+			} else {
 				calledMembers.add(called);
 			}
 		}
 		return calledMembers;
 	}
-	
+
 	public static Set<TMember> getAllInCalls(TMember member) {
 		Set<TMember> calledMembers = new HashSet<>();
-		for(TAccess access : member.getAccessedBy()) {
+		for (TAccess access : member.getAccessedBy()) {
 			TMember calledBy = access.getTSource();
 			if (calledBy instanceof TMethodDefinition) {
 				Deque<TMethodDefinition> stack = new LinkedList<>();
 				stack.add((TMethodDefinition) calledBy);
-				while(!stack.isEmpty()) {
+				while (!stack.isEmpty()) {
 					TMethodDefinition method = stack.pop();
 					calledMembers.add(method);
 					stack.addAll(method.getOverriddenBy());
 				}
-			}
-			else {
+			} else {
 				calledMembers.add(calledBy);
 			}
 		}
