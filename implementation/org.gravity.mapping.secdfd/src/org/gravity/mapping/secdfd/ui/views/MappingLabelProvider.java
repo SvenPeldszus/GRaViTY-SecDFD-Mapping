@@ -102,8 +102,14 @@ public class MappingLabelProvider implements ILabelProvider {
 			builder.append(((TSignature) eObject).getSignatureString());
 		} else if (BasicPackage.eINSTANCE.getTMember().isSuperTypeOf(sType)) {
 			builder.append("Member Definition: ");
-			builder.append(((TMember) eObject).getDefinedBy().getFullyQualifiedName());
+			TAbstractType definedBy = ((TMember) eObject).getDefinedBy();
+			if(definedBy != null) {
+			builder.append(definedBy.getFullyQualifiedName());
 			builder.append('.');
+			}
+			else {
+				builder.append("<unknown>.");
+			}
 			builder.append(((TMember) eObject).getSignatureString());
 		} else if (BasicPackage.eINSTANCE.getTAbstractType().isSuperTypeOf(sType)) {
 			builder.append("Type: ");
