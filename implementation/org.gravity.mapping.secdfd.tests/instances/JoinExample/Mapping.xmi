@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<org.gravity.mapping.secdfd.model:Mapping xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:org.gravity.mapping.secdfd.model="http://www.gravity-mapping-secdfd.org/mapping"
-    xsi:schemaLocation="http://www.gravity-mapping-secdfd.org/mapping Mapping.ecore"/>

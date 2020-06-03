@@ -94,6 +94,28 @@ public class FwdTest {
 		SResult status = new FwdJoinCheck(mapper).check(processMain);
 		assertEquals(PState.ERROR, status.getState());
 	}
+	
+	/**
+	 * @throws CoreException
+	 * @throws IOException
+	 * 
+	 */
+	@Test
+	public void fwdIsJoin() throws IOException, CoreException {
+		Mapper mapper = initMapper("JoinExample");
+		Process processMain = getProcess("join", mapper);
+		Responsibility fwd = processMain.getResponsibility().get(0);
+		
+		fwd.getIncomeassets().remove(0);
+		
+		EList<ResponsibilityType> actions = fwd.getAction();
+		actions.clear();
+		actions.add(ResponsibilityType.FORWARD);
+		
+		// Perform the test
+		SResult status = new FwdJoinCheck(mapper).check(processMain);
+		assertEquals(PState.ERROR, status.getState());
+	}
 
 
 	/**
