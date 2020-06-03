@@ -1,7 +1,6 @@
 package org.gravity.mapping.secdfd.ui.views.actions;
 
 import java.util.List;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.Action;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
 import org.gravity.mapping.secdfd.ui.views.MappingView;
@@ -27,13 +26,12 @@ public final class AcceptAction extends Action {
 		return "Accepts this mapping";
 	}
 
+	@Override
 	public void run() {
 		MappingView mappingView = MappingView.getMappingView();
 		selection.stream()
-		.filter(e -> e instanceof AbstractCorrespondence).map(e -> {
-			return (AbstractCorrespondence) e;
-		}).forEach(e -> {
-			Mapping mapping = (Mapping) ((EObject) e).eContainer();
+		.filter(e -> e instanceof AbstractCorrespondence).map(e -> (AbstractCorrespondence) e).forEach(e -> {
+			Mapping mapping = (Mapping) e.eContainer();
 			if(!mapping.getUserdefined().contains(e)) {
 				mappingView.getMapper(mapping).accept(e);
 			}
