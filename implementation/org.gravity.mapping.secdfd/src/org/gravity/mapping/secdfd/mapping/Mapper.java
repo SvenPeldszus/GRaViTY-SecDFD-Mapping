@@ -51,14 +51,12 @@ import org.gravity.mapping.secdfd.model.mapping.MappingProcessSignature;
 import org.gravity.mapping.secdfd.ui.views.IListener;
 import org.gravity.mapping.secdfd.ui.views.MappingLabelProvider;
 import org.gravity.mapping.secdfd.model.mapping.AbstractMappingRanking;
-import org.gravity.typegraph.basic.BasicFactory;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TConstructor;
 import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethod;
 import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TMethodSignature;
-import org.gravity.typegraph.basic.TPackage;
 import org.gravity.typegraph.basic.TParameter;
 import org.gravity.typegraph.basic.TSignature;
 import org.gravity.typegraph.basic.TypeGraph;
@@ -255,15 +253,19 @@ public class Mapper {
 	private void initializeMapping(TypeGraph pm, EDFD dfd, IFile destination) {
 		URI uri = URI.createPlatformResourceURI(
 				destination.getProject().getName() + '/' + destination.getProjectRelativePath().toString(), true);
-		Resource resource;
 		if(destination.exists()) {
-			resource = rs.getResource(uri, true);
+			for(Resource resource : rs.getResources()) {
+				if(uri.equals(resource.getURI())) {
+					resource.unload();
+				}
+			}
+			try {
+				destination.delete(true, new NullProgressMonitor());
+			} catch (CoreException e) {
+			}
 		}
-		else {
-			resource = rs.createResource(uri);
-		}
-
-		EList<EObject> contents = resource.getContents();
+		
+		EList<EObject> contents = rs.createResource(uri).getContents();
 		if (!contents.isEmpty()) {
 			contents.clear();
 		}
