@@ -142,8 +142,8 @@ public final class SinkFinder {
 		}).flatMap(member -> {
 			Stream<TMember> stream = Stream.of(member);
 			if (member instanceof TMethodDefinition) {
-				TMethodDefinition current = ((TMethodDefinition) member).getOverriding();
-				while(current != null) {
+				TMethodDefinition current = ((TMethodDefinition) member);
+				while((current = current.getOverriding()) != null) {
 					stream = Stream.concat(stream, Stream.of(current));
 				}
 			}
