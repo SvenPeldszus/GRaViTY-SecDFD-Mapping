@@ -7,20 +7,14 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Set;
-import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.xml.crypto.Data;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.typegraph.basic.TAbstractType;
@@ -37,7 +31,6 @@ import org.secdfd.model.Element;
 import org.secdfd.model.ExternalEntity;
 import org.secdfd.model.NamedEntity;
 import org.secdfd.model.Process;
-import org.secdfd.model.Responsibility;
 
 public class SourcesAndSinkFinder {
 
@@ -133,6 +126,7 @@ public class SourcesAndSinkFinder {
 		sinks.addAll(getForbiddenSinks(sinkFinder, getBaselineSinks()));
 		// remember also just the DFD derievd sinks
 		forbiddenSinks = getSootSignatures(flowSinkCorrespondences);
+		forbiddenSinks.removeIf(sink -> sink.equals(""));//remove empty strings
 		return new SourceAndSink(sources, sinks, forbiddenSinks, flowAllowedSinkCorrespondences);
 	}
 
