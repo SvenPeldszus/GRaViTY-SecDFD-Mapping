@@ -1,0 +1,3 @@
+
+entrypoints:
+<edu.ncsu.csc.itrust.action.ChangePasswordAction: java.lang.String changePassword(long,java.lang.String,java.lang.String,java.lang.String)>

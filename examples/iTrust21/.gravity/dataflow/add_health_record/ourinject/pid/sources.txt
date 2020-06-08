@@ -1,0 +1,4 @@
+
+sources:
+<edu.ncsu.csc.itrust.action.EditHealthHistoryAction: java.lang.String addHealthRecord(long,edu.ncsu.csc.itrust.beans.forms.HealthRecordForm,long)>,
+<edu.ncsu.csc.itrust.action.EditHealthHistoryAction: edu.ncsu.csc.itrust.beans.HealthRecord transferFormBaby(long,edu.ncsu.csc.itrust.beans.forms.HealthRecordForm)>

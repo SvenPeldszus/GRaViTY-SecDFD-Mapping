@@ -12,8 +12,12 @@
     {"pm": "long", "secdfd": "ovID"},
     {"pm": "int", "secdfd": "patient_age"},
     {"pm": "edu.ncsu.csc.itrust.beans.OfficeVisitBean", "secdfd": "office_visit"},
+    //missing!
+    {"pm" : "java.sql.ResultSet", "secdfd": "office_visit"},
 	{"pm": "edu.ncsu.csc.itrust.beans.forms.HealthRecordForm", "secdfd": "record_form"},
 	{"pm": "edu.ncsu.csc.itrust.beans.HealthRecord", "secdfd": "record"},
     {"pm": "java.lang.String", "secdfd": "sucessfully_stored"},
-	{"pm": "java.sql.Connection", "secdfd": "db"}
+	{"pm": "java.sql.Connection", "secdfd": "db"},
+    //missing!
+    {"pm": "java.sql.PreparedStatement", "secdfd": "db"}
 ]}

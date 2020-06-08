@@ -13,8 +13,8 @@ EDFD add_health_record [
 		Asset record
 			type: Object
 			values: [H C], [H I]
-			source: registered_employee
-			targets: create_record, db,
+			source: create_record
+			targets: db,
 		Asset ovID
 			type: Number
 			values: [H C], [H I]
@@ -52,7 +52,7 @@ EDFD add_health_record [
 							  [office_visit Forward:: office_visit], 
 							  [record_form Forward:: record_form],
 							  [ovID Forward:: ovID]
-			assets: pid, record_form, ovID, office_visit
+			assets: pid, record_form, ovID, office_visit, patient_age
 			incoming flows: "registered_employee.add_from_form", 
 							"get_office_visit.provide_age" 
 			outgoing flows: fetch_patient_age [
@@ -63,7 +63,7 @@ EDFD add_health_record [
 			],
 			generate_new_record [
 				num: 0
-				assets: pid, record_form, office_visit, office_visit, patient_age
+				assets: pid, record_form, office_visit, patient_age
 				source: add_record 
 				targets: create_record
 			]
