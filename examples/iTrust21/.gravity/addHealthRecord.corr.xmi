@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<org.gravity.mapping.secdfd.model:Mapping xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:org.gravity.mapping.secdfd="platform:/plugin/org.gravity.mapping.secdfd/model/model.ecore" xmlns:org.gravity.mapping.secdfd.model="http://www.gravity-mapping-secdfd.org/mapping" xmlns:org.gravity.typegraph.basic="http://www.gravity-tool.org/typegraph/basic" xmlns:org.secdfd="http://www.secdfd.org/secdfd" userdefined="//@correspondences.10 //@correspondences.5 //@correspondences.11 //@correspondences.4 //@correspondences.2 //@correspondences.1 //@correspondences.12 //@correspondences.13 //@correspondences.14 //@correspondences.15 //@correspondences.16 //@correspondences.17 //@correspondences.18 //@correspondences.19 //@correspondences.20 //@correspondences.21 //@correspondences.22 //@correspondences.23 //@correspondences.24 //@correspondences.25 //@correspondences.26 //@correspondences.27 //@correspondences.9 //@correspondences.8 //@correspondences.7 //@correspondences.28 //@correspondences.29" suggested="//@correspondences.15 //@correspondences.14 //@correspondences.18 //@correspondences.17 //@correspondences.21 //@correspondences.20 //@correspondences.24 //@correspondences.23 //@correspondences.27 //@correspondences.26" accepted="//@correspondences.2 //@correspondences.6 //@correspondences.8 //@correspondences.4 //@correspondences.5 //@correspondences.7 //@correspondences.3 //@correspondences.1" name="add_health_record">
+<org.gravity.mapping.secdfd.model:Mapping xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:org.gravity.mapping.secdfd="platform:/plugin/org.gravity.mapping.secdfd/model/model.ecore" xmlns:org.gravity.mapping.secdfd.model="http://www.gravity-mapping-secdfd.org/mapping" xmlns:org.gravity.typegraph.basic="http://www.gravity-tool.org/typegraph/basic" xmlns:org.secdfd="http://www.secdfd.org/secdfd" userdefined="//@correspondences.10 //@correspondences.5 //@correspondences.11 //@correspondences.4 //@correspondences.2 //@correspondences.1 //@correspondences.12 //@correspondences.13 //@correspondences.14 //@correspondences.15 //@correspondences.16 //@correspondences.17 //@correspondences.18 //@correspondences.19 //@correspondences.20 //@correspondences.21 //@correspondences.22 //@correspondences.23 //@correspondences.24 //@correspondences.25 //@correspondences.26 //@correspondences.27 //@correspondences.9 //@correspondences.8 //@correspondences.7 //@correspondences.28 //@correspondences.29 //@correspondences.31 //@correspondences.32" suggested="//@correspondences.15 //@correspondences.14 //@correspondences.18 //@correspondences.17 //@correspondences.21 //@correspondences.20 //@correspondences.24 //@correspondences.23 //@correspondences.27 //@correspondences.26" accepted="//@correspondences.2 //@correspondences.6 //@correspondences.8 //@correspondences.4 //@correspondences.5 //@correspondences.7 //@correspondences.3 //@correspondences.1" name="add_health_record">
   <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="90" deriving="//@ignored.75">
     <source xsi:type="org.gravity.typegraph.basic:TClass" href="iTrust21.0.xmi#//@ownedTypes.226"/>
     <target xsi:type="org.secdfd:Asset" href="../secdfds/add_health_record.secdfd#pid"/>
@@ -885,5 +885,17 @@
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
     <source xsi:type="org.gravity.typegraph.basic:TInterface" href="iTrust21.0.xmi#//@ownedTypes.620"/>
     <target xsi:type="org.secdfd:DataStore" href="../secdfds/add_health_record.secdfd#db"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd:TypeGraph2EDFD">
+    <source href="iTrust21.0.xmi#/"/>
+    <target href="../secdfds/add_health_record.secdfd#add_health_record"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TInterface" href="iTrust21.0.xmi#//@ownedTypes.560"/>
+    <target xsi:type="org.secdfd:DataStore" href="../secdfds/add_health_record.secdfd#db"/>
+  </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TInterface" href="iTrust21.0.xmi#//@ownedTypes.370"/>
+    <target xsi:type="org.secdfd:Asset" href="../secdfds/add_health_record.secdfd#office_visit"/>
   </correspondences>
 </org.gravity.mapping.secdfd.model:Mapping>

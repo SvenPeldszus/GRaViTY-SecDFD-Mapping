@@ -610,4 +610,8 @@
     <source href="ATMsimulator.xmi#/"/>
     <target href="../secdfds/atmsimulator.secdfd#atmsimulator"/>
   </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd:TypeGraph2EDFD">
+    <source href="ATMsimulator.xmi#/"/>
+    <target href="../secdfds/atmsimulator.secdfd#atmsimulator"/>
+  </correspondences>
 </org.gravity.mapping.secdfd.model:Mapping>
