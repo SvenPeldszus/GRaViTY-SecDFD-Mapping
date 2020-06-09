@@ -1,14 +1,12 @@
 package org.gravity.mapping.secdfd.ui.wizard;
 
-import java.io.File;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -40,7 +38,7 @@ public class CorrPage extends WizardPage {
 
 	private IJavaProject project;
 	private Map<String, Path> corrFiles;
-	private volatile ConcurrentMap<IFile, Path> selectedCorrFiles;
+	private List<IFile> selectedCorrFiles;
 	private MappingWizard wizard;
 
 	protected CorrPage(IJavaProject project, Collection<Path> corrFiles, MappingWizard wizard) {
@@ -49,7 +47,7 @@ public class CorrPage extends WizardPage {
 		this.project = project;
 		this.corrFiles = corrFiles.parallelStream().collect(Collectors.toMap(f -> f.getFileName().toString(), f -> f));
 		this.wizard = wizard;
-		this.selectedCorrFiles = new ConcurrentHashMap<>();
+		this.selectedCorrFiles = new ArrayList<>();
 	}
 
 	@Override
@@ -70,11 +68,11 @@ public class CorrPage extends WizardPage {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Path projectPath = project.getProject().getLocation().toFile().toPath();
-				
+
 				selectedCorrFiles = Stream.of(list.getItems()).filter(TableItem::getChecked).map(TableItem::getText)
-						.map(corrFiles::get).collect(Collectors.toConcurrentMap(
-								path -> project.getProject().getFile(projectPath.relativize(path).toString()), 
-								p-> p));
+						.map(corrFiles::get)
+						.map(path -> project.getProject().getFile(projectPath.relativize(path).toString()))
+						.collect(Collectors.toList());
 //				getWizard().getContainer().updateButtons();
 			}
 		});
@@ -92,17 +90,17 @@ public class CorrPage extends WizardPage {
 			SecDFDPage secDFDPage = wizard.getSecDFDPage(project);
 			Set<String> selectedDFDs = new HashSet<>();
 			ResourceSet rs = new ResourceSetImpl();
-			Path parent = project.getProject().getLocation().toFile().toPath().getParent();
-			for (Path corr : selectedCorrFiles.values()) {
-				URI corrFileURI = URI.createPlatformResourceURI(parent.relativize(corr).toString(), true);
+			for (IFile corr : selectedCorrFiles) {
+				URI corrFileURI = URI.createPlatformResourceURI(
+						project.getProject().getName() + '/' + corr.getProjectRelativePath(), true);
 				Resource r = rs.getResource(corrFileURI, true);
 				EObject inst = r.getContents().get(0);
 				if (inst instanceof Mapping) {
-					URI uri = ((Mapping) inst).getTarget().eResource().getURI();
+					EObject target = ((Mapping) inst).getTarget();
+					URI uri = target.eResource().getURI();
 					String dfdPath;
 					if (uri.isPlatform()) {
-						Path path = new File(parent.toFile(), uri.toPlatformString(true)).toPath();
-						dfdPath = project.getProject().getLocation().toFile().toPath().relativize(path).toString();
+						dfdPath = uri.toPlatformString(true);
 					} else {
 						throw new IllegalStateException();
 					}
@@ -128,6 +126,6 @@ public class CorrPage extends WizardPage {
 	}
 
 	public Collection<IFile> getSelection() {
-		return selectedCorrFiles.keySet();
+		return selectedCorrFiles;
 	}
 }
