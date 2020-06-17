@@ -113,18 +113,18 @@ public class SourcesAndSinkFinder {
 		SinkFinder sinkFinder = new SinkFinder(mapper, asset);
 		Set<? extends TMember> flowSinkCorrespondences = sinkFinder.getForbiddensinks();
 		Set<? extends TMember> flowAllowedSinkCorrespondences = sinkFinder.getAllowedsinks();
-		Set<String> sinks = getSootSignatures(flowSinkCorrespondences);
 
 		if (flowSinkCorrespondences.isEmpty()) {
 			// TODO: raise an issue to developer to model attacker
 			LOGGER.log(Level.ERROR,
 					"No sinks found. Modeling attacker observation zones in the SecDFD are required for executing data flow analysis.");
 		}
-
+		
+		Set<String> sinks = getSootSignatures(flowSinkCorrespondences);
 		// sinks.addAll(susisinks);
 		// add only relevant susi sinks (remove allowed)
 		sinks.addAll(getForbiddenSinks(sinkFinder, getBaselineSinks()));
-		// remember also just the DFD derievd sinks
+		// remember also just the DFD derived sinks
 		forbiddenSinks = getSootSignatures(flowSinkCorrespondences);
 		forbiddenSinks.removeIf(sink -> sink.equals(""));//remove empty strings
 		return new SourceAndSink(sources, sinks, forbiddenSinks, flowAllowedSinkCorrespondences);
@@ -190,7 +190,7 @@ public class SourcesAndSinkFinder {
 	private Set<? extends TMember> findSourcesBackwards(Asset asset) {
 		NamedEntity assetsource = asset.getSource();
 		Set<TMember> allSources = new HashSet<>();
-		Set<NamedEntity> seen = new HashSet<>();
+		Set<Pair> seen = new HashSet<>();
 
 		Deque<Pair> elementsToCheck = new LinkedList<Pair>();
 		Pair firstPair = new Pair(assetsource, asset);
@@ -200,7 +200,7 @@ public class SourcesAndSinkFinder {
 			Pair c = elementsToCheck.pop();
 			NamedEntity currentEl = c.element;
 			Asset currentAs = c.asset;
-			if (seen.contains(currentEl)) {
+			if (seen.contains(c)) {
 				continue;
 			}
 			// if process possibly go backwards
@@ -231,7 +231,7 @@ public class SourcesAndSinkFinder {
 			if (currentEl instanceof DataStore) {
 				allSources.addAll(findStoreSources(currentAs, currentEl));
 			}
-			seen.add(currentEl);
+			seen.add(c);
 		}
 		return allSources;
 

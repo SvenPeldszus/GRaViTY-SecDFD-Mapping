@@ -13,7 +13,7 @@ import soot.jimple.infoflow.results.InfoflowResults;
 public class AssetResults {
 
 	private final Asset asset;
-	private final Map<String, InfoflowResults> allResults;
+	private Map<String, InfoflowResults> allResults;
 	private final Collection<String> sources;
 	private final Collection<String> sinks;
 	private final Collection<String> forbiddenSinks;
@@ -33,6 +33,10 @@ public class AssetResults {
 
 	public void addResult(String entryPoint, InfoflowResults results) {
 		allResults.put(entryPoint, results);
+	}
+	
+	public void addAllResults(Map<String, InfoflowResults> allResults) {
+		this.allResults = allResults;
 	}
 
 	public Set<Entry<String, InfoflowResults>> getSingleResults() {

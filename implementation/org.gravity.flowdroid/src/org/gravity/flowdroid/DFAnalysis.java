@@ -53,7 +53,7 @@ public class DFAnalysis {
 	public Set<String> getPossibleLeaks() {
 		return possibleLeaks;
 	}
-	
+
 	/**
 	 * @return the sas
 	 */
@@ -90,26 +90,26 @@ public class DFAnalysis {
 		}
 		return results;
 	}
-	 
+
 	/**
 	 * try to inject high labels (as many as candidates)
+	 * 
 	 * @return
 	 */
 	public Results checkAllAssetsInject() {
 		Results results = new Results();
 		EDFD dfd = mapper.getDFD();
 		Set<Asset> candidates = getAssetsForInjection(dfd);
-		
-		
+
 		if (!candidates.isEmpty()) {
 			injectAndCheckAssets(candidates).forEach(res -> {
-				results.add(res);	
+				results.add(res);
 			});
 		} else {
 			LOGGER.info("Found no candidate asset to inject a high label. Proceeding as usual...");
 		}
-		
-		//check remaining assets
+
+		// check remaining assets
 		EList<Asset> rest = dfd.getAsset();
 		rest.removeAll(candidates);
 		for (Asset asset : rest) {
@@ -123,32 +123,36 @@ public class DFAnalysis {
 
 	/**
 	 * @param candidates
-	 * @return Set of asset results 
+	 * @return Set of asset results
 	 */
 	private Set<AssetResults> injectAndCheckAssets(Set<Asset> candidates) {
 		Set<AssetResults> allRes = new HashSet<>();
-			//inject confidentiality high		
-			modifyCandidates(candidates);
-			candidates.forEach(asset -> {				
-				// look for sources, sinks, epoints, put all allowed to forbidden, run FlowDroid
-				AssetResults result = checkAssetRemoveAllowed(asset);
-				// forbidden by deriving from DFD - not SuSi sinks
-				Collection<String> forbidden = result.getForbiddenSinks();
-				
-				//flatten results
-				Set<MultiMap<ResultSinkInfo, ResultSourceInfo>> infoflowres = result.getSingleResults()
-						.parallelStream()
-						.map(res -> res.getValue())
-						.map(r -> r.getResults())
-						.collect(Collectors.toSet());
-				
+		// inject confidentiality high
+		modifyCandidates(candidates);
+		for (Asset asset : candidates) {
+			// look for sources, sinks, epoints, put all allowed to forbidden
+			AssetResults result = GetAssetSourceSinks(asset);
+			// the allowed were added as forbidden sinks (and to sinks) now due to injection
+			Collection<String> forbidden = result.getForbiddenSinks();
+			// if no application specific (DFD derived) forbidden sinks, then we only get
+			// FPs - skip...
+			if (!forbidden.isEmpty()) {
+				// run flow droid
+				Set<String> epoints = sas.getEntryPoints();
+				result.addAllResults(check(result.getSources(), result.getSinks(), epoints));
+
+				// flatten results
+				Set<MultiMap<ResultSinkInfo, ResultSourceInfo>> infoflowres = result.getSingleResults().parallelStream()
+						.map(res -> res.getValue()).map(r -> r.getResults()).collect(Collectors.toSet());
+
 				infoflowres.remove(null);
 				/*
-				 * an expected FP = source and forbidden sink matches (not sinks from susi, the one we derive)
-				but for secure storage the forbidden sink is empty for injections, because writing to DS is allowed sink (fieldId, path) 
-				- so we also ignore the allowedsinks and put them as forbidden (to effectively inject the leak)
+				 * an expected FP = source and forbidden sink matches (not sinks from susi, the
+				 * one we derive) but for secure storage the forbidden sink is empty for
+				 * injections, because writing to DS is allowed sink (fieldId, path) - so we
+				 * also ignore the allowedsinks and put them as forbidden (to effectively inject
+				 * the leak)
 				 */
-//				List<List<String>> a = Lists.cartesianProduct(new ArrayList<>(result.getSources()), new ArrayList<>(result.getForbiddenSinks()));
 				infoflowres.forEach(map -> {
 					for (ResultSinkInfo sink : map.keySet()) {
 						String sinkMethod = sink.getStmt().getInvokeExpr().getMethod().getSignature();
@@ -156,51 +160,53 @@ public class DFAnalysis {
 								.map(s -> s.getStmt().getInvokeExpr().getMethod().getSignature())
 								.collect(Collectors.toSet());
 						if (forbidden.contains(sinkMethod)) {
-							//add all pairs to 'expected FPs'
+							// add all pairs to 'expected FPs'
 							sourceMethods.forEach(source -> {
 								if (result.getSources().contains(source)) {
-									possibleLeaks.add(source+", "+sinkMethod);
+									possibleLeaks.add(source + ", " + sinkMethod);
 								}
-							});							
+							});
 						}
 					}
 				});
 				allRes.add(result);
-			});
+			}
+		}
 		return allRes;
 	}
 
 	/**
-	 * @param nonconfidentialAssets
+	 * @param assets
 	 * 
 	 */
-	private void modifyCandidates(Set<Asset> nonconfidentialAssets) {
-		nonconfidentialAssets.forEach(asset -> {
-			Value injectedValue = ModelFactory.eINSTANCE.createValue();
-			injectedValue.setObjective(Objective.CONFIDENTIALITY);
-			injectedValue.setPriority(Priority.H);
-			asset.getValue().add(injectedValue);
-			LOGGER.info("Injected high confidentiality label to asset: "+asset.getName());
+	private void modifyCandidates(Set<Asset> assets) {
+		assets.forEach(asset -> {
+			//if it's not confidential, inject label
+			//if(asset.getValue().stream().noneMatch(value -> Objective.CONFIDENTIALITY.equals(value.getObjective()))) {
+				Value injectedValue = ModelFactory.eINSTANCE.createValue();
+				injectedValue.setObjective(Objective.CONFIDENTIALITY);
+				injectedValue.setPriority(Priority.H);
+				asset.getValue().add(injectedValue);
+				LOGGER.info("Injected high confidentiality label to asset: " + asset.getName());
+			//}
 		});
 	}
 
 	/**
 	 * @param dfd
-	 * @return Set<Asset>
-	 * 	find non-confidential assets that exit the system (i.e., the asset target is EE or DS)
-	 *	for storepassword.secdfd -> fieldID 
-	 *	for setpasswordrecovery.secdfd -> path
+	 * @return Set<Asset> find non-confidential assets that exit
+	 *         the system (i.e., the asset target is EE or DS).  
 	 */
 	private Set<Asset> getAssetsForInjection(EDFD dfd) {
 		Set<Asset> nonconfidentialAssets = dfd.getAsset().parallelStream()
-			.filter(asset -> asset.getValue().stream()
-					.noneMatch(value -> Objective.CONFIDENTIALITY.equals(value.getObjective())))
-			.filter(asset -> asset.getTargets().stream()
-					.anyMatch(target -> (target instanceof ExternalEntity) || (target instanceof DataStore)))
-			.collect(Collectors.toSet());
+				.filter(asset -> asset.getValue().stream()
+						.noneMatch(value -> Objective.CONFIDENTIALITY.equals(value.getObjective())))
+				.filter(asset -> asset.getTargets().stream()
+						.anyMatch(target -> (target instanceof ExternalEntity) || (target instanceof DataStore)))
+				.collect(Collectors.toSet());
 		return nonconfidentialAssets;
 	}
-	
+
 	/**
 	 * @param asset The asset to check
 	 * @return The results of the DF-analysis per entry point
@@ -209,7 +215,8 @@ public class DFAnalysis {
 		// calculate source and sinks for the asset
 		SourceAndSink sourcesAndSinks = sas.getSourceSinks(asset);
 		if (sourcesAndSinks == null) {
-			return new AssetResults(asset, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyMap());
+			return new AssetResults(asset, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(),
+					Collections.emptyMap());
 		}
 
 		List<String> sources = new ArrayList<>(sourcesAndSinks.getSources());
@@ -224,39 +231,66 @@ public class DFAnalysis {
 		Map<String, InfoflowResults> map = check(sources, sinks, epoints);
 		return new AssetResults(asset, sources, sinks, forbinnedSinks, map);
 	}
-	
-	private AssetResults checkAssetRemoveAllowed(Asset asset) {
+
+	private AssetResults GetAssetSourceSinks(Asset asset) {
 		// calculate source and sinks for the asset
- 		SourceAndSink sourcesAndSinks = sas.getSourceSinks(asset);
+		SourceAndSink sourcesAndSinks = sas.getSourceSinks(asset);
 		if (sourcesAndSinks == null) {
-			return new AssetResults(asset, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyMap());
+			return new AssetResults(asset, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(),
+					Collections.emptyMap());
 		}
 
 		List<String> sources = new ArrayList<>(sourcesAndSinks.getSources());
 		List<String> sinks = new ArrayList<>(sourcesAndSinks.getSinks());
 		List<String> derivedAsForbiddenSinks = new ArrayList<>(sourcesAndSinks.getForbiddenSinks());
 		List<? extends TMember> allowed = new ArrayList<>(sourcesAndSinks.getAllowed());
-		
-		// add only the allowed sinks that collide with the susi sinks (eg put to hashmap)
+
+		// add all allowed sinks
+		for (TMember allowedsink : allowed) {
+			if (allowedsink instanceof TMethodDefinition) {
+				String allowedSinkSootSig = SignatureHelper.getSootSignature((TMethodDefinition) allowedsink);
+				if (allowedSinkSootSig!="") {
+					sinks.add(allowedSinkSootSig);
+					derivedAsForbiddenSinks.add(allowedSinkSootSig);					
+				}
+			}
+		}
+		return new AssetResults(asset, sources, sinks, derivedAsForbiddenSinks, Collections.emptyMap());
+	}
+
+	private AssetResults checkAssetRemoveAllowed(Asset asset) {
+		// calculate source and sinks for the asset
+		SourceAndSink sourcesAndSinks = sas.getSourceSinks(asset);
+		if (sourcesAndSinks == null) {
+			return new AssetResults(asset, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(),
+					Collections.emptyMap());
+		}
+
+		List<String> sources = new ArrayList<>(sourcesAndSinks.getSources());
+		List<String> sinks = new ArrayList<>(sourcesAndSinks.getSinks());
+		List<String> derivedAsForbiddenSinks = new ArrayList<>(sourcesAndSinks.getForbiddenSinks());
+		List<? extends TMember> allowed = new ArrayList<>(sourcesAndSinks.getAllowed());
+
+		// add only the allowed sinks that collide with the susi sinks (eg put to
+		// hashmap)
 		// to optimize the FD run
 		for (TMember allowedsink : allowed) {
-			String allowedSinkSootSig = SignatureHelper.getSootSignature((TMethodDefinition)allowedsink);
+			String allowedSinkSootSig = SignatureHelper.getSootSignature((TMethodDefinition) allowedsink);
 			if (sas.getBaselineSinks().contains(allowedSinkSootSig)) {
 				sinks.add(allowedSinkSootSig);
 				derivedAsForbiddenSinks.add(allowedSinkSootSig);
 			}
 		}
-		
+
 		if (sources.isEmpty()) {
 			return new AssetResults(asset, sources, sinks, derivedAsForbiddenSinks, Collections.emptyMap());
 		}
-		
+
 		Set<String> epoints = sas.getEntryPoints();
-		
+
 		Map<String, InfoflowResults> map = check(sources, sinks, epoints);
 		return new AssetResults(asset, sources, sinks, derivedAsForbiddenSinks, map);
 	}
-
 
 	/**
 	 * @param sources
@@ -277,15 +311,21 @@ public class DFAnalysis {
 	 * @return
 	 */
 	public InfoflowResults check(Collection<String> sources, Collection<String> sinks, String entryPoint) {
+		//for itrust add_health_record, this violation should be found!?
+//		sinks.contains("<java.sql.Connection: java.sql.PreparedStatement prepareStatement(java.lang.String)>");
+//		sources.add("<edu.ncsu.csc.itrust.dao.mysql.HealthRecordsDAO: boolean add(edu.ncsu.csc.itrust.beans.HealthRecord)>");
+//		sources.contains("<edu.ncsu.csc.itrust.dao.mysql.HealthRecordsDAO: boolean add(edu.ncsu.csc.itrust.beans.HealthRecord)>");
 		IInfoflow infoflow = initInfoflow(Collections.emptyMap(), limit);
 		infoflow.computeInfoflow(appPath, libPath, entryPoint, sources, sinks);
 		InfoflowResults results = infoflow.getResults();
+		if (results == null) {
+			return new InfoflowResults();
+		}
 		if (results.isEmpty()) {
 			return results;
 		}
 		MultiMap<ResultSinkInfo, ResultSourceInfo> map = results.getResults();
-		// Remove sinks that are allowed sinks -> removed EasyTaintWrapper.txt (might have been
-		// the reason)
+		// Remove sinks that are allowed sinks -> removed EasyTaintWrapper.txt (might be the reason)
 		for (ResultSinkInfo sink : map.keySet()) {
 			SootMethod method = sink.getStmt().getInvokeExpr().getMethod();
 			if (!sinks.contains(method.toString())) {

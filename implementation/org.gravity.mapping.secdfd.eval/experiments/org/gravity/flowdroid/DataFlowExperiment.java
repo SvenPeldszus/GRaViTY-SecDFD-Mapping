@@ -37,11 +37,16 @@ import soot.jimple.infoflow.results.InfoflowResults;
 @RunWith(Parameterized.class)
 public class DataFlowExperiment {
 	public enum TestCaseID {
-		FDSourceSink, FDSourceOptSink, OptSourceSink, OptSourceSinkInject, OptSourceSinkInjectLabels;
+		FDSourceSink, OptSourceFDSink, FDSourceOptSink, OptSourceSink, OptSourceSinkInjectLabels;
 	}
 
-	private static final int MAX_VIOLATION = 10;
-	private static final String[] PROJECT_NAMES = new String[] { "org.eclipse.equinox.security" };
+	private static final int MAX_VIOLATION = 100;
+//	private static final String[] PROJECT_NAMES = new String[] { "org.eclipse.equinox.security" };
+	private static final String[] PROJECT_NAMES = new String[] { "iTrust21.0" }; // no violations in any config, manage to inject 5
+//	private static final String[] PROJECT_NAMES = new String[] { "jpetstore" }; // can inject 3
+//	private static final String[] PROJECT_NAMES = new String[] { "ATMsimulator" }; // no violations in any, injected 1
+//	private static final String[] PROJECT_NAMES = new String[] { "cocome-impl" }; // no violations in any, injected 0 (nothing leaves the system)
+//	private static final String[] PROJECT_NAMES = new String[] { "JPMail" }; // no correspondence model
 	private static final Logger LOGGER = Logger.getLogger(DataFlowExperiment.class);
 
 	private Mapper mapper;
@@ -63,18 +68,17 @@ public class DataFlowExperiment {
 		this.project = project;
 		this.output = ExperimentHelper.create(mapper.getGravityFolder().getFolder("dataflow"),
 				mapper.getDFD().getName(), new NullProgressMonitor());
-		// DataFlowExperiment.measurer = measurer;
 		DataFlowExperiment.projectMeasurers = measurers;
 		LOGGER.info("Start experiment with: " + testName);
 	}
 
 	/**
-	 * Base line, experiment with SuSi sources, sinks
+	 * Base line, experiment with SuSi sources, SuSi sinks
 	 * 
 	 * @throws IOException
 	 * @throws CoreException
 	 */
-	//@Test
+	@Test
 	public void experimentFlowDroidConfig() throws IOException, CoreException {
 		DFAnalysis dfAnalysis = new DFAnalysis(mapper, project, true, MAX_VIOLATION);
 
@@ -84,46 +88,40 @@ public class DataFlowExperiment {
 
 		Map<String, InfoflowResults> results = dfAnalysis.check(sources, sinks, epoints);
 
-//		NullProgressMonitor monitor = new NullProgressMonitor();
-//		IFolder out = ExperimentHelper.create(output, "flowDroid", monitor);
-//		write(out, sources, sinks, epoints, monitor);
+		NullProgressMonitor monitor = new NullProgressMonitor();
+		IFolder out = ExperimentHelper.create(output, "flowDroid", monitor);
+		write(out, sources, sinks, epoints, monitor);
 
 		projectMeasurers.get(project).setCurrentExperimentResults(TestCaseID.FDSourceSink, mapper.getDFD().getName(),
 				results);
-
-//		for (Entry<String, InfoflowResults> entry : results.entrySet()) {
-//			writeReport(out, entry.getKey(), entry.getValue());
-//		}
-
 	}
 
 	/**
-	 * Experiment with SecDFD derived sources, and sinks
+	 * Experiment with SecDFD sources, and SecDFD sinks
 	 * 
 	 * @throws IOException
 	 * @throws CoreException
 	 */
-	//@Test
+	@Test
 	public void experimentOurConfig() throws IOException, CoreException {
 		DFAnalysis dfAnalysis = new DFAnalysis(mapper, project, true, MAX_VIOLATION);
-		// inject 0 leaks
-		Results results = dfAnalysis.checkAllAssets(0);
+		Results results = dfAnalysis.checkAllAssets();
 
-//		IProgressMonitor monitor = new NullProgressMonitor();
-//		IFolder destination = ExperimentHelper.create(output, "our", monitor);
-		// writeResults(results, destination, monitor);
+		IProgressMonitor monitor = new NullProgressMonitor();
+		IFolder destination = ExperimentHelper.create(output, "our", monitor);
+		writeResults(results, destination, monitor);
 
 		projectMeasurers.get(project).setCurrentExperimentResults(TestCaseID.OptSourceSink, mapper.getDFD().getName(),
 				results);
 	}
 
 	/**
-	 * Experiment with SuSi source, and SecDFD derived sinks
+	 * Experiment with SecDFD sources, SuSi sinks
 	 * 
 	 * @throws IOException
 	 * @throws CoreException
 	 */
-	//@Test
+	@Test
 	public void experimentFlowDroidConfigAndOurSources() throws IOException, CoreException {
 		DFAnalysis dfAnalysis = new DFAnalysis(mapper, project, true, MAX_VIOLATION);
 
@@ -142,36 +140,15 @@ public class DataFlowExperiment {
 				}
 			}
 		}
-//		IProgressMonitor monitor = new NullProgressMonitor();
-//		IFolder destination = ExperimentHelper.create(output, "flowDroidAndOurSources", monitor);
-		// writeResults(results, destination, monitor);
+		IProgressMonitor monitor = new NullProgressMonitor();
+		IFolder destination = ExperimentHelper.create(output, "flowDroidAndOurSources", monitor);
+		writeResults(results, destination, monitor);
 
-		projectMeasurers.get(project).setCurrentExperimentResults(TestCaseID.FDSourceOptSink, mapper.getDFD().getName(),
+		projectMeasurers.get(project).setCurrentExperimentResults(TestCaseID.OptSourceFDSink, mapper.getDFD().getName(),
 				results);
 
 	}
-
-	/**
-	 * Experiment with SecDFD derived source and sinks, removal of allowed sinks to
-	 * inject leaks
-	 * 
-	 * @throws IOException
-	 * @throws CoreException
-	 */
-//	@Test
-//	public void experimentOurConfigRemoveAllowedSinks() throws IOException, CoreException {
-//		DFAnalysis dfAnalysis = new DFAnalysis(mapper, project, true, MAX_VIOLATION);
-//
-//		// try to remove 5 
-//		Results results = dfAnalysis.checkAllAssets(5);
-//
-//		IProgressMonitor monitor = new NullProgressMonitor();
-//		IFolder destination = ExperimentHelper.create(output, "our", monitor);
-//		// writeResults(results, destination, monitor);
-//
-//		projectMeasurers.get(project).setCurrentExperimentResults(TestCaseID.OptSourceSinkInject,
-//				mapper.getDFD().getName(), dfAnalysis.getPossibleLeaks(), results, destination);
-//	}
+	
 
 	/**
 	 * Experiment with SecDFD derived source and sinks, injection of high labels --
@@ -187,14 +164,43 @@ public class DataFlowExperiment {
 		// try to inject labels
 		Results results = dfAnalysis.checkAllAssetsInject();
 
-		//IProgressMonitor monitor = new NullProgressMonitor();
-		//IFolder destination = ExperimentHelper.create(output, "our", monitor);
-		// writeResults(results, destination, monitor);
+		IProgressMonitor monitor = new NullProgressMonitor();
+		IFolder destination = ExperimentHelper.create(output, "ourinject", monitor);
+		 writeResults(results, destination, monitor);
 
 		projectMeasurers.get(project).setCurrentExperimentResults(TestCaseID.OptSourceSinkInjectLabels,
 				mapper.getDFD().getName(), dfAnalysis.getPossibleLeaks(), results);
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Collects the projects specified in the constant PROJECT_NAMES for executint
 	 * the experiments on them
@@ -290,7 +296,11 @@ public class DataFlowExperiment {
 				build += "Summary for configuration run: " + testcaseid + "\n=============================\n";
 				for (String k : fps.keySet().parallelStream().filter(k -> k.split(", ")[0].equals(testcaseid))
 						.collect(Collectors.toSet())) {
-					build += "\nSecDFD: " + k.split(", ")[1] + "\n FPs: \n";
+					build += "\nSecDFD: " + k.split(", ")[1] + "\n TPs: \n";
+					for (String pair : tps.get(k)) {
+						build += pair + "\n";
+					}
+					build += "\n FPs: \n";
 					for (String pair : fps.get(k)) {
 						build += pair + "\n";
 					}
