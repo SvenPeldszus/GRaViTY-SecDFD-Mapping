@@ -23,6 +23,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jdt.core.JavaModelException;
+import org.gravity.flowdroid.AssetResults;
+import org.gravity.flowdroid.DFAnalysis;
+import org.gravity.flowdroid.Results;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TypeGraph;
@@ -32,6 +36,9 @@ import org.secdfd.dsl.validation.SecDFDValidator;
 import org.secdfd.model.Process;
 import org.secdfd.model.Responsibility;
 import org.secdfd.model.ResponsibilityType;
+
+import soot.jimple.infoflow.results.DataFlowResult;
+import soot.jimple.infoflow.results.InfoflowResults;
 
 /**
  * A class managing the encryption/decryption signatures and checking their
@@ -142,7 +149,93 @@ public class ContractCheck {
 		});
 		updateMarkers();
 	}
+	
 
+	//set default to 50, expose the ability for user to change
+	public void runDataFlowAnalyzer(int MAX_VIOLATION) {
+		for (Mapper mapper : mappers) {
+			try {
+				DFAnalysis dfAnalysis = new DFAnalysis(mapper, true, MAX_VIOLATION);
+				Results DFresults = dfAnalysis.checkAllAssets();
+				results.addAll(createMarkersForDFAnalysisResults(DFresults));
+				updateMarkers();
+			} catch (JavaModelException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	// TODO: debug + should flatten per dfd or no?
+	private Collection<? extends SResult> createMarkersForDFAnalysisResults(Results DFresults) {
+		for (AssetResults assetRes : DFresults.getResultsPerAsset()) {
+			Set<SResult> problems = new HashSet<>();
+			Set<String> strings = flattenAssetResultsForSecDFD(assetRes.getResults());
+			String description = "";
+			for (String str : strings){
+				description+=str+'\n';
+			}
+			problems.add(new SResult(PState.ERROR, null, (EObject) assetRes.getAsset(), null,
+					"The following source -> sink leaks have been detected: " + description));
+		}
+		return null;
+	}
+
+	/*
+	 * 
+	 * helpers
+	 * 
+	 */
+	
+	//copied from DataFlowExperiemntMeasurer.java >> TODO: re-organize
+	/**
+	 * originally: 
+	 * @param map : DFresults (of all assets)
+	 * @return flattened for entire dfd (no matter asset)
+	 */
+	private Set<String> flattenAssetResultsForSecDFD(Map<String, InfoflowResults> map) {
+		Set<String> flattened = new HashSet<>();
+
+//		Set<Map<String, InfoflowResults>> resultSet = map2.getResultsPerAsset().parallelStream()
+//				.map(assetResults -> assetResults.getResults()).collect(Collectors.toSet());
+		
+//		resultSet.forEach(map -> {
+			flattened.addAll(flatten(map));
+//		});
+		
+		return flattened;
+	}
+	
+	/**
+	 * @param map : asset results for each entry point
+	 * @return flattened results of asset (merged entry points)
+	 */
+	private Set<String> flatten(Map<String, InfoflowResults> map) {
+		Set<String> flattened = new HashSet<>();
+		map.values().forEach(value -> {
+			Set<DataFlowResult> rs = value.getResultSet();
+			if (rs != null) {
+				rs.forEach(result -> {
+					if (!inFlattened(result, flattened)) {
+						flattened.add(result.getSource().getDefinition().toString() + ", "
+								+ result.getSink().getDefinition().toString());
+					}
+				});
+			}
+		});
+		return flattened;
+	}
+	private boolean inFlattened(DataFlowResult result, Set<String> flattened) {
+		for (String entry : flattened) {
+			if (result.getSource().getDefinition().toString().contains(entry.split(", ")[0])
+					&& result.getSink().getDefinition().toString().contains(entry.split(", ")[1])) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	private Set<Process> getRelevantProcesses(Mapper mapper, ResponsibilityType resType) {
 		Set<Process> relevantProcesses = new HashSet<>();
 		Set<Process> processes = mapper.getDFD().getElements().parallelStream().filter(Process.class::isInstance)

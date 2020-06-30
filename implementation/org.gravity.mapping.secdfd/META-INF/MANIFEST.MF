@@ -6,7 +6,8 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .,
  lib/commons-text-1.6.jar,
  lib/gson.jar,
- lib/java-string-similarity-1.1.0.jar
+ lib/java-string-similarity-1.1.0.jar,
+ lib/soot-infoflow-trunk.jar
 Require-Bundle: org.gravity.typegraph.basic;bundle-version="1.0.0";visibility:=reexport,
  org.eclipse.xtext,
  org.secdfd.model;visibility:=reexport,
@@ -21,7 +22,8 @@ Require-Bundle: org.gravity.typegraph.basic;bundle-version="1.0.0";visibility:=r
  org.eclipse.jface.text,
  org.eclipse.ui.workbench.texteditor,
  org.eclipse.jdt.ui,
- org.secdfd.dsl;bundle-version="1.0.0"
+ org.secdfd.dsl;bundle-version="1.0.0",
+ com.google.gson;bundle-version="2.8.2"
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

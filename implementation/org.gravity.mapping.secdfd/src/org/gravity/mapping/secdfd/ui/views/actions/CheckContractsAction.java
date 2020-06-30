@@ -22,6 +22,7 @@ public class CheckContractsAction extends Action {
 			checker.checkDecryptContract();
 			checker.checkForwardContract();
 			// checker.checkJoinContract();
+			checker.runDataFlowAnalyzer(50);
 			mappingView.update();
 		} catch (IOException e) {
 			e.printStackTrace();

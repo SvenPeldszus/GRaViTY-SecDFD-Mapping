@@ -79,6 +79,18 @@ public class DFAnalysis {
 		this.appPath = projectLocation.append(outputLocation.removeFirstSegments(1)).toOSString();
 		this.libPath = System.getProperty("java.home") + File.separator + "lib" + File.separator + "rt.jar";
 	}
+	
+	// when called from UI, we do not need the project
+	public DFAnalysis(Mapper mapper, boolean susi, int limit)
+			throws IOException, JavaModelException {
+		this.mapper = mapper;
+		this.limit = limit;
+
+		this.sas = new SourcesAndSinkFinder(mapper, susi);
+		this.possibleLeaks = new HashSet<>();
+
+		this.libPath = System.getProperty("java.home") + File.separator + "lib" + File.separator + "rt.jar";
+	}
 
 	public Results checkAllAssets() {
 		Results results = new Results();
@@ -260,40 +272,6 @@ public class DFAnalysis {
 			}
 		}
 		return new AssetResults(asset, sources, sinks, derivedAsForbiddenSinks, Collections.emptyMap());
-	}
-
-	private AssetResults checkAssetRemoveAllowed(Asset asset) {
-		// calculate source and sinks for the asset
-		SourceAndSink sourcesAndSinks = sas.getSourceSinks(asset);
-		if (sourcesAndSinks == null) {
-			return new AssetResults(asset, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(),
-					Collections.emptyMap());
-		}
-
-		List<String> sources = new ArrayList<>(sourcesAndSinks.getSources());
-		List<String> sinks = new ArrayList<>(sourcesAndSinks.getSinks());
-		List<String> derivedAsForbiddenSinks = new ArrayList<>(sourcesAndSinks.getForbiddenSinks());
-		List<? extends TMember> allowed = new ArrayList<>(sourcesAndSinks.getAllowed());
-
-		// add only the allowed sinks that collide with the susi sinks (eg put to
-		// hashmap)
-		// to optimize the FD run
-		for (TMember allowedsink : allowed) {
-			String allowedSinkSootSig = SignatureHelper.getSootSignature((TMethodDefinition) allowedsink);
-			if (sas.getBaselineSinks().contains(allowedSinkSootSig)) {
-				sinks.add(allowedSinkSootSig);
-				derivedAsForbiddenSinks.add(allowedSinkSootSig);
-			}
-		}
-
-		if (sources.isEmpty()) {
-			return new AssetResults(asset, sources, sinks, derivedAsForbiddenSinks, Collections.emptyMap());
-		}
-
-		Set<String> epoints = sas.getEntryPoints();
-
-		Map<String, InfoflowResults> map = check(sources, sinks, epoints);
-		return new AssetResults(asset, sources, sinks, derivedAsForbiddenSinks, map);
 	}
 
 	/**
