@@ -23,7 +23,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jdt.core.JavaModelException;
 import org.gravity.flowdroid.AssetResults;
 import org.gravity.flowdroid.DFAnalysis;
 import org.gravity.flowdroid.Results;
@@ -97,7 +96,7 @@ public class ContractCheck {
 		});
 		updateMarkers();
 	}
-	
+
 	public void checkEncryptContract() throws IOException {
 		mappers.forEach(mapper -> {
 			ResponsibilityType contractType = ResponsibilityType.ENCRYPT_OR_HASH;
@@ -108,7 +107,7 @@ public class ContractCheck {
 		});
 		updateMarkers();
 	}
-	
+
 	public void checkForwardContract() {
 		mappers.forEach(mapper -> {
 			ResponsibilityType contractType = ResponsibilityType.FORWARD;
@@ -122,13 +121,14 @@ public class ContractCheck {
 						.collect(Collectors.toSet());
 				responsibilities.forEach(res -> {
 					FlowEntryExit entryExit = FlowEntryExit.getEntriesExits(mapper, process);
-					results.addAll(dataProcessing.check(entryExit.getEntries(), entryExit.getExits(), process, mapper, res));
+					results.addAll(
+							dataProcessing.check(entryExit.getEntries(), entryExit.getExits(), process, mapper, res));
 				});
 			});
 		});
 		updateMarkers();
 	}
-	
+
 	// Katja: copy of fwd check for now
 	public void checkJoinContract() {
 		mappers.forEach(mapper -> {
@@ -143,43 +143,39 @@ public class ContractCheck {
 						.collect(Collectors.toSet());
 				responsibilities.forEach(res -> {
 					FlowEntryExit entryExit = FlowEntryExit.getEntriesExits(mapper, process);
-					results.addAll(dataProcessing.check(entryExit.getEntries(), entryExit.getExits(), process, mapper, res));
+					results.addAll(
+							dataProcessing.check(entryExit.getEntries(), entryExit.getExits(), process, mapper, res));
 				});
 			});
 		});
 		updateMarkers();
 	}
-	
 
-	//set default to 50, expose the ability for user to change
-	public void runDataFlowAnalyzer(int MAX_VIOLATION) {
+	
+	public void runDataFlowAnalyzer(int MAX_VIOLATION) throws IOException, CoreException {
 		for (Mapper mapper : mappers) {
-			try {
-				DFAnalysis dfAnalysis = new DFAnalysis(mapper, true, MAX_VIOLATION);
+				DFAnalysis dfAnalysis = new DFAnalysis(mapper, true, MAX_VIOLATION, destination);
 				Results DFresults = dfAnalysis.checkAllAssets();
 				results.addAll(createMarkersForDFAnalysisResults(DFresults));
 				updateMarkers();
-			} catch (JavaModelException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 	}
-	
-	// TODO: debug + should flatten per dfd or no?
+
+	// add problems to each asset (duplicated source-sink pairs, because developer may want to see which asset the leak effects)
 	private Collection<? extends SResult> createMarkersForDFAnalysisResults(Results DFresults) {
+		Set<SResult> problems = new HashSet<>();
 		for (AssetResults assetRes : DFresults.getResultsPerAsset()) {
-			Set<SResult> problems = new HashSet<>();
-			Set<String> strings = flattenAssetResultsForSecDFD(assetRes.getResults());
-			String description = "";
-			for (String str : strings){
-				description+=str+'\n';
+			Set<String> strings = flatten(assetRes.getResults());
+			if (strings.size() > 0) {
+				String description = "";
+				for (String str : strings) {
+					description += str + '\n';
+				}
+				problems.add(new SResult(PState.ERROR, null, (EObject) assetRes.getAsset(), null,
+						"The following source -> sink leaks have been detected: " + description));
 			}
-			problems.add(new SResult(PState.ERROR, null, (EObject) assetRes.getAsset(), null,
-					"The following source -> sink leaks have been detected: " + description));
 		}
-		return null;
+		return problems;
 	}
 
 	/*
@@ -187,26 +183,8 @@ public class ContractCheck {
 	 * helpers
 	 * 
 	 */
-	
-	//copied from DataFlowExperiemntMeasurer.java >> TODO: re-organize
-	/**
-	 * originally: 
-	 * @param map : DFresults (of all assets)
-	 * @return flattened for entire dfd (no matter asset)
-	 */
-	private Set<String> flattenAssetResultsForSecDFD(Map<String, InfoflowResults> map) {
-		Set<String> flattened = new HashSet<>();
 
-//		Set<Map<String, InfoflowResults>> resultSet = map2.getResultsPerAsset().parallelStream()
-//				.map(assetResults -> assetResults.getResults()).collect(Collectors.toSet());
-		
-//		resultSet.forEach(map -> {
-			flattened.addAll(flatten(map));
-//		});
-		
-		return flattened;
-	}
-	
+	// copied from DataFlowExperiemntMeasurer.java >> TODO: re-organize
 	/**
 	 * @param map : asset results for each entry point
 	 * @return flattened results of asset (merged entry points)
@@ -226,6 +204,7 @@ public class ContractCheck {
 		});
 		return flattened;
 	}
+
 	private boolean inFlattened(DataFlowResult result, Set<String> flattened) {
 		for (String entry : flattened) {
 			if (result.getSource().getDefinition().toString().contains(entry.split(", ")[0])
@@ -235,7 +214,7 @@ public class ContractCheck {
 		}
 		return false;
 	}
-	
+
 	private Set<Process> getRelevantProcesses(Mapper mapper, ResponsibilityType resType) {
 		Set<Process> relevantProcesses = new HashSet<>();
 		Set<Process> processes = mapper.getDFD().getElements().parallelStream().filter(Process.class::isInstance)
@@ -380,7 +359,7 @@ public class ContractCheck {
 		}
 		signatures.computeIfAbsent(contractType, set -> new HashSet<>()).add(sig);
 		writeSignaturesToFile();
-	
+
 	}
 
 	/**

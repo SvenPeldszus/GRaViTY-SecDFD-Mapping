@@ -1,6 +1,8 @@
 package org.gravity.mapping.secdfd.ui.views.actions;
 
 import java.io.IOException;
+
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.Action;
 import org.gravity.mapping.secdfd.checks.ContractCheck;
 import org.gravity.mapping.secdfd.ui.views.MappingView;
@@ -20,11 +22,12 @@ public class CheckContractsAction extends Action {
 					"encrypt-signatures.txt", "decrypt-signatures.txt");
 			checker.checkEncryptContract();
 			checker.checkDecryptContract();
-			checker.checkForwardContract();
+			// checker.checkForwardContract();
 			// checker.checkJoinContract();
-			checker.runDataFlowAnalyzer(50);
+			// set default to 10
+			checker.runDataFlowAnalyzer(10);
 			mappingView.update();
-		} catch (IOException e) {
+		} catch (IOException | CoreException e) {
 			e.printStackTrace();
 		}
 	}

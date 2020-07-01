@@ -13,9 +13,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.typegraph.basic.TMember;
@@ -80,15 +84,20 @@ public class DFAnalysis {
 		this.libPath = System.getProperty("java.home") + File.separator + "lib" + File.separator + "rt.jar";
 	}
 	
-	// when called from UI, we do not need the project
-	public DFAnalysis(Mapper mapper, boolean susi, int limit)
-			throws IOException, JavaModelException {
+	// when called from UI, we have to get project from gravity folder
+	public DFAnalysis(Mapper mapper, boolean susi, int limit, IFolder gravityFolder)
+			throws IOException, CoreException {
 		this.mapper = mapper;
 		this.limit = limit;
 
 		this.sas = new SourcesAndSinkFinder(mapper, susi);
 		this.possibleLeaks = new HashSet<>();
-
+		
+		IProject iproject = gravityFolder.getProject();
+		IJavaProject ijavaProj = (IJavaProject) iproject.getNature(JavaCore.NATURE_ID);
+		IPath outputLocation = ijavaProj.getOutputLocation();
+		IPath projectLocation = iproject.getLocation();
+		this.appPath = projectLocation.append(outputLocation.removeFirstSegments(1)).toOSString();
 		this.libPath = System.getProperty("java.home") + File.separator + "lib" + File.separator + "rt.jar";
 	}
 

@@ -62,9 +62,9 @@ class SecDFDValidator extends AbstractSecDFDValidator {
 	
 	@Check(FAST)
 	def SecurityAbsenceInImplementation(EObject eobject){
-		if (eobject instanceof Process){
+		if (eobject instanceof NamedEntity){
 			for (SResult sp : problems){
-				if ((sp.getDfdElement as Process).name.equals(eobject.name)){
+				if ((sp.getDfdElement as NamedEntity).name.equals(eobject.name)){
 					if (sp.getState == PState.SUCCESS){
 						info(sp.getDescription, ModelPackage.Literals.NAMED_ENTITY__NAME,
 					SECURITY_COMPLIANCE_ABSENCE);
