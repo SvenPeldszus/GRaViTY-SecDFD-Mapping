@@ -1,3 +1,5 @@
+<java.sql.PreparedStatement: void addBatch()>
+<java.sql.PreparedStatement: void clearParameters()>
 <java.sql.PreparedStatement: void setNull(int,int,java.lang.String)>
 <java.sql.PreparedStatement: void setNull(int,int)>
 <java.sql.PreparedStatement: void setBigDecimal(int,java.math.BigDecimal)>
