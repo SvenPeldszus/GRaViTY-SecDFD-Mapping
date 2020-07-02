@@ -346,4 +346,8 @@
     <source xsi:type="org.gravity.typegraph.basic:TClass" href="iTrust21.0.xmi#//@ownedTypes.110"/>
     <target xsi:type="org.secdfd:Asset" href="../secdfds/uc57.secdfd#validity"/>
   </correspondences>
+  <correspondences xsi:type="org.gravity.mapping.secdfd:TypeGraph2EDFD">
+    <source href="iTrust21.0.xmi#/"/>
+    <target href="../secdfds/uc57.secdfd#uc57_change_password"/>
+  </correspondences>
 </org.gravity.mapping.secdfd.model:Mapping>
