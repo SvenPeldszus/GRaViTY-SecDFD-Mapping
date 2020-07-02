@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -29,6 +30,7 @@ import org.gravity.typegraph.basic.TypeGraph;
 import org.secdfd.dsl.validation.SResult;
 import org.secdfd.dsl.validation.SResult.PState;
 import org.secdfd.dsl.validation.SecDFDValidator;
+import org.secdfd.model.Element;
 import org.secdfd.model.Process;
 import org.secdfd.model.Responsibility;
 import org.secdfd.model.ResponsibilityType;
@@ -102,43 +104,14 @@ public class ContractCheck {
 		updateMarkers();
 	}
 	
-	public void checkForwardContract() {
+	public void checkForwardAndJoinContract() {
 		mappers.forEach(mapper -> {
-			ResponsibilityType contractType = ResponsibilityType.FORWARD;
-			Set<Process> processes = getRelevantProcesses(mapper, contractType);
-			if (processes.isEmpty())
-				return;
-			DataProcessingCheck dataProcessing = new DataProcessingCheck();
-			processes.forEach(process -> {
-				Set<Responsibility> responsibilities = process.eContents().parallelStream()
-						.filter(Responsibility.class::isInstance).map(r -> (Responsibility) r)
-						.collect(Collectors.toSet());
-				responsibilities.forEach(res -> {
-					FlowEntryExit entryExit = FlowEntryExit.getEntriesExits(mapper, process);
-					results.addAll(dataProcessing.check(entryExit.getEntries(), entryExit.getExits(), process, mapper, res));
-				});
-			});
-		});
-		updateMarkers();
-	}
-	
-	// Katja: copy of fwd check for now
-	public void checkJoinContract() {
-		mappers.forEach(mapper -> {
-			ResponsibilityType contractType = ResponsibilityType.JOINER;
-			Set<Process> processes = getRelevantProcesses(mapper, contractType);
-			if (processes.isEmpty())
-				return;
-			DataProcessingCheck dataProcessing = new DataProcessingCheck();
-			processes.forEach(process -> {
-				Set<Responsibility> responsibilities = process.eContents().parallelStream()
-						.filter(Responsibility.class::isInstance).map(r -> (Responsibility) r)
-						.collect(Collectors.toSet());
-				responsibilities.forEach(res -> {
-					FlowEntryExit entryExit = FlowEntryExit.getEntriesExits(mapper, process);
-					results.addAll(dataProcessing.check(entryExit.getEntries(), entryExit.getExits(), process, mapper, res));
-				});
-			});
+			FwdJoinCheck check = new FwdJoinCheck(mapper);
+			for(Element element : mapper.getDFD().getElements()) {
+				if (element instanceof Process) {
+					results.add(check.check((Process) element));
+				}
+			}
 		});
 		updateMarkers();
 	}
@@ -154,8 +127,9 @@ public class ContractCheck {
 				// check if any responsibility is of type 'resType'
 				Set<ResponsibilityType> rtype = r.getAction().parallelStream()
 						.filter(rt -> rt.getName().contains(resType.getName())).collect(Collectors.toSet());
-				if (rtype.size() > 0)
+				if (!rtype.isEmpty()) {
 					relevantProcesses.add(p);
+				}
 			});
 		});
 		return relevantProcesses;
@@ -170,7 +144,7 @@ public class ContractCheck {
 	 */
 	private Set<SResult> findResults(Mapper mapper, Set<Process> processes, ResponsibilityType ctype) {
 		Set<SResult> problems = new HashSet<>();
-		Set<TMethodDefinition> definitions = signatures.get(ctype);
+		Set<TMethodDefinition> definitions = signatures.getOrDefault(ctype, Collections.emptySet());
 
 		// find all the method definitions that are called by each method in
 		// "methods'; if the list of signatures contains at least one, contract is

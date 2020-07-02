@@ -92,7 +92,7 @@ public class StructuralDivergenceCheck {
 					throw new IllegalStateException();
 				}
 				if (relevant) {
-					Set<Process> targetProcesses = mapper.getMapping((TMethodDefinition) access.getTTarget());
+					Set<Element> targetProcesses = mapper.getMapping((TMethodDefinition) access.getTTarget());
 //					if (!targetProcesses.isEmpty() && !targetProcesses.contains(process)
 //							&& !allowedFlowTargets.contains(targetProcess)) {
 //						LOGGER.error("The asset flow from \"" + process.getName() + "\" to \""
@@ -127,7 +127,7 @@ public class StructuralDivergenceCheck {
 				}
 			}
 			for (TAbstractFlowElement flow : method.getSignature().getOutgoingFlows()) {
-				Set<Process> targets = flow.getOutgoingFlows().parallelStream().flatMap(trg -> {
+				Set<Element> targets = flow.getOutgoingFlows().parallelStream().flatMap(trg -> {
 					if (trg instanceof TFlow) {
 						return trg.getOutgoingFlows().stream();
 					}
@@ -138,7 +138,7 @@ public class StructuralDivergenceCheck {
 				}).flatMap(trg -> mapper.getMapping((TMethodDefinition) trg).stream())
 						.filter(trg -> trg != process).collect(Collectors.toSet());
 				if (!allowedFlowTargets.containsAll(targets)) {
-					LOGGER.error(targets.stream().filter(t -> !allowedFlowTargets.contains(t)).map(Process::getName)
+					LOGGER.error(targets.stream().filter(t -> !allowedFlowTargets.contains(t)).map(Element::getName)
 							.collect(Collectors.joining("\", \"", "Flow from \"" + process.getName() + "\" to \"",
 									"\" not specified in DFD!")));
 				}

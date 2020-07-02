@@ -14,8 +14,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.gravity.mapping.secdfd.mapping.Mapper;
+import org.gravity.typegraph.basic.BasicFactory;
 import org.gravity.typegraph.basic.TAbstractFlowElement;
+import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TAccess;
+import org.gravity.typegraph.basic.TConstructor;
 import org.gravity.typegraph.basic.TFlow;
 import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethodDefinition;
@@ -25,7 +28,11 @@ import org.gravity.typegraph.basic.TSignature;
 
 import com.google.common.collect.Streams;
 
+import org.secdfd.model.Asset;
 import org.secdfd.model.EDFD;
+import org.secdfd.model.Element;
+import org.secdfd.model.ExternalEntity;
+import org.secdfd.model.Flow;
 import org.secdfd.model.Process;
 
 /**
@@ -71,11 +78,90 @@ public class FlowEntryExit {
 		Stream<TFlow> flowsOwnedByMethods = methods.stream().flatMap(meth -> meth.getOwnedFlows().stream());
 		Stream<TFlow> flowsOwnedByCallsOfMethods = methods.stream().flatMap(m -> m.getTAccessing().stream())
 				.flatMap(a -> a.getOwnedFlows().stream());
-		Stream<TFlow> returnFlows = methods.stream().flatMap(method -> method.getSignature().getOutgoingFlows().stream()).map(TFlow.class::cast);
-		Set<TFlow> flows = Streams.concat(flowsOwnedByMethods, flowsOwnedByCallsOfMethods, returnFlows).collect(Collectors.toSet());
+		Stream<TFlow> returnFlows = methods.stream()
+				.flatMap(method -> method.getSignature().getOutgoingFlows().stream()).map(TFlow.class::cast);
+		Set<TFlow> flows = Streams.concat(flowsOwnedByMethods, flowsOwnedByCallsOfMethods, returnFlows)
+				.collect(Collectors.toSet());
 		Set<TFlow> entries = getBorderFlows(flows, methods, false);
 		Set<TFlow> exits = getBorderFlows(flows, methods, true);
+
+		// TODO: Create Dummy flows for external entities?
+		for (Flow flow : process.getInflows()) {
+			if (flow.getSource() instanceof ExternalEntity) {
+				for (Asset asset : flow.getAssets()) {
+					for (TAbstractType assetType : mapper.getMapping(asset)) {
+						entries.addAll(addDummyFlowIntoParameter(methods, assetType));
+						for (TMethodDefinition def : methods) {
+							for (TAccess access : def.getTAccessing()) {
+								TSignature member = access.getTTarget().getSignature();
+								if (member instanceof TMethodSignature
+										&& ((TMethodSignature) member).getReturnType().isSuperTypeOf(assetType)) {
+									for (TAbstractFlowElement potentialFlow : member.getOutgoingFlows()) {
+										if (potentialFlow.eContainer().equals(access)) {
+											entries.add((TFlow) potentialFlow);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		for (Flow flow : process.getOutflows()) {
+			if (flow.getTarget().parallelStream().anyMatch(element -> element instanceof ExternalEntity)) {
+				for (Asset asset : flow.getAssets()) {
+					for (TAbstractType assetType : mapper.getMapping(asset)) {
+						for (TMethodDefinition def : methods) {
+							TAbstractType returnType;
+							if(TConstructor.isConstructor(def)) {
+								returnType = def.getDefinedBy();
+							}else {
+								returnType = def.getReturnType();
+							}
+							if (returnType.isSuperTypeOf(assetType)) {
+								TFlow dummyFlow =createFlow(def.getSignature(), null);
+								exits.add(dummyFlow);
+							}
+						}
+					}
+				}
+			}
+		}
 		return new FlowEntryExit(entries, exits);
+	}
+
+	/**
+	 * @param methods
+	 * @param entries
+	 * @param assetType
+	 * @return
+	 */
+	private static Set<TFlow> addDummyFlowIntoParameter(Set<TMethodDefinition> methods, TAbstractType assetType) {
+		Set<TFlow> entries = new HashSet<>();
+		for (TMethodDefinition def : methods) {
+			for (TParameter param : def.getSignature().getParameters()) {
+				if (param.getType().isSuperTypeOf(assetType)) {
+					TFlow dummyFlow = createFlow(null, param);
+					entries.add(dummyFlow);
+				}
+			}
+		}
+		return entries;
+	}
+
+	private static TFlow createFlow(TAbstractFlowElement src, TAbstractFlowElement trg) {
+		TFlow flow = BasicFactory.eINSTANCE.createTFlow();
+		if(src != null) {
+			flow.getIncomingFlows().add(src);
+			src.getOutgoingFlows().add(flow);
+		}
+		if (trg != null) {
+			flow.getOutgoingFlows().add(trg);
+			trg.getIncomingFlows().add(flow);
+		}
+		return flow;
 	}
 
 	/**

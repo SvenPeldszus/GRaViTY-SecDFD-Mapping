@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFolder;
@@ -142,7 +141,7 @@ public class ContractEvaluator {
 		injector.getInjectTask().put(ResponsibilityType.JOINER, 5);
 		absenceGT = injector.performTasks();
 		injected = injector.getInjected();
-		checker.checkJoinContract();
+		checker.checkForwardAndJoinContract();
 		validateContract("injected-join-results");
 	}
 	
@@ -157,7 +156,7 @@ public class ContractEvaluator {
 		injector.getInjectTask().put(ResponsibilityType.FORWARD, 5);
 		absenceGT = injector.performTasks();
 		injected = injector.getInjected();
-		checker.checkForwardContract();
+		checker.checkForwardAndJoinContract();
 		validateContract("injected-forward-results");
 	}
 	
@@ -197,7 +196,7 @@ public class ContractEvaluator {
 	 */
 	// @Test
 	public void valdiateForward() throws IOException, CoreException {
-		checker.checkForwardContract();
+		checker.checkForwardAndJoinContract();
 		validateContract("forward-results");
 	}
 
@@ -207,7 +206,7 @@ public class ContractEvaluator {
 	 */
 	// @Test
 	public void valdiateJoin() throws IOException, CoreException {
-		checker.checkJoinContract();
+		checker.checkForwardAndJoinContract();
 		validateContract("join-results");
 	}
 

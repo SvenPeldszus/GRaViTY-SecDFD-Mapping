@@ -718,9 +718,9 @@ public class Mapper {
 		return cache.getEntityTypeMapping().getOrDefault(asset, Collections.emptySet());
 	}
 
-	public Set<Process> getMapping(TMethodDefinition method) {
+	public Set<Element> getMapping(TMethodDefinition method) {
 		return helper.getCorrespondences(method).parallelStream()
-				.map(corr -> (Process) CorrespondenceHelper.getTarget(corr)).collect(Collectors.toSet());
+				.map(corr -> (Element) CorrespondenceHelper.getTarget(corr)).collect(Collectors.toSet());
 	}
 
 	public Set<Asset> getMapping(TAbstractType type) {

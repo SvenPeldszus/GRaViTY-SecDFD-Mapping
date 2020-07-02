@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
@@ -16,17 +17,18 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.secdfd.model.Asset;
 import org.secdfd.model.Assumption;
+import org.secdfd.model.Element;
 import org.secdfd.model.Flow;
 import org.secdfd.model.Process;
 import org.secdfd.model.Responsibility;
 
 public class ImplementedProcess implements Process {
 
-	private final Process process;
+	private final Element process;
 	private final Set<ImplementedFlow> incoming;
 	private final Set<ImplementedFlow> outgoing;
 
-	public ImplementedProcess(Process process) {
+	public ImplementedProcess(Element process) {
 		this.process = process;
 		this.incoming = new HashSet<>();
 		this.outgoing = new HashSet<>();
@@ -42,27 +44,27 @@ public class ImplementedProcess implements Process {
 
 	@Override
 	public EList<Flow> getOutflows() {
-		return this.process.getOutflows();
+		return this.getUnderlyingProcess().getOutflows();
 	}
 
 	@Override
 	public EList<Assumption> getAssumption() {
-		return this.process.getAssumption();
+		return this.getUnderlyingProcess().getAssumption();
 	}
 
 	@Override
 	public EList<Asset> getAssets() {
-		return this.process.getAssets();
+		return this.getUnderlyingProcess().getAssets();
 	}
 
 	@Override
 	public EList<Flow> getInflows() {
-		return this.process.getInflows();
+		return this.getUnderlyingProcess().getInflows();
 	}
 
 	@Override
 	public boolean isAttacker() {
-		return this.process.isAttacker();
+		return this.getUnderlyingProcess().isAttacker();
 	}
 
 	@Override
@@ -72,7 +74,7 @@ public class ImplementedProcess implements Process {
 
 	@Override
 	public String getName() {
-		return this.process.getName();
+		return this.getUnderlyingProcess().getName();
 	}
 
 	@Override
@@ -83,7 +85,7 @@ public class ImplementedProcess implements Process {
 
 	@Override
 	public int getNumber() {
-		return this.process.getNumber();
+		return this.getUnderlyingProcess().getNumber();
 	}
 
 	@Override
@@ -94,57 +96,57 @@ public class ImplementedProcess implements Process {
 
 	@Override
 	public EClass eClass() {
-		return this.process.eClass();
+		return this.getUnderlyingProcess().eClass();
 	}
 
 	@Override
 	public Resource eResource() {
-		return this.process.eResource();
+		return this.getUnderlyingProcess().eResource();
 	}
 
 	@Override
 	public EObject eContainer() {
-		return this.process.eContainer();
+		return this.getUnderlyingProcess().eContainer();
 	}
 
 	@Override
 	public EStructuralFeature eContainingFeature() {
-		return this.process.eContainingFeature();
+		return this.getUnderlyingProcess().eContainingFeature();
 	}
 
 	@Override
 	public EReference eContainmentFeature() {
-		return this.process.eContainmentFeature();
+		return this.getUnderlyingProcess().eContainmentFeature();
 	}
 
 	@Override
 	public EList<EObject> eContents() {
-		return this.process.eContents();
+		return this.getUnderlyingProcess().eContents();
 	}
 
 	@Override
 	public TreeIterator<EObject> eAllContents() {
-		return this.process.eAllContents();
+		return this.getUnderlyingProcess().eAllContents();
 	}
 
 	@Override
 	public boolean eIsProxy() {
-		return this.process.eIsProxy();
+		return this.getUnderlyingProcess().eIsProxy();
 	}
 
 	@Override
 	public EList<EObject> eCrossReferences() {
-		return this.process.eCrossReferences();
+		return this.getUnderlyingProcess().eCrossReferences();
 	}
 
 	@Override
 	public Object eGet(EStructuralFeature feature) {
-		return this.process.eGet(feature);
+		return this.getUnderlyingProcess().eGet(feature);
 	}
 
 	@Override
 	public Object eGet(EStructuralFeature feature, boolean resolve) {
-		return this.process.eGet(feature, resolve);
+		return this.getUnderlyingProcess().eGet(feature, resolve);
 	}
 
 	@Override
@@ -155,7 +157,7 @@ public class ImplementedProcess implements Process {
 
 	@Override
 	public boolean eIsSet(EStructuralFeature feature) {
-		return this.process.eIsSet(feature);
+		return this.getUnderlyingProcess().eIsSet(feature);
 	}
 
 	@Override
@@ -166,17 +168,17 @@ public class ImplementedProcess implements Process {
 
 	@Override
 	public Object eInvoke(EOperation operation, EList<?> arguments) throws InvocationTargetException {
-		return this.process.eInvoke(operation, arguments);
+		return this.getUnderlyingProcess().eInvoke(operation, arguments);
 	}
 
 	@Override
 	public EList<Adapter> eAdapters() {
-		return this.process.eAdapters();
+		return this.getUnderlyingProcess().eAdapters();
 	}
 
 	@Override
 	public boolean eDeliver() {
-		return this.process.eDeliver();
+		return this.getUnderlyingProcess().eDeliver();
 	}
 
 	@Override
@@ -186,22 +188,25 @@ public class ImplementedProcess implements Process {
 
 	@Override
 	public void eNotify(Notification notification) {
-		this.process.eNotify(notification);
+		this.getUnderlyingProcess().eNotify(notification);
 	}
 
 	@Override
 	public EList<Responsibility> getResponsibility() {
-		return this.process.getResponsibility();
+		if(process instanceof Process) {
+			return ((Process) this.getUnderlyingProcess()).getResponsibility();
+		}
+		return new BasicEList<>(0);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		return process.equals(obj);
+		return getUnderlyingProcess().equals(obj);
 	}
 
 	@Override
 	public int hashCode() {
-		return process.hashCode();
+		return getUnderlyingProcess().hashCode();
 	}
 
 	/**
@@ -216,5 +221,12 @@ public class ImplementedProcess implements Process {
 	 */
 	public Set<ImplementedFlow> getIncomingFlows() {
 		return incoming;
+	}
+
+	/**
+	 * @return the process
+	 */
+	public Element getUnderlyingProcess() {
+		return process;
 	}
 }

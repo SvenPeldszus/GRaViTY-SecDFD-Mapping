@@ -1,5 +1,6 @@
 package org.gravity.mapping.secdfd.checks.implemented;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -20,7 +21,13 @@ public class ImplementedFlowPattern {
 	}
 	
 	public Set<ImplementedFlow> getPossibleIncomingFlows(Asset asset) {
-		return sources.parallelStream().filter(flow -> flow.getPossibleAssets().contains(asset)).collect(Collectors.toSet());
+		Set<ImplementedFlow> possibleFlows = new HashSet<>();
+		for(ImplementedFlow flow : sources) {
+			if(flow.getPossibleAssets().contains(asset)){
+				possibleFlows.add(flow);
+			}
+		}
+		return possibleFlows;
 	}
 
 	public Set<ImplementedFlow> allIncomingFlows() {
