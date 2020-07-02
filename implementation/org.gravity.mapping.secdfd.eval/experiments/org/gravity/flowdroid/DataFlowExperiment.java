@@ -42,7 +42,7 @@ public class DataFlowExperiment {
 
 	private static final int MAX_VIOLATION = 100;
 //	private static final String[] PROJECT_NAMES = new String[] { "org.eclipse.equinox.security" };
-	private static final String[] PROJECT_NAMES = new String[] { "iTrust21.0" }; // no violations in any config, manage to inject 5
+	private static final String[] PROJECT_NAMES = new String[] { "iTrust21.0" }; 
 //	private static final String[] PROJECT_NAMES = new String[] { "jpetstore" }; // can inject 3
 //	private static final String[] PROJECT_NAMES = new String[] { "ATMsimulator" }; // no violations in any, injected 1
 //	private static final String[] PROJECT_NAMES = new String[] { "cocome-impl" }; // no violations in any, injected 0 (nothing leaves the system)

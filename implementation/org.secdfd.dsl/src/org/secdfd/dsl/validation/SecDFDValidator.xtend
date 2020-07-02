@@ -59,15 +59,13 @@ class SecDFDValidator extends AbstractSecDFDValidator {
 	}
 
 	@Check(FAST)
-	def SecurityAbsenceInImplementation(EObject eobject) {
-		if (eobject instanceof Process) {
-			var process = eobject as Process;
-			for (SResult sp : problems) {
-				val spProcess = sp.getDfdElement as Process
-				if ((process.eContainer() as EDFD).name.equals((spProcess.eContainer as EDFD).name) &&
-					spProcess.name.equals(process.name)) {
-					if (sp.getState == PState.SUCCESS) {
-						info(sp.getDescription, ModelPackage.Literals.NAMED_ENTITY__NAME, SECURITY_COMPLIANCE_ABSENCE);
+	def SecurityAbsenceInImplementation(EObject eobject){
+		if (eobject instanceof NamedEntity){
+			for (SResult sp : problems){
+				if ((sp.getDfdElement as NamedEntity).name.equals(eobject.name)){
+					if (sp.getState == PState.SUCCESS){
+						info(sp.getDescription, ModelPackage.Literals.NAMED_ENTITY__NAME,
+					SECURITY_COMPLIANCE_ABSENCE);
 					} else {
 						error(sp.getDescription, ModelPackage.Literals.NAMED_ENTITY__NAME, SECURITY_COMPLIANCE_ABSENCE);
 					}

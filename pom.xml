@@ -31,7 +31,6 @@
   <modules>
     <module>build/org.gravity.mapping.secdfd.feature</module>
     <module>build/org.gravity.mapping.secdfd.updatesite</module>
-    <module>implementation/org.gravity.flowdroid</module>
     <module>implementation/org.gravity.mapping.secdfd</module>
     <module>implementation/org.gravity.mapping.secdfd.eval</module>
     <module>implementation/org.gravity.mapping.secdfd.tests</module>

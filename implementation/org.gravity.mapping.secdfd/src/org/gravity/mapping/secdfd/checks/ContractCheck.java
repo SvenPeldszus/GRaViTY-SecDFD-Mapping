@@ -24,6 +24,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.ecore.EObject;
+import org.gravity.flowdroid.AssetResults;
+import org.gravity.flowdroid.DFAnalysis;
+import org.gravity.flowdroid.Results;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TypeGraph;
@@ -34,6 +37,9 @@ import org.secdfd.model.Element;
 import org.secdfd.model.Process;
 import org.secdfd.model.Responsibility;
 import org.secdfd.model.ResponsibilityType;
+
+import soot.jimple.infoflow.results.DataFlowResult;
+import soot.jimple.infoflow.results.InfoflowResults;
 
 /**
  * A class managing the encryption/decryption signatures and checking their
@@ -92,7 +98,7 @@ public class ContractCheck {
 		});
 		updateMarkers();
 	}
-	
+
 	public void checkEncryptContract() throws IOException {
 		mappers.forEach(mapper -> {
 			ResponsibilityType contractType = ResponsibilityType.ENCRYPT_OR_HASH;
@@ -114,6 +120,70 @@ public class ContractCheck {
 			}
 		});
 		updateMarkers();
+	}
+
+	
+	public void runDataFlowAnalyzer(int MAX_VIOLATION) throws IOException, CoreException {
+		for (Mapper mapper : mappers) {
+				DFAnalysis dfAnalysis = new DFAnalysis(mapper, true, MAX_VIOLATION, destination);
+				Results DFresults = dfAnalysis.checkAllAssets();
+				results.addAll(createMarkersForDFAnalysisResults(DFresults));
+				updateMarkers();
+		}
+	}
+
+	// add problems to each asset (duplicated source-sink pairs, because developer may want to see which asset the leak effects)
+	private Collection<? extends SResult> createMarkersForDFAnalysisResults(Results DFresults) {
+		Set<SResult> problems = new HashSet<>();
+		for (AssetResults assetRes : DFresults.getResultsPerAsset()) {
+			Set<String> strings = flatten(assetRes.getResults());
+			if (strings.size() > 0) {
+				String description = "";
+				for (String str : strings) {
+					description += str + '\n';
+				}
+				problems.add(new SResult(PState.ERROR, null, (EObject) assetRes.getAsset(), null,
+						"The following source -> sink leaks have been detected: " + description));
+			}
+		}
+		return problems;
+	}
+
+	/*
+	 * 
+	 * helpers
+	 * 
+	 */
+
+	// copied from DataFlowExperiemntMeasurer.java >> TODO: re-organize
+	/**
+	 * @param map : asset results for each entry point
+	 * @return flattened results of asset (merged entry points)
+	 */
+	private Set<String> flatten(Map<String, InfoflowResults> map) {
+		Set<String> flattened = new HashSet<>();
+		map.values().forEach(value -> {
+			Set<DataFlowResult> rs = value.getResultSet();
+			if (rs != null) {
+				rs.forEach(result -> {
+					if (!inFlattened(result, flattened)) {
+						flattened.add(result.getSource().getDefinition().toString() + ", "
+								+ result.getSink().getDefinition().toString());
+					}
+				});
+			}
+		});
+		return flattened;
+	}
+
+	private boolean inFlattened(DataFlowResult result, Set<String> flattened) {
+		for (String entry : flattened) {
+			if (result.getSource().getDefinition().toString().contains(entry.split(", ")[0])
+					&& result.getSink().getDefinition().toString().contains(entry.split(", ")[1])) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private Set<Process> getRelevantProcesses(Mapper mapper, ResponsibilityType resType) {
@@ -261,7 +331,7 @@ public class ContractCheck {
 		}
 		signatures.computeIfAbsent(contractType, set -> new HashSet<>()).add(sig);
 		writeSignaturesToFile();
-	
+
 	}
 
 	/**

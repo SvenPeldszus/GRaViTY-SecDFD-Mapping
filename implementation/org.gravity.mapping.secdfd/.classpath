@@ -11,5 +11,6 @@
 			<attribute name="ignore_optional_problems" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="lib/soot-infoflow-trunk.jar" sourcepath="/soot-infoflow"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

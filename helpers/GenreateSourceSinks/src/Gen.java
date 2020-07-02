@@ -18,9 +18,10 @@ public class Gen {
 	private static void generate(File sources, File sinks, Class<?> clazz) throws FileNotFoundException {
 		try (PrintWriter sourceWriter = new PrintWriter(sources); PrintWriter sinkWriter = new PrintWriter(sinks)) {
 			for (Method m : clazz.getDeclaredMethods()) {
+				//need to also add the execute methods (especially for sources)
 				if (m.getName().startsWith("set")) {
 					printSignature(sinkWriter, clazz, m);
-				} else if (m.getName().startsWith("get")) {
+				} else if (m.getName().startsWith("get") || m.getName().contains("execute")) {
 					printSignature(sourceWriter, clazz, m);
 				}
 			}
