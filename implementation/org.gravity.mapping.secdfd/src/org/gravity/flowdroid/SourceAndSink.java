@@ -17,13 +17,13 @@ import org.gravity.typegraph.basic.TMember;
 public class SourceAndSink {
 	final Set<String> sources;
 	final Set<String> sinks;
-	final Set<? extends TMember> allowed;
+	final Set<String> allowed;
 	final Set<String> forbiddenSinks;
 	
 	/**
 	 * Initializes sources and sinks with given values
 	 */
-	public SourceAndSink(Set<String> sources, Set<String> sinks, Set<String> forbiddenSinks ,Set<? extends TMember> allowed) {
+	public SourceAndSink(Set<String> sources, Set<String> sinks, Set<String> forbiddenSinks ,Set<String> allowed) {
 		this.sources = sources;
 		this.sinks = sinks;
 		this.forbiddenSinks = forbiddenSinks;
@@ -51,7 +51,7 @@ public class SourceAndSink {
 	/**
 	 * @return the allowed sinks
 	 */
-	public Set<? extends TMember> getAllowed() {
+	public Set<String> getAllowed() {
 		return allowed;
 	}
 }

@@ -240,8 +240,8 @@ public class DFAnalysis {
 		// calculate source and sinks for the asset
 		SourceAndSink sourcesAndSinks = sas.getSourceSinks(asset);
 		if (sourcesAndSinks == null) {
-			return new AssetResults(asset, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(),
-					Collections.emptyMap());
+			return new AssetResults(asset, Collections.emptySet(), Collections.emptySet(), Collections.emptySet(),
+					Collections.emptyMap(), Collections.emptySet());
 		}
 
 		List<String> sources = new ArrayList<>(sourcesAndSinks.getSources());
@@ -249,38 +249,36 @@ public class DFAnalysis {
 		List<String> forbinnedSinks = new ArrayList<>(sourcesAndSinks.getForbiddenSinks());
 
 		if (sources.isEmpty()) {
-			return new AssetResults(asset, sources, sinks, forbinnedSinks, Collections.emptyMap());
+			return new AssetResults(asset, sources, sinks, forbinnedSinks, Collections.emptyMap(), sourcesAndSinks.getAllowed());
 		}
 
 		Set<String> epoints = sas.getEntryPoints();
 		Map<String, InfoflowResults> map = check(sources, sinks, epoints);
-		return new AssetResults(asset, sources, sinks, forbinnedSinks, map);
+		return new AssetResults(asset, sources, sinks, forbinnedSinks, map, sourcesAndSinks.getAllowed());
 	}
 
 	private AssetResults GetAssetSourceSinks(Asset asset) {
 		// calculate source and sinks for the asset
 		SourceAndSink sourcesAndSinks = sas.getSourceSinks(asset);
 		if (sourcesAndSinks == null) {
-			return new AssetResults(asset, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(),
-					Collections.emptyMap());
+			return new AssetResults(asset, Collections.emptySet(), Collections.emptySet(), Collections.emptySet(),
+					Collections.emptyMap(), Collections.emptySet());
 		}
 
 		List<String> sources = new ArrayList<>(sourcesAndSinks.getSources());
 		List<String> sinks = new ArrayList<>(sourcesAndSinks.getSinks());
 		List<String> derivedAsForbiddenSinks = new ArrayList<>(sourcesAndSinks.getForbiddenSinks());
-		List<? extends TMember> allowed = new ArrayList<>(sourcesAndSinks.getAllowed());
+		Set<String> allowed = sourcesAndSinks.getAllowed();
 
 		// add all allowed sinks
-		for (TMember allowedsink : allowed) {
-			if (allowedsink instanceof TMethodDefinition) {
-				String allowedSinkSootSig = SignatureHelper.getSootSignature((TMethodDefinition) allowedsink);
-				if (allowedSinkSootSig != "") {
-					sinks.add(allowedSinkSootSig);
-					derivedAsForbiddenSinks.add(allowedSinkSootSig);
-				}
+		for (String allowedsink : allowed) {
+			if (allowedsink != "") {
+				sinks.add(allowedsink);
+				derivedAsForbiddenSinks.add(allowedsink);
+
 			}
 		}
-		return new AssetResults(asset, sources, sinks, derivedAsForbiddenSinks, Collections.emptyMap());
+		return new AssetResults(asset, sources, sinks, derivedAsForbiddenSinks, Collections.emptyMap(), allowed);
 	}
 
 	/**

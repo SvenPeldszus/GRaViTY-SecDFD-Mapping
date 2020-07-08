@@ -17,18 +17,27 @@ public class AssetResults {
 	private final Collection<String> sources;
 	private final Collection<String> sinks;
 	private final Collection<String> forbiddenSinks;
+	private final Collection<String> allowedSinks;
 
-	public AssetResults(Asset asset, Collection<String> sources, Collection<String> sinks, Collection<String> forbiddensinks, Map<String, InfoflowResults> allResults) {
-		this(asset, sources, sinks, forbiddensinks);
+	public AssetResults(Asset asset, Collection<String> sources, Collection<String> sinks, Collection<String> forbiddensinks, Map<String, InfoflowResults> allResults, Collection<String> allowedSinks) {
+		this(asset, sources, sinks, forbiddensinks, allowedSinks);
 		this.allResults.putAll(allResults);
 	}
 	
-	public AssetResults(Asset asset, Collection<String> sources, Collection<String> sinks, Collection<String> forbiddensinks) {
+	public AssetResults(Asset asset, Collection<String> sources, Collection<String> sinks, Collection<String> forbiddensinks, Collection<String> allowedSinks) {
+		this.allowedSinks = allowedSinks;
 		this.asset = asset;
 		this.sources = sources;
 		this.sinks = sinks;
 		this.forbiddenSinks = forbiddensinks;
 		this.allResults = new HashMap<>();
+	}
+
+	/**
+	 * @return the allowedSinks
+	 */
+	public Collection<String> getAllowedSinks() {
+		return allowedSinks;
 	}
 
 	public void addResult(String entryPoint, InfoflowResults results) {

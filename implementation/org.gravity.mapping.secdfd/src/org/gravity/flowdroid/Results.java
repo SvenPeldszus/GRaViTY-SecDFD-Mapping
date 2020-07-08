@@ -1,6 +1,7 @@
 package org.gravity.flowdroid;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +19,7 @@ public class Results {
 
 	public Results(Asset a, Map<String, InfoflowResults> allResults) {
 		this.resultsPerAsset = new HashMap<>();
-		AssetResults emptyAsset = new AssetResults(a, null, null, null, allResults);
+		AssetResults emptyAsset = new AssetResults(a, Collections.emptySet(), Collections.emptySet(), Collections.emptySet(), allResults, Collections.emptySet());
 		resultsPerAsset.put(a, emptyAsset);
 	}
 	
