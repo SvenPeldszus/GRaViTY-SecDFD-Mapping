@@ -12,7 +12,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.log4j.Logger;
-import org.gravity.flowdroid.DataFlowExperiment.TestCaseID;
+import org.gravity.mapping.secdfd.checks.impl.flowdroid.AssetResults;
+import org.gravity.mapping.secdfd.checks.impl.flowdroid.Results;
+import org.gravity.mapping.secdfd.eval.flowdroid.DataFlowExperiment.TestCaseID;
+
 import soot.jimple.infoflow.results.DataFlowResult;
 import soot.jimple.infoflow.results.InfoflowResults;
 

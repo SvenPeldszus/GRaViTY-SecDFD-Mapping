@@ -5,8 +5,6 @@ package org.gravity.mapping.secdfd.checks.impl.flowdroid;
 
 import java.util.Set;
 
-import org.gravity.typegraph.basic.TMember;
-
 /**
  * 
  * This class provides a custom structure for storing sources and sinks for the analyzer
