@@ -50,8 +50,8 @@ public class SourcesAndSinkFinder {
 	 */
 	private static final Logger LOGGER = Logger.getLogger(SourcesAndSinkFinder.class);
 
-	private static final String SOURCES = "susi/sources.txt";
-	private static final String SINKS = "susi/sinks.txt";
+	private static final String SOURCES = "susi/sources.txt"; //already includes SQL sources
+	private static final String SINKS = "susi/sinks.txt"; //already includes SQL sources
 	// private static final String ADDITIONAL_SOURCES =
 	// "susi/additional-sources.txt";
 	private static final String ADDITIONAL_SINKS = "susi/additional-sinks.txt";

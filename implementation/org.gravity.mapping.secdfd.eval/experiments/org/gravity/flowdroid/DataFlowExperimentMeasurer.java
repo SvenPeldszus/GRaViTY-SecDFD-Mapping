@@ -2,6 +2,7 @@ package org.gravity.flowdroid;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -33,7 +34,7 @@ public class DataFlowExperimentMeasurer {
 	private Map<String, Set<String>> possibleLeaks;
 	// number of unique sources/sinks for testcaseid
 	private Map<String, Set<String>> uniqueSources;
-	private Map<String, Set<String>> uniqueSinks;
+	private Map<String, Set<String>> uniqueAllowedSinks;
 	private Map<String, List<String>> allAllowedSinks;
 	/**
 	 * @return the uniqueSources
@@ -43,10 +44,10 @@ public class DataFlowExperimentMeasurer {
 	}
 
 	/**
-	 * @return the uniqueSinks
+	 * @return the uniqueAllowedSinks
 	 */
-	public Map<String, Set<String>> getUniqueSinks() {
-		return uniqueSinks;
+	public Map<String, Set<String>> getUniqueAllowedSinks() {
+		return uniqueAllowedSinks;
 	}
 
 	
@@ -59,7 +60,7 @@ public class DataFlowExperimentMeasurer {
 		this.injectedFalseNegatives = new HashMap<>();
 		this.possibleLeaks = new HashMap<>();
 		this.uniqueSources = new HashMap<>();
-		this.uniqueSinks = new HashMap<>();
+		this.uniqueAllowedSinks = new HashMap<>();
 		this.allAllowedSinks = new HashMap<>();
 	}
 
@@ -112,10 +113,10 @@ public class DataFlowExperimentMeasurer {
 		} else {
 			uniqueSources.get(TestIDandDFDName).addAll(sources);
 		}
-		if (!uniqueSinks.containsKey(TestIDandDFDName)) {
-			uniqueSinks.put(TestIDandDFDName, sinks);
+		if (!uniqueAllowedSinks.containsKey(TestIDandDFDName)) {
+			uniqueAllowedSinks.put(TestIDandDFDName, sinks);
 		} else {
-			uniqueSinks.get(TestIDandDFDName).addAll(sinks);
+			uniqueAllowedSinks.get(TestIDandDFDName).addAll(sinks);
 		}
 		if (!allAllowedSinks.containsKey(TestIDandDFDName)) {
 			List<String> mainList = new ArrayList<String>();
@@ -129,18 +130,18 @@ public class DataFlowExperimentMeasurer {
 	}
 	
 	public void setCurrentExperimentResults(TestCaseID id, String secdfd, Map<String, InfoflowResults> results, Set<String> sources, Set<String> sinks) {
-		// sum sinks for SuSi run
+		// sum for FD SuSi run
 		String TestIDandDFDName = id.toString();//+","+secdfd;
 		if (!uniqueSources.containsKey(TestIDandDFDName)) {
 			uniqueSources.put(TestIDandDFDName, sources);
 		} else {
 			uniqueSources.get(TestIDandDFDName).addAll(sources);
 		}
-		if (!uniqueSinks.containsKey(TestIDandDFDName)) {
-			uniqueSinks.put(TestIDandDFDName, sinks);
+		if (!uniqueAllowedSinks.containsKey(TestIDandDFDName)) {
+			uniqueAllowedSinks.put(TestIDandDFDName, sinks);
 		} else {
-			uniqueSinks.get(TestIDandDFDName).addAll(sinks);
-		}
+			uniqueAllowedSinks.get(TestIDandDFDName).addAll(sinks);
+		}		
 		if (!allAllowedSinks.containsKey(TestIDandDFDName)) {
 			List<String> mainList = new ArrayList<String>();
 			mainList.addAll(sinks);
@@ -180,7 +181,7 @@ public class DataFlowExperimentMeasurer {
 	/**
 	 * @param results
 	 */
-	private Set<String> flattenAssetResultsForSecDFD(Results results) {
+	Set<String> flattenAssetResultsForSecDFD(Results results) {
 		Set<String> flattened = new HashSet<>();
 
 		Set<Map<String, InfoflowResults>> resultSet = results.getResultsPerAsset().parallelStream()
@@ -274,5 +275,14 @@ public class DataFlowExperimentMeasurer {
 
 	private boolean inPossibleLeaks(String pair, String key) {
 		return possibleLeaks.get(key).contains(pair);
+	}
+
+	public Set<String> getSuSiSinks() {
+		for (String key : uniqueAllowedSinks.keySet()) {
+			if (key.contains("FDSourceSink")){
+				return uniqueAllowedSinks.get(key);
+			}
+		}
+		return Collections.emptySet();
 	}
 }

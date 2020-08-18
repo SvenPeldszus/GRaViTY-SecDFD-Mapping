@@ -9,8 +9,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFolder;
@@ -18,6 +20,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
@@ -27,7 +30,9 @@ import org.gravity.typegraph.basic.TMethodDefinition;
 import org.secdfd.model.Asset;
 import org.secdfd.model.DataStore;
 import org.secdfd.model.EDFD;
+import org.secdfd.model.Element;
 import org.secdfd.model.ExternalEntity;
+import org.secdfd.model.Flow;
 import org.secdfd.model.ModelFactory;
 import org.secdfd.model.Objective;
 import org.secdfd.model.Priority;
@@ -52,12 +57,22 @@ public class DFAnalysis {
 	private String appPath;
 	private String libPath;
 	SourcesAndSinkFinder sas;
-	private Set<String> possibleLeaks;
+	private Set<String> truePositives;
+	private Set<String> falsePositives;
+	private Set<String> falseNegatives;
 
-	public Set<String> getPossibleLeaks() {
-		return possibleLeaks;
+	public Set<String> getTPInjectedLeaks() {
+		return truePositives;
 	}
-
+	
+	public Set<String> getFPInjectedLeaks() {
+		return falsePositives;
+	}	
+	
+	public Set<String> getFNInjectedLeaks() {
+		return falseNegatives;
+	}
+	
 	/**
 	 * @return the sas
 	 */
@@ -75,7 +90,9 @@ public class DFAnalysis {
 		// get base line sources (FlowDroid published sources) and sinks (FlowDroid
 		// sinks + SuSi list of sinks) for experiment
 		this.sas = new SourcesAndSinkFinder(mapper, susi);
-		this.possibleLeaks = new HashSet<>();
+		this.truePositives = new HashSet<>();
+		this.falsePositives = new HashSet<>();
+		this.falseNegatives = new HashSet<>();
 
 		// set up paths for application and library to pass to flowdroid
 		IPath outputLocation = project.getOutputLocation();
@@ -91,7 +108,9 @@ public class DFAnalysis {
 		this.limit = limit;
 
 		this.sas = new SourcesAndSinkFinder(mapper, susi);
-		this.possibleLeaks = new HashSet<>();
+		this.truePositives = new HashSet<>();
+		this.falsePositives = new HashSet<>();
+		this.falseNegatives = new HashSet<>();
 		
 		IProject iproject = gravityFolder.getProject();
 		IJavaProject ijavaProj = (IJavaProject) iproject.getNature(JavaCore.NATURE_ID);
@@ -141,6 +160,8 @@ public class DFAnalysis {
 		}
 		return results;
 	}
+	
+
 
 	/**
 	 * @param candidates
@@ -163,6 +184,18 @@ public class DFAnalysis {
 				// run flow droid
 				System.out.println("Injecting for asset: " + asset.getName());
 				Set<String> epoints = sas.getEntryPoints();
+				Set<Element> DFDForbiddenElements = forbidden.parallelStream()
+						.map(forbid -> {
+							return SignatureHelper.getDefinition(mapper.getPM(), forbid);
+							})
+						.filter(Objects::nonNull)
+						.flatMap(TMethodDefForbidden -> {
+							Set<Element> stream1 = mapper.getMapping(TMethodDefForbidden);
+							Set<DataStore> stream2 = mapper.getDataStoreMapping(TMethodDefForbidden.getDefinedBy());
+							return Stream.concat(stream1.stream(),
+								stream2.stream());})
+						.collect(Collectors.toSet());
+				
 				result.addAllResults(check(result.getSources(), result.getSinks(), epoints));
 
 				// flatten results
@@ -170,33 +203,52 @@ public class DFAnalysis {
 						.map(res -> res.getValue()).map(r -> r.getResults()).collect(Collectors.toSet());
 
 				infoflowres.remove(null);
-				/*
-				 * an expected FP = source and forbidden sink matches (not sinks from susi, the
-				 * one we derive) but for secure storage the forbidden sink is empty for
-				 * injections, because writing to DS is allowed sink (fieldId, path) - so we
-				 * also ignore the allowedsinks and put them as forbidden (to effectively inject
-				 * the leak)
-				 */
+
+				Set<TMethodDefinition> identifiedSinks = new HashSet<>();
+				
+
+				Set<Element> unmatchedDFDElements = new HashSet<>(DFDForbiddenElements);
 				infoflowres.forEach(map -> {
 					for (ResultSinkInfo sink : map.keySet()) {
 						String sinkMethod = sink.getStmt().getInvokeExpr().getMethod().getSignature();
-						Set<String> sourceMethods = map.get(sink).parallelStream()
-								.map(s -> s.getStmt().getInvokeExpr().getMethod().getSignature())
-								.collect(Collectors.toSet());
-						if (forbidden.contains(sinkMethod)) {
-							// add all pairs to 'expected FPs'
-							sourceMethods.forEach(source -> {
-								if (result.getSources().contains(source)) {
-									possibleLeaks.add(source + ", " + sinkMethod);
-								}
+						TMethodDefinition mappedSink = SignatureHelper.getDefinition(mapper.getPM(),sinkMethod);
+						identifiedSinks.add(mappedSink);
+						Set<Element> dfdelements = new HashSet<>(mapper.getMapping(mappedSink));
+						//we need to add the mappings of the defined type (data stores)
+						dfdelements.addAll(mapper.getDataStoreMapping(mappedSink.getDefinedBy()));
+
+						if (!dfdelements.isEmpty() && containsAny(dfdelements, DFDForbiddenElements)) {
+							//expected FP (TP)
+							dfdelements.forEach(dfdel -> {
+								truePositives.add(asset.getSource().getName() + ", " + dfdel.getName());
+								unmatchedDFDElements.remove(dfdel);
 							});
+						} else {
+							//FP
+							falsePositives.add(asset.getSource().getName() + ", " + mappedSink.getSignatureString());
 						}
+						
 					}
 				});
+				// FN
+				for (Element i : unmatchedDFDElements) {
+					falseNegatives.add(asset.getSource().getName() + ", " + i.getName());
+				}
 				allRes.add(result);
 			}
 		}
 		return allRes;
+	}
+
+	/**
+	 * @param mappedSink
+	 * @param DFDForbiddenElements
+	 * @return
+	 */
+	private boolean containsAny(Set<Element> dfel, Set<Element> DFDForbiddenElements) {
+		return dfel.parallelStream().anyMatch(m -> {
+			return DFDForbiddenElements.contains(m);
+		});
 	}
 
 	/**
@@ -341,8 +393,8 @@ public class DFAnalysis {
 			config.setInspectSources(false);
 			config.setInspectSinks(false);
 			config.setCallgraphAlgorithm(CallgraphAlgorithm.AutomaticSelection);
-			config.setImplicitFlowMode(ImplicitFlowMode.AllImplicitFlows);
-			config.setAliasingAlgorithm(AliasingAlgorithm.FlowSensitive);
+			config.setImplicitFlowMode(ImplicitFlowMode.AllImplicitFlows); //try without
+			config.setAliasingAlgorithm(AliasingAlgorithm.FlowSensitive); //try without
 			config.setStopAfterFirstKFlows(limit);
 		});
 		result.setTaintWrapper(new EasyTaintWrapper(taintedMethods));
