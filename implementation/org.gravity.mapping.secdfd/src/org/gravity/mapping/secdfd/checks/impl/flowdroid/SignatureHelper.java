@@ -66,25 +66,25 @@ public final class SignatureHelper {
 		buffer.append(")>");
 		return buffer.toString();
 	}
-
+	
 	public static TMethodDefinition getDefinition(TypeGraph pm, String sootSignature) {
-		if (!sootSignature.startsWith("<") || !sootSignature.endsWith(">")) {
+		if(!sootSignature.startsWith("<") || !sootSignature.endsWith(">")) {
 			throw new IllegalArgumentException("Not a soot signature");
 		}
-
+		
 		int colonIndex = sootSignature.indexOf(':');
 		if (colonIndex == -1) {
 			throw new IllegalArgumentException("Not a soot signature");
 		}
 		String definingClassName = sootSignature.substring(1, colonIndex).trim();
 		TAbstractType definingClass = pm.getType(definingClassName);
-		if (definingClass == null) {
+		if(definingClass == null) {
 			return null;
 		}
-
+		
 		String sootDefinitionString = sootSignature.substring(colonIndex + 1, sootSignature.length() - 1).trim();
 		String[] split = sootDefinitionString.split("\\s+");
-		if (split.length != 2) {
+		if( split.length != 2) {
 			throw new IllegalArgumentException("Not a soot signature");
 		}
 		int openIndex = split[1].indexOf('(');
@@ -92,7 +92,14 @@ public final class SignatureHelper {
 			throw new IllegalArgumentException("Not a soot signature");
 		}
 		String methodName = split[1].substring(0, openIndex).trim();
-		String[] parameters = split[1].substring(openIndex + 1, split[1].length() - 1).split(",\\s*");
+		String[] parameters;
+		String parameterList = split[1].substring(openIndex + 1, split[1].length() - 1);
+		if (parameterList.isEmpty()) {
+			parameters = new String[0];
+		} else {
+			parameters = parameterList.split(",\\s*");
+		}
+		
 		for (TMember definition : definingClass.getDefines()) {
 			if (definition instanceof TMethodDefinition) {
 				TMethodSignature signature = ((TMethodDefinition) definition).getSignature();
@@ -115,7 +122,6 @@ public final class SignatureHelper {
 				}
 			}
 		}
-
-		return definingClass.getTMethodDefinition(split[1] + ':' + split[0]);
+		return definingClass.getTMethodDefinition(split[1]+':'+split[0]);
 	}
 }

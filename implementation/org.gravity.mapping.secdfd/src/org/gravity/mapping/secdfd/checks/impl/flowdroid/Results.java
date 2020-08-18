@@ -34,5 +34,9 @@ public class Results {
 	public Collection<AssetResults> getResultsPerAsset() {
 		return resultsPerAsset.values();
 	}
+	
+	public AssetResults getResultsForAsset(Asset asset) {
+		return resultsPerAsset.get(asset);
+	}
 
 }

@@ -9,10 +9,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.Set;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFolder;
@@ -21,7 +24,9 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaModelException;
 import org.gravity.eclipse.io.ExtensionFileVisitor;
 import org.gravity.eclipse.util.EclipseProjectUtil;
 import org.gravity.eclipse.util.JavaProjectUtil;
@@ -32,6 +37,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.secdfd.model.Asset;
+import org.secdfd.model.DataStore;
+import org.secdfd.model.EDFD;
+import org.secdfd.model.Element;
+import org.secdfd.model.Flow;
 import org.secdfd.model.Objective;
 import soot.jimple.infoflow.results.InfoflowResults;
 
@@ -42,8 +51,8 @@ public class DataFlowExperiment {
 	}
 
 	private static final int MAX_VIOLATION = 10;
-	private static final String[] PROJECT_NAMES = new String[] { "org.eclipse.equinox.security" };
-//	private static final String[] PROJECT_NAMES = new String[] { "iTrust21.0" }; 
+//	private static final String[] PROJECT_NAMES = new String[] { "org.eclipse.equinox.security" };
+	private static final String[] PROJECT_NAMES = new String[] { "iTrust21.0" }; 
 //	private static final String[] PROJECT_NAMES = new String[] { "jpetstore" }; // can inject 3
 //	private static final String[] PROJECT_NAMES = new String[] { "ATMsimulator" }; // no violations in any, injected 1
 //	private static final String[] PROJECT_NAMES = new String[] { "cocome-impl" }; // no violations in any, injected 0 (nothing leaves the system)
@@ -79,7 +88,7 @@ public class DataFlowExperiment {
 	 * @throws IOException
 	 * @throws CoreException
 	 */
-	@Test
+	//@Test
 	public void experimentFlowDroidConfig() throws IOException, CoreException {
 		DFAnalysis dfAnalysis = new DFAnalysis(mapper, project, true, MAX_VIOLATION);
 
@@ -103,7 +112,7 @@ public class DataFlowExperiment {
 	 * @throws IOException
 	 * @throws CoreException
 	 */
-	@Test
+	//@Test
 	public void experimentOurConfig() throws IOException, CoreException {
 		DFAnalysis dfAnalysis = new DFAnalysis(mapper, project, true, MAX_VIOLATION);
 		Results results = dfAnalysis.checkAllAssets();
@@ -122,7 +131,7 @@ public class DataFlowExperiment {
 	 * @throws IOException
 	 * @throws CoreException
 	 */
-	@Test
+	//@Test
 	public void experimentFlowDroidConfigAndOurSources() throws IOException, CoreException {
 		DFAnalysis dfAnalysis = new DFAnalysis(mapper, project, true, MAX_VIOLATION);
 
@@ -158,7 +167,7 @@ public class DataFlowExperiment {
 	 * @throws IOException
 	 * @throws CoreException
 	 */
-	@Test
+	//@Test
 	public void experimentOurconfigInjectLabels() throws IOException, CoreException {
 		DFAnalysis dfAnalysis = new DFAnalysis(mapper, project, true, MAX_VIOLATION);
 
@@ -170,17 +179,86 @@ public class DataFlowExperiment {
 		 writeResults(results, destination, monitor);
 
 		projectMeasurers.get(project).setCurrentExperimentResults(TestCaseID.OptSourceSinkInjectLabels,
-				mapper.getDFD().getName(), dfAnalysis.getPossibleLeaks(), results);
+				mapper.getDFD().getName(), dfAnalysis.getTPInjectedLeaks(), results);//TODO: add also FN and FP
 	}
 
 	
 	
 	
+	@Test
+	public void experimentOurconfigRemoveFlows() throws IOException, CoreException {
+		Set<Results> results = checkAllAssetsInject2();
+	}
 	
 	
 	
+	public Set<Results> checkAllAssetsInject2() {
+		Set<Results> results = new HashSet<>();
+		EDFD dfd = mapper.getDFD();
+		Set<Flow> candidates = dfd.getElements().parallelStream().filter(el -> (el instanceof DataStore))
+				.flatMap(ds -> ds.getInflows().stream())
+				.collect(Collectors.toSet());
+
+		if (!candidates.isEmpty()) {
+			results=removeDFDFlowsAssets(candidates);
+		} else {
+			LOGGER.info("Found no candidate flow to remove asset.");
+		}
+		return results;
+	}
 	
-	
+	private Set<Results> removeDFDFlowsAssets(Set<Flow> candidates) {
+		Set<String> originalResults = null;
+		DFAnalysis dfAnalysis;
+		try {
+			dfAnalysis = new DFAnalysis(mapper, project, true, MAX_VIOLATION);
+			originalResults = projectMeasurers.get(project).flattenAssetResultsForSecDFD(dfAnalysis.checkAllAssets());
+		} catch (JavaModelException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		
+		Set<Results> allResults = new HashSet<>();
+		for (Flow candidate : candidates) {
+			for (Asset asset : new HashSet<>(candidate.getAssets())) {
+				if (asset.getValue().stream().anyMatch(value -> Objective.CONFIDENTIALITY.equals(value.getObjective()))) {
+					candidate.getAssets().remove(asset);
+					//fd
+					try {
+						dfAnalysis = new DFAnalysis(mapper, project, true, MAX_VIOLATION);
+						Results results = dfAnalysis.checkAllAssets();
+						allResults.add(results);
+						
+						Set<String> resultsModifiedFlow = projectMeasurers.get(project).flattenAssetResultsForSecDFD(results);
+						resultsModifiedFlow.removeAll(originalResults);
+						//compare remaining to expected source,sink pair
+						
+//						Set<Element> DFDForbiddenElements = forbidden.parallelStream()
+//								.map(forbid -> {
+//									return SignatureHelper.getDefinition(mapper.getPM(), forbid);
+//									})
+//								.filter(Objects::nonNull)
+//								.flatMap(TMethodDefForbidden -> {
+//									Set<Element> stream1 = mapper.getMapping(TMethodDefForbidden);
+//									Set<DataStore> stream2 = mapper.getDataStoreMapping(TMethodDefForbidden.getDefinedBy());
+//									return Stream.concat(stream1.stream(),
+//										stream2.stream());})
+//								.collect(Collectors.toSet());
+
+						
+					} catch (JavaModelException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					} 
+					candidate.getAssets().add(asset);
+				}
+			}
+		}
+		return allResults;
+	}
 	
 	
 	
@@ -324,19 +402,41 @@ public class DataFlowExperiment {
 			
 			//print count of unique sources and sinks per configuration
 			Map<String, Set<String>> Usources = measurer.getUniqueSources();
-			Map<String, Set<String>> USinks = measurer.getUniqueSinks();
+			Map<String, Set<String>> USinks = measurer.getUniqueAllowedSinks();
 			Map<String, List<String>> DupSinks = measurer.getAllAllowedSinks();
 			System.out.print("Unique source count"+"\n====================+\n");
 			for (String key : Usources.keySet()) {
 				System.out.println(key+": "+Usources.get(key).size());
 			}
-			System.out.print("Unique sink count"+"\n====================+\n");
+			Set<String> SuSiSinks = measurer.getSuSiSinks();
+			System.out.print("Unique removed sinks"+"\n====================+\n");
 			for (String key : USinks.keySet()) {
-				System.out.println(key+": "+USinks.get(key).size());
+				if (!key.contains("FDSourceSink") && !key.contains("OptSourceFDSink")) {
+					// if in allowed && in susisink, then it was removed
+					Set<String> intersection = new HashSet<String>(SuSiSinks);
+					Set<String> c = USinks.get(key);
+					intersection.retainAll(c);
+					System.out.println(key+": ");
+					for (String a : intersection) {
+						System.out.print(a+", ");
+					}
+					System.out.print("\nTotal = "+intersection.size()+"\n");
+				}
 			}
-			System.out.print("Non-unique sink count"+"\n====================+\n");
+			System.out.print("Non-unique removed sinks"+"\n====================+\n");
 			for (String key : DupSinks.keySet()) {
-				System.out.println(key+": "+DupSinks.get(key).size());
+				if (!key.contains("FDSourceSink") && !key.contains("OptSourceFDSink")) {
+					System.out.println(key+": ");
+					// list of duplicates
+					int count = 0;
+					for (String allowedsink : DupSinks.get(key)) {
+						if (SuSiSinks.contains(allowedsink)) {
+							System.out.print(allowedsink+", ");
+							count++;
+						}
+					}
+					System.out.print("\nTotal = "+count+"\n");
+				}
 			}
 		}
 		
