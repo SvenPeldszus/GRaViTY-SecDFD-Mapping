@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
@@ -40,9 +41,9 @@ public class DataFlowExperiment {
 		FDSourceSink, OptSourceFDSink, FDSourceOptSink, OptSourceSink, OptSourceSinkInjectLabels;
 	}
 
-	private static final int MAX_VIOLATION = 100;
-//	private static final String[] PROJECT_NAMES = new String[] { "org.eclipse.equinox.security" };
-	private static final String[] PROJECT_NAMES = new String[] { "iTrust21.0" }; 
+	private static final int MAX_VIOLATION = 10;
+	private static final String[] PROJECT_NAMES = new String[] { "org.eclipse.equinox.security" };
+//	private static final String[] PROJECT_NAMES = new String[] { "iTrust21.0" }; 
 //	private static final String[] PROJECT_NAMES = new String[] { "jpetstore" }; // can inject 3
 //	private static final String[] PROJECT_NAMES = new String[] { "ATMsimulator" }; // no violations in any, injected 1
 //	private static final String[] PROJECT_NAMES = new String[] { "cocome-impl" }; // no violations in any, injected 0 (nothing leaves the system)
@@ -93,7 +94,7 @@ public class DataFlowExperiment {
 		write(out, sources, sinks, epoints, monitor);
 
 		projectMeasurers.get(project).setCurrentExperimentResults(TestCaseID.FDSourceSink, mapper.getDFD().getName(),
-				results);
+				results, sources, sinks);
 	}
 
 	/**
@@ -136,7 +137,7 @@ public class DataFlowExperiment {
 				if (sourceSinks != null) {
 					Set<String> sources = sourceSinks.getSources();
 					Map<String, InfoflowResults> allResults = dfAnalysis.check(sources, sinks, epoints);
-					results.add(new AssetResults(asset, sources, sinks, finder.getForbiddenSinks(),  allResults));
+					results.add(new AssetResults(asset, sources, sinks, Collections.emptySet(), allResults, Collections.emptySet()));
 				}
 			}
 		}
@@ -320,6 +321,23 @@ public class DataFlowExperiment {
 						monitor, false);
 
 			}
+			
+			//print count of unique sources and sinks per configuration
+			Map<String, Set<String>> Usources = measurer.getUniqueSources();
+			Map<String, Set<String>> USinks = measurer.getUniqueSinks();
+			Map<String, List<String>> DupSinks = measurer.getAllAllowedSinks();
+			System.out.print("Unique source count"+"\n====================+\n");
+			for (String key : Usources.keySet()) {
+				System.out.println(key+": "+Usources.get(key).size());
+			}
+			System.out.print("Unique sink count"+"\n====================+\n");
+			for (String key : USinks.keySet()) {
+				System.out.println(key+": "+USinks.get(key).size());
+			}
+			System.out.print("Non-unique sink count"+"\n====================+\n");
+			for (String key : DupSinks.keySet()) {
+				System.out.println(key+": "+DupSinks.get(key).size());
+			}
 		}
 		
 		//print total per configuration
@@ -330,6 +348,7 @@ public class DataFlowExperiment {
 			System.out.print(
 					"\nConfiguration " + k + ":\n" + "TPs = " + tps + ", FPs = " + fps + ", FNs = " + fns + "\n\n");
 		}
+
 
 	}
 

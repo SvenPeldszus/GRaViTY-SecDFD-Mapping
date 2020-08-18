@@ -1,10 +1,14 @@
 package org.gravity.flowdroid;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.log4j.Logger;
 import org.gravity.flowdroid.DataFlowExperiment.TestCaseID;
@@ -27,6 +31,25 @@ public class DataFlowExperimentMeasurer {
 	private Map<String, Set<String>> injectedFalseNegatives;
 	// injected, expected false positives for current project
 	private Map<String, Set<String>> possibleLeaks;
+	// number of unique sources/sinks for testcaseid
+	private Map<String, Set<String>> uniqueSources;
+	private Map<String, Set<String>> uniqueSinks;
+	private Map<String, List<String>> allAllowedSinks;
+	/**
+	 * @return the uniqueSources
+	 */
+	public Map<String, Set<String>> getUniqueSources() {
+		return uniqueSources;
+	}
+
+	/**
+	 * @return the uniqueSinks
+	 */
+	public Map<String, Set<String>> getUniqueSinks() {
+		return uniqueSinks;
+	}
+
+	
 
 	
 	public DataFlowExperimentMeasurer() {
@@ -35,6 +58,9 @@ public class DataFlowExperimentMeasurer {
 		this.falsePositives = new HashMap<>();
 		this.injectedFalseNegatives = new HashMap<>();
 		this.possibleLeaks = new HashMap<>();
+		this.uniqueSources = new HashMap<>();
+		this.uniqueSinks = new HashMap<>();
+		this.allAllowedSinks = new HashMap<>();
 	}
 
 	public Set<String> getExecutedExperiments(){
@@ -73,22 +99,67 @@ public class DataFlowExperimentMeasurer {
 	 * @param set    current experiment results
 	 */
 	public void setCurrentExperimentResults(TestCaseID id, String secdfd, Results results) {
+		Set<String> sources = new HashSet<>();
+		Set<String> sinks = new HashSet<>();
+		
+		for (AssetResults assetRes : results.getResultsPerAsset()) {
+			sources.addAll(assetRes.getSources());
+			sinks.addAll(assetRes.getAllowedSinks());
+		}
+		String TestIDandDFDName = id.toString();//+","+secdfd;
+		if (!uniqueSources.containsKey(TestIDandDFDName)) {
+			uniqueSources.put(TestIDandDFDName, sources);
+		} else {
+			uniqueSources.get(TestIDandDFDName).addAll(sources);
+		}
+		if (!uniqueSinks.containsKey(TestIDandDFDName)) {
+			uniqueSinks.put(TestIDandDFDName, sinks);
+		} else {
+			uniqueSinks.get(TestIDandDFDName).addAll(sinks);
+		}
+		if (!allAllowedSinks.containsKey(TestIDandDFDName)) {
+			List<String> mainList = new ArrayList<String>();
+			mainList.addAll(sinks);
+			allAllowedSinks.put(TestIDandDFDName, mainList);
+		} else {
+			allAllowedSinks.get(TestIDandDFDName).addAll(sinks);
+		}
+		
 		setCurrentExperimentResults(id, secdfd, flattenAssetResultsForSecDFD(results));
 	}
 	
-	public void setCurrentExperimentResults(TestCaseID fdsourcesink, String secdfd, Map<String, InfoflowResults> results) {
-		setCurrentExperimentResults(fdsourcesink, secdfd, flatten(results));
-	}
-	
-	public void setCurrentExperimentResults(TestCaseID testcaseid, String secdfd, Set<String> possible,
-			Results results) {
-		String key = testcaseid.toString() + ", " + secdfd;
-		possibleLeaks.put(key, possible);
-		setCurrentExperimentResults(testcaseid, secdfd, results);
+	public void setCurrentExperimentResults(TestCaseID id, String secdfd, Map<String, InfoflowResults> results, Set<String> sources, Set<String> sinks) {
+		// sum sinks for SuSi run
+		String TestIDandDFDName = id.toString();//+","+secdfd;
+		if (!uniqueSources.containsKey(TestIDandDFDName)) {
+			uniqueSources.put(TestIDandDFDName, sources);
+		} else {
+			uniqueSources.get(TestIDandDFDName).addAll(sources);
+		}
+		if (!uniqueSinks.containsKey(TestIDandDFDName)) {
+			uniqueSinks.put(TestIDandDFDName, sinks);
+		} else {
+			uniqueSinks.get(TestIDandDFDName).addAll(sinks);
+		}
+		if (!allAllowedSinks.containsKey(TestIDandDFDName)) {
+			List<String> mainList = new ArrayList<String>();
+			mainList.addAll(sinks);
+			allAllowedSinks.put(TestIDandDFDName, mainList);
+		} else {
+			allAllowedSinks.get(TestIDandDFDName).addAll(sinks);
+		}
+		setCurrentExperimentResults(id, secdfd, flatten(results));
 	}
 
-	public void setCurrentExperimentResults(TestCaseID testcaseid, String secdfd, Set<String> results) {
-		String key = testcaseid.toString() + ", " + secdfd;
+	public void setCurrentExperimentResults(TestCaseID id, String secdfd, Set<String> possible,
+			Results results) {
+		String key = id.toString() + ", " + secdfd;
+		possibleLeaks.put(key, possible);
+		setCurrentExperimentResults(id, secdfd, results);
+	}
+
+	public void setCurrentExperimentResults(TestCaseID id, String secdfd, Set<String> results) {
+		String key = id.toString() + ", " + secdfd;
 		allExperiments.put(key, results);
 		injectedTruePositives.put(key, new HashSet<>());
 		falsePositives.put(key, new HashSet<>());
@@ -97,6 +168,13 @@ public class DataFlowExperimentMeasurer {
 			// this run has no injected leaks -> initialize empty map (ground truth is empty, secure model)
 			possibleLeaks.put(key, new HashSet<>());
 		}
+	}
+
+	/**
+	 * @return the allAllowedSinks
+	 */
+	public Map<String, List<String>> getAllAllowedSinks() {
+		return allAllowedSinks;
 	}
 
 	/**

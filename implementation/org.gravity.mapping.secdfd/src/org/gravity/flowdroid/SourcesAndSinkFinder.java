@@ -131,7 +131,7 @@ public class SourcesAndSinkFinder {
 		// remember also just the DFD derived sinks
 		forbiddenSinks = getSootSignatures(flowSinkCorrespondences);
 		forbiddenSinks.removeIf(sink -> sink.equals(""));// remove empty strings
-		return new SourceAndSink(sources, sinks, forbiddenSinks, flowAllowedSinkCorrespondences);
+		return new SourceAndSink(sources, sinks, forbiddenSinks, getSootSignatures(flowAllowedSinkCorrespondences));
 	}
 
 	/**
