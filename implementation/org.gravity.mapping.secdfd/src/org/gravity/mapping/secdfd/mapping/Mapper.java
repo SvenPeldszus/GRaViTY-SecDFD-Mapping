@@ -726,6 +726,11 @@ public class Mapper {
 		return helper.getCorrespondences(type).parallelStream()
 				.map(corr -> (Asset) CorrespondenceHelper.getTarget(corr)).collect(Collectors.toSet());
 	}
+	
+	public Set<DataStore> getDataStoreMapping(TAbstractType type) {
+		return helper.getCorrespondences(type).parallelStream().map(corr -> CorrespondenceHelper.getTarget(corr))
+				.filter(e -> e instanceof DataStore).map(e -> (DataStore) e).collect(Collectors.toSet());
+	}
 
 	/**
 	 * A getter for the proggram model
