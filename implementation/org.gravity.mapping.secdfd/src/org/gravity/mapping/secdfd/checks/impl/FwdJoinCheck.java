@@ -1,20 +1,25 @@
-package org.gravity.mapping.secdfd.checks;
+package org.gravity.mapping.secdfd.checks.impl;
 
-import org.gravity.mapping.secdfd.checks.implemented.ImplementedDFD;
-import org.gravity.mapping.secdfd.checks.implemented.ImplementedFlow;
-import org.gravity.mapping.secdfd.checks.implemented.ImplementedFlowPattern;
+import org.gravity.mapping.secdfd.checks.ICheck;
+import org.gravity.mapping.secdfd.checks.impl.reveng.ImplementedDFD;
+import org.gravity.mapping.secdfd.checks.impl.reveng.ImplementedFlow;
+import org.gravity.mapping.secdfd.checks.impl.reveng.ImplementedFlowPattern;
+import org.gravity.mapping.secdfd.helpers.PrintHelper;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.secdfd.dsl.validation.SResult;
 import org.secdfd.dsl.validation.SResult.PState;
 import org.secdfd.model.Asset;
+import org.secdfd.model.EDFD;
 import org.secdfd.model.Element;
 import org.secdfd.model.ExternalEntity;
+import org.secdfd.model.Flow;
 import org.secdfd.model.Process;
 import org.secdfd.model.Responsibility;
 import org.secdfd.model.ResponsibilityType;
 import static org.secdfd.model.ResponsibilityType.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -25,20 +30,24 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class FwdJoinCheck {
+public class FwdJoinCheck implements ICheck {
 
-	private final Mapper mapper;
-
-	public FwdJoinCheck(Mapper mapper) {
-		this.mapper = mapper;
+	@Override
+	public Collection<SResult> check(Mapper mapper) {
+		List<SResult> results = new ArrayList<>();
+		for (Element element : mapper.getDFD().getElements()) {
+			if (element instanceof Process) {
+				results.add(check((Process) element, mapper));
+			}
+		}
+		return results;
 	}
 
-	public SResult check(Process process) {
+	public SResult check(Process process, Mapper mapper) {
 		Set<ImplementedFlowPattern> flows;
 		try {
-			flows = getImplementedFlowPatterns(process);
+			flows = getImplementedFlowPatterns(process, mapper);
 		} catch (IllegalStateException e) {
 			return new SResult(PState.ERROR, FORWARD, process, mapper.getMapping(process), e.getMessage());
 		}
@@ -50,21 +59,22 @@ public class FwdJoinCheck {
 						"No fwd or join contract to check");
 			} else {
 				StringBuilder description = new StringBuilder("No fwd or join contract specified but implemented:");
-				for(ImplementedFlowPattern pattern : flows) {
-					
+				for (ImplementedFlowPattern pattern : flows) {
+					List<Asset> outgoingAssets = new ArrayList<>(pattern.getPossibleOutgoingAssets());
+					List<Asset> incomingAssets = new ArrayList<>(pattern.getPossibleIncomingAssets());
+					description.append('\n');
+					description.append(PrintHelper.getStringRepresentation(incomingAssets,
+							Arrays.asList(ResponsibilityType.FORWARD, ResponsibilityType.JOINER), outgoingAssets));
 				}
-				return new SResult(PState.ERROR, FORWARD, process, mapper.getMapping(process),	description.toString());
-					
+				return new SResult(PState.ERROR, FORWARD, process, mapper.getMapping(process), description.toString());
 			}
 		}
 
 		Map<Responsibility, Set<ImplementedFlowPattern>> mapping = new HashMap<>();
 		for (Responsibility responsibility : responsibilities) {
-			Asset outgoingAsset = responsibility.getOutcomeassets().get(0);
-			Set<ImplementedFlowPattern> possible = flows.parallelStream()
-					.filter(flow -> flow.getPossibleOutgoingAssets().contains(outgoingAsset))
-					.collect(Collectors.toSet());
-			for (ImplementedFlowPattern pattern : possible) {
+			Set<ImplementedFlowPattern> flowPatternsWithOutgoingAssets = getFlowPatternsForOutgoingAssets(flows,
+					responsibility);
+			for (ImplementedFlowPattern pattern : flowPatternsWithOutgoingAssets) {
 				Map<Asset, Set<ImplementedFlow>> possibleFlows;
 				try {
 					possibleFlows = getPossibleIncomingFlows(responsibility, pattern);
@@ -82,16 +92,16 @@ public class FwdJoinCheck {
 			responsibilities.removeAll(mapping.keySet());
 			PState state;
 			String description;
-			if(responsibilities.stream().anyMatch(res -> res.getAction().contains(ENCRYPT_OR_HASH) || res.getAction().contains(DECRYPT))) {
+			if (responsibilities.stream()
+					.anyMatch(res -> res.getAction().contains(ENCRYPT_OR_HASH) || res.getAction().contains(DECRYPT))) {
 				state = PState.WARNING;
 				description = "The following data flow could not be verified: \"";
-			}
-			else {
-				state  = PState.ERROR;
+			} else {
+				state = PState.ERROR;
 				description = "The following FWD and JOIN contracts are not fulfilled: \"";
 			}
-			return new SResult(state, JOINER, process, mapper.getMapping(process), responsibilities.stream().flatMap(FwdJoinCheck::getStringRepresentations)
-					.collect(Collectors.joining(", ", description, "\".")));
+			return new SResult(state, JOINER, process, mapper.getMapping(process), responsibilities.stream()
+					.map(PrintHelper::getStringRepresentation).collect(Collectors.joining(", ", description, "\".")));
 		}
 
 		reduce(mapping);
@@ -100,34 +110,58 @@ public class FwdJoinCheck {
 			return new SResult(PState.SUCCESS, JOINER, process, mapper.getMapping(process),
 					"All FWD and JOIN contracts have been found.");
 		}
-		return null;
+		return new SResult(PState.ERROR, JOINER, process, mapper.getMapping(process),
+				mapping.keySet().stream().map(PrintHelper::getStringRepresentation).collect(
+						Collectors.joining(", ", "The following FWD and JOIN contracts are not fulfilled: \"", "\".")));
 
 	}
 
-	private static Stream<String> getStringRepresentations(Responsibility responsibility) {
-		return responsibility.getAction().stream().map(action -> {
-			StringBuilder string = new StringBuilder();
-			string.append('(');
-			List<Asset> in = responsibility.getIncomeassets();
-			if (!in.isEmpty()) {
-				string.append(in.get(0).getName());
-				for (int i = 1; i < in.size(); i++) {
-					string.append(", ").append(in.get(i).getName());
+	/**
+	 * @param flowPatterns
+	 * @param responsibility
+	 * @return
+	 */
+	private Set<ImplementedFlowPattern> getFlowPatternsForOutgoingAssets(Set<ImplementedFlowPattern> flowPatterns,
+			Responsibility responsibility) {
+		List<Flow> out = ((Process) responsibility.eContainer()).getOutflows();
+		Set<ImplementedFlowPattern> matches = new HashSet<>();
+		for (ImplementedFlowPattern pattern : flowPatterns) {
+			Set<Asset> allOutgoingAssets = pattern.getPossibleOutgoingAssets();
+			Set<Asset> noDummyAssets = getOnlyConcreteFlows(pattern);
+			for (Asset asset : responsibility.getOutcomeassets()) {
+				if (flowsToExternalEntity(out, asset)) {
+					if (allOutgoingAssets.contains(asset)) {
+						matches.add(pattern);
+					}
+				} else {
+					if (noDummyAssets.contains(asset)) {
+						matches.add(pattern);
+					}
 				}
 			}
-			string.append(") --");
-			string.append(action.getName());
-			string.append("--> (");
-			List<Asset> out = responsibility.getOutcomeassets();
-			if (!out.isEmpty()) {
-				string.append(out.get(0).getName());
-				for (int i = 1; i < out.size(); i++) {
-					string.append(", ").append(out.get(i).getName());
-				}
-			}
-			string.append(')');
-			return string.toString();
-		});
+
+		}
+		return matches;
+	}
+
+	/**
+	 * @param pattern
+	 * @return
+	 */
+	private Set<Asset> getOnlyConcreteFlows(ImplementedFlowPattern pattern) {
+		return pattern.allOutgoingFlows().parallelStream()
+				.filter(f -> !f.getTarget().getName().startsWith("ExternalDummyProcess"))
+				.flatMap(f -> f.getPossibleAssets().parallelStream()).collect(Collectors.toSet());
+	}
+
+	/**
+	 * @param flows
+	 * @param asset
+	 * @return
+	 */
+	private boolean flowsToExternalEntity(List<Flow> flows, Asset asset) {
+		return flows.parallelStream().filter(f -> f.getAssets().contains(asset)).flatMap(f -> f.getTarget().stream())
+				.anyMatch(e -> e instanceof ExternalEntity);
 	}
 
 	/**
@@ -211,7 +245,7 @@ public class FwdJoinCheck {
 				possibleIncomingFlowsForAssets.put(incomingAsset, possibleIncomingFlows);
 			}
 		}
-		//TODO: Don't consider flow patterns with too many incoming flows
+		// TODO: Don't consider flow patterns with too many incoming flows
 //		ArrayList<ImplementedFlow> flows = new ArrayList<>(pattern.allIncomingFlows());
 //		flows.removeAll(matchedFlows);
 //		if (!flows.isEmpty()) {
@@ -228,15 +262,18 @@ public class FwdJoinCheck {
 	 * @param dfd
 	 * @return
 	 */
-	private Set<ImplementedFlowPattern> getImplementedFlowPatterns(Process process) {
+	private Set<ImplementedFlowPattern> getImplementedFlowPatterns(Process process, Mapper mapper) {
 		ImplementedDFD dfd = new ImplementedDFD(process, mapper);
+		EDFD edfd = ((EDFD) process.eContainer());
 		Set<ImplementedFlowPattern> flows = new HashSet<>();
 		for (ImplementedFlow flow : dfd.getImplementedProcess().getOutgoingFlows()) {
 			Set<ImplementedFlow> sources = flow.getInternalSources();
 			if (sources.isEmpty()) {
 				continue;
 			}
-			flows.add(new ImplementedFlowPattern(sources, flow));
+			if (flow.getTarget().getUnderlyingProcess().eContainer() == edfd
+					|| sources.stream().anyMatch(src -> src.getSource().getUnderlyingProcess().eContainer() == edfd))
+				flows.add(new ImplementedFlowPattern(sources, Collections.singleton(flow)));
 		}
 		return flows;
 	}
@@ -250,7 +287,8 @@ public class FwdJoinCheck {
 	private List<Responsibility> getFwdAndJoinResponsibilities(Process process) {
 		return process.getResponsibility().stream().filter(responsibility -> {
 			Collection<ResponsibilityType> actions = responsibility.getAction();
-			return actions.contains(JOINER) || actions.contains(FORWARD) || actions.contains(ENCRYPT_OR_HASH) || actions.contains(DECRYPT);
+			return actions.contains(JOINER) || actions.contains(FORWARD) || actions.contains(ENCRYPT_OR_HASH)
+					|| actions.contains(DECRYPT);
 		}).collect(Collectors.toList());
 	}
 }

@@ -157,7 +157,7 @@ public class Mapper {
 	/**
 	 * Initializes the mapper with an existing mapping
 	 *
-	 * @param mapping An existing mapping
+	 * @param mapping     An existing mapping
 	 * @param mappingFile The file containing the mapping
 	 */
 	public Mapper(Mapping mapping, IFile mappingFile) {
@@ -174,12 +174,12 @@ public class Mapper {
 
 		optimizer = new MappingOptimizer(helper, cache, mapping);
 	}
-	
+
 	/**
 	 * Initializes the mapper from a file with an existing mapping
 	 * 
 	 * @param mappingFile The file containing the mapping
-	 * @param rs The resource set which should be used
+	 * @param rs          The resource set which should be used
 	 * @throws IOException
 	 * @throws CoreException
 	 */
@@ -188,7 +188,8 @@ public class Mapper {
 	}
 
 	/**
-	 * Initializes the mapper from a file with an existing mapping using a new resource set
+	 * Initializes the mapper from a file with an existing mapping using a new
+	 * resource set
 	 * 
 	 * @param mappingFile The file containing the mapping
 	 * @throws IOException
@@ -226,7 +227,7 @@ public class Mapper {
 	 * Loads an existing mapping from the file system
 	 * 
 	 * @param corr The file containing the mapping
-	 * @param rs The resource set into which the mapping should be loaded
+	 * @param rs   The resource set into which the mapping should be loaded
 	 * @return The loaded mapping
 	 * @throws IOException
 	 * @throws CoreException
@@ -253,9 +254,9 @@ public class Mapper {
 	private void initializeMapping(TypeGraph pm, EDFD dfd, IFile destination) {
 		URI uri = URI.createPlatformResourceURI(
 				destination.getProject().getName() + '/' + destination.getProjectRelativePath().toString(), true);
-		if(destination.exists()) {
-			for(Resource resource : rs.getResources()) {
-				if(uri.equals(resource.getURI())) {
+		if (destination.exists()) {
+			for (Resource resource : rs.getResources()) {
+				if (uri.equals(resource.getURI())) {
 					resource.unload();
 				}
 			}
@@ -264,7 +265,7 @@ public class Mapper {
 			} catch (CoreException e) {
 			}
 		}
-		
+
 		EList<EObject> contents = rs.createResource(uri).getContents();
 		if (!contents.isEmpty()) {
 			contents.clear();
@@ -274,7 +275,7 @@ public class Mapper {
 		mapping.setTarget(dfd);
 		mapping.setName(dfd.getName());
 		contents.add(mapping);
-		
+
 		// Create a correspondence model between the two models
 		helper = new CorrespondenceManager(mapping, JavaCore.create(destination.getProject()), cache);
 	}
@@ -560,13 +561,11 @@ public class Mapper {
 			SecDFDValidator.setMap(map);
 			URI uri = dfd.eResource().getURI();
 			IFile file;
-			if(uri.isFile()) {
+			if (uri.isFile()) {
 				file = destination.getParent().getFile(new Path(uri.toFileString()));
-			}
-			else if(uri.isPlatformResource()) {
+			} else if (uri.isPlatformResource()) {
 				file = destination.getWorkspace().getRoot().getFile(Path.fromOSString(uri.toPlatformString(true)));
-			}
-			else {
+			} else {
 				throw new IllegalStateException();
 			}
 			file.touch(new NullProgressMonitor());
@@ -885,6 +884,11 @@ public class Mapper {
 			}
 		}
 		return assets;
+	}
+
+	public Set<DataStore> getDataStoreMapping(TAbstractType type) {
+		return helper.getCorrespondences(type).parallelStream().map(corr -> CorrespondenceHelper.getTarget(corr))
+				.filter(e -> e instanceof DataStore).map(e -> (DataStore) e).collect(Collectors.toSet());
 	}
 
 }

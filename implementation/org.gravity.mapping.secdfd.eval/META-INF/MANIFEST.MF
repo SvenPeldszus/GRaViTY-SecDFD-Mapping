@@ -19,8 +19,12 @@ Require-Bundle: org.gravity.typegraph.basic;bundle-version="1.0.0";visibility:=r
  org.eclipse.jdt.ui,
  org.secdfd.dsl;bundle-version="1.0.0",
  org.junit,
- org.gravity.mapping.secdfd
+ org.gravity.mapping.secdfd,
+ org.eclipse.emf.common,
+ org.eclipse.emf.edit,
+ org.eclipse.emf.transaction
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: %providerName
+Import-Package: org.apache.commons.math3.util

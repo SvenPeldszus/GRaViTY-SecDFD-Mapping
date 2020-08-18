@@ -1,4 +1,4 @@
-package org.gravity.mapping.secdfd.checks.implemented;
+package org.gravity.mapping.secdfd.checks.impl.reveng;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -7,13 +7,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.gravity.mapping.secdfd.checks.FlowEntryExit;
 import org.gravity.mapping.secdfd.helpers.AssetHelper;
 import org.gravity.mapping.secdfd.helpers.FlowHelper;
 import org.gravity.mapping.secdfd.mapping.Mapper;
@@ -26,6 +24,7 @@ import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TMethodSignature;
 import org.gravity.typegraph.basic.TParameter;
 import org.secdfd.model.Asset;
+import org.secdfd.model.DataStore;
 import org.secdfd.model.Element;
 import org.secdfd.model.ModelFactory;
 import org.secdfd.model.Process;
@@ -46,7 +45,7 @@ public class ImplementedDFD {
 
 		linkFwd(incoming, outgoing, mapper);
 		linkBwd(incoming, outgoing, mapper);
-		
+
 	}
 
 	/**
@@ -59,8 +58,13 @@ public class ImplementedDFD {
 		for (Entry<TFlow, Set<ImplementedFlow>> entry : outgoing.entrySet()) {
 			Set<TFlow> sources = bwd(entry.getKey(), incoming.keySet(), mapper);
 			for (ImplementedFlow target : entry.getValue()) {
+				boolean realTarget = !target.getTarget().getName().startsWith("ExternalDummyProcess");
 				for (TFlow source : sources) {
-					target.addSources(incoming.get(source));
+					Set<ImplementedFlow> sourceSet = incoming.get(source);
+					if (realTarget && sourceSet.stream()
+							.anyMatch(s -> !s.getSource().getName().startsWith("ExternalDummyProcess"))) {
+						target.addSources(sourceSet);
+					}
 				}
 			}
 		}
@@ -77,8 +81,13 @@ public class ImplementedDFD {
 			TFlow flow = entry.getKey();
 			Set<TFlow> targets = fwd(flow, outgoing.keySet(), mapper);
 			for (ImplementedFlow source : entry.getValue()) {
+				boolean realSource = !source.getSource().getName().startsWith("ExternalDummyProcess");
 				for (TFlow target : targets) {
-					source.addTargets(outgoing.get(target));
+					Set<ImplementedFlow> targetSet = outgoing.get(target);
+					if (realSource || targetSet.stream()
+							.anyMatch(t -> !t.getTarget().getName().startsWith("ExternalDummyProcess"))) {
+						source.addTargets(targetSet);
+					}
 				}
 			}
 		}
@@ -98,12 +107,12 @@ public class ImplementedDFD {
 				}
 				if (next instanceof TMethodDefinition) {
 					Set<Element> mapping = mapper.getMapping((TMethodDefinition) next);
-					if(mapping != null && ! mapping.isEmpty() && !mapping.contains(process.getUnderlyingProcess())) {
+					if (mapping != null && !mapping.isEmpty() && !mapping.contains(process.getUnderlyingProcess())) {
 						continue;
 					}
-				} 
+				}
 				queue.addAll(next.getIncomingFlows());
-				
+
 			}
 		}
 		return values;
@@ -123,7 +132,7 @@ public class ImplementedDFD {
 				}
 				if (next instanceof TMethodDefinition) {
 					Set<Element> mapping = mapper.getMapping((TMethodDefinition) next);
-					if(mapping != null && ! mapping.isEmpty() && !mapping.contains(process.getUnderlyingProcess())) {
+					if (mapping != null && !mapping.isEmpty() && !mapping.contains(process.getUnderlyingProcess())) {
 						continue;
 					}
 				}
@@ -131,9 +140,9 @@ public class ImplementedDFD {
 				if (next instanceof TMember) {
 					queue.add(((TMember) next).getSignature());
 				}
-				if(next instanceof TParameter) {
+				if (next instanceof TParameter) {
 					TMethodSignature sig = (TMethodSignature) next.eContainer();
-					if(sig.getDefinitions().stream().anyMatch(def -> def.getDefinedBy().isTLib())){
+					if (sig.getDefinitions().stream().anyMatch(def -> def.getDefinedBy().isTLib())) {
 						queue.addAll(sig.getOutgoingFlows());
 					}
 				}
@@ -149,7 +158,7 @@ public class ImplementedDFD {
 	 * @param entriesAndExits
 	 * @return
 	 */
-	private Map<TFlow, Set<ImplementedFlow>> createOutgoingFlows(Mapper mapper, 
+	private Map<TFlow, Set<ImplementedFlow>> createOutgoingFlows(Mapper mapper,
 			Map<Element, ImplementedProcess> wrappers, FlowEntryExit entriesAndExits) {
 		Map<TFlow, Set<ImplementedFlow>> flows = new HashMap<>();
 		for (TFlow flow : entriesAndExits.getExits()) {
@@ -162,20 +171,26 @@ public class ImplementedDFD {
 			TMember flowOwner = FlowHelper.getCausingMember(flow);
 			Set<Element> processes = Stream.concat(flowTargets.parallelStream(), Stream.of(flowOwner))
 					.filter(TMethodDefinition.class::isInstance).map(trg -> {
-						Set<Element> mapping = mapper.getMapping((TMethodDefinition) trg);
+						Set<? extends Element> mapping = mapper.getMapping((TMethodDefinition) trg);
 						if (mapping == null || mapping.isEmpty()) {
-							Process dummy = ModelFactory.eINSTANCE.createProcess();
-							dummy.setName("ExternalDummyProcess->"+trg.getDefinedBy().getTName());
-							mapping = Collections.singleton(dummy);
+							TAbstractType definingType = trg.getDefinedBy();
+							Set<DataStore> store = mapper.getDataStoreMapping(definingType);
+							if (store.isEmpty()) {
+								DataStore dummy = ModelFactory.eINSTANCE.createDataStore();
+								dummy.setName("ExternalDummyDataStore->" + definingType.getTName());
+								mapping = Collections.singleton(dummy);
+							} else {
+								mapping = store;
+							}
 						}
 						return mapping;
-					}).flatMap(trg -> trg.parallelStream()).filter(p -> !process.equals(p)).collect(Collectors.toSet());
-			
+					}).flatMap(Collection::parallelStream).filter(p -> !process.equals(p)).collect(Collectors.toSet());
+
 			if (!processes.isEmpty()) {
 				Set<ImplementedFlow> implementedFlows = new HashSet<>();
 				for (Element trg : processes) {
-					implementedFlows.add(new ImplementedFlow(process, wrappers.computeIfAbsent(trg, ImplementedProcess::new),
-							assets));
+					implementedFlows.add(new ImplementedFlow(process,
+							wrappers.computeIfAbsent(trg, ImplementedProcess::new), assets));
 				}
 				flows.put(flow, implementedFlows);
 			}
@@ -190,7 +205,7 @@ public class ImplementedDFD {
 	 * @param entriesAndExits
 	 * @return
 	 */
-	private Map<TFlow, Set<ImplementedFlow>> createIncomingFlows(Mapper mapper, 
+	private Map<TFlow, Set<ImplementedFlow>> createIncomingFlows(Mapper mapper,
 			Map<Element, ImplementedProcess> wrappers, FlowEntryExit entriesAndExits) {
 		Map<TFlow, Set<ImplementedFlow>> flows = new HashMap<>();
 		for (TFlow flow : entriesAndExits.getEntries()) {
@@ -201,6 +216,9 @@ public class ImplementedDFD {
 
 			// Find sources of the flow in the DFD
 			Set<TMember> flowSource = FlowHelper.getSourceMember(flow);
+			if (flow.eContainer() != null && flowSource.stream().noneMatch(m -> m instanceof TMethodDefinition)) {
+				continue;
+			}
 			if (flowSource.isEmpty()) {
 				flowSource = Collections.singleton(BasicFactory.eINSTANCE.createTMethodDefinition());
 			}
@@ -213,13 +231,13 @@ public class ImplementedDFD {
 							Process dummy = ModelFactory.eINSTANCE.createProcess();
 							StringBuilder processName = new StringBuilder("ExternalDummyProcess->");
 							TAbstractType definedBy = src.getDefinedBy();
-							if(definedBy != null) {
+							if (definedBy != null) {
 								processName.append(definedBy.getTName()).append('.');
 							}
 							TMethodSignature signature = method.getSignature();
-							if(signature==null) {
+							if (signature == null) {
 								processName.append("dummyFlow");
-							}else{
+							} else {
 								processName.append(signature.getMethod().getTName());
 							}
 							dummy.setName(processName.toString());

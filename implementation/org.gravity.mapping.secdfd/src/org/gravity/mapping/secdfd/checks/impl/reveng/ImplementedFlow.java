@@ -1,4 +1,4 @@
-package org.gravity.mapping.secdfd.checks.implemented;
+package org.gravity.mapping.secdfd.checks.impl.reveng;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,8 +13,7 @@ public class ImplementedFlow {
 	private final Set<ImplementedFlow> internalSources;
 	private final Set<ImplementedFlow> internalTargets;
 
-	public ImplementedFlow(ImplementedProcess src, ImplementedProcess trg,
-			Set<Asset> possibleAssets) {
+	public ImplementedFlow(ImplementedProcess src, ImplementedProcess trg, Set<Asset> possibleAssets) {
 		this.possibleAssets = possibleAssets;
 		this.source = src;
 		this.source.addOutgoing(this);
@@ -53,5 +52,18 @@ public class ImplementedFlow {
 	 */
 	public Set<Asset> getPossibleAssets() {
 		return possibleAssets;
+	}
+
+	public ImplementedProcess getSource() {
+		return source;
+	}
+
+	public ImplementedProcess getTarget() {
+		return target;
+	}
+
+	@Override
+	public String toString() {
+		return source.getUnderlyingProcess().getName() + " --> " + target.getUnderlyingProcess().getName();
 	}
 }

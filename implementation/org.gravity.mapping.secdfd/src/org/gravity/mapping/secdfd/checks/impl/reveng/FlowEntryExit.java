@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.gravity.mapping.secdfd.checks;
+package org.gravity.mapping.secdfd.checks.impl.reveng;
 
 import java.util.Collection;
 import java.util.Deque;
@@ -13,8 +13,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.eclipse.emf.common.command.CommandStack;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.typegraph.basic.BasicFactory;
+import org.gravity.typegraph.basic.BasicPackage;
 import org.gravity.typegraph.basic.TAbstractFlowElement;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TAccess;
@@ -30,7 +36,6 @@ import com.google.common.collect.Streams;
 
 import org.secdfd.model.Asset;
 import org.secdfd.model.EDFD;
-import org.secdfd.model.Element;
 import org.secdfd.model.ExternalEntity;
 import org.secdfd.model.Flow;
 import org.secdfd.model.Process;
@@ -115,13 +120,13 @@ public class FlowEntryExit {
 					for (TAbstractType assetType : mapper.getMapping(asset)) {
 						for (TMethodDefinition def : methods) {
 							TAbstractType returnType;
-							if(TConstructor.isConstructor(def)) {
+							if (TConstructor.isConstructor(def)) {
 								returnType = def.getDefinedBy();
-							}else {
+							} else {
 								returnType = def.getReturnType();
 							}
 							if (returnType.isSuperTypeOf(assetType)) {
-								TFlow dummyFlow =createFlow(def.getSignature(), null);
+								TFlow dummyFlow = createFlow(def.getSignature(), null, def.eResource());
 								exits.add(dummyFlow);
 							}
 						}
@@ -143,7 +148,7 @@ public class FlowEntryExit {
 		for (TMethodDefinition def : methods) {
 			for (TParameter param : def.getSignature().getParameters()) {
 				if (param.getType().isSuperTypeOf(assetType)) {
-					TFlow dummyFlow = createFlow(null, param);
+					TFlow dummyFlow = createFlow(null, param, param.eResource());
 					entries.add(dummyFlow);
 				}
 			}
@@ -151,15 +156,35 @@ public class FlowEntryExit {
 		return entries;
 	}
 
-	private static TFlow createFlow(TAbstractFlowElement src, TAbstractFlowElement trg) {
+	private static TFlow createFlow(TAbstractFlowElement src, TAbstractFlowElement trg, Resource resource) {
+		TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(resource);
+
 		TFlow flow = BasicFactory.eINSTANCE.createTFlow();
-		if(src != null) {
-			flow.getIncomingFlows().add(src);
-			src.getOutgoingFlows().add(flow);
+		if (src != null) {
+			if (domain != null) {
+				CommandStack stack = domain.getCommandStack();
+				stack.execute(AddCommand.create(domain, flow,
+						BasicPackage.eINSTANCE.getTAbstractFlowElement_IncomingFlows(), src));
+				stack.execute(AddCommand.create(domain, src,
+						BasicPackage.eINSTANCE.getTAbstractFlowElement_OutgoingFlows(), flow));
+
+			} else {
+				flow.getIncomingFlows().add(src);
+				src.getOutgoingFlows().add(flow);
+			}
 		}
 		if (trg != null) {
-			flow.getOutgoingFlows().add(trg);
-			trg.getIncomingFlows().add(flow);
+			if (domain != null) {
+				CommandStack stack = domain.getCommandStack();
+				stack.execute(AddCommand.create(domain, trg,
+						BasicPackage.eINSTANCE.getTAbstractFlowElement_IncomingFlows(), flow));
+				stack.execute(AddCommand.create(domain, flow,
+						BasicPackage.eINSTANCE.getTAbstractFlowElement_OutgoingFlows(), trg));
+
+			} else {
+				flow.getOutgoingFlows().add(trg);
+				trg.getIncomingFlows().add(flow);
+			}
 		}
 		return flow;
 	}

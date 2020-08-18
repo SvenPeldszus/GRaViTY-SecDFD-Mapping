@@ -1,5 +1,6 @@
 package org.gravity.mapping.secdfd.ui.handler;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -10,12 +11,13 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.gravity.mapping.secdfd.checks.impl.CryptoCheck;
 import org.gravity.mapping.secdfd.ui.views.MappingView;
-import org.gravity.mapping.secdfd.ui.views.actions.AddingSignatureAction;
 import org.gravity.typegraph.basic.TMethodDefinition;
 import org.gravity.typegraph.basic.TypeGraph;
 import org.secdfd.model.ResponsibilityType;
@@ -35,19 +37,21 @@ public class AddingSignatureHandler extends AbstractHandler {
 	private static final Logger LOGGER = Logger.getLogger(AddingSignatureHandler.class);
 
 	private MappingView mappingView;
-	private AddingSignatureAction signatureAction;
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ASTNode node = TextEditorHandler.getSelectedASTNode(event);
 		TypeGraph pm = mappingView.getProgramModel().getValue();
 		boolean encrypt = event.getCommand().getId().contains("encrypt");
-		ResponsibilityType rs = null;
-		if (encrypt) rs = ResponsibilityType.ENCRYPT_OR_HASH;
-		else rs = ResponsibilityType.DECRYPT;
+		final ResponsibilityType rs;
+		if (encrypt) {
+			rs = ResponsibilityType.ENCRYPT_OR_HASH;
+		} else {
+			rs = ResponsibilityType.DECRYPT;
+		}
 
-		//TODO: Get signature string from node
-		
+		// TODO: Get signature string from node
+
 		List<EObject> selected = TextEditorHandler.getSelectedPMElement(node, pm);
 		if (selected == null || selected.isEmpty()) {
 			LOGGER.log(Level.ERROR, "Cannot find element in model: " + node);
@@ -58,8 +62,17 @@ public class AddingSignatureHandler extends AbstractHandler {
 		Set<TMethodDefinition> selectedSignatures = selected.parallelStream()
 				.filter(TMethodDefinition.class::isInstance).map(e -> (TMethodDefinition) e)
 				.collect(Collectors.toSet());
-		signatureAction = new AddingSignatureAction(mappingView, rs, selectedSignatures);
-		signatureAction.run();
+
+		CryptoCheck checker;
+		try {
+			IProject project = mappingView.getGravityFolder().getProject();
+			checker = new CryptoCheck(mappingView.getProgramModel().getValue(),
+					CryptoCheck.getDefaultEncrypSignaturesFile(project),
+					CryptoCheck.getDefaultDecrypSignaturesFile(project));
+			selectedSignatures.forEach(sig -> checker.addSignature(sig, rs));
+		} catch (IOException e) {
+			throw new ExecutionException(e.getLocalizedMessage(), e);
+		}
 		return null;
 	}
 

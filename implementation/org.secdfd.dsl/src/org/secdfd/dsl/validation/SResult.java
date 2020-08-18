@@ -10,15 +10,18 @@ import org.gravity.typegraph.basic.TMethodDefinition;
 import org.secdfd.model.ResponsibilityType;
 
 /**
- * A class representing the Problem reported to the user regarding security compliance issue 
+ * A class representing the Problem reported to the user regarding security
+ * compliance issue
+ * 
  * @author katjat
  *
  */
 public class SResult {
-	public static enum PState{
+	public static enum PState {
 		SUCCESS, WARNING, ERROR;
 	}
-	private ResponsibilityType type; 
+
+	private ResponsibilityType type;
 	private PState state;
 	private EObject dfdElement;
 	private Set<TMethodDefinition> pmElement;
@@ -27,7 +30,8 @@ public class SResult {
 	/**
 	 * 
 	 */
-	public SResult(PState state, ResponsibilityType type, EObject dfdElement, Set<TMethodDefinition> pmElement, String description) {
+	public SResult(PState state, ResponsibilityType type, EObject dfdElement, Set<TMethodDefinition> pmElement,
+			String description) {
 		this.state = state;
 		this.type = type;
 		this.dfdElement = dfdElement;
@@ -96,5 +100,10 @@ public class SResult {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	@Override
+	public String toString() {
+		return state + ": " + getDescription() + " - on " + getDfdElement();
 	}
 }

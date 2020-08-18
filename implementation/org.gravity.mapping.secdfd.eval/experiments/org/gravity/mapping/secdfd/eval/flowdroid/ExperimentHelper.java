@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.gravity.flowdroid;
+package org.gravity.mapping.secdfd.eval.flowdroid;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -68,36 +68,6 @@ public final class ExperimentHelper {
 		}
 		return assetResultOutputFolder;
 	}
-
-	/**
-	 * @param tps
-	 * @param fps
-	 * @param fns
-	 * @return
-	 */
-	public static Collection<String> stringBuilder(Set<String> tps, Set<String> fps,
-			Set<String> fns) {
-		List<String> built = new ArrayList<String>();
-		built.add("True Positives: \n" + "==================================\n");
-		for (String i : tps) {
-			built.add(i + '\n');
-		}
-		built.add("\n\nFalse Positives: \n" + "==================================\n");
-		for (String i : fps) {
-			built.add(i + '\n');
-		}
-		built.add("\n\nFalse Negatives: \n" + "==================================\n");
-		for (String i : fns) {
-			built.add(i + '\n');
-		}
-		built.add("\n\n\n==================================\n");
-		built.add("Precision = " + ((double) tps.size()) / (tps.size() + fps.size())
-				+ '\n');
-		built.add(
-				"Recall = " + ((double) tps.size()) / (tps.size() + fns.size()) + '\n');
-		return built;
-	}
-	
 
 
 	/**

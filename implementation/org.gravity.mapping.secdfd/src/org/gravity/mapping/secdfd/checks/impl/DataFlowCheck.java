@@ -1,4 +1,4 @@
-package org.gravity.flowdroid;
+package org.gravity.mapping.secdfd.checks.impl;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,12 +18,21 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.gravity.mapping.secdfd.checks.ICheck;
+import org.gravity.mapping.secdfd.checks.impl.flowdroid.AssetResults;
+import org.gravity.mapping.secdfd.checks.impl.flowdroid.Results;
+import org.gravity.mapping.secdfd.checks.impl.flowdroid.SignatureHelper;
+import org.gravity.mapping.secdfd.checks.impl.flowdroid.SourceAndSink;
+import org.gravity.mapping.secdfd.checks.impl.flowdroid.SourcesAndSinkFinder;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethodDefinition;
+import org.secdfd.dsl.validation.SResult;
+import org.secdfd.dsl.validation.SResult.PState;
 import org.secdfd.model.Asset;
 import org.secdfd.model.DataStore;
 import org.secdfd.model.EDFD;
@@ -39,14 +48,15 @@ import soot.jimple.infoflow.Infoflow;
 import soot.jimple.infoflow.InfoflowConfiguration.AliasingAlgorithm;
 import soot.jimple.infoflow.InfoflowConfiguration.CallgraphAlgorithm;
 import soot.jimple.infoflow.InfoflowConfiguration.ImplicitFlowMode;
+import soot.jimple.infoflow.results.DataFlowResult;
 import soot.jimple.infoflow.results.InfoflowResults;
 import soot.jimple.infoflow.results.ResultSinkInfo;
 import soot.jimple.infoflow.results.ResultSourceInfo;
 import soot.jimple.infoflow.taintWrappers.EasyTaintWrapper;
 import soot.util.MultiMap;
 
-public class DFAnalysis {
-	private static final Logger LOGGER = Logger.getLogger(DFAnalysis.class);
+public class DataFlowCheck implements ICheck {
+	private static final Logger LOGGER = Logger.getLogger(DataFlowCheck.class);
 
 	private Mapper mapper;
 	private String appPath;
@@ -67,7 +77,7 @@ public class DFAnalysis {
 
 	private int limit;
 
-	public DFAnalysis(Mapper mapper, IJavaProject project, boolean susi, int limit)
+	public DataFlowCheck(Mapper mapper, IJavaProject project, boolean susi, int limit)
 			throws IOException, JavaModelException {
 		this.mapper = mapper;
 		this.limit = limit;
@@ -83,22 +93,79 @@ public class DFAnalysis {
 		this.appPath = projectLocation.append(outputLocation.removeFirstSegments(1)).toOSString();
 		this.libPath = System.getProperty("java.home") + File.separator + "lib" + File.separator + "rt.jar";
 	}
-	
+
 	// when called from UI, we have to get project from gravity folder
-	public DFAnalysis(Mapper mapper, boolean susi, int limit, IFolder gravityFolder)
+	public DataFlowCheck(Mapper mapper, boolean susi, int limit, IFolder gravityFolder)
 			throws IOException, CoreException {
 		this.mapper = mapper;
 		this.limit = limit;
 
 		this.sas = new SourcesAndSinkFinder(mapper, susi);
 		this.possibleLeaks = new HashSet<>();
-		
+
 		IProject iproject = gravityFolder.getProject();
 		IJavaProject ijavaProj = (IJavaProject) iproject.getNature(JavaCore.NATURE_ID);
 		IPath outputLocation = ijavaProj.getOutputLocation();
 		IPath projectLocation = iproject.getLocation();
 		this.appPath = projectLocation.append(outputLocation.removeFirstSegments(1)).toOSString();
 		this.libPath = System.getProperty("java.home") + File.separator + "lib" + File.separator + "rt.jar";
+	}
+
+	@Override
+	public Collection<SResult> check(Mapper mapper) {
+		if(this.mapper != mapper) {
+			return null;
+		}
+		Results dfResults = checkAllAssets();
+		return createMarkersForDFAnalysisResults(dfResults);
+	}
+
+	// add problems to each asset (duplicated source-sink pairs, because developer
+	// may want to see which asset the leak effects)
+	private Collection<SResult> createMarkersForDFAnalysisResults(Results DFresults) {
+		Set<SResult> problems = new HashSet<>();
+		for (AssetResults assetRes : DFresults.getResultsPerAsset()) {
+			Set<String> strings = flatten(assetRes.getResults());
+			if (!strings.isEmpty()) {
+				String description = "";
+				for (String str : strings) {
+					description += str + '\n';
+				}
+				problems.add(new SResult(PState.ERROR, null, (EObject) assetRes.getAsset(), null,
+						"The following source -> sink leaks have been detected: " + description));
+			}
+		}
+		return problems;
+	}
+
+	/**
+	 * @param map : asset results for each entry point
+	 * @return flattened results of asset (merged entry points)
+	 */
+	private Set<String> flatten(Map<String, InfoflowResults> map) {
+		Set<String> flattened = new HashSet<>();
+		map.values().forEach(value -> {
+			Set<DataFlowResult> rs = value.getResultSet();
+			if (rs != null) {
+				rs.forEach(result -> {
+					if (!inFlattened(result, flattened)) {
+						flattened.add(result.getSource().getDefinition().toString() + ", "
+								+ result.getSink().getDefinition().toString());
+					}
+				});
+			}
+		});
+		return flattened;
+	}
+
+	private boolean inFlattened(DataFlowResult result, Set<String> flattened) {
+		for (String entry : flattened) {
+			if (result.getSource().getDefinition().toString().contains(entry.split(", ")[0])
+					&& result.getSink().getDefinition().toString().contains(entry.split(", ")[1])) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public Results checkAllAssets() {
@@ -240,8 +307,8 @@ public class DFAnalysis {
 		// calculate source and sinks for the asset
 		SourceAndSink sourcesAndSinks = sas.getSourceSinks(asset);
 		if (sourcesAndSinks == null) {
-			return new AssetResults(asset, Collections.emptySet(), Collections.emptySet(), Collections.emptySet(),
-					Collections.emptyMap(), Collections.emptySet());
+			return new AssetResults(asset, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(),
+					Collections.emptyMap(), Collections.emptyList());
 		}
 
 		List<String> sources = new ArrayList<>(sourcesAndSinks.getSources());
@@ -249,36 +316,38 @@ public class DFAnalysis {
 		List<String> forbinnedSinks = new ArrayList<>(sourcesAndSinks.getForbiddenSinks());
 
 		if (sources.isEmpty()) {
-			return new AssetResults(asset, sources, sinks, forbinnedSinks, Collections.emptyMap(), sourcesAndSinks.getAllowed());
+			return new AssetResults(asset, sources, sinks, forbinnedSinks, Collections.emptyMap());
 		}
 
 		Set<String> epoints = sas.getEntryPoints();
 		Map<String, InfoflowResults> map = check(sources, sinks, epoints);
-		return new AssetResults(asset, sources, sinks, forbinnedSinks, map, sourcesAndSinks.getAllowed());
+		return new AssetResults(asset, sources, sinks, forbinnedSinks, map);
 	}
 
 	private AssetResults GetAssetSourceSinks(Asset asset) {
 		// calculate source and sinks for the asset
 		SourceAndSink sourcesAndSinks = sas.getSourceSinks(asset);
 		if (sourcesAndSinks == null) {
-			return new AssetResults(asset, Collections.emptySet(), Collections.emptySet(), Collections.emptySet(),
-					Collections.emptyMap(), Collections.emptySet());
+			return new AssetResults(asset, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(),
+					Collections.emptyMap());
 		}
 
 		List<String> sources = new ArrayList<>(sourcesAndSinks.getSources());
 		List<String> sinks = new ArrayList<>(sourcesAndSinks.getSinks());
 		List<String> derivedAsForbiddenSinks = new ArrayList<>(sourcesAndSinks.getForbiddenSinks());
-		Set<String> allowed = sourcesAndSinks.getAllowed();
+		List<? extends TMember> allowed = new ArrayList<>(sourcesAndSinks.getAllowed());
 
 		// add all allowed sinks
-		for (String allowedsink : allowed) {
-			if (allowedsink != "") {
-				sinks.add(allowedsink);
-				derivedAsForbiddenSinks.add(allowedsink);
-
+		for (TMember allowedsink : allowed) {
+			if (allowedsink instanceof TMethodDefinition) {
+				String allowedSinkSootSig = SignatureHelper.getSootSignature((TMethodDefinition) allowedsink);
+				if (allowedSinkSootSig != "") {
+					sinks.add(allowedSinkSootSig);
+					derivedAsForbiddenSinks.add(allowedSinkSootSig);
+				}
 			}
 		}
-		return new AssetResults(asset, sources, sinks, derivedAsForbiddenSinks, Collections.emptyMap(), allowed);
+		return new AssetResults(asset, sources, sinks, derivedAsForbiddenSinks, Collections.emptyMap());
 	}
 
 	/**

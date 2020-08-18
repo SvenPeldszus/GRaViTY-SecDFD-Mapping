@@ -1,4 +1,4 @@
-package org.gravity.flowdroid;
+package org.gravity.mapping.secdfd.eval.flowdroid;
 
 import java.util.ArrayList;
 import java.util.Collection;

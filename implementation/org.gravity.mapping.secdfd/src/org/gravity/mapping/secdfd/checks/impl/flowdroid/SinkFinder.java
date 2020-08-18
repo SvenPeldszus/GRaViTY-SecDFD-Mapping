@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.gravity.flowdroid;
+package org.gravity.mapping.secdfd.checks.impl.flowdroid;
 
 import java.util.HashSet;
 import java.util.List;

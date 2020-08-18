@@ -1,4 +1,4 @@
-package org.gravity.mapping.secdfd.checks.implemented;
+package org.gravity.mapping.secdfd.checks.impl.reveng;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;

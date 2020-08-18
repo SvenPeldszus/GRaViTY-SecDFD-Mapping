@@ -1,4 +1,4 @@
-package org.gravity.flowdroid;
+package org.gravity.mapping.secdfd.checks.impl.flowdroid;
 
 import java.io.BufferedReader;
 import java.io.IOException;

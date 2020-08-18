@@ -18,7 +18,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.gravity.eclipse.io.ExtensionFileVisitor;
 import org.gravity.eclipse.util.EclipseProjectUtil;
-import org.gravity.mapping.secdfd.checks.FwdJoinCheck;
+import org.gravity.mapping.secdfd.checks.impl.FwdJoinCheck;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -52,7 +52,7 @@ public class FwdTest {
 		Process processMain = getProcess("main", mapper);
 
 		// Perform the test
-		SResult status = new FwdJoinCheck(mapper).check(processMain);
+		SResult status = new FwdJoinCheck().check(processMain, mapper);
 		assertEquals(PState.SUCCESS, status.getState());
 	}
 
@@ -67,7 +67,7 @@ public class FwdTest {
 		Process processMain = getProcess("join", mapper);
 
 		// Perform the test
-		SResult status = new FwdJoinCheck(mapper).check(processMain);
+		SResult status = new FwdJoinCheck().check(processMain, mapper);
 		assertEquals(PState.SUCCESS, status.getState());
 	}
 	
@@ -91,7 +91,7 @@ public class FwdTest {
 		actions.add(ResponsibilityType.JOINER);
 		
 		// Perform the test
-		SResult status = new FwdJoinCheck(mapper).check(processMain);
+		SResult status = new FwdJoinCheck().check(processMain, mapper);
 		assertEquals(PState.ERROR, status.getState());
 	}
 	
@@ -113,7 +113,7 @@ public class FwdTest {
 		actions.add(ResponsibilityType.FORWARD);
 		
 		// Perform the test
-		SResult status = new FwdJoinCheck(mapper).check(processMain);
+		SResult status = new FwdJoinCheck().check(processMain, mapper);
 		assertEquals(PState.ERROR, status.getState());
 	}
 

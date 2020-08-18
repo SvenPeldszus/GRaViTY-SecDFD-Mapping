@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.gravity.flowdroid;
+package org.gravity.mapping.secdfd.eval.flowdroid;
 
 import java.io.File;
 import java.io.FileNotFoundException;
