@@ -25,7 +25,7 @@ public class ExpectedMissingImplementation extends ExpectedError {
 
 	@Override
 	public boolean isDetected(SResult result) {
-		if(!process.equals(result.getDfdElement())){
+		if (!process.equals(result.getDfdElement())) {
 			return false;
 		}
 		ResponsibilityType contractType = result.getType();
@@ -37,8 +37,13 @@ public class ExpectedMissingImplementation extends ExpectedError {
 				if (description.startsWith("No fwd or join contract specified but implemented:")) {
 					return true;
 				} else if (description.startsWith("The following FWD and JOIN contracts are not fulfilled:")) {
-					String[] io = description.split("\"")[1].split("--\\[" + type.getLiteral() + "\\]-->");
-					return checkAssets(inAssetNames, io[0]) && checkAssets(outAssetNames, io[1]);
+					String contracts = description.split("\"")[1];
+					for (String contract : contracts.split("\\s*;\\s*")) {
+						String[] io = contract.split("--\\[\\w+\\]-->");
+						if (checkAssets(inAssetNames, io[0]) && checkAssets(outAssetNames, io[1])) {
+							return true;
+						}
+					}
 				}
 			}
 			return false;
@@ -47,7 +52,7 @@ public class ExpectedMissingImplementation extends ExpectedError {
 			if (contractType == type) {
 				return CryptoCheck.createErrorMessage(type).equals(result.getDescription());
 			}
-			
+
 		default:
 			return false;
 		}

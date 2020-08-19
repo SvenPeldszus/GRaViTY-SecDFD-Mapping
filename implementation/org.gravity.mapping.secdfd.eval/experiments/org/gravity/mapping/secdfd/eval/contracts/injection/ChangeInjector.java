@@ -16,6 +16,7 @@ import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.gravity.mapping.secdfd.helpers.PrintHelper;
 import org.secdfd.model.Asset;
+import org.secdfd.model.AssetType;
 import org.secdfd.model.EDFD;
 import org.secdfd.model.Element;
 import org.secdfd.model.ModelFactory;
@@ -44,15 +45,11 @@ public class ChangeInjector {
 			if (element instanceof Process) {
 				Process process = (Process) element;
 
-				List<Responsibility> contracts = new LinkedList<>();
 				for (Responsibility responsibility : process.getResponsibility()) {
 					EList<ResponsibilityType> actions = responsibility.getAction();
-					if (containsAny(actions, supported)) {
-						if (delete) {
-							deleteContract(process, responsibility, actions);
-						}
+					if (containsAny(actions, supported) && delete) {
+						deleteContract(process, responsibility, actions);
 					}
-					contracts.add(responsibility);
 				}
 
 				if (inject) {
@@ -64,17 +61,16 @@ public class ChangeInjector {
 					for (ResponsibilityType type : supported) {
 						switch (type) {
 						case FORWARD:
-							possible.addAll(generateContract(in, 1, 1, out, 1, 1, process, contracts, type));
+							possible.addAll(generateContract(in, 1, 1, out, 1, 1, process, type));
 							break;
 						case JOINER:
-							possible.addAll(
-									generateContract(in, 2, Integer.MAX_VALUE, out, 1, 1, process, contracts, type));
+							possible.addAll(generateContract(in, 2, Integer.MAX_VALUE, out, 1, 1, process, type));
 							break;
 						case ENCRYPT_OR_HASH:
-							possible.addAll(generateContract(in, 2, 2, out, 1, 1, process, contracts, type));
+							possible.addAll(generateContract(in, 2, 2, out, 1, 1, process, type));
 							break;
 						case DECRYPT:
-							possible.addAll(generateContract(in, 2, 2, out, 1, 1, process, contracts, type));
+							possible.addAll(generateContract(in, 2, 2, out, 1, 1, process, type));
 							break;
 						}
 					}
@@ -103,15 +99,14 @@ public class ChangeInjector {
 	}
 
 	private Collection<Entry<ExpectedError, Command>> generateContract(List<Asset> in, int minIn, int maxIn,
-			List<Asset> out, int minOut, int maxOut, Process process, List<Responsibility> contracts,
-			ResponsibilityType type) {
+			List<Asset> out, int minOut, int maxOut, Process process, ResponsibilityType type) {
 		List<Entry<ExpectedError, Command>> commands = new LinkedList<>();
 
 		List<List<Asset>> inCombinations = combinations(in, minIn, maxIn);
 		List<List<Asset>> outCombinations = combinations(out, minOut, maxOut);
 		for (List<Asset> inVal : inCombinations) {
 			for (List<Asset> outVal : outCombinations) {
-				if (!isAlreadyImplemented(contracts, inVal, outVal, type)) {
+				if (!isAlreadyImplemented(process.getResponsibility(), inVal, outVal)) {
 					Command command = new RecordingCommand(editingDomain, INJECT_RESPONSIBILITY,
 							process.getName() + ": ?") {
 
@@ -154,16 +149,16 @@ public class ChangeInjector {
 		return combinations;
 	}
 
-	private boolean isAlreadyImplemented(List<Responsibility> contracts, List<Asset> inVal, List<Asset> outVal,
-			ResponsibilityType type) {
-		for (Responsibility r : contracts) {
-			if (!r.getAction().contains(type)) {
-				EList<Asset> incomeassets = r.getIncomeassets();
-				EList<Asset> outcomeassets = r.getOutcomeassets();
-				if (incomeassets.size() == inVal.size() && incomeassets.containsAll(inVal)
-						&& outcomeassets.size() == outVal.size() && outcomeassets.containsAll(outVal)) {
-					return true;
-				}
+	private boolean isAlreadyImplemented(List<Responsibility> contracts, List<Asset> proposedInAssets,
+			List<Asset> proposedOutAssets) {
+		for (Responsibility existingContract : contracts) {
+			EList<Asset> existingInAssets = existingContract.getIncomeassets();
+			EList<Asset> existingOutAssets = existingContract.getOutcomeassets();
+			if (existingInAssets.size() == proposedInAssets.size() 
+					&& existingInAssets.containsAll(proposedInAssets)
+					&& existingOutAssets.size() == proposedOutAssets.size()
+					&& existingOutAssets.containsAll(proposedOutAssets)) {
+				return true;
 			}
 		}
 		return false;

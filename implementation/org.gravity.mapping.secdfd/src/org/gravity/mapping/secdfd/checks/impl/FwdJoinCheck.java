@@ -90,18 +90,13 @@ public class FwdJoinCheck implements ICheck {
 		}
 		if (!mapping.keySet().containsAll(responsibilities)) {
 			responsibilities.removeAll(mapping.keySet());
-			PState state;
-			String description;
 			if (responsibilities.stream()
-					.anyMatch(res -> res.getAction().contains(ENCRYPT_OR_HASH) || res.getAction().contains(DECRYPT))) {
-				state = PState.WARNING;
-				description = "The following data flow could not be verified: \"";
-			} else {
-				state = PState.ERROR;
-				description = "The following FWD and JOIN contracts are not fulfilled: \"";
+					.noneMatch(res -> res.getAction().contains(ENCRYPT_OR_HASH) || res.getAction().contains(DECRYPT))) {
+				return new SResult(PState.ERROR, JOINER, process, mapper.getMapping(process),
+						responsibilities.stream().map(PrintHelper::getStringRepresentation).collect(Collectors
+								.joining("; ", "The following FWD and JOIN contracts are not fulfilled: \"", "\".")));
 			}
-			return new SResult(state, JOINER, process, mapper.getMapping(process), responsibilities.stream()
-					.map(PrintHelper::getStringRepresentation).collect(Collectors.joining(", ", description, "\".")));
+
 		}
 
 		reduce(mapping);
@@ -112,7 +107,7 @@ public class FwdJoinCheck implements ICheck {
 		}
 		return new SResult(PState.ERROR, JOINER, process, mapper.getMapping(process),
 				mapping.keySet().stream().map(PrintHelper::getStringRepresentation).collect(
-						Collectors.joining(", ", "The following FWD and JOIN contracts are not fulfilled: \"", "\".")));
+						Collectors.joining("; ", "The following FWD and JOIN contracts are not fulfilled: \"", "\".")));
 
 	}
 
@@ -150,7 +145,7 @@ public class FwdJoinCheck implements ICheck {
 	 */
 	private Set<Asset> getOnlyConcreteFlows(ImplementedFlowPattern pattern) {
 		return pattern.allOutgoingFlows().parallelStream()
-				.filter(f -> !f.getTarget().getName().startsWith("ExternalDummyProcess"))
+				.filter(f -> !f.getTarget().getName().startsWith("ExternalDummy")) // TODO: Also DummyDBs?
 				.flatMap(f -> f.getPossibleAssets().parallelStream()).collect(Collectors.toSet());
 	}
 
@@ -235,16 +230,26 @@ public class FwdJoinCheck implements ICheck {
 	private Map<Asset, Set<ImplementedFlow>> getPossibleIncomingFlows(Responsibility responsibility,
 			ImplementedFlowPattern pattern) {
 		Map<Asset, Set<ImplementedFlow>> possibleIncomingFlowsForAssets = new HashMap<>();
-		Set<ImplementedFlow> matchedFlows = new HashSet<>();
+		Set<ImplementedFlow> concreteFlows = new HashSet<>();
 		for (Asset incomingAsset : responsibility.getIncomeassets()) {
 			Set<ImplementedFlow> possibleIncomingFlows = pattern.getPossibleIncomingFlows(incomingAsset);
 			if (possibleIncomingFlows.isEmpty()) {
 				throw new IllegalStateException("No flow found for asset -> pattern doesn't fit");
 			} else {
-				matchedFlows.addAll(possibleIncomingFlows);
 				possibleIncomingFlowsForAssets.put(incomingAsset, possibleIncomingFlows);
+				for (ImplementedFlow in : possibleIncomingFlows) {
+					if (!in.getSource().getName().startsWith("ExternalDummy")) {
+						concreteFlows.add(in);
+					}
+				}
 			}
 		}
+		Set<ImplementedFlow> allAssignedFlows = possibleIncomingFlowsForAssets.values().stream()
+				.flatMap(Collection::stream).collect(Collectors.toSet());
+		if (!allAssignedFlows.containsAll(concreteFlows)) {
+			throw new IllegalStateException("Not all concrete flows are part of the contract");
+		}
+
 		// TODO: Don't consider flow patterns with too many incoming flows
 //		ArrayList<ImplementedFlow> flows = new ArrayList<>(pattern.allIncomingFlows());
 //		flows.removeAll(matchedFlows);

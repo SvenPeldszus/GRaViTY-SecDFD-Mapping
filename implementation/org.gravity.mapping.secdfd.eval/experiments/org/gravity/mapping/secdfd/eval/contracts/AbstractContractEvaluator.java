@@ -51,7 +51,7 @@ import org.secdfd.dsl.validation.SResult.PState;
 
 @RunWith(Parameterized.class)
 public abstract class AbstractContractEvaluator {
-	private static final String[] PROJECT_NAMES = new String[] { "org.eclipse.equinox.security", "iTrust21.0"};
+	private static final String[] PROJECT_NAMES = new String[] { "org.eclipse.equinox.security", "iTrust21.0" };
 	private static final Logger LOGGER = Logger.getLogger(AbstractContractEvaluator.class);
 
 	protected Mapper mapper;
@@ -86,8 +86,12 @@ public abstract class AbstractContractEvaluator {
 	 */
 	@Test
 	public void eval() throws CoreException {
-		List<SResult> initialErrors = checker.check(mapper).parallelStream().filter(p -> PState.ERROR.equals(p.getState())).collect(Collectors.toList());
-		assertTrue("Expected an initially sound implementatrion of the DFD but detected: "+initialErrors, initialErrors.isEmpty());
+		System.out.println("\n Start experiment on: " + mapper.getDFD().getName());
+
+		List<SResult> initialErrors = checker.check(mapper).parallelStream()
+				.filter(p -> PState.ERROR.equals(p.getState())).collect(Collectors.toList());
+		assertTrue("Expected an initially sound implementatrion of the DFD but detected: " + initialErrors,
+				initialErrors.isEmpty());
 
 		TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(mapper.getDFD().eResource());
 		CommandStack commandStack = domain.getCommandStack();
@@ -96,17 +100,26 @@ public abstract class AbstractContractEvaluator {
 		while ((change = injector.next()) != null) {
 			Command command = change.getValue();
 			commandStack.execute(command);
-			System.out.println("\nPerfrom Cange: " + command.getLabel() + " - " + command.getDescription());
+//			System.out.println("\nPerfrom Cange: " + command.getLabel() + " - " + command.getDescription());
 
-			Set<SResult> problems = runAndGetErrors();
-
-			ExpectedError description = change.getKey();
-			validateContract(problems, description, "injected-join-results");
+			runAndValidate(change);
 
 			while (commandStack.canUndo()) {
 				commandStack.undo();
 			}
 		}
+	}
+
+	/**
+	 * @param change
+	 * @return 
+	 */
+	private boolean runAndValidate(Entry<ExpectedError, Command> change) {
+		Set<SResult> problems = runAndGetErrors();
+
+		ExpectedError description = change.getKey();
+		boolean success = validateContract(problems, description, "injected-join-results");
+		return success;
 	}
 
 	/**
@@ -169,94 +182,99 @@ public abstract class AbstractContractEvaluator {
 	 */
 	protected Set<SResult> runAndGetErrors() {
 		Collection<SResult> allResults = checker.check(mapper);
-		return allResults.parallelStream().filter(p -> PState.ERROR.equals(p.getState()))
+		Set<SResult> errors = allResults.parallelStream().filter(p -> PState.ERROR.equals(p.getState()))
 				.collect(Collectors.toSet());
+		return errors;
 	}
 
 	/**
 	 * @param expectedError
+	 * @return
 	 * @throws CoreException
 	 */
-	protected void validateContract(Set<SResult> results, ExpectedError expectedError, String resultFileName) {
-		System.out.println("Expected Error: " + expectedError.getDescription());
+	protected boolean validateContract(Set<SResult> results, ExpectedError expectedError, String resultFileName) {
 		if (results.isEmpty()) {
-			data.fn(expectedError.getChange());
+			data.fn(mapper.getDFD().getName());
+			System.out.println("Expected Error: " + expectedError.getDescription());
 			System.out.println("False Negative");
-		} else {
-			boolean detected = false;
-			for (SResult result : results) {
-				if (expectedError.isDetected(result)) {
-					detected = true;
-					System.out.println("True Positive: " + result.getDescription());
-					data.tp(expectedError.getChange());
-				} else {
-					data.fp(expectedError.getChange());
-					System.out.println("False Positive: " + result.getDescription());
-				}
-			}
-			if (!detected) {
-				System.out.println("False Negative");
-				data.fn(expectedError.getChange());
+			return false;
+		}
+		boolean detected = false;
+		boolean success = true;
+		for (SResult result : results) {
+			if (expectedError.isDetected(result)) {
+				detected = true;
+//					System.out.println("Expected Error: " + expectedError.getDescription());
+//					System.out.println("True Positive: " + result.getDescription());
+				data.tp(mapper.getDFD().getName());
+			} else {
+				data.fp(mapper.getDFD().getName());
+				System.out.println("Expected Error: " + expectedError.getDescription());
+				System.out.println("False Positive: " + result.getDescription());
+				success = false;
 			}
 		}
-
-		// build a string
-//		Collection<String> toWrite = ExperimentHelper.stringBuilder(truePositives, falsePositives, falseNegatives);
-
-		// log to file
-//		String secDFDName = mapper.getDFD().getName();
-//		ExperimentHelper.writeToTxt(output, toWrite, resultFileName, new NullProgressMonitor(), false);
+		if (!detected) {
+			System.out.println("False Negative");
+			data.fn(mapper.getDFD().getName());
+			return false;
+		}
+		return success;
 	}
 
 	@AfterClass
-	public static void printSummary() throws CoreException {
+	public static void printSummary() {
+		printSummary(data);
+	}
+
+	public static void printSummary(EvaluationResults data) {
 		String[] keys = data.getRecordedKeys().toArray(new String[0]);
 		System.out.println();
 		System.out.println("########################");
 		System.out.println("#### Result Summary ####");
 		System.out.println("########################");
-		System.out.print("\n\t\t| ");
-		for(String key : keys) {
-			System.out.print(key+"\t| ");
+		System.out.print("\n\t\t& ");
+		for (String key : keys) {
+			System.out.print(key + "\t& ");
 		}
-		System.out.println("Sum");
-		
-		System.out.print("TPs\t\t| ");
-		for(String key : keys) {
-			System.out.print(data.getTruePositives(key)+"\t\t\t| ");
+		System.out.println("Sum \\");
+
+		System.out.print("TPs\t\t& ");
+		for (String key : keys) {
+			System.out.print(data.getTruePositives(key) + "\t\t\t& ");
 		}
 		int sumTruePositives = data.getSumTruePositives();
-		System.out.println(sumTruePositives);
-		
-		System.out.print("FPs\t\t| ");
-		for(String key : keys) {
-			System.out.print(data.getFalsePositives(key)+"\t\t\t| ");
+		System.out.println(sumTruePositives+"\\");
+
+		System.out.print("FPs\t\t& ");
+		for (String key : keys) {
+			System.out.print(data.getFalsePositives(key) + "\t\t\t& ");
 		}
 		int sumFalsePositives = data.getSumFalsePositives();
-		System.out.println(sumFalsePositives);
-		
-		System.out.print("FNs\t\t| ");
-		for(String key : keys) {
-			System.out.print(data.getFalseNegatives(key)+"\t\t\t| ");
+		System.out.println(sumFalsePositives+"\\");
+
+		System.out.print("FNs\t\t& ");
+		for (String key : keys) {
+			System.out.print(data.getFalseNegatives(key) + "\t\t\t& ");
 		}
 		int sumFalseNegatives = data.getSumFalseNegatives();
-		System.out.println(sumFalseNegatives);
-		
-		System.out.print("precision\t| ");
-		for(String key : keys) {
+		System.out.println(sumFalseNegatives+"\\");
+
+		System.out.print("precision\t& ");
+		for (String key : keys) {
 			int accummulatedTP = data.getTruePositives(key);
 			int accummulatedFP = data.getFalsePositives(key);
-			System.out.print(((double) accummulatedTP) / (accummulatedFP  + accummulatedTP)+"\t| ");
+			System.out.print(((double) accummulatedTP) / (accummulatedFP + accummulatedTP) + "\t& ");
 		}
-		System.out.println(((double) sumTruePositives) / (sumFalsePositives  + sumTruePositives));
-		
-		System.out.print("recall\t\t| ");
-		for(String key : keys) {
+		System.out.println(((double) sumTruePositives) / (sumFalsePositives + sumTruePositives)+"\\");
+
+		System.out.print("recall\t\t& ");
+		for (String key : keys) {
 			int accummulatedTP = data.getTruePositives(key);
 			int accummulatedFN = data.getFalseNegatives(key);
-			System.out.print(((double) accummulatedTP) / (accummulatedFN + accummulatedTP)+"\t| ");
+			System.out.print(((double) accummulatedTP) / (accummulatedFN + accummulatedTP) + "\t& ");
 		}
-		System.out.println(((double) sumTruePositives) / (sumFalseNegatives  + sumTruePositives));
+		System.out.println(((double) sumTruePositives) / (sumFalseNegatives + sumTruePositives)+"\\");
 	}
 
 }

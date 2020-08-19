@@ -60,7 +60,7 @@ public class DataFlowExperiment {
 
 	private static final int MAX_VIOLATION = 10;
 //	private static final String[] PROJECT_NAMES = new String[] { "org.eclipse.equinox.security" };
-	private static final String[] PROJECT_NAMES = new String[] { "iTrust21.0" };
+	private static final String[] PROJECT_NAMES = new String[] { "iTrust21.0", "org.eclipse.equinox.security" };
 //	private static final String[] PROJECT_NAMES = new String[] { "jpetstore" }; // can inject 3
 //	private static final String[] PROJECT_NAMES = new String[] { "ATMsimulator" }; // no violations in any, injected 1
 //	private static final String[] PROJECT_NAMES = new String[] { "cocome-impl" }; // no violations in any, injected 0 (nothing leaves the system)
@@ -211,12 +211,17 @@ public class DataFlowExperiment {
 			int truePositives = 0;
 			int falseNegatives = 0;
 
+			Path out = Paths.get("df-results.txt");
+			System.out.println("Writing results to: " + out.toFile().getAbsolutePath());
+
+			Files.write(out, (dfd.getName() + '\n').getBytes(), StandardOpenOption.APPEND, StandardOpenOption.CREATE);
 			for (Flow candidate : candidates) {
 				for (Asset asset : new HashSet<>(candidate.getAssets())) {
 					if (asset.getValue().stream()
 							.anyMatch(value -> Objective.CONFIDENTIALITY.equals(value.getObjective()))) {
 						candidate.getAssets().remove(asset);
 
+						Files.write(out, ("Delete "+asset.getName()+" on "+candidate.getName()+"\n").getBytes(), StandardOpenOption.APPEND, StandardOpenOption.CREATE);
 						try {
 							Set<String> tp = new HashSet<>();
 							Set<String> fp = new HashSet<>();
@@ -229,6 +234,27 @@ public class DataFlowExperiment {
 							falsePositives += fp.size();
 							falseNegatives += fn.size();
 
+							fn.forEach(r -> {
+								try {
+									Files.write(out, ("FN=" + r + "\n").getBytes(), StandardOpenOption.APPEND,
+											StandardOpenOption.CREATE);
+								} catch (IOException e) {
+								}
+							});
+							fp.forEach(r -> {
+								try {
+									Files.write(out, ("FP=" + r + "\n").getBytes(), StandardOpenOption.APPEND,
+											StandardOpenOption.CREATE);
+								} catch (IOException e) {
+								}
+							});
+							tp.forEach(r -> {
+								try {
+									Files.write(out, ("TP=" + r + "\n").getBytes(), StandardOpenOption.APPEND,
+											StandardOpenOption.CREATE);
+								} catch (IOException e) {
+								}
+							});
 						} catch (JavaModelException | IOException e) {
 							e.printStackTrace();
 						}
@@ -237,13 +263,10 @@ public class DataFlowExperiment {
 				}
 			}
 			String result = "dfd=" + dfd.getName() + " ,injections=" + injections + ", tp=" + truePositives + ", fp="
-					+ falsePositives + ", fn=" + falseNegatives;
+					+ falsePositives + ", fn=" + falseNegatives+"\n";
 			System.out.println(result);
-			Path out = Paths.get("df-results.txt");
-			System.out.println("Writing results to: "+out.toFile().getAbsolutePath());
-			Files.write(out,
-					result.getBytes(Charset.defaultCharset()),
-					StandardOpenOption.APPEND, StandardOpenOption.CREATE);
+			Files.write(out, result.getBytes(Charset.defaultCharset()), StandardOpenOption.APPEND,
+					StandardOpenOption.CREATE);
 		} else {
 			LOGGER.info("Found no candidate flow to remove asset.");
 		}

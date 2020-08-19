@@ -96,19 +96,19 @@ public class FlowEntryExit {
 				for (Asset asset : flow.getAssets()) {
 					for (TAbstractType assetType : mapper.getMapping(asset)) {
 						entries.addAll(addDummyFlowIntoParameter(methods, assetType));
-						for (TMethodDefinition def : methods) {
-							for (TAccess access : def.getTAccessing()) {
-								TSignature member = access.getTTarget().getSignature();
-								if (member instanceof TMethodSignature
-										&& ((TMethodSignature) member).getReturnType().isSuperTypeOf(assetType)) {
-									for (TAbstractFlowElement potentialFlow : member.getOutgoingFlows()) {
-										if (potentialFlow.eContainer().equals(access)) {
-											entries.add((TFlow) potentialFlow);
-										}
-									}
-								}
-							}
-						}
+//						for (TMethodDefinition def : methods) {
+//							for (TAccess access : def.getTAccessing()) {
+//								TSignature member = access.getTTarget().getSignature();
+//								if (member instanceof TMethodSignature
+//										&& ((TMethodSignature) member).getReturnType().isSuperTypeOf(assetType)) {
+//									for (TAbstractFlowElement potentialFlow : member.getOutgoingFlows()) {
+//										if (potentialFlow.eContainer().equals(access)) {
+//											entries.add((TFlow) potentialFlow);
+//										}
+//									}
+//								}
+//							}
+//						}
 					}
 				}
 			}
