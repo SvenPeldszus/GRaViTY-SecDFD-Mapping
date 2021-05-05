@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,19 +19,15 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.gravity.mapping.secdfd.checks.ICheck;
 import org.gravity.mapping.secdfd.checks.impl.flowdroid.AssetResults;
 import org.gravity.mapping.secdfd.checks.impl.flowdroid.Results;
-import org.gravity.mapping.secdfd.checks.impl.flowdroid.SignatureHelper;
 import org.gravity.mapping.secdfd.checks.impl.flowdroid.SourceAndSink;
 import org.gravity.mapping.secdfd.checks.impl.flowdroid.SourcesAndSinkFinder;
 import org.gravity.mapping.secdfd.mapping.Mapper;
-import org.gravity.typegraph.basic.TMember;
-import org.gravity.typegraph.basic.TMethodDefinition;
 import org.secdfd.dsl.validation.SResult;
 import org.secdfd.dsl.validation.SResult.PState;
 import org.secdfd.model.Asset;
@@ -58,26 +55,26 @@ import soot.util.MultiMap;
 public class DataFlowCheck implements ICheck {
 	private static final Logger LOGGER = Logger.getLogger(DataFlowCheck.class);
 
-	private Mapper mapper;
-	private String appPath;
-	private String libPath;
+	private final Mapper mapper;
+	private final String appPath;
+	private final String libPath;
 	SourcesAndSinkFinder sas;
-	private Set<String> possibleLeaks;
+	private final Set<String> possibleLeaks;
 
 	public Set<String> getPossibleLeaks() {
-		return possibleLeaks;
+		return this.possibleLeaks;
 	}
 
 	/**
 	 * @return the sas
 	 */
 	public SourcesAndSinkFinder getSas() {
-		return sas;
+		return this.sas;
 	}
 
-	private int limit;
+	private final int limit;
 
-	public DataFlowCheck(Mapper mapper, IJavaProject project, boolean susi, int limit)
+	public DataFlowCheck(final Mapper mapper, final IJavaProject project, final boolean susi, final int limit)
 			throws IOException, JavaModelException {
 		this.mapper = mapper;
 		this.limit = limit;
@@ -88,14 +85,14 @@ public class DataFlowCheck implements ICheck {
 		this.possibleLeaks = new HashSet<>();
 
 		// set up paths for application and library to pass to flowdroid
-		IPath outputLocation = project.getOutputLocation();
-		IPath projectLocation = project.getProject().getLocation();
+		final IPath outputLocation = project.getOutputLocation();
+		final IPath projectLocation = project.getProject().getLocation();
 		this.appPath = projectLocation.append(outputLocation.removeFirstSegments(1)).toOSString();
 		this.libPath = System.getProperty("java.home") + File.separator + "lib" + File.separator + "rt.jar";
 	}
 
 	// when called from UI, we have to get project from gravity folder
-	public DataFlowCheck(Mapper mapper, boolean susi, int limit, IFolder gravityFolder)
+	public DataFlowCheck(final Mapper mapper, final boolean susi, final int limit, final IFolder gravityFolder)
 			throws IOException, CoreException {
 		this.mapper = mapper;
 		this.limit = limit;
@@ -103,36 +100,36 @@ public class DataFlowCheck implements ICheck {
 		this.sas = new SourcesAndSinkFinder(mapper, susi);
 		this.possibleLeaks = new HashSet<>();
 
-		IProject iproject = gravityFolder.getProject();
-		IJavaProject ijavaProj = (IJavaProject) iproject.getNature(JavaCore.NATURE_ID);
-		IPath outputLocation = ijavaProj.getOutputLocation();
-		IPath projectLocation = iproject.getLocation();
+		final IProject iproject = gravityFolder.getProject();
+		final IJavaProject ijavaProj = (IJavaProject) iproject.getNature(JavaCore.NATURE_ID);
+		final IPath outputLocation = ijavaProj.getOutputLocation();
+		final IPath projectLocation = iproject.getLocation();
 		this.appPath = projectLocation.append(outputLocation.removeFirstSegments(1)).toOSString();
 		this.libPath = System.getProperty("java.home") + File.separator + "lib" + File.separator + "rt.jar";
 	}
 
 	@Override
-	public Collection<SResult> check(Mapper mapper) {
+	public Collection<SResult> check(final Mapper mapper) {
 		if(this.mapper != mapper) {
 			return null;
 		}
-		Results dfResults = checkAllAssets();
+		final Results dfResults = checkAllAssets();
 		return createMarkersForDFAnalysisResults(dfResults);
 	}
 
 	// add problems to each asset (duplicated source-sink pairs, because developer
 	// may want to see which asset the leak effects)
-	private Collection<SResult> createMarkersForDFAnalysisResults(Results DFresults) {
-		Set<SResult> problems = new HashSet<>();
-		for (AssetResults assetRes : DFresults.getResultsPerAsset()) {
-			Set<String> strings = flatten(assetRes.getResults());
+	private Collection<SResult> createMarkersForDFAnalysisResults(final Results DFresults) {
+		final Set<SResult> problems = new HashSet<>();
+		for (final AssetResults assetRes : DFresults.getResultsPerAsset()) {
+			final Set<String> strings = flatten(assetRes.getResults());
 			if (!strings.isEmpty()) {
-				String description = "";
-				for (String str : strings) {
-					description += str + '\n';
+				StringBuilder description = new StringBuilder();
+				for (final String str : strings) {
+					description.append(str).append('\n');
 				}
-				problems.add(new SResult(PState.ERROR, null, (EObject) assetRes.getAsset(), null,
-						"The following source -> sink leaks have been detected: " + description));
+				problems.add(new SResult(PState.ERROR, null, assetRes.getAsset(), null,
+						"The following source -> sink leaks have been detected: " + description.toString()));
 			}
 		}
 		return problems;
@@ -142,10 +139,10 @@ public class DataFlowCheck implements ICheck {
 	 * @param map : asset results for each entry point
 	 * @return flattened results of asset (merged entry points)
 	 */
-	private Set<String> flatten(Map<String, InfoflowResults> map) {
-		Set<String> flattened = new HashSet<>();
+	private Set<String> flatten(final Map<String, InfoflowResults> map) {
+		final Set<String> flattened = new HashSet<>();
 		map.values().forEach(value -> {
-			Set<DataFlowResult> rs = value.getResultSet();
+			final Set<DataFlowResult> rs = value.getResultSet();
 			if (rs != null) {
 				rs.forEach(result -> {
 					if (!inFlattened(result, flattened)) {
@@ -158,8 +155,8 @@ public class DataFlowCheck implements ICheck {
 		return flattened;
 	}
 
-	private boolean inFlattened(DataFlowResult result, Set<String> flattened) {
-		for (String entry : flattened) {
+	private boolean inFlattened(final DataFlowResult result, final Set<String> flattened) {
+		for (final String entry : flattened) {
 			if (result.getSource().getDefinition().toString().contains(entry.split(", ")[0])
 					&& result.getSink().getDefinition().toString().contains(entry.split(", ")[1])) {
 				return true;
@@ -169,8 +166,8 @@ public class DataFlowCheck implements ICheck {
 	}
 
 	public Results checkAllAssets() {
-		Results results = new Results();
-		for (Asset asset : mapper.getDFD().getAsset()) {
+		final Results results = new Results();
+		for (final Asset asset : this.mapper.getDFD().getAsset()) {
 			// look for sources, sinks, epoints if confidential asset
 			if (asset.getValue().stream().anyMatch(value -> Objective.CONFIDENTIALITY.equals(value.getObjective()))) {
 				results.add(checkAsset(asset));
@@ -181,13 +178,13 @@ public class DataFlowCheck implements ICheck {
 
 	/**
 	 * try to inject high labels (as many as candidates)
-	 * 
+	 *
 	 * @return
 	 */
 	public Results checkAllAssetsInject() {
-		Results results = new Results();
-		EDFD dfd = mapper.getDFD();
-		Set<Asset> candidates = getAssetsForInjection(dfd);
+		final Results results = new Results();
+		final EDFD dfd = this.mapper.getDFD();
+		final Set<Asset> candidates = getAssetsForInjection(dfd);
 
 		if (!candidates.isEmpty()) {
 			injectAndCheckAssets(candidates).forEach(res -> {
@@ -198,9 +195,9 @@ public class DataFlowCheck implements ICheck {
 		}
 
 		// check remaining assets
-		EList<Asset> rest = dfd.getAsset();
+		final EList<Asset> rest = dfd.getAsset();
 		rest.removeAll(candidates);
-		for (Asset asset : rest) {
+		for (final Asset asset : rest) {
 			// look for sources, sinks, epoints if confidential asset
 			if (asset.getValue().stream().anyMatch(value -> Objective.CONFIDENTIALITY.equals(value.getObjective()))) {
 				results.add(checkAsset(asset));
@@ -213,15 +210,15 @@ public class DataFlowCheck implements ICheck {
 	 * @param candidates
 	 * @return Set of asset results
 	 */
-	private Set<AssetResults> injectAndCheckAssets(Set<Asset> candidates) {
-		Set<AssetResults> allRes = new HashSet<>();
+	private Set<AssetResults> injectAndCheckAssets(final Set<Asset> candidates) {
+		final Set<AssetResults> allRes = new HashSet<>();
 		// inject confidentiality high
 		modifyCandidates(candidates);
-		for (Asset asset : candidates) {
+		for (final Asset asset : candidates) {
 			// look for sources, sinks, epoints, put all allowed to forbidden
-			AssetResults result = GetAssetSourceSinks(asset);
+			final AssetResults result = GetAssetSourceSinks(asset);
 			// the allowed were added as forbidden sinks (and to sinks) now due to injection
-			Collection<String> forbidden = result.getForbiddenSinks();
+			final Collection<String> forbidden = result.getForbiddenSinks();
 			// if no application specific (DFD derived) forbidden sinks, then we only get
 			// FPs - skip...
 			// also if forbidden == sources -> means we want to inject a leak within the
@@ -229,12 +226,12 @@ public class DataFlowCheck implements ICheck {
 			if (!forbidden.isEmpty() && !result.getSources().containsAll(forbidden)) {
 				// run flow droid
 				System.out.println("Injecting for asset: " + asset.getName());
-				Set<String> epoints = sas.getEntryPoints();
+				final Set<String> epoints = this.sas.getEntryPoints();
 				result.addAllResults(check(result.getSources(), result.getSinks(), epoints));
 
 				// flatten results
-				Set<MultiMap<ResultSinkInfo, ResultSourceInfo>> infoflowres = result.getSingleResults().parallelStream()
-						.map(res -> res.getValue()).map(r -> r.getResults()).collect(Collectors.toSet());
+				final Set<MultiMap<ResultSinkInfo, ResultSourceInfo>> infoflowres = result.getSingleResults().parallelStream()
+						.map(Entry::getValue).map(InfoflowResults::getResults).collect(Collectors.toSet());
 
 				infoflowres.remove(null);
 				/*
@@ -245,16 +242,16 @@ public class DataFlowCheck implements ICheck {
 				 * the leak)
 				 */
 				infoflowres.forEach(map -> {
-					for (ResultSinkInfo sink : map.keySet()) {
-						String sinkMethod = sink.getStmt().getInvokeExpr().getMethod().getSignature();
-						Set<String> sourceMethods = map.get(sink).parallelStream()
+					for (final ResultSinkInfo sink : map.keySet()) {
+						final String sinkMethod = sink.getStmt().getInvokeExpr().getMethod().getSignature();
+						final Set<String> sourceMethods = map.get(sink).parallelStream()
 								.map(s -> s.getStmt().getInvokeExpr().getMethod().getSignature())
 								.collect(Collectors.toSet());
 						if (forbidden.contains(sinkMethod)) {
 							// add all pairs to 'expected FPs'
 							sourceMethods.forEach(source -> {
 								if (result.getSources().contains(source)) {
-									possibleLeaks.add(source + ", " + sinkMethod);
+									this.possibleLeaks.add(source + ", " + sinkMethod);
 								}
 							});
 						}
@@ -268,14 +265,14 @@ public class DataFlowCheck implements ICheck {
 
 	/**
 	 * @param assets
-	 * 
+	 *
 	 */
-	private void modifyCandidates(Set<Asset> assets) {
+	private void modifyCandidates(final Set<Asset> assets) {
 		assets.forEach(asset -> {
 			// if it's not confidential, inject label
 			// if(asset.getValue().stream().noneMatch(value ->
 			// Objective.CONFIDENTIALITY.equals(value.getObjective()))) {
-			Value injectedValue = ModelFactory.eINSTANCE.createValue();
+			final Value injectedValue = ModelFactory.eINSTANCE.createValue();
 			injectedValue.setObjective(Objective.CONFIDENTIALITY);
 			injectedValue.setPriority(Priority.H);
 			asset.getValue().add(injectedValue);
@@ -289,8 +286,8 @@ public class DataFlowCheck implements ICheck {
 	 * @return Set<Asset> find non-confidential assets that exit the system (i.e.,
 	 *         the asset target is EE or DS).
 	 */
-	private Set<Asset> getAssetsForInjection(EDFD dfd) {
-		Set<Asset> nonconfidentialAssets = dfd.getAsset().parallelStream()
+	private Set<Asset> getAssetsForInjection(final EDFD dfd) {
+		final Set<Asset> nonconfidentialAssets = dfd.getAsset().parallelStream()
 				.filter(asset -> asset.getValue().stream()
 						.noneMatch(value -> Objective.CONFIDENTIALITY.equals(value.getObjective())))
 				.filter(asset -> asset.getTargets().stream()
@@ -303,42 +300,42 @@ public class DataFlowCheck implements ICheck {
 	 * @param asset The asset to check
 	 * @return The results of the DF-analysis per entry point
 	 */
-	private AssetResults checkAsset(Asset asset) {
+	private AssetResults checkAsset(final Asset asset) {
 		// calculate source and sinks for the asset
-		SourceAndSink sourcesAndSinks = sas.getSourceSinks(asset);
+		final SourceAndSink sourcesAndSinks = this.sas.getSourceSinks(asset);
 		if (sourcesAndSinks == null) {
 			return new AssetResults(asset, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(),
 					Collections.emptyMap(), Collections.emptyList());
 		}
 
-		List<String> sources = new ArrayList<>(sourcesAndSinks.getSources());
-		List<String> sinks = new ArrayList<>(sourcesAndSinks.getSinks());
-		List<String> forbinnedSinks = new ArrayList<>(sourcesAndSinks.getForbiddenSinks());
+		final List<String> sources = new ArrayList<>(sourcesAndSinks.getSources());
+		final List<String> sinks = new ArrayList<>(sourcesAndSinks.getSinks());
+		final List<String> forbinnedSinks = new ArrayList<>(sourcesAndSinks.getForbiddenSinks());
 
 		if (sources.isEmpty()) {
 			return new AssetResults(asset, sources, sinks, forbinnedSinks, Collections.emptyMap(), Collections.emptyList());
 		}
 
-		Set<String> epoints = sas.getEntryPoints();
-		Map<String, InfoflowResults> map = check(sources, sinks, epoints);
+		final Set<String> epoints = this.sas.getEntryPoints();
+		final Map<String, InfoflowResults> map = check(sources, sinks, epoints);
 		return new AssetResults(asset, sources, sinks, forbinnedSinks, map, Collections.emptyList());
 	}
 
-	private AssetResults GetAssetSourceSinks(Asset asset) {
+	private AssetResults GetAssetSourceSinks(final Asset asset) {
 		// calculate source and sinks for the asset
-		SourceAndSink sourcesAndSinks = sas.getSourceSinks(asset);
+		final SourceAndSink sourcesAndSinks = this.sas.getSourceSinks(asset);
 		if (sourcesAndSinks == null) {
 			return new AssetResults(asset, Collections.emptySet(), Collections.emptySet(), Collections.emptySet(),
 					Collections.emptyMap(), Collections.emptySet());
 		}
 
-		List<String> sources = new ArrayList<>(sourcesAndSinks.getSources());
-		List<String> sinks = new ArrayList<>(sourcesAndSinks.getSinks());
-		List<String> derivedAsForbiddenSinks = new ArrayList<>(sourcesAndSinks.getForbiddenSinks());
-		Set<String> allowed = sourcesAndSinks.getAllowed();
+		final List<String> sources = new ArrayList<>(sourcesAndSinks.getSources());
+		final List<String> sinks = new ArrayList<>(sourcesAndSinks.getSinks());
+		final List<String> derivedAsForbiddenSinks = new ArrayList<>(sourcesAndSinks.getForbiddenSinks());
+		final Set<String> allowed = sourcesAndSinks.getAllowed();
 
 		// add all allowed sinks
-		for (String allowedsink : allowed) {
+		for (final String allowedsink : allowed) {
 			if (allowedsink != "") {
 				sinks.add(allowedsink);
 				derivedAsForbiddenSinks.add(allowedsink);
@@ -354,8 +351,8 @@ public class DataFlowCheck implements ICheck {
 	 * @param epoints
 	 * @return
 	 */
-	public Map<String, InfoflowResults> check(Collection<String> sources, Collection<String> sinks,
-			Collection<String> epoints) {
+	public Map<String, InfoflowResults> check(final Collection<String> sources, final Collection<String> sinks,
+			final Collection<String> epoints) {
 		return epoints.stream()
 				.collect(Collectors.toMap(entryPoint -> entryPoint, entryPoint -> check(sources, sinks, entryPoint)));
 	}
@@ -366,25 +363,25 @@ public class DataFlowCheck implements ICheck {
 	 * @param entryPoint
 	 * @return
 	 */
-	public InfoflowResults check(Collection<String> sources, Collection<String> sinks, String entryPoint) {
+	public InfoflowResults check(final Collection<String> sources, final Collection<String> sinks, final String entryPoint) {
 		// for itrust add_health_record, this violation should be found!?
-//		sinks.contains("<java.sql.Connection: java.sql.PreparedStatement prepareStatement(java.lang.String)>");
-//		sources.add("<edu.ncsu.csc.itrust.dao.mysql.HealthRecordsDAO: boolean add(edu.ncsu.csc.itrust.beans.HealthRecord)>");
-//		sources.contains("<edu.ncsu.csc.itrust.dao.mysql.HealthRecordsDAO: boolean add(edu.ncsu.csc.itrust.beans.HealthRecord)>");
-		IInfoflow infoflow = initInfoflow(Collections.emptyMap(), limit);
-		infoflow.computeInfoflow(appPath, libPath, entryPoint, sources, sinks);
-		InfoflowResults results = infoflow.getResults();
+		//		sinks.contains("<java.sql.Connection: java.sql.PreparedStatement prepareStatement(java.lang.String)>");
+		//		sources.add("<edu.ncsu.csc.itrust.dao.mysql.HealthRecordsDAO: boolean add(edu.ncsu.csc.itrust.beans.HealthRecord)>");
+		//		sources.contains("<edu.ncsu.csc.itrust.dao.mysql.HealthRecordsDAO: boolean add(edu.ncsu.csc.itrust.beans.HealthRecord)>");
+		final IInfoflow infoflow = initInfoflow(Collections.emptyMap(), this.limit);
+		infoflow.computeInfoflow(this.appPath, this.libPath, entryPoint, sources, sinks);
+		final InfoflowResults results = infoflow.getResults();
 		if (results == null) {
 			return new InfoflowResults();
 		}
 		if (results.isEmpty()) {
 			return results;
 		}
-		MultiMap<ResultSinkInfo, ResultSourceInfo> map = results.getResults();
+		final MultiMap<ResultSinkInfo, ResultSourceInfo> map = results.getResults();
 		// Remove sinks that are allowed sinks -> removed EasyTaintWrapper.txt (might be
 		// the reason)
-		for (ResultSinkInfo sink : map.keySet()) {
-			SootMethod method = sink.getStmt().getInvokeExpr().getMethod();
+		for (final ResultSinkInfo sink : map.keySet()) {
+			final SootMethod method = sink.getStmt().getInvokeExpr().getMethod();
 			if (!sinks.contains(method.toString())) {
 				map.remove(sink);
 			}
@@ -392,10 +389,10 @@ public class DataFlowCheck implements ICheck {
 		return results;
 	}
 
-	protected IInfoflow initInfoflow(Map<String, Set<String>> taintedMethods, int limit) {
+	protected IInfoflow initInfoflow(final Map<String, Set<String>> taintedMethods, final int limit) {
 		// reset soot and initialize flowdroid configuration
 		soot.G.reset();
-		Infoflow result = new Infoflow("", false, null);
+		final Infoflow result = new Infoflow("", false, null);
 		result.setSootConfig((options, config) -> {
 			options.set_whole_program(true);
 			options.set_exclude(Arrays.asList("java.util.*"));

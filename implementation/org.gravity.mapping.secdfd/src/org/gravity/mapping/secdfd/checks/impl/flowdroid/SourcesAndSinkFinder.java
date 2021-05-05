@@ -24,22 +24,21 @@ import org.gravity.typegraph.basic.TClass;
 import org.gravity.typegraph.basic.TConstructor;
 import org.gravity.typegraph.basic.TMember;
 import org.gravity.typegraph.basic.TMethodDefinition;
-
 import org.secdfd.model.Asset;
 import org.secdfd.model.DataStore;
-import org.secdfd.model.Flow;
 import org.secdfd.model.Element;
 import org.secdfd.model.ExternalEntity;
+import org.secdfd.model.Flow;
 import org.secdfd.model.NamedEntity;
 import org.secdfd.model.Process;
 
 public class SourcesAndSinkFinder {
 
 	public class Pair {
-		private NamedEntity element;
-		private Asset asset;
+		private final NamedEntity element;
+		private final Asset asset;
 
-		Pair(NamedEntity el, Asset as) {
+		Pair(final NamedEntity el, final Asset as) {
 			this.element = el;
 			this.asset = as;
 		}
@@ -62,23 +61,23 @@ public class SourcesAndSinkFinder {
 	private final Set<String> additionalSinks;
 	private Set<String> forbiddenSinks;
 
-	private Mapper mapper;
+	private final Mapper mapper;
 
-	public SourcesAndSinkFinder(Mapper mapper, boolean susi) throws IOException {
+	public SourcesAndSinkFinder(final Mapper mapper, final boolean susi) throws IOException {
 		this.mapper = mapper;
 		this.forbiddenSinks = new HashSet<>();
 		this.additionalSinks = read(ADDITIONAL_SINKS);
 
 		// find entry points
-		Set<TMethodDefinition> entryPointDefinitions = findEntryPoints();
+		final Set<TMethodDefinition> entryPointDefinitions = findEntryPoints();
 		this.entryPoints = getSootSignatures(entryPointDefinitions);
 
 		if (susi) {
 			this.baselineSources = read(SOURCES);
 			this.baselineSinks = read(SINKS);
 		} else {
-			baselineSources = Collections.emptySet();
-			baselineSinks = Collections.emptySet();
+			this.baselineSources = Collections.emptySet();
+			this.baselineSinks = Collections.emptySet();
 		}
 	}
 
@@ -87,9 +86,9 @@ public class SourcesAndSinkFinder {
 	 * @return
 	 * @throws IOException
 	 */
-	private Set<String> read(String file) throws IOException {
+	private Set<String> read(final String file) throws IOException {
 		Set<String> tmp;
-		URL sourcesEntry = Activator.getInstance().getBundle().getEntry(file);
+		final URL sourcesEntry = Activator.getInstance().getBundle().getEntry(file);
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(sourcesEntry.openStream()))) {
 			tmp = reader.lines().collect(Collectors.toSet());
 		}
@@ -98,51 +97,51 @@ public class SourcesAndSinkFinder {
 
 	/**
 	 * Gets entry points, sources and sinks
-	 * 
+	 *
 	 * @param gravity
 	 * @param mapper
 	 * @param susi
 	 * @return
 	 * @throws IOException
 	 */
-	public SourceAndSink getSourceSinks(Asset asset) {
+	public SourceAndSink getSourceSinks(final Asset asset) {
 		// find source correspondences
 		// Set<? extends TMember> flowSourceCorrespondences = findSources(asset);
-		Set<? extends TMember> flowSourceCorrespondences = findSourcesBackwards(asset);
+		final Set<? extends TMember> flowSourceCorrespondences = findSourcesBackwards(asset);
 		if (flowSourceCorrespondences.isEmpty()) {
 			return null;
 		}
 		// format to soot signature
-		Set<String> sources = getSootSignatures(flowSourceCorrespondences);
+		final Set<String> sources = getSootSignatures(flowSourceCorrespondences);
 
 		// find sinks
-		SinkFinder sinkFinder = new SinkFinder(mapper, asset);
-		Set<? extends TMember> flowSinkCorrespondences = sinkFinder.getForbiddensinks();
-		Set<? extends TMember> flowAllowedSinkCorrespondences = sinkFinder.getAllowedsinks();
+		final SinkFinder sinkFinder = new SinkFinder(this.mapper, asset);
+		final Set<? extends TMember> flowSinkCorrespondences = sinkFinder.getForbiddensinks();
+		final Set<? extends TMember> flowAllowedSinkCorrespondences = sinkFinder.getAllowedsinks();
 
 		if (flowSinkCorrespondences.isEmpty()) {
 			LOGGER.log(Level.ERROR,
 					"No sinks found. Modeling attacker observation zones in the SecDFD are required for executing data flow analysis.");
 		}
 
-		Set<String> sinks = getSootSignatures(flowSinkCorrespondences);
+		final Set<String> sinks = getSootSignatures(flowSinkCorrespondences);
 		// add only relevant susi sinks (remove allowed)
 		sinks.addAll(getForbiddenSinks(sinkFinder, getBaselineSinks()));
 		// remember also just the DFD derived sinks
-		forbiddenSinks = getSootSignatures(flowSinkCorrespondences);
-		forbiddenSinks.removeIf(sink -> sink.equals(""));// remove empty strings
-		return new SourceAndSink(sources, sinks, forbiddenSinks, getSootSignatures(flowAllowedSinkCorrespondences));
+		this.forbiddenSinks = getSootSignatures(flowSinkCorrespondences);
+		this.forbiddenSinks.removeIf(sink -> sink.equals(""));// remove empty strings
+		return new SourceAndSink(sources, sinks, this.forbiddenSinks, getSootSignatures(flowAllowedSinkCorrespondences));
 	}
 
 	/**
 	 * Adds the signatures of the correspondences to the set
-	 * 
+	 *
 	 * @param correspondenceOrAFE The correspondences or abstract flow elements
 	 */
-	public Set<String> getSootSignatures(Collection<? extends TMember> correspondenceOrAFE) {
-		Set<String> signatures = new HashSet<>(correspondenceOrAFE.size());
-		for (TMember source : correspondenceOrAFE) {
-			if (source instanceof TMethodDefinition && !TConstructor.isConstructor(source)) {
+	public Set<String> getSootSignatures(final Collection<? extends TMember> correspondenceOrAFE) {
+		final Set<String> signatures = new HashSet<>(correspondenceOrAFE.size());
+		for (final TMember source : correspondenceOrAFE) {
+			if ((source instanceof TMethodDefinition) && !TConstructor.isConstructor(source)) {
 				signatures.add(SignatureHelper.getSootSignature((TMethodDefinition) source));
 			}
 		}
@@ -152,34 +151,34 @@ public class SourcesAndSinkFinder {
 	/**
 	 * Searches the call-graph backwards until the DFD is exited starting from the
 	 * ExternalEnties
-	 * 
+	 *
 	 * @return The methods at the border of the DFD
 	 */
 	private Set<TMethodDefinition> findEntryPoints() {
-		Set<TMethodDefinition> entryProcesses = mapper.getDFD().getElements().parallelStream()
+		final Set<TMethodDefinition> entryProcesses = this.mapper.getDFD().getElements().parallelStream()
 				.filter(ExternalEntity.class::isInstance)
 				.flatMap(external -> Stream.concat(external.getInflows().parallelStream().map(Flow::getSource),
 						external.getOutflows().parallelStream().map(Flow::getTarget)
-								.flatMap(Collection::parallelStream)))
-				.filter(Process.class::isInstance).map(e -> (Process) e).map(mapper::getMapping)
+						.flatMap(Collection::parallelStream)))
+				.filter(Process.class::isInstance).map(e -> (Process) e).map(this.mapper::getMapping)
 				.flatMap(Collection::parallelStream).collect(Collectors.toSet());
 
-		Set<TMethodDefinition> epoints = new HashSet<>();
-		Set<TMethodDefinition> seen = new HashSet<>();
-		Deque<TMethodDefinition> definitions = new LinkedList<>(entryProcesses);
+		final Set<TMethodDefinition> epoints = new HashSet<>();
+		final Set<TMethodDefinition> seen = new HashSet<>();
+		final Deque<TMethodDefinition> definitions = new LinkedList<>(entryProcesses);
 		while (!definitions.isEmpty()) {
-			TMethodDefinition def = definitions.pop();
+			final TMethodDefinition def = definitions.pop();
 			if (seen.contains(def)) {
 				continue;
 			}
 			definitions.addAll(def.getOverriddenBy());
 			seen.add(def);
 
-			Set<TMethodDefinition> sources = def.getAccessedBy().parallelStream().map(TAccess::getTSource)
+			final Set<TMethodDefinition> sources = def.getAccessedBy().parallelStream().map(TAccess::getSource)
 					.filter(TMethodDefinition.class::isInstance).map(m -> (TMethodDefinition) m)
-					.filter(source -> (!mapper.getMapping(source).isEmpty())).collect(Collectors.toSet());
+					.filter(source -> (!this.mapper.getMapping(source).isEmpty())).collect(Collectors.toSet());
 			if (sources.isEmpty()) {
-				TAbstractType definedBy = def.getDefinedBy();
+				final TAbstractType definedBy = def.getDefinedBy();
 				if (definedBy instanceof TClass) {
 					epoints.add(def);
 				}
@@ -192,19 +191,19 @@ public class SourcesAndSinkFinder {
 
 	// When looking for sources - if Process has a contact for asset, follow
 	// backwards
-	private Set<? extends TMember> findSourcesBackwards(Asset asset) {
-		NamedEntity assetsource = asset.getSource();
-		Set<TMember> allSources = new HashSet<>();
-		Set<Pair> seen = new HashSet<>();
+	private Set<? extends TMember> findSourcesBackwards(final Asset asset) {
+		final NamedEntity assetsource = asset.getSource();
+		final Set<TMember> allSources = new HashSet<>();
+		final Set<Pair> seen = new HashSet<>();
 
-		Deque<Pair> elementsToCheck = new LinkedList<Pair>();
-		Pair firstPair = new Pair(assetsource, asset);
+		final Deque<Pair> elementsToCheck = new LinkedList<>();
+		final Pair firstPair = new Pair(assetsource, asset);
 		elementsToCheck.add(firstPair);
 
 		while (!elementsToCheck.isEmpty()) {
-			Pair c = elementsToCheck.pop();
-			NamedEntity currentEl = c.element;
-			Asset currentAs = c.asset;
+			final Pair c = elementsToCheck.pop();
+			final NamedEntity currentEl = c.element;
+			final Asset currentAs = c.asset;
 			if (seen.contains(c)) {
 				continue;
 			}
@@ -213,21 +212,21 @@ public class SourcesAndSinkFinder {
 				// incoming assets to contract are possible to track backwards (if multiple
 				// incoming assets -- join, conservatively follow
 				// all paths)
-				Set<Asset> assetsToFollow = ((Process) currentEl).getResponsibility().parallelStream()
+				final Set<Asset> assetsToFollow = ((Process) currentEl).getResponsibility().parallelStream()
 						.filter(r -> r.getOutcomeassets().contains(currentAs))
 						.flatMap(contract -> contract.getIncomeassets().stream()).collect(Collectors.toSet());
 				if (!assetsToFollow.isEmpty()) {
-					for (Asset toFollow : assetsToFollow) {
-						Set<NamedEntity> checkAlso = ((Process) currentEl).getInflows().parallelStream()
+					for (final Asset toFollow : assetsToFollow) {
+						final Set<NamedEntity> checkAlso = ((Process) currentEl).getInflows().parallelStream()
 								.filter(dataflow -> dataflow.getAssets().contains(toFollow))
-								.map(flow -> flow.getSource()).collect(Collectors.toSet());
-						for (NamedEntity el : checkAlso) {
+								.map(Flow::getSource).collect(Collectors.toSet());
+						for (final NamedEntity el : checkAlso) {
 							elementsToCheck.add(new Pair(el, toFollow));
 						}
 					}
 				} else {
 					// the asset can't be traced backwards anymore
-					allSources.addAll(mapper.getMapping((Process) assetsource));
+					allSources.addAll(this.mapper.getMapping((Process) assetsource));
 				}
 			}
 			// if DS or EE, get sources as usual
@@ -247,28 +246,28 @@ public class SourcesAndSinkFinder {
 	 * @param asset
 	 * @param currentEl
 	 */
-	private Set<? extends TMember> findStoreSources(Asset asset, NamedEntity currentEl) {
-		final Collection<TAbstractType> assetTypes = mapper.getMapping(asset);
+	private Set<? extends TMember> findStoreSources(final Asset asset, final NamedEntity currentEl) {
+		final Collection<TAbstractType> assetTypes = this.mapper.getMapping(asset);
 		final Collection<TMember> processMembers = ((DataStore) currentEl).getOutflows().parallelStream()
 				.map(Flow::getTarget).flatMap(Collection::parallelStream).filter(Process.class::isInstance)
-				.map(Process.class::cast).map(mapper::getMapping).flatMap(Collection::parallelStream)
+				.map(Process.class::cast).map(this.mapper::getMapping).flatMap(Collection::parallelStream)
 				.collect(Collectors.toSet());
-		Set<? extends EObject> pmElements = mapper.getMapping((DataStore) currentEl);
+		final Set<? extends EObject> pmElements = this.mapper.getMapping((DataStore) currentEl);
 		return pmElements.parallelStream().flatMap(element -> {
 			if (element instanceof TMember) {
 				return Stream.of((TMember) element);
 			} else if (element instanceof TAbstractType) {
-				TAbstractType tType = (TAbstractType) element;
+				final TAbstractType tType = (TAbstractType) element;
 				return tType.getDefines().parallelStream().filter(defined -> {
 					if (defined instanceof TMethodDefinition) {
-						TMethodDefinition method = (TMethodDefinition) defined;
+						final TMethodDefinition method = (TMethodDefinition) defined;
 						return assetTypes.contains(method.getReturnType());
 					} else {
 						return false;
 					}
 				}).map(TMethodDefinition.class::cast).filter(method -> {
-					for (TAccess accessing : method.getAccessedBy()) {
-						if (processMembers.contains(accessing.getTSource())) {
+					for (final TAccess accessing : method.getAccessedBy()) {
+						if (processMembers.contains(accessing.getSource())) {
 							return true;
 						}
 					}
@@ -285,37 +284,37 @@ public class SourcesAndSinkFinder {
 	 * @param asset
 	 * @param currentEl
 	 */
-	private Set<? extends TMember> findEntitySources(Asset asset, NamedEntity currentEl) {
+	private Set<? extends TMember> findEntitySources(final Asset asset, final NamedEntity currentEl) {
 		// there is no mapping of EE source element -> get the next element
-		Stream<Flow> transporterflows = getTargetFlows(asset, currentEl);
+		final Stream<Flow> transporterflows = getTargetFlows(asset, currentEl);
 		// collect the processes of the outgoing flows:
 		return transporterflows.flatMap(flow -> flow.getTarget().parallelStream())
-				.flatMap(target -> mapper.getMapping(target).parallelStream()).filter(TMember.class::isInstance)
+				.flatMap(target -> this.mapper.getMapping(target).parallelStream()).filter(TMember.class::isInstance)
 				.map(TMember.class::cast).collect(Collectors.toSet());
 
 	}
 
 	/**
 	 * Gets outgoing flows that communicate that asset
-	 * 
+	 *
 	 * @param asset
 	 * @param assetsource
 	 * @return
 	 */
-	private Stream<Flow> getTargetFlows(Asset asset, NamedEntity assetsource) {
+	private Stream<Flow> getTargetFlows(final Asset asset, final NamedEntity assetsource) {
 		return ((Element) assetsource).getOutflows().parallelStream()
 				.filter(outflow -> outflow.getAssets().contains(asset)).distinct();
 	}
 
-	public Set<String> getForbiddenSinks(SinkFinder sinkFinder, Set<String> susisinks) {
-		Set<TMember> allowedSinks = sinkFinder.getAllowedsinks();
+	public Set<String> getForbiddenSinks(final SinkFinder sinkFinder, final Set<String> susisinks) {
+		final Set<TMember> allowedSinks = sinkFinder.getAllowedsinks();
 		if (allowedSinks != null) {
-			Set<String> sinks = new HashSet<>();
+			final Set<String> sinks = new HashSet<>();
 			Set<String> allowed = getSootSignatures(allowedSinks);
 			// allowed (PM) have a different return type as additional sinks - disregard
 			allowed = checkReturnTypeOfAllowed(allowed);
 
-			for (String susi : susisinks) {
+			for (final String susi : susisinks) {
 				if (!allowed.contains(susi)) {
 					sinks.add(susi);
 				} else {
@@ -334,11 +333,10 @@ public class SourcesAndSinkFinder {
 	 * @return
 	 * @throws IOException
 	 */
-	private Set<String> checkReturnTypeOfAllowed(Set<String> allowed) {
-		Set<String> all = new HashSet<>();
-		all.addAll(allowed);
+	private Set<String> checkReturnTypeOfAllowed(final Set<String> allowed) {
+		final Set<String> all = new HashSet<>(allowed);
 		allowed.forEach(allowedSink -> {
-			additionalSinks.forEach(additionalSink -> {
+			this.additionalSinks.forEach(additionalSink -> {
 				if (allowedSink.split(" ")[0].equals(additionalSink.split(" ")[0])
 						&& allowedSink.split(" ")[2].equals(additionalSink.split(" ")[2])) {
 					// only return type differs, set to correct string - void (same as original)
@@ -354,22 +352,22 @@ public class SourcesAndSinkFinder {
 	 * @return the baselineSinks
 	 */
 	public Set<String> getBaselineSinks() {
-		return baselineSinks;
+		return this.baselineSinks;
 	}
 
 	public Set<String> getForbiddenSinks() {
-		return forbiddenSinks;
+		return this.forbiddenSinks;
 	}
 
 	/**
 	 * @return the baselineSources
 	 */
 	public Set<String> getBaselineSources() {
-		return baselineSources;
+		return this.baselineSources;
 	}
 
 	public Set<String> getEntryPoints() {
-		return entryPoints;
+		return this.entryPoints;
 	}
 
 }

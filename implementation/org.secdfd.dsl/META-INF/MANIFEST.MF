@@ -21,7 +21,7 @@ Require-Bundle: org.secdfd.model,
  org.apache.log4j;bundle-version="1.2.15",
  org.apache.commons.logging;bundle-version="1.2.0",
  com.ibm.icu;bundle-version="64.2.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.secdfd.dsl,
  org.secdfd.dsl.formatting2,
  org.secdfd.dsl.generator,

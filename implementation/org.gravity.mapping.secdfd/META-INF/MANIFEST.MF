@@ -8,8 +8,7 @@ Bundle-ClassPath: .,
  lib/gson.jar,
  lib/java-string-similarity-1.1.0.jar,
  lib/soot-infoflow-trunk.jar
-Require-Bundle: org.gravity.typegraph.basic;bundle-version="1.0.0";visibility:=reexport,
- org.eclipse.xtext,
+Require-Bundle: org.eclipse.xtext,
  org.secdfd.model;visibility:=reexport,
  org.gravity.eclipse.ui,
  org.gravity.eclipse,
@@ -23,14 +22,14 @@ Require-Bundle: org.gravity.typegraph.basic;bundle-version="1.0.0";visibility:=r
  org.eclipse.ui.workbench.texteditor,
  org.eclipse.jdt.ui,
  org.secdfd.dsl;bundle-version="1.0.0",
- com.google.gson;bundle-version="2.8.2",
+ com.google.gson,
  org.slf4j.api;bundle-version="1.7.2",
- org.eclipse.emf.transaction
+ org.eclipse.emf.transaction,
+ org.apache.log4j
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: com.google.gson,
- fj.data.vector,
  org.gravity.mapping.secdfd,
  org.gravity.mapping.secdfd.checks,
  org.gravity.mapping.secdfd.checks.impl,

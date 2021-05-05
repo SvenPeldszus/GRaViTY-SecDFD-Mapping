@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.gravity.mapping.secdfd.checks.impl;
 
@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.emf.ecore.EObject;
 import org.gravity.eclipse.util.EclipseProjectUtil;
 import org.gravity.mapping.secdfd.checks.ICheck;
 import org.gravity.mapping.secdfd.mapping.Mapper;
@@ -37,7 +36,7 @@ import org.secdfd.model.ResponsibilityType;
 /**
  * A class managing the encryption/decryption signatures and checking their
  * presence in the source corresponding to the target
- * 
+ *
  * @author katjat
  *
  */
@@ -54,59 +53,61 @@ public class CryptoCheck implements ICheck {
 
 	private final TypeGraph pm;
 
-	public CryptoCheck(TypeGraph pm, IFile encryptFilename, IFile decryptFilename) throws IOException {
+	public CryptoCheck(final TypeGraph pm, final IFile encryptFilename, final IFile decryptFilename) throws IOException {
 		this.pm = pm;
 		this.files = new EnumMap<>(ResponsibilityType.class);
 		this.files.put(ResponsibilityType.ENCRYPT_OR_HASH, encryptFilename);
 		this.files.put(ResponsibilityType.DECRYPT, decryptFilename);
-		this.signatures = loadSignaturesFromFile(files, pm);
+		this.signatures = loadSignaturesFromFile(this.files, pm);
 	}
 
-	public CryptoCheck(Mapper mapper) throws IOException {
+	public CryptoCheck(final Mapper mapper) throws IOException {
 		this(mapper.getPM(), getDefaultEncrypSignaturesFile(mapper.getGravityFolder()),
 				getDefaultDecrypSignaturesFile(mapper.getGravityFolder()));
 	}
 
 	@Override
-	public Collection<SResult> check(Mapper mapper) {
-		Collection<SResult> encrypt = checkEncryptContract(mapper);
-		Collection<SResult> decrypt = checkDecryptContract(mapper);
-		ArrayList<SResult> results = new ArrayList<>(encrypt.size() + decrypt.size());
+	public Collection<SResult> check(final Mapper mapper) {
+		final Collection<SResult> encrypt = checkEncryptContract(mapper);
+		final Collection<SResult> decrypt = checkDecryptContract(mapper);
+		final ArrayList<SResult> results = new ArrayList<>(encrypt.size() + decrypt.size());
 		results.addAll(encrypt);
 		results.addAll(decrypt);
 		return results;
 	}
 
-	public Collection<SResult> checkDecryptContract(Mapper mapper) {
+	public Collection<SResult> checkDecryptContract(final Mapper mapper) {
 		if (!this.pm.equals(mapper.getPM())) {
 			throw new IllegalStateException("The check hasn't been initialized for this program model");
 		}
-		ResponsibilityType contractType = ResponsibilityType.DECRYPT;
-		Set<Process> processes = getRelevantProcesses(mapper.getDFD(), contractType);
-		if (processes.isEmpty())
+		final ResponsibilityType contractType = ResponsibilityType.DECRYPT;
+		final Set<Process> processes = getRelevantProcesses(mapper.getDFD(), contractType);
+		if (processes.isEmpty()) {
 			return Collections.emptyList();
+		}
 		return findResults(mapper, processes, contractType);
 	}
 
-	public Collection<SResult> checkEncryptContract(Mapper mapper) {
+	public Collection<SResult> checkEncryptContract(final Mapper mapper) {
 		if (!this.pm.equals(mapper.getPM())) {
 			throw new IllegalStateException("The check hasn't been initialized for this program model");
 		}
-		ResponsibilityType contractType = ResponsibilityType.ENCRYPT_OR_HASH;
-		Set<Process> processes = getRelevantProcesses(mapper.getDFD(), contractType);
-		if (processes.isEmpty())
+		final ResponsibilityType contractType = ResponsibilityType.ENCRYPT_OR_HASH;
+		final Set<Process> processes = getRelevantProcesses(mapper.getDFD(), contractType);
+		if (processes.isEmpty()) {
 			return Collections.emptyList();
+		}
 		return findResults(mapper, processes, contractType);
 	}
 
-	private Set<Process> getRelevantProcesses(EDFD dfd, ResponsibilityType resType) {
-		Set<Process> relevantProcesses = new HashSet<>();
+	private Set<Process> getRelevantProcesses(final EDFD dfd, final ResponsibilityType resType) {
+		final Set<Process> relevantProcesses = new HashSet<>();
 		dfd.getElements().parallelStream().filter(Process.class::isInstance).map(p -> (Process) p).forEach(p -> {
-			Set<Responsibility> responsibilities = p.eContents().parallelStream()
+			final Set<Responsibility> responsibilities = p.eContents().parallelStream()
 					.filter(Responsibility.class::isInstance).map(r -> (Responsibility) r).collect(Collectors.toSet());
 			responsibilities.forEach(r -> {
 				// check if any responsibility is of type 'resType'
-				Set<ResponsibilityType> rtype = r.getAction().parallelStream()
+				final Set<ResponsibilityType> rtype = r.getAction().parallelStream()
 						.filter(rt -> rt.getName().contains(resType.getName())).collect(Collectors.toSet());
 				if (!rtype.isEmpty()) {
 					relevantProcesses.add(p);
@@ -123,26 +124,26 @@ public class CryptoCheck implements ICheck {
 	 * @return A set of contract violations (results) for resType contract.
 	 *         Currently this supports encrypt and decrypt contract types
 	 */
-	private Set<SResult> findResults(Mapper mapper, Set<Process> processes, ResponsibilityType ctype) {
-		Set<SResult> problems = new HashSet<>();
-		Set<TMethodDefinition> definitions = signatures.getOrDefault(ctype, Collections.emptySet());
+	private Set<SResult> findResults(final Mapper mapper, final Set<Process> processes, final ResponsibilityType ctype) {
+		final Set<SResult> problems = new HashSet<>();
+		final Set<TMethodDefinition> definitions = this.signatures.getOrDefault(ctype, Collections.emptySet());
 
 		// find all the method definitions that are called by each method in
 		// "methods'; if the list of signatures contains at least one, contract is
 		// implemented.
 		processes.forEach(p -> {
-			Set<TMethodDefinition> methods = mapper.getMapping(p);
+			final Set<TMethodDefinition> methods = mapper.getMapping(p);
 			boolean flag = false;
-			for (TMethodDefinition method : methods) {
-				flag = method.getTAccessing().parallelStream().map(TAccess::getTTarget)
+			for (final TMethodDefinition method : methods) {
+				flag = method.getAccessing().parallelStream().map(TAccess::getTarget)
 						.filter(target -> target instanceof TMethodDefinition).anyMatch(definitions::contains);
 				if (flag) {
-					problems.add(new SResult(PState.SUCCESS, ctype, (EObject) p, methods,
+					problems.add(new SResult(PState.SUCCESS, ctype, p, methods,
 							"The " + ctype.getName() + " contract is implemented."));
 					return;
 				}
 			}
-			problems.add(new SResult(PState.ERROR, ctype, (EObject) p, methods,
+			problems.add(new SResult(PState.ERROR, ctype, p, methods,
 					createErrorMessage(ctype)));
 		});
 		return problems;
@@ -152,28 +153,28 @@ public class CryptoCheck implements ICheck {
 	 * @param ctype
 	 * @return
 	 */
-	public static String createErrorMessage(ResponsibilityType ctype) {
+	public static String createErrorMessage(final ResponsibilityType ctype) {
 		return "The " + ctype.getName() + " contract is not implemented.";
 	}
 
 	private static Map<ResponsibilityType, Set<TMethodDefinition>> loadSignaturesFromFile(
-			Map<ResponsibilityType, IFile> files, TypeGraph pm) throws IOException {
-		Map<ResponsibilityType, Set<TMethodDefinition>> signatures = new EnumMap<>(ResponsibilityType.class);
+			final Map<ResponsibilityType, IFile> files, final TypeGraph pm) throws IOException {
+		final Map<ResponsibilityType, Set<TMethodDefinition>> signatures = new EnumMap<>(ResponsibilityType.class);
 		IOException exception = null;
-		for (Entry<ResponsibilityType, IFile> entry : files.entrySet()) {
-			IFile file = entry.getValue();
+		for (final Entry<ResponsibilityType, IFile> entry : files.entrySet()) {
+			final IFile file = entry.getValue();
 			if (file.exists()) {
 				try {
-					for (String s : Files.readAllLines(file.getLocation().toFile().toPath())) {
-						TMethodDefinition methodDefinition = pm.getMethodDefinition(s);
+					for (final String s : Files.readAllLines(file.getLocation().toFile().toPath())) {
+						final TMethodDefinition methodDefinition = pm.getMethodDefinition(s);
 						if (methodDefinition != null) {
-							signatures.computeIfAbsent(entry.getKey(), set -> new HashSet<TMethodDefinition>())
-									.add(methodDefinition);
+							signatures.computeIfAbsent(entry.getKey(), set -> new HashSet<>())
+							.add(methodDefinition);
 						} else {
 							// TODO: log
 						}
 					}
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					exception = e;
 				}
 			}
@@ -187,27 +188,27 @@ public class CryptoCheck implements ICheck {
 	/**
 	 * Prepare a file for the user to see all the en/decryption signatures at
 	 * runtime
-	 * 
+	 *
 	 * @param contractType
-	 * 
+	 *
 	 */
 	private void writeSignaturesToFile() {
-		for (Entry<ResponsibilityType, Set<TMethodDefinition>> entry : signatures.entrySet()) {
-			IFile iFile = files.get(entry.getKey());
-			File file = iFile.getLocation().toFile();
+		for (final Entry<ResponsibilityType, Set<TMethodDefinition>> entry : this.signatures.entrySet()) {
+			final IFile iFile = this.files.get(entry.getKey());
+			final File file = iFile.getLocation().toFile();
 			if (!iFile.exists()) {
 				try {
 					file.getParentFile().mkdirs();
 					file.createNewFile();
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					e.printStackTrace();
 				}
 			}
 			try (FileWriter writer = new FileWriter(file, false)) {
-				for (TMethodDefinition obj : entry.getValue()) {
+				for (final TMethodDefinition obj : entry.getValue()) {
 					writer.append(obj.getDefinedBy().getFullyQualifiedName() + '.' + obj.getSignatureString() + '\n');
 				}
-			} catch (IOException e1) {
+			} catch (final IOException e1) {
 				e1.printStackTrace();
 			}
 		}
@@ -216,8 +217,8 @@ public class CryptoCheck implements ICheck {
 	/**
 	 * @param sig
 	 */
-	public void addSignature(TMethodDefinition sig, ResponsibilityType contractType) {
-		signatures.computeIfAbsent(contractType, set -> new HashSet<>()).add(sig);
+	public void addSignature(final TMethodDefinition sig, final ResponsibilityType contractType) {
+		this.signatures.computeIfAbsent(contractType, set -> new HashSet<>()).add(sig);
 		writeSignaturesToFile();
 	}
 
@@ -226,12 +227,12 @@ public class CryptoCheck implements ICheck {
 	 * @return
 	 * @throws IOException
 	 */
-	public static IFile getDefaultDecrypSignaturesFile(IProject project) throws IOException {
-		IFolder gravityFolder = EclipseProjectUtil.getGravityFolder(project, null);
+	public static IFile getDefaultDecrypSignaturesFile(final IProject project) throws IOException {
+		final IFolder gravityFolder = EclipseProjectUtil.getGravityFolder(project, null);
 		return getDefaultDecrypSignaturesFile(gravityFolder);
 	}
 
-	private static IFile getDefaultDecrypSignaturesFile(IFolder gravityFolder) {
+	private static IFile getDefaultDecrypSignaturesFile(final IFolder gravityFolder) {
 		return gravityFolder.getFile("decrypt-signatures.txt");
 	}
 
@@ -239,12 +240,12 @@ public class CryptoCheck implements ICheck {
 	 * @param mappingView
 	 * @return
 	 */
-	public static IFile getDefaultEncrypSignaturesFile(IProject project) throws IOException {
-		IFolder gravityFolder = EclipseProjectUtil.getGravityFolder(project, null);
+	public static IFile getDefaultEncrypSignaturesFile(final IProject project) throws IOException {
+		final IFolder gravityFolder = EclipseProjectUtil.getGravityFolder(project, null);
 		return getDefaultEncrypSignaturesFile(gravityFolder);
 	}
 
-	private static IFile getDefaultEncrypSignaturesFile(IFolder gravityFolder) {
+	private static IFile getDefaultEncrypSignaturesFile(final IFolder gravityFolder) {
 		return gravityFolder.getFile("encrypt-signatures.txt");
 	}
 

@@ -3,7 +3,8 @@ Bundle-SymbolicName: org.gravity.mapping.secdfd.eval;singleton:=true
 Automatic-Module-Name: org.gravity.mapping.secdfd
 Bundle-Name: %pluginName
 Bundle-Version: 1.0.0.qualifier
-Bundle-ClassPath: .
+Bundle-ClassPath: .,
+ lib/commons-math3-3.6.1.jar
 Require-Bundle: org.gravity.typegraph.basic;bundle-version="1.0.0";visibility:=reexport,
  org.eclipse.xtext,
  org.secdfd.model;visibility:=reexport,
@@ -22,9 +23,9 @@ Require-Bundle: org.gravity.typegraph.basic;bundle-version="1.0.0";visibility:=r
  org.gravity.mapping.secdfd,
  org.eclipse.emf.common,
  org.eclipse.emf.edit,
- org.eclipse.emf.transaction
+ org.eclipse.emf.transaction,
+ org.apache.log4j
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-Vendor: %providerName
-Import-Package: org.apache.commons.math3.util
