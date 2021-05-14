@@ -37,12 +37,6 @@
     <!--implementation/-->
     <dependency>
         <groupId>org.gravity.secdfd</groupId>
-        <artifactId>org.gravity.flowdroid</artifactId>
-       <version>1.0.0-SNAPSHOT</version>
-      <scope>compile</scope>
-     </dependency>
-    <dependency>
-        <groupId>org.gravity.secdfd</groupId>
         <artifactId>org.gravity.mapping.secdfd</artifactId>
        <version>1.0.0-SNAPSHOT</version>
       <scope>compile</scope>

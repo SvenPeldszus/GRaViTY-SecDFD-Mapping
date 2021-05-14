@@ -8,11 +8,8 @@
   <packaging>pom</packaging>
   
   <properties>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-
-    <tycho-version>1.6.0</tycho-version>
-    <jacoco.version>0.8.5</jacoco.version>
+    <tycho-version>2.3.0</tycho-version>
+    <jacoco.version>0.8.7</jacoco.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     
@@ -194,5 +191,9 @@
       <layout>p2</layout>
       <url>http://hallvard.github.io/plantuml</url>
     </repository>-->
+    <repository>
+       <id>jitpack.io</id>
+       <url>https://jitpack.io</url>
+    </repository>
   </repositories>
 </project>

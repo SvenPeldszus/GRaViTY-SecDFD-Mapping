@@ -4,7 +4,7 @@ Automatic-Module-Name: org.gravity.mapping.secdfd
 Bundle-Name: %pluginName
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .,
- lib/commons-math3-3.6.1.jar
+ lib/commons-math3.jar
 Require-Bundle: org.gravity.typegraph.basic;bundle-version="1.0.0";visibility:=reexport,
  org.eclipse.xtext,
  org.secdfd.model;visibility:=reexport,

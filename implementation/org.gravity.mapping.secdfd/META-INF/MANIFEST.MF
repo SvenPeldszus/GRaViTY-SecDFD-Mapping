@@ -7,7 +7,7 @@ Bundle-ClassPath: .,
  lib/commons-text-1.6.jar,
  lib/gson.jar,
  lib/java-string-similarity-1.1.0.jar,
- lib/soot-infoflow-trunk.jar
+ lib/soot-infoflow-summaries-jar-with-dependencies.jar
 Require-Bundle: org.eclipse.xtext,
  org.secdfd.model;visibility:=reexport,
  org.gravity.eclipse.ui,
