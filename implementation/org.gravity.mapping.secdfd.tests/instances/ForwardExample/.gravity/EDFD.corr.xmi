@@ -6,7 +6,7 @@
   </ignored>
   <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.12">
     <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ForwardExample.xmi#//@methods.0/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#exit"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#stop"/>
   </ignored>
   <source href="ForwardExample.xmi#/"/>
   <target href="../EDFD.secdfd#ForwardExample"/>
@@ -20,15 +20,15 @@
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.15">
     <source href="ForwardExample.xmi#//@methods.3"/>
-    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#exit"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#stop"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
     <source xsi:type="org.gravity.typegraph.basic:TClass" href="ForwardExample.xmi#//@ownedTypes.5"/>
-    <target xsi:type="org.secdfd:Asset" href="../EDFD.secdfd#1st-Asset"/>
+    <target xsi:type="org.secdfd:Asset" href="../EDFD.secdfd#1st"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
     <source xsi:type="org.gravity.typegraph.basic:TClass" href="ForwardExample.xmi#//@ownedTypes.5"/>
-    <target xsi:type="org.secdfd:Asset" href="../EDFD.secdfd#2nd-Asset"/>
+    <target xsi:type="org.secdfd:Asset" href="../EDFD.secdfd#2nd"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.6">
     <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ForwardExample.xmi#//@methods.1/@signatures.0/@definitions.0"/>
@@ -60,19 +60,19 @@
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.13" deriving="//@ignored.1">
     <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ForwardExample.xmi#//@methods.0/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#exit"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#stop"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.12">
     <source href="ForwardExample.xmi#//@methods.0"/>
-    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#exit"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#stop"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.15">
     <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ForwardExample.xmi#//@methods.3/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#exit"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#stop"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.2" deriving="//@correspondences.14">
     <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ForwardExample.xmi#//@methods.3/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#exit"/>
+    <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#stop"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.17">
     <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ForwardExample.xmi#//@methods.0/@signatures.0/@definitions.0"/>

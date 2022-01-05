@@ -85,6 +85,10 @@ public class FwdJoinCheck implements ICheck {
 				} catch (final IllegalStateException e) {
 					continue;
 				}
+				if(!possibleFlows.values().stream().flatMap(Set::stream).collect(Collectors.toSet()).containsAll(pattern.allIncomingFlows())) {
+					// There are flows in the pattern that cannot be mapped to the contract
+					continue;
+				}
 				reduce(possibleFlows);
 				if (possibleFlows.isEmpty()) {
 					mapping.computeIfAbsent(responsibility, x -> new HashSet<>()).add(pattern);

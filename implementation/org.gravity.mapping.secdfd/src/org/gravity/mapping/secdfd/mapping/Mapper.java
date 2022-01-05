@@ -238,7 +238,7 @@ public class Mapper {
 	private static Mapping loadMapping(final IFile corr, final ResourceSet rs) throws IOException, CoreException {
 		final var path = corr.getFullPath().toString();
 		final var corrRes = rs.createResource(URI.createPlatformResourceURI(path, true));
-		corrRes.load(corr.getContents(), Collections.emptyMap());
+		corrRes.load(Collections.emptyMap());
 		EcoreUtil.resolveAll(rs);
 		return (Mapping) corrRes.getContents().get(0);
 	}

@@ -21,7 +21,6 @@ import org.gravity.eclipse.util.EclipseProjectUtil;
 import org.gravity.mapping.secdfd.checks.impl.FwdJoinCheck;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.secdfd.dsl.validation.SResult;
 import org.secdfd.dsl.validation.SResult.PState;
@@ -101,7 +100,7 @@ public class FwdTest {
 	 * @throws IOException
 	 *
 	 */
-	@Test@Ignore
+	@Test
 	public void fwdIsJoin() throws IOException, CoreException {
 		final Mapper mapper = initMapper("JoinExample");
 		final Process processMain = getProcess("join", mapper);
