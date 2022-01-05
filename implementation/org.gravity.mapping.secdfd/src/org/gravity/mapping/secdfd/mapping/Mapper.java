@@ -26,14 +26,12 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.gravity.eclipse.util.JavaASTUtil;
@@ -64,6 +62,7 @@ import org.gravity.typegraph.basic.TMethodSignature;
 import org.gravity.typegraph.basic.TParameter;
 import org.gravity.typegraph.basic.TSignature;
 import org.gravity.typegraph.basic.TypeGraph;
+import org.secdfd.dsl.SecDFDStandaloneSetup;
 import org.secdfd.dsl.validation.SecDFDValidator;
 import org.secdfd.model.Asset;
 import org.secdfd.model.DataStore;
@@ -195,7 +194,12 @@ public class Mapper {
 	 * @throws CoreException
 	 */
 	public Mapper(final IFile mappingFile) throws IOException, CoreException {
-		this(mappingFile, new ResourceSetImpl());
+		this(mappingFile, initResourceSet());
+	}
+
+	private static ResourceSetImpl initResourceSet() {
+		SecDFDStandaloneSetup.doSetup();
+		return new ResourceSetImpl();
 	}
 
 	protected Mapper(final ResourceSet rs, final TypeGraph pm, final EDFD dfd) {
@@ -232,8 +236,8 @@ public class Mapper {
 	 * @throws CoreException
 	 */
 	private static Mapping loadMapping(final IFile corr, final ResourceSet rs) throws IOException, CoreException {
-		final String path = corr.getFullPath().toString();
-		final Resource corrRes = rs.createResource(URI.createPlatformResourceURI(path, true));
+		final var path = corr.getFullPath().toString();
+		final var corrRes = rs.createResource(URI.createPlatformResourceURI(path, true));
 		corrRes.load(corr.getContents(), Collections.emptyMap());
 		EcoreUtil.resolveAll(rs);
 		return (Mapping) corrRes.getContents().get(0);
@@ -251,7 +255,7 @@ public class Mapper {
 	 * @param destination The location where the model should be stored
 	 */
 	private void initializeMapping(final TypeGraph pm, final EDFD dfd, final IFile destination) {
-		final URI uri = URI.createPlatformResourceURI(
+		final var uri = URI.createPlatformResourceURI(
 				destination.getProject().getName() + '/' + destination.getProjectRelativePath().toString(), true);
 		if (destination.exists()) {
 			for (final Resource resource : this.rs.getResources()) {
@@ -265,7 +269,7 @@ public class Mapper {
 			}
 		}
 
-		final EList<EObject> contents = this.rs.createResource(uri).getContents();
+		final var contents = this.rs.createResource(uri).getContents();
 		if (!contents.isEmpty()) {
 			contents.clear();
 		}
@@ -288,7 +292,7 @@ public class Mapper {
 	public void accept(final AbstractCorrespondence corr) {
 		if ((this.mapping.getCorrespondences().contains(corr) && !this.mapping.getUserdefined().contains(corr))
 				|| this.mapping.getIgnored().contains(corr)) {
-			final boolean remove = this.mapping.getIgnored().remove(corr);
+			final var remove = this.mapping.getIgnored().remove(corr);
 			if (remove) {
 				this.mapping.getCorrespondences().add(corr);
 			} else {
@@ -330,29 +334,29 @@ public class Mapper {
 			return;
 		}
 
-		final EList<AbstractCorrespondence> userdefined = this.mapping.getUserdefined();
-		final EList<AbstractCorrespondence> accepted = this.mapping.getAccepted();
+		final var userdefined = this.mapping.getUserdefined();
+		final var accepted = this.mapping.getAccepted();
 		if (!force && (userdefined.contains(corr) || accepted.contains(corr))) {
 			return;
 		}
 
-		final EList<AbstractCorrespondence> ignored = this.mapping.getIgnored();
-		final EList<AbstractCorrespondence> suggested = this.mapping.getSuggested();
+		final var ignored = this.mapping.getIgnored();
+		final var suggested = this.mapping.getSuggested();
 
 		ignored.add(corr);
 		userdefined.remove(corr);
 		suggested.remove(corr);
 		accepted.remove(corr);
 
-		final EObject pmObject = CorrespondenceHelper.getSource(corr);
-		final EObject dfdObject = CorrespondenceHelper.getTarget(corr);
+		final var pmObject = CorrespondenceHelper.getSource(corr);
+		final var dfdObject = CorrespondenceHelper.getTarget(corr);
 		if (dfdObject instanceof Process) {
 			rejectProcessMapping(pmObject, (Process) dfdObject);
 		} else if ((dfdObject instanceof Asset) || (dfdObject instanceof DataStore)) {
 			rejectMapping(corr, pmObject, dfdObject);
 		}
 		try {
-			final Map<String, IType> astTypes = JavaASTUtil
+			final var astTypes = JavaASTUtil
 					.getTypesForProject(JavaCore.create(this.destination.getProject()));
 			MarkerUtil.deleteMarker(astTypes, CorrespondenceHelper.getSource(corr));
 		} catch (final JavaModelException e) {
@@ -367,19 +371,19 @@ public class Mapper {
 	 */
 	private void rejectMapping(final AbstractCorrespondence corr, final EObject pmObject, final EObject dfdObject) {
 		if (pmObject instanceof TMember) {
-			final Set<TMember> value = this.cache.getElementMemberMapping().get(dfdObject);
+			final var value = this.cache.getElementMemberMapping().get(dfdObject);
 			if (value != null) {
 				value.remove(pmObject);
 			}
 		} else {
-			final Set<TAbstractType> value = this.cache.getEntityTypeMapping().get(dfdObject);
+			final var value = this.cache.getEntityTypeMapping().get(dfdObject);
 			if (value != null) {
 				value.remove(pmObject);
 			}
-			final EList<AbstractMappingDerived> deriving = ((AbstractMappingBase) corr).getDeriving();
-			for (int i = 0; i < deriving.size(); i++) {
-				final AbstractMappingDerived derivingCorr = deriving.remove(0);
-				final EList<AbstractMappingBase> derivedFrom = derivingCorr.getDerived();
+			final var deriving = ((AbstractMappingBase) corr).getDeriving();
+			for (var i = 0; i < deriving.size(); i++) {
+				final var derivingCorr = deriving.remove(0);
+				final var derivedFrom = derivingCorr.getDerived();
 				derivedFrom.remove(corr);
 				if (derivedFrom.size() == 1) {
 					reject(derivingCorr);
@@ -394,12 +398,12 @@ public class Mapper {
 	 */
 	private void rejectProcessMapping(final EObject pmObject, final Process dfdObject) {
 		if (pmObject instanceof TMember) {
-			final Set<TMember> value = this.cache.getElementMemberMapping().get(dfdObject);
+			final var value = this.cache.getElementMemberMapping().get(dfdObject);
 			if (value != null) {
 				value.remove(pmObject);
 			}
 		} else if (pmObject instanceof TSignature) {
-			final Set<TSignature> value = this.cache.getElementSignatureMapping().get(dfdObject);
+			final var value = this.cache.getElementSignatureMapping().get(dfdObject);
 			if (value != null) {
 				value.remove(pmObject);
 			}
@@ -407,7 +411,7 @@ public class Mapper {
 				this.helper.getCorrespondences(definiton).forEach(this::reject);
 			});
 		} else if (pmObject instanceof TMethod) {
-			final Set<TMethod> value = this.cache.getElementMethodMapping().get(dfdObject);
+			final var value = this.cache.getElementMethodMapping().get(dfdObject);
 			if (value != null) {
 				value.remove(pmObject);
 			}
@@ -425,7 +429,7 @@ public class Mapper {
 	 */
 	public void userdefined(final EObject pmObject, final EObject dfdObject) {
 		AbstractCorrespondence userCorr = null;
-		final Collection<AbstractCorrespondence> correspondences = this.helper.getCorrespondences(pmObject);
+		final var correspondences = this.helper.getCorrespondences(pmObject);
 		if (!correspondences.isEmpty()) {
 			for (final AbstractCorrespondence corr : correspondences) {
 				if (CorrespondenceHelper.getTarget(corr).equals(dfdObject)) {
@@ -437,7 +441,7 @@ public class Mapper {
 			this.mapping.getAccepted().remove(userCorr);
 			if (this.mapping.getIgnored().contains(userCorr)) {
 				try {
-					final Map<String, IType> astTypes = JavaASTUtil
+					final var astTypes = JavaASTUtil
 							.getTypesForProject(JavaCore.create(this.destination.getProject()));
 					MarkerUtil.createMarker(astTypes, CorrespondenceHelper.getSource(userCorr),
 							((NamedEntity) CorrespondenceHelper.getTarget(userCorr)).getName(), IMarker.PRIORITY_NORMAL,
@@ -454,7 +458,7 @@ public class Mapper {
 			final Deque<AbstractCorrespondence> stack = new LinkedList<>();
 			stack.add(userCorr);
 			while (!stack.isEmpty()) {
-				final AbstractCorrespondence next = stack.pop();
+				final var next = stack.pop();
 				this.mapping.getCorrespondences().add(next);
 				this.mapping.getUserdefined().add(next);
 				if (next instanceof AbstractMappingDerived) {
@@ -477,24 +481,24 @@ public class Mapper {
 	private AbstractCorrespondence addNewUserdefinedCorr(final EObject pmObject, final EObject dfdObject) {
 		AbstractCorrespondence userCorr = null;
 		if (pmObject instanceof TMethodDefinition) {
-			final TMethodDefinition method = (TMethodDefinition) pmObject;
+			final var method = (TMethodDefinition) pmObject;
 			if (dfdObject instanceof Process) {
-				final Process process = (Process) dfdObject;
+				final var process = (Process) dfdObject;
 				userCorr = this.helper.createCorrespondence(method, process, 100, Collections.emptyList());
 				this.cache.add(method, process);
 			} else if (dfdObject instanceof DataStore) {
-				final DataStore store = (DataStore) dfdObject;
+				final var store = (DataStore) dfdObject;
 				userCorr = this.helper.createCorrespondence(method, store, 100, Collections.emptyList());
 				this.cache.add(method, store);
 			}
 		} else if (pmObject instanceof TAbstractType) {
-			final TAbstractType type = (TAbstractType) pmObject;
+			final var type = (TAbstractType) pmObject;
 			if (dfdObject instanceof Asset) {
-				final Asset asset = (Asset) dfdObject;
+				final var asset = (Asset) dfdObject;
 				userCorr = this.helper.createCorrespondence(type, asset, 100);
 				this.cache.add(type, asset);
 			} else if (dfdObject instanceof DataStore) {
-				final DataStore store = (DataStore) dfdObject;
+				final var store = (DataStore) dfdObject;
 				userCorr = this.helper.createCorrespondence(type, store, 100);
 				this.cache.add(type, store);
 			}
@@ -545,7 +549,7 @@ public class Mapper {
 			this.mapping.getCorrespondences().stream()
 			.filter(corr -> (corr instanceof MappingProcessDefinition) || (corr instanceof MappingEntityType))
 			.forEach(corr -> {
-				final String dfdElementName = ((NamedEntity) CorrespondenceHelper.getTarget(corr)).getName();
+				final var dfdElementName = ((NamedEntity) CorrespondenceHelper.getTarget(corr)).getName();
 				Set<String> pmElementStrings;
 				if (map.containsKey(dfdElementName)) {
 					pmElementStrings = map.get(dfdElementName);
@@ -553,12 +557,12 @@ public class Mapper {
 					pmElementStrings = new HashSet<>();
 					map.put(dfdElementName, pmElementStrings);
 				}
-				final EObject pmElement = CorrespondenceHelper.getSource(corr);
-				final String pmElementString = MappingLabelProvider.prettyPrint(pmElement);
+				final var pmElement = CorrespondenceHelper.getSource(corr);
+				final var pmElementString = MappingLabelProvider.prettyPrint(pmElement);
 				pmElementStrings.add(pmElementString);
 			});
 			SecDFDValidator.setMap(map);
-			final URI uri = this.dfd.eResource().getURI();
+			final var uri = this.dfd.eResource().getURI();
 			IFile file;
 			if (uri.isFile()) {
 				file = this.destination.getParent().getFile(new Path(uri.toFileString()));
@@ -613,7 +617,7 @@ public class Mapper {
 	 * @return A stream of correspondences
 	 */
 	private Stream<Type2NamedEntity> mapToType(final Asset asset) {
-		final ArrayList<Type2NamedEntity> list = new ArrayList<>();
+		final var list = new ArrayList<Type2NamedEntity>();
 		switch (asset.getType()) {
 		case NUMBER:
 			for (final String name : new String[] { "int", "long", "float", "double" }) {
@@ -626,7 +630,7 @@ public class Mapper {
 		case OBJECT:
 			return mapToType((NamedEntity) asset);
 		case STRING:
-			final TAbstractType string = this.pm.getType("java.lang.String");
+			final var string = this.pm.getType("java.lang.String");
 			if ((string != null) && this.helper.canCreate(string, asset, Collections.emptyMap())) {
 				final Type2NamedEntity corr = this.helper.createCorrespondence(string, asset, 100);
 				this.mapping.getSuggested().add(corr);
@@ -678,10 +682,10 @@ public class Mapper {
 
 	public Set<? extends EObject> getMapping(final Element element) {
 		if (element instanceof DataStore) {
-			final DataStore dataStore = (DataStore) element;
-			final Stream<TAbstractType> typeStream = this.cache.getEntityTypeMapping()
+			final var dataStore = (DataStore) element;
+			final var typeStream = this.cache.getEntityTypeMapping()
 					.getOrDefault(dataStore, Collections.emptySet()).parallelStream();
-			final Stream<TMember> memberStream = this.cache.getElementMemberMapping()
+			final var memberStream = this.cache.getElementMemberMapping()
 					.getOrDefault(dataStore, Collections.emptySet()).parallelStream();
 			return Stream.concat(typeStream, memberStream).collect(Collectors.toSet());
 
@@ -763,9 +767,9 @@ public class Mapper {
 	}
 
 	public void addRandom() {
-		final Map<Element, Set<TSignature>> elementSignatureMapping = this.cache.getElementSignatureMapping();
-		final Map<Element, Set<TMember>> elementMemberMapping = this.cache.getElementMemberMapping();
-		final Map<NamedEntity, Set<TAbstractType>> entityTypeMapping = this.cache.getEntityTypeMapping();
+		final var elementSignatureMapping = this.cache.getElementSignatureMapping();
+		final var elementMemberMapping = this.cache.getElementMemberMapping();
+		final var entityTypeMapping = this.cache.getEntityTypeMapping();
 
 		//		for (Entry<Element, Set<TSignature>> entry : elementSignatureMapping.entrySet()) {
 		//			Element element = entry.getKey();
@@ -794,8 +798,8 @@ public class Mapper {
 				.filter(corr -> (corr.getTarget() instanceof Process)).collect(Collectors.toSet());
 
 		for (final MappingProcessDefinition mappingProcessDefinition : relevantProcessDefinitionMappings) {
-			final Process process = (Process) mappingProcessDefinition.getTarget();
-			final TMethodDefinition method = (TMethodDefinition) mappingProcessDefinition.getSource();
+			final var process = (Process) mappingProcessDefinition.getTarget();
+			final var method = (TMethodDefinition) mappingProcessDefinition.getSource();
 
 			final Set<Process> targetProcesses = process.getOutflows().parallelStream()
 					.flatMap(flow -> flow.getTarget().parallelStream()).filter(element -> element instanceof Process)
@@ -811,7 +815,7 @@ public class Mapper {
 					.flatMap(asset -> entityTypeMapping.get(asset).parallelStream()).collect(Collectors.toSet());
 
 			Stream<TMethodDefinition> calling = Stream.empty();
-			final TAbstractType returnType = method.getSignature().getReturnType();
+			final var returnType = method.getSignature().getReturnType();
 			if ("void".equals(returnType.getTName()) || assets.contains(returnType)) {
 				calling = CallHelper.getAllInCalls(method).parallelStream()
 						.filter(member -> member instanceof TMethodDefinition)
@@ -821,7 +825,7 @@ public class Mapper {
 						.filter(member -> member instanceof TMethodDefinition)
 						.map(member -> (TMethodDefinition) member).collect(Collectors.toSet())) {
 					process.getOutflows().parallelStream().flatMap(flow -> flow.getTarget().stream()).forEach(p -> {
-						final MappingProcessDefinition newCorr = this.helper.createCorrespondence(caller, p, 30,
+						final var newCorr = this.helper.createCorrespondence(caller, p, 30,
 								Collections.emptySet());
 						this.mapping.getSuggested().add(newCorr);
 					});
@@ -867,7 +871,7 @@ public class Mapper {
 						.collect(Collectors.toList());
 				for (final Element p : create) {
 					if (this.helper.canCreate(toMap, p, Collections.emptyMap())) {
-						final MappingProcessDefinition newCorr = this.helper.createCorrespondence(toMap, p, 30,
+						final var newCorr = this.helper.createCorrespondence(toMap, p, 30,
 								Collections.emptySet());
 						this.mapping.getSuggested().add(newCorr);
 					}

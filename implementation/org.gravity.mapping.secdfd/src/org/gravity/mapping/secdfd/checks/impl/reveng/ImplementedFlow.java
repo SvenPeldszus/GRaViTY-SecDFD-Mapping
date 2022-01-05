@@ -1,7 +1,9 @@
 package org.gravity.mapping.secdfd.checks.impl.reveng;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.secdfd.model.Asset;
 
@@ -9,11 +11,11 @@ public class ImplementedFlow {
 
 	private final ImplementedProcess source;
 	private final ImplementedProcess target;
-	private final Set<Asset> possibleAssets;
+	private final Set<Set<Asset>> possibleAssets;
 	private final Set<ImplementedFlow> internalSources;
 	private final Set<ImplementedFlow> internalTargets;
 
-	public ImplementedFlow(ImplementedProcess src, ImplementedProcess trg, Set<Asset> possibleAssets) {
+	public ImplementedFlow(final ImplementedProcess src, final ImplementedProcess trg, final Set<Set<Asset>> possibleAssets) {
 		this.possibleAssets = possibleAssets;
 		this.source = src;
 		this.source.addOutgoing(this);
@@ -23,13 +25,13 @@ public class ImplementedFlow {
 		this.internalTargets = new HashSet<>();
 	}
 
-	public void addSources(Set<ImplementedFlow> sources) {
-		this.getInternalSources().addAll(getInternalTargets());
+	public void addSources(final Set<ImplementedFlow> sources) {
+		getInternalSources().addAll(getInternalTargets());
 		sources.forEach(src -> src.getInternalTargets().add(this));
 	}
 
-	public void addTargets(Set<ImplementedFlow> targets) {
-		this.getInternalTargets().addAll(targets);
+	public void addTargets(final Set<ImplementedFlow> targets) {
+		getInternalTargets().addAll(targets);
 		targets.forEach(trg -> trg.getInternalSources().add(this));
 	}
 
@@ -37,33 +39,40 @@ public class ImplementedFlow {
 	 * @return the internalSources
 	 */
 	public Set<ImplementedFlow> getInternalSources() {
-		return internalSources;
+		return this.internalSources;
 	}
 
 	/**
 	 * @return the internalTargets
 	 */
 	public Set<ImplementedFlow> getInternalTargets() {
-		return internalTargets;
+		return this.internalTargets;
 	}
 
 	/**
 	 * @return the possibleAssets
 	 */
 	public Set<Asset> getPossibleAssets() {
-		return possibleAssets;
+		return this.possibleAssets.parallelStream().flatMap(Collection::stream).collect(Collectors.toSet());
+	}
+
+	/**
+	 * @return the possibleAssets
+	 */
+	public Set<Set<Asset>> getPossibleAssetsSeparately() {
+		return this.possibleAssets;
 	}
 
 	public ImplementedProcess getSource() {
-		return source;
+		return this.source;
 	}
 
 	public ImplementedProcess getTarget() {
-		return target;
+		return this.target;
 	}
 
 	@Override
 	public String toString() {
-		return source.getUnderlyingProcess().getName() + " --> " + target.getUnderlyingProcess().getName();
+		return this.source.getUnderlyingProcess().getName() + " --> " + this.target.getUnderlyingProcess().getName();
 	}
 }
