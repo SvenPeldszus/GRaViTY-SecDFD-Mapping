@@ -1,1 +1,35 @@
-EDFD ForwardExample [ assets: Asset "1st-Asset" type: String source: start targets: main , Asset "2nd-Asset" type: String source: main targets: exit elements: Process start [ assets: "1st-Asset" outgoing flows: entering [ assets: "1st-Asset" source: start targets: main ] ] , Process main [ responsibilities: [ "1st-Asset" Forward :: "2nd-Asset" ] assets: "2nd-Asset" outgoing flows: leaving [ assets: "2nd-Asset" source: main targets: exit ] ] , Process exit [ ] ]
+EDFD ForwardExample [ 
+	assets: 
+		Asset "1st" 
+			type: String 
+			source: start 
+			targets: main,
+		Asset "2nd" 
+			type: String 
+			source: main 
+			targets: stop 
+	elements: 
+		Process start [ 
+			assets: "1st" 
+			outgoing flows: 
+				entering [ 
+					assets: "1st" 
+					source: start 
+					targets: main 
+				] 
+		], 
+		Process main [ 
+			responsibilities: [ "1st" Forward :: "2nd" ] 
+			assets: "2nd" 
+			incoming flows: "start.entering"
+			outgoing flows: 
+				leaving [ 
+					assets: "2nd" 
+					source: main 
+					targets: stop 
+				] 
+		], 
+		Process stop [ 
+			incoming flows: "main.leaving"		
+		] 
+]

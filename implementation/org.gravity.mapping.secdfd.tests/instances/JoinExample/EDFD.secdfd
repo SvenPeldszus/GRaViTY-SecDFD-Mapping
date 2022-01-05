@@ -34,6 +34,8 @@ EDFD ForwardExample [
 				"1st-Asset", "2nd-Asset" Joiner :: "joined-Asset" 
 			] 
 			assets: "joined-Asset" 
+			incoming flows: "generateAsset.1st-incoming", 
+				"generateString.2nd-incoming"
 			outgoing flows: leaving [ 
 				assets: "joined-Asset" 
 				source: join 
@@ -41,6 +43,6 @@ EDFD ForwardExample [
 			]
 		] , 
 		Process exit [ 
-			
+			incoming flows: "join.leaving"
 		]
 ]
