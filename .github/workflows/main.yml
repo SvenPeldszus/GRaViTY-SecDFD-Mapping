@@ -1,0 +1,20 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Clone repository with submodules
+      uses: actions/checkout@v2
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: '11'
+        cache: 'maven'
+    - name: Build with Maven
+      run: mvn clean verify sonar:sonar -Pcoverage -Dsonar.projectKey=GRaViTY-SecDFD-Mapping -Dsonar.organization=svenpeldszus-github -Dsonar.login=${{secrets.SONAR_LOGIN}}
