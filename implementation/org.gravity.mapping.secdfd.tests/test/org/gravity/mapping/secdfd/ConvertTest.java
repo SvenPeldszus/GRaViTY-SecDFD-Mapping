@@ -19,8 +19,6 @@ import org.secdfd.model.ModelPackage;
 @FixMethodOrder
 public class ConvertTest {
 
-	private static final URI TEMP = URI.createURI("out/EDFD.xmi");
-
 	@Test
 	public void testEDFDtoXMI() throws IOException {
 		// Load DFD
@@ -31,7 +29,7 @@ public class ConvertTest {
 		final ResourceSetImpl set = initResourceSet();
 
 		// Add DFD to new resource and save
-		final Resource resource = set.createResource(TEMP);
+		final Resource resource = set.createResource(URI.createURI("out/EDFD.xmi"));
 		resource.getContents().addAll(xtextResource.getContents());
 		resource.save(Collections.emptyMap());
 	}
@@ -40,7 +38,7 @@ public class ConvertTest {
 	public void testXMItoEDFD() throws IOException {
 		final ResourceSetImpl set = initResourceSet();
 
-		final Resource resource = set.getResource(TEMP, true);
+		final Resource resource = set.getResource(URI.createURI("instances/EDFD.xmi"), true);
 		final EList<EObject> contents = resource.getContents();
 
 		final Resource xtextResource = new XtextParser().getResourceSet()
