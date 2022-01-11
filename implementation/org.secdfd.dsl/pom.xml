@@ -12,12 +12,16 @@
   <artifactId>org.secdfd.dsl</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
+  <properties>
+    <mwe2-version>2.12.1</mwe2-version>
+    <xtext-version>2.25.0</xtext-version>
+  </properties>
   <build>
     <plugins>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
-        <version>1.4.0</version>
+        <version>3.0.0</version>
         <executions>
           <execution>
             <id>mwe2Launcher</id>
@@ -28,123 +32,51 @@
           </execution>
         </executions>
         <configuration>
+          <killAfter>-1</killAfter>
+          <cleanupDaemonThreads>false</cleanupDaemonThreads>
+          <includeProjectDependencies>true</includeProjectDependencies>
+          <includePluginDependencies>true</includePluginDependencies>
+          <classpathScope>compile</classpathScope>
           <mainClass>org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher</mainClass>
           <arguments>
             <argument>/${project.basedir}/src/org/secdfd/dsl/GenerateSecDFD.mwe2</argument>
             <argument>-p</argument>
             <argument>rootPath=/${project.basedir}/..</argument>
           </arguments>
-          <classpathScope>compile</classpathScope>
-          <includePluginDependencies>true</includePluginDependencies>
-          <cleanupDaemonThreads>false</cleanupDaemonThreads><!-- see https://bugs.eclipse.org/bugs/show_bug.cgi?id=475098#c3 -->
         </configuration>
         <dependencies>
-          <dependency>
-            <groupId>org.eclipse.emf</groupId>
-            <artifactId>org.eclipse.emf.mwe2.launch</artifactId>
-            <version>2.11.2</version>
-          </dependency>
-          <dependency>
-            <groupId>org.eclipse.xtext</groupId>
-            <artifactId>org.eclipse.xtext.common.types</artifactId>
-            <version>${xtext.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.eclipse.xtext</groupId>
-            <artifactId>org.eclipse.xtext.xtext.generator</artifactId>
-            <version>${xtext.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.eclipse.xtext</groupId>
-            <artifactId>org.eclipse.xtext.xbase</artifactId>
-            <version>${xtext.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.eclipse.xtext</groupId>
-            <artifactId>xtext-antlr-generator</artifactId>
-            <version>[2.1.1, 3)</version>
-          </dependency>
+                    <dependency>
+                        <groupId>org.eclipse.emf</groupId>
+                        <artifactId>org.eclipse.emf.mwe2.launch</artifactId>
+                        <version>${mwe2-version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.eclipse.xtext</groupId>
+                        <artifactId>org.eclipse.xtext.common.types</artifactId>
+                        <version>${xtext-version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.eclipse.xtext</groupId>
+                        <artifactId>org.eclipse.xtext.generator</artifactId>
+                        <version>${xtext-version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.eclipse.xtext</groupId>
+                        <artifactId>org.eclipse.xtext.xtext.generator</artifactId>
+                        <version>${xtext-version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.eclipse.xtext</groupId>
+                        <artifactId>org.eclipse.xtext.xbase</artifactId>
+                        <version>${xtext-version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.xtext</groupId>
+                        <artifactId>antlr-generator</artifactId>
+                        <version>3.2.1</version>
+                    </dependency>
         </dependencies>
       </plugin>
-        <plugin>
-          <groupId>org.eclipse.xtend</groupId>
-          <artifactId>xtend-maven-plugin</artifactId>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-clean-plugin</artifactId>
-          <configuration>
-            <filesets combine.children="append">
-              <fileset>
-                <directory>${basedir}/../org.secdfd.dsl/src-gen/</directory>
-                <includes>
-                  <include>**/*</include>
-                </includes>
-              </fileset>
-              <fileset>
-                <directory>${basedir}/../org.secdfd.dsl.tests/src-gen/</directory>
-                <includes>
-                  <include>**/*</include>
-                </includes>
-              </fileset>
-              <fileset>
-                <directory>${basedir}/../org.secdfd.dsl.ide/src-gen/</directory>
-                <includes>
-                  <include>**/*</include>
-                </includes>
-              </fileset>
-              <fileset>
-                <directory>${basedir}/../org.secdfd.dsl.ui/src-gen/</directory>
-                <includes>
-                  <include>**/*</include>
-                </includes>
-              </fileset>
-              <fileset>
-                <directory>${basedir}/../org.secdfd.dsl.ui.tests/src-gen/</directory>
-                <includes>
-                  <include>**/*</include>
-                </includes>
-              </fileset>
-          <fileset>
-            <directory>${basedir}/model/generated/</directory>
-          </fileset>
-        </filesets>
-      </configuration>
-    </plugin>
   </plugins>
-  <pluginManagement>
-    <plugins>
-      <plugin>
-        <groupId>org.eclipse.m2e</groupId>
-        <artifactId>lifecycle-mapping</artifactId>
-        <version>1.0.0</version>
-          <configuration>
-            <lifecycleMappingMetadata>
-              <pluginExecutions>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>
-                      org.codehaus.mojo
-                    </groupId>
-                    <artifactId>
-                      exec-maven-plugin
-                    </artifactId>
-                    <versionRange>
-                      [1.2.1,)
-                    </versionRange>
-                    <goals>
-                      <goal>java</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore></ignore>
-                  </action>
-                </pluginExecution>
-              </pluginExecutions>
-            </lifecycleMappingMetadata>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
   </build>
 </project>
