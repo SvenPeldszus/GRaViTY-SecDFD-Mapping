@@ -17,4 +17,6 @@ jobs:
         java-version: '11'
         cache: 'maven'
     - name: Build with Maven
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: mvn clean verify sonar:sonar -Pcoverage -Dsonar.projectKey=GRaViTY-SecDFD-Mapping -Dsonar.organization=svenpeldszus-github -Dsonar.login=${{secrets.SONAR_LOGIN}}
