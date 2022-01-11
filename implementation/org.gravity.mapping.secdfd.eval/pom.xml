@@ -26,7 +26,7 @@
               <goal>copy-dependencies</goal>
             </goals>
             <configuration>
-	       <excludeTransitive>false</excludeTransitive>
+	       <excludeTransitive>true</excludeTransitive>
 	       <addParentPoms>false</addParentPoms>
 	       <excludeScope>provided</excludeScope>
   	       <stripVersion>true</stripVersion>

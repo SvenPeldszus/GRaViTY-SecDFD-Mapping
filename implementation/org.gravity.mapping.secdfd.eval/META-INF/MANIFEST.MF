@@ -5,24 +5,11 @@ Bundle-Name: %pluginName
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .,
  lib/commons-math3.jar
-Require-Bundle: org.gravity.typegraph.basic;bundle-version="1.0.0";visibility:=reexport,
- org.eclipse.xtext,
- org.secdfd.model;visibility:=reexport,
- org.gravity.eclipse.ui,
+Require-Bundle: org.eclipse.xtext,
  org.gravity.eclipse,
- org.eclipse.jdt.core,
- org.eclipse.core.runtime;visibility:=reexport,
- org.eclipse.core.resources;visibility:=reexport,
- org.eclipse.ui,
- org.eclipse.ui.ide,
- org.eclipse.jface.text,
- org.eclipse.ui.workbench.texteditor,
- org.eclipse.jdt.ui,
  org.secdfd.dsl;bundle-version="1.0.0",
  org.junit,
  org.gravity.mapping.secdfd,
- org.eclipse.emf.common,
- org.eclipse.emf.edit,
  org.eclipse.emf.transaction,
  org.apache.log4j
 Bundle-ManifestVersion: 2
