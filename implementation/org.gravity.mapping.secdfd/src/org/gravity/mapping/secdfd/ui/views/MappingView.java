@@ -1,31 +1,26 @@
 /**
- * 
+ *
  */
 package org.gravity.mapping.secdfd.ui.views;
 
 import java.io.IOException;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.Collection;
+
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
@@ -33,9 +28,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
@@ -55,9 +47,6 @@ import org.gravity.mapping.secdfd.ui.wizard.MappingWizard;
 import org.gravity.mapping.secdfd.ui.wizard.TrafoJob;
 import org.gravity.typegraph.basic.TypeGraph;
 import org.secdfd.dsl.SecDFDStandaloneSetup;
-
-import com.google.inject.Injector;
-
 import org.secdfd.model.EDFD;
 
 /**
@@ -93,101 +82,101 @@ public class MappingView extends ViewPart {
 	private ContinueAction continueAction;
 
 	@Override
-	public void createPartControl(Composite parent) {
+	public void createPartControl(final Composite parent) {
 		this.parent = parent;
-		label = new Label(parent, SWT.NONE);
-		label.setText(POPULATE_TEXT);
+		this.label = new Label(parent, SWT.NONE);
+		this.label.setText(POPULATE_TEXT);
 
-		IViewSite viewSite = getViewSite();
-		IActionBars bars = viewSite.getActionBars();
-		IToolBarManager tm = bars.getToolBarManager(); // Buttons on top
-		tm.add((continueAction = new ContinueAction(this)));
+		final var viewSite = getViewSite();
+		final var bars = viewSite.getActionBars();
+		final var tm = bars.getToolBarManager(); // Buttons on top
+		tm.add((this.continueAction = new ContinueAction(this)));
 		tm.add(new AcceptAllAction(this));
 		tm.add(new RejectAllAction(this));
 		tm.add(new CheckContractsAction(this));
-		IMenuManager mm = bars.getMenuManager(); // Drop down menu
+		final var mm = bars.getMenuManager(); // Drop down menu
 		mm.add(new MapProjectAction());
 	}
 
-	public Mapper getMapper(Mapping mapping) {
-		return mappers.get(mapping);
+	public Mapper getMapper(final Mapping mapping) {
+		return this.mappers.get(mapping);
 	}
 
 	@Override
 	public void setFocus() {
-		if (!label.isDisposed()) {
-			label.setFocus();
+		if (!this.label.isDisposed()) {
+			this.label.setFocus();
 		}
 	}
 
 	/**
 	 * Populates the view with the given content
-	 * 
+	 *
 	 * @param gravityFolder The folder holding all temp files
 	 * @param dfdFiles      The selected DFDs
-	 * @param selectedMappings 
+	 * @param selectedMappings
 	 * @param trafoJob      The job creating a program model
-	 * @throws CoreException 
-	 * @throws IOException 
+	 * @throws CoreException
+	 * @throws IOException
 	 */
-	public void populate(IFolder gravityFolder, Collection<IFile> dfdFiles, Collection<IFile> selectedMappings, TrafoJob trafoJob) throws IOException, CoreException {
+	public void populate(final IFolder gravityFolder, final Collection<IFile> dfdFiles, final Collection<IFile> selectedMappings, final TrafoJob trafoJob) throws IOException, CoreException {
 
-		Map<IFile, EDFD> dfdMap = new HashMap<>(dfdFiles.size());
-				
-		ResourceSet rs = loadDFDs(dfdFiles, gravityFolder, dfdMap);;
+		final Map<IFile, EDFD> dfdMap = new HashMap<>(dfdFiles.size());
+
+		final var rs = loadDFDs(dfdFiles, gravityFolder, dfdMap);
 		try {
 			trafoJob.join();
-		} catch (InterruptedException e) {
+		} catch (final InterruptedException e) {
 			LOGGER.log(Level.ERROR, e.getLocalizedMessage(), e);
 			Thread.currentThread().interrupt();
 		}
-		Entry<IFile, TypeGraph> pmx = getProgramModel(trafoJob, rs, gravityFolder);
+		final var pmx = getProgramModel(trafoJob, rs, gravityFolder);
 
 		populate(gravityFolder, dfdMap, pmx, selectedMappings);
 	}
 
 	/**
 	 * Populates the view with the given content
-	 * 
+	 *
 	 * @param gravityFolder The folder holding all temp files
 	 * @param dfdMap        The selected DFDs and the files they are stored in
 	 * @param pm            the File holding the program model and the model
-	 * @throws CoreException 
-	 * @throws IOException 
+	 * @throws CoreException
+	 * @throws IOException
 	 */
-	private void populate(IFolder gravityFolder, Map<IFile, EDFD> dfdMap, Entry<IFile, TypeGraph> pm, Collection<IFile> selectedMappings) throws IOException, CoreException {
+	private void populate(final IFolder gravityFolder, final Map<IFile, EDFD> dfdMap, final Entry<IFile, TypeGraph> pm, final Collection<IFile> selectedMappings) throws IOException, CoreException {
 		this.gravityFolder = gravityFolder;
 		this.dfds = new HashSet<>(dfdMap.values());
 		this.pm = pm;
-		if (!label.isDisposed()) {
-			label.dispose();
+		if (!this.label.isDisposed()) {
+			this.label.dispose();
 			createMappingTable(gravityFolder.getProject());
 		}
 
 		clearMappers();
-		for (Entry<IFile, EDFD> entry : dfdMap.entrySet()) {
-			IFile key = entry.getKey();
-			String name = key.getName();
+		for (final Entry<IFile, EDFD> entry : dfdMap.entrySet()) {
+			final var key = entry.getKey();
+			var name = key.getName();
 			name = name.substring(0, name.length() - key.getFileExtension().length() - 1) + ".corr.xmi";
-			IFile destination = gravityFolder.getFile(name);
-			Mapper mapper = new Mapper(pm.getValue(), entry.getValue(), destination);
+			final var destination = gravityFolder.getFile(name);
+			final var mapper = new Mapper(pm.getValue(), entry.getValue(), destination);
 			mapper.optimize();
-			mapper.addUserdefinedListener(continueAction);
-			mappers.put(mapper.getMapping(), mapper);
+			mapper.addUserdefinedListener(this.continueAction);
+			this.mappers.put(mapper.getMapping(), mapper);
 		}
-		
-		ResourceSet rs = pm.getValue().eResource().getResourceSet();
-		for(IFile mappingFile : selectedMappings) {
-			Mapper mapper = new Mapper(mappingFile, rs);
-			mapper.addUserdefinedListener(continueAction);
-			mappers.put(mapper.getMapping(), mapper);
+
+		final var rs = pm.getValue().eResource().getResourceSet();
+		for(final IFile mappingFile : selectedMappings) {
+			final var mapper = new Mapper(mappingFile, rs);
+			mapper.addUserdefinedListener(this.continueAction);
+			this.mappers.put(mapper.getMapping(), mapper);
 			this.dfds.add(mapper.getDFD());
 		}
-		
-		treeViewer.setInput(mappers.keySet());
-		treeViewer.refresh();
-		parent.pack();
-		parent.layout(true);
+
+		this.treeViewer.setInput(this.mappers.keySet());
+		this.treeViewer.refresh();
+		this.parent.pack();
+		this.parent.layout(true);
 	}
 
 	/**
@@ -200,29 +189,29 @@ public class MappingView extends ViewPart {
 	/**
 	 * @param project The project the table should be linked to
 	 */
-	private void createMappingTable(IProject project) {
-		parent.setLayout(new GridLayout(1, false));
-		treeViewer = new TreeViewer(parent, SWT.BORDER);
-		treeViewer.addDoubleClickListener(new OpenJavaFileDoubleClickListener(project));
-		MappingContentProvider mappingProvider = new MappingContentProvider();
-		MappingLabelProvider labelProvider = new MappingLabelProvider();
-		treeViewer.setContentProvider(mappingProvider);
-		treeViewer.setLabelProvider(labelProvider);
-		GridData layoutData = new GridData(GridData.FILL_BOTH);
-		layoutData.widthHint = parent.getSize().x - 10;
-		layoutData.heightHint = parent.getSize().y - 10;
-		treeViewer.getControl().setLayoutData(layoutData);
-		treeViewer.addSelectionChangedListener(event -> {
-			ISelection selection = event.getSelection();
+	private void createMappingTable(final IProject project) {
+		this.parent.setLayout(new GridLayout(1, false));
+		this.treeViewer = new TreeViewer(this.parent, SWT.BORDER);
+		this.treeViewer.addDoubleClickListener(new OpenJavaFileDoubleClickListener(project));
+		final var mappingProvider = new MappingContentProvider();
+		final var labelProvider = new MappingLabelProvider();
+		this.treeViewer.setContentProvider(mappingProvider);
+		this.treeViewer.setLabelProvider(labelProvider);
+		final var layoutData = new GridData(GridData.FILL_BOTH);
+		layoutData.widthHint = this.parent.getSize().x - 10;
+		layoutData.heightHint = this.parent.getSize().y - 10;
+		this.treeViewer.getControl().setLayoutData(layoutData);
+		this.treeViewer.addSelectionChangedListener(event -> {
+			final var selection = event.getSelection();
 			if (selection instanceof IStructuredSelection) {
-				Object selectedElement = ((IStructuredSelection) selection).getFirstElement();
+				final var selectedElement = ((IStructuredSelection) selection).getFirstElement();
 				labelProvider.getText(mappingProvider.getParent(selectedElement)).equals("suggested");
 
-				MenuManager menuMgr = new MenuManager();
-				Menu menu = menuMgr.createContextMenu(treeViewer.getControl());
-//				menu.setEnabled(enabled);
-				treeViewer.getControl().setMenu(menu);
-				getSite().registerContextMenu(menuMgr, treeViewer);
+				final var menuMgr = new MenuManager();
+				final var menu = menuMgr.createContextMenu(this.treeViewer.getControl());
+				//				menu.setEnabled(enabled);
+				this.treeViewer.getControl().setMenu(menu);
+				getSite().registerContextMenu(menuMgr, this.treeViewer);
 				menuMgr.add(new RejectAction(((IStructuredSelection) selection).toList()));
 				menuMgr.add(new AcceptAction(((IStructuredSelection) selection).toList()));
 
@@ -233,18 +222,18 @@ public class MappingView extends ViewPart {
 	/**
 	 * Requests the program model from the transformation job and adds it to the
 	 * resource set of the DFDs
-	 * 
+	 *
 	 * @param trafoJob The job creating the program model
-	 * 
+	 *
 	 * @return The program model
 	 */
-	private static Entry<IFile, TypeGraph> getProgramModel(TrafoJob trafoJob, ResourceSet rs, IFolder gravityFolder) {
-		TypeGraph model = trafoJob.getPM();
-		IFile pmFile = gravityFolder.getFile(model.getTName() + ".xmi");
-		URI pmUri = URI.createPlatformResourceURI(pmFile.getProject().getName()+'/'+pmFile.getProjectRelativePath().toString(), true);
-		Resource resource = model.eResource();
+	private static Entry<IFile, TypeGraph> getProgramModel(final TrafoJob trafoJob, final ResourceSet rs, final IFolder gravityFolder) {
+		final var model = trafoJob.getPM();
+		final var pmFile = gravityFolder.getFile(model.getTName() + ".xmi");
+		final var pmUri = URI.createPlatformResourceURI(pmFile.getProject().getName()+'/'+pmFile.getProjectRelativePath().toString(), true);
+		var resource = model.eResource();
 		if (resource == null) {
-			Optional<Resource> result = rs.getResources().parallelStream().filter(r -> r.getURI().equals(pmUri))
+			final var result = rs.getResources().parallelStream().filter(r -> r.getURI().equals(pmUri))
 					.findAny();
 			if (result.isPresent()) {
 				resource = result.get();
@@ -258,35 +247,35 @@ public class MappingView extends ViewPart {
 			rs.getResources().add(resource);
 		}
 		if (!pmFile.exists()) {
-			ModelSaver.saveModel(resource, pmFile, new NullProgressMonitor());
+			ModelSaver.saveModel(model, pmFile);
 		}
 		return new SimpleEntry<>(pmFile, model);
 	}
 
 	/**
 	 * Loads the selected DFDs
-	 * 
+	 *
 	 * @param files
-	 * 
+	 *
 	 * @return A stream of DFDs and the files they are stored in
 	 */
-	private static ResourceSet loadDFDs(Collection<IFile> files, IFolder gravityFolder, Map<IFile, EDFD> loadedDFDs) {
+	private static ResourceSet loadDFDs(final Collection<IFile> files, final IFolder gravityFolder, Map<IFile, EDFD> loadedDFDs) {
 		if(loadedDFDs == null) {
 			loadedDFDs = new HashMap<>();
 		}
-		Injector injector = new SecDFDStandaloneSetup().createInjectorAndDoEMFRegistration();
-		XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
+		final var injector = new SecDFDStandaloneSetup().createInjectorAndDoEMFRegistration();
+		final var resourceSet = injector.getInstance(XtextResourceSet.class);
 		resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
-		for (IFile f : files) {
-			URI uri = URI.createPlatformResourceURI(f.getProject().getName()+'/'+f.getProjectRelativePath().toString(), true);
-			Resource resource = resourceSet.createResource(uri);
+		for (final IFile f : files) {
+			final var uri = URI.createPlatformResourceURI(f.getProject().getName()+'/'+f.getProjectRelativePath().toString(), true);
+			final var resource = resourceSet.createResource(uri);
 			try {
 				resource.load(f.getContents(), Collections.emptyMap());
 			} catch (IOException | CoreException e) {
 				LOGGER.log(Level.ERROR, e);
 				return null;
 			}
-			EDFD dfd = (EDFD) resource.getContents().get(0);
+			final var dfd = (EDFD) resource.getContents().get(0);
 			loadedDFDs.put(f, dfd);
 		}
 		return resourceSet;
@@ -295,7 +284,7 @@ public class MappingView extends ViewPart {
 	/**
 	 * @param pm the pm to set
 	 */
-	public void setPm(Entry<IFile, TypeGraph> pm) {
+	public void setPm(final Entry<IFile, TypeGraph> pm) {
 		this.pm = pm;
 	}
 
@@ -303,7 +292,7 @@ public class MappingView extends ViewPart {
 	 * @return the pm
 	 */
 	public Entry<IFile, TypeGraph> getProgramModel() {
-		return pm;
+		return this.pm;
 	}
 
 	public Collection<EDFD> getDFDs() {
@@ -315,11 +304,11 @@ public class MappingView extends ViewPart {
 	}
 
 	public Map<Mapping, Mapper> getMappers() {
-		return mappers;
+		return this.mappers;
 	}
 
 	public void update() {
-		for (Mapper mapper : mappers.values()) {
+		for (final Mapper mapper : this.mappers.values()) {
 			mapper.updateMappingOnFilesystem();
 		}
 		this.treeViewer.refresh();
@@ -327,13 +316,13 @@ public class MappingView extends ViewPart {
 
 	/**
 	 * A getter for the mapping view
-	 * 
+	 *
 	 * @return The mapping view
 	 */
 	public static MappingView getMappingView() {
 		try {
 			return (MappingView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(VIEW_ID);
-		} catch (PartInitException e) {
+		} catch (final PartInitException e) {
 			MappingWizard.LOGGER.log(Level.ERROR, e);
 			return null;
 		}
@@ -343,10 +332,10 @@ public class MappingView extends ViewPart {
 	 * @return the treeViewer
 	 */
 	public TreeViewer getTree() {
-		return treeViewer;
+		return this.treeViewer;
 	}
 
 	public IFolder getGravityFolder() {
-		return gravityFolder;
+		return this.gravityFolder;
 	}
 }
