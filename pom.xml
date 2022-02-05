@@ -159,12 +159,12 @@
     <repository>
       <id>Eclipse Latest</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/releases/latest</url>
+      <url>https://download.eclipse.org/releases/latest</url>
     </repository>
     <repository>
       <id>GRaViTY</id>
       <layout>p2</layout>
-      <url>http://gravity-tool.org/beta-updatesite</url>
+      <url>https://gravity-tool.org/beta-updatesite</url>
     </repository>
     <!--<repository>
       <id>xtext</id>
@@ -179,17 +179,17 @@
     <repository>
       <id>Henshin</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/modeling/emft/henshin/updates/nightly</url>
+      <url>https://download.eclipse.org/modeling/emft/henshin/updates/nightly</url>
     </repository>
     <repository>
       <id>MoMOT</id>
       <layout>p2</layout>
-      <url>http://martin-fleck.github.io/momot/eclipse/updates/latest/develop/</url>
+      <url>https://martin-fleck.github.io/momot/eclipse/updates/latest/develop/</url>
     </repository>
     <repository>
       <id>plantuml</id>
       <layout>p2</layout>
-      <url>http://hallvard.github.io/plantuml</url>
+      <url>https://hallvard.github.io/plantuml</url>
     </repository>-->
   </repositories>
 </project>
