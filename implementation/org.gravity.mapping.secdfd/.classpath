@@ -6,6 +6,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry exported="true" kind="lib" path="lib/soot-infoflow-cmd-2.9.0-jar-with-dependencies.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-lang3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jcip-annotations.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-text.jar"/>
@@ -17,6 +18,5 @@
 			<attribute name="ignore_optional_problems" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="lib/soot-infoflow-cmd-2.9.0-jar-with-dependencies.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
