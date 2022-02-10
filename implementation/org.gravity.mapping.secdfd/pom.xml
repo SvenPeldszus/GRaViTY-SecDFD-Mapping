@@ -30,6 +30,7 @@
 					<url>https://github.com/secure-software-engineering/FlowDroid/releases/download/v2.9/soot-infoflow-cmd-2.9.0-jar-with-dependencies.jar</url>
 					<unpack>false</unpack>
 					<outputDirectory>${project.basedir}/lib/</outputDirectory>
+					<md5>ce06571308cd09691b93ce26311eb593</md5>
 				</configuration>
 			</plugin>
 			<plugin>
