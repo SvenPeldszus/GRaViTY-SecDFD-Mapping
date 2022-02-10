@@ -87,10 +87,12 @@ public class MappingView extends ViewPart {
 		this.label = new Label(parent, SWT.NONE);
 		this.label.setText(POPULATE_TEXT);
 
+		this.continueAction = new ContinueAction(this);
+
 		final var viewSite = getViewSite();
 		final var bars = viewSite.getActionBars();
 		final var tm = bars.getToolBarManager(); // Buttons on top
-		tm.add((this.continueAction = new ContinueAction(this)));
+		tm.add((this.continueAction));
 		tm.add(new AcceptAllAction(this));
 		tm.add(new RejectAllAction(this));
 		tm.add(new CheckContractsAction(this));
@@ -123,7 +125,7 @@ public class MappingView extends ViewPart {
 
 		final Map<IFile, EDFD> dfdMap = new HashMap<>(dfdFiles.size());
 
-		final var rs = loadDFDs(dfdFiles, gravityFolder, dfdMap);
+		final var rs = loadDFDs(dfdFiles, dfdMap);
 		try {
 			trafoJob.join();
 		} catch (final InterruptedException e) {
@@ -204,12 +206,8 @@ public class MappingView extends ViewPart {
 		this.treeViewer.addSelectionChangedListener(event -> {
 			final var selection = event.getSelection();
 			if (selection instanceof IStructuredSelection) {
-				final var selectedElement = ((IStructuredSelection) selection).getFirstElement();
-				labelProvider.getText(mappingProvider.getParent(selectedElement)).equals("suggested");
-
 				final var menuMgr = new MenuManager();
 				final var menu = menuMgr.createContextMenu(this.treeViewer.getControl());
-				//				menu.setEnabled(enabled);
 				this.treeViewer.getControl().setMenu(menu);
 				getSite().registerContextMenu(menuMgr, this.treeViewer);
 				menuMgr.add(new RejectAction(((IStructuredSelection) selection).toList()));
@@ -259,7 +257,7 @@ public class MappingView extends ViewPart {
 	 *
 	 * @return A stream of DFDs and the files they are stored in
 	 */
-	private static ResourceSet loadDFDs(final Collection<IFile> files, final IFolder gravityFolder, Map<IFile, EDFD> loadedDFDs) {
+	private static ResourceSet loadDFDs(final Collection<IFile> files, Map<IFile, EDFD> loadedDFDs) {
 		if(loadedDFDs == null) {
 			loadedDFDs = new HashMap<>();
 		}
