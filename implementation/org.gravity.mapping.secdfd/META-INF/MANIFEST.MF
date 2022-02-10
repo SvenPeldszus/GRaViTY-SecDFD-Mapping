@@ -4,10 +4,12 @@ Automatic-Module-Name: org.gravity.mapping.secdfd
 Bundle-Name: %pluginName
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .,
- lib/commons-text-1.6.jar,
+ lib/commons-text.jar,
  lib/gson.jar,
- lib/java-string-similarity-1.1.0.jar,
- lib/soot-infoflow-cmd-2.9.0-jar-with-dependencies.jar
+ lib/java-string-similarity.jar,
+ lib/soot-infoflow-cmd-2.9.0-jar-with-dependencies.jar,
+ lib/commons-lang3.jar,
+ lib/jcip-annotations.jar
 Require-Bundle: org.eclipse.xtext,
  org.secdfd.model;visibility:=reexport,
  org.gravity.eclipse.ui,
