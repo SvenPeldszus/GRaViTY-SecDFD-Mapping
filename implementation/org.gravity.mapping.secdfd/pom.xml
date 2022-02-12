@@ -13,7 +13,7 @@
 	<packaging>eclipse-plugin</packaging>
 	<build>
 		<plugins>
-			<plugin>
+			<--<plugin>
 				<groupId>com.googlecode.maven-download-plugin</groupId>
 				<artifactId>download-maven-plugin</artifactId>
 				<version>1.6.8</version>
@@ -32,7 +32,7 @@
 					<outputDirectory>${project.basedir}/lib/</outputDirectory>
 					<md5>ce06571308cd09691b93ce26311eb593</md5>
 				</configuration>
-			</plugin>
+			</plugin>-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
