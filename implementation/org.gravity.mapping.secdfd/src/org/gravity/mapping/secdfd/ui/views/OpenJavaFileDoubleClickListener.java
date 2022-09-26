@@ -24,29 +24,30 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.gravity.eclipse.util.JavaASTUtil;
+import org.gravity.mapping.secdfd.AbstractCorrespondence;
+import org.gravity.mapping.secdfd.helpers.CorrespondenceHelper;
 import org.gravity.mapping.secdfd.model.mapping.MappingEntityType;
 import org.gravity.mapping.secdfd.model.mapping.MappingProcessDefinition;
 import org.gravity.typegraph.basic.TAbstractType;
 import org.gravity.typegraph.basic.TMethodDefinition;
-import org.gravity.mapping.secdfd.AbstractCorrespondence;
-import org.gravity.mapping.secdfd.helpers.CorrespondenceHelper;
 
 final class OpenJavaFileDoubleClickListener implements IDoubleClickListener {
 	private final IProject project;
 
-	OpenJavaFileDoubleClickListener(IProject project) {
+	OpenJavaFileDoubleClickListener(final IProject project) {
 		this.project = project;
 	}
 
-	public void doubleClick(DoubleClickEvent event) {
-		AbstractCorrespondence corr = getSelectedCorrespondence(event);
+	@Override
+	public void doubleClick(final DoubleClickEvent event) {
+		final var corr = getSelectedCorrespondence(event);
 		if (corr != null) {
-			EObject pmElement = CorrespondenceHelper.getSource(corr);
-			IJavaElement javaElement = getJavaElement(pmElement);
+			final var pmElement = CorrespondenceHelper.getSource(corr);
+			final var javaElement = getJavaElement(pmElement);
 			if (javaElement != null) {
 				try {
 					open(javaElement);
-				} catch (CoreException e) {
+				} catch (final CoreException e) {
 					MappingView.LOGGER.log(Level.ERROR, e);
 
 				}
@@ -64,10 +65,10 @@ final class OpenJavaFileDoubleClickListener implements IDoubleClickListener {
 	 * @throws JavaModelException
 	 * @throws PartInitException
 	 */
-	private void open(IJavaElement javaElement) throws JavaModelException, PartInitException {
-		IFile file = (IFile) javaElement.getUnderlyingResource();
-		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		IEditorPart editor = IDE.openEditor(page, file, "org.eclipse.jdt.ui.CompilationUnitEditor", true);
+	private void open(final IJavaElement javaElement) throws JavaModelException, PartInitException {
+		final var file = (IFile) javaElement.getUnderlyingResource();
+		final var page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		final var editor = IDE.openEditor(page, file, "org.eclipse.jdt.ui.CompilationUnitEditor", true);
 		((AbstractTextEditor) editor).selectAndReveal(((ISourceReference) javaElement).getSourceRange().getOffset(), 0);
 	}
 
@@ -76,25 +77,25 @@ final class OpenJavaFileDoubleClickListener implements IDoubleClickListener {
 	 * @return The corresponding element from the AST
 	 * @throws JavaModelException
 	 */
-	private IJavaElement getJavaElement(EObject pmElement) {
+	private IJavaElement getJavaElement(final EObject pmElement) {
 		try {
-			Map<String, IType> astTypes = JavaASTUtil
-					.getTypesForProject(JavaCore.create(project));
+			final var astTypes = JavaASTUtil
+					.getTypesForProject(JavaCore.create(this.project));
 
 			IJavaElement javaElement = null;
 			if (pmElement instanceof TMethodDefinition) {
-				TMethodDefinition member = (TMethodDefinition) pmElement;
-				TAbstractType type = member.getDefinedBy();
+				final var member = (TMethodDefinition) pmElement;
+				final var type = member.getDefinedBy();
 				javaElement = JavaASTUtil.getIMethod(member.getSignature(), astTypes.get(type.getFullyQualifiedName()));
 			} else if (pmElement instanceof TAbstractType) {
-				TAbstractType type = (TAbstractType) pmElement;
+				final var type = (TAbstractType) pmElement;
 				javaElement = astTypes.get(type.getFullyQualifiedName());
 			} else {
 				MappingView.LOGGER.log(Level.ERROR, "pmElement is not the correct instance type. (double click)");
 				return null;
 			}
 			return javaElement;
-		} catch (JavaModelException e) {
+		} catch (final JavaModelException e) {
 			MappingView.LOGGER.log(Level.ERROR, e);
 			return null;
 		}
@@ -104,11 +105,11 @@ final class OpenJavaFileDoubleClickListener implements IDoubleClickListener {
 	 * @param event
 	 * @return
 	 */
-	private AbstractCorrespondence getSelectedCorrespondence(DoubleClickEvent event) {
+	private AbstractCorrespondence getSelectedCorrespondence(final DoubleClickEvent event) {
 		AbstractCorrespondence corr = null;
-		ISelection s = event.getSelection();
+		final var s = event.getSelection();
 		if (s instanceof StructuredSelection) {
-			Object selection = ((IStructuredSelection) s).getFirstElement();
+			final var selection = ((IStructuredSelection) s).getFirstElement();
 			if (selection instanceof MappingProcessDefinition) {
 				corr = (AbstractCorrespondence) selection;
 			} else if (selection instanceof MappingEntityType) {
