@@ -23,7 +23,7 @@
 	<systemProperties></systemProperties>
 	<additionalTestArguments></additionalTestArguments>
 	
-    <jacoco.aggregate.reportPaths>${maven.multiModuleProjectDirectory}/org.gravity.secdfd.coverage/target/jacoco-aggregate/</jacoco.aggregate.reportPaths>
+    <jacoco.aggregate.reportPaths>${maven.multiModuleProjectDirectory}/org.gravity.secdfd.coverage/target/jacoco-aggregate</jacoco.aggregate.reportPaths>
    
     <sonar.language>java</sonar.language>
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
