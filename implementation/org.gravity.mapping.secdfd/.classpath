@@ -6,12 +6,54 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry exported="true" kind="lib" path="lib/soot-infoflow-cmd-2.9.0-jar-with-dependencies.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-lang3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jcip-annotations.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-text.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/gson.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/java-string-similarity.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/asm.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/asm-analysis.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/asm-commons.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/asm-tree.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/asm-util.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/axml.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/checker-qual.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/commons-cli.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/commons-io.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/commons-lang3.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/commons-text.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/dexlib2.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/error_prone_annotations.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/failureaccess.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/FastInfoset.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/functionaljava.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/gson.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/guava.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/hamcrest-core.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/heros.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/istack-commons-runtime.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/j2objc-annotations.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/jasmin.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/java_cup.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/java-string-similarity.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/javax.activation-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/javax.annotation-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/jaxb-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/jaxb-runtime.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/jcip-annotations.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/jsr305.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/kryo.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/listenablefuture.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/minlog.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/objenesis.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/polyglot.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/protobuf-java.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/reflectasm.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/slf4j-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/slf4j-simple.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/soot.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/soot-infoflow.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/soot-infoflow-android.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/soot-infoflow-summaries.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/stax-ex.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/trove4j.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/txw2.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/dependency/xmlpull.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen">
 		<attributes>

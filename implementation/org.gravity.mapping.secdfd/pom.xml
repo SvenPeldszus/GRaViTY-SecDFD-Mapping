@@ -14,26 +14,6 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>com.googlecode.maven-download-plugin</groupId>
-				<artifactId>download-maven-plugin</artifactId>
-				<version>1.6.8</version>
-				<executions>
-					<execution>
-						<id>install-jbpm</id>
-						<phase>initialize</phase>
-						<goals>
-							<goal>wget</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<url>https://github.com/secure-software-engineering/FlowDroid/releases/download/v2.9/soot-infoflow-cmd-2.9.0-jar-with-dependencies.jar</url>
-					<unpack>false</unpack>
-					<outputDirectory>${project.basedir}/lib/</outputDirectory>
-					<md5>ce06571308cd09691b93ce26311eb593</md5>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>3.2.0</version>
@@ -45,8 +25,8 @@
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${basedir}/lib/</outputDirectory>
 							<includeScope>runtime</includeScope>
+							<excludeScope>provided</excludeScope>
 							<stripVersion>true</stripVersion>
 						</configuration>
 					</execution>
@@ -54,8 +34,23 @@
 			</plugin>
 		</plugins>
 	</build>
-	<dependencies>
-		<dependency>
+	<dependencies>	
+        <dependency>
+            <groupId>de.fraunhofer.sit.sse.flowdroid</groupId>
+            <artifactId>soot-infoflow</artifactId>
+            <version>2.10.0</version>
+        </dependency>
+        <dependency>
+            <groupId>de.fraunhofer.sit.sse.flowdroid</groupId>
+            <artifactId>soot-infoflow-summaries</artifactId>
+            <version>2.10.0</version>
+        </dependency>
+        <dependency>
+            <groupId>de.fraunhofer.sit.sse.flowdroid</groupId>
+            <artifactId>soot-infoflow-android</artifactId>
+            <version>2.10.0</version>
+        </dependency>
+        <dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.8.9</version>
