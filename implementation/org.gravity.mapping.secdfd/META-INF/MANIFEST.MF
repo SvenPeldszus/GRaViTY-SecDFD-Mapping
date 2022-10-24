@@ -1,8 +1,12 @@
 Manifest-Version: 1.0
-Bundle-SymbolicName: org.gravity.mapping.secdfd;singleton:=true
-Automatic-Module-Name: org.gravity.mapping.secdfd
+Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
+Bundle-SymbolicName: org.gravity.mapping.secdfd;singleton:=true
 Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: %providerName
+Automatic-Module-Name: org.gravity.mapping.secdfd
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
  lib/soot-infoflow-cmd-2.9.0-jar-with-dependencies.jar,
  lib/commons-text.jar,
@@ -23,9 +27,6 @@ Require-Bundle: org.eclipse.xtext,
  com.google.gson,
  org.eclipse.emf.transaction,
  org.apache.log4j
-Bundle-ManifestVersion: 2
-Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: com.google.gson,
  org.gravity.mapping.secdfd,
  org.gravity.mapping.secdfd.checks,
@@ -43,6 +44,4 @@ Export-Package: com.google.gson,
  org.gravity.mapping.secdfd.ui.wizard,
  org.gravity.mapping.secdfd.util,
  soot.jimple.infoflow.results
-Bundle-Vendor: %providerName
-Bundle-Localization: plugin
 Bundle-Activator: org.gravity.mapping.secdfd.Activator
