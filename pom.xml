@@ -23,7 +23,7 @@
 	<systemProperties></systemProperties>
 	<additionalTestArguments></additionalTestArguments>
 	
-    <jacoco.aggregate.reportPaths>${maven.multiModuleProjectDirectory}/org.gravity.secdfd.coverage/target/jacoco-aggregate</jacoco.aggregate.reportPaths>
+    <jacoco.aggregate.reportPaths>${maven.multiModuleProjectDirectory}/org.gravity.secdfd.coverage/target/jacoco-aggregate/</jacoco.aggregate.reportPaths>
    
     <sonar.language>java</sonar.language>
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
@@ -82,6 +82,9 @@
              <goals>
                <goal>prepare-agent-integration</goal>
              </goals>
+             <configuration>
+               <propertyName>surefireArgLine</propertyName>
+             </configuration>
            </execution>
            <execution>
              <id>post-integration-test</id>
@@ -89,6 +92,9 @@
              <goals>
                <goal>report-integration</goal>
              </goals>
+             <configuration>
+               <propertyName>surefireArgLine</propertyName>
+             </configuration>
            </execution>
         </executions>
       </plugin>
