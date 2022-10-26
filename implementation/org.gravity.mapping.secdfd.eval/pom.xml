@@ -29,6 +29,7 @@
               <includeScope>runtime</includeScope>
               <stripVersion>true</stripVersion>
               <outputDirectory>${project.basedir}/lib/</outputDirectory>
+              <excludeGroupIds>org.gravity,org.gravity.secdfd</excludeGroupIds>
             </configuration>
           </execution>
         </executions>
