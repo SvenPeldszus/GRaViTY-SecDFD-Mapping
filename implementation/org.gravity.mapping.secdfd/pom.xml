@@ -28,6 +28,7 @@
 							<includeScope>runtime</includeScope>
 							<excludeScope>provided</excludeScope>
 							<stripVersion>true</stripVersion>
+							<excludeGroupIds>org.gravity,org.gravity.secdfd</excludeGroupIds>
 						</configuration>
 					</execution>
 				</executions>
