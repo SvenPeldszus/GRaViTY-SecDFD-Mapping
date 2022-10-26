@@ -276,7 +276,7 @@
 		<repository>
 			<id>codehaus-snapshots</id>
 			<name>disable dead 'Codehaus Snapshots' repository, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=481478</name>
-			<url>http://nexus.codehaus.org/snapshots/</url>
+			<url>https://nexus.codehaus.org/snapshots/</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
@@ -295,7 +295,7 @@
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
-			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</repository>
 		<!-- This is enabled by /org/sonatype/oss/oss-parent/7 used as parent by 
 			org/xtext/antlr-generator/3.2.1 -->
@@ -315,7 +315,7 @@
 		<pluginRepository>
 			<id>codehaus-snapshots</id>
 			<name>disable dead 'Codehaus Snapshots' repository, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=481478</name>
-			<url>http://nexus.codehaus.org/snapshots/</url>
+			<url>https://nexus.codehaus.org/snapshots/</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
@@ -332,7 +332,7 @@
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
-			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</pluginRepository>
 		<pluginRepository>
 			<id>sonatype-nexus-snapshots</id>
