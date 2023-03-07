@@ -11,5 +11,5 @@
   <groupId>org.gravity.secdfd</groupId>
   <artifactId>org.gravity.mapping.secdfd.updatesite</artifactId>
   <version>1.0.0-SNAPSHOT</version>
-  <packaging>eclipse-update-site</packaging>
+  <packaging>eclipse-repository</packaging>
 </project>
