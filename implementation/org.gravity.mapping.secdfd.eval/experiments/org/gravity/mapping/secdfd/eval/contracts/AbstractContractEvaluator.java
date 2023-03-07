@@ -34,7 +34,6 @@ import org.gravity.mapping.secdfd.eval.contracts.injection.ChangeInjector;
 import org.gravity.mapping.secdfd.eval.contracts.injection.ExpectedError;
 import org.gravity.mapping.secdfd.eval.flowdroid.ExperimentHelper;
 import org.gravity.mapping.secdfd.eval.flowdroid.GroundTruthParser;
-import org.gravity.mapping.secdfd.helpers.PrintHelper;
 import org.gravity.mapping.secdfd.mapping.Mapper;
 import org.junit.AfterClass;
 import org.junit.Test;
