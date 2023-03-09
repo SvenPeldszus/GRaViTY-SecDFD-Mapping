@@ -1,56 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.gravity.secdfd</groupId>
-  <artifactId>gravity-secdfd-mapping</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  
-  <properties>
-    <tycho-version>3.0.3</tycho-version>
-    <jacoco.version>0.8.8</jacoco.version>
-    <mwe2-version>2.13.0</mwe2-version>
-    <xtext-version>2.28.0</xtext-version>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.gravity.secdfd</groupId>
+	<artifactId>gravity-secdfd-mapping</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
-	
-    <platformSystemProperties></platformSystemProperties>
-    <moduleProperties></moduleProperties>
-    <systemProperties></systemProperties>
-    <additionalTestArguments></additionalTestArguments>
-	
-    <jacoco.aggregate.reportPaths>${maven.multiModuleProjectDirectory}/org.gravity.secdfd.coverage/target/jacoco-aggregate/</jacoco.aggregate.reportPaths>
-   
-    <sonar.language>java</sonar.language>
-    <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
-    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-    <sonar.organization>svenpeldszus-github</sonar.organization>
-    <sonar.coverage.jacoco.xmlReportPaths>${jacoco.aggregate.reportPaths}/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-    <sonar.junit.reportPaths>${maven.multiModuleProjectDirectory}/target/surefire-reports</sonar.junit.reportPaths>
-    
-  </properties>
-	
-  <modules>
-    <module>build/org.gravity.mapping.secdfd.feature</module>
-    <module>build/org.gravity.mapping.secdfd.updatesite</module>
-    <module>implementation/org.gravity.mapping.secdfd</module>
-    <module>implementation/org.gravity.mapping.secdfd.eval</module>
-    <module>implementation/org.gravity.mapping.secdfd.tests</module>
-    <module>implementation/org.secdfd.dsl</module>
-    <module>implementation/org.secdfd.dsl.ide</module>
-    <module>implementation/org.secdfd.dsl.tests</module>
-    <module>implementation/org.secdfd.dsl.ui</module>
-    <module>implementation/org.secdfd.dsl.ui.tests</module>
-    <module>implementation/org.secdfd.model</module>
-    <module>implementation/org.secdfd.model.edit</module>
-    <module>implementation/org.secdfd.model.editor</module>
-    <module>implementation/org.secdfd.model.tests</module>
-    <module>org.gravity.secdfd.coverage</module>
-  </modules>
+	<properties>
+		<tycho-version>3.0.3</tycho-version>
+		<jacoco.version>0.8.8</jacoco.version>
+		<mwe2-version>2.13.0</mwe2-version>
+		<xtext-version>2.28.0</xtext-version>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+
+		<platformSystemProperties></platformSystemProperties>
+		<moduleProperties></moduleProperties>
+		<systemProperties></systemProperties>
+		<additionalTestArguments></additionalTestArguments>
+
+		<jacoco.aggregate.reportPaths>
+			${maven.multiModuleProjectDirectory}/org.gravity.secdfd.coverage/target/jacoco-aggregate/</jacoco.aggregate.reportPaths>
+
+		<sonar.language>java</sonar.language>
+		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.organization>svenpeldszus-github</sonar.organization>
+		<sonar.coverage.jacoco.xmlReportPaths>
+			${jacoco.aggregate.reportPaths}/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+		<sonar.junit.reportPaths>
+			${maven.multiModuleProjectDirectory}/target/surefire-reports</sonar.junit.reportPaths>
+
+	</properties>
+
+	<modules>
+		<module>build/org.gravity.mapping.secdfd.feature</module>
+		<module>build/org.gravity.mapping.secdfd.updatesite</module>
+		<module>implementation/org.gravity.mapping.secdfd</module>
+		<module>implementation/org.gravity.mapping.secdfd.eval</module>
+		<module>implementation/org.gravity.mapping.secdfd.tests</module>
+		<module>implementation/org.secdfd.dsl</module>
+		<module>implementation/org.secdfd.dsl.ide</module>
+		<module>implementation/org.secdfd.dsl.tests</module>
+		<module>implementation/org.secdfd.dsl.ui</module>
+		<module>implementation/org.secdfd.dsl.ui.tests</module>
+		<module>implementation/org.secdfd.model</module>
+		<module>implementation/org.secdfd.model.edit</module>
+		<module>implementation/org.secdfd.model.editor</module>
+		<module>implementation/org.secdfd.model.tests</module>
+		<module>org.gravity.secdfd.coverage</module>
+	</modules>
 
 	<dependencyManagement>
 		<dependencies>
@@ -63,70 +68,70 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
+
 	<build>
-    <plugins>
-      <plugin>
-        <groupId>org.eclipse.tycho</groupId>
-        <artifactId>tycho-maven-plugin</artifactId>
-        <version>${tycho-version}</version>
-        <extensions>true</extensions>
-      </plugin>
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>${jacoco.version}</version>
-         <executions>
-           <execution>
-             <id>pre-integration-test</id>
-             <goals>
-               <goal>prepare-agent-integration</goal>
-             </goals>
-             <configuration>
-               <propertyName>surefireArgLine</propertyName>
-             </configuration>
-           </execution>
-           <execution>
-             <id>post-integration-test</id>
-             <phase>post-integration-test</phase>
-             <goals>
-               <goal>report-integration</goal>
-             </goals>
-             <configuration>
-               <propertyName>surefireArgLine</propertyName>
-             </configuration>
-           </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.eclipse.tycho</groupId>
-        <artifactId>tycho-surefire-plugin</artifactId>
-        <configuration>
-          <reportsDirectory>${sonar.junit.reportPaths}</reportsDirectory>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.eclipse.tycho</groupId>
-        <artifactId>target-platform-configuration</artifactId>
-        <version>${tycho-version}</version>
-        <configuration>
-          <environments>
-            <environment>
-              <os>linux</os>
-              <ws>gtk</ws>
-              <arch>x86_64</arch>
-            </environment>
-            <environment>
-              <os>win32</os>
-              <ws>win32</ws>
-              <arch>x86_64</arch>
-            </environment>
-            <environment>
-              <os>macosx</os>
-              <ws>cocoa</ws>
-              <arch>x86_64</arch>
-            </environment>
-          </environments>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<extensions>true</extensions>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
+				<executions>
+					<execution>
+						<id>pre-integration-test</id>
+						<goals>
+							<goal>prepare-agent-integration</goal>
+						</goals>
+						<configuration>
+							<propertyName>surefireArgLine</propertyName>
+						</configuration>
+					</execution>
+					<execution>
+						<id>post-integration-test</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>report-integration</goal>
+						</goals>
+						<configuration>
+							<propertyName>surefireArgLine</propertyName>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<configuration>
+					<reportsDirectory>${sonar.junit.reportPaths}</reportsDirectory>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>target-platform-configuration</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<environments>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>macosx</os>
+							<ws>cocoa</ws>
+							<arch>x86_64</arch>
+						</environment>
+					</environments>
 					<dependency-resolution>
 						<extraRequirements>
 							<requirement>
@@ -134,17 +139,22 @@
 								<id>org.eclipse.xtext.logging</id>
 								<versionRange>1.2.19</versionRange>
 							</requirement>
-							<!-- to get the org.eclipse.osgi.compatibility.state plugin if the target
-								platform is Luna or later. (backward compatible with kepler and previous
-								versions) see https://bugs.eclipse.org/bugs/show_bug.cgi?id=492149 -->
+							<!-- to get the org.eclipse.osgi.compatibility.state
+							plugin if the target
+								platform is Luna or
+							later. (backward compatible with kepler and previous
+							versions) see
+							https://bugs.eclipse.org/bugs/show_bug.cgi?id=492149 -->
 							<requirement>
 								<type>eclipse-feature</type>
 								<id>org.eclipse.rcp</id>
 								<versionRange>0.0.0</versionRange>
 							</requirement>
-							<!-- to force the same version of jdt.compiler.apt and jdt.core
+							<!-- to force the same version of jdt.compiler.apt
+							and jdt.core
 								(for xtext-maven-plugin)
-								see https://github.com/eclipse/xtext-maven/issues/146 -->
+								see
+							https://github.com/eclipse/xtext-maven/issues/146 -->
 							<requirement>
 								<type>eclipse-plugin</type>
 								<id>org.eclipse.jdt.compiler.apt</id>
@@ -157,10 +167,10 @@
 							</requirement>
 						</extraRequirements>
 					</dependency-resolution>
-        </configuration>
-      </plugin>
-    </plugins>
-    <pluginManagement>
+				</configuration>
+			</plugin>
+		</plugins>
+		<pluginManagement>
 			<plugins>
 				<plugin>
 					<groupId>org.eclipse.xtend</groupId>
@@ -232,7 +242,7 @@
 				<plugin>
 					<!--
 						Can be removed after first generator execution
-						https://bugs.eclipse.org/bugs/show_bug.cgi?id=480097
+					https://bugs.eclipse.org/bugs/show_bug.cgi?id=480097
 					-->
 					<groupId>org.eclipse.tycho</groupId>
 					<artifactId>tycho-compiler-plugin</artifactId>
@@ -242,31 +252,36 @@
 						<useProjectSettings>false</useProjectSettings>
 					</configuration>
 				</plugin>
-				<!-- to skip running (and compiling) tests use commandline flag: -Dmaven.test.skip
-					To skip tests, but still compile them, use: -DskipTests
-					To allow all tests in a pom to pass/fail, use commandline flag: -fae (fail
+				<!-- to skip running (and compiling) tests use commandline flag:
+				-Dmaven.test.skip
+					To skip tests, but still compile them,
+				use: -DskipTests
+					To allow all tests in a pom to pass/fail,
+				use commandline flag: -fae (fail
 					at end) -->
 				<plugin>
 					<groupId>org.eclipse.tycho</groupId>
 					<artifactId>tycho-surefire-plugin</artifactId>
 					<version>${tycho-version}</version>
 					<configuration>
-						<!-- THE FOLLOWING LINE MUST NOT BE BROKEN BY AUTOFORMATTING -->
-						<argLine>${platformSystemProperties} ${systemProperties} ${moduleProperties} ${additionalTestArguments}</argLine>
+						<!-- THE FOLLOWING LINE MUST NOT BE BROKEN BY
+						AUTOFORMATTING -->
+						<argLine>${platformSystemProperties} ${systemProperties}
+							${moduleProperties} ${additionalTestArguments}</argLine>
 						<failIfNoTests>false</failIfNoTests>
 						<useUIHarness>false</useUIHarness>
 					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
-  </build>
+	</build>
 
-  <repositories>
-    <repository>
-      <id>GRaViTY</id>
-      <layout>p2</layout>
-      <url>https://gravity-tool.org/beta-updatesite</url>
-    </repository>
+	<repositories>
+		<repository>
+			<id>GRaViTY</id>
+			<layout>p2</layout>
+			<url>https://gravity-tool.org/beta-updatesite</url>
+		</repository>
 		<repository>
 			<id>Eclipse 2022-12</id>
 			<layout>p2</layout>
@@ -274,7 +289,8 @@
 		</repository>
 		<repository>
 			<id>codehaus-snapshots</id>
-			<name>disable dead 'Codehaus Snapshots' repository, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=481478</name>
+			<name>disable dead 'Codehaus Snapshots' repository, see
+				https://bugs.eclipse.org/bugs/show_bug.cgi?id=481478</name>
 			<url>https://nexus.codehaus.org/snapshots/</url>
 			<releases>
 				<enabled>false</enabled>
@@ -283,8 +299,10 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
-		<!-- This must be disabled explicitly, otherwise it is enabled by https://github.com/mojohaus/mojo-parent 
-			which is taken from exec-maven-plugin from at least version 1.6.0 -->
+		<!-- This must be disabled explicitly, otherwise it is enabled by
+		https://github.com/mojohaus/mojo-parent 
+			which is taken from
+		exec-maven-plugin from at least version 1.6.0 -->
 		<repository>
 			<id>ossrh-snapshots</id>
 			<name>ossrh-snapshots</name>
@@ -296,8 +314,8 @@
 			</snapshots>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</repository>
-		<!-- This is enabled by /org/sonatype/oss/oss-parent/7 used as parent by 
-			org/xtext/antlr-generator/3.2.1 -->
+		<!-- This is enabled by /org/sonatype/oss/oss-parent/7 used as parent by
+		org/xtext/antlr-generator/3.2.1 -->
 		<repository>
 			<id>sonatype-nexus-snapshots</id>
 			<name>Sonatype Nexus Snapshots</name>
@@ -310,10 +328,11 @@
 			</snapshots>
 		</repository>
 	</repositories>
-		<pluginRepositories>
+	<pluginRepositories>
 		<pluginRepository>
 			<id>codehaus-snapshots</id>
-			<name>disable dead 'Codehaus Snapshots' repository, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=481478</name>
+			<name>disable dead 'Codehaus Snapshots' repository, see
+				https://bugs.eclipse.org/bugs/show_bug.cgi?id=481478</name>
 			<url>https://nexus.codehaus.org/snapshots/</url>
 			<releases>
 				<enabled>false</enabled>
