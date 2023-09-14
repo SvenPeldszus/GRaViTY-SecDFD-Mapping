@@ -21,11 +21,11 @@
     <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#generateAsset"/>
   </ignored>
   <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TInterface" href="JoinExample.xmi#//@ownedTypes.14"/>
+    <source xsi:type="org.gravity.typegraph.basic:TInterface" href="JoinExample.xmi#//@allTypes.14"/>
     <target xsi:type="org.secdfd:Asset" href="../EDFD.secdfd#2nd-Asset"/>
   </ignored>
   <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TInterface" href="JoinExample.xmi#//@ownedTypes.14"/>
+    <source xsi:type="org.gravity.typegraph.basic:TInterface" href="JoinExample.xmi#//@allTypes.14"/>
     <target xsi:type="org.secdfd:Asset" href="../EDFD.secdfd#joined-Asset"/>
   </ignored>
   <source href="JoinExample.xmi#/"/>
@@ -131,15 +131,15 @@
     <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#exit"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.13"/>
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@allTypes.13"/>
     <target xsi:type="org.secdfd:Asset" href="../EDFD.secdfd#joined-Asset"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.13"/>
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@allTypes.13"/>
     <target xsi:type="org.secdfd:Asset" href="../EDFD.secdfd#2nd-Asset"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@ownedTypes.11"/>
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="JoinExample.xmi#//@allTypes.11"/>
     <target xsi:type="org.secdfd:Asset" href="../EDFD.secdfd#1st-Asset"/>
   </correspondences>
 </org.gravity.mapping.secdfd.model:Mapping>

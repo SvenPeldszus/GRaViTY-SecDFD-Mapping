@@ -23,11 +23,11 @@
     <target xsi:type="org.secdfd:Process" href="../EDFD.secdfd#stop"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ForwardExample.xmi#//@ownedTypes.5"/>
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ForwardExample.xmi#//@allTypes.5"/>
     <target xsi:type="org.secdfd:Asset" href="../EDFD.secdfd#1st"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ForwardExample.xmi#//@ownedTypes.5"/>
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ForwardExample.xmi#//@allTypes.5"/>
     <target xsi:type="org.secdfd:Asset" href="../EDFD.secdfd#2nd"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.6">

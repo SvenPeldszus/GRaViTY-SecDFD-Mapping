@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="ASCII"?>
-<org.gravity.typegraph.basic:TypeGraph xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:org.gravity.typegraph.basic="http://www.gravity-tool.org/typegraph/basic" classes="//@ownedTypes.0 //@ownedTypes.1 //@ownedTypes.2 //@ownedTypes.3 //@ownedTypes.4 //@ownedTypes.5 //@ownedTypes.6 //@ownedTypes.7 //@ownedTypes.8 //@ownedTypes.9 //@ownedTypes.10 //@ownedTypes.11 //@ownedTypes.13" interfaces="//@ownedTypes.12 //@ownedTypes.14 //@ownedTypes.15" tName="JoinExample">
-  <packages classes="//@ownedTypes.10 //@ownedTypes.11" ownedTypes="//@ownedTypes.10 //@ownedTypes.11" model="/" tName="(default package)"/>
+<org.gravity.typegraph.basic:TypeGraph xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:org.gravity.typegraph.basic="http://www.gravity-tool.org/typegraph/basic" classes="//@allTypes.0 //@allTypes.1 //@allTypes.2 //@allTypes.3 //@allTypes.4 //@allTypes.5 //@allTypes.6 //@allTypes.7 //@allTypes.8 //@allTypes.9 //@allTypes.10 //@allTypes.11 //@allTypes.13" interfaces="//@allTypes.12 //@allTypes.14 //@allTypes.15" tName="JoinExample">
+  <packages classes="//@allTypes.10 //@allTypes.11" allTypes="//@allTypes.10 //@allTypes.11" model="/" tName="(default package)"/>
   <packages model="/" tName="java">
-    <subpackages interfaces="//@ownedTypes.12" ownedTypes="//@ownedTypes.12" model="/" tName="io"/>
-    <subpackages classes="//@ownedTypes.13" interfaces="//@ownedTypes.14 //@ownedTypes.15" ownedTypes="//@ownedTypes.13 //@ownedTypes.14 //@ownedTypes.15" model="/" tName="lang"/>
+    <subpackages interfaces="//@allTypes.12" allTypes="//@allTypes.12" model="/" tName="io"/>
+    <subpackages classes="//@allTypes.13" interfaces="//@allTypes.14 //@allTypes.15" allTypes="//@allTypes.13 //@allTypes.14 //@allTypes.15" model="/" tName="lang"/>
   </packages>
   <methods tName="join">
-    <signatures outgoingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.3/@ownedFlows.1" returnType="//@ownedTypes.13" firstParameter="//@methods.0/@signatures.0/@parameters.1">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.0/@signatures.0/@definitions.0/@ownedFlows.0 //@methods.0/@signatures.0/@definitions.0/@accessing.0/@ownedFlows.2" definedBy="//@ownedTypes.10" accessedBy="//@methods.5/@signatures.0/@definitions.0/@accessing.3" returnType="//@ownedTypes.13">
+    <signatures outgoingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.3/@ownedFlows.1" returnType="//@allTypes.13" firstParameter="//@methods.0/@signatures.0/@parameters.1">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.0/@signatures.0/@definitions.0/@ownedFlows.0 //@methods.0/@signatures.0/@definitions.0/@accessing.0/@ownedFlows.2" definedBy="//@allTypes.10" accessedBy="//@methods.5/@signatures.0/@definitions.0/@accessing.3" returnType="//@allTypes.13">
         <ownedFlows incomingFlows="//@methods.0/@signatures.0/@parameters.0" outgoingFlows="//@methods.0/@signatures.0/@definitions.0"/>
         <accessing xsi:type="org.gravity.typegraph.basic:TRead" incomingFlows="//@methods.0/@signatures.0/@definitions.0/@accessing.0/@ownedFlows.0 //@methods.0/@signatures.0/@definitions.0/@accessing.0/@ownedFlows.1" outgoingFlows="//@methods.0/@signatures.0/@definitions.0/@accessing.0/@ownedFlows.2" target="//@fields.0/@signatures.0/@definitions.0">
           <ownedFlows incomingFlows="//@fields.0/@signatures.0" outgoingFlows="//@methods.0/@signatures.0/@definitions.0/@accessing.0"/>
@@ -16,27 +16,27 @@
         </accessing>
         <tModifier tVisibility="TPackage"/>
       </definitions>
-      <parameters incomingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.3/@ownedFlows.0" outgoingFlows="//@methods.0/@signatures.0/@definitions.0/@ownedFlows.0" previous="//@methods.0/@signatures.0/@parameters.1" type="//@ownedTypes.13"/>
-      <parameters incomingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.3/@ownedFlows.2" outgoingFlows="//@methods.0/@signatures.0/@definitions.0/@accessing.0/@ownedFlows.1" next="//@methods.0/@signatures.0/@parameters.0" type="//@ownedTypes.11"/>
+      <parameters incomingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.3/@ownedFlows.0" outgoingFlows="//@methods.0/@signatures.0/@definitions.0/@ownedFlows.0" previous="//@methods.0/@signatures.0/@parameters.1" type="//@allTypes.13"/>
+      <parameters incomingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.3/@ownedFlows.2" outgoingFlows="//@methods.0/@signatures.0/@definitions.0/@accessing.0/@ownedFlows.1" next="//@methods.0/@signatures.0/@parameters.0" type="//@allTypes.11"/>
     </signatures>
   </methods>
   <methods tName="getValue">
-    <signatures outgoingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.4/@ownedFlows.0" returnType="//@ownedTypes.13">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.10" accessedBy="//@methods.5/@signatures.0/@definitions.0/@accessing.4" returnType="//@ownedTypes.13">
+    <signatures outgoingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.4/@ownedFlows.0" returnType="//@allTypes.13">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@allTypes.10" accessedBy="//@methods.5/@signatures.0/@definitions.0/@accessing.4" returnType="//@allTypes.13">
         <tModifier isStatic="true"/>
       </definitions>
     </signatures>
   </methods>
   <methods tName="Asset">
-    <signatures returnType="//@ownedTypes.11">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" outgoingFlows="//@methods.3/@signatures.0/@definitions.0/@accessing.0/@ownedFlows.1" definedBy="//@ownedTypes.11" accessedBy="//@methods.3/@signatures.0/@definitions.0/@accessing.0">
+    <signatures returnType="//@allTypes.11">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" outgoingFlows="//@methods.3/@signatures.0/@definitions.0/@accessing.0/@ownedFlows.1" definedBy="//@allTypes.11" accessedBy="//@methods.3/@signatures.0/@definitions.0/@accessing.0">
         <tAnnotation xsi:type="org.gravity.typegraph.basic:TConstructor"/>
       </definitions>
     </signatures>
   </methods>
   <methods tName="getAsset">
-    <signatures outgoingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.2/@ownedFlows.0" returnType="//@ownedTypes.11">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.3/@signatures.0/@definitions.0/@accessing.0/@ownedFlows.0" definedBy="//@ownedTypes.10" accessedBy="//@methods.5/@signatures.0/@definitions.0/@accessing.2" returnType="//@ownedTypes.11">
+    <signatures outgoingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.2/@ownedFlows.0" returnType="//@allTypes.11">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" incomingFlows="//@methods.3/@signatures.0/@definitions.0/@accessing.0/@ownedFlows.0" definedBy="//@allTypes.10" accessedBy="//@methods.5/@signatures.0/@definitions.0/@accessing.2" returnType="//@allTypes.11">
         <accessing xsi:type="org.gravity.typegraph.basic:TCall" incomingFlows="//@methods.3/@signatures.0/@definitions.0/@accessing.0/@ownedFlows.1" outgoingFlows="//@methods.3/@signatures.0/@definitions.0/@accessing.0/@ownedFlows.0" target="//@methods.2/@signatures.0/@definitions.0">
           <ownedFlows incomingFlows="//@methods.3/@signatures.0/@definitions.0/@accessing.0" outgoingFlows="//@methods.3/@signatures.0/@definitions.0"/>
           <ownedFlows incomingFlows="//@methods.2/@signatures.0/@definitions.0" outgoingFlows="//@methods.3/@signatures.0/@definitions.0/@accessing.0"/>
@@ -46,70 +46,70 @@
     </signatures>
   </methods>
   <methods tName="exit">
-    <signatures returnType="//@ownedTypes.8" firstParameter="//@methods.4/@signatures.0/@parameters.0">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.10" accessedBy="//@methods.5/@signatures.0/@definitions.0/@accessing.0" returnType="//@ownedTypes.8">
+    <signatures returnType="//@allTypes.8" firstParameter="//@methods.4/@signatures.0/@parameters.0">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@allTypes.10" accessedBy="//@methods.5/@signatures.0/@definitions.0/@accessing.0" returnType="//@allTypes.8">
         <tModifier tVisibility="TPackage"/>
       </definitions>
-      <parameters incomingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.0/@ownedFlows.0" type="//@ownedTypes.13"/>
+      <parameters incomingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.0/@ownedFlows.0" type="//@allTypes.13"/>
     </signatures>
   </methods>
   <methods tName="main">
-    <signatures returnType="//@ownedTypes.8" firstParameter="//@methods.5/@signatures.0/@parameters.0">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@ownedTypes.10" returnType="//@ownedTypes.8">
-        <accessing xsi:type="org.gravity.typegraph.basic:TCall" target="//@methods.4/@signatures.0/@definitions.0" staticType="//@ownedTypes.10">
+    <signatures returnType="//@allTypes.8" firstParameter="//@methods.5/@signatures.0/@parameters.0">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" definedBy="//@allTypes.10" returnType="//@allTypes.8">
+        <accessing xsi:type="org.gravity.typegraph.basic:TCall" target="//@methods.4/@signatures.0/@definitions.0" staticType="//@allTypes.10">
           <ownedFlows incomingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.3" outgoingFlows="//@methods.4/@signatures.0/@parameters.0"/>
         </accessing>
         <accessing xsi:type="org.gravity.typegraph.basic:TCall" incomingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.1/@ownedFlows.0" target="//@methods.6/@signatures.0/@definitions.0">
           <ownedFlows incomingFlows="//@methods.6/@signatures.0/@definitions.0" outgoingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.1"/>
         </accessing>
-        <accessing xsi:type="org.gravity.typegraph.basic:TCall" incomingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.2/@ownedFlows.0" outgoingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.3/@ownedFlows.2" target="//@methods.3/@signatures.0/@definitions.0" staticType="//@ownedTypes.10">
+        <accessing xsi:type="org.gravity.typegraph.basic:TCall" incomingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.2/@ownedFlows.0" outgoingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.3/@ownedFlows.2" target="//@methods.3/@signatures.0/@definitions.0" staticType="//@allTypes.10">
           <ownedFlows incomingFlows="//@methods.3/@signatures.0" outgoingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.2"/>
         </accessing>
-        <accessing xsi:type="org.gravity.typegraph.basic:TCall" incomingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.3/@ownedFlows.1" outgoingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.0/@ownedFlows.0" target="//@methods.0/@signatures.0/@definitions.0" staticType="//@ownedTypes.10">
+        <accessing xsi:type="org.gravity.typegraph.basic:TCall" incomingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.3/@ownedFlows.1" outgoingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.0/@ownedFlows.0" target="//@methods.0/@signatures.0/@definitions.0" staticType="//@allTypes.10">
           <ownedFlows incomingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.4" outgoingFlows="//@methods.0/@signatures.0/@parameters.0"/>
           <ownedFlows incomingFlows="//@methods.0/@signatures.0" outgoingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.3"/>
           <ownedFlows incomingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.2" outgoingFlows="//@methods.0/@signatures.0/@parameters.1"/>
         </accessing>
-        <accessing xsi:type="org.gravity.typegraph.basic:TCall" incomingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.4/@ownedFlows.0" outgoingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.3/@ownedFlows.0" target="//@methods.1/@signatures.0/@definitions.0" staticType="//@ownedTypes.10">
+        <accessing xsi:type="org.gravity.typegraph.basic:TCall" incomingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.4/@ownedFlows.0" outgoingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.3/@ownedFlows.0" target="//@methods.1/@signatures.0/@definitions.0" staticType="//@allTypes.10">
           <ownedFlows incomingFlows="//@methods.1/@signatures.0" outgoingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.4"/>
         </accessing>
         <tModifier tVisibility="TPublic" isStatic="true"/>
       </definitions>
-      <parameters upperBound="-1" type="//@ownedTypes.13"/>
+      <parameters upperBound="-1" type="//@allTypes.13"/>
     </signatures>
   </methods>
   <methods tName="Main">
-    <signatures returnType="//@ownedTypes.10">
-      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" outgoingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.1/@ownedFlows.0" definedBy="//@ownedTypes.10" accessedBy="//@methods.5/@signatures.0/@definitions.0/@accessing.1">
+    <signatures returnType="//@allTypes.10">
+      <definitions xsi:type="org.gravity.typegraph.basic:TMethodDefinition" outgoingFlows="//@methods.5/@signatures.0/@definitions.0/@accessing.1/@ownedFlows.0" definedBy="//@allTypes.10" accessedBy="//@methods.5/@signatures.0/@definitions.0/@accessing.1">
         <tAnnotation xsi:type="org.gravity.typegraph.basic:TConstructor"/>
       </definitions>
     </signatures>
   </methods>
   <fields tName="value">
-    <signatures outgoingFlows="//@methods.0/@signatures.0/@definitions.0/@accessing.0/@ownedFlows.0" type="//@ownedTypes.13">
-      <definitions xsi:type="org.gravity.typegraph.basic:TFieldDefinition" definedBy="//@ownedTypes.11" accessedBy="//@methods.0/@signatures.0/@definitions.0/@accessing.0">
+    <signatures outgoingFlows="//@methods.0/@signatures.0/@definitions.0/@accessing.0/@ownedFlows.0" type="//@allTypes.13">
+      <definitions xsi:type="org.gravity.typegraph.basic:TFieldDefinition" definedBy="//@allTypes.11" accessedBy="//@methods.0/@signatures.0/@definitions.0/@accessing.0">
         <tModifier tVisibility="TPublic"/>
       </definitions>
     </signatures>
   </fields>
-  <ownedTypes xsi:type="org.gravity.typegraph.basic:TClass" tLib="true" tName="long"/>
-  <ownedTypes xsi:type="org.gravity.typegraph.basic:TClass" tLib="true" tName="boolean"/>
-  <ownedTypes xsi:type="org.gravity.typegraph.basic:TClass" tLib="true" tName="short"/>
-  <ownedTypes xsi:type="org.gravity.typegraph.basic:TClass" tLib="true" tName="byte"/>
-  <ownedTypes xsi:type="org.gravity.typegraph.basic:TClass" tLib="true" tName="char"/>
-  <ownedTypes xsi:type="org.gravity.typegraph.basic:TClass" tName="T"/>
-  <ownedTypes xsi:type="org.gravity.typegraph.basic:TClass" tLib="true" tName="float"/>
-  <ownedTypes xsi:type="org.gravity.typegraph.basic:TClass" tLib="true" tName="double"/>
-  <ownedTypes xsi:type="org.gravity.typegraph.basic:TClass" tLib="true" tName="void"/>
-  <ownedTypes xsi:type="org.gravity.typegraph.basic:TClass" tLib="true" tName="int"/>
-  <ownedTypes xsi:type="org.gravity.typegraph.basic:TClass" package="//@packages.0" signature="//@methods.5/@signatures.0 //@methods.4/@signatures.0 //@methods.6/@signatures.0 //@methods.3/@signatures.0 //@methods.0/@signatures.0 //@methods.1/@signatures.0" defines="//@methods.5/@signatures.0/@definitions.0 //@methods.4/@signatures.0/@definitions.0 //@methods.6/@signatures.0/@definitions.0 //@methods.3/@signatures.0/@definitions.0 //@methods.0/@signatures.0/@definitions.0 //@methods.1/@signatures.0/@definitions.0" tName="Main">
+  <allTypes xsi:type="org.gravity.typegraph.basic:TClass" tLib="true" tName="long"/>
+  <allTypes xsi:type="org.gravity.typegraph.basic:TClass" tLib="true" tName="boolean"/>
+  <allTypes xsi:type="org.gravity.typegraph.basic:TClass" tLib="true" tName="short"/>
+  <allTypes xsi:type="org.gravity.typegraph.basic:TClass" tLib="true" tName="byte"/>
+  <allTypes xsi:type="org.gravity.typegraph.basic:TClass" tLib="true" tName="char"/>
+  <allTypes xsi:type="org.gravity.typegraph.basic:TClass" tName="T"/>
+  <allTypes xsi:type="org.gravity.typegraph.basic:TClass" tLib="true" tName="float"/>
+  <allTypes xsi:type="org.gravity.typegraph.basic:TClass" tLib="true" tName="double"/>
+  <allTypes xsi:type="org.gravity.typegraph.basic:TClass" tLib="true" tName="void"/>
+  <allTypes xsi:type="org.gravity.typegraph.basic:TClass" tLib="true" tName="int"/>
+  <allTypes xsi:type="org.gravity.typegraph.basic:TClass" package="//@packages.0" signature="//@methods.5/@signatures.0 //@methods.4/@signatures.0 //@methods.6/@signatures.0 //@methods.3/@signatures.0 //@methods.0/@signatures.0 //@methods.1/@signatures.0" defines="//@methods.5/@signatures.0/@definitions.0 //@methods.4/@signatures.0/@definitions.0 //@methods.6/@signatures.0/@definitions.0 //@methods.3/@signatures.0/@definitions.0 //@methods.0/@signatures.0/@definitions.0 //@methods.1/@signatures.0/@definitions.0" tName="Main">
     <tModifier tVisibility="TPublic"/>
-  </ownedTypes>
-  <ownedTypes xsi:type="org.gravity.typegraph.basic:TClass" package="//@packages.0" signature="//@methods.2/@signatures.0 //@fields.0/@signatures.0" defines="//@methods.2/@signatures.0/@definitions.0 //@fields.0/@signatures.0/@definitions.0" tName="Asset">
+  </allTypes>
+  <allTypes xsi:type="org.gravity.typegraph.basic:TClass" package="//@packages.0" signature="//@methods.2/@signatures.0 //@fields.0/@signatures.0" defines="//@methods.2/@signatures.0/@definitions.0 //@fields.0/@signatures.0/@definitions.0" tName="Asset">
     <tModifier tVisibility="TPublic"/>
-  </ownedTypes>
-  <ownedTypes xsi:type="org.gravity.typegraph.basic:TInterface" package="//@packages.1/@subpackages.0" tLib="true" tName="Serializable" implementedBy="//@ownedTypes.13"/>
-  <ownedTypes xsi:type="org.gravity.typegraph.basic:TClass" package="//@packages.1/@subpackages.1" tLib="true" tName="String" implements="//@ownedTypes.12 //@ownedTypes.14 //@ownedTypes.15"/>
-  <ownedTypes xsi:type="org.gravity.typegraph.basic:TInterface" package="//@packages.1/@subpackages.1" tLib="true" tName="CharSequence" implementedBy="//@ownedTypes.13"/>
-  <ownedTypes xsi:type="org.gravity.typegraph.basic:TInterface" package="//@packages.1/@subpackages.1" tLib="true" tName="Comparable" implementedBy="//@ownedTypes.13"/>
+  </allTypes>
+  <allTypes xsi:type="org.gravity.typegraph.basic:TInterface" package="//@packages.1/@subpackages.0" tLib="true" tName="Serializable" implementedBy="//@allTypes.13"/>
+  <allTypes xsi:type="org.gravity.typegraph.basic:TClass" package="//@packages.1/@subpackages.1" tLib="true" tName="String" implements="//@allTypes.12 //@allTypes.14 //@allTypes.15"/>
+  <allTypes xsi:type="org.gravity.typegraph.basic:TInterface" package="//@packages.1/@subpackages.1" tLib="true" tName="CharSequence" implementedBy="//@allTypes.13"/>
+  <allTypes xsi:type="org.gravity.typegraph.basic:TInterface" package="//@packages.1/@subpackages.1" tLib="true" tName="Comparable" implementedBy="//@allTypes.13"/>
 </org.gravity.typegraph.basic:TypeGraph>

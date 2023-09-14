@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.gravity.mapping.secdfd;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: %providerName
 Automatic-Module-Name: org.gravity.mapping.secdfd
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
  target/dependency/asm.jar,

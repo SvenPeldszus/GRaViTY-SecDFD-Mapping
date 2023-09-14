@@ -216,7 +216,7 @@ public class Mapper {
 	private void initMethodsAndTypes(final TypeGraph pm) {
 		// Save types and methods from the program model in fields as they are accessed
 		// very often
-		this.types = pm.getOwnedTypes().stream().filter(t -> !"T".equals(t.getTName()))
+		this.types = pm.getAllTypes().stream().filter(t -> !"T".equals(t.getTName()))
 				.filter(t -> !"Anonymous".equals(t.getTName())).collect(Collectors.toList());
 		this.methods = pm.getMethods().stream().filter(m -> !containsConstructors(m)).collect(Collectors.toList());
 	}

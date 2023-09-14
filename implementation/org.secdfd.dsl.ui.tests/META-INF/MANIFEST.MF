@@ -15,7 +15,8 @@ Require-Bundle: org.secdfd.dsl.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.workbench;resolution:=optional,
  org.eclipse.xtext.ui.testing,
- junit-jupiter-api;bundle-version="5.9.1"
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+ junit-jupiter-api;bundle-version="5.9.1",
+ org.eclipse.xtext.xbase.ui.testing
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: org.secdfd.dsl.ui.tests;x-internal=true
 Import-Package: org.junit.jupiter.api;version="5.9.1"

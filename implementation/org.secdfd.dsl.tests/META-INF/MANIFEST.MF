@@ -12,7 +12,7 @@ Require-Bundle: org.secdfd.dsl,
  org.eclipse.xtext.xbase.testing,
  org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
  junit-jupiter-api;bundle-version="5.9.1"
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: org.secdfd.dsl.tests;x-internal:=true
 Import-Package: org.junit.jupiter.api;version="5.9.1"
 Bundle-ClassPath: .
