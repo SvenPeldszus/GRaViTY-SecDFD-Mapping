@@ -9,16 +9,19 @@ jobs:
 
     steps:
     - name: Clone repository with submodules
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with: 
         fetch-depth: 0
-    - name: Set up JDK
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'temurin'
-        java-version: '17'
-        cache: 'maven'
-    - name: Build with Maven
+#    - name: Set up JDK
+#      uses: actions/setup-java@v3
+#      with:
+#        distribution: 'temurin'
+#        java-version: '17'
+#        cache: 'maven'
+#    - name: Build with Maven
+
+    - name: Setup Maven Action
+      uses: s4u/setup-maven-action@v1.10.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: mvn clean verify sonar:sonar -Pcoverage -Dsonar.projectKey=GRaViTY-SecDFD-Mapping -Dsonar.login=${{secrets.SONAR_LOGIN}}
+    - run: mvn clean verify sonar:sonar -Pcoverage -Dsonar.projectKey=GRaViTY-SecDFD-Mapping -Dsonar.login=${{secrets.SONAR_LOGIN}}
