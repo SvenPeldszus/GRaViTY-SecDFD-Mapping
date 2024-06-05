@@ -10,8 +10,8 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<tycho-version>4.0.6</tycho-version>
-		<jacoco.version>0.8.11</jacoco.version>
+		<tycho-version>4.0.8</tycho-version>
+		<jacoco.version>0.8.12</jacoco.version>
 		<mwe2-version>2.16.0</mwe2-version>
 		<xtext-version>2.33.0</xtext-version>
 
@@ -280,12 +280,12 @@
 		<repository>
 			<id>GRaViTY</id>
 			<layout>p2</layout>
-			<url>https://gravity-tool.org/beta-updatesite</url>
+			<url>https://gravity-tool.org/updatesite</url>
 		</repository>
 		<repository>
-			<id>Eclipse 2023-12</id>
+			<id>Eclipse 2024-03</id>
 			<layout>p2</layout>
-			<url>https://download.eclipse.org/releases/2023-12</url>
+			<url>https://download.eclipse.org/releases/2024-03</url>
 		</repository>
 		<repository>
 			<id>codehaus-snapshots</id>
