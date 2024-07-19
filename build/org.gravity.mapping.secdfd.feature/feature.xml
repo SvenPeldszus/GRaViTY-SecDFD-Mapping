@@ -4,12 +4,12 @@
       label="GRaViTY to SecDFD Mapping"
       version="1.0.0.qualifier">
 
-   <description url="http://www.example.com/description">
+   <description url="https://www.gravity-tool.org/secdfd-mapper">
       [Enter Feature Description here.]
    </description>
 
-   <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
+   <copyright>
+      (C) Copyright ${year} University of Koblenz-Landau and Chalmers | University of Gothenburg
    </copyright>
 
    <license url="https://www.eclipse.org/legal/epl-2.0/">

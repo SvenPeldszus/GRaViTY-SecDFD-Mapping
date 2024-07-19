@@ -11,7 +11,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.gravity.eclipse.ui.GravityUiActivator;
-import org.gravity.eclipse.ui.handler.SelectionHelper;
+import org.gravity.eclipse.ui.handler.UISelectionHelper;
 import org.gravity.mapping.secdfd.ui.wizard.MappingWizard;
 
 /**
@@ -27,7 +27,7 @@ public class MappingHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
-		final List<?> selection = SelectionHelper.getSelection(event);
+		final List<?> selection = UISelectionHelper.getSelection(event);
 		final List<IJavaProject> projects = selection.parallelStream().filter(IJavaProject.class::isInstance)
 				.map(p -> (IJavaProject) p).collect(Collectors.toList());
 
