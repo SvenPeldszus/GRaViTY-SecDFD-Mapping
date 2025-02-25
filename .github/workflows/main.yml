@@ -23,8 +23,8 @@ jobs:
     - name: Setup Maven Action
       uses: s4u/setup-maven-action@v1.10.0
       with:
-          java-version: 8
+          java-version: 21
           maven-version: 3.9.5
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - run: mvn clean verify sonar:sonar -Pcoverage -Dsonar.projectKey=GRaViTY-SecDFD-Mapping -Dsonar.login=${{secrets.SONAR_LOGIN}}
+    - run: mvn clean verify sonar:sonar -ntp -Pcoverage -Dsonar.projectKey=GRaViTY-SecDFD-Mapping -Dsonar.login=${{secrets.SONAR_LOGIN}}
