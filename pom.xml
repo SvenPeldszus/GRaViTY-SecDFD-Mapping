@@ -12,13 +12,13 @@
 	<properties>
 		<tycho-version>4.0.8</tycho-version>
 		<jacoco.version>0.8.12</jacoco.version>
-		<mwe2-version>2.16.0</mwe2-version>
-		<xtext-version>2.33.0</xtext-version>
+		<mwe2-version>2.20.0</mwe2-version>
+		<xtext-version>2.37.0</xtext-version>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
 
 		<platformSystemProperties></platformSystemProperties>
 		<moduleProperties></moduleProperties>
@@ -137,7 +137,7 @@
 							<requirement>
 								<type>eclipse-plugin</type>
 								<id>org.eclipse.xtext.logging</id>
-								<versionRange>1.2.24</versionRange>
+								<versionRange>0.0.0</versionRange>
 							</requirement>
 							<!-- to get the org.eclipse.osgi.compatibility.state
 							plugin if the target
@@ -150,21 +150,6 @@
 								<id>org.eclipse.rcp</id>
 								<versionRange>0.0.0</versionRange>
 							</requirement>
-							<!-- to force the same version of jdt.compiler.apt
-							and jdt.core
-								(for xtext-maven-plugin)
-								see
-							https://github.com/eclipse/xtext-maven/issues/146 -->
-							<!--<requirement>
-								<type>eclipse-plugin</type>
-								<id>org.eclipse.jdt.compiler.apt</id>
-								<versionRange>0.0.0</versionRange>
-							</requirement>
-							<requirement>
-								<type>eclipse-plugin</type>
-								<id>org.eclipse.jdt.compiler.tool</id>
-								<versionRange>0.0.0</versionRange>
-							</requirement>-->
 						</extraRequirements>
 					</dependency-resolution>
 				</configuration>
@@ -283,9 +268,9 @@
 			<url>https://gravity-tool.org/updatesite</url>
 		</repository>
 		<repository>
-			<id>Eclipse 2024-03</id>
+			<id>Eclipse 2024-12</id>
 			<layout>p2</layout>
-			<url>https://download.eclipse.org/releases/2024-03</url>
+			<url>https://download.eclipse.org/releases/2024-12</url>
 		</repository>
 		<repository>
 			<id>codehaus-snapshots</id>
