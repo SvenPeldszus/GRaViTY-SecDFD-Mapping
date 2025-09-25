@@ -1,240 +1,232 @@
 <?xml version="1.0" encoding="ASCII"?>
-<org.gravity.mapping.secdfd.model:Mapping xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:org.gravity.mapping.secdfd="platform:/plugin/org.gravity.mapping.secdfd/model/model.ecore" xmlns:org.gravity.mapping.secdfd.model="http://www.gravity-mapping-secdfd.org/mapping" xmlns:org.gravity.typegraph.basic="http://www.gravity-tool.org/typegraph/basic" xmlns:org.secdfd="http://www.secdfd.org/secdfd" userdefined="//@correspondences.45 //@correspondences.46 //@correspondences.47 //@correspondences.48 //@correspondences.43 //@correspondences.41 //@correspondences.5 //@correspondences.10 //@correspondences.30 //@correspondences.44 //@correspondences.40 //@correspondences.36 //@correspondences.52 //@correspondences.6 //@correspondences.7 //@correspondences.53 //@correspondences.54 //@correspondences.20 //@correspondences.55 //@correspondences.56 //@correspondences.57 //@correspondences.23 //@correspondences.58 //@correspondences.42 //@correspondences.3 //@correspondences.24 //@correspondences.59 //@correspondences.60 //@correspondences.61 //@correspondences.62 //@correspondences.63 //@correspondences.64 //@correspondences.65 //@correspondences.26 //@correspondences.66 //@correspondences.67 //@correspondences.68 //@correspondences.69 //@correspondences.70 //@correspondences.71 //@correspondences.72 //@correspondences.28 //@correspondences.73 //@correspondences.74 //@correspondences.75 //@correspondences.27 //@correspondences.76 //@correspondences.77 //@correspondences.78 //@correspondences.79 //@correspondences.80 //@correspondences.81 //@correspondences.82 //@correspondences.83 //@correspondences.84 //@correspondences.85 //@correspondences.86 //@correspondences.87 //@correspondences.88 //@correspondences.89 //@correspondences.34 //@correspondences.90 //@correspondences.91 //@correspondences.12 //@correspondences.16 //@correspondences.13 //@correspondences.14 //@correspondences.15" suggested="//@correspondences.47 //@correspondences.46 //@correspondences.54 //@correspondences.57 //@correspondences.63 //@correspondences.62 //@correspondences.65 //@correspondences.68 //@correspondences.67 //@correspondences.72 //@correspondences.75 //@correspondences.78 //@correspondences.77 //@correspondences.89" accepted="//@correspondences.1 //@correspondences.2 //@correspondences.3 //@correspondences.4 //@correspondences.8 //@correspondences.9 //@correspondences.10 //@correspondences.11 //@correspondences.17 //@correspondences.18 //@correspondences.19 //@correspondences.20 //@correspondences.21 //@correspondences.22 //@correspondences.23 //@correspondences.24 //@correspondences.25 //@correspondences.26 //@correspondences.27 //@correspondences.28 //@correspondences.29 //@correspondences.30 //@correspondences.31 //@correspondences.32 //@correspondences.33 //@correspondences.34 //@correspondences.35 //@correspondences.36 //@correspondences.37 //@correspondences.38 //@correspondences.39 //@correspondences.40 //@correspondences.41 //@correspondences.42 //@correspondences.50 //@correspondences.51" name="atmsimulator">
+<org.gravity.mapping.secdfd.model:Mapping xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:org.gravity.mapping.secdfd="platform:/plugin/org.gravity.mapping.secdfd/model/model.ecore" xmlns:org.gravity.mapping.secdfd.model="http://www.gravity-mapping-secdfd.org/mapping" xmlns:org.gravity.typegraph.basic="http://www.gravity-tool.org/typegraph/basic" xmlns:org.secdfd="http://www.secdfd.org/secdfd" accepted="//@correspondences.8 //@correspondences.3 //@correspondences.10 //@correspondences.6 //@correspondences.7 //@correspondences.5 //@correspondences.11 //@correspondences.21 //@correspondences.19 //@correspondences.17 //@correspondences.9 //@correspondences.22 //@correspondences.20 //@correspondences.18 //@correspondences.13 //@correspondences.4 //@correspondences.1 //@correspondences.2 //@correspondences.14 //@correspondences.15 //@correspondences.16 //@correspondences.12" name="atmsimulator">
   <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.39"/>
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.54/@contains.2"/>
     <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#status"/>
   </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="50">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.20"/>
-    <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#receipt"/>
-  </ignored>
   <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.136"/>
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.2/@contains.1"/>
     <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#receipt"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.143"/>
-    <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#receipt"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.144"/>
-    <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#receipt"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.147"/>
-    <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#receipt"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="66">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.39"/>
-    <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#PIN"/>
   </ignored>
   <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="50">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.13"/>
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.30/@contains.0"/>
     <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#card"/>
   </ignored>
   <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="50">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.65"/>
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.30/@contains.1"/>
     <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#card"/>
   </ignored>
   <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="50">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.70"/>
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.3/@contains.0"/>
     <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#card"/>
   </ignored>
   <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="50">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.104"/>
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.97/@contains.0"/>
     <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#card"/>
   </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@ignored.12">
-    <source href="ATMsimulator.xmi#//@methods.54"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.14/@contains.1"/>
+    <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#receipt"/>
   </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@ignored.11" deriving="//@ignored.13">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.54/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.47/@contains.1"/>
+    <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#receipt"/>
   </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@ignored.12">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.54/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.46/@contains.1"/>
+    <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#receipt"/>
   </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@ignored.15">
-    <source href="ATMsimulator.xmi#//@methods.77"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="50">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.67/@contains.0"/>
+    <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#receipt"/>
   </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@ignored.14" deriving="//@ignored.16">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.77/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.58/@contains.1"/>
+    <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#receipt"/>
   </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@ignored.15">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.77/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50">
+    <source href="ATMsimulator.xmi#//@methods.63"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Retain_Card"/>
   </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@ignored.18">
-    <source href="ATMsimulator.xmi#//@methods.25"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50">
+    <source href="ATMsimulator.xmi#//@methods.91"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Retain_Card"/>
   </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@ignored.17" deriving="//@ignored.19">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.25/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@ignored.18">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.25/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@ignored.21">
-    <source href="ATMsimulator.xmi#//@methods.30"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@ignored.20" deriving="//@ignored.22">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.30/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@ignored.21">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.30/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@ignored.24">
-    <source href="ATMsimulator.xmi#//@methods.17"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@ignored.23" deriving="//@ignored.25">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.17/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@ignored.24">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.17/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@ignored.27">
-    <source href="ATMsimulator.xmi#//@methods.84"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@ignored.26" deriving="//@ignored.28">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.84/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@ignored.27">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.84/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@ignored.30">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.84/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@ignored.31" deriving="//@ignored.29">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.84/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@ignored.30">
-    <source href="ATMsimulator.xmi#//@methods.84"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@ignored.33">
-    <source href="ATMsimulator.xmi#//@methods.152"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@ignored.32" deriving="//@ignored.34">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.152/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@ignored.33">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.152/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@ignored.41">
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100">
     <source href="ATMsimulator.xmi#//@methods.109"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Deposit"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Retain_Card"/>
   </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@ignored.42" deriving="//@ignored.37">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.109/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Transfer"/>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50">
+    <source href="ATMsimulator.xmi#//@methods.121"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Retain_Card"/>
   </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@ignored.36">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.109/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Transfer"/>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50">
+    <source href="ATMsimulator.xmi#//@methods.143"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Retain_Card"/>
   </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@ignored.41">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.109/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Deposit"/>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50">
+    <source href="ATMsimulator.xmi#//@methods.173"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Retain_Card"/>
   </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@ignored.40">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.109/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Withdraw"/>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50">
+    <source href="ATMsimulator.xmi#//@methods.162"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
   </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@ignored.43" deriving="//@ignored.39">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.109/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Withdraw"/>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@ignored.19">
+    <source href="ATMsimulator.xmi#//@methods.179"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
   </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@ignored.35" deriving="//@ignored.38">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.109/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Deposit"/>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.3 //@ignored.18">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.179/@signatures.0"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
   </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@ignored.36">
-    <source href="ATMsimulator.xmi#//@methods.109"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Transfer"/>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="60">
+    <source href="ATMsimulator.xmi#//@methods.40"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Read_Card_Verify_PIN"/>
   </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@ignored.40">
-    <source href="ATMsimulator.xmi#//@methods.109"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Withdraw"/>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50">
+    <source href="ATMsimulator.xmi#//@methods.11"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Eject_Card_Print_Receipt"/>
   </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@ignored.49">
-    <source href="ATMsimulator.xmi#//@methods.96"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Deposit"/>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50">
+    <source href="ATMsimulator.xmi#//@methods.121"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Eject_Card_Print_Receipt"/>
   </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@ignored.51" deriving="//@ignored.46">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.96/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Transfer"/>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50">
+    <source href="ATMsimulator.xmi#//@methods.217"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Eject_Card_Print_Receipt"/>
   </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@ignored.45">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.96/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Transfer"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@ignored.49">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.96/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Deposit"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@ignored.50">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.96/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Withdraw"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@ignored.44" deriving="//@ignored.47">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.96/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Deposit"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@ignored.52" deriving="//@ignored.48">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.96/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Withdraw"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@ignored.45">
-    <source href="ATMsimulator.xmi#//@methods.96"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Transfer"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@ignored.50">
-    <source href="ATMsimulator.xmi#//@methods.96"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Withdraw"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@ignored.58" deriving="//@ignored.55">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.71/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Withdraw"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.83">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.71/@signatures.0/@definitions.1"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Transfer"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@ignored.53">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.71/@signatures.0/@definitions.1"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Withdraw"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.86">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.71/@signatures.0/@definitions.1"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Deposit"/>
-  </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.80">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.71/@signatures.0/@definitions.1"/>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50">
+    <source href="ATMsimulator.xmi#//@methods.192"/>
     <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Check_Balance"/>
   </ignored>
-  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@ignored.53">
-    <source href="ATMsimulator.xmi#//@methods.71"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Withdraw"/>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@ignored.26">
+    <source href="ATMsimulator.xmi#//@methods.176"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Deposit"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.5 //@ignored.25">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.176/@signatures.0"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Deposit"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50" deriving="//@ignored.28">
+    <source href="ATMsimulator.xmi#//@methods.188"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Deposit"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.5 //@ignored.27">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.188/@signatures.0"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Deposit"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100">
+    <source href="ATMsimulator.xmi#//@methods.92"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Dispense_Cash"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="66">
+    <source href="ATMsimulator.xmi#//@methods.132"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Dispense_Cash"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="66">
+    <source href="ATMsimulator.xmi#//@methods.209"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Dispense_Cash"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="50">
+    <source href="ATMsimulator.xmi#//@methods.13"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@ignored.34">
+    <source href="ATMsimulator.xmi#//@methods.120"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@ignored.33" deriving="//@ignored.35">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.120/@signatures.0"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@ignored.34">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.120/@signatures.0/@definitions.0"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@ignored.37">
+    <source href="ATMsimulator.xmi#//@methods.94"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@ignored.36" deriving="//@ignored.38">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.94/@signatures.0"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@ignored.37">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.94/@signatures.0/@definitions.0"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@ignored.40">
+    <source href="ATMsimulator.xmi#//@methods.190"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@ignored.39" deriving="//@ignored.41">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.190/@signatures.0"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@ignored.40">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.190/@signatures.0/@definitions.0"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@ignored.43">
+    <source href="ATMsimulator.xmi#//@methods.191"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@ignored.42" deriving="//@ignored.45">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.191/@signatures.0"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@ignored.46">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.191/@signatures.0/@definitions.0"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@ignored.43">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.191/@signatures.0/@definitions.0"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@ignored.47" deriving="//@ignored.44">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.191/@signatures.0"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@ignored.46">
+    <source href="ATMsimulator.xmi#//@methods.191"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@ignored.49">
+    <source href="ATMsimulator.xmi#//@methods.61"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@ignored.48" deriving="//@ignored.50">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.61/@signatures.0"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@ignored.49">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.61/@signatures.0/@definitions.0"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@ignored.52">
+    <source href="ATMsimulator.xmi#//@methods.25"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@ignored.51" deriving="//@ignored.53">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.25/@signatures.0"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@ignored.52">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.25/@signatures.0/@definitions.0"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@ignored.55">
+    <source href="ATMsimulator.xmi#//@methods.173"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@ignored.54" deriving="//@ignored.56">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.173/@signatures.0"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
+  </ignored>
+  <ignored xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@ignored.55">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.173/@signatures.0/@definitions.0"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
   </ignored>
   <source href="ATMsimulator.xmi#/"/>
   <target href="../secdfds/atmsimulator.secdfd#atmsimulator"/>
@@ -243,375 +235,91 @@
     <target href="../secdfds/atmsimulator.secdfd#atmsimulator"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.68"/>
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.71/@contains.0"/>
     <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#card"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.32"/>
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.15/@contains.0"/>
     <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#money"/>
   </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100" deriving="//@correspondences.42">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.96"/>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100" deriving="//@ignored.19">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.76/@contains.0"/>
     <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#keyboard_input"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.96"/>
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.76/@contains.0"/>
     <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#display_view"/>
   </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100" deriving="//@correspondences.38 //@correspondences.39 //@correspondences.40 //@correspondences.41">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.34"/>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100" deriving="//@correspondences.19 //@correspondences.20 //@ignored.26 //@ignored.28">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.55/@contains.0"/>
     <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#status"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.61"/>
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.54/@contains.1"/>
     <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#status"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.81"/>
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.54/@contains.3"/>
     <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#status"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.30"/>
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.27/@contains.0"/>
     <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#account"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.41"/>
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.82/@contains.0"/>
     <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#balance"/>
   </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100" deriving="//@correspondences.41">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.33"/>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100" deriving="//@correspondences.19">
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.114/@contains.0"/>
     <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#message"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.31"/>
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.58/@contains.0"/>
     <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#receipt"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.58"/>
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.87/@contains.0"/>
     <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#transaction"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.28"/>
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.2/@contains.0"/>
     <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#transaction"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.37"/>
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.46/@contains.0"/>
     <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#transaction"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.17"/>
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.14/@contains.0"/>
     <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#transaction"/>
   </correspondences>
   <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.10"/>
+    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@modules.47/@contains.0"/>
     <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#transaction"/>
   </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100">
-    <source href="ATMsimulator.xmi#//@methods.4"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Retain_Card"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100">
-    <source href="ATMsimulator.xmi#//@methods.30"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Retain_Card"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100">
-    <source href="ATMsimulator.xmi#//@methods.111"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Retain_Card"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.54">
-    <source href="ATMsimulator.xmi#//@methods.153"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Retain_Card"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100">
-    <source href="ATMsimulator.xmi#//@methods.156"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Retain_Card"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100">
-    <source href="ATMsimulator.xmi#//@methods.171"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Retain_Card"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.57">
-    <source href="ATMsimulator.xmi#//@methods.136"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.42">
-    <source href="ATMsimulator.xmi#//@methods.163"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100">
-    <source href="ATMsimulator.xmi#//@methods.101"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Read_Card_Verify_PIN"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.65">
-    <source href="ATMsimulator.xmi#//@methods.4"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Eject_Card_Print_Receipt"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.75">
-    <source href="ATMsimulator.xmi#//@methods.72"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Eject_Card_Print_Receipt"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.72">
-    <source href="ATMsimulator.xmi#//@methods.148"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Eject_Card_Print_Receipt"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100">
-    <source href="ATMsimulator.xmi#//@methods.53"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Check_Balance"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.41">
-    <source href="ATMsimulator.xmi#//@methods.159"/>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.19">
+    <source href="ATMsimulator.xmi#//@methods.154"/>
     <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Transfer"/>
   </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.38">
-    <source href="ATMsimulator.xmi#//@methods.142"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Deposit"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.39">
-    <source href="ATMsimulator.xmi#//@methods.169"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Deposit"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100">
-    <source href="ATMsimulator.xmi#//@methods.55"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Dispense_Cash"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.89">
-    <source href="ATMsimulator.xmi#//@methods.68"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Dispense_Cash"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100">
-    <source href="ATMsimulator.xmi#//@methods.179"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Dispense_Cash"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.40">
-    <source href="ATMsimulator.xmi#//@methods.199"/>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.20">
+    <source href="ATMsimulator.xmi#//@methods.22"/>
     <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Withdraw"/>
   </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100">
-    <source href="ATMsimulator.xmi#//@methods.103"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.10 //@correspondences.5 //@correspondences.17" deriving="//@correspondences.21">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.154/@signatures.0"/>
+    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Transfer"/>
   </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.5 //@correspondences.31" deriving="//@correspondences.51">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.142/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Deposit"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.5 //@correspondences.32" deriving="//@correspondences.50">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.169/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Deposit"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.5 //@correspondences.36" deriving="//@correspondences.44">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.199/@signatures.0"/>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.5 //@correspondences.18" deriving="//@correspondences.22">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.22/@signatures.0"/>
     <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Withdraw"/>
   </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.5 //@correspondences.10 //@correspondences.30" deriving="//@correspondences.43">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.159/@signatures.0"/>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.19">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.154/@signatures.0/@definitions.0"/>
     <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Transfer"/>
   </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.3 //@correspondences.24" deriving="//@correspondences.58 //@correspondences.60">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.163/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.41">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.159/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Transfer"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.40">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.199/@signatures.0/@definitions.0"/>
+  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.20">
+    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.22/@signatures.0/@definitions.0"/>
     <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Withdraw"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.46">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.71/@signatures.0/@definitions.1"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.47" deriving="//@correspondences.45 //@correspondences.48">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.71/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.46">
-    <source href="ATMsimulator.xmi#//@methods.71"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.46">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.71/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Network_Bank"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd:TypeGraph2EDFD">
-    <source href="ATMsimulator.xmi#/"/>
-    <target href="../secdfds/atmsimulator.secdfd#atmsimulator"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.39">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.169/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Deposit"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.38">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.142/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Deposit"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.11"/>
-    <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#PIN"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.54">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.153/@signatures.0/@definitions.1"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Retain_Card"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.20" deriving="//@correspondences.53 //@correspondences.55">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.153/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Retain_Card"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.54">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.153/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Retain_Card"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.57">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.136/@signatures.0/@definitions.1"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.23" deriving="//@correspondences.56 //@correspondences.59">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.136/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.42">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.163/@signatures.0/@definitions.2"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.57">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.136/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.42">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.163/@signatures.0/@definitions.1"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Update_Display"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.62">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.171/@signatures.0/@definitions.2"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Read_Card_Verify_PIN"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.63" deriving="//@correspondences.61 //@correspondences.70">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.171/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Read_Card_Verify_PIN"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.62">
-    <source href="ATMsimulator.xmi#//@methods.171"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Read_Card_Verify_PIN"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.65">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.4/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Eject_Card_Print_Receipt"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.26" deriving="//@correspondences.64 //@correspondences.73">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.4/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Eject_Card_Print_Receipt"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.67">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.134/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Read_Card_Verify_PIN"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.68" deriving="//@correspondences.66">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.134/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Read_Card_Verify_PIN"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.67">
-    <source href="ATMsimulator.xmi#//@methods.134"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Read_Card_Verify_PIN"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.39"/>
-    <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#status"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.62">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.171/@signatures.0/@definitions.1"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Read_Card_Verify_PIN"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.72">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.148/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Eject_Card_Print_Receipt"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.28" deriving="//@correspondences.71">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.148/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Eject_Card_Print_Receipt"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.65">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.4/@signatures.0/@definitions.1"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Eject_Card_Print_Receipt"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.75">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.72/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Eject_Card_Print_Receipt"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.27" deriving="//@correspondences.74">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.72/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Eject_Card_Print_Receipt"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.77">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.114/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Check_Balance"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.78" deriving="//@correspondences.76">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.114/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Check_Balance"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="100" deriving="//@correspondences.77">
-    <source href="ATMsimulator.xmi#//@methods.114"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Check_Balance"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.80">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.71/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Check_Balance"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.81" deriving="//@ignored.57 //@correspondences.79">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.71/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Check_Balance"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@correspondences.80">
-    <source href="ATMsimulator.xmi#//@methods.71"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Check_Balance"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.83">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.71/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Transfer"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.84" deriving="//@ignored.54 //@correspondences.82">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.71/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Transfer"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@correspondences.83">
-    <source href="ATMsimulator.xmi#//@methods.71"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Transfer"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.86">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.71/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Deposit"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.87" deriving="//@ignored.56 //@correspondences.85">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.71/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Deposit"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessName" Ranking="30" deriving="//@correspondences.86">
-    <source href="ATMsimulator.xmi#//@methods.71"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Deposit"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.89">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.68/@signatures.0/@definitions.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Dispense_Cash"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessSignature" derived="//@correspondences.34" deriving="//@correspondences.88 //@correspondences.90">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodSignature" href="ATMsimulator.xmi#//@methods.68/@signatures.0"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Dispense_Cash"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingProcessDefinition" derived="//@correspondences.89">
-    <source xsi:type="org.gravity.typegraph.basic:TMethodDefinition" href="ATMsimulator.xmi#//@methods.68/@signatures.0/@definitions.1"/>
-    <target xsi:type="org.secdfd:Process" href="../secdfds/atmsimulator.secdfd#Dispense_Cash"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd.model:MappingEntityType" Ranking="100">
-    <source xsi:type="org.gravity.typegraph.basic:TClass" href="ATMsimulator.xmi#//@ownedTypes.32"/>
-    <target xsi:type="org.secdfd:Asset" href="../secdfds/atmsimulator.secdfd#amount"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd:TypeGraph2EDFD">
-    <source href="ATMsimulator.xmi#/"/>
-    <target href="../secdfds/atmsimulator.secdfd#atmsimulator"/>
-  </correspondences>
-  <correspondences xsi:type="org.gravity.mapping.secdfd:TypeGraph2EDFD">
-    <source href="ATMsimulator.xmi#/"/>
-    <target href="../secdfds/atmsimulator.secdfd#atmsimulator"/>
   </correspondences>
 </org.gravity.mapping.secdfd.model:Mapping>

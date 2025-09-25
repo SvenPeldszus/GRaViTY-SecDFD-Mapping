@@ -15,7 +15,6 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.gravity.eclipse.util.JavaASTUtil;
 import org.gravity.eclipse.util.MarkerUtil;
@@ -64,18 +63,18 @@ public class CorrespondenceManager {
 		this.mapping = mapping;
 		this.project = project;
 		this.cache = cache;
-		createCorrespondence((TypeGraph) mapping.getSource(), (EDFD) mapping.getTarget());
+		this.createCorrespondence((TypeGraph) mapping.getSource(), (EDFD) mapping.getTarget());
 		mapping.getUserdefined().forEach(corr -> {
-			addToMap(CorrespondenceHelper.getSource(corr), corr);
-			addToMap(CorrespondenceHelper.getTarget(corr), corr);
+			this.addToMap(CorrespondenceHelper.getSource(corr), corr);
+			this.addToMap(CorrespondenceHelper.getTarget(corr), corr);
 		});
 		mapping.getAccepted().forEach(corr -> {
-			addToMap(CorrespondenceHelper.getSource(corr), corr);
-			addToMap(CorrespondenceHelper.getTarget(corr), corr);
+			this.addToMap(CorrespondenceHelper.getSource(corr), corr);
+			this.addToMap(CorrespondenceHelper.getTarget(corr), corr);
 		});
 		mapping.getSuggested().forEach(corr -> {
-			addToMap(CorrespondenceHelper.getSource(corr), corr);
-			addToMap(CorrespondenceHelper.getTarget(corr), corr);
+			this.addToMap(CorrespondenceHelper.getSource(corr), corr);
+			this.addToMap(CorrespondenceHelper.getTarget(corr), corr);
 		});
 	}
 
@@ -89,15 +88,15 @@ public class CorrespondenceManager {
 	 * @throws AddingIgnoredCorrespondenceException
 	 */
 	MappingProcessName createCorrespondence(final TMethod member, final Element element, final Integer ranking) {
-		MappingProcessName corr = (MappingProcessName) getCorrespondence(member, element);
+		var corr = (MappingProcessName) this.getCorrespondence(member, element);
 		if (corr != null) {
 			return corr;
 		}
 		corr = MappingFactory.eINSTANCE.createMappingProcessName();
 		corr.setSource(member);
 		corr.setTarget(element);
-		addToMap(element, corr);
-		addToMap(member, corr);
+		this.addToMap(element, corr);
+		this.addToMap(member, corr);
 		this.cache.add(member, element);
 		this.mapping.getCorrespondences().add(corr);
 
@@ -116,24 +115,24 @@ public class CorrespondenceManager {
 	 *
 	 * @return The correspondence
 	 */
-	MappingProcessSignature createCorrespondence(final TMethodSignature signature, final Element element, final Integer ranking,
+	MappingProcessSignature createCorrespondence(final TMethodSignature signature, final Element element,
+			final Integer ranking,
 			final Collection<AbstractMappingBase> derived) {
-		MappingProcessSignature corr = (MappingProcessSignature) getCorrespondence(signature, element);
+		var corr = (MappingProcessSignature) this.getCorrespondence(signature, element);
 		if (corr != null) {
 			return corr;
-		} else {
-			corr = MappingFactory.eINSTANCE.createMappingProcessSignature();
-			corr.setSource(signature);
-			corr.setTarget(element);
-			corr.getDerived().addAll(derived);
-			addToMap(element, corr);
-			addToMap(signature, corr);
-			this.cache.add(signature, element);
-			this.mapping.getCorrespondences().add(corr);
 		}
-		MappingProcessName nameCorr = (MappingProcessName) getCorrespondence(signature.getMethod(), element);
+		corr = MappingFactory.eINSTANCE.createMappingProcessSignature();
+		corr.setSource(signature);
+		corr.setTarget(element);
+		corr.getDerived().addAll(derived);
+		this.addToMap(element, corr);
+		this.addToMap(signature, corr);
+		this.cache.add(signature, element);
+		this.mapping.getCorrespondences().add(corr);
+		var nameCorr = (MappingProcessName) this.getCorrespondence(signature.getMethod(), element);
 		if (nameCorr == null) {
-			nameCorr = createCorrespondence(signature.getMethod(), element, ranking);
+			nameCorr = this.createCorrespondence(signature.getMethod(), element, ranking);
 			this.mapping.getSuggested().add(nameCorr);
 		}
 		corr.getDerived().add(nameCorr);
@@ -150,12 +149,13 @@ public class CorrespondenceManager {
 	 * @param ranking
 	 * @return The correspondence
 	 */
-	MappingProcessDefinition createCorrespondence(final TMethodDefinition member, final Element element, final Integer ranking,
+	MappingProcessDefinition createCorrespondence(final TMethodDefinition member, final Element element,
+			final Integer ranking,
 			final Collection<? extends AbstractMappingBase> derived) {
 		if (element instanceof ExternalEntity) {
 			return null;
 		}
-		MappingProcessDefinition corr = (MappingProcessDefinition) getCorrespondence(member, element);
+		var corr = (MappingProcessDefinition) this.getCorrespondence(member, element);
 		if (corr != null) {
 			return corr;
 		}
@@ -163,31 +163,34 @@ public class CorrespondenceManager {
 		corr.setSource(member);
 		corr.setTarget(element);
 		corr.getDerived().addAll(derived);
-		addToMap(element, corr);
-		addToMap(member, corr);
+		this.addToMap(element, corr);
+		this.addToMap(member, corr);
 		this.cache.add(member, element);
 		this.mapping.getCorrespondences().add(corr);
-		MappingProcessSignature sigCorr = (MappingProcessSignature) getCorrespondence(member.getSignature(), element);
+		var sigCorr = (MappingProcessSignature) this.getCorrespondence(member.getSignature(),
+				element);
 		if (sigCorr == null) {
-			final TMethodSignature signature = member.getSignature();
-			sigCorr = createCorrespondence(signature, element, ranking, Collections.emptyList());
+			final var signature = member.getSignature();
+			sigCorr = this.createCorrespondence(signature, element, ranking, Collections.emptyList());
 			this.mapping.getSuggested().add(sigCorr);
 		}
 		corr.getDerived().add(sigCorr);
 
-		final TMethodDefinition overriding = (TMethodDefinition) member.getOverriding();
-		if ((overriding != null) && (overriding.getDefinedBy() instanceof TInterface)) {
-			MappingProcessDefinition overCorr = (MappingProcessDefinition) getCorrespondence(overriding, element);
-			if (overCorr == null) {
-				overCorr = createCorrespondence(overriding, element, ranking, Collections.singletonList(corr));
-				this.mapping.getSuggested().add(overCorr);
+		for (final var overriding : member.getOverriding()) {
+			if (overriding.getDefinedBy() instanceof TInterface) {
+				var overCorr = (MappingProcessDefinition) this.getCorrespondence(overriding,
+						element);
+				if (overCorr == null) {
+					overCorr = this.createCorrespondence(overriding, element, ranking, Collections.singletonList(corr));
+					this.mapping.getSuggested().add(overCorr);
+				}
 			}
 		}
 
 		LOGGER.log(Level.INFO, "Create correspondence: " + MappingLabelProvider.prettyPrint(corr));
 
 		try {
-			final Map<String, IType> astTypes = JavaASTUtil.getTypesForProject(this.project);
+			final var astTypes = JavaASTUtil.getTypesForProject(this.project);
 			MarkerUtil.createMarker(astTypes, member, element.getName(), IMarker.PRIORITY_NORMAL,
 					IMarker.SEVERITY_INFO);
 		} catch (final JavaModelException e) {
@@ -205,7 +208,7 @@ public class CorrespondenceManager {
 	 * @return The correspondence
 	 */
 	MappingEntityType createCorrespondence(final TAbstractType type, final NamedEntity entity, final Integer ranking) {
-		MappingEntityType corr = (MappingEntityType) getCorrespondence(type, entity);
+		var corr = (MappingEntityType) this.getCorrespondence(type, entity);
 		if (corr != null) {
 			return corr;
 		}
@@ -213,24 +216,26 @@ public class CorrespondenceManager {
 		corr.setSource(type);
 		corr.setTarget(entity);
 		corr.setRanking(ranking);
-		addToMap(type, corr);
-		addToMap(entity, corr);
+		this.addToMap(type, corr);
+		this.addToMap(entity, corr);
 		this.cache.add(type, entity);
 		this.mapping.getCorrespondences().add(corr);
 
-		if (type instanceof TInterface) {
-			final TInterface tInterface = (TInterface) type;
+		if (type instanceof final TInterface tInterface) {
 			tInterface.getImplementedBy()
-			.forEach(child -> this.mapping.getSuggested().add(createCorrespondence(child, entity, ranking)));
+					.forEach(child -> this.mapping.getSuggested()
+							.add(this.createCorrespondence(child, entity, ranking)));
 			tInterface.getChildInterfaces()
-			.forEach(child -> this.mapping.getSuggested().add(createCorrespondence(child, entity, ranking)));
+					.forEach(child -> this.mapping.getSuggested()
+							.add(this.createCorrespondence(child, entity, ranking)));
 		} else if (type instanceof TClass) {
 			((TClass) type).getChildClasses()
-			.forEach(child -> this.mapping.getSuggested().add(createCorrespondence(child, entity, ranking)));
+					.forEach(child -> this.mapping.getSuggested()
+							.add(this.createCorrespondence(child, entity, ranking)));
 		}
 		LOGGER.log(Level.INFO, "Create correspondence: " + MappingLabelProvider.prettyPrint(corr));
 		try {
-			final Map<String, IType> astTypes = JavaASTUtil.getTypesForProject(this.project);
+			final var astTypes = JavaASTUtil.getTypesForProject(this.project);
 			MarkerUtil.createMarker(astTypes, type, entity.getName(), IMarker.PRIORITY_NORMAL, IMarker.SEVERITY_INFO);
 		} catch (final JavaModelException e) {
 			LOGGER.log(Level.ERROR, e);
@@ -246,11 +251,11 @@ public class CorrespondenceManager {
 	 * @param dfd The data flow diagram
 	 */
 	TypeGraph2EDFD createCorrespondence(final TypeGraph pm, final EDFD dfd) {
-		final TypeGraph2EDFD corr = SecdfdFactory.eINSTANCE.createTypeGraph2EDFD();
+		final var corr = SecdfdFactory.eINSTANCE.createTypeGraph2EDFD();
 		corr.setSource(pm);
 		corr.setTarget(dfd);
-		addToMap(pm, corr);
-		addToMap(dfd, corr);
+		this.addToMap(pm, corr);
+		this.addToMap(dfd, corr);
 		this.mapping.getCorrespondences().add(corr);
 		LOGGER.log(Level.INFO, "Create correspondence: " + MappingLabelProvider.prettyPrint(corr));
 		return corr;
@@ -265,18 +270,16 @@ public class CorrespondenceManager {
 	 * @return true, if this correspondence is not ignored and not already created
 	 */
 	boolean canCreate(final EObject pmObject, final EObject dfdObject, final Map<EObject, Set<EObject>> excludes) {
-		if (dfdObject instanceof ExternalEntity) {
+		if ((dfdObject instanceof ExternalEntity) || (excludes.containsKey(dfdObject) && excludes.get(dfdObject).contains(pmObject))) {
 			return false;
 		}
-		if (excludes.containsKey(dfdObject) && excludes.get(dfdObject).contains(pmObject)) {
-			return false;
-		}
-		final boolean isIgnored = this.mapping.getIgnored().stream()
-				.anyMatch(ignored -> CorrespondenceHelper.getSource(ignored).equals(pmObject) && CorrespondenceHelper.getTarget(ignored).equals(dfdObject));
+		final var isIgnored = this.mapping.getIgnored().stream()
+				.anyMatch(ignored -> CorrespondenceHelper.getSource(ignored).equals(pmObject)
+						&& CorrespondenceHelper.getTarget(ignored).equals(dfdObject));
 		if (isIgnored) {
 			return false;
 		}
-		final boolean isPresent = this.mapping.getCorrespondences().stream()
+		final var isPresent = this.mapping.getCorrespondences().stream()
 				.anyMatch(ignored -> CorrespondenceHelper.getSource(ignored).equals(pmObject)
 						&& CorrespondenceHelper.getTarget(ignored).equals(dfdObject));
 		return !isPresent;
@@ -301,7 +304,7 @@ public class CorrespondenceManager {
 	 */
 	Collection<AbstractCorrespondence> getCorrespondences(final EObject object) {
 		if (this.correspondences.containsKey(object)) {
-			final Collection<AbstractCorrespondence> value = this.correspondences.get(object);
+			final var value = this.correspondences.get(object);
 			if (value != null) {
 				return value;
 			}
@@ -311,7 +314,7 @@ public class CorrespondenceManager {
 	}
 
 	AbstractCorrespondence getCorrespondence(final EObject pmElement, final EObject dfdElement) {
-		final List<AbstractCorrespondence> collect = getCorrespondences(pmElement).stream()
+		final List<AbstractCorrespondence> collect = this.getCorrespondences(pmElement).stream()
 				.filter(corr -> CorrespondenceHelper.getTarget(corr).equals(dfdElement)).collect(Collectors.toList());
 		if (collect.isEmpty()) {
 			return null;
@@ -323,13 +326,13 @@ public class CorrespondenceManager {
 	}
 
 	public void delete(final AbstractCorrespondence corr) {
-		final EObject pmElement = CorrespondenceHelper.getSource(corr);
-		final EObject dfdElement = CorrespondenceHelper.getTarget(corr);
-		final Collection<AbstractCorrespondence> pm2corr = this.correspondences.get(pmElement);
+		final var pmElement = CorrespondenceHelper.getSource(corr);
+		final var dfdElement = CorrespondenceHelper.getTarget(corr);
+		final var pm2corr = this.correspondences.get(pmElement);
 		if (pm2corr != null) {
 			pm2corr.remove(corr);
 		}
-		final Collection<AbstractCorrespondence> dfd2corr = this.correspondences.get(dfdElement);
+		final var dfd2corr = this.correspondences.get(dfdElement);
 		if (dfd2corr != null) {
 			dfd2corr.remove(corr);
 		}
@@ -342,7 +345,7 @@ public class CorrespondenceManager {
 		if (corr instanceof AbstractMappingBase) {
 			for (final AbstractMappingDerived derived : ((AbstractMappingBase) corr).getDeriving()) {
 				if (derived.getDerived().size() <= 1) {
-					delete(derived);
+					this.delete(derived);
 				}
 			}
 			((AbstractMappingBase) corr).getDeriving().clear();

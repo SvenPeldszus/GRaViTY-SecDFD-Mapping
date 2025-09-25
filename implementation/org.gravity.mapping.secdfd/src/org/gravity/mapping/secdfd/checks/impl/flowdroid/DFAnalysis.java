@@ -118,7 +118,7 @@ public class DFAnalysis {
 		for (final Asset asset : this.mapper.getDFD().getAsset()) {
 			// look for sources, sinks, epoints if confidential asset
 			if (asset.getValue().stream().anyMatch(value -> Objective.CONFIDENTIALITY.equals(value.getObjective()))) {
-				results.add(checkAsset(asset));
+				results.add(this.checkAsset(asset));
 			}
 		}
 		return results;
@@ -132,10 +132,10 @@ public class DFAnalysis {
 	public Results checkAllAssetsInject() {
 		final var results = new Results();
 		final var dfd = this.mapper.getDFD();
-		final var candidates = getAssetsForInjection(dfd);
+		final var candidates = this.getAssetsForInjection(dfd);
 
 		if (!candidates.isEmpty()) {
-			injectAndCheckAssets(candidates).forEach(res -> {
+			this.injectAndCheckAssets(candidates).forEach(res -> {
 				results.add(res);
 			});
 		} else {
@@ -148,13 +148,11 @@ public class DFAnalysis {
 		for (final Asset asset : rest) {
 			// look for sources, sinks, epoints if confidential asset
 			if (asset.getValue().stream().anyMatch(value -> Objective.CONFIDENTIALITY.equals(value.getObjective()))) {
-				results.add(checkAsset(asset));
+				results.add(this.checkAsset(asset));
 			}
 		}
 		return results;
 	}
-
-
 
 	/**
 	 * @param candidates
@@ -163,10 +161,10 @@ public class DFAnalysis {
 	private Set<AssetResults> injectAndCheckAssets(final Set<Asset> candidates) {
 		final Set<AssetResults> allRes = new HashSet<>();
 		// inject confidentiality high
-		modifyCandidates(candidates);
+		this.modifyCandidates(candidates);
 		for (final Asset asset : candidates) {
 			// look for sources, sinks, epoints, put all allowed to forbidden
-			final var result = GetAssetSourceSinks(asset);
+			final var result = this.GetAssetSourceSinks(asset);
 			// the allowed were added as forbidden sinks (and to sinks) now due to injection
 			final var forbidden = result.getForbiddenSinks();
 			// if no application specific (DFD derived) forbidden sinks, then we only get
@@ -184,39 +182,41 @@ public class DFAnalysis {
 							final var stream1 = this.mapper.getMapping(TMethodDefForbidden);
 							final var stream2 = this.mapper.getDataStoreMapping(TMethodDefForbidden.getDefinedBy());
 							return Stream.concat(stream1.stream(),
-									stream2.stream());})
+									stream2.stream());
+						})
 						.collect(Collectors.toSet());
 
-				result.addAllResults(check(result.getSources(), result.getSinks(), epoints));
+				result.addAllResults(this.check(result.getSources(), result.getSinks(), epoints));
 
 				// flatten results
-				final Set<MultiMap<ResultSinkInfo, ResultSourceInfo>> infoflowres = result.getSingleResults().parallelStream()
+				final Set<MultiMap<ResultSinkInfo, ResultSourceInfo>> infoflowres = result.getSingleResults()
+						.parallelStream()
 						.map(Entry::getValue).map(InfoflowResults::getResults).collect(Collectors.toSet());
 
 				infoflowres.remove(null);
 
 				final Set<TMethodDefinition> identifiedSinks = new HashSet<>();
 
-
 				final Set<Element> unmatchedDFDElements = new HashSet<>(DFDForbiddenElements);
 				infoflowres.forEach(map -> {
 					for (final ResultSinkInfo sink : map.keySet()) {
 						final var sinkMethod = sink.getStmt().getInvokeExpr().getMethod().getSignature();
-						final var mappedSink = SignatureHelper.getDefinition(this.mapper.getPM(),sinkMethod);
+						final var mappedSink = SignatureHelper.getDefinition(this.mapper.getPM(), sinkMethod);
 						identifiedSinks.add(mappedSink);
 						final Set<Element> dfdelements = new HashSet<>(this.mapper.getMapping(mappedSink));
-						//we need to add the mappings of the defined type (data stores)
+						// we need to add the mappings of the defined type (data stores)
 						dfdelements.addAll(this.mapper.getDataStoreMapping(mappedSink.getDefinedBy()));
 
-						if (!dfdelements.isEmpty() && containsAny(dfdelements, DFDForbiddenElements)) {
-							//expected FP (TP)
+						if (!dfdelements.isEmpty() && this.containsAny(dfdelements, DFDForbiddenElements)) {
+							// expected FP (TP)
 							dfdelements.forEach(dfdel -> {
 								this.truePositives.add(asset.getSource().getName() + ", " + dfdel.getName());
 								unmatchedDFDElements.remove(dfdel);
 							});
 						} else {
-							//FP
-							this.falsePositives.add(asset.getSource().getName() + ", " + mappedSink.getSignatureString());
+							// FP
+							this.falsePositives
+									.add(asset.getSource().getName() + ", " + mappedSink.getSignatureString());
 						}
 
 					}
@@ -264,13 +264,12 @@ public class DFAnalysis {
 	 *         the asset target is EE or DS).
 	 */
 	private Set<Asset> getAssetsForInjection(final EDFD dfd) {
-		final Set<Asset> nonconfidentialAssets = dfd.getAsset().parallelStream()
+		return dfd.getAsset().parallelStream()
 				.filter(asset -> asset.getValue().stream()
 						.noneMatch(value -> Objective.CONFIDENTIALITY.equals(value.getObjective())))
 				.filter(asset -> asset.getTargets().stream()
 						.anyMatch(target -> (target instanceof ExternalEntity) || (target instanceof DataStore)))
 				.collect(Collectors.toSet());
-		return nonconfidentialAssets;
 	}
 
 	/**
@@ -290,11 +289,12 @@ public class DFAnalysis {
 		final List<String> forbinnedSinks = new ArrayList<>(sourcesAndSinks.getForbiddenSinks());
 
 		if (sources.isEmpty()) {
-			return new AssetResults(asset, sources, sinks, forbinnedSinks, Collections.emptyMap(), sourcesAndSinks.getAllowed());
+			return new AssetResults(asset, sources, sinks, forbinnedSinks, Collections.emptyMap(),
+					sourcesAndSinks.getAllowed());
 		}
 
 		final var epoints = this.sas.getEntryPoints();
-		final var map = check(sources, sinks, epoints);
+		final var map = this.check(sources, sinks, epoints);
 		return new AssetResults(asset, sources, sinks, forbinnedSinks, map, sourcesAndSinks.getAllowed());
 	}
 
@@ -331,7 +331,8 @@ public class DFAnalysis {
 	public Map<String, InfoflowResults> check(final Collection<String> sources, final Collection<String> sinks,
 			final Collection<String> epoints) {
 		return epoints.stream()
-				.collect(Collectors.toMap(entryPoint -> entryPoint, entryPoint -> check(sources, sinks, entryPoint)));
+				.collect(Collectors.toMap(entryPoint -> entryPoint,
+						entryPoint -> this.check(sources, sinks, entryPoint)));
 	}
 
 	/**
@@ -340,12 +341,16 @@ public class DFAnalysis {
 	 * @param entryPoint
 	 * @return
 	 */
-	public InfoflowResults check(final Collection<String> sources, final Collection<String> sinks, final String entryPoint) {
+	public InfoflowResults check(final Collection<String> sources, final Collection<String> sinks,
+			final String entryPoint) {
 		// for itrust add_health_record, this violation should be found!?
-		//		sinks.contains("<java.sql.Connection: java.sql.PreparedStatement prepareStatement(java.lang.String)>");
-		//		sources.add("<edu.ncsu.csc.itrust.dao.mysql.HealthRecordsDAO: boolean add(edu.ncsu.csc.itrust.beans.HealthRecord)>");
-		//		sources.contains("<edu.ncsu.csc.itrust.dao.mysql.HealthRecordsDAO: boolean add(edu.ncsu.csc.itrust.beans.HealthRecord)>");
-		final var infoflow = initInfoflow(Collections.emptyMap(), this.limit);
+		// sinks.contains("<java.sql.Connection: java.sql.PreparedStatement
+		// prepareStatement(java.lang.String)>");
+		// sources.add("<edu.ncsu.csc.itrust.dao.mysql.HealthRecordsDAO: boolean
+		// add(edu.ncsu.csc.itrust.beans.HealthRecord)>");
+		// sources.contains("<edu.ncsu.csc.itrust.dao.mysql.HealthRecordsDAO: boolean
+		// add(edu.ncsu.csc.itrust.beans.HealthRecord)>");
+		final var infoflow = this.initInfoflow(Collections.emptyMap(), this.limit);
 		infoflow.computeInfoflow(this.appPath, this.libPath, entryPoint, sources, sinks);
 		final var results = infoflow.getResults();
 		if (results == null) {
@@ -369,7 +374,7 @@ public class DFAnalysis {
 	protected IInfoflow initInfoflow(final Map<String, Set<String>> taintedMethods, final int limit) {
 		// reset soot and initialize flowdroid configuration
 		soot.G.reset();
-		final var result = new Infoflow("", false, null);
+		final var result = new Infoflow();
 		result.setSootConfig((options, config) -> {
 			options.set_whole_program(true);
 			options.set_exclude(Arrays.asList("java.util.*"));
@@ -382,8 +387,8 @@ public class DFAnalysis {
 			config.setInspectSources(false);
 			config.setInspectSinks(false);
 			config.setCallgraphAlgorithm(CallgraphAlgorithm.AutomaticSelection);
-			config.setImplicitFlowMode(ImplicitFlowMode.AllImplicitFlows); //try without
-			config.setAliasingAlgorithm(AliasingAlgorithm.FlowSensitive); //try without
+			config.setImplicitFlowMode(ImplicitFlowMode.AllImplicitFlows); // try without
+			config.setAliasingAlgorithm(AliasingAlgorithm.FlowSensitive); // try without
 			config.setStopAfterFirstKFlows(limit);
 		});
 		result.setTaintWrapper(new EasyTaintWrapper(taintedMethods));

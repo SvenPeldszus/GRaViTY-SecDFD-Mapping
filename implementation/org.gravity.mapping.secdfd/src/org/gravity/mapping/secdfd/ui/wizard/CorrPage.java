@@ -14,10 +14,6 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
@@ -30,20 +26,22 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.xtext.resource.XtextResourceSet;
 import org.gravity.mapping.secdfd.model.mapping.Mapping;
+import org.secdfd.dsl.SecDFDStandaloneSetup;
 
 public class CorrPage extends WizardPage {
 
 	private static final Logger LOGGER = Logger.getLogger(CorrPage.class);
 
-	private IJavaProject project;
-	private Map<String, Path> corrFiles;
+	private final IJavaProject project;
+	private final Map<String, Path> corrFiles;
 	private List<IFile> selectedCorrFiles;
-	private MappingWizard wizard;
+	private final MappingWizard wizard;
 
-	protected CorrPage(IJavaProject project, Collection<Path> corrFiles, MappingWizard wizard) {
+	protected CorrPage(final IJavaProject project, final Collection<Path> corrFiles, final MappingWizard wizard) {
 		super("Existing Correspondences");
-		setDescription("Select the existing mappings you want to use.");
+		this.setDescription("Select the existing mappings you want to use.");
 		this.project = project;
 		this.corrFiles = corrFiles.parallelStream().collect(Collectors.toMap(f -> f.getFileName().toString(), f -> f));
 		this.wizard = wizard;
@@ -51,65 +49,67 @@ public class CorrPage extends WizardPage {
 	}
 
 	@Override
-	public void createControl(Composite parent) {
-		Composite container = new Composite(parent, SWT.NONE);
-		Layout layout = new RowLayout();
+	public void createControl(final Composite parent) {
+		final var container = new Composite(parent, SWT.NONE);
+		final Layout layout = new RowLayout();
 		container.setLayout(layout);
 
-		Table list = new Table(container, SWT.CHECK | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+		final var list = new Table(container, SWT.CHECK | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 		list.setSize(400, 600);
-		corrFiles.keySet().stream().forEach(string -> {
-			TableItem item = new TableItem(list, SWT.NONE);
+		this.corrFiles.keySet().stream().forEach(string -> {
+			final var item = new TableItem(list, SWT.NONE);
 			item.setText(string);
 		});
 
 		list.addSelectionListener(new SelectionAdapter() {
 
 			@Override
-			public void widgetSelected(SelectionEvent e) {
-				Path projectPath = project.getProject().getLocation().toFile().toPath();
+			public void widgetSelected(final SelectionEvent e) {
+				final var projectPath = CorrPage.this.project.getProject().getLocation().toFile().toPath();
 
-				selectedCorrFiles = Stream.of(list.getItems()).filter(TableItem::getChecked).map(TableItem::getText)
-						.map(corrFiles::get)
-						.map(path -> project.getProject().getFile(projectPath.relativize(path).toString()))
+				CorrPage.this.selectedCorrFiles = Stream.of(list.getItems()).filter(TableItem::getChecked)
+						.map(TableItem::getText)
+						.map(CorrPage.this.corrFiles::get)
+						.map(path -> CorrPage.this.project.getProject()
+								.getFile(projectPath.relativize(path).toString()))
 						.collect(Collectors.toList());
 //				getWizard().getContainer().updateButtons();
 			}
 		});
 
-		RowData gd = new RowData();
+		final var gd = new RowData();
 		list.setLayoutData(gd);
 
 		// required to avoid an error in the system
-		setControl(container);
+		this.setControl(container);
 	}
 
 	@Override
 	public IWizardPage getNextPage() {
 		try {
-			SecDFDPage secDFDPage = wizard.getSecDFDPage(project);
-			Set<String> selectedDFDs = new HashSet<>();
-			ResourceSet rs = new ResourceSetImpl();
-			for (IFile corr : selectedCorrFiles) {
-				URI corrFileURI = URI.createPlatformResourceURI(
-						project.getProject().getName() + '/' + corr.getProjectRelativePath(), true);
-				Resource r = rs.getResource(corrFileURI, true);
-				EObject inst = r.getContents().get(0);
-				if (inst instanceof Mapping) {
-					EObject target = ((Mapping) inst).getTarget();
-					URI uri = target.eResource().getURI();
+			final var secDFDPage = this.wizard.getSecDFDPage(this.project);
+			final Set<String> selectedDFDs = new HashSet<>();
+			final var injector = new SecDFDStandaloneSetup().createInjectorAndDoEMFRegistration();
+			final var rs = injector.getInstance(XtextResourceSet.class);
+			for (final IFile corr : this.selectedCorrFiles) {
+				final var corrFileURI = URI.createPlatformResourceURI(
+						this.project.getProject().getName() + '/' + corr.getProjectRelativePath(), true);
+				final var r = rs.getResource(corrFileURI, true);
+				final var inst = r.getContents().get(0);
+				if (inst instanceof final Mapping mapping) {
+					final var target = mapping.getTarget();
+					final var uri = target.eResource().getURI();
 					String dfdPath;
-					if (uri.isPlatform()) {
-						dfdPath = uri.toPlatformString(true);
-					} else {
+					if (!uri.isPlatform()) {
 						throw new IllegalStateException();
 					}
+					dfdPath = uri.toPlatformString(true);
 					selectedDFDs.add(dfdPath);
 				}
 			}
 			secDFDPage.setAlreadyTranslated(selectedDFDs);
 			return secDFDPage;
-		} catch (CoreException e) {
+		} catch (final CoreException e) {
 			LOGGER.error(e.getLocalizedMessage(), e);
 			return null;
 		}
@@ -126,6 +126,6 @@ public class CorrPage extends WizardPage {
 	}
 
 	public Collection<IFile> getSelection() {
-		return selectedCorrFiles;
+		return this.selectedCorrFiles;
 	}
 }

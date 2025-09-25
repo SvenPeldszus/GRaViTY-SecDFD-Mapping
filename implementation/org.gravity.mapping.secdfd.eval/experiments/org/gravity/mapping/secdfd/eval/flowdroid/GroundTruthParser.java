@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.gravity.mapping.secdfd.eval.flowdroid;
 
@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.eclipse.jdt.core.IJavaProject;
 
@@ -37,8 +38,9 @@ public final class GroundTruthParser {
 	 * @param project
 	 * @param dfdName
 	 */
-	public static Map<String, List<Map<String, String>>> readGT(IJavaProject project, String fileName, String dfdName) {
-		File groundtruthFile = project.getProject().getFile(fileName).getLocation().toFile();
+	public static Map<String, List<Map<String, String>>> readGT(final IJavaProject project, final String fileName,
+			final String dfdName) {
+		final var groundtruthFile = project.getProject().getFile(fileName).getLocation().toFile();
 		return parseGroundTruth(groundtruthFile, dfdName);
 	}
 
@@ -47,15 +49,15 @@ public final class GroundTruthParser {
 	 * @param dfdName
 	 * @return
 	 */
-	private static Map<String, List<Map<String, String>>> parseGroundTruth(File file, String dfdName) {
-		Map<String, List<Map<String, String>>> groundtruth = new HashMap<String, List<Map<String, String>>>();
+	private static Map<String, List<Map<String, String>>> parseGroundTruth(final File file, final String dfdName) {
+		final Map<String, List<Map<String, String>>> groundtruth = new HashMap<>();
 		if (file.exists()) {
 			try {
-				JsonObject object = new JsonParser().parse(new FileReader(file)).getAsJsonObject();
+				final var object = JsonParser.parseReader(new FileReader(file)).getAsJsonObject();
 				object.getAsJsonArray("contracts").forEach(contract -> {
 					if (contract instanceof JsonObject) {
 						((JsonObject) contract).entrySet().forEach(e -> {
-							String ctype = e.getKey();
+							final var ctype = e.getKey();
 							if (((JsonObject) contract).get(e.getKey()) != null) {
 								((JsonObject) contract).get(ctype).getAsJsonArray().forEach(entry -> {
 									if (((JsonObject) entry).get("secdfd").getAsString().toLowerCase()
@@ -67,7 +69,7 @@ public final class GroundTruthParser {
 						});
 					}
 				});
-			} catch (FileNotFoundException e) {
+			} catch (final FileNotFoundException e) {
 				e.printStackTrace();
 				LOGGER.error("Ground truth file was not found:" + e.toString());
 			}
@@ -84,10 +86,10 @@ public final class GroundTruthParser {
 	 * @param groundtruth
 	 * @return
 	 */
-	private static Map<String, List<Map<String, String>>> processJsonEntry(String ctype, JsonElement entry,
-			Map<String, List<Map<String, String>>> groundtruth) {
+	private static Map<String, List<Map<String, String>>> processJsonEntry(final String ctype, final JsonElement entry,
+			final Map<String, List<Map<String, String>>> groundtruth) {
 		if (entry instanceof JsonObject) {
-			HashMap<String, String> newitem = new HashMap<String, String>();
+			final var newitem = new HashMap<String, String>();
 			newitem.put("secdfd", ((JsonObject) entry).get("secdfd").getAsString().toLowerCase());
 			newitem.put("element", ((JsonObject) entry).get("element").getAsString().toLowerCase());
 			updateGTmap(ctype, newitem, groundtruth);
@@ -100,50 +102,47 @@ public final class GroundTruthParser {
 	 * @param newitem
 	 * @param update
 	 */
-	private static Map<String, List<Map<String, String>>> updateGTmap(String ctype, HashMap<String, String> newitem,
-			Map<String, List<Map<String, String>>> groundtruth) {
+	private static Map<String, List<Map<String, String>>> updateGTmap(final String ctype,
+			final HashMap<String, String> newitem,
+			final Map<String, List<Map<String, String>>> groundtruth) {
 		List<Map<String, String>> items = null;
 		items = groundtruth.get(ctype);
-		if (items != null) {
-			items.add(newitem);
-		} else {
-			items = new ArrayList<Map<String, String>>();
-			items.add(newitem);
+		if ((items == null)) {
+			items = new ArrayList<>();
 		}
+		items.add(newitem);
 		groundtruth.put(ctype, items);
 		return groundtruth;
 	}
-	
 
-    private static JsonElement toJSON(Object object) throws JsonIOException {
-        if (object instanceof HashMap) {
-            JsonObject json = new JsonObject();
-            HashMap<?, ?> map = (HashMap<?, ?>) object;
-            for (Object key : map.keySet()) {
-                json.add(key.toString(), toJSON(map.get(key)));
-            }
-            return json;
-        } else if (object instanceof Iterable) {
-            JsonArray json = new JsonArray();
-            for (Object value : ((Iterable<?>)object)) {
-                json.add(toJSON(value));
-            }
-            return json;
-        } else {
-            return (JsonElement) object;
-        }
-    }
+	private static JsonElement toJSON(final Object object) throws JsonIOException {
+		if (object instanceof HashMap) {
+			final var json = new JsonObject();
+			final HashMap<?, ?> map = (HashMap<?, ?>) object;
+			for (final Object key : map.keySet()) {
+				json.add(key.toString(), toJSON(map.get(key)));
+			}
+			return json;
+		}
+		if (!(object instanceof Iterable)) {
+			return (JsonElement) object;
+		}
+		final var json = new JsonArray();
+		for (final Object value : ((Iterable<?>) object)) {
+			json.add(toJSON(value));
+		}
+		return json;
+	}
 
-
-	public static void updateGTFile(File file, Map<String, List<Map<String, String>>> newContent) {
+	public static void updateGTFile(final File file, final Map<String, List<Map<String, String>>> newContent) {
 		if (file.exists()) {
-			//Write JSON file
-	        try (FileWriter f = new FileWriter(file.toString())) {
-	        	f.write(toJSON(newContent).toString());
-	            f.flush();
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
+			// Write JSON file
+			try (var f = new FileWriter(file.toString())) {
+				f.write(toJSON(newContent).toString());
+				f.flush();
+			} catch (final IOException e) {
+				e.printStackTrace();
+			}
 		} else {
 			LOGGER.info("The ground truth file does not exist.");
 		}

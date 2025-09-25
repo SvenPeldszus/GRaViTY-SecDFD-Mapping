@@ -177,7 +177,12 @@ public class ModelModelWizard extends Wizard implements INewWizard {
 		this.workbench = workbench;
 		this.selection = selection;
 		setWindowTitle(SecdfdEditorPlugin.INSTANCE.getString("_UI_Wizard_label"));
-		setDefaultPageImageDescriptor(ExtendedImageRegistry.INSTANCE.getImageDescriptor(SecdfdEditorPlugin.INSTANCE.getImage("full/wizban/NewModel")));
+		try {
+			setDefaultPageImageDescriptor(ExtendedImageRegistry.INSTANCE.getImageDescriptor(SecdfdEditorPlugin.INSTANCE.getImage("icons/full/wizban/NewModel")));
+		}
+		catch(MissingResourceException e) {
+			// Silently fail
+		}
 	}
 
 	/**

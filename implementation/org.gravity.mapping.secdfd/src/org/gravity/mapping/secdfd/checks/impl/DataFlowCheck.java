@@ -1,6 +1,5 @@
 package org.gravity.mapping.secdfd.checks.impl;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,7 +50,6 @@ public class DataFlowCheck implements ICheck {
 
 	private final Mapper mapper;
 	private final String appPath;
-	private final String libPath;
 	SourcesAndSinkFinder sas;
 	private final Set<String> possibleLeaks;
 
@@ -82,7 +80,6 @@ public class DataFlowCheck implements ICheck {
 		final var outputLocation = project.getOutputLocation();
 		final var projectLocation = project.getProject().getLocation();
 		this.appPath = projectLocation.append(outputLocation.removeFirstSegments(1)).toOSString();
-		this.libPath = System.getProperty("java.home") + File.separator + "lib" + File.separator + "rt.jar";
 	}
 
 	// when called from UI, we have to get project from gravity folder
@@ -95,11 +92,10 @@ public class DataFlowCheck implements ICheck {
 		this.possibleLeaks = new HashSet<>();
 
 		final var iproject = gravityFolder.getProject();
-		final var ijavaProj = (IJavaProject) iproject.getNature(JavaCore.NATURE_ID);
+		final var ijavaProj = JavaCore.create(iproject);
 		final var outputLocation = ijavaProj.getOutputLocation();
 		final var projectLocation = iproject.getLocation();
 		this.appPath = projectLocation.append(outputLocation.removeFirstSegments(1)).toOSString();
-		this.libPath = System.getProperty("java.home") + File.separator + "lib" + File.separator + "rt.jar";
 	}
 
 	@Override
@@ -107,8 +103,8 @@ public class DataFlowCheck implements ICheck {
 		if (this.mapper != mapper) {
 			return Collections.emptyList();
 		}
-		final var dfResults = checkAllAssets();
-		return createMarkersForDFAnalysisResults(dfResults);
+		final var dfResults = this.checkAllAssets();
+		return this.createMarkersForDFAnalysisResults(dfResults);
 	}
 
 	// add problems to each asset (duplicated source-sink pairs, because developer
@@ -116,7 +112,7 @@ public class DataFlowCheck implements ICheck {
 	private Collection<SResult> createMarkersForDFAnalysisResults(final Results results) {
 		final Set<SResult> problems = new HashSet<>();
 		for (final AssetResults assetRes : results.getResultsPerAsset()) {
-			final var strings = flatten(assetRes.getResults());
+			final var strings = this.flatten(assetRes.getResults());
 			if (!strings.isEmpty()) {
 				final var description = new StringBuilder();
 				for (final String str : strings) {
@@ -139,7 +135,7 @@ public class DataFlowCheck implements ICheck {
 			final var rs = value.getResultSet();
 			if (rs != null) {
 				rs.forEach(result -> {
-					if (!inFlattened(result, flattened)) {
+					if (!this.inFlattened(result, flattened)) {
 						flattened.add(result.getSource().getDefinition().toString() + ", "
 								+ result.getSink().getDefinition().toString());
 					}
@@ -164,7 +160,7 @@ public class DataFlowCheck implements ICheck {
 		for (final Asset asset : this.mapper.getDFD().getAsset()) {
 			// look for sources, sinks, epoints if confidential asset
 			if (asset.getValue().stream().anyMatch(value -> Objective.CONFIDENTIALITY.equals(value.getObjective()))) {
-				results.add(checkAsset(asset));
+				results.add(this.checkAsset(asset));
 			}
 		}
 		return results;
@@ -178,10 +174,10 @@ public class DataFlowCheck implements ICheck {
 	public Results checkAllAssetsInject() {
 		final var results = new Results();
 		final var dfd = this.mapper.getDFD();
-		final var candidates = getAssetsForInjection(dfd);
+		final var candidates = this.getAssetsForInjection(dfd);
 
 		if (!candidates.isEmpty()) {
-			injectAndCheckAssets(candidates).forEach(results::add);
+			this.injectAndCheckAssets(candidates).forEach(results::add);
 		} else {
 			LOGGER.info("Found no candidate asset to inject a high label. Proceeding as usual...");
 		}
@@ -192,7 +188,7 @@ public class DataFlowCheck implements ICheck {
 		for (final Asset asset : rest) {
 			// look for sources, sinks, epoints if confidential asset
 			if (asset.getValue().stream().anyMatch(value -> Objective.CONFIDENTIALITY.equals(value.getObjective()))) {
-				results.add(checkAsset(asset));
+				results.add(this.checkAsset(asset));
 			}
 		}
 		return results;
@@ -205,10 +201,10 @@ public class DataFlowCheck implements ICheck {
 	private Set<AssetResults> injectAndCheckAssets(final Set<Asset> candidates) {
 		final Set<AssetResults> allRes = new HashSet<>();
 		// inject confidentiality high
-		modifyCandidates(candidates);
+		this.modifyCandidates(candidates);
 		for (final Asset asset : candidates) {
 			// look for sources, sinks, epoints, put all allowed to forbidden
-			final var result = getAssetSourceSinks(asset);
+			final var result = this.getAssetSourceSinks(asset);
 			// the allowed were added as forbidden sinks (and to sinks) now due to injection
 			final var forbidden = result.getForbiddenSinks();
 			// if no application specific (DFD derived) forbidden sinks, then we only get
@@ -219,7 +215,7 @@ public class DataFlowCheck implements ICheck {
 				// run flow droid
 				LOGGER.info("Injecting for asset: " + asset.getName());
 				final var epoints = this.sas.getEntryPoints();
-				result.addAllResults(check(result.getSources(), result.getSinks(), epoints));
+				result.addAllResults(this.check(result.getSources(), result.getSinks(), epoints));
 
 				// flatten results
 				final Set<MultiMap<ResultSinkInfo, ResultSourceInfo>> infoflowres = result.getSingleResults()
@@ -234,7 +230,7 @@ public class DataFlowCheck implements ICheck {
 				 * also ignore the allowedsinks and put them as forbidden (to effectively inject
 				 * the leak)
 				 */
-				infoflowres.forEach(map -> addPossibleLeaks(result, forbidden, map));
+				infoflowres.forEach(map -> this.addPossibleLeaks(result, forbidden, map));
 				allRes.add(result);
 			}
 		}
@@ -308,7 +304,7 @@ public class DataFlowCheck implements ICheck {
 		}
 
 		final var epoints = this.sas.getEntryPoints();
-		final var map = check(sources, sinks, epoints);
+		final var map = this.check(sources, sinks, epoints);
 		return new AssetResults(asset, sources, sinks, forbinnedSinks, map, Collections.emptyList());
 	}
 
@@ -339,7 +335,8 @@ public class DataFlowCheck implements ICheck {
 	public Map<String, InfoflowResults> check(final Collection<String> sources, final Collection<String> sinks,
 			final Collection<String> epoints) {
 		return epoints.stream()
-				.collect(Collectors.toMap(entryPoint -> entryPoint, entryPoint -> check(sources, sinks, entryPoint)));
+				.collect(Collectors.toMap(entryPoint -> entryPoint,
+						entryPoint -> this.check(sources, sinks, entryPoint)));
 	}
 
 	public InfoflowResults check(final Collection<String> sources, final Collection<String> sinks,
@@ -351,8 +348,8 @@ public class DataFlowCheck implements ICheck {
 		// add(edu.ncsu.csc.itrust.beans.HealthRecord)>");
 		// sources.contains("<edu.ncsu.csc.itrust.dao.mysql.HealthRecordsDAO: boolean
 		// add(edu.ncsu.csc.itrust.beans.HealthRecord)>");
-		final var infoflow = initInfoflow(Collections.emptyMap(), this.limit);
-		infoflow.computeInfoflow(this.appPath, this.libPath, entryPoint, sources, sinks);
+		final var infoflow = this.initInfoflow(Collections.emptyMap(), this.limit);
+		infoflow.computeInfoflow(this.appPath, null, entryPoint, sources, sinks);
 		final var results = infoflow.getResults();
 		if (results == null) {
 			return new InfoflowResults();
@@ -375,7 +372,7 @@ public class DataFlowCheck implements ICheck {
 	protected IInfoflow initInfoflow(final Map<String, Set<String>> taintedMethods, final int limit) {
 		// reset soot and initialize flowdroid configuration
 		soot.G.reset();
-		final var result = new Infoflow("", false, null);
+		final var result = new Infoflow();
 		result.setSootConfig((options, config) -> {
 			options.set_whole_program(true);
 			options.set_exclude(Arrays.asList("java.util.*"));
