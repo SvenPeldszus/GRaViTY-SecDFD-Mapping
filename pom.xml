@@ -10,7 +10,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<tycho-version>4.0.13</tycho-version>
+		<tycho-version>5.0.4</tycho-version>
 		<jacoco.version>0.8.13</jacoco.version>
 		<mwe2-version>2.20.0</mwe2-version>
 		<xtext-version>2.39.0</xtext-version>
